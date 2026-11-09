@@ -5,6 +5,9 @@
   --color-primary: #1e6fd0; /* 기본 */
   --color-primary-soft: #eaf2fd; /* 연한 기본 */
   --color-primary-ink: #1450a3; /* 기본(연한 바탕) 위 글자 */
+  --color-primary-band: #dce8fb; /* 달력에서 고른 기간 띠 */
+  --color-sunday: #a23b2a; /* 달력 일요일 */
+  --color-past: #a8b3b9; /* 달력 지난 날 */
   --color-surface: #f2f4f6; /* 면 */
   --color-ink: #191f28; /* 글자 */
   --color-ink-sub: #4e5968; /* 보조 글자 */

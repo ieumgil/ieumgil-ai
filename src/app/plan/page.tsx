@@ -1,6 +1,6 @@
-import { ComingSoon } from "@/components/ComingSoon";
+import { redirect } from "next/navigation";
 
-// 입력 4단계 (시안: When·Who·Conditions·Taste). 다음 작업에서 만든다.
+// /plan으로 들어오면 1단계부터 시작한다.
 export default function PlanPage() {
-  return <ComingSoon title="여행 조건 입력" />;
+  redirect("/plan/when");
 }
