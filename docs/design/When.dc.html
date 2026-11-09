@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>1단계 · 언제, 어디서</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1E6FD0}a:hover{color:#1450A3}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 1420px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; font-family: 'Noto Sans KR', sans-serif; color: #191F28; letter-spacing: -0.02em; letter-spacing: -0.02em">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 8px">
+<div style="display: flex; align-items: center; gap: 8px">
+<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="6" cy="20" r="4" fill="none" stroke="{{accent}}" stroke-width="2.5"></circle><circle cx="22" cy="8" r="4" fill="none" stroke="{{accent}}" stroke-width="2.5"></circle><path d="M9 17c4-1 4-7 9-7" fill="none" stroke="#E8743B" stroke-width="2.5" stroke-linecap="round"></path></svg>
+<span style="font-size: 20px; font-weight: 700; color: {{accent}}">이음길</span>
+</div>
+<button type="button" style="height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid #F2F4F6; background: #F2F4F6; font-size: 15px; color: #191F28; font-family: inherit; cursor: pointer">가 글씨 크게</button>
+</div>
+<div style="padding: 8px 20px 0">
+<div style="display: flex; justify-content: space-between; font-size: 14px; color: #4E5968"><span>1 / 4 단계</span><span>언제, 어디서</span></div>
+<div style="height: 4px; border-radius: 2px; background: #E5E8EB; margin-top: 8px"><div style="width: 25%; height: 4px; border-radius: 2px; background: {{accent}}"></div></div>
+</div>
+<div style="padding: 24px 20px 4px">
+<h1 style="margin: 0; font-size: 28px; line-height: 1.35; font-weight: 700">언제 여행하나요?</h1>
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: #4E5968">가는 날과 오는 날을 눌러 주세요. 하루만 누르면 당일 여행이에요.</p>
+</div>
+<div style="margin: 16px 20px 0; padding: 16px; border-radius: 16px; background: #F2F4F6; border: 1px solid #F2F4F6">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<button type="button" aria-label="이전 달" style="width: 44px; height: 44px; border-radius: 22px; border: none; background: #F2F4F6; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#191F28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"></path></svg></button>
+<span style="font-size: 18px; font-weight: 700">2026년 11월</span>
+<button type="button" aria-label="다음 달" style="width: 44px; height: 44px; border-radius: 22px; border: none; background: #F2F4F6; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#191F28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 4l6 6-6 6"></path></svg></button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin-top: 12px; font-size: 13px; color: #4E5968; text-align: center">
+<span style="color: #A23B2A">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span style="color: #1E6FD0">토</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 4px; margin-top: 6px">
+<sc-for list="{{cells}}" as="c" hint-placeholder-count="35">
+<div style="height: 44px; display: flex; align-items: center; justify-content: center; background: {{c.band}}; border-radius: {{c.bandRadius}}">
+<sc-if value="{{c.real}}" hint-placeholder-val="{{true}}">
+<button type="button" aria-label="{{c.aria}}" aria-pressed="{{c.edge}}" disabled="{{c.disabled}}" onClick="{{c.pick}}" style="width: 42px; height: 42px; border-radius: 21px; border: none; font-family: inherit; font-size: 16px; cursor: pointer; background: {{c.bg}}; color: {{c.fg}}; font-weight: {{c.weight}}">{{c.day}}</button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 14px; margin-top: 10px; font-size: 12px; color: #4E5968"><span>회색 날짜는 지난 날이에요</span><span>최대 2박 3일</span></div>
+</div>
+<div style="margin: 12px 20px 0; padding: 14px 16px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: {{accent}}; color: #FFFFFF">
+<span style="font-size: 16px; font-weight: 500">{{rangeLabel}}</span>
+<span style="font-size: 18px; font-weight: 700">{{tripLabel}}</span>
+</div>
+<sc-if value="{{warn}}" hint-placeholder-val="{{false}}">
+<p style="margin: 8px 20px 0; font-size: 14px; color: #7A4A00">이음길은 2박 3일까지 계획할 수 있어요.</p>
+</sc-if>
+<div style="padding: 24px 20px 0; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">영동에 어디로 도착하나요?</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4E5968">서울에서 오는 시간은 빼고, 도착한 곳부터 루트를 짜요.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{arrivals}}" as="a" hint-placeholder-count="5">
+<button type="button" aria-pressed="{{a.on}}" onClick="{{a.pick}}" style="min-height: 44px; padding: 0 14px; border-radius: 22px; font-family: inherit; font-size: 15px; cursor: pointer; background: {{a.bg}}; color: {{a.fg}}; border: 1.5px solid {{a.border}}">{{a.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="padding: 24px 20px 0; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">무엇으로 이동하나요?</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{moves}}" as="mv" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{mv.on}}" onClick="{{mv.pick}}" style="min-height: 56px; border-radius: 12px; font-family: inherit; font-size: 16px; font-weight: 500; cursor: pointer; background: {{mv.bg}}; color: {{mv.fg}}; border: 1.5px solid {{mv.border}}">{{mv.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{isCar}}" hint-placeholder-val="{{true}}">
+<label style="display: flex; align-items: center; gap: 12px; min-height: 52px; box-sizing: border-box; padding: 10px 14px; border-radius: 12px; background: #F2F4F6; border: 1.5px solid #F2F4F6; cursor: pointer">
+<input type="checkbox" checked="{{permit}}" onChange="{{togglePermit}}" style="width: 22px; height: 22px; margin: 0; accent-color: {{accent}}">
+<span style="flex: 1; font-size: 16px">장애인 사용 자동차 표지가 있어요</span>
+</label>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4E5968">표지가 있으면 장애인 전용 주차구역이 있는 곳을 우선 확인해요.</p>
+</sc-if>
+<sc-if value="{{isTaxi}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4E5968">택시는 입구 앞에서 타고 내린다고 보고, 주차 조건은 확인하지 않아요.</p>
+</sc-if>
+</div>
+<div style="padding: 20px 20px 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 500">첫날 시작 시각
+<select style="height: 48px; border-radius: 12px; border: 1.5px solid #F2F4F6; background: #F2F4F6; padding: 0 12px; font-size: 16px; font-family: inherit; color: #191F28"><option>09:00</option><option selected="selected">10:00</option><option>11:00</option><option>13:00</option></select>
+</label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 500">마지막 날 마치는 시각
+<select style="height: 48px; border-radius: 12px; border: 1.5px solid #F2F4F6; background: #F2F4F6; padding: 0 12px; font-size: 16px; font-family: inherit; color: #191F28"><option>15:00</option><option selected="selected">17:00</option><option>19:00</option></select>
+</label>
+</div>
+<div style="padding: 12px 20px 0">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 500">마지막 날 어디서 떠나나요?
+<select style="height: 48px; border-radius: 12px; border: 1.5px solid #F2F4F6; background: #F2F4F6; padding: 0 12px; font-size: 16px; font-family: inherit; color: #191F28"><option selected="selected">도착한 곳과 같음 (강릉역)</option><option>강릉 고속버스터미널</option><option>속초 고속버스터미널</option><option>동해역</option><option>지도에서 직접 선택</option></select>
+</label>
+</div>
+<sc-if value="{{multi}}" hint-placeholder-val="{{true}}">
+<div style="padding: 20px 20px 0; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700">숙소는 어느 쪽인가요?</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4E5968">둘째 날부터 숙소 근처에서 출발해요. 중간 날은 09:30 출발 ~ 18:00 숙소 도착으로 짜고, 결과에서 바꿀 수 있어요. 숙소 추천은 하지 않아요.</p>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{stays}}" as="s" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{s.on}}" onClick="{{s.pick}}" style="height: 48px; border-radius: 12px; font-family: inherit; font-size: 15px; cursor: pointer; background: {{s.bg}}; color: {{s.fg}}; border: 1.5px solid {{s.border}}">{{s.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div style="flex-grow: 1; min-height: 24px"></div>
+<div style="padding: 16px 20px 28px; background: #FFFFFF; border-top: 1px solid #F2F4F6">
+<a href="Who.dc.html" style="width: 100%; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; text-decoration: none; background: {{accent}}; color: #FFFFFF">다음 · 누구와 가나요</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E6FD0","options":["#1E6FD0","#0B7A75","#1C5D79"]},"$preview":{"width":390,"height":1420}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#1E6FD0';
+    const st = this.state || {};
+    const start = st.start ?? 21;
+    const end = st.end === undefined ? 22 : st.end;
+    const today = 9;
+    const names = ['일', '월', '화', '수', '목', '금', '토'];
+    const first = new Date(2026, 10, 1).getDay();
+    const last = end === null ? start : end;
+    const pickDay = (d) => () => {
+      if (end !== null || d < start) { this.setState({ start: d, end: null, warn: false }); return; }
+      if (d - start > 2) { this.setState({ warn: true }); return; }
+      this.setState({ end: d, warn: false });
+    };
+    const cells = [];
+    for (let i = 0; i < 35; i++) {
+      const d = i - first + 1;
+      const real = d >= 1 && d <= 30;
+      const inRange = real && d >= start && d <= last;
+      const edge = real && (d === start || d === last);
+      const past = real && d < today;
+      const wd = names[(first + d - 1) % 7];
+      cells.push({
+        real: real,
+        day: real ? d : '',
+        aria: real ? '11월 ' + d + '일 ' + wd + '요일' : '',
+        edge: edge,
+        disabled: past,
+        pick: pickDay(d),
+        bg: edge ? accent : 'transparent',
+        fg: edge ? '#FFFFFF' : (past ? '#A8B3B9' : '#191F28'),
+        weight: edge ? '700' : '400',
+        band: inRange && start !== last ? '#DCE8FB' : 'transparent',
+        bandRadius: d === start ? '22px 0 0 22px' : (d === last ? '0 22px 22px 0' : '0')
+      });
+    }
+    const nights = last - start;
+    const wdOf = (d) => names[(first + d - 1) % 7];
+    const rangeLabel = nights === 0
+      ? '11월 ' + start + '일(' + wdOf(start) + ')'
+      : '11월 ' + start + '일(' + wdOf(start) + ') ~ ' + last + '일(' + wdOf(last) + ')';
+    const tripLabel = nights === 0 ? '당일' : (nights === 1 ? '1박 2일' : '2박 3일');
+    const chip = (list, key, fallback) => {
+      const cur = st[key] ?? fallback;
+      return list.map((label) => {
+        const on = cur === label;
+        return {
+          label: label, on: on,
+          bg: on ? '#EAF2FD' : '#F2F4F6',
+          fg: on ? '#1450A3' : '#191F28',
+          border: on ? accent : '#F2F4F6',
+          pick: () => { const p = {}; p[key] = label; this.setState(p); }
+        };
+      });
+    };
+    return {
+      accent: accent,
+      cells: cells,
+      rangeLabel: rangeLabel,
+      tripLabel: tripLabel,
+      warn: !!st.warn,
+      multi: nights > 0,
+      arrivals: chip(['강릉역', '강릉 고속버스터미널', '속초 고속버스터미널', '동해역', '지도에서 직접 선택'], 'arrive', '강릉역'),
+      stays: chip(['강릉', '속초', '동해', '미정'], 'stay', '강릉'),
+      moves: chip(['자가용·렌터카', '택시'], 'move', '자가용·렌터카'),
+      isCar: (st.move ?? '자가용·렌터카') === '자가용·렌터카',
+      isTaxi: (st.move ?? '자가용·렌터카') === '택시',
+      permit: st.permit ?? true,
+      togglePermit: () => this.setState({ permit: !(st.permit ?? true) })
+    };
+  }
+}
+</script>
+</body>
+</html>

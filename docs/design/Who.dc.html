@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>2단계 · 누구와 가나요</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1E6FD0}a:hover{color:#1450A3}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; font-family: 'Noto Sans KR', sans-serif; color: #191F28; letter-spacing: -0.02em; letter-spacing: -0.02em">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 8px">
+<a href="When.dc.html" aria-label="이전 단계로" style="width: 44px; height: 44px; box-sizing: border-box; border-radius: 22px; border: 1px solid #F2F4F6; background: #F2F4F6; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#191F28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"></path></svg></a>
+<span style="font-size: 17px; font-weight: 700; color: {{accent}}">이음길</span>
+<button type="button" style="height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid #F2F4F6; background: #F2F4F6; font-size: 15px; color: #191F28; font-family: inherit; cursor: pointer">가 글씨 크게</button>
+</div>
+<div style="padding: 8px 20px 0">
+<div style="display: flex; justify-content: space-between; font-size: 14px; color: #4E5968"><span>2 / 4 단계</span><span>누구와</span></div>
+<div style="height: 4px; border-radius: 2px; background: #E5E8EB; margin-top: 8px"><div style="width: 50%; height: 4px; border-radius: 2px; background: {{accent}}"></div></div>
+</div>
+<div style="padding: 28px 20px 8px">
+<h1 style="margin: 0; font-size: 28px; line-height: 1.35; font-weight: 700">누구와 함께 여행하나요?</h1>
+<p style="margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #4E5968">해당하는 것을 모두 골라 주세요. 고른 유형에 맞춰 꼭 필요한 조건을 미리 켜 둘게요.</p>
+</div>
+<div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px">
+<button type="button" aria-pressed="{{wheel.on}}" onClick="{{wheel.pick}}" style="display: flex; align-items: center; gap: 14px; width: 100%; min-height: 92px; box-sizing: border-box; padding: 16px; border-radius: 16px; text-align: left; cursor: pointer; font-family: inherit; border: 2px solid {{wheel.border}}; background: {{wheel.bg}}">
+<span style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 26px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="4" r="2"></circle><path d="M11 7v6h5l2 5"></path><path d="M11 10h4"></path><path d="M8 11.5a5 5 0 1 0 7 6"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 4px; flex: 1"><span style="font-size: 18px; font-weight: 700; color: #191F28">휠체어 이용</span><span style="font-size: 15px; line-height: 1.5; color: #4E5968">계단·단차 없는 길과 장애인 화장실을 확인해요</span></span>
+<span style="width: 28px; height: 28px; flex-shrink: 0; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: {{wheel.checkBg}}; border: 2px solid {{wheel.checkBorder}}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>
+</button>
+<button type="button" aria-pressed="{{elder.on}}" onClick="{{elder.pick}}" style="display: flex; align-items: center; gap: 14px; width: 100%; min-height: 92px; box-sizing: border-box; padding: 16px; border-radius: 16px; text-align: left; cursor: pointer; font-family: inherit; border: 2px solid {{elder.border}}; background: {{elder.bg}}">
+<span style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 26px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="4" r="2"></circle><path d="M10 7l-1.5 6 2.5 3v5"></path><path d="M8.5 13l-2.5 8"></path><path d="M10 9l3 2"></path><path d="M16 10v11"></path><path d="M16 10a1.5 1.5 0 0 0-3 0"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 4px; flex: 1"><span style="font-size: 18px; font-weight: 700; color: #191F28">보행이 불편한 어르신</span><span style="font-size: 15px; line-height: 1.5; color: #4E5968">걷는 거리와 쉴 곳을 먼저 확인해요</span></span>
+<span style="width: 28px; height: 28px; flex-shrink: 0; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: {{elder.checkBg}}; border: 2px solid {{elder.checkBorder}}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>
+</button>
+<button type="button" aria-pressed="{{stroller.on}}" onClick="{{stroller.pick}}" style="display: flex; align-items: center; gap: 14px; width: 100%; min-height: 92px; box-sizing: border-box; padding: 16px; border-radius: 16px; text-align: left; cursor: pointer; font-family: inherit; border: 2px solid {{stroller.border}}; background: {{stroller.bg}}">
+<span style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 26px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h2.5l2 9h10l2-6h-12"></path><path d="M13 8V3a5 5 0 0 1 5 5"></path><circle cx="9" cy="18.5" r="1.8"></circle><circle cx="16" cy="18.5" r="1.8"></circle></svg></span>
+<span style="display: flex; flex-direction: column; gap: 4px; flex: 1"><span style="font-size: 18px; font-weight: 700; color: #191F28">유모차 동반</span><span style="font-size: 15px; line-height: 1.5; color: #4E5968">엘리베이터와 수유실·기저귀대를 확인해요</span></span>
+<span style="width: 28px; height: 28px; flex-shrink: 0; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: {{stroller.checkBg}}; border: 2px solid {{stroller.checkBorder}}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"></path></svg></span>
+</button>
+<p style="margin: 4px 0 0; font-size: 14px; line-height: 1.6; color: #4E5968">여러 개를 함께 고를 수 있어요. 예: 휠체어를 쓰는 할머니와 유모차를 탄 아이가 함께 가는 여행</p>
+<p style="margin: 0; display: flex; gap: 6px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: #4E5968"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#4E5968" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 3px"><rect x="3" y="7" width="10" height="7" rx="1.5"></rect><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"></path></svg>이름·연락처는 받지 않아요. 고른 조건은 일정 계산에만 써요.</p>
+</div>
+<div style="flex-grow: 1"></div>
+<div style="padding: 16px 20px 28px; background: #FFFFFF; border-top: 1px solid #F2F4F6">
+<div style="display: flex; gap: 10px"><a href="When.dc.html" style="flex: 1; height: 56px; box-sizing: border-box; border-radius: 14px; border: 1.5px solid #F2F4F6; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 500; color: #191F28; text-decoration: none; background: #F2F4F6">이전</a><a href="Conditions.dc.html" style="flex: 2; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; text-decoration: none; background: {{nextBg}}; color: {{nextFg}}">{{nextLabel}}</a></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1E6FD0","options":["#1E6FD0","#0B7A75","#1C5D79"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#1E6FD0';
+    const sel = (this.state && this.state.sel) || { wheel: true, elder: true, stroller: false };
+    const item = (key) => {
+      const on = !!sel[key];
+      return {
+        on: on,
+        border: on ? accent : '#F2F4F6',
+        bg: on ? '#EAF2FD' : '#F2F4F6',
+        checkBg: on ? accent : '#FFFFFF',
+        checkBorder: on ? accent : '#D1D6DB',
+        pick: () => {
+          const next = Object.assign({}, sel);
+          next[key] = !on;
+          this.setState({ sel: next });
+        }
+      };
+    };
+    const count = ['wheel', 'elder', 'stroller'].filter((k) => sel[k]).length;
+    return {
+      accent: accent,
+      wheel: item('wheel'),
+      elder: item('elder'),
+      stroller: item('stroller'),
+      nextLabel: count === 0 ? '유형을 골라 주세요' : '다음 · 꼭 필요한 조건',
+      nextBg: count === 0 ? '#E5E8EB' : accent,
+      nextFg: count === 0 ? '#4E5968' : '#FFFFFF'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="이음길">
+  <defs><clipPath id="r"><rect width="1024" height="1024" rx="228"/></clipPath></defs>
+  <g clip-path="url(#r)"><rect width="1024" height="1024" fill="#1E6FD0"/>
+  <circle cx="790" cy="742" r="140" fill="#F79A2A"/>
+  <path d="M-40 880 Q 512 672 1064 905 L1064 1064 L-40 1064 Z" fill="#13305C"/>
+  <path d="M-40 880 Q 512 672 1064 905" fill="none" stroke="#FFFFFF" stroke-width="24"/>
+  <rect x="481" y="150" width="62" height="745" rx="31" fill="#FFFFFF"/>
+  <circle cx="512" cy="150" r="66" fill="#FFFFFF"/>
+  <path d="M290 288 H828 L884 341 L828 394 H290 Q266 394 266 370 V312 Q266 288 290 288 Z" fill="#F5872A" stroke="#FFFFFF" stroke-width="20" stroke-linejoin="round"/>
+  <clipPath id="sb"><path d="M736 490 H198 L142 545 L198 600 H736 Q760 600 760 576 V514 Q760 490 736 490 Z"/></clipPath>
+  <path d="M736 490 H198 L142 545 L198 600 H736 Q760 600 760 576 V514 Q760 490 736 490 Z" fill="#3B8CEB"/>
+  <g clip-path="url(#sb)">
+    <path d="M120 588 C 260 572 380 548 520 560 C 600 566 640 548 700 540 L 780 540 L 780 620 L 120 620 Z" fill="#7CC6FF"/>
+    <path d="M430 596 C 540 592 600 560 642 530 C 684 500 736 500 742 526 C 746 548 716 552 712 536" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="M736 490 H198 L142 545 L198 600 H736 Q760 600 760 576 V514 Q760 490 736 490 Z" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linejoin="round"/></g>
+</svg>

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "이음길 장소 데이터",
+  "type": "array",
+  "items": { "$ref": "#/$defs/place" },
+  "$defs": {
+    "status": { "enum": ["가능", "부분가능", "불가", "미확인"] },
+    "access": {
+      "type": "object",
+      "required": ["value", "source_url", "verified_at"],
+      "properties": {
+        "value": { "$ref": "#/$defs/status" },
+        "note": { "type": "string", "description": "부분가능이면 필수" },
+        "source_url": { "type": "string" },
+        "verified_at": { "type": "string", "format": "date" },
+        "method": { "enum": ["관광공사 API", "지자체 누리집", "열린관광", "전화 확인", "현장 확인", "기타"] }
+      },
+      "if": { "properties": { "value": { "const": "부분가능" } } },
+      "then": { "required": ["note"] }
+    },
+    "hours": {
+      "type": "object",
+      "properties": {
+        "open": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "close": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "last_entry": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" }
+      },
+      "required": ["open", "close"]
+    },
+    "place": {
+      "type": "object",
+      "required": ["id", "name_ko", "region", "category", "lat", "lng", "hours", "stay_min", "stay_max", "access", "phone"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^(GN|SC|DH)\\d{2}$" },
+        "name_ko": { "type": "string" },
+        "name_en": { "type": "string" },
+        "region": { "enum": ["강릉", "속초", "동해"] },
+        "category": { "enum": ["바다·해변", "자연·산책", "역사·문화", "전시·박물관", "시장·먹거리", "전망·체험"] },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "parking_lat": { "type": "number" },
+        "parking_lng": { "type": "number" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "hours": {
+          "type": "object",
+          "properties": {
+            "summer": { "$ref": "#/$defs/hours" },
+            "winter": { "$ref": "#/$defs/hours" },
+            "closed_weekdays": { "type": "array", "items": { "enum": ["일", "월", "화", "수", "목", "금", "토"] } },
+            "closed_dates": { "type": "array", "items": { "type": "string" }, "description": "예: 설날 당일, 2027-02-17" }
+          },
+          "required": ["summer", "winter"]
+        },
+        "stay_min": { "type": "integer", "minimum": 10 },
+        "stay_max": { "type": "integer", "minimum": 10 },
+        "parking_to_entrance": { "type": "object", "properties": { "meters": { "type": "integer" }, "note": { "type": "string" } } },
+        "route_length": { "type": "object", "properties": { "meters": { "type": "integer" }, "note": { "type": "string" } } },
+        "access": {
+          "type": "object",
+          "required": ["step_free_entrance", "elevator", "slope", "surface", "accessible_toilet", "diaper_nursing", "disabled_parking", "rest_area", "rental_wheelchair", "rental_stroller"],
+          "additionalProperties": { "$ref": "#/$defs/access" }
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["url", "provider", "kogl_type"],
+            "properties": { "url": { "type": "string" }, "provider": { "type": "string" }, "kogl_type": { "enum": [0, 1, 2, 3, 4] }, "credit": { "type": "string" } }
+          }
+        },
+        "alternatives": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

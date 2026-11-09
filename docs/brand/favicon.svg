@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="이음길">
+  <rect width="64" height="64" rx="14" fill="#1E6FD0"/>
+  <rect x="29" y="9" width="6" height="49" rx="3" fill="#FFFFFF"/>
+  <circle cx="32" cy="9" r="5" fill="#FFFFFF"/>
+  <path d="M13 17 H46 L52 23 L46 29 H13 Z" fill="#F5872A" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M51 34 H18 L12 40 L18 46 H51 Z" fill="#7CC6FF" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round"/>
+</svg>

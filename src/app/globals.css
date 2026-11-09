@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+/* 디자인 토큰 (시안 v2, CLAUDE.md 기준) */
+@theme {
+  --color-primary: #1e6fd0; /* 기본 */
+  --color-primary-soft: #eaf2fd; /* 연한 기본 */
+  --color-primary-ink: #1450a3; /* 기본(연한 바탕) 위 글자 */
+  --color-surface: #f2f4f6; /* 면 */
+  --color-ink: #191f28; /* 글자 */
+  --color-ink-sub: #4e5968; /* 보조 글자 */
+  --color-route: #e8743b; /* 경로선 */
+  --color-caution-bg: #fff4e5; /* 주의 바탕 */
+  --color-caution-ink: #7a4a00; /* 주의 글자 */
+  --color-blocked-bg: #fbeae7; /* 불가 바탕 */
+  --color-blocked-ink: #8a2a1c; /* 불가 글자 */
+
+  /* 터치 영역 최소 44px: min-h-touch / min-w-touch */
+  --spacing-touch: 44px;
+}
+
+@theme inline {
+  --font-sans: var(--font-pretendard), "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+html {
+  font-size: 16px; /* 본문 16px 이상 */
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  word-break: keep-all;
+}
