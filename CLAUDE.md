@@ -56,7 +56,15 @@ tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조
 ## 디자인 토큰 (시안 v2)
 기본 #1E6FD0 · 연한 기본 #EAF2FD · 기본 위 글자 #1450A3 · 면 #F2F4F6 · 글자 #191F28 · 보조 글자 #4E5968
 · 경로선 #E8743B · 주의 #FFF4E5/#7A4A00 · 불가 #FBEAE7/#8A2A1C · 본문 16px 이상 · 터치 영역 44px 이상
-· 상태는 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 모바일 우선, PC는 왼쪽 지도 + 오른쪽 루트
+· 상태는 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 모바일 우선(시안 390px), PC는 왼쪽 지도 + 오른쪽 루트(시안 1440px)
+· 상단에 "가 글씨 크게" 버튼(모바일·PC 공통) → 글자 크기는 rem 단위로 써서 한 번에 키울 수 있게
+· Tailwind v4라 토큰은 `src/app/globals.css`의 `@theme`에 있다(`bg-primary`, `text-ink-sub`, `bg-caution-bg`, `min-h-touch` 등)
+
+## 데이터와 테스트
+- `data/places.json`: 검수된 실제 데이터만. 조사표(`docs/data/`)에서 옮긴다. 아직 빈 배열.
+- `tests/fixtures/places.sample.json`: 테스트 전용 가짜 장소(`[샘플] 관광지 A`, id `GN91~`). 화면·README 수치에 쓰지 않는다.
+- 카테고리는 스키마의 6개만 쓴다. 조사표의 `바다·자연`은 `바다·해변` 또는 `자연·산책`으로 나눠서 옮긴다.
+- 명령: `npm test`(vitest) · `npm run validate:places [-- 파일]` · `npm run build`(prebuild에서 장소 검사가 먼저 돈다)
 
 ## 작업 방식
 - 작은 단위로 자주 커밋한다. 커밋 메시지는 한국어, `feat: / fix: / docs: / chore: / test:` 접두어.
