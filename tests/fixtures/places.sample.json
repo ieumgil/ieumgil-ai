@@ -1,0 +1,299 @@
+[
+  {
+    "id": "GN91",
+    "name_ko": "[샘플] 관광지 A",
+    "region": "강릉",
+    "category": "역사·문화",
+    "lat": 37.779,
+    "lng": 128.878,
+    "parking_lat": 37.778,
+    "parking_lng": 128.877,
+    "phone": "000-0000-0000",
+    "hours": {
+      "summer": {
+        "open": "09:00",
+        "close": "18:00",
+        "last_entry": "17:00"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "17:00",
+        "last_entry": "16:00"
+      },
+      "closed_weekdays": [
+        "월"
+      ],
+      "closed_dates": [
+        "설날 당일",
+        "추석 당일"
+      ]
+    },
+    "stay_min": 50,
+    "stay_max": 80,
+    "parking_to_entrance": {
+      "meters": 120,
+      "note": "평지 포장로"
+    },
+    "route_length": {
+      "meters": 400,
+      "note": "안쪽 마당 일부 자갈길"
+    },
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "elevator": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타",
+        "note": "단층 시설"
+      },
+      "slope": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "surface": {
+        "value": "부분가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타",
+        "note": "정문 쪽 포장로로 관람 가능, 안쪽 마당은 자갈길"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rest_area": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rental_stroller": {
+        "value": "불가",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      }
+    }
+  },
+  {
+    "id": "GN92",
+    "name_ko": "[샘플] 관광지 B",
+    "region": "강릉",
+    "category": "전시·박물관",
+    "lat": 37.795,
+    "lng": 128.905,
+    "phone": "000-0000-0000",
+    "hours": {
+      "summer": {
+        "open": "10:00",
+        "close": "19:00",
+        "last_entry": "18:00"
+      },
+      "winter": {
+        "open": "10:00",
+        "close": "18:00",
+        "last_entry": "17:00"
+      },
+      "closed_weekdays": [
+        "화"
+      ]
+    },
+    "stay_min": 40,
+    "stay_max": 60,
+    "parking_to_entrance": {
+      "meters": 60,
+      "note": "평지"
+    },
+    "route_length": {
+      "meters": 250,
+      "note": "실내 2개 층, 엘리베이터 이동"
+    },
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "elevator": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "slope": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "surface": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rest_area": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rental_stroller": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      }
+    }
+  },
+  {
+    "id": "GN93",
+    "name_ko": "[샘플] 관광지 C",
+    "region": "강릉",
+    "category": "바다·해변",
+    "lat": 37.805,
+    "lng": 128.91,
+    "phone": "000-0000-0000",
+    "hours": {
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
+    },
+    "stay_min": 30,
+    "stay_max": 50,
+    "parking_to_entrance": {
+      "meters": 90,
+      "note": "완만한 경사"
+    },
+    "route_length": {
+      "meters": 700,
+      "note": "해변 데크 산책로"
+    },
+    "access": {
+      "step_free_entrance": {
+        "value": "불가",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타",
+        "note": "전망 지점까지 긴 계단 구간"
+      },
+      "elevator": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타",
+        "note": "층이 없는 야외 시설"
+      },
+      "slope": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "surface": {
+        "value": "부분가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타",
+        "note": "데크 구간까지 가능, 모래사장 진입 불가"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "diaper_nursing": {
+        "value": "불가",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rest_area": {
+        "value": "가능",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rental_wheelchair": {
+        "value": "불가",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      },
+      "rental_stroller": {
+        "value": "불가",
+        "source_url": "https://example.com/ieumgil-sample",
+        "verified_at": "2026-11-09",
+        "method": "기타"
+      }
+    },
+    "alternatives": [
+      "GN92"
+    ]
+  }
+]
