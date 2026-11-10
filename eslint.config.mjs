@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Claude Code 로컬 도구(GSD Core 등)와 Playwright 결과물
+    ".claude/**",
+    ".planning/**",
+    "playwright-report/**",
+    "test-results/**",
   ]),
 ]);
 

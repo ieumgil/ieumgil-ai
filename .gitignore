@@ -40,3 +40,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Claude Code: 개인 설정과 GSD Core 로컬 설치(이 PC 절대 경로가 들어 있음). 공용 스킬만 커밋한다.
+/.claude/*
+!/.claude/skills/
+/.claude/skills/*
+!/.claude/skills/spec-audit/

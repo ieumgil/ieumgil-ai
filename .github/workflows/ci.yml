@@ -24,3 +24,14 @@ jobs:
         run: npm run lint
       - name: 빌드
         run: npm run build
+      - name: 브라우저 설치
+        run: npx playwright install --with-deps chromium
+      - name: 화면 흐름 테스트 (E2E)
+        run: npm run test:e2e
+      - name: E2E 결과 보고서 올리기
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
