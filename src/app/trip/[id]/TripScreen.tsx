@@ -2,10 +2,12 @@
 
 // 결과 화면: AI가 만든 일정 2~3안 비교 → 고른 안의 날짜별 타임라인 → 이 일정으로 정하기.
 // 가독성 원칙: 카드에는 핵심(시각·이름·판단·한 줄 이유·전화)만, 나머지는 [자세히]로 펼친다.
+// 장소마다 [바꾸기]로 AI가 이미 판단한 근처 후보로 바꿀 수 있다(AI·서버 호출 없이 코드가 시각을 다시 계산·검사).
 // 시각은 모두 코드가 계산한 값이고, 이동시간은 지금 직선거리 추정치라 '약'과 '추정'을 붙인다.
 // PC는 왼쪽(요약·안 고르기·지도 자리) + 오른쪽(타임라인), 모바일은 위아래로 쌓고 아래에 확정 버튼을 고정한다.
 import {
   Accessibility,
+  ArrowLeftRight,
   Baby,
   BedDouble,
   CalendarDays,
@@ -22,6 +24,7 @@ import {
   PersonStanding,
   Phone,
   Sparkles,
+  Undo2,
   Utensils,
 } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -34,10 +37,12 @@ import { StatusChip, type ChipStatus } from "@/components/ui/StatusChip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { Verdict } from "@/lib/ai/guards";
+import { haversineKm } from "@/lib/engine/travel";
 import { toHHMM } from "@/lib/engine/types";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
-import { confirmOption, useConfirmedOption, useSavedTrip } from "@/lib/trip/store";
+import { alternativesFor, swapPlace } from "@/lib/trip/edit";
+import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
 
 const VERDICT_CHIP: Record<Verdict, ChipStatus> = { 적합: "ok", 주의: "caution", "확인 필요": "caution", 부적합: "blocked" };
@@ -63,11 +68,25 @@ export function TripScreen() {
   return <TripResult trip={trip} />;
 }
 
-function TripResult({ trip }: { trip: TripView }) {
-  const confirmedId = useConfirmedOption(trip);
+function TripResult({ trip: base }: { trip: TripView }) {
+  const confirmedId = useConfirmedOption(base);
+  const edited = useEditedOptions(base);
+  // 화면에는 장소를 바꾼 안을 보여준다(원래 안은 base에 그대로: 되돌리기·이유에 쓴다)
+  const trip: TripView = { ...base, options: base.options.map((o) => edited[o.id] ?? o) };
   const [selected, setSelected] = useState(confirmedId ?? trip.options[0]?.id);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [swapFor, setSwapFor] = useState<string | null>(null);
+  const [notice, setNotice] = useState("");
   const option = trip.options.find((o) => o.id === selected) ?? trip.options[0];
+
+  const swap = (fromId: string, toId: string): string | null => {
+    const r = swapPlace(base, option, fromId, toId);
+    if (!r.ok) return r.reason;
+    saveEditedOption(base, r.option);
+    setSwapFor(null);
+    setNotice(`${trip.places[fromId].name} 대신 ${trip.places[toId].name}(으)로 바꿨어요. 시각을 다시 계산했어요.`);
+    return null;
+  };
   const isConfirmed = confirmedId === option.id;
 
   const confirm = () => {
@@ -98,7 +117,10 @@ function TripResult({ trip }: { trip: TripView }) {
 
         {/* 오른쪽(PC) / 아래(모바일): 고른 안 */}
         <section key={option.id} className="animate-rise" aria-label={`${option.title} 일정`}>
-          <OptionDetail o={option} trip={trip} />
+          <p role="status" className="sr-only">
+            {notice}
+          </p>
+          <OptionDetail o={option} trip={trip} onSwap={setSwapFor} />
           <Footnotes trip={trip} />
         </section>
       </div>
@@ -109,6 +131,12 @@ function TripResult({ trip }: { trip: TripView }) {
           <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} onOpen={() => setSheetOpen(true)} title={option.title} />
         </div>
       </div>
+
+      <Sheet open={swapFor !== null} onOpenChange={(v) => !v && setSwapFor(null)}>
+        <SheetContent side="bottom" className="mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-5 pb-8">
+          {swapFor && <SwapSheet key={swapFor} placeId={swapFor} o={option} trip={trip} onSwap={swap} onClose={() => setSwapFor(null)} />}
+        </SheetContent>
+      </Sheet>
 
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent side="bottom" className="mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-5 pb-8">
@@ -251,11 +279,11 @@ function ConfirmButton({ confirmed, onConfirm, onOpen, title }: { confirmed: boo
   );
 }
 
-function OptionDetail({ o, trip }: { o: OptionView; trip: TripView }) {
+function OptionDetail({ o, trip, onSwap }: { o: OptionView; trip: TripView; onSwap: (placeId: string) => void }) {
   const counts = new Map<string, number>();
   o.checkBeforeGo.forEach((q) => counts.set(q.question, (counts.get(q.question) ?? 0) + 1));
   const common = new Set([...counts].filter(([, n]) => n > 1).map(([q]) => q));
-  const day = (d: DayView, i: number) => <DayPanel key={d.date} d={d} index={i} o={o} trip={trip} common={common} />;
+  const day = (d: DayView, i: number) => <DayPanel key={d.date} d={d} index={i} o={o} trip={trip} common={common} onSwap={onSwap} />;
 
   return (
     <div className="px-5 pt-6 lg:px-0">
@@ -300,7 +328,7 @@ function OptionDetail({ o, trip }: { o: OptionView; trip: TripView }) {
   );
 }
 
-function DayPanel({ d, index, o, trip, common }: { d: DayView; index: number; o: OptionView; trip: TripView; common: Set<string> }) {
+function DayPanel({ d, index, o, trip, common, onSwap }: { d: DayView; index: number; o: OptionView; trip: TripView; common: Set<string>; onSwap: (placeId: string) => void }) {
   const visits = d.items.filter((x): x is Extract<ItemView, { kind: "visit" }> => x.kind === "visit");
   const numberOf = new Map(visits.map((v, i) => [v.placeId, i + 1]));
   const last = d.items.at(-1);
@@ -345,7 +373,7 @@ function DayPanel({ d, index, o, trip, common }: { d: DayView; index: number; o:
               </Node>
             );
           }
-          return <PlaceCard key={i} it={it} no={numberOf.get(it.placeId)!} o={o} trip={trip} common={common} delay={i} />;
+          return <PlaceCard key={it.placeId} it={it} no={numberOf.get(it.placeId)!} o={o} trip={trip} common={common} delay={i} onSwap={onSwap} />;
         })}
         <Node icon={<Flag size={16} />} muted>
           <span className="font-bold">약 {toHHMM(arrival)}</span> {d.endName} 도착 <span className="text-sm text-ink-sub">· 마치는 시각 {toHHMM(d.endMin)}</span>
@@ -366,7 +394,23 @@ function Node({ icon, children, muted, small }: { icon: ReactNode; children: Rea
   );
 }
 
-function PlaceCard({ it, no, o, trip, common, delay }: { it: Extract<ItemView, { kind: "visit" }>; no: number; o: OptionView; trip: TripView; common: Set<string>; delay: number }) {
+function PlaceCard({
+  it,
+  no,
+  o,
+  trip,
+  common,
+  delay,
+  onSwap,
+}: {
+  it: Extract<ItemView, { kind: "visit" }>;
+  no: number;
+  o: OptionView;
+  trip: TripView;
+  common: Set<string>;
+  delay: number;
+  onSwap: (placeId: string) => void;
+}) {
   const [open, setOpen] = useState(false);
   const p = trip.places[it.placeId];
   const j = trip.judgments[it.placeId];
@@ -375,6 +419,7 @@ function PlaceCard({ it, no, o, trip, common, delay }: { it: Extract<ItemView, {
   const headline = it.why ?? j.reasons[0];
   const reasons = j.reasons.filter((r) => r !== headline);
   const detailId = `place-${it.placeId}-${no}`;
+  const replacedId = o.swapped?.[it.placeId];
   return (
     <li className="relative flex animate-rise gap-3 py-2" style={{ animationDelay: `${Math.min(delay, 8) * 50}ms` }}>
       <span className="z-10 mt-3 flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white ring-4 ring-white" aria-hidden="true">
@@ -393,6 +438,12 @@ function PlaceCard({ it, no, o, trip, common, delay }: { it: Extract<ItemView, {
           <span className="sr-only">{no}번째 장소: </span>
           {p.name}
         </h3>
+        {replacedId && (
+          <p className="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-primary-soft px-2 py-0.5 text-sm font-medium text-primary-ink">
+            <ArrowLeftRight size={14} aria-hidden="true" />
+            바꾼 장소 · 원래 {trip.places[replacedId]?.name}
+          </p>
+        )}
         <div className="mt-1.5 flex flex-wrap items-center gap-2">
           <StatusChip status={VERDICT_CHIP[j.verdict]}>
             {j.verdict}
@@ -422,10 +473,19 @@ function PlaceCard({ it, no, o, trip, common, delay }: { it: Extract<ItemView, {
           </a>
           <button
             type="button"
+            onClick={() => onSwap(it.placeId)}
+            aria-label={`${p.name} 다른 곳으로 바꾸기`}
+            className="inline-flex min-h-touch grow basis-[6rem] items-center justify-center gap-1.5 rounded-xl bg-surface px-3 text-base font-medium whitespace-nowrap text-ink transition-[background-color,transform] duration-150 hover:bg-line active:scale-[0.98]"
+          >
+            <ArrowLeftRight size={18} aria-hidden="true" />
+            바꾸기
+          </button>
+          <button
+            type="button"
             aria-expanded={open}
             aria-controls={detailId}
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex min-h-touch grow basis-[7rem] items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-medium whitespace-nowrap text-ink transition-colors hover:bg-line"
+            className="inline-flex min-h-touch grow basis-[6rem] items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-medium whitespace-nowrap text-ink transition-[background-color,transform] duration-150 hover:bg-line active:scale-[0.98]"
           >
             자세히
             {questions.length > 0 && <span className="rounded-full bg-caution-bg px-1.5 text-sm font-bold text-caution-ink">확인 {questions.length}</span>}
@@ -472,6 +532,71 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
       <p className="text-sm font-bold text-ink-sub">{title}</p>
       <div className="mt-0.5">{children}</div>
     </div>
+  );
+}
+
+/** 장소 바꾸기: AI가 이미 판단한 근처 후보. 고르면 코드가 시각을 다시 계산하고, 검사에 걸리면 이유를 보여주고 바꾸지 않는다 */
+function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: string; o: OptionView; trip: TripView; onSwap: (from: string, to: string) => string | null; onClose: () => void }) {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const from = trip.placeData[placeId];
+  const originalId = o.swapped?.[placeId];
+  const list = alternativesFor(o, placeId);
+  return (
+    <>
+      <SheetHeader className="px-0 pt-6">
+        <SheetTitle className="flex items-center gap-2 text-xl font-bold">
+          <ArrowLeftRight className="shrink-0 text-primary" aria-hidden="true" />
+          {trip.places[placeId].name} 대신 갈 곳
+        </SheetTitle>
+        <SheetDescription>AI가 이번 조건으로 이미 살펴본 근처 장소예요. 고르면 시각을 다시 계산해요.</SheetDescription>
+      </SheetHeader>
+      {list.length === 0 ? (
+        <p className="rounded-2xl bg-surface p-4 text-base text-ink-sub">근처에 바꿀 만한 곳이 없어요.</p>
+      ) : (
+        <ul className="flex flex-col gap-3">
+          {list.map((id) => {
+            const p = trip.places[id];
+            const j = trip.judgments[id];
+            const back = id === originalId;
+            const km = from && trip.placeData[id] ? haversineKm(from, trip.placeData[id]) : null;
+            return (
+              <li key={id} className="rounded-2xl bg-surface p-4">
+                <p className="text-lg leading-snug font-bold">{p.name}</p>
+                <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                  <StatusChip status={VERDICT_CHIP[j.verdict]}>{j.verdict}</StatusChip>
+                  <span className="text-sm text-ink-sub">
+                    {p.region} · {p.category}
+                    {km !== null && ` · 약 ${km < 1 ? "1km 안" : `${Math.round(km)}km`}`}
+                  </span>
+                </div>
+                {j.reasons[0] && <p className="mt-2 text-base leading-relaxed">{j.reasons[0]}</p>}
+                {errors[id] && (
+                  <p role="alert" className="mt-2 flex items-start gap-2 rounded-lg bg-blocked-bg px-3 py-2 text-base text-blocked-ink">
+                    <CircleAlert size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
+                    바꿀 수 없어요: {errors[id]}
+                  </p>
+                )}
+                <Button
+                  variant={back ? "outline" : "primary"}
+                  size="sm"
+                  className="mt-3 w-full"
+                  onClick={() => {
+                    const err = onSwap(placeId, id);
+                    if (err) setErrors((e) => ({ ...e, [id]: err }));
+                  }}
+                >
+                  {back ? <Undo2 aria-hidden="true" /> : <ArrowLeftRight aria-hidden="true" />}
+                  {back ? "원래 장소로 되돌리기" : "이곳으로 바꾸기"}
+                </Button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      <Button variant="secondary" className="mt-4 w-full" onClick={onClose}>
+        닫기
+      </Button>
+    </>
   );
 }
 
@@ -565,9 +690,6 @@ function Footnotes({ trip }: { trip: TripView }) {
           ))}
         </ul>
       </details>
-      <ButtonLink href="/plan/when" variant="outline" className="mt-5">
-        조건 바꿔 다시 만들기
-      </ButtonLink>
     </div>
   );
 }

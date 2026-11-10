@@ -38,6 +38,29 @@ test("'이 일정으로 정하기'를 누르면 확인할 것 모음이 열리�
   await expect(page.getByRole("button", { name: /정한 일정/ }).last()).toBeVisible();
 });
 
+test("[바꾸기]로 근처 후보로 바꾸면 시각을 다시 계산해 보여주고, 원래대로 되돌릴 수 있다", async ({ page }) => {
+  await expect(page.getByRole("link", { name: "조건 바꿔 다시 만들기" })).toHaveCount(0);
+  const swap = page.getByRole("button", { name: /다른 곳으로 바꾸기/ }).first();
+  const fromName = ((await swap.getAttribute("aria-label")) ?? "").replace(/ 다른 곳으로 바꾸기$/, "");
+  await swap.click();
+  const sheet = page.getByRole("dialog");
+  await expect(sheet).toContainText(`${fromName} 대신 갈 곳`);
+  const toName = (await sheet.locator("li p.text-lg").first().textContent())!.trim();
+  await sheet.getByRole("button", { name: "이곳으로 바꾸기" }).first().click();
+  await expect(sheet).toBeHidden();
+
+  const card = page.getByRole("heading", { level: 3, name: new RegExp(toName.replace(/[()]/g, "\\$&")) }).first();
+  await expect(card).toBeVisible();
+  await expect(page.getByText(`바꾼 장소 · 원래 ${fromName}`).first()).toBeVisible();
+
+  await page.reload(); // 바꾼 일정은 이 탭에 남는다
+  await expect(page.getByText(`바꾼 장소 · 원래 ${fromName}`).first()).toBeVisible();
+
+  await page.getByRole("button", { name: `${toName} 다른 곳으로 바꾸기` }).first().click();
+  await page.getByRole("dialog").getByRole("button", { name: "원래 장소로 되돌리기" }).click();
+  await expect(page.getByText(/바꾼 장소 · 원래/)).toHaveCount(0);
+});
+
 test("결과 화면도 누를 수 있는 요소는 높이 44px 이상", async ({ page }) => {
   await page.waitForLoadState("networkidle");
   const small = await page.locator("main a, main button, main summary").evaluateAll((els) =>

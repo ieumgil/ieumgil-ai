@@ -36,7 +36,7 @@ function readInput(body: unknown): PlanInput | string {
     conditionOverrides: b.conditionOverrides && typeof b.conditionOverrides === "object" ? b.conditionOverrides : {},
     walkLimit: b.walkLimit === undefined ? EMPTY_PLAN.walkLimit : b.walkLimit,
     categories: Array.isArray(b.categories) ? b.categories : [],
-    pace: b.pace ?? "normal",
+    pace: b.pace && ["slow", "normal", "busy"].includes(b.pace) ? b.pace : "normal",
     mustVisit: Array.isArray(b.mustVisit) ? b.mustVisit.filter((id) => PLACES.some((p) => p.id === id)) : [],
   };
   if (!whenDone(input)) return "1단계(언제·어디서)를 먼저 채워 주세요";

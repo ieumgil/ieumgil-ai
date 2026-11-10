@@ -1,14 +1,18 @@
 // 결과 화면에 넘길 값(JSON으로 직렬화 가능). 서버(/api/plan)가 만들고 화면(/trip/[id])이 그린다.
 // 카카오 길찾기 결과는 넣지 않는다(지금은 직선거리 추정만 씀). 개인정보 없음.
+// 장소 바꾸기(대체 후보)는 화면에서 코드로 다시 계산한다 → 그때 필요한 하루 틀·장소 정보·초안도 함께 싣는다.
 
 import type { Confidence, Verdict } from "../ai/guards";
 import type { EvidenceIndex } from "../ai/judge";
 import type { TripResult } from "../ai/trip";
 import type { DayFit } from "../engine/check";
+import type { DayTimeline } from "../engine/timeline";
+import type { DayFrame, PlanDayDraft, PlanDraft } from "../engine/types";
 import type { PlanInput } from "../plan/types";
 import type { Category, Place, Region } from "../types";
+import { pickAlternatives, type PoolPlace } from "./alternatives";
 
-export const TRIP_VIEW_VERSION = 1;
+export const TRIP_VIEW_VERSION = 2;
 
 export type ItemView =
   | { kind: "travel"; toName: string; minutes: number; km: number; estimated: boolean; startMin: number }
@@ -42,6 +46,12 @@ export interface OptionView {
   fixes: number;
   fixedViolations: string[];
   stats: { places: number; travelMin: number; checkNeeded: number };
+  /** 장소·순서·체류(시각 없음). 바꾸기 후 다시 계산할 때 쓴다 */
+  draft: PlanDraft;
+  /** 장소 id → 바꿀 수 있는 후보 id(최대 3) */
+  alternatives: Record<string, string[]>;
+  /** 바꾼 장소: 새 id → 원래 id (사용자가 바꿨을 때만) */
+  swapped?: Record<string, string>;
 }
 
 export interface PlaceView {
@@ -74,6 +84,34 @@ export interface TripView {
   options: OptionView[];
   places: Record<string, PlaceView>;
   judgments: Record<string, JudgmentView>;
+  /** 날짜마다 시작·끝 지점과 시각(다시 계산용) */
+  frames: DayFrame[];
+  /** 일정·후보 장소의 원본 정보(다시 계산용: 좌표·운영시간·체류 범위) */
+  placeData: Record<string, Place>;
+  /** 장소별 '모름' 항목 질문(코드 안전 하한). 바꾼 장소의 출발 전 확인에 쓴다 */
+  asks: Record<string, string[]>;
+}
+
+/** 계산된 하루 일정 → 화면 값 */
+export function toDayView(tl: DayTimeline, frame: DayFrame, fit: DayFit, day: PlanDayDraft): DayView {
+  const whyOf = new Map(day.stops.map((s) => [s.placeId, s.why]));
+  return {
+    date: tl.date,
+    startName: frame.start.name,
+    endName: frame.end.name,
+    startMin: frame.startMin,
+    endMin: frame.endMin,
+    fit,
+    travelMin: tl.travelMin,
+    estimated: tl.estimatedTravel,
+    items: tl.items.map((it): ItemView => {
+      if (it.kind === "travel") return { kind: "travel", toName: it.to.name, minutes: it.leg.minutes, km: it.leg.km, estimated: it.leg.estimated, startMin: it.startMin };
+      if (it.kind === "visit") return { kind: "visit", placeId: it.placeId, arriveMin: it.arriveMin, departMin: it.departMin, stayMin: it.stayMin, extraMin: it.extraMin, why: whyOf.get(it.placeId) };
+      if (it.kind === "lunch") return { kind: "lunch", startMin: it.startMin, endMin: it.endMin };
+      if (it.kind === "rest") return { kind: "rest", startMin: it.startMin, endMin: it.endMin };
+      return { kind: "wait", startMin: it.startMin, endMin: it.endMin };
+    }),
+  };
 }
 
 export function toTripView(r: TripResult, input: PlanInput, places: Place[], evidence: EvidenceIndex): TripView {
@@ -82,37 +120,24 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
   const judgments: Record<string, JudgmentView> = {};
   const verdictOf = (id: string): Verdict | undefined => r.judge?.judgments.get(id)?.verdict ?? r.rule.filter.candidates.find((c) => c.place.id === id)?.rule;
 
+  // 대체 후보: AI가 판단한 후보(실패했으면 규칙 판단) 중 부적합이 아닌 곳
+  const pool: PoolPlace[] = r.llmCandidates.flatMap((c) => {
+    const v = verdictOf(c.place.id);
+    return v && v !== "부적합" ? [{ place: c.place, verdict: v }] : [];
+  });
+  const asksOf = (id: string) => r.rule.filter.candidates.find((c) => c.place.id === id)?.floor.asks ?? [];
+
   const options: OptionView[] = r.options.map((o) => {
     const review = r.reviews.find((x) => x.optionId === o.id);
-    const days: DayView[] = o.check.timelines.map((tl, i) => {
-      const frame = r.rule.frames[i];
-      const whyOf = new Map(o.draft.days[i].stops.map((s) => [s.placeId, s.why]));
-      return {
-        date: tl.date,
-        startName: frame.start.name,
-        endName: frame.end.name,
-        startMin: frame.startMin,
-        endMin: frame.endMin,
-        fit: o.check.fits[i],
-        travelMin: tl.travelMin,
-        estimated: tl.estimatedTravel,
-        items: tl.items.map((it): ItemView => {
-          if (it.kind === "travel") return { kind: "travel", toName: it.to.name, minutes: it.leg.minutes, km: it.leg.km, estimated: it.leg.estimated, startMin: it.startMin };
-          if (it.kind === "visit") {
-            used.add(it.placeId);
-            return { kind: "visit", placeId: it.placeId, arriveMin: it.arriveMin, departMin: it.departMin, stayMin: it.stayMin, extraMin: it.extraMin, why: whyOf.get(it.placeId) };
-          }
-          if (it.kind === "lunch") return { kind: "lunch", startMin: it.startMin, endMin: it.endMin };
-          if (it.kind === "rest") return { kind: "rest", startMin: it.startMin, endMin: it.endMin };
-          return { kind: "wait", startMin: it.startMin, endMin: it.endMin };
-        }),
-      };
-    });
+    const days: DayView[] = o.check.timelines.map((tl, i) => toDayView(tl, r.rule.frames[i], o.check.fits[i], o.draft.days[i]));
+    const alternatives = pickAlternatives(o.draft, pool, byId);
+    o.draft.days.forEach((d) => d.stops.forEach((st) => used.add(st.placeId)));
+    Object.values(alternatives).flat().forEach((id) => used.add(id));
     const ids = o.draft.days.flatMap((d) => d.stops.map((s) => s.placeId));
     // 규칙 일정은 LLM 질문이 없으므로 '모름' 항목 질문을 붙인다
     const questions = o.checkBeforeGo.length
       ? o.checkBeforeGo
-      : ids.flatMap((id) => (r.rule.filter.candidates.find((c) => c.place.id === id)?.floor.asks ?? []).map((question) => ({ placeId: id, question })));
+      : ids.flatMap((id) => asksOf(id).map((question) => ({ placeId: id, question })));
     return {
       id: o.id,
       strategy: o.strategy,
@@ -126,11 +151,17 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
       fixes: o.fixes,
       fixedViolations: o.fixedViolations,
       stats: { places: ids.length, travelMin: days.reduce((a, d) => a + d.travelMin, 0), checkNeeded: ids.filter((id) => verdictOf(id) === "확인 필요").length },
+      draft: o.draft,
+      alternatives,
     };
   });
 
   const placeViews: Record<string, PlaceView> = {};
+  const placeData: Record<string, Place> = {};
+  const asks: Record<string, string[]> = {};
   for (const id of used) {
+    placeData[id] = byId.get(id)!;
+    asks[id] = asksOf(id);
     const p = byId.get(id)!;
     const labels = new Map((evidence[id] ?? []).map((e) => [e.id, e.label]));
     const j = r.judge?.judgments.get(id);
@@ -165,5 +196,8 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
     options,
     places: placeViews,
     judgments,
+    frames: r.rule.frames,
+    placeData,
+    asks,
   };
 }
