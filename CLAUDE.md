@@ -8,11 +8,15 @@
 - 기획·설계 문서(참고용, 갱신 중단): https://claude.ai/artifact/TZSUcqLRtTSZst2edEm5L6
 - 디자인 시안 v2(참고용, 갱신 중단): https://claude.ai/artifact/S2A6vTW33w69QtFQssuoTu
 - 기준 문서(이 저장소): `docs/planning.md`(기획 문서, rev 26 스냅샷부터 여기서 고침) · `docs/design/`(화면별 시안 원본)
-  · `docs/data/`(관광지 조사표) · `docs/handoff.md`(기획 대화 인수인계, 열린 결정 목록) · `docs/ai-plan.md`(AI 활용 후보, 미확정)
+  · `docs/data/`(관광지 조사표) · `docs/handoff.md`(기획 대화 인수인계, 열린 결정 목록) · `docs/ai-plan.md`(AI 설계, 확정)
 
 ## 절대 원칙
-1. **판정은 규칙, 설명은 LLM.** 갈 수 있는지(조건 충족 여부)는 `src/lib/engine`의 규칙만 판단한다.
-   LLM은 확정된 결과를 설명만 하고, 입력에 없는 시설·시간·거리를 만들지 않는다.
+1. **AI가 판단하고 계획한다. 코드는 '불가' 데이터와 계산만 강제한다.** (상세: `docs/ai-plan.md`)
+   - LLM: 장소가 이 사람에게 맞는지 판단(① 판단 엔진), 일정 작성·수정(② 일정 설계 루프), 추가 질문 생성(③), 이유 설명.
+   - 코드: 필수 조건이 데이터상 '불가'인 장소 제외, 휴무 제외, 이동·체류·운영시간 **계산**, 일정 위반 검사, LLM 출력 검증.
+   - LLM은 우리 데이터와 근거 문서에 없는 시설·시간·거리를 만들지 않는다. 근거 문서 id가 없는 판단은 버린다.
+   - 필수 항목이 '부분가능'이면 AI 판단은 '주의'보다 좋아질 수 없다(코드가 내림).
+   - LLM이 실패하면(시간 초과, 형식 오류, 호출 한도) 규칙만으로 만든 일정을 보여준다. 시연이 멈추면 안 된다.
 2. **'정보 없음' 금지.** 장소 데이터의 access 값은 `가능 | 부분가능 | 불가` 중 하나. `미확인`이 하나라도 있으면 빌드 검사가 실패해야 한다.
 3. **카카오 길찾기 결과는 저장하지 않는다**(캐싱 금지 정책). 공유 링크에는 장소와 날짜별 순서만 저장하고, 열 때 경로를 다시 받는다.
 4. **키는 서버에서만.** 카카오 REST·Gemini·Supabase 서비스 키는 서버 코드와 Vercel 환경변수에만. 카카오 JS 키만 브라우저에 노출(도메인 제한).
@@ -21,17 +25,24 @@
 
 ## 스택
 Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(표시) · 카카오모빌리티
-다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini Flash(브리핑) · Supabase(공유 일정 `trips`) · Vercel.
+다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini Flash(장소 판단·일정 설계·추가 질문·설명, 근거 문서 RAG)
+· Supabase(공유 일정 `trips`) · Vercel.
 글꼴 Pretendard.
 
 ## 폴더 구조 (목표)
 ```
-src/app/            page.tsx(시작) · plan/(입력 4단계) · trip/[id]/(결과) · api/plan · api/brief · api/trips
-src/lib/engine/     filter.ts · score.ts · distribute.ts · order.ts · timing.ts · judge.ts · relax.ts
-src/lib/            kakao.ts · llm.ts(LLM 호출은 이 파일 하나로) · supabase.ts · types.ts
-data/               places.json · places.schema.json
-scripts/            데이터 정리(관광공사 API → LLM 초안 → 사람 검수) · validate-places.ts
+src/app/            page.tsx(시작) · plan/(입력 4단계 · ask/(③ 추가 질문) · making/(만드는 중))
+                    · trip/[id]/(결과) · api/plan(전체 파이프라인 + 스트리밍) · api/trips
+src/lib/ai/         ask.ts(③) · retrieve.ts(근거 모으기) · judge-place.ts(① + 자기 일관성)
+                    · plan.ts(② 초안·수정) · judge-plan.ts(② 평가자) · guards.ts(LLM 출력 검증) · prompts/*.ts
+src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · timeline.ts(시간표 계산) · check.ts(위반 검사)
+                    · fallback.ts(LLM 실패 시 규칙 일정)
+src/lib/            kakao.ts · llm.ts(Gemini 호출은 이 파일 하나로) · supabase.ts · types.ts
+data/               places.json · places.schema.json · docs/places/{id}.md · docs/standards/*.md · embeddings.json
+scripts/            데이터 정리 · validate-places.ts · embed-docs.ts · eval-ai.ts(실제 Gemini, CI 밖)
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
+tests/ai/           가짜 LLM으로 가드 검사(근거 없는 판단 버림, 부분가능≠적합, 실패 시 규칙 일정)
+e2e/                Playwright 화면 흐름
 ```
 
 ## 사용자 입력 (4단계)
@@ -40,6 +51,7 @@ tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조
 2. 누구와: 휠체어 / 보행 불편 고령자 / 유모차 (중복)
 3. 꼭 필요한 조건: 유형별 필수 조건이 기본으로 켜짐. 고령자면 한 번에 걸을 수 있는 거리(100/300/500m/제한 없음)
 4. 좋아하는 곳: 바다·해변 / 자연·산책 / 역사·문화 / 전시·박물관 / 시장·먹거리 / 전망·체험, 일정 밀도, 꼭 가고 싶은 곳
+- 그다음 `/plan/ask`: AI 추가 질문 0~3개(선택 카드, 자연어 입력 없음) → `/plan/making`(진행 단계 스트리밍) → `/trip/[id]`
 
 ## 유형별 필수 조건 (요약, 상세는 기획 문서)
 - 휠체어: 계단·단차 없는 진입, 엘리베이터(층 있는 곳), 급경사 없음, 포장·데크 노면, 장애인 화장실,
@@ -48,11 +60,20 @@ tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조
 - 고령자: 주차장→입구 거리와 관람 동선이 입력한 거리 이하
 - 여러 유형 선택 시 항목마다 가장 엄격한 값
 
-## 일정 로직 순서
-후보 걸러내기(필수 조건·휴무) → 점수(취향·선호·거리) → 개수(반나절 2~3, 하루 3~5, 밀도로 조절, 후보 부족 시 상한 자동 축소)
-→ 날짜별 배분(지역 묶음, 둘째 날부터 숙소 지역 출발, 중간 날 09:30~18:00) → 이동시간 표(다중 목적지 길찾기, 날짜마다 ≤6회)
-→ 순서(≤5곳 전수 탐색) → 시간 범위(이동 + 체류 범위 + 유형별 여유 20~30% + 휠체어 승하차 여유 + 12~14시면 점심 60분)
-→ 판정(여유/빠듯/부족, 날짜마다) → 운영시간 검사(하절기/동절기, 명절 휴무) → 경로선(다중 경유지 1회) → 완화 제안(LLM 한 문장)
+## 일정 로직 순서 (`POST /api/plan`, 상세: `docs/ai-plan.md`)
+입력 4단계 → ③ AI 추가 질문 0~3개(답은 정해진 `TravelerTraits` 항목으로만) → 서버 파이프라인:
+1. 후보 거르기(코드): 필수 조건 '불가', 휴무, 지역
+2. 근거 모으기(RAG): 장소 문서는 id로, 기준 문서는 임베딩 검색 상위 몇 개
+3. ① 장소 판단(LLM×3, 자기 일관성): 적합/주의/부적합 + 이유 + 근거 id. 2:1이면 보수적인 쪽, 셋 다 다르면 '주의' + 전화 확인
+4. 출력 검증(코드): 근거 id 없음·목록 밖 → 버리고 규칙 판단, '부분가능' 필수 항목은 최소 '주의'
+5. 이동시간 표(카카오 다중 목적지, 날짜마다 ≤6회)
+6. ② 일정 초안(LLM): 선택·날짜 배분·순서·체류·쉬는 곳. LLM은 시간 산수를 하지 않는다
+7. 시간표 계산 + 검사(코드): 이동 + 체류 + 승하차 여유 + 12~14시면 점심 60분, 운영시간(하절기/동절기, 명절)·하루 범위
+8. 위반 → 위반 메시지를 LLM에 돌려줘 수정(최대 2회)
+9. 일정 평가(LLM 평가자): 피로도·여유·취향 1~5점, 2점 이하가 있으면 1회 수정
+10. 실패 시 규칙 일정(점수 상위 N곳 + 순서 전수 탐색) → 경로선(다중 경유지 1회)
+- LLM 호출은 요청당 6~8회. 설명 문장은 판단·평가 응답에 같이 받는다.
+- `checkPlan()`을 통과한 일정만 화면에 나간다.
 
 ## 디자인 토큰 (시안 v2)
 기본 #1E6FD0 · 연한 기본 #EAF2FD · 기본 위 글자 #1450A3 · 면 #F2F4F6 · 글자 #191F28 · 보조 글자 #4E5968
