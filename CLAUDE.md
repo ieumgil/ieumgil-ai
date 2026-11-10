@@ -44,7 +44,7 @@ src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·�
                     · plan.ts(③ 여러 안 + 수정) · review.ts(③ 평가자) · explain.ts(④) · ask.ts(추가 질문) · prompts/*.ts
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정)
 src/lib/            kakao.ts · llm.ts(Gemini 호출은 이 파일 하나로, 모델은 GEMINI_MODEL_FAST/READ) · types.ts
-data/               places.json · places.schema.json · docs/places/{id}.md(근거 문장) · eval/human-40.json · raw/(API 원본, 커밋 안 함)
+data/               places.json · places.schema.json · docs/places/{id}.md(근거 문장) · eval/human.json(선택: 사람 확인 값) · raw/(API 원본, 커밋 안 함)
 scripts/            tour/(관광공사 API 수집·보고서) · ai/read-places.ts(① 읽기) · validate-places.ts · eval-ai.ts(실제 Gemini, CI 밖)
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
 tests/ai/           가짜 LLM으로 가드 검사(근거 없는 판단 버림, 모름≠적합, 시각은 코드 값, 실패 시 규칙 일정)
@@ -68,7 +68,7 @@ e2e/                Playwright 화면 흐름
 - 여러 유형 선택 시 항목마다 가장 엄격한 값
 
 ## 일정 흐름 (`POST /api/plan`, 상세: `docs/ai-plan.md`)
-미리(스크립트): ① 읽기로 152곳의 access·운영시간·동선 초안을 `places.json`에 만들어 둔다. 사람 판정 40곳은 `human`으로 덮어쓴다.
+미리(스크립트): ① 읽기로 152곳의 access·운영시간·동선 초안을 `places.json`에 만들어 둔다. 사람 판정은 하지 않는다(11/10). 사람이 확인한 값이 생기면 `human`으로 덮어쓴다.
 요청할 때:
 1. 후보 거르기(코드): 지역·휴무·필수 조건 '불가' 제외, 최대 20곳
 2. ② 판단(LLM, 후보를 한 호출에 묶어 3번): 적합/주의/부적합/확인 필요 + 이유 + 근거 + 확신도 → 안전 하한(코드)
@@ -91,8 +91,8 @@ e2e/                Playwright 화면 흐름
 ## 데이터와 테스트
 - 1차 출처: 한국관광공사 무장애 여행정보 API. 강릉·속초·동해 182곳 → 관광지 152곳(`build-places.ts`가 관광지 아닌 곳·전화 없는 곳 제외).
   수집은 `scripts/tour/`, 필드 조사는 `docs/data/tour-api-fields.md`. 열린관광 사이트(access.visitkorea.or.kr)는 사람 검수 때 보는 출처로만 쓴다(자동 수집 안 함).
-- `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + 사람 확인 값(등급 `human`). 만드는 순서: `scripts/tour/build-places.ts` → `scripts/ai/read-places.ts` → `scripts/ai/merge-places.ts`.
-- 휠체어·어르신은 노면·경사·거리 '모름'이 많아 대부분 '확인 필요' → 일정에 넣되 표시한다(11/10 결정). 사람 판정은 이 항목 우선. 조사표 32곳은 '유명한 곳' 판단 기준으로 쓴다.
+- `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + (선택) 사람 확인 값(등급 `human`). 만드는 순서: `scripts/tour/build-places.ts` → `scripts/ai/read-places.ts` → `scripts/ai/merge-places.ts`.
+- 휠체어·어르신은 노면·경사·거리 '모름'이 많아 대부분 '확인 필요' → 일정에 넣되 질문 + 전화번호로 표시한다(11/10 결정). 사람 판정은 하지 않는다. 조사표 32곳은 '유명한 곳' 판단 기준으로 쓴다.
 - `tests/fixtures/places.sample.json`: 테스트 전용 가짜 장소(`[샘플] 관광지 A`, id `GN91~`). 화면·README 수치에 쓰지 않는다.
 - 카테고리는 스키마의 6개만 쓴다. 조사표의 `바다·자연`은 `바다·해변` 또는 `자연·산책`으로 나눠서 옮긴다.
 - 명령: `npm test`(vitest) · `npm run test:e2e`(Playwright) · `npm run validate:places [-- 파일]` · `npm run build`(prebuild에서 장소 검사가 먼저 돈다)

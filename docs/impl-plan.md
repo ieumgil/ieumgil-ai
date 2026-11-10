@@ -26,7 +26,7 @@
 | 0. AI 연결 확인 | 11/10 | Gemini 키, SDK, `scripts/ai/smoke.ts` | JSON 스키마 응답 성공 | ✅ |
 | 1. 장소 스키마 v3 | 11/10 | `types.ts`, `places.schema.json`, `validate.ts`, 샘플 데이터: `모름`+`ask`, 등급 `ai/human`, 근거 id, `on_site`, 전화 필수, `tour_content_id` | '모름'에 질문 없음·부분가능 메모 없음·전화 없음 → 검사 실패 | ✅ 검사 테스트 21개 |
 | 2. AI 기반 | 11/10 | `llm.ts`(Gemini/가짜 교체, 시간 제한, 재시도, 예비 모델), `ai/schemas.ts`(근거 id enum), `ai/guards.ts` | `tests/ai`: 근거 없는 답 버림, 모름≠적합, 불가→부적합, 형식 오류 재시도 후 버림 | ✅ 테스트 24개, 실제 Gemini로 판단 스키마 확인(3.7초) |
-| 3. 장소 데이터 | 11/10 | `scripts/tour/build-places.ts`(기본 정보·전화·1유형 사진·카테고리, 관광지 아닌 곳 제외, 근거 문서), `scripts/ai/read-places.ts`(① 읽기, 묶음·이어 받기), 사람 판정 40곳 양식 | `places.json` 검사 통과, '모름' 비율 보고, 양식 전달 | ✅ 152곳 · 모름 58% · 양식 40곳(조사표 29) |
+| 3. 장소 데이터 | 11/10 | `scripts/tour/build-places.ts`(기본 정보·전화·1유형 사진·카테고리, 관광지 아닌 곳 제외, 근거 문서), `scripts/ai/read-places.ts`(① 읽기, 묶음·이어 받기) | `places.json` 검사 통과, '모름' 비율 보고 | ✅ 152곳 · 모름 58% (사람 판정은 하지 않기로 함) |
 | 4. 코드 엔진 | 11/15~17 | `filter.ts`, `timeline.ts`, `check.ts`, `fallback.ts` | 엔진 시나리오 10개 통과(필수 조건 위반 0건) | |
 | 5. ② 판단 | 11/18~19 | `ai/judge.ts` + 프롬프트, 3회 비교·확신도 | 가짜 LLM 테스트, 실제 Gemini 시나리오 5개 | |
 | 6. ③ 계획 | 11/20~22 | `ai/plan.ts`(2~3안), 걸린 안만 수정, `ai/review.ts` | 검사 통과한 안만 남음, 실패 시 규칙 일정 1안 | |
@@ -38,8 +38,8 @@
 ## 카카오 시험 결과 (11/10, `scripts/kakao/smoke.ts`)
 
 - REST 키: 장소 검색 ✅, 1:1 길찾기 ✅(강릉역→오죽헌 8분·2.9km), 다중 목적지 ✅ — 단 **출발점 반경 10km 밖은 계산 안 됨**(강릉역→속초 실패). 7단계 `kakao.ts`: 10km 안은 다중 목적지, 밖은 1:1 또는 추정치.
-- JavaScript 키: 형식 정상, `domain mismatched! caller=http://localhost:3000` → 카카오 콘솔에 사이트 도메인 등록 필요.
+- JavaScript 키: 처음엔 `domain mismatched!` → 사이트 도메인에 `http://localhost:3000` 등록 후 지도 생성 확인 ✅. 배포할 때 Vercel 주소도 등록.
 
 ## 필요한 키·사람 일
 
-- Gemini `GEMINI_API_KEY` ✅ · 관광공사 `TOUR_API_KEY` ✅ · 카카오 REST 키 ✅ · 카카오 JS 키(도메인 등록 필요) · 강환일 님 사람 판정 40곳(3단계 후)
+- Gemini `GEMINI_API_KEY` ✅ · 관광공사 `TOUR_API_KEY` ✅ · 카카오 REST 키 ✅ · 카카오 JS 키 ✅(localhost:3000 등록, 지도 생성 확인)
