@@ -52,3 +52,6 @@ next-env.d.ts
 !/.claude/skills/
 /.claude/skills/*
 !/.claude/skills/spec-audit/
+
+# GSD Core 작업 문서(로컬 전용)
+/.planning/
