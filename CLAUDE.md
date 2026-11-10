@@ -39,7 +39,8 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 ## 폴더 구조 (목표)
 ```
 src/app/            page.tsx(시작) · plan/(입력 4단계 · ask/(추가 질문) · making/(만드는 중))
-                    · trip/[id]/(안 비교 → 상세) · api/plan(전체 흐름 + 스트리밍) · (나중에) api/trips
+                    · trip/[id]/(안 비교 → 상세 · 장소 바꾸기) · trip/[id]/final(확정 일정 + 지도)
+                    · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · (나중에) api/trips
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한·형식) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(③ 평가자) · explain.ts(④) · ask.ts(추가 질문) · prompts/*.ts
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정)
@@ -59,6 +60,7 @@ e2e/                Playwright 화면 흐름
 4. 좋아하는 곳: 바다·해변 / 자연·산책 / 역사·문화 / 전시·박물관 / 시장·먹거리 / 전망·체험, 일정 밀도, 꼭 가고 싶은 곳
 - 그다음 `/plan/ask`: AI 추가 질문 0~3개(선택 카드, 자연어 입력 없음, 답은 `TravelerTraits` 정해진 항목만)
   → `/plan/making`(진행 단계 스트리밍) → `/trip/[id]`(안 2~3개 비교 → 고른 안 상세)
+  → 장소별 [바꾸기](AI가 판단한 근처 후보, 코드가 다시 계산·검사, AI 호출 없음) → 이 일정으로 정하기 → `/trip/[id]/final`(확정 일정 + 지도)
 
 ## 유형별 필수 조건 (요약, 상세는 기획 문서)
 - 휠체어: 계단·단차 없는 진입, 엘리베이터(층 있는 곳), 급경사 없음, 포장·데크 노면, 장애인 화장실,
