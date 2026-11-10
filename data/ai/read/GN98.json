@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:03:07.616Z",
+  "readAt": "2026-11-10T09:59:07.608Z",
   "attempts": 1,
   "result": {
     "placeId": "GN98",
@@ -20,18 +20,20 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떻게 되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "제1주차장 방면"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -42,7 +44,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "4면"
       },
       "rest_area": {
         "value": "모름",
@@ -53,13 +56,15 @@
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "수동 휠체어 2대"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "1대"
       }
     },
     "hours": {
@@ -78,17 +83,15 @@
       ],
       "summer": {
         "open": "09:00",
-        "close": "18:00",
-        "last_entry": ""
+        "close": "18:00"
       },
       "winter": {
         "open": "09:00",
-        "close": "18:00",
-        "last_entry": ""
+        "close": "18:00"
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며 출입구까지 경사로가 설치되어 있고 제1주차장 방면에는 장애인 화장실이 있다.",
+      "text": "장애인 전용 주차구역이 마련되어 있고 출입구까지 경사로가 설치되어 있으며 제1주차장 방면에는 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

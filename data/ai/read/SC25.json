@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:00:07.473Z",
+  "readAt": "2026-11-10T09:56:01.081Z",
   "attempts": 1,
   "result": {
     "placeId": "SC25",
@@ -20,12 +20,14 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사도가 어떻게 되나요?"
+        "ask": "경사로가 있나요?"
       },
       "surface": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "노면은 어떻게 포장되어 있나요?"
+        "value": "부분가능",
+        "evidence": [
+          "overview-2"
+        ],
+        "note": "관찰 데크가 설치되어 있음"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -45,17 +47,17 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {

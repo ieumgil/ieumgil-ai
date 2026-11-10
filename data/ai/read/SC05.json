@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:34.200Z",
+  "readAt": "2026-11-10T09:52:47.533Z",
   "attempts": 1,
   "result": {
     "placeId": "SC05",
@@ -23,12 +23,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 설치됨"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄하게 포장되어 있나요?"
+        "ask": "노면은 휠체어가 다니기 편한 포장 상태인가요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -50,7 +51,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -89,12 +90,8 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에 주차 후, 경사로가 설치된 출입구 및 주출입구를 통해 휠체어로 진입할 수 있습니다.",
-      "evidence": [
-        "parking-1",
-        "route-1",
-        "exit-1"
-      ]
+      "text": "",
+      "evidence": []
     }
   }
 }

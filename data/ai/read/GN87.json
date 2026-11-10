@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:12.335Z",
+  "readAt": "2026-11-10T09:57:33.166Z",
   "attempts": 1,
   "result": {
     "placeId": "GN87",
@@ -23,12 +23,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "참소리에디슨손성목영화박물관의 노면은 평탄하게 포장되어 있나요?"
+        "ask": "참소리에디슨손성목영화박물관의 노면은 어떤 재질인가요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -45,7 +46,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "3대"
       },
       "rest_area": {
         "value": "모름",
@@ -71,11 +73,13 @@
         "intro-restdate-1"
       ],
       "always_open": false,
-      "closed_dates": [],
+      "closed_dates": [
+        "화요일이 공휴일인 경우 그 다음날"
+      ],
       "closed_weekdays": [
         "화"
       ],
-      "note": "화요일이 공휴일인 경우 그 다음날 휴관",
+      "note": "매주 화요일 휴관 (단, 화요일이 공휴일인 경우 그 다음날 휴관)",
       "summer": {
         "open": "10:00",
         "close": "15:40"
@@ -86,8 +90,14 @@
       }
     },
     "on_site": {
-      "text": "",
-      "evidence": []
+      "text": "장애인 주차장이 3대 있으며, 출입구까지 경사로가 설치되어 있고 주출입구에 경사로가 있어 휠체어 접근이 가능하며 엘리베이터와 장애인 화장실이 있다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "elevator-1",
+        "restroom-1"
+      ]
     }
   }
 }

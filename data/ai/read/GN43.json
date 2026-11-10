@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:16.422Z",
+  "readAt": "2026-11-10T09:51:43.774Z",
   "attempts": 1,
   "result": {
     "placeId": "GN43",
@@ -23,12 +23,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄하게 포장되어 있나요?"
+        "ask": "노면은 어떻게 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -45,12 +46,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "지상주차장, 2대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -79,11 +81,10 @@
       }
     },
     "on_site": {
-      "text": "지상주차장에 주차 후, 경사로가 설치된 출입구를 통해 진입할 수 있습니다.",
+      "text": "지상주차장에서 출발하여 출입구까지 경사로가 설치되어 있어 이동할 수 있다.",
       "evidence": [
         "parking-1",
-        "route-1",
-        "exit-1"
+        "route-1"
       ]
     }
   }

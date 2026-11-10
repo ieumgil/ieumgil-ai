@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:02:08.109Z",
+  "readAt": "2026-11-10T09:58:27.260Z",
   "attempts": 1,
   "result": {
     "placeId": "GN93",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치 및 주출입구 턱이 없어 휠체어 접근 가능함"
       },
       "elevator": {
         "value": "가능",
@@ -22,19 +23,20 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 포장되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
         ],
-        "note": "1층에 있음"
+        "note": "1층"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -51,7 +53,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "휴게 공간이나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -83,12 +85,8 @@
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역에 주차 후, 출입구까지 경사로가 설치되어 있어 접근이 가능하다.",
-      "evidence": [
-        "parking-1",
-        "route-1",
-        "exit-1"
-      ]
+      "text": "",
+      "evidence": []
     }
   }
 }

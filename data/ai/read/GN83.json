@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:00:44.117Z",
+  "readAt": "2026-11-10T09:57:16.938Z",
   "attempts": 1,
   "result": {
     "placeId": "GN83",
@@ -14,18 +14,19 @@
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진관광유람선에 층간 이동을 위한 엘리베이터가 있나요?"
+        "ask": "주문진관광유람선에 엘리베이터가 있나요?"
       },
       "slope": {
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진관광유람선 내부 노면은 평탄한가요?"
+        "ask": "주문진관광유람선 노면 상태가 어떤가요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -41,44 +42,37 @@
       "disabled_parking": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진관광유람선 주차장에 장애인 전용 주차구역이 있나요?"
+        "ask": "주문진관광유람선에 장애인 전용 주차구역이 있나요?"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진관광유람선에 벤치나 쉼터가 있나요?"
+        "ask": "주문진관광유람선에 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진관광유람선에서 휠체어를 대여할 수 있나요?"
+        "ask": "주문진관광유람선에 휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진관광유람선에서 유모차를 대여할 수 있나요?"
+        "ask": "주문진관광유람선에 유모차 대여가 가능한가요?"
       }
     },
     "hours": {
-      "known": false,
+      "known": true,
       "evidence": [
         "intro-usetime-1"
       ],
-      "ask": "주문진관광유람선의 정확한 운항 시작 및 마감 시각을 알 수 있나요?",
-      "closed_dates": [
-        "1월",
-        "2월",
-        "기상 악화 시"
-      ],
-      "closed_weekdays": [],
-      "note": "해상관광 크루즈 11:30, 14:00, 16:00 운항, 음악불꽃 크루즈 하절기 19:30, 동절기 18:30 운항",
+      "always_open": false,
       "summer": {
-        "open": "00:00",
-        "close": "00:00"
+        "open": "11:30",
+        "close": "19:30"
       },
       "winter": {
-        "open": "00:00",
-        "close": "00:00"
+        "open": "11:30",
+        "close": "18:30"
       }
     },
     "on_site": {

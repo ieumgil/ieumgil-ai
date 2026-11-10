@@ -48,7 +48,16 @@ const ACCESS_GUIDE = `항목 뜻과 판단 기준(원문 문단을 근거로만 
 - disabled_parking(장애인 전용 주차구역): 장애인 주차장·주차구역 있음 → 가능.
 - rest_area(벤치·쉼터): 벤치·쉼터·휴게 공간이 원문에 있으면 가능. 없으면 모름.
 - rental_wheelchair(휠체어 대여): "대여 가능" → 가능, "없음/불가" → 불가.
-- rental_stroller(유모차 대여): 유모차 대여 "가능" → 가능, "없음/불가" → 불가.`;
+- rental_stroller(유모차 대여): 유모차 대여 "가능" → 가능, "없음/불가" → 불가.
+
+예시(원문에 있는 만큼은 반드시 값으로 바꾼다. 원문이 있는데 '모름'으로 두지 않는다):
+- [route-1] "출입구까지 경사로가 설치되어 있음" → step_free_entrance 가능, slope 가능(note: "출입구까지 경사로"), evidence ["route-1"]
+- [exit-1] "주출입구는 턱이 없어 휠체어 접근 가능함" → step_free_entrance 가능, evidence ["exit-1"]
+- [route-1] "출입구까지 턱이 없어 휠체어 접근 가능" → step_free_entrance 가능, slope 가능(note: "출입구까지 휠체어 접근 가능"), evidence ["route-1"]
+- [restroom-1] "장애인 화장실 있음(주차장 내)" → accessible_toilet 가능(note: "주차장 내"), evidence ["restroom-1"]
+- [parking-1] "장애인 주차장 있음(2대)" → disabled_parking 가능(note: "2대")
+- [intro-chkbabycarriage-1] "없음" → rental_stroller 불가
+- 노면(surface)은 바닥 재질(포장·데크·모래·자갈·흙)이 원문에 있을 때만 정한다. 없으면 모름.`;
 
 const SYSTEM = `너는 관광지 무장애 정보를 정리하는 도우미다. 한국관광공사 원문 문단만 근거로 쓰고, JSON으로만 답한다.
 규칙:

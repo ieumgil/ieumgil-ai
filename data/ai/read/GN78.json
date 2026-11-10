@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:00:31.716Z",
+  "readAt": "2026-11-10T09:57:03.872Z",
   "attempts": 1,
   "result": {
     "placeId": "GN78",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구에 턱이 없음, 자동문"
       },
       "elevator": {
         "value": "모름",
@@ -20,19 +21,23 @@
       "slope": {
         "value": "가능",
         "evidence": [
-          "route-1"
-        ]
+          "route-1",
+          "exit-1"
+        ],
+        "note": "턱이 없음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떻게 되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
-          "restroom-1"
-        ]
+          "restroom-1",
+          "info-화장실-1"
+        ],
+        "note": "정동진 해변 방면 장애인 화장실"
       },
       "diaper_nursing": {
         "value": "가능",
@@ -43,8 +48,10 @@
       "disabled_parking": {
         "value": "가능",
         "evidence": [
+          "parking-1",
           "intro-parking-1"
-        ]
+        ],
+        "note": "지상주차장, 장애인 주차장 4대"
       },
       "rest_area": {
         "value": "모름",
@@ -68,25 +75,17 @@
         "intro-restdate-1"
       ],
       "always_open": true,
-      "ask": "상시 개방 구역 외 별도의 운영 시간이 있나요?",
+      "ask": "매일 몇 시에 운영하나요?",
       "closed_dates": [],
-      "closed_weekdays": [],
-      "note": "연중무휴 상시개방",
-      "summer": {
-        "open": "00:00",
-        "close": "23:59"
-      },
-      "winter": {
-        "open": "00:00",
-        "close": "23:59"
-      }
+      "closed_weekdays": []
     },
     "on_site": {
-      "text": "지상주차장에 장애인 주차장이 마련되어 있고 출입구에 턱이 없어 진입할 수 있으며 정동진 해변 방면 장애인 화장실이 있습니다.",
+      "text": "지상에 장애인 주차장이 4대 있고, 출입구에 턱이 없어 휠체어 접근이 가능하며 정동진 해변 방면에 장애인 화장실과 수유실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",
-        "restroom-1"
+        "restroom-1",
+        "lactationroom-1"
       ]
     }
   }

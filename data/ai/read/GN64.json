@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:19.799Z",
+  "readAt": "2026-11-10T09:54:39.823Z",
   "attempts": 1,
   "result": {
     "placeId": "GN64",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치됨"
       },
       "elevator": {
         "value": "가능",
@@ -23,12 +24,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태는 평탄한가요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -45,7 +47,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "위치: 주 출입구 근처, 개수: 2대"
       },
       "rest_area": {
         "value": "모름",
@@ -56,7 +59,8 @@
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "안내데스크에서 대여 가능"
       },
       "rental_stroller": {
         "value": "모름",
@@ -73,8 +77,7 @@
       "always_open": false,
       "closed_dates": [
         "1월 1일",
-        "설 당일",
-        "추석 당일"
+        "설·추석 당일"
       ],
       "closed_weekdays": [
         "월"
@@ -91,13 +94,10 @@
       }
     },
     "on_site": {
-      "text": "주 주출입구 근처에 장애인 주차장이 있으며, 출입구까지 경사로가 설치되어 있고 장애인용 엘리베이터와 장애인 화장실이 있습니다.",
+      "text": "주차장에 장애인 전용 주차구역(2대)이 주 출입구 근처에 마련되어 있으며, 출입구까지 경사로가 설치되어 있습니다.",
       "evidence": [
         "parking-1",
-        "route-1",
-        "exit-1",
-        "elevator-1",
-        "restroom-1"
+        "route-1"
       ]
     }
   }

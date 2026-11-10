@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:32.147Z",
+  "readAt": "2026-11-10T09:54:55.084Z",
   "attempts": 1,
   "result": {
     "placeId": "SC20",
@@ -20,7 +20,8 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "길이 평지로 연결됨"
       },
       "surface": {
         "value": "부분가능",
@@ -47,7 +48,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -71,11 +72,11 @@
       "closed_weekdays": [],
       "summer": {
         "open": "00:00",
-        "close": "23:59"
+        "close": "24:00"
       },
       "winter": {
         "open": "00:00",
-        "close": "23:59"
+        "close": "24:00"
       }
     },
     "on_site": {

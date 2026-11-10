@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:56.383Z",
+  "readAt": "2026-11-10T09:52:22.808Z",
   "attempts": 1,
   "result": {
     "placeId": "DH05",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 완만한 경사로가 설치되어 있음"
       },
       "elevator": {
         "value": "모름",
@@ -20,13 +21,15 @@
       "slope": {
         "value": "가능",
         "evidence": [
-          "route-1"
-        ]
+          "route-1",
+          "exit-1"
+        ],
+        "note": "출입구까지 완만한 경사로가 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄하거나 포장되어 있나요?"
+        "ask": "노면 재질은 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -38,29 +41,32 @@
         "value": "가능",
         "evidence": [
           "infantsfamilyetc-1"
-        ]
+        ],
+        "note": "장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "해변 관광안내소 앞"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "1대 대여 가능"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {

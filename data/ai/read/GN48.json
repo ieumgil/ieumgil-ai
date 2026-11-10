@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:44.188Z",
+  "readAt": "2026-11-10T09:52:10.082Z",
   "attempts": 1,
   "result": {
     "placeId": "GN48",
@@ -14,18 +14,17 @@
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "엘리베이터가 있나요?"
+        "ask": "등명낙가사에 엘리베이터가 있나요?"
       },
       "slope": {
-        "value": "가능",
-        "evidence": [
-          "route-1"
-        ]
+        "value": "모름",
+        "evidence": [],
+        "ask": "등명낙가사 접근로에 경사로가 완만하게 되어 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하고 포장되어 있나요?"
+        "ask": "등명낙가사 경내 노면 재질은 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -36,27 +35,27 @@
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "수유실이나 기저귀 교환대가 있나요?"
+        "ask": "등명낙가사에 수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "모름",
         "evidence": [],
-        "ask": "장애인 전용 주차구역이 있나요?"
+        "ask": "등명낙가사에 장애인 전용 주차구역이 있나요?"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "등명낙가사에 벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어 대여가 가능한가요?"
+        "ask": "등명낙가사에서 휠체어를 대여할 수 있나요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차 대여가 가능한가요?"
+        "ask": "등명낙가사에서 유모차를 대여할 수 있나요?"
       }
     },
     "hours": {
@@ -68,6 +67,7 @@
       "always_open": true,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "연중무휴 상시 개방",
       "summer": {
         "open": "00:00",
         "close": "23:59"

@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:16.422Z",
+  "readAt": "2026-11-10T09:51:43.774Z",
   "attempts": 1,
   "result": {
     "placeId": "SC02",
@@ -25,12 +25,12 @@
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "산책로 노면은 어떤 재질로 포장되어 있나요?"
+        "ask": "노면은 어떻게 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "모름",
         "evidence": [],
-        "ask": "장애인 전용 화장실이 있나요?"
+        "ask": "장애인 화장실이 있나요?"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -47,7 +47,8 @@
         "value": "가능",
         "evidence": [
           "overview-1"
-        ]
+        ],
+        "note": "5곳의 전망 쉼터 및 휴게 시설 마련"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -81,11 +82,10 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에 주차 후, 턱이 없는 출입구와 주출입구를 통해 진입할 수 있습니다.",
+      "text": "장애인 주차장에서 출발하여 출입구까지 턱이 없어 휠체어 접근이 가능하다.",
       "evidence": [
         "parking-1",
-        "route-1",
-        "exit-1"
+        "route-1"
       ]
     }
   }

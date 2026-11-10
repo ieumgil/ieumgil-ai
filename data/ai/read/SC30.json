@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:02:08.109Z",
+  "readAt": "2026-11-10T09:58:27.260Z",
   "attempts": 1,
   "result": {
     "placeId": "SC30",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로가 설치되어 있고 주출입구는 턱이 없어 휠체어 접근 가능함"
       },
       "elevator": {
         "value": "모름",
@@ -21,19 +22,20 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로가 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 포장되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
         ],
-        "note": "1층에 있음"
+        "note": "1층"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -48,7 +50,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "휴게 공간이나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -71,7 +73,7 @@
       "always_open": false,
       "closed_dates": [],
       "closed_weekdays": [],
-      "note": "월요일~토요일 10:00~17:00, 일요일 13:00~22:00 운영",
+      "note": "월요일~토요일 10:00~17:00, 일요일 13:00~22:00, 연중무휴",
       "summer": {
         "open": "10:00",
         "close": "17:00"

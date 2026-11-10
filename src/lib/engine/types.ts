@@ -7,6 +7,8 @@ export interface PlanStop {
   stayMin: number;
   /** 이 장소 다음에 쉬는 시간을 둘지 */
   restAfter?: boolean;
+  /** 왜 골랐는지(③ 계획의 LLM 문장, 규칙 일정은 없음) */
+  why?: string;
 }
 
 export interface PlanDayDraft {

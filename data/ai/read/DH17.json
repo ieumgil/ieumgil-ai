@@ -1,16 +1,16 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:25.220Z",
+  "readAt": "2026-11-10T09:57:47.353Z",
   "attempts": 1,
   "result": {
     "placeId": "DH17",
     "access": {
       "step_free_entrance": {
-        "value": "부분가능",
+        "value": "불가",
         "evidence": [
           "handicapetc-1"
         ],
-        "note": "동굴 내 관람로는 좁고 일부 계단으로 이어져 휠체어 접근 불가"
+        "note": "동굴 내 관람로는 좁고 일부 계단으로 이어짐"
       },
       "elevator": {
         "value": "모름",
@@ -20,12 +20,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "ask": "경사도가 어떻게 되나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "노면 상태가 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -43,12 +43,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2개"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 공간이나 벤치가 마련되어 있나요?"
+        "ask": "쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -56,15 +57,18 @@
         "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "유모차 대여가 가능한가요?"
+        "value": "불가",
+        "evidence": [
+          "handicapetc-1"
+        ],
+        "note": "유모차 접근 불가"
       }
     },
     "hours": {
       "known": true,
       "evidence": [
-        "intro-usetime-1"
+        "intro-usetime-1",
+        "intro-restdate-1"
       ],
       "always_open": false,
       "summer": {
@@ -79,10 +83,11 @@
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며, 장애인 화장실이 있다.",
+      "text": "장애인 전용 주차구역이 있으며 장애인 화장실과 수유실이 마련되어 있다.",
       "evidence": [
         "parking-1",
-        "restroom-1"
+        "restroom-1",
+        "lactationroom-1"
       ]
     }
   }

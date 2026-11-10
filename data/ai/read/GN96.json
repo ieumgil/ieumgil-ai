@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:02:20.326Z",
+  "readAt": "2026-11-10T09:58:44.020Z",
   "attempts": 1,
   "result": {
     "placeId": "GN96",
@@ -22,12 +22,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태가 평탄하고 포장되어 있나요?"
+        "ask": "노면 재질은 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -40,14 +41,16 @@
         "ask": "수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "장애인 전용 주차구역이 있나요?"
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ],
+        "note": "지상주차장 4대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 공간이나 벤치가 있나요?"
+        "ask": "벤치나 휴게 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",

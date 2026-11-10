@@ -1,16 +1,16 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:19.799Z",
+  "readAt": "2026-11-10T09:54:39.823Z",
   "attempts": 1,
   "result": {
     "placeId": "GN63",
     "access": {
       "step_free_entrance": {
-        "value": "불가",
+        "value": "부분가능",
         "evidence": [
           "route-1"
         ],
-        "note": "산책로는 없고 모래사장길로 이어져 접근성이 떨어짐"
+        "note": "자갈길을 지나 보도블록길로 이어지며 모래사장길로 접근성 떨어짐"
       },
       "elevator": {
         "value": "모름",
@@ -20,14 +20,14 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사도가 완만한가요?"
+        "ask": "경사도가 어떠한가요?"
       },
       "surface": {
         "value": "부분가능",
         "evidence": [
           "route-1"
         ],
-        "note": "자갈길을 지나 보도블록길로 이어지나 모래사장길이 있음"
+        "note": "자갈길, 보도블록길, 모래사장길로 구성"
       },
       "accessible_toilet": {
         "value": "가능",

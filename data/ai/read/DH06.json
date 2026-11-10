@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:07.132Z",
+  "readAt": "2026-11-10T09:52:35.304Z",
   "attempts": 1,
   "result": {
     "placeId": "DH06",
@@ -8,7 +8,7 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "계단이나 단차 없이 들어갈 수 있나요?"
+        "ask": "계단이나 단차 없는 진입이 가능한가요?"
       },
       "elevator": {
         "value": "모름",
@@ -18,18 +18,19 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 되어 있나요?"
+        "ask": "경사로나 오르막길이 완만한가요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "2개"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -40,22 +41,23 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "1주차장에 6칸, 2주차장에 5칸, 3주차장에 3칸"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {
@@ -67,6 +69,7 @@
       "always_open": false,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "연중무휴",
       "summer": {
         "open": "06:00",
         "close": "20:00"
@@ -77,11 +80,8 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장이 마련되어 있고 장애인 화장실이 있습니다.",
-      "evidence": [
-        "parking-1",
-        "restroom-1"
-      ]
+      "text": "",
+      "evidence": []
     }
   }
 }

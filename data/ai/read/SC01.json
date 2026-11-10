@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:53.006Z",
+  "readAt": "2026-11-10T09:51:19.028Z",
   "attempts": 1,
   "result": {
     "placeId": "SC01",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 설치, 턱 없음"
       },
       "elevator": {
         "value": "가능",
@@ -27,43 +28,48 @@
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립산악박물관의 노면은 어떻게 포장되어 있나요?"
+        "ask": "노면 상태가 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "1층 안내데스크 오른쪽 및 주차장 내 야외화장실"
       },
       "diaper_nursing": {
         "value": "가능",
         "evidence": [
           "lactationroom-1",
           "infantsfamilyetc-1"
-        ]
+        ],
+        "note": "1층 수유실 및 여자화장실 내 기저귀갈이대 있음"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "6대, 장애인 표지판"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립산악박물관에 벤치나 쉼터가 있나요?"
+        "ask": "벤치나 휴게 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "2대, 안내데스크, 신분증 보관"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "5대, 안내데스크, 24개월 이하, 신분증 보관"
       }
     },
     "hours": {
@@ -73,15 +79,10 @@
         "intro-restdate-1"
       ],
       "always_open": false,
-      "closed_dates": [
-        "1월 1일",
-        "설 연휴",
-        "추석 연휴"
-      ],
       "closed_weekdays": [
         "월"
       ],
-      "note": "월요일이 공휴일인 경우 정상 개관",
+      "note": "월요일이 공휴일인 경우 정상 개관, 1월 1일, 설·추석 연휴 휴무",
       "summer": {
         "open": "09:00",
         "close": "18:00"
@@ -92,12 +93,14 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에서 출발하여 경사로가 설치된 출입구와 턱이 없는 주출입구를 통해 이동할 수 있으며 장애인 화장실이 있습니다.",
+      "text": "주차장의 장애인 주차장에 주차 후, 경사로가 설치되고 턱이 없는 주출입구를 통해 건물 내부로 진입하여 엘리베이터를 이용할 수 있으며 안내데스크에서 휠체어와 유모차를 대여할 수 있다.",
       "evidence": [
         "parking-1",
         "route-1",
         "exit-1",
-        "restroom-1"
+        "elevator-1",
+        "wheelchair-1",
+        "stroller-1"
       ]
     }
   }

@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:37.786Z",
+  "readAt": "2026-11-10T09:57:59.599Z",
   "attempts": 1,
   "result": {
     "placeId": "SC29",
@@ -10,26 +10,30 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구 및 주출입구 턱 없음"
       },
       "elevator": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "엘리베이터가 있나요?"
+        "value": "가능",
+        "evidence": [
+          "class-1",
+          "overview-1"
+        ],
+        "note": "층이 없는 시설"
       },
       "slope": {
         "value": "가능",
         "evidence": [
           "overview-1"
         ],
-        "note": "완만한 경사를 이룸"
+        "note": "완만한 경사를 이루며 넓게 깔린 모래"
       },
       "surface": {
-        "value": "부분가능",
+        "value": "가능",
         "evidence": [
           "overview-1"
         ],
-        "note": "고운 모래사장"
+        "note": "고운 모래"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -45,17 +49,18 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "장애인 주차장 있음"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "벤치나 휴게 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "불가",

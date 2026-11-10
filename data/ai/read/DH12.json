@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:48.128Z",
+  "readAt": "2026-11-10T09:52:59.657Z",
   "attempts": 1,
   "result": {
     "placeId": "DH12",
@@ -10,24 +10,26 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치됨"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "북평성당 내부에 엘리베이터가 있나요?"
+        "ask": "북평성당에 엘리베이터가 있나요?"
       },
       "slope": {
         "value": "가능",
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "북평성당 주변 노면은 평탄한가요?"
+        "ask": "북평성당 노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -43,7 +45,7 @@
       "disabled_parking": {
         "value": "모름",
         "evidence": [],
-        "ask": "북평성당 주차장에 장애인 전용 주차구역이 있나요?"
+        "ask": "북평성당에 장애인 전용 주차구역이 있나요?"
       },
       "rest_area": {
         "value": "모름",
@@ -67,18 +69,14 @@
         "intro-usetime-1"
       ],
       "always_open": false,
-      "closed_dates": [],
-      "closed_weekdays": [],
-      "note": "주말 및 평일 미사 시간표가 별도로 존재합니다.",
+      "note": "미사 시간에 따른 운영, 자세한 사항은 홈페이지 참조",
       "summer": {
         "open": "09:00",
-        "close": "20:30",
-        "last_entry": "19:30"
+        "close": "19:30"
       },
       "winter": {
         "open": "09:00",
-        "close": "20:30",
-        "last_entry": "19:30"
+        "close": "19:30"
       }
     },
     "on_site": {

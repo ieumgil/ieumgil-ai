@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:52:19.745Z",
+  "readAt": "2026-11-10T09:49:11.358Z",
   "attempts": 1,
   "result": {
     "placeId": "GN03",
@@ -11,7 +11,7 @@
           "route-1",
           "exit-1"
         ],
-        "note": "출입구까지는 턱이 없어 접근할 수 있으나 주출입구는 계단으로 이어져 있음"
+        "note": "출입구까지는 턱이 없으나 주출입구가 계단으로 이어져 있음"
       },
       "elevator": {
         "value": "모름",
@@ -21,12 +21,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "ask": "경사로가 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄하거나 휠체어가 이동하기 편한가요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -43,12 +43,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "주출입구 근처 지상주차장 / 4면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 휴게 쉼터가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -67,20 +68,10 @@
         "intro-usetime-1",
         "intro-restdate-1"
       ],
-      "always_open": true,
-      "closed_dates": [],
-      "closed_weekdays": [],
-      "summer": {
-        "open": "00:00",
-        "close": "23:59"
-      },
-      "winter": {
-        "open": "00:00",
-        "close": "23:59"
-      }
+      "always_open": true
     },
     "on_site": {
-      "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있으며 출입구까지 턱이 없어 접근할 수 있으나 주출입구는 계단으로 이어진다.",
+      "text": "주차장에 장애인 전용 주차구역이 있으며 출입구까지 턱이 없어 접근할 수 있으나 주출입구는 계단으로 이어져 있다.",
       "evidence": [
         "parking-1",
         "route-1",

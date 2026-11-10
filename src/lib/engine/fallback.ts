@@ -107,7 +107,7 @@ export function rulePlan(input: PlanInput, places: Place[], travel: TravelFn): R
     travel,
     options,
     candidateIds: new Set(filter.candidates.map((c) => c.place.id)),
-    verdicts: new Map(filter.candidates.map((c) => [c.place.id, c.floor.verdict])),
+    verdicts: new Map(filter.candidates.map((c) => [c.place.id, c.rule])),
   });
   return { draft, frames, filter, check, notes };
 }

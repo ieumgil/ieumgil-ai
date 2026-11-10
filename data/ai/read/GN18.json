@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:54:49.634Z",
+  "readAt": "2026-11-10T09:50:09.005Z",
   "attempts": 1,
   "result": {
     "placeId": "GN18",
@@ -8,27 +8,27 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "주출입구에 계단이나 단차가 없나요?"
+        "ask": "출입구에 단차나 계단이 없나요?"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "건물 내 엘리베이터가 있나요?"
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 설치되어 있나요?"
+        "ask": "급한 경사가 없나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "노면이 평탄한가요?"
       },
       "accessible_toilet": {
         "value": "모름",
         "evidence": [],
-        "ask": "장애인 화장실이 있나요?"
+        "ask": "장애인 전용 화장실이 있나요?"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -43,7 +43,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 공간이나 벤치가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",

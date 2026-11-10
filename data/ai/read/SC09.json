@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:58:13.472Z",
+  "readAt": "2026-11-10T09:53:42.052Z",
   "attempts": 1,
   "result": {
     "placeId": "SC09",
@@ -20,12 +20,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "ask": "급한 경사가 없나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -42,12 +42,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "인근 공영주차장 내부"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
@@ -67,10 +68,11 @@
       "ask": "이용 시간이 어떻게 되나요?"
     },
     "on_site": {
-      "text": "인근 공영주차장 내부의 장애인전용 주차구역에 주차 후, 무단차 통로를 통해 출입할 수 있습니다.",
+      "text": "인근 공영주차장 내 장애인전용 주차구역에 주차 후 장애인 화장실과 무단차 통로인 주출입구를 통해 출입할 수 있습니다.",
       "evidence": [
         "parking-1",
-        "exit-1"
+        "exit-1",
+        "restroom-1"
       ]
     }
   }

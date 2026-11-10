@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:02.081Z",
+  "readAt": "2026-11-10T09:50:21.990Z",
   "attempts": 1,
   "result": {
     "placeId": "GN20",
@@ -16,23 +16,25 @@
         "value": "가능",
         "evidence": [
           "elevator-1"
-        ]
+        ],
+        "note": "휠체어1대크기"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하거나 급하지 않은가요?"
+        "ask": "경사로가 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하고 포장되어 있나요?"
+        "ask": "노면 상태가 어떤가요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "1층 도서관 내"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -43,12 +45,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2대,도서관 정문 오른쪽주차장"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -83,11 +86,12 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에 주차 후 출입구와 주출입구로 턱 없이 진입할 수 있으며, 1층 도서관 내 장애인 화장실이 있습니다.",
+      "text": "주차장에 장애인 주차장이 있으며, 출입구와 주출입구에 턱이 없어 접근할 수 있고, 도서관 내에 장애인 화장실과 엘리베이터가 있습니다.",
       "evidence": [
         "parking-1",
         "route-1",
         "exit-1",
+        "elevator-1",
         "restroom-1"
       ]
     }

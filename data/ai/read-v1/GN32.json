@@ -1,0 +1,91 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:55:39.945Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN32",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "class-1"
+        ],
+        "note": "층이 없는 시설"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "경사로나 오르막길이 있나요?"
+      },
+      "surface": {
+        "value": "부분가능",
+        "evidence": [
+          "overview-1"
+        ],
+        "note": "맨발로 걸을 수 있는 풀밭 구간이 있음"
+      },
+      "accessible_toilet": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 화장실이 있나요?"
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "기저귀 교환대나 수유실이 있나요?"
+      },
+      "disabled_parking": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 전용 주차구역이 있나요?"
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "불가",
+        "evidence": [
+          "intro-chkbabycarriage-1"
+        ],
+        "note": "원문은 유모차 대여 없음이나 휠체어 대여 정보는 부재"
+      },
+      "rental_stroller": {
+        "value": "불가",
+        "evidence": [
+          "intro-chkbabycarriage-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "00:00",
+        "close": "24:00"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "24:00"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

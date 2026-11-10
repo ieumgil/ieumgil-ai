@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:02:20.326Z",
+  "readAt": "2026-11-10T09:58:44.020Z",
   "attempts": 1,
   "result": {
     "placeId": "DH21",
@@ -21,14 +21,15 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치"
       },
       "surface": {
         "value": "가능",
         "evidence": [
-          "exit-1",
-          "overview-2"
-        ]
+          "exit-1"
+        ],
+        "note": "데크 설치"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -49,7 +50,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "쉼터나 벤치 등 휴게 공간이 있나요?"
+        "ask": "벤치나 휴게 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -72,6 +73,7 @@
       "always_open": true,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "상시 개방, 연중무휴",
       "summer": {
         "open": "00:00",
         "close": "23:59"

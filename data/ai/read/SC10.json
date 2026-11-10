@@ -1,27 +1,28 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:58:26.655Z",
+  "readAt": "2026-11-10T09:53:53.421Z",
   "attempts": 1,
   "result": {
     "placeId": "SC10",
     "access": {
       "step_free_entrance": {
-        "value": "가능",
+        "value": "부분가능",
         "evidence": [
           "route-1",
-          "exit-1"
-        ]
+          "exit-1",
+          "handicapetc-1"
+        ],
+        "note": "출입구까지 턱이 없으나 흙구간 및 일부 계단 구간이 있음"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "설악산 자생식물원에 엘리베이터가 있나요?"
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "가능",
-        "evidence": [
-          "route-1"
-        ]
+        "evidence": [],
+        "note": "층이 없는 시설"
       },
       "surface": {
         "value": "부분가능",
@@ -29,14 +30,14 @@
           "route-1",
           "handicapetc-1"
         ],
-        "note": "흙구간이 있고 일부 계단으로 되어 있어 휠체어 및 유모차가 접근 불가한 구간 있음"
+        "note": "흙구간 및 데크로드 구간 있음"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
         ],
-        "note": "관리사무소에 위치"
+        "note": "관리사무소"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -47,26 +48,28 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
         ],
-        "note": "관리사무소에서 1대 대여 가능"
+        "note": "1대, 관리사무소"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
+          "intro-chkbabycarriage-1",
           "stroller-1"
         ],
-        "note": "관리사무소에서 1대 대여 가능"
+        "note": "1대, 관리사무소"
       }
     },
     "hours": {
@@ -88,11 +91,14 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에 주차 후 턱이 없는 출입구와 접근로를 통해 진입하며, 관리사무소에 장애인 화장실이 있다.",
+      "text": "장애인 주차장에 주차한 뒤 턱이 없는 출입구를 통해 진입하며, 관리사무소에 장애인 화장실과 휠체어 및 유모차 대여소가 있습니다.",
       "evidence": [
         "parking-1",
         "route-1",
-        "restroom-1"
+        "exit-1",
+        "restroom-1",
+        "wheelchair-1",
+        "stroller-1"
       ]
     }
   }

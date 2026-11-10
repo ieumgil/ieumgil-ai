@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:06.530Z",
+  "readAt": "2026-11-10T09:54:22.528Z",
   "attempts": 1,
   "result": {
     "placeId": "SC17",
@@ -9,7 +9,8 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로가 설치되어 있음(완만함)"
       },
       "elevator": {
         "value": "모름",
@@ -20,45 +21,49 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로가 완만함"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "이동 노면은 평탄한가요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "여객선 터미널, 속초시청 건물"
       },
       "diaper_nursing": {
         "value": "가능",
         "evidence": [
           "infantsfamilyetc-1"
-        ]
+        ],
+        "note": "장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "설악센트리움 맞은편 공영주차장, 시청 건물"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {
@@ -81,7 +86,7 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에 주차 후 완만하게 설치된 경사로를 통해 출입구에 접근하여 장애인 화장실을 이용할 수 있습니다.",
+      "text": "장애인 주차장은 설악센트리움 맞은편 공영주차장과 속초시청 건물에 있으며, 출입구까지 완만한 경사로가 설치되어 있고 여객선 터미널과 속초시청 건물에 장애인 전용 화장실이 있습니다.",
       "evidence": [
         "parking-1",
         "route-1",

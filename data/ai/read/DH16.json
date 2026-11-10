@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:25.220Z",
+  "readAt": "2026-11-10T09:57:47.353Z",
   "attempts": 1,
   "result": {
     "placeId": "DH16",
@@ -20,7 +20,7 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "ask": "경사도가 어떻게 되나요?"
       },
       "surface": {
         "value": "가능",
@@ -51,7 +51,8 @@
         "evidence": [
           "overview-1",
           "overview-2"
-        ]
+        ],
+        "note": "쉼터와 벤치 마련"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -65,15 +66,23 @@
       }
     },
     "hours": {
-      "known": false,
+      "known": true,
       "evidence": [
-        "intro-usetime-1"
+        "intro-usetime-1",
+        "intro-restdate-1"
       ],
       "always_open": true,
-      "ask": "이용 시간이 어떻게 되나요?"
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
     },
     "on_site": {
-      "text": "장애인 주차장이 있고 출입구까지 턱이 없어 접근할 수 있으며 장애인 화장실이 있다.",
+      "text": "장애인 주차장이 마련되어 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

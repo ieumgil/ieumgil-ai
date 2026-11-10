@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:00:31.716Z",
+  "readAt": "2026-11-10T09:57:03.872Z",
   "attempts": 1,
   "result": {
     "placeId": "GN77",
@@ -9,7 +9,8 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "전 출입통로 무단차 및 비탈 설비로 휠체어 접근 가능함"
       },
       "elevator": {
         "value": "모름",
@@ -20,17 +21,19 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "비탈 설비 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄한가요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "info-화장실-1"
         ]
       },
       "diaper_nursing": {
@@ -42,7 +45,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "장애인 전용 주차구역 2개 주차장 각 2면, 3면 총 5면"
       },
       "rest_area": {
         "value": "모름",
@@ -64,21 +68,20 @@
     "hours": {
       "known": true,
       "evidence": [
-        "intro-usetime-1",
-        "intro-restdate-1"
+        "intro-usetime-1"
       ],
       "always_open": true,
       "summer": {
         "open": "00:00",
-        "close": "23:59"
+        "close": "24:00"
       },
       "winter": {
         "open": "00:00",
-        "close": "23:59"
+        "close": "24:00"
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며, 출입통로에 무단차 및 비탈 설비가 되어 있어 이동할 수 있고 장애인 화장실이 있습니다.",
+      "text": "장애인 전용 주차구역이 총 5면 마련되어 있으며, 전 출입통로에 무단차 및 비탈 설비가 있어 휠체어로 접근할 수 있고 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

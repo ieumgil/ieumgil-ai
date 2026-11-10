@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:19.799Z",
+  "readAt": "2026-11-10T09:54:39.823Z",
   "attempts": 1,
   "result": {
     "placeId": "GN62",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로가 설치되어 있고 주출입구에 턱이 없음"
       },
       "elevator": {
         "value": "모름",
@@ -21,12 +22,13 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치됨"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태는 어떤가요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -37,7 +39,7 @@
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "수유실이나 기저귀 교환대가 있나요?"
+        "ask": "기저귀 교환대나 수유실이 있나요?"
       },
       "disabled_parking": {
         "value": "모름",
@@ -48,7 +50,8 @@
         "value": "가능",
         "evidence": [
           "overview-1"
-        ]
+        ],
+        "note": "도로를 접한 입구에 쉴 수 있는 벤치 있음"
       },
       "rental_wheelchair": {
         "value": "모름",

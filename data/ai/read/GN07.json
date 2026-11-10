@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:54:10.476Z",
+  "readAt": "2026-11-10T09:49:27.065Z",
   "attempts": 1,
   "result": {
     "placeId": "GN07",
@@ -19,17 +19,17 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로나 오르막길 상태가 어떤가요?"
+        "ask": "경사로가 완만하게 되어 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태가 어떤가요?"
+        "ask": "바닥 노면은 평탄한가요?"
       },
       "accessible_toilet": {
         "value": "모름",
         "evidence": [],
-        "note": "일반 화장실 있음 언급만 있음. 장애인 화장실 여부는 미확인. VAL:모름. ASK:장애인 화장실이 있나요? EXP:info-화장실-1. TC:장애인 화장실 확인 필요. TG:accessible_toilet. ST:모름. ER:info-화장실-1. RE:장애인 화장실 명시 없음. SQ:장애인 화장실이 별도로 마련되어 있나요?. CR:원문에 장애인 화장실 명시가 없으므로 모름 처리. CC:원문 내용 준수. CF:원문에 없는 내용 추측 불가. CT:장애인 화장실 여부 불명. CL:원문 근거. CV:모름."
+        "ask": "장애인 전용 화장실이 있나요?"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -44,7 +44,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "휴게 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -54,7 +54,7 @@
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차 대여가 가능한가요?"
+        "ask": "유모차를 대여할 수 있나요?"
       }
     },
     "hours": {
@@ -67,12 +67,12 @@
       "closed_dates": [],
       "closed_weekdays": [],
       "summer": {
-        "open": "",
-        "close": ""
+        "open": "00:00",
+        "close": "23:59"
       },
       "winter": {
-        "open": "",
-        "close": ""
+        "open": "00:00",
+        "close": "23:59"
       }
     },
     "on_site": {

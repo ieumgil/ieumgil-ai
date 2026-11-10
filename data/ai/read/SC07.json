@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:58:13.472Z",
+  "readAt": "2026-11-10T09:53:42.052Z",
   "attempts": 1,
   "result": {
     "placeId": "SC07",
@@ -23,12 +23,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치됨"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -49,7 +50,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -70,6 +71,7 @@
         "intro-restdate-1"
       ],
       "always_open": false,
+      "closed_dates": [],
       "closed_weekdays": [
         "월"
       ],

@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:52:19.745Z",
+  "readAt": "2026-11-10T09:49:11.358Z",
   "attempts": 1,
   "result": {
     "placeId": "GN01",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치, 턱 없음"
       },
       "elevator": {
         "value": "모름",
@@ -21,12 +22,13 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태는 평탄하거나 휠체어가 다니기 좋은가요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -47,7 +49,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -66,8 +68,6 @@
         "overview-3"
       ],
       "always_open": false,
-      "closed_dates": [],
-      "closed_weekdays": [],
       "summer": {
         "open": "09:30",
         "close": "18:00"

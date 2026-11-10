@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:48.128Z",
+  "readAt": "2026-11-10T09:52:59.657Z",
   "attempts": 1,
   "result": {
     "placeId": "GN54",
@@ -8,7 +8,7 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "보광리석조여래좌상 진입로에 계단이나 턱이 없나요?"
+        "ask": "보광리석조여래좌상에 계단이나 단차 없는 진입로가 있나요?"
       },
       "elevator": {
         "value": "모름",
@@ -18,12 +18,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "보광리석조여래좌상 가는 길에 경사가 없나요?"
+        "ask": "보광리석조여래좌상까지 가는 길에 급한 경사가 없나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "보광리석조여래좌상 주변 노면은 휠체어가 다니기 편한가요?"
+        "ask": "보광리석조여래좌상 주변 노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -33,12 +33,12 @@
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "보광리석조여래좌상에 수유실이나 기저귀 교환대가 있나요?"
+        "ask": "보광리석조여래좌상 근처에 수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "모름",
         "evidence": [],
-        "ask": "보광리석조여래좌상에 장애인 전용 주차구역이 있나요?"
+        "ask": "보광리석조여래좌상 근처에 장애인 전용 주차구역이 있나요?"
       },
       "rest_area": {
         "value": "모름",
@@ -61,17 +61,7 @@
       "evidence": [
         "intro-restdate-1"
       ],
-      "always_open": true,
-      "closed_dates": [],
-      "closed_weekdays": [],
-      "summer": {
-        "open": "00:00",
-        "close": "23:59"
-      },
-      "winter": {
-        "open": "00:00",
-        "close": "23:59"
-      }
+      "always_open": true
     },
     "on_site": {
       "text": "",

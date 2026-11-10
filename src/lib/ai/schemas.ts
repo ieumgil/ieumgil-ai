@@ -11,22 +11,25 @@ export function evidenceArray(ids: readonly string[], maxItems = 5): JsonSchema 
   return { type: "array", items: { type: "string", enum: [...new Set(ids)] }, maxItems };
 }
 
-/** ② 판단: 후보 여러 곳을 한 호출에 묶는다 */
-export function judgeSchema(placeIds: readonly string[], evidenceIds: readonly string[]): JsonSchema {
+/**
+ * ② 판단: 후보 여러 곳을 한 호출에 묶는다.
+ * strict=true(기본): 받은 답 검사용(근거 id enum, 개수 제한). strict=false: 모델에 보낼 가벼운 스키마
+ * (근거 enum·중첩 배열 길이 제한을 넣으면 Gemini가 400 "too many states"를 낸다 — ① 읽기에서 확인)
+ */
+export function judgeSchema(placeIds: readonly string[], evidenceIds: readonly string[], strict = true): JsonSchema {
   return {
     type: "object",
     properties: {
       judgments: {
         type: "array",
-        minItems: placeIds.length,
-        maxItems: placeIds.length,
+        ...(strict ? { minItems: placeIds.length, maxItems: placeIds.length } : {}),
         items: {
           type: "object",
           properties: {
             placeId: { type: "string", enum: [...placeIds] },
             verdict: { type: "string", enum: [...VERDICTS] },
-            reasons: { type: "array", items: { type: "string" }, minItems: 1, maxItems: 3 },
-            evidence: evidenceArray(evidenceIds),
+            reasons: strict ? { type: "array", items: { type: "string" }, minItems: 1, maxItems: 3 } : { type: "array", items: { type: "string" } },
+            evidence: strict ? evidenceArray(evidenceIds) : { type: "array", items: { type: "string" } },
           },
           required: ["placeId", "verdict", "reasons", "evidence"],
           additionalProperties: false,

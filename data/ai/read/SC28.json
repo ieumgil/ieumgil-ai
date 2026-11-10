@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:37.786Z",
+  "readAt": "2026-11-10T09:57:59.599Z",
   "attempts": 1,
   "result": {
     "placeId": "SC28",
@@ -10,24 +10,28 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구와 주출입구 턱 없음"
       },
       "elevator": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "엘리베이터가 있나요?"
+        "value": "가능",
+        "evidence": [
+          "class-1",
+          "overview-1"
+        ],
+        "note": "층이 없는 시설"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만한가요?"
+        "ask": "경사도가 어떻게 되나요?"
       },
       "surface": {
-        "value": "부분가능",
+        "value": "가능",
         "evidence": [
           "overview-1"
         ],
-        "note": "호변 테크길은 산책하기 좋으나 전체 노면 정보는 모름"
+        "note": "호변 테크길 산책 가능"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -48,17 +52,18 @@
         "value": "가능",
         "evidence": [
           "overview-1"
-        ]
+        ],
+        "note": "벤치가 놓여 있는 휴식공간 마련"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {

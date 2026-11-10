@@ -1,0 +1,86 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:58:01.214Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN57",
+    "access": {
+      "step_free_entrance": {
+        "value": "부분가능",
+        "evidence": [
+          "exit-1"
+        ],
+        "note": "해수욕장 출입 단차가 높아 진입 어려우나 카페 '보니따까또' 앞 단차 없이 해수욕장 출입 가능"
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "class-1"
+        ],
+        "note": "층이 없는 시설"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "해변 주변에 경사로나 오르막이 없나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "해변으로 가는 길이 평탄하게 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 화장실이 있나요?"
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 전용 주차구역이 있나요?"
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴식할 수 있는 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

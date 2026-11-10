@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:27.378Z",
+  "readAt": "2026-11-10T09:50:51.984Z",
   "attempts": 1,
   "result": {
     "placeId": "GN29",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치 및 턱 없음"
       },
       "elevator": {
         "value": "모름",
@@ -22,12 +23,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떤 상태인가요?"
+        "ask": "노면 포장 상태가 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -44,23 +46,25 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "주출입구 근처 3대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 공간이나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "휠체어보관함, 수동 휠체어 2대"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {
@@ -82,12 +86,11 @@
       }
     },
     "on_site": {
-      "text": "주출입구 근처에 주차장이 마련되어 있고 경사로를 통해 턱 없이 출입할 수 있으며 장애인 화장실이 있다.",
+      "text": "주출입구 근처에 장애인 주차구역이 있으며, 경사로가 설치되어 있고 출입구에 턱이 없어 접근이 가능합니다.",
       "evidence": [
         "parking-1",
         "route-1",
-        "exit-1",
-        "restroom-1"
+        "exit-1"
       ]
     }
   }

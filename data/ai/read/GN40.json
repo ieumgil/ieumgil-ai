@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:03.882Z",
+  "readAt": "2026-11-10T09:51:31.299Z",
   "attempts": 1,
   "result": {
     "placeId": "GN40",
@@ -20,14 +20,14 @@
       "slope": {
         "value": "가능",
         "evidence": [
-          "overview-1"
+          "exit-1"
         ],
-        "note": "경사가 완만함"
+        "note": "주출입구 경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하고 포장되어 있나요?"
+        "ask": "노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -38,7 +38,7 @@
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "수유실이나 기저귀 교환대가 있나요?"
+        "ask": "기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "모름",
@@ -48,17 +48,17 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {
@@ -80,12 +80,8 @@
       }
     },
     "on_site": {
-      "text": "출입구까지 턱이 없고 주출입구에 경사로가 설치되어 있으며 장애인 화장실이 있습니다.",
-      "evidence": [
-        "route-1",
-        "exit-1",
-        "restroom-1"
-      ]
+      "text": "",
+      "evidence": []
     }
   }
 }

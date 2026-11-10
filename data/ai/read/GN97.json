@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:02:20.326Z",
+  "readAt": "2026-11-10T09:58:44.020Z",
   "attempts": 1,
   "result": {
     "placeId": "GN97",
@@ -20,12 +20,13 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태가 평탄하고 포장되어 있나요?"
+        "ask": "노면 재질은 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -39,26 +40,30 @@
         "ask": "수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "장애인 전용 주차구역이 있나요?"
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ],
+        "note": "지상주차장 3대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터 등의 휴게 공간이 있나요?"
+        "ask": "벤치나 휴게 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "건물 입구, 수동 휠체어 3대"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "건물입구, 2대"
       }
     },
     "hours": {
@@ -70,13 +75,12 @@
       "always_open": false,
       "closed_dates": [
         "1월 1일",
-        "설 당일",
-        "추석 당일"
+        "설·추석 당일"
       ],
       "closed_weekdays": [
         "월"
       ],
-      "note": "허균·허난설헌 기념공원은 상시 개방이며, 기념관은 09:00~18:00 운영됩니다.",
+      "note": "허균·허난설헌 기념공원 상시 개방, 기념관 09:00~18:00",
       "summer": {
         "open": "09:00",
         "close": "18:00"

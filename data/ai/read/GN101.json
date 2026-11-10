@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:03:07.616Z",
+  "readAt": "2026-11-10T09:59:07.608Z",
   "attempts": 1,
   "result": {
     "placeId": "GN101",
@@ -21,12 +21,13 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "경사로 설치됨"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떻게 되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -43,7 +44,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "지상주차장 1대"
       },
       "rest_area": {
         "value": "모름",
@@ -59,7 +61,8 @@
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "2대"
       }
     },
     "hours": {
@@ -71,21 +74,21 @@
       "always_open": false,
       "closed_dates": [
         "1월1일",
-        "설·추석"
+        "설",
+        "추석"
       ],
+      "closed_weekdays": [],
       "summer": {
         "open": "09:30",
-        "close": "18:00",
-        "last_entry": ""
+        "close": "18:00"
       },
       "winter": {
         "open": "09:30",
-        "close": "17:00",
-        "last_entry": ""
+        "close": "17:00"
       }
     },
     "on_site": {
-      "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있으며 출입구까지 경사로가 설치되어 있고 턱이 없는 자동문을 통해 접근할 수 있으며 장애인 화장실이 있다.",
+      "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있고 출입구까지 경사로와 턱 없는 자동문이 설치되어 있으며 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

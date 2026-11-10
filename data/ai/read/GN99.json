@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:03:07.616Z",
+  "readAt": "2026-11-10T09:59:07.608Z",
   "attempts": 1,
   "result": {
     "placeId": "GN99",
@@ -18,16 +18,14 @@
         "ask": "엘리베이터가 있나요?"
       },
       "slope": {
-        "value": "가능",
-        "evidence": [
-          "route-1",
-          "exit-1"
-        ]
+        "value": "모름",
+        "evidence": [],
+        "ask": "경사로가 완만하게 되어 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떻게 되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -44,7 +42,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "4면"
       },
       "rest_area": {
         "value": "모름",
@@ -75,20 +74,19 @@
       ],
       "summer": {
         "open": "09:00",
-        "close": "18:00",
-        "last_entry": ""
+        "close": "18:00"
       },
       "winter": {
         "open": "09:00",
-        "close": "18:00",
-        "last_entry": ""
+        "close": "18:00"
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며 출입구까지 턱이 없어 휠체어 접근이 가능하고 장애인 화장실이 있다.",
+      "text": "장애인 전용 주차구역이 있고 출입구와 주출입구에 턱이 없어 접근할 수 있으며 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",
+        "exit-1",
         "restroom-1"
       ]
     }

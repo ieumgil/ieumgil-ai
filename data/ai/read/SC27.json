@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:25.220Z",
+  "readAt": "2026-11-10T09:57:47.353Z",
   "attempts": 1,
   "result": {
     "placeId": "SC27",
@@ -20,12 +20,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "ask": "경사도가 어떻게 되나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "노면 상태가 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -42,13 +42,15 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2주차장에 4면, 3주차장에 4면"
       },
       "rest_area": {
         "value": "가능",
         "evidence": [
           "overview-2"
-        ]
+        ],
+        "note": "곳곳에 벤치 놓여 있음"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -62,15 +64,23 @@
       }
     },
     "hours": {
-      "known": false,
+      "known": true,
       "evidence": [
-        "intro-usetime-1"
+        "intro-usetime-1",
+        "intro-restdate-1"
       ],
       "always_open": true,
-      "ask": "이용 시간이 어떻게 되나요?"
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
     },
     "on_site": {
-      "text": "장애인 주차장이 있고 출입구까지 턱이 없어 접근할 수 있으며 장애인 화장실이 있다.",
+      "text": "장애인 주차장이 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

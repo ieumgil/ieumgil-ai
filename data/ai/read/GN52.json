@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:34.200Z",
+  "readAt": "2026-11-10T09:52:47.533Z",
   "attempts": 1,
   "result": {
     "placeId": "GN52",
@@ -20,17 +20,18 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "경사로 설치됨"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 포장되어 있나요?"
+        "ask": "노면은 휠체어가 다니기 편한 포장 상태인가요?"
       },
       "accessible_toilet": {
         "value": "모름",
         "evidence": [],
-        "ask": "장애인 화장실이 있나요?"
+        "ask": "장애인 전용 화장실이 있나요?"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -40,12 +41,12 @@
       "disabled_parking": {
         "value": "모름",
         "evidence": [],
-        "ask": "장애인 주차구역이 있나요?"
+        "ask": "장애인 전용 주차구역이 있나요?"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -63,7 +64,15 @@
       "evidence": [
         "intro-usetime-1"
       ],
-      "ask": "이용 시간이 어떻게 되나요?"
+      "ask": "이용 시간이 어떻게 되나요?",
+      "summer": {
+        "open": "00:00",
+        "close": "00:00"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "00:00"
+      }
     },
     "on_site": {
       "text": "",

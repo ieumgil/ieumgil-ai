@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:25.220Z",
+  "readAt": "2026-11-10T09:57:47.353Z",
   "attempts": 1,
   "result": {
     "placeId": "GN88",
@@ -19,14 +19,16 @@
         ]
       },
       "slope": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ],
+        "note": "출입구까지 경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "바닥 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -46,12 +48,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 공간이나 벤치가 마련되어 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -71,10 +74,6 @@
         "intro-restdate-1"
       ],
       "always_open": false,
-      "closed_dates": [
-        "설날 명절 당일",
-        "추석 명절 당일"
-      ],
       "closed_weekdays": [
         "월",
         "화",
@@ -90,7 +89,7 @@
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며, 출입구까지 경사로가 설치되어 있고 주출입구에 턱이 없어 접근할 수 있고 장애인 화장실이 있다.",
+      "text": "장애인 전용 주차구역이 있으며, 출입구까지 경사로와 턱이 없어 접근할 수 있고 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

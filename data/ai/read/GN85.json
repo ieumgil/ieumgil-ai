@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:12.335Z",
+  "readAt": "2026-11-10T09:57:33.166Z",
   "attempts": 1,
   "result": {
     "placeId": "GN85",
@@ -20,12 +20,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진해변 접근로에 경사로가 완만하게 되어 있나요?"
+        "ask": "주문진해변 경사도가 완만한가요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진해변의 보행로는 평탄하게 포장되어 있나요?"
+        "ask": "주문진해변 노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -42,7 +42,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "5면"
       },
       "rest_area": {
         "value": "모름",
@@ -69,6 +70,7 @@
       "always_open": true,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "연중무휴, 상시 개방",
       "summer": {
         "open": "00:00",
         "close": "23:59"
@@ -79,8 +81,13 @@
       }
     },
     "on_site": {
-      "text": "",
-      "evidence": []
+      "text": "제1주차장에 장애인 전용 주차구역 5면이 있으며, 출입구와 주출입구는 턱이 없어 휠체어 접근이 가능하고 장애인 화장실이 있다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "restroom-1"
+      ]
     }
   }
 }

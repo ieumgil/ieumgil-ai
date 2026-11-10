@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:34.200Z",
+  "readAt": "2026-11-10T09:52:47.533Z",
   "attempts": 1,
   "result": {
     "placeId": "GN53",
@@ -8,7 +8,7 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "출입구에 턱이나 경사로가 어떻게 되나요?"
+        "ask": "출입구에 턱이나 계단이 없나요?"
       },
       "elevator": {
         "value": "모름",
@@ -18,12 +18,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로나 오르막이 있나요?"
+        "ask": "경사로가 완만하거나 급하지 않나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떤 상태인가요?"
+        "ask": "노면은 휠체어가 다니기 편한 포장 상태인가요?"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -43,7 +43,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -57,11 +57,22 @@
       }
     },
     "hours": {
-      "known": false,
+      "known": true,
       "evidence": [
         "intro-restdate-1"
       ],
-      "ask": "이용 시간이 어떻게 되나요?"
+      "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "note": "연중무휴",
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
     },
     "on_site": {
       "text": "",

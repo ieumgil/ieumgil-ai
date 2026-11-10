@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:06.530Z",
+  "readAt": "2026-11-10T09:54:22.528Z",
   "attempts": 1,
   "result": {
     "placeId": "SC18",
@@ -15,12 +15,12 @@
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "시설 내 엘리베이터가 있나요?"
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사 구간은 완만하게 되어 있나요?"
+        "ask": "경사로가 완만한가요?"
       },
       "surface": {
         "value": "가능",
@@ -40,26 +40,29 @@
         "evidence": [
           "lactationroom-1",
           "infantsfamilyetc-1"
-        ]
+        ],
+        "note": "카페 웨일라잇 2층 및 제1공용주차장 가족화장실, 장애인화장실, 행정지원센터 전방 100m 화장실 내 기저귀 교환대 있음"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "제1공영주차장 13대, 제2공영주차장 5대"
       },
       "rest_area": {
         "value": "가능",
         "evidence": [
           "handicapetc-1"
         ],
-        "note": "장애인 휴게쉼터 있음"
+        "note": "운영요원에게 복지카드 인증시 장애인 휴게쉼터 무료 이용가능"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "해변용 휠체어 3대, 일반 휠체어 2대 / 행정지원센터"
       },
       "rental_stroller": {
         "value": "모름",
@@ -87,9 +90,10 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에 주차 후 턱이 없는 주출입구를 통해 이동하여 장애인 화장실을 이용할 수 있습니다.",
+      "text": "장애인 주차장은 제1공영주차장(13대)과 제2공영주차장(5대)에 있으며, 주출입구 및 출입구까지 턱이 없어 휠체어 접근이 가능하고 장애인 화장실이 마련되어 있습니다.",
       "evidence": [
         "parking-1",
+        "route-1",
         "exit-1",
         "restroom-1"
       ]

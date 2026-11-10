@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:13.793Z",
+  "readAt": "2026-11-10T09:50:37.481Z",
   "attempts": 1,
   "result": {
     "placeId": "GN27",
@@ -19,18 +19,17 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사가 완만한가요?"
+        "ask": "경사로가 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄한가요?"
+        "ask": "노면은 어떤 재질인가요?"
       },
       "accessible_toilet": {
-        "value": "가능",
-        "evidence": [
-          "info-화장실-1"
-        ]
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 화장실이 있나요?"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -41,12 +40,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "주출입구 근처 지상주차장, 1면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 공간이나 벤치가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -65,15 +65,20 @@
         "intro-usetime-1"
       ],
       "always_open": true,
-      "closed_dates": [],
-      "closed_weekdays": []
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
     },
     "on_site": {
-      "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있으며, 출입구까지 턱이 없어 휠체어 접근이 가능하고 화장실이 있습니다.",
+      "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있고 출입구까지 턱이 없어 휠체어 접근이 가능하다.",
       "evidence": [
         "parking-1",
-        "route-1",
-        "info-화장실-1"
+        "route-1"
       ]
     }
   }

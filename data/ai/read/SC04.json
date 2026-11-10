@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:44.188Z",
+  "readAt": "2026-11-10T09:52:10.082Z",
   "attempts": 1,
   "result": {
     "placeId": "SC04",
@@ -8,33 +8,34 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "출입구에 단차나 계단이 없나요?"
+        "ask": "동명항은 계단이나 단차 없는 진입이 가능한가요?"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "엘리베이터가 있나요?"
+        "ask": "동명항에 엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "ask": "동명항에 경사로가 완만하게 되어 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하고 포장되어 있나요?"
+        "ask": "동명항의 노면 재질은 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "주차장 입구에 위치"
       },
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "수유실이나 기저귀 교환대가 있나요?"
+        "ask": "동명항에 수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "가능",
@@ -45,17 +46,17 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "동명항에 벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어 대여가 가능한가요?"
+        "ask": "동명항에서 휠체어를 대여할 수 있나요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차 대여가 가능한가요?"
+        "ask": "동명항에서 유모차를 대여할 수 있나요?"
       }
     },
     "hours": {
@@ -67,6 +68,7 @@
       "always_open": true,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "연중무휴 상시 개방",
       "summer": {
         "open": "00:00",
         "close": "23:59"
@@ -77,11 +79,8 @@
       }
     },
     "on_site": {
-      "text": "주차장에 장애인전용 주차구역이 있으며, 주차장 입구에 장애인전용화장실이 위치해 있다.",
-      "evidence": [
-        "parking-1",
-        "restroom-1"
-      ]
+      "text": "",
+      "evidence": []
     }
   }
 }

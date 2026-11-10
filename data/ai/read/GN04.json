@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:54:10.476Z",
+  "readAt": "2026-11-10T09:49:27.065Z",
   "attempts": 1,
   "result": {
     "placeId": "GN04",
@@ -21,12 +21,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로나 오르막길 상태가 어떤가요?"
+        "ask": "경사로가 완만하게 되어 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태가 어떤가요?"
+        "ask": "바닥 노면은 평탄한가요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -44,12 +44,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "10면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "휴게 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
@@ -60,7 +61,7 @@
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차 대여가 가능한가요?"
+        "ask": "유모차를 대여할 수 있나요?"
       }
     },
     "hours": {
@@ -72,6 +73,7 @@
       "always_open": false,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "연중무휴",
       "summer": {
         "open": "09:00",
         "close": "18:00"
@@ -82,11 +84,13 @@
       }
     },
     "on_site": {
-      "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있으며, 출입구까지 턱이 없어 휠체어 접근이 가능합니다.",
+      "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있으며, 출입구와 주출입구에 턱이 없어 휠체어 접근이 가능하고 엘리베이터와 장애인 화장실이 있습니다.",
       "evidence": [
         "parking-1",
         "route-1",
-        "exit-1"
+        "exit-1",
+        "elevator-1",
+        "restroom-1"
       ]
     }
   }

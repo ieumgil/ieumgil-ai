@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:27.378Z",
+  "readAt": "2026-11-10T09:50:51.984Z",
   "attempts": 1,
   "result": {
     "placeId": "GN28",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치 및 주출입구 턱 없음"
       },
       "elevator": {
         "value": "가능",
@@ -22,18 +23,20 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떻게 포장되어 있나요?"
+        "ask": "노면 포장 상태가 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "1층"
       },
       "diaper_nursing": {
         "value": "가능",
@@ -45,24 +48,29 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "지상주차장 6면"
       },
       "rest_area": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "휴게 공간이나 벤치가 있나요?"
+        "value": "가능",
+        "evidence": [
+          "handicapetc-1"
+        ],
+        "note": "휠체어 접근 가능 카페 있음"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "안내 데스크/로비, 수동 휠체어 3대"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "안내데스크/매표소, 일반 및 휴대용 유모차 총 9대"
       }
     },
     "hours": {
@@ -86,7 +94,7 @@
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며, 주출입구까지 경사로와 턱이 없는 자동문으로 진입할 수 있고 1층에 장애인 화장실이 위치한다.",
+      "text": "지상주차장에 장애인 전용 주차구역이 있으며, 출입구까지 경사로와 턱 없는 주출입구를 통해 휠체어 접근이 가능하고 1층에 장애인 화장실이 있습니다.",
       "evidence": [
         "parking-1",
         "route-1",

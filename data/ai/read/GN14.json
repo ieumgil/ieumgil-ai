@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:54:37.082Z",
+  "readAt": "2026-11-10T09:49:56.416Z",
   "attempts": 1,
   "result": {
     "placeId": "GN14",
@@ -10,22 +10,27 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 설치 및 주출입구 턱 없음"
       },
       "elevator": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "엘리베이터가 있나요?"
+        "value": "가능",
+        "evidence": [
+          "overview-1"
+        ],
+        "note": "층이 없는 시설"
       },
       "slope": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "경사도가 어떻게 되나요?"
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ],
+        "note": "경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태는 어떤가요?"
+        "ask": "노면 포장 상태나 재질은 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -42,12 +47,13 @@
         "value": "불가",
         "evidence": [
           "intro-parking-1"
-        ]
+        ],
+        "note": "주차 불가능"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 공간이 있나요?"
+        "ask": "쉼터나 벤치는 마련되어 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -69,11 +75,11 @@
       "always_open": true,
       "summer": {
         "open": "00:00",
-        "close": "00:00"
+        "close": "24:00"
       },
       "winter": {
         "open": "00:00",
-        "close": "00:00"
+        "close": "24:00"
       }
     },
     "on_site": {

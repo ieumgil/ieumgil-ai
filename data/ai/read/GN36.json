@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:53.006Z",
+  "readAt": "2026-11-10T09:51:19.028Z",
   "attempts": 1,
   "result": {
     "placeId": "GN36",
@@ -10,56 +10,58 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구 경사로 완만함, 주출입구 단차 없음"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령자연휴양림에 엘리베이터가 있나요?"
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로가 완만함"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령자연휴양림의 노면은 어떻게 포장되어 있나요?"
+        "ask": "노면 상태가 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
-          "restroom-1",
-          "info-화장실-1"
+          "restroom-1"
         ]
       },
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령자연휴양림에 수유실이나 기저귀 교환대가 있나요?"
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "잔디광장 2대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령자연휴양림에 벤치나 쉼터가 있나요?"
+        "ask": "벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령자연휴양림에서 휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령자연휴양림에서 유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {
@@ -82,7 +84,7 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에서 출발하여 완만한 경사로와 단차 없는 주 출입구를 통해 이동할 수 있으며 장애인 화장실이 있습니다.",
+      "text": "장애인 주차장에 주차 후 잔디광장을 거쳐 출입구까지 완만한 경사로와 단차 없는 주출입구로 진입하며, 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

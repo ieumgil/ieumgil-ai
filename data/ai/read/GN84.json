@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:12.335Z",
+  "readAt": "2026-11-10T09:57:33.166Z",
   "attempts": 1,
   "result": {
     "placeId": "GN84",
@@ -8,7 +8,7 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진항의 출입구와 접근로에 턱이나 계단이 없나요?"
+        "ask": "주문진항의 출입구에 턱이나 단차가 없나요?"
       },
       "elevator": {
         "value": "모름",
@@ -18,12 +18,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진항 내에 경사로나 오르막이 없나요?"
+        "ask": "주문진항까지 가는 길이나 내부가 완만한가요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "주문진항의 노면은 평탄하게 포장되어 있나요?"
+        "ask": "주문진항의 노면은 평탄한가요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -40,7 +40,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2면"
       },
       "rest_area": {
         "value": "모름",
@@ -67,6 +68,7 @@
       "always_open": true,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "연중무휴, 상시 개방",
       "summer": {
         "open": "00:00",
         "close": "23:59"
@@ -77,8 +79,11 @@
       }
     },
     "on_site": {
-      "text": "",
-      "evidence": []
+      "text": "장애인 전용 주차구역이 주출입구 근처 지상주차장에 2면 있으며, 주문진항 입구 방면에는 장애인 화장실이 있다.",
+      "evidence": [
+        "parking-1",
+        "restroom-1"
+      ]
     }
   }
 }

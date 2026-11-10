@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:37.786Z",
+  "readAt": "2026-11-10T09:57:59.599Z",
   "attempts": 1,
   "result": {
     "placeId": "GN89",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구 및 주출입구 턱 없음"
       },
       "elevator": {
         "value": "모름",
@@ -20,19 +21,17 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만한가요?"
+        "ask": "경사도가 어떻게 되나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태가 포장되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "모름",
-        "evidence": [
-          "info-화장실-1"
-        ],
-        "note": "화장실은 있으나 장애인 화장실 여부는 모름"
+        "evidence": [],
+        "ask": "장애인 화장실이 있나요?"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -47,12 +46,12 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "불가",
@@ -66,15 +65,9 @@
       "evidence": [
         "intro-usetime-1"
       ],
-      "ask": "점포별 이용시간이 어떻게 되나요?",
-      "summer": {
-        "open": "00:00",
-        "close": "00:00"
-      },
-      "winter": {
-        "open": "00:00",
-        "close": "00:00"
-      }
+      "always_open": false,
+      "ask": "점포별 이용 시간이 어떻게 되나요?",
+      "note": "점포별 상이"
     },
     "on_site": {
       "text": "",

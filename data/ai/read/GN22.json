@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:02.081Z",
+  "readAt": "2026-11-10T09:50:21.990Z",
   "attempts": 1,
   "result": {
     "placeId": "GN22",
@@ -20,18 +20,19 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "급한 경사가 없나요?"
+        "ask": "경사로가 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하고 포장되어 있나요?"
+        "ask": "노면 상태가 어떤가요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "안목해변 화장실"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -42,12 +43,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "강릉항 공영주차장 9면, 안목해변 노상주차장 5면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -67,7 +69,6 @@
         "intro-restdate-1"
       ],
       "always_open": true,
-      "note": "상시 개방 및 연중무휴",
       "summer": {
         "open": "00:00",
         "close": "23:59"
@@ -78,12 +79,11 @@
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역에 주차 후 턱이 없는 출입구와 주출입구로 접근할 수 있으며, 안목해변 화장실에 장애인 화장실이 있습니다.",
+      "text": "강릉항 공영주차장과 안목해변 노상주차장에 장애인 전용 주차구역이 있으며, 출입구와 주출입구에 턱이 없어 휠체어 접근이 가능합니다.",
       "evidence": [
         "parking-1",
         "route-1",
-        "exit-1",
-        "restroom-1"
+        "exit-1"
       ]
     }
   }

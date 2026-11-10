@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:00:31.716Z",
+  "readAt": "2026-11-10T09:57:03.872Z",
   "attempts": 1,
   "result": {
     "placeId": "GN79",
@@ -10,24 +10,27 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치 및 턱이 없음"
       },
       "elevator": {
         "value": "가능",
         "evidence": [
           "elevator-1"
-        ]
+        ],
+        "note": "장애인용 엘리베이터 있음"
       },
       "slope": {
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떻게 되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -44,7 +47,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "주출입구 근처 지상주차장 8대"
       },
       "rest_area": {
         "value": "모름",
@@ -56,14 +60,14 @@
         "evidence": [
           "wheelchair-1"
         ],
-        "note": "건물 입구에서 수동 휠체어 2대 대여 가능"
+        "note": "건물 입구, 수동 휠체어 2대"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
         ],
-        "note": "건물 입구에서 유모차 2대 대여 가능"
+        "note": "건물입구, 2대"
       }
     },
     "hours": {
@@ -72,8 +76,6 @@
         "intro-usetime-1"
       ],
       "always_open": false,
-      "closed_dates": [],
-      "closed_weekdays": [],
       "summer": {
         "open": "09:00",
         "close": "18:00",
@@ -86,10 +88,11 @@
       }
     },
     "on_site": {
-      "text": "주출입구 근처 지상주차장에 주차 후 경사로가 설치된 출입구로 진입할 수 있으며 장애인용 엘리베이터와 장애인 화장실이 있습니다.",
+      "text": "주출입구 근처 지상주차장에 8대의 장애인 주차장이 있으며, 경사로를 통해 출입구로 턱 없이 진입할 수 있고 장애인용 엘리베이터와 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",
+        "exit-1",
         "elevator-1",
         "restroom-1"
       ]

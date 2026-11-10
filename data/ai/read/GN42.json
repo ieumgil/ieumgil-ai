@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:03.882Z",
+  "readAt": "2026-11-10T09:51:31.299Z",
   "attempts": 1,
   "result": {
     "placeId": "GN42",
@@ -18,20 +18,24 @@
         "ask": "엘리베이터가 있나요?"
       },
       "slope": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "경사로가 완만하거나 급한 구간이 없나요?"
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ],
+        "note": "경사로 설치"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하고 포장되어 있나요?"
+        "ask": "노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "솔바람다리 주차장 방면"
       },
       "diaper_nursing": {
         "value": "가능",
@@ -43,22 +47,23 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "솔바람다리 방면 주차장 3면, 남항진해변 방면 주차장 2면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {
@@ -80,13 +85,8 @@
       }
     },
     "on_site": {
-      "text": "솔바람다리 방면 및 남항진해변 방면 주차장에 장애인 전용 주차구역이 있으며, 출입구에 경사로가 설치되어 솔바람다리 주차장 방면 장애인 화장실까지 접근이 가능합니다.",
-      "evidence": [
-        "parking-1",
-        "route-1",
-        "exit-1",
-        "restroom-1"
-      ]
+      "text": "",
+      "evidence": []
     }
   }
 }

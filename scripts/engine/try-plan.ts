@@ -33,7 +33,7 @@ r.check.timelines.forEach((tl, i) => {
   for (const it of tl.items) {
     if (it.kind === "visit") {
       const c = r.filter.candidates.find((x) => x.place.id === it.placeId)!;
-      console.log(`  ${toHHMM(it.arriveMin)}~${toHHMM(it.departMin)} ${byId.get(it.placeId)!.name_ko} [${c.floor.verdict}] 체류 ${it.stayMin}+여유 ${it.extraMin}분`);
+      console.log(`  ${toHHMM(it.arriveMin)}~${toHHMM(it.departMin)} ${byId.get(it.placeId)!.name_ko} [${c.rule}] 체류 ${it.stayMin}+여유 ${it.extraMin}분`);
     } else if (it.kind === "travel") console.log(`    ↓ ${it.leg.minutes}분 · ${it.leg.km}km${it.leg.estimated ? "(추정)" : ""} → ${it.to.name}`);
     else console.log(`  ${toHHMM(it.startMin)}~${toHHMM(it.endMin)} ${it.kind === "lunch" ? "점심·휴식" : it.kind === "wait" ? "개장 대기" : "휴식"}`);
   }

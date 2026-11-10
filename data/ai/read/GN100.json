@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:03:07.616Z",
+  "readAt": "2026-11-10T09:59:07.608Z",
   "attempts": 1,
   "result": {
     "placeId": "GN100",
@@ -11,7 +11,7 @@
           "route-1",
           "exit-1"
         ],
-        "note": "출입구까지 경사로가 설치되어 있으나 자갈길과 흙길로 되어 있음"
+        "note": "출입구까지 경사로가 설치되어 접근이 가능하지만 자갈길과 흙길로 되어 있음"
       },
       "elevator": {
         "value": "모름",
@@ -19,12 +19,12 @@
         "ask": "엘리베이터가 있나요?"
       },
       "slope": {
-        "value": "부분가능",
+        "value": "가능",
         "evidence": [
           "route-1",
           "exit-1"
         ],
-        "note": "경사로가 있으나 자갈길과 흙길이 있음"
+        "note": "경사로 설치됨"
       },
       "surface": {
         "value": "부분가능",
@@ -71,15 +71,15 @@
         "intro-restdate-1"
       ],
       "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
       "summer": {
         "open": "09:00",
-        "close": "18:00",
-        "last_entry": ""
+        "close": "18:00"
       },
       "winter": {
         "open": "09:00",
-        "close": "18:00",
-        "last_entry": ""
+        "close": "18:00"
       }
     },
     "on_site": {

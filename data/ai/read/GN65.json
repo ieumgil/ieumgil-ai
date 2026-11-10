@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:32.147Z",
+  "readAt": "2026-11-10T09:54:55.084Z",
   "attempts": 1,
   "result": {
     "placeId": "GN65",
@@ -22,12 +22,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 설치되어 휠체어 접근 가능"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 어떻게 되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -47,7 +48,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",

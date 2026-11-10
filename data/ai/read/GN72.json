@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:55.962Z",
+  "readAt": "2026-11-10T09:55:38.242Z",
   "attempts": 1,
   "result": {
     "placeId": "GN72",
@@ -9,7 +9,8 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 연결"
       },
       "elevator": {
         "value": "모름",
@@ -47,7 +48,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴식할 수 있는 벤치나 쉼터가 있나요?"
+        "ask": "벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -66,7 +67,15 @@
         "intro-usetime-1"
       ],
       "always_open": true,
-      "note": "상시 개방"
+      "note": "상시 개방",
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
     },
     "on_site": {
       "text": "",

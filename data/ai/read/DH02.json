@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:16.422Z",
+  "readAt": "2026-11-10T09:51:43.774Z",
   "attempts": 1,
   "result": {
     "placeId": "DH02",
@@ -8,7 +8,7 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "출입구에 턱이나 단차가 없나요?"
+        "ask": "출입구에 단차나 계단이 없나요?"
       },
       "elevator": {
         "value": "모름",
@@ -19,21 +19,20 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "해안가까지 경사로구간 있음"
       },
       "surface": {
-        "value": "부분가능",
-        "evidence": [
-          "overview-1"
-        ],
-        "note": "모래사장이 있어 백사장 구간은 이동이 어려울 수 있습니다."
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
         ],
-        "note": "망상역에 위치"
+        "note": "망상역"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -44,12 +43,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "관광안내소 1대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -65,20 +65,21 @@
     "hours": {
       "known": true,
       "evidence": [
-        "intro-usetime-1"
+        "intro-usetime-1",
+        "intro-restdate-1"
       ],
       "always_open": true,
       "summer": {
         "open": "00:00",
-        "close": "23:59"
+        "close": "24:00"
       },
       "winter": {
         "open": "00:00",
-        "close": "23:59"
+        "close": "24:00"
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역에 주차 후, 해안가까지 경사로 구간을 통해 이동할 수 있습니다.",
+      "text": "관광안내소의 장애인 전용 주차구역에서 출발하여 해안가까지 경사로구간을 통해 이동할 수 있다.",
       "evidence": [
         "parking-1",
         "route-1"

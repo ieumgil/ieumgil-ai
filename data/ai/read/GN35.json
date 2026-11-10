@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:39.945Z",
+  "readAt": "2026-11-10T09:51:05.310Z",
   "attempts": 1,
   "result": {
     "placeId": "GN35",
@@ -12,21 +12,19 @@
         ]
       },
       "elevator": {
-        "value": "가능",
-        "evidence": [
-          "class-1"
-        ],
-        "note": "층이 없는 시설"
+        "value": "모름",
+        "evidence": [],
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로나 오르막길이 있나요?"
+        "ask": "경사로나 오르막이 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태가 어떻게 되나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -48,7 +46,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴식 공간이나 벤치가 있나요?"
+        "ask": "휴게 공간이나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -71,11 +69,11 @@
       "closed_weekdays": [],
       "summer": {
         "open": "00:00",
-        "close": "24:00"
+        "close": "23:59"
       },
       "winter": {
         "open": "00:00",
-        "close": "24:00"
+        "close": "23:59"
       }
     },
     "on_site": {

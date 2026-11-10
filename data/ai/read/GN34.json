@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:39.945Z",
+  "readAt": "2026-11-10T09:51:05.310Z",
   "attempts": 1,
   "result": {
     "placeId": "GN34",
@@ -13,49 +13,52 @@
         ]
       },
       "elevator": {
-        "value": "가능",
-        "evidence": [
-          "class-1"
-        ],
-        "note": "층이 없는 시설"
-      },
-      "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로나 오르막길이 있나요?"
+        "ask": "엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ],
+        "note": "경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 포장되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "3.1 통일공원, 경포호수광장, 경포대 광장"
       },
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "기저귀 교환대나 수유실이 있나요?"
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "3.1 기념공원 주차장 3면, 경포진안상가 앞 주차장 2면, 경포번영회 주차장 4면, 경포대 주차장 4면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "쉼터나 벤치가 있나요?"
+        "ask": "휴게 공간이나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "3.1 기념공원 주차장 수동 휠체어 2대"
       },
       "rental_stroller": {
         "value": "모름",
@@ -74,15 +77,15 @@
       "closed_weekdays": [],
       "summer": {
         "open": "00:00",
-        "close": "24:00"
+        "close": "23:59"
       },
       "winter": {
         "open": "00:00",
-        "close": "24:00"
+        "close": "23:59"
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며, 출입구까지 경사로가 설치되어 휠체어 접근이 가능하고 장애인 화장실이 있습니다.",
+      "text": "장애인 전용 주차구역이 있으며, 출입구에 경사로가 설치되어 있고 장애인 화장실이 있다.",
       "evidence": [
         "parking-1",
         "route-1",

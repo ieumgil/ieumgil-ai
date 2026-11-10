@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:54:22.689Z",
+  "readAt": "2026-11-10T09:49:41.000Z",
   "attempts": 1,
   "result": {
     "placeId": "GN10",
@@ -15,18 +15,19 @@
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "내부에 엘리베이터가 있나요?"
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "출입구까지 경사로 설치됨"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "산책로 노면은 어떤 상태인가요?"
+        "ask": "노면이 평탄하게 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -43,52 +44,55 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "제1주차장 5면"
       },
       "rest_area": {
         "value": "가능",
         "evidence": [
           "handicapetc-1"
-        ]
+        ],
+        "note": "방문자 쉼터 있음"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "수동 휠체어 4대 (관광안내소)"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "2대 (관광안내소)"
       }
     },
     "hours": {
       "known": true,
       "evidence": [
-        "intro-usetime-1",
-        "intro-restdate-1"
+        "intro-usetime-1"
       ],
       "always_open": false,
+      "ask": "운영 시간이 변경되나요?",
       "closed_dates": [],
       "closed_weekdays": [
         "월"
       ],
-      "note": "월요일이 공휴일인 경우 그 다음날 휴원",
       "summer": {
         "open": "09:00",
-        "close": "23:00",
-        "last_entry": "22:00"
+        "close": "18:00",
+        "last_entry": "17:00"
       },
       "winter": {
         "open": "09:00",
-        "close": "22:00",
-        "last_entry": "21:00"
+        "close": "18:00",
+        "last_entry": "17:00"
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역에 주차 후, 경사로가 설치되어 있고 주출입구에 턱이 없어 휠체어 접근이 가능합니다.",
+      "text": "장애인 전용 주차구역 있음(제1주차장) / 5면에서 출발하여 출입구까지 경사로 설치되어 휠체어 접근이 가능함, 주출입구는 턱이 없어 휠체어 접근이 가능합니다.",
       "evidence": [
         "parking-1",
         "route-1",

@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:55.962Z",
+  "readAt": "2026-11-10T09:55:38.242Z",
   "attempts": 1,
   "result": {
     "placeId": "DH14",
@@ -8,7 +8,7 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "해변 진입로에 턱이 없거나 경사로가 있나요?"
+        "ask": "출입구에 턱이나 단차가 없나요?"
       },
       "elevator": {
         "value": "모름",
@@ -18,7 +18,7 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "이동로에 급한 경사가 없나요?"
+        "ask": "경사로가 완만하게 설치되어 있나요?"
       },
       "surface": {
         "value": "모름",
@@ -29,7 +29,8 @@
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "공중화장실, 경사로설치"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -40,12 +41,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "3대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴식할 수 있는 벤치나 쉼터가 있나요?"
+        "ask": "벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -65,7 +67,15 @@
         "intro-restdate-1"
       ],
       "always_open": true,
-      "note": "상시 개방 및 연중무휴"
+      "note": "상시 개방 및 연중무휴",
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
     },
     "on_site": {
       "text": "",

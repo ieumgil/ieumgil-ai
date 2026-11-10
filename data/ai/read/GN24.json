@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:13.793Z",
+  "readAt": "2026-11-10T09:50:37.481Z",
   "attempts": 1,
   "result": {
     "placeId": "GN24",
@@ -20,13 +20,15 @@
       "slope": {
         "value": "가능",
         "evidence": [
-          "route-1"
-        ]
+          "route-1",
+          "exit-1"
+        ],
+        "note": "경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄한가요?"
+        "ask": "노면은 어떤 재질인가요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -43,18 +45,20 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 공간이나 벤치가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "수동 휠체어, 안내 데스크"
       },
       "rental_stroller": {
         "value": "모름",
@@ -69,8 +73,6 @@
         "intro-restdate-1"
       ],
       "always_open": false,
-      "closed_dates": [],
-      "closed_weekdays": [],
       "summer": {
         "open": "09:00",
         "close": "18:00"
@@ -81,11 +83,10 @@
       }
     },
     "on_site": {
-      "text": "주출입구 근처에 주차장(2대)이 있으며, 출입구까지 경사로가 설치되어 있고 장애인 화장실이 있습니다.",
+      "text": "주차장 내 주출입구 근처에 장애인 주차장이 있으며 출입구까지 경사로가 설치되어 있다.",
       "evidence": [
         "parking-1",
-        "route-1",
-        "restroom-1"
+        "route-1"
       ]
     }
   }

@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:53.006Z",
+  "readAt": "2026-11-10T09:51:19.028Z",
   "attempts": 1,
   "result": {
     "placeId": "GN37",
@@ -10,61 +10,65 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 설치 및 턱 없음"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령치유의숲에 엘리베이터가 있나요?"
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "가능",
         "evidence": [
-          "route-1",
-          "overview-1"
-        ]
+          "overview-1",
+          "route-1"
+        ],
+        "note": "무장애 데크로드 및 경사로 설치"
       },
       "surface": {
         "value": "가능",
         "evidence": [
           "overview-1"
         ],
-        "note": "무장애 데크로드가 조성되어 있음"
+        "note": "무장애 데크로드 조성"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
-          "restroom-1",
-          "info-화장실-1"
+          "restroom-1"
         ]
       },
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령치유의숲에 수유실이나 기저귀 교환대가 있나요?"
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "지상주차장 2면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "국립대관령치유의숲에 벤치나 쉼터가 있나요?"
+        "ask": "벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "안내센터 전동 1대, 수동 3대"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "1대/안내센터"
       }
     },
     "hours": {
@@ -88,11 +92,13 @@
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역에서 출발하여 경사로가 설치된 출입구와 턱이 없는 주출입구를 거쳐 이동할 수 있으며 장애인 화장실이 있습니다.",
+      "text": "지상주차장의 장애인 전용 주차구역에 주차 후, 경사로와 턱이 없는 주출입구를 통해 진입하여 안내센터에서 휠체어와 유모차 대여가 가능하며 장애인 화장실을 이용할 수 있다.",
       "evidence": [
         "parking-1",
         "route-1",
         "exit-1",
+        "wheelchair-1",
+        "stroller-1",
         "restroom-1"
       ]
     }

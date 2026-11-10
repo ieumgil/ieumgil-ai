@@ -4,6 +4,7 @@
 //  - data/build/places-base.json: 기본 정보(이름·좌표·지역·전화·사진·카테고리·체류 기본값). access·hours는 ① 읽기가 채운다.
 //  - data/docs/places/{id}.md: 근거 문장(문단 id + 출처). ① 읽기와 ② 판단이 이 id만 근거로 쓴다.
 //  - data/place-ids.json: contentid → 우리 id(고정, 다시 만들어도 안 바뀜)
+//  - data/evidence.json: 장소 id → 근거 문단 목록(서버가 ② 판단 때 읽는다. 원본 data/raw는 커밋하지 않으므로)
 //  - 관광지가 아닌 곳·전화번호가 없는 곳은 빼고 이유를 출력한다.
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -76,6 +77,7 @@ for (const id of Object.values(ids)) {
 }
 
 const excluded: string[] = [];
+const evidenceOut: Record<string, { id: string; label: string; text: string }[]> = {};
 const base: { region: Region; category: Category; [k: string]: unknown }[] = [];
 mkdirSync("data/docs/places", { recursive: true });
 mkdirSync("data/build", { recursive: true });
@@ -118,6 +120,7 @@ for (const p of raws) {
     "",
   ].join("\n");
   writeFileSync(`data/docs/places/${id}.md`, md);
+  evidenceOut[id] = evidence;
 
   const [stay_min, stay_max] = STAY[category!];
   base.push({
@@ -141,6 +144,7 @@ for (const p of raws) {
 
 writeFileSync(ID_FILE, JSON.stringify(Object.fromEntries(Object.entries(ids).sort()), null, 2) + "\n");
 writeFileSync("data/build/places-base.json", JSON.stringify(base, null, 2) + "\n");
+writeFileSync("data/evidence.json", JSON.stringify(Object.fromEntries(Object.entries(evidenceOut).sort()), null, 1) + "\n");
 
 const by = (r: string) => base.filter((b) => b.region === r).length;
 console.log(`✓ 장소 ${base.length}곳 (강릉 ${by("강릉")} · 속초 ${by("속초")} · 동해 ${by("동해")}) · 제외 ${excluded.length}곳`);

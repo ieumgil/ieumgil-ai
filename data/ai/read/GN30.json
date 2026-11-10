@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:55:27.378Z",
+  "readAt": "2026-11-10T09:50:51.984Z",
   "attempts": 1,
   "result": {
     "placeId": "GN30",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "평지로 연결되어 있으며 단차가 없음"
       },
       "elevator": {
         "value": "모름",
@@ -21,20 +22,22 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "평지로 연결"
       },
       "surface": {
         "value": "부분가능",
         "evidence": [
           "route-1"
         ],
-        "note": "출입구까지 평지로 연결되어 있으나 흙길이 있음"
+        "note": "출입구까지 평지로 연결되어 있으나 흙길 있음"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
-        ]
+        ],
+        "note": "3.1기념공원 주차장 내"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -45,18 +48,20 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "경포여행자센터 주차장 5면, 3.1기념공원 주차장 3면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "휴게 공간이나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "3.1기념공원 주차장, 수동휠체어 2대"
       },
       "rental_stroller": {
         "value": "모름",
@@ -83,12 +88,11 @@
       }
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며, 평지로 연결된 접근로와 단차가 없는 주출입구를 거쳐 3.1기념공원 주차장에 장애인 전용 화장실이 있다.",
+      "text": "경포여행자센터 및 3.1기념공원에 장애인 전용 주차구역이 있으며, 평지로 연결되어 있고 단차가 없어 휠체어 접근이 가능합니다.",
       "evidence": [
         "parking-1",
         "route-1",
-        "exit-1",
-        "restroom-1"
+        "exit-1"
       ]
     }
   }

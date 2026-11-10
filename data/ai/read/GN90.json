@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:37.786Z",
+  "readAt": "2026-11-10T09:57:59.599Z",
   "attempts": 1,
   "result": {
     "placeId": "GN90",
@@ -10,24 +10,28 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "평지로 연결되고 턱 없음"
       },
       "elevator": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "엘리베이터가 있나요?"
+        "value": "가능",
+        "evidence": [
+          "class-1",
+          "overview-1"
+        ],
+        "note": "층이 없는 단층 전통 가옥 시설"
       },
       "slope": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "경사로가 완만한가요?"
-      },
-      "surface": {
         "value": "가능",
         "evidence": [
           "route-1"
         ],
-        "note": "평지로 연결됨"
+        "note": "평지로 연결"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -47,17 +51,17 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "벤치나 쉼터가 있나요?"
+        "ask": "벤치나 휴게 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {

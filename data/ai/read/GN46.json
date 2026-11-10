@@ -1,42 +1,45 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:29.513Z",
+  "readAt": "2026-11-10T09:51:56.389Z",
   "attempts": 1,
   "result": {
     "placeId": "GN46",
     "access": {
       "step_free_entrance": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "도직해변의 진입로에 계단이나 단차가 없나요?"
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ],
+        "note": "해변가까지 경사로구간 있음"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "도직해변에 엘리베이터가 있나요?"
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "해변가까지 경사로구간 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "도직해변의 노면 상태가 평탄한가요?"
+        "ask": "노면이 평탄하게 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
           "restroom-1"
         ],
-        "note": "망상컨벤션센터에 위치"
+        "note": "망상컨벤션센터"
       },
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "도직해변에 수유실이나 기저귀 교환대가 있나요?"
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "가능",
@@ -48,29 +51,33 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "도직해변에 벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "도직해변에서 휠체어를 대여할 수 있나요?"
+        "ask": "휠체어 대여가 가능한가요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "도직해변에서 유모차를 대여할 수 있나요?"
+        "ask": "유모차 대여가 가능한가요?"
       }
     },
     "hours": {
       "known": false,
-      "evidence": [],
-      "ask": "도직해변의 구체적인 이용 시간을 알려주실 수 있나요?"
+      "evidence": [
+        "intro-useseason-1"
+      ],
+      "always_open": false,
+      "ask": "정확한 이용 시간은 어떻게 되나요?"
     },
     "on_site": {
-      "text": "장애인 전용 주차구역이 있으며, 해변가까지 경사로구간이 있다.",
+      "text": "망상컨벤션센터의 장애인 전용 주차구역에 주차 후, 해변가까지 경사로구간을 통해 이동할 수 있으며 장애인 전용 화장실을 이용할 수 있습니다.",
       "evidence": [
         "parking-1",
-        "route-1"
+        "route-1",
+        "restroom-1"
       ]
     }
   }

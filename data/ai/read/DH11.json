@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:48.128Z",
+  "readAt": "2026-11-10T09:52:59.657Z",
   "attempts": 1,
   "result": {
     "placeId": "DH11",
@@ -10,22 +10,23 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구와 주 출입구에 턱이 없음"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "봉정연꽃마을 시설에 엘리베이터가 있나요?"
+        "ask": "봉정연꽃마을에 엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "봉정연꽃마을 이동로에 급경사가 없나요?"
+        "ask": "봉정연꽃마을 접근로에 경사가 없나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "봉정연꽃마을 노면은 휠체어가 다니기 편하게 포장되어 있나요?"
+        "ask": "봉정연꽃마을 노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -40,7 +41,7 @@
       "disabled_parking": {
         "value": "모름",
         "evidence": [],
-        "ask": "봉정연꽃마을 주차장에 장애인 전용 주차구역이 있나요?"
+        "ask": "봉정연꽃마을에 장애인 전용 주차구역이 있나요?"
       },
       "rest_area": {
         "value": "모름",
@@ -62,16 +63,15 @@
     "hours": {
       "known": true,
       "evidence": [
-        "intro-usetime-1"
+        "intro-usetime-1",
+        "intro-restdate-1"
       ],
       "always_open": false,
-      "closed_dates": [
-        "법정 공휴일"
-      ],
       "closed_weekdays": [
         "토",
         "일"
       ],
+      "note": "법정 공휴일 휴무",
       "summer": {
         "open": "10:00",
         "close": "17:00"

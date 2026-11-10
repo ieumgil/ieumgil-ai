@@ -1,0 +1,111 @@
+// 요청 하나의 전체 흐름(나중에 /api/plan이 이 함수를 부른다). docs/ai-plan.md v3 '일정 흐름'.
+// 1) 규칙 일정(LLM 없이): 날짜 틀·후보·대체 일정 2) LLM에 넘길 후보 최대 20곳 고르기(날마다 출발점 근처 고루)
+// 3) ② 판단 4) ③ 일정 2~3안 + 검사·수정 5) 평가자 6) 안이 하나도 없으면 규칙 일정 1안
+
+import { rulePlan, type RulePlan } from "../engine/fallback";
+import type { Candidate } from "../engine/filter";
+import { haversineKm } from "../engine/travel";
+import { timelineOptions } from "../engine/timeline";
+import type { DayFrame, TravelFn } from "../engine/types";
+import type { LlmClient } from "../llm";
+import type { PlanInput } from "../plan/types";
+import type { Place } from "../types";
+import { judgePlaces, type EvidenceIndex, type JudgeResult } from "./judge";
+import { pickStrategies, planOptions, type PlanOption, type PlanResult, type Strategy } from "./plan";
+import { reviewOptions, type Review } from "./review";
+
+export interface TripResult {
+  rule: RulePlan;
+  llmCandidates: Candidate[];
+  judge?: JudgeResult;
+  plan?: PlanResult;
+  reviews: Review[];
+  /** 화면에 보여줄 안(검사 통과). AI 안이 없으면 규칙 일정 1안 */
+  options: PlanOption[];
+  usedFallback: boolean;
+  calls: number;
+  ms: number;
+}
+
+/** 날마다 그날 출발점에서 가까운 후보를 고루 뽑아 최대 max곳 */
+export function selectForLlm(candidates: Candidate[], frames: DayFrame[], max = 20): Candidate[] {
+  const picked = new Map<string, Candidate>();
+  candidates.filter((c) => c.mustVisit).forEach((c) => picked.set(c.place.id, c));
+  const perDay = Math.ceil((max - picked.size) / frames.length);
+  for (const f of frames) {
+    const near = candidates
+      .filter((c) => !picked.has(c.place.id) && c.openDates.includes(f.date))
+      .sort((a, b) => b.score - b.tier * 6 - haversineKm(f.start, b.place) / 2 - (a.score - a.tier * 6 - haversineKm(f.start, a.place) / 2));
+    near.slice(0, perDay).forEach((c) => picked.set(c.place.id, c));
+  }
+  return [...picked.values()].slice(0, Math.max(max, picked.size));
+}
+
+export function ruleOption(rule: RulePlan): PlanOption {
+  return {
+    id: "R",
+    strategy: "규칙",
+    title: "기본 일정",
+    summary: "AI 설계를 불러오지 못해 규칙으로 만든 일정이에요.",
+    draft: rule.draft,
+    cautions: [],
+    checkBeforeGo: [],
+    check: rule.check,
+    source: "rule",
+    fixes: 0,
+    fixedViolations: [],
+  };
+}
+
+export async function makeTrip(llm: LlmClient, input: PlanInput, places: Place[], evidence: EvidenceIndex, travel: TravelFn): Promise<TripResult> {
+  const t0 = Date.now();
+  const rule = rulePlan(input, places, travel);
+  const llmCandidates = selectForLlm(rule.filter.candidates, rule.frames, 20);
+  const placesById = new Map(places.map((p) => [p.id, p]));
+  let calls = 0;
+
+  const judge = await judgePlaces(llm, { input, conditions: rule.filter.conditions, candidates: llmCandidates, evidence });
+  calls += judge.calls;
+  if (judge.failedCalls === judge.calls) {
+    return { rule, llmCandidates, judge, reviews: [], options: [ruleOption(rule)], usedFallback: true, calls, ms: Date.now() - t0 };
+  }
+
+  const strategies = pickStrategies(input, llmCandidates, judge.judgments);
+  const plan = await planOptions(
+    llm,
+    { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input) },
+    strategies,
+  );
+  calls += plan.calls;
+
+  let reviews = await reviewOptions(llm, input, plan.options, placesById);
+  if (plan.options.length) calls += 1;
+
+  // 평가 점수 중 2점 이하가 있는 안은 개선 방향을 붙여 1회만 다시 만든다(통과하고 점수가 나아지면 바꾼다)
+  const weak = reviews.filter((r) => Math.min(r.fatigue, r.slack, r.taste) <= 2 && plan.options.some((o) => o.id === r.optionId));
+  if (weak.length) {
+    const hints = Object.fromEntries(weak.map((r) => [r.optionId, r.improve ?? r.comment]));
+    const ids = weak.map((r) => r.optionId);
+    const strategies2 = ids.map((id) => plan.options.find((o) => o.id === id)!.strategy as Strategy);
+    const args = { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input) };
+    const redo = await planOptions(llm, args, strategies2, 1, hints, ids);
+    calls += redo.calls;
+    if (redo.options.length) {
+      const again = await reviewOptions(llm, input, redo.options, placesById);
+      calls += 1;
+      const total = (r?: Review) => (r ? r.fatigue + r.slack + r.taste : 0);
+      for (const o of redo.options) {
+        const i = plan.options.findIndex((x) => x.id === o.id);
+        const before = reviews.find((r) => r.optionId === o.id);
+        const after = again.find((r) => r.optionId === o.id);
+        if (i >= 0 && total(after) > total(before)) {
+          plan.options[i] = { ...o, fixes: plan.options[i].fixes + o.fixes + 1, fixedViolations: [...plan.options[i].fixedViolations, `평가자 의견 반영: ${hints[o.id]}`] };
+          reviews = [...reviews.filter((r) => r.optionId !== o.id), after!];
+        }
+      }
+    }
+  }
+
+  const options = plan.options.length ? plan.options : [ruleOption(rule)];
+  return { rule, llmCandidates, judge, plan, reviews, options, usedFallback: plan.options.length === 0, calls, ms: Date.now() - t0 };
+}

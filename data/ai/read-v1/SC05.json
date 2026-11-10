@@ -1,0 +1,100 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:57:34.200Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "SC05",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면은 평탄하게 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 쉼터나 벤치가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "불가",
+        "evidence": [
+          "intro-chkbabycarriage-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [
+        "1월1일"
+      ],
+      "closed_weekdays": [
+        "월"
+      ],
+      "summer": {
+        "open": "09:00",
+        "close": "18:00",
+        "last_entry": "17:00"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "17:00",
+        "last_entry": "16:00"
+      }
+    },
+    "on_site": {
+      "text": "장애인 주차장에 주차 후, 경사로가 설치된 출입구 및 주출입구를 통해 휠체어로 진입할 수 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1"
+      ]
+    }
+  }
+}

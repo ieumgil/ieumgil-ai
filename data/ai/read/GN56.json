@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:58:01.214Z",
+  "readAt": "2026-11-10T09:53:17.263Z",
   "attempts": 1,
   "result": {
     "placeId": "GN56",
@@ -8,24 +8,22 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "해수욕장 진입로에 계단이나 단차가 없나요?"
+        "ask": "사근진해변의 진입로에 계단이나 단차가 없나요?"
       },
       "elevator": {
-        "value": "가능",
-        "evidence": [
-          "class-1"
-        ],
-        "note": "층이 없는 시설"
+        "value": "모름",
+        "evidence": [],
+        "ask": "사근진해변에 엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "해변으로 가는 길에 경사로나 오르막이 있나요?"
+        "ask": "사근진해변 가는 길에 급한 경사가 없나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "해변 주변 노면이 평탄하고 포장되어 있나요?"
+        "ask": "사근진해변의 바닥 노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -36,28 +34,29 @@
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "수유실이나 기저귀 교환대가 있나요?"
+        "ask": "사근진해변에 기저귀 교환대나 수유실이 있나요?"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "2면"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "쉬어갈 수 있는 벤치나 쉼터가 있나요?"
+        "ask": "사근진해변에 벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "휠체어를 대여할 수 있나요?"
+        "ask": "사근진해변에서 휠체어를 대여할 수 있나요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "유모차를 대여할 수 있나요?"
+        "ask": "사근진해변에서 유모차를 대여할 수 있나요?"
       }
     },
     "hours": {

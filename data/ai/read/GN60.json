@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:58:41.052Z",
+  "readAt": "2026-11-10T09:54:09.180Z",
   "attempts": 1,
   "result": {
     "placeId": "GN60",
@@ -8,24 +8,22 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "출입구까지 턱이나 계단이 없나요?"
+        "ask": "출입구에 단차가 없나요?"
       },
       "elevator": {
-        "value": "가능",
-        "evidence": [
-          "class-1"
-        ],
-        "note": "층이 없는 시설"
+        "value": "모름",
+        "evidence": [],
+        "ask": "엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 되어 있나요?"
+        "ask": "경사로나 오르막이 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면 상태가 포장되어 있나요?"
+        "ask": "노면 재질이 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -41,7 +39,8 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "3대"
       },
       "rest_area": {
         "value": "모름",

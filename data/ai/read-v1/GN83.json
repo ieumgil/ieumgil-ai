@@ -1,0 +1,89 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T07:00:44.117Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN83",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "주문진관광유람선에 층간 이동을 위한 엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "주문진관광유람선 내부 노면은 평탄한가요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "주문진관광유람선에 수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "주문진관광유람선 주차장에 장애인 전용 주차구역이 있나요?"
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "주문진관광유람선에 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "주문진관광유람선에서 휠체어를 대여할 수 있나요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "주문진관광유람선에서 유모차를 대여할 수 있나요?"
+      }
+    },
+    "hours": {
+      "known": false,
+      "evidence": [
+        "intro-usetime-1"
+      ],
+      "ask": "주문진관광유람선의 정확한 운항 시작 및 마감 시각을 알 수 있나요?",
+      "closed_dates": [
+        "1월",
+        "2월",
+        "기상 악화 시"
+      ],
+      "closed_weekdays": [],
+      "note": "해상관광 크루즈 11:30, 14:00, 16:00 운항, 음악불꽃 크루즈 하절기 19:30, 동절기 18:30 운항",
+      "summer": {
+        "open": "00:00",
+        "close": "00:00"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "00:00"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

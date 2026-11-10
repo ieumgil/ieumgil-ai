@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:00:07.473Z",
+  "readAt": "2026-11-10T09:56:01.081Z",
   "attempts": 1,
   "result": {
     "placeId": "SC23",
@@ -20,12 +20,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사도가 어떻게 되나요?"
+        "ask": "경사로가 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "산책로 노면은 어떻게 포장되어 있나요?"
+        "ask": "바닥 노면은 어떻게 되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -46,7 +46,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "휴게 쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",

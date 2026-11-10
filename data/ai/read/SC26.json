@@ -1,14 +1,15 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:00:19.351Z",
+  "readAt": "2026-11-10T09:56:50.231Z",
   "attempts": 1,
   "result": {
     "placeId": "SC26",
     "access": {
       "step_free_entrance": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "출입구에 턱이 없나요?"
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
       },
       "elevator": {
         "value": "모름",
@@ -19,14 +20,15 @@
         "value": "가능",
         "evidence": [
           "route-1"
-        ]
+        ],
+        "note": "해안가까지 경사로 설치"
       },
       "surface": {
         "value": "가능",
         "evidence": [
           "handicapetc-1"
         ],
-        "note": "해변가에 휠체어가 접근 가능한 데크로드 탐방로가 있음"
+        "note": "데크로드"
       },
       "accessible_toilet": {
         "value": "모름",
@@ -47,7 +49,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 쉼터나 벤치가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",

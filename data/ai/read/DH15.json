@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:59:55.962Z",
+  "readAt": "2026-11-10T09:55:38.242Z",
   "attempts": 1,
   "result": {
     "placeId": "DH15",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "출입구 턱 없음, 자동문"
       },
       "elevator": {
         "value": "가능",
@@ -21,7 +22,7 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "이동로에 급한 경사가 없나요?"
+        "ask": "경사로가 완만하게 설치되어 있나요?"
       },
       "surface": {
         "value": "모름",
@@ -39,18 +40,22 @@
         "evidence": [
           "lactationroom-1",
           "infantsfamilyetc-1"
-        ]
+        ],
+        "note": "수유실 및 기저귀 교환대 있음"
       },
       "disabled_parking": {
         "value": "가능",
         "evidence": [
-          "parking-1"
-        ]
+          "infantsfamilyetc-1"
+        ],
+        "note": "임산부 주차장 있음 (장애인 전용 주차 여부는 별도 문의 필요)"
       },
       "rest_area": {
-        "value": "모름",
-        "evidence": [],
-        "ask": "휴식할 수 있는 벤치나 쉼터가 있나요?"
+        "value": "가능",
+        "evidence": [
+          "overview-2"
+        ],
+        "note": "4층 카페"
       },
       "rental_wheelchair": {
         "value": "모름",

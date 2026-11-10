@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:57:48.128Z",
+  "readAt": "2026-11-10T09:52:59.657Z",
   "attempts": 1,
   "result": {
     "placeId": "GN55",
@@ -8,54 +8,53 @@
       "step_free_entrance": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉) 출입구에 턱이나 계단이 없나요?"
+        "ask": "보현사에 계단이나 단차 없는 진입로가 있나요?"
       },
       "elevator": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉) 건물에 엘리베이터가 있나요?"
+        "ask": "보현사에 엘리베이터가 있나요?"
       },
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉) 경사로가 완만하게 설치되어 있나요?"
+        "ask": "보현사 경내는 완만하게 되어 있나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉) 내부 노면은 평탄한가요?"
+        "ask": "보현사 노면은 어떻게 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
         "evidence": [
-          "restroom-1",
-          "info-화장실-1"
+          "restroom-1"
         ]
       },
       "diaper_nursing": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉)에 수유실이나 기저귀 교환대가 있나요?"
+        "ask": "보현사에 수유실이나 기저귀 교환대가 있나요?"
       },
       "disabled_parking": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉) 주차장에 장애인 전용 주차구역이 있나요?"
+        "ask": "보현사에 장애인 전용 주차구역이 있나요?"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉) 내부에 벤치나 쉼터가 있나요?"
+        "ask": "보현사에 벤치나 쉼터가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉)에서 휠체어를 대여할 수 있나요?"
+        "ask": "보현사에서 휠체어를 대여할 수 있나요?"
       },
       "rental_stroller": {
         "value": "모름",
         "evidence": [],
-        "ask": "보현사(강릉)에서 유모차를 대여할 수 있나요?"
+        "ask": "보현사에서 유모차를 대여할 수 있나요?"
       }
     },
     "hours": {
@@ -64,17 +63,7 @@
         "intro-usetime-1",
         "intro-restdate-1"
       ],
-      "always_open": true,
-      "closed_dates": [],
-      "closed_weekdays": [],
-      "summer": {
-        "open": "00:00",
-        "close": "23:59"
-      },
-      "winter": {
-        "open": "00:00",
-        "close": "23:59"
-      }
+      "always_open": true
     },
     "on_site": {
       "text": "",

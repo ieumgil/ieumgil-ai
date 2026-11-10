@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:56:56.383Z",
+  "readAt": "2026-11-10T09:52:22.808Z",
   "attempts": 1,
   "result": {
     "placeId": "GN51",
@@ -10,7 +10,8 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로가 설치되어 휠체어 접근 가능함"
       },
       "elevator": {
         "value": "모름",
@@ -28,7 +29,7 @@
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면은 평탄하거나 포장되어 있나요?"
+        "ask": "노면 재질은 어떻게 되나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -45,26 +46,29 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "정동진해변 주차장, 8면"
       },
       "rest_area": {
         "value": "가능",
         "evidence": [
           "overview-1"
         ],
-        "note": "바다 쪽으로 벤치가 자리 잡고 있음"
+        "note": "바다 쪽으로 벤치 위치함"
       },
       "rental_wheelchair": {
         "value": "가능",
         "evidence": [
           "wheelchair-1"
-        ]
+        ],
+        "note": "화장실 앞, 수동 휠체어 2대 대여 가능"
       },
       "rental_stroller": {
         "value": "가능",
         "evidence": [
           "stroller-1"
-        ]
+        ],
+        "note": "화장실 앞, 2대 대여 가능"
       }
     },
     "hours": {
@@ -86,8 +90,13 @@
       }
     },
     "on_site": {
-      "text": "",
-      "evidence": []
+      "text": "정동진해변 주차장에 장애인 전용 주차구역(8면)이 있으며, 화장실 앞에는 휠체어와 유모차 대여소가 위치한다.",
+      "evidence": [
+        "parking-1",
+        "restroom-1",
+        "wheelchair-1",
+        "stroller-1"
+      ]
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T06:58:13.472Z",
+  "readAt": "2026-11-10T09:53:42.052Z",
   "attempts": 1,
   "result": {
     "placeId": "SC08",
@@ -20,12 +20,12 @@
       "slope": {
         "value": "모름",
         "evidence": [],
-        "ask": "경사로가 완만하게 설치되어 있나요?"
+        "ask": "급한 경사가 없나요?"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "노면이 평탄하게 포장되어 있나요?"
+        "ask": "노면은 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -47,7 +47,7 @@
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치나 쉼터가 있나요?"
+        "ask": "쉼터나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -69,6 +69,7 @@
       "always_open": true,
       "closed_dates": [],
       "closed_weekdays": [],
+      "note": "기상 정보 등에 의해 입산 통제될 수 있음",
       "summer": {
         "open": "00:00",
         "close": "23:59"
@@ -79,10 +80,11 @@
       }
     },
     "on_site": {
-      "text": "장애인 주차장에 주차 후, 출입구까지 턱이 없어 휠체어로 진입 가능하며 장애인 화장실을 이용할 수 있습니다.",
+      "text": "장애인 주차장에 주차 후 장애인 화장실과 턱이 없는 주출입구를 통해 진입할 수 있습니다.",
       "evidence": [
         "parking-1",
         "route-1",
+        "exit-1",
         "restroom-1"
       ]
     }

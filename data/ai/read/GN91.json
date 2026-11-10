@@ -1,6 +1,6 @@
 {
   "model": "gemini-3.5-flash-lite",
-  "readAt": "2026-11-10T07:01:52.208Z",
+  "readAt": "2026-11-10T09:58:12.098Z",
   "attempts": 1,
   "result": {
     "placeId": "GN91",
@@ -23,12 +23,13 @@
         "evidence": [
           "route-1",
           "exit-1"
-        ]
+        ],
+        "note": "경사로 설치되어 있음"
       },
       "surface": {
         "value": "모름",
         "evidence": [],
-        "ask": "박물관 내부 노면은 평탄한가요?"
+        "ask": "건물 내부 및 접근로 바닥은 어떤 재질로 포장되어 있나요?"
       },
       "accessible_toilet": {
         "value": "가능",
@@ -45,12 +46,13 @@
         "value": "가능",
         "evidence": [
           "parking-1"
-        ]
+        ],
+        "note": "지상주차장, 3대"
       },
       "rest_area": {
         "value": "모름",
         "evidence": [],
-        "ask": "휴게 벤치가 있나요?"
+        "ask": "휴게 공간이나 벤치가 있나요?"
       },
       "rental_wheelchair": {
         "value": "모름",
@@ -84,8 +86,13 @@
       }
     },
     "on_site": {
-      "text": "",
-      "evidence": []
+      "text": "지상주차장(3대)에 주차 후, 출입구까지 경사로가 설치되어 있어 원활한 출입이 가능하며, 내부에는 엘리베이터가 있어 이동할 수 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "elevator-1"
+      ]
     }
   }
 }

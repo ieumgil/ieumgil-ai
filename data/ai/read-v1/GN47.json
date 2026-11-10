@@ -1,0 +1,98 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:56:44.188Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN47",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "경사로가 완만하게 설치되어 있나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면이 평탄하고 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1",
+          "info-화장실-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "evidence": [
+          "lactationroom-1"
+        ]
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1",
+          "intro-parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1",
+        "overview-2"
+      ],
+      "always_open": false,
+      "closed_weekdays": [
+        "화",
+        "수"
+      ],
+      "note": "목요일~월요일만 운행하며 화요일, 수요일은 운행하지 않음",
+      "summer": {
+        "open": "10:00",
+        "close": "18:00"
+      },
+      "winter": {
+        "open": "10:00",
+        "close": "18:00"
+      }
+    },
+    "on_site": {
+      "text": "주출입구 근처 지상에 장애인 주차장이 마련되어 있고, 출입구에 턱이 없어 자동문으로 휠체어 접근이 가능하다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1"
+      ]
+    }
+  }
+}
