@@ -1,6 +1,6 @@
 # 디자인 시안 v2 원본
 
-- 온라인 캔버스(기준): https://claude.ai/artifact/S2A6vTW33w69QtFQssuoTu
+- 온라인 캔버스(참고용, 갱신 중단. 기준은 이 폴더): https://claude.ai/artifact/S2A6vTW33w69QtFQssuoTu
 - 이 폴더의 `.dc.html` 파일은 위 캔버스의 화면별 원본이다. 일반 HTML에 템플릿 문법(`{{값}}`, `<sc-for>`, `<sc-if>`)이 섞인 형식이라
   브라우저에서 바로 열리지 않는다. 화면 구조, 문구, 색, 간격을 참고하는 용도로 읽는다.
 

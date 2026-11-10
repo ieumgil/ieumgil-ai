@@ -5,10 +5,10 @@
 당일~2박 3일 루트로 돌 수 있는지 판정하고, 지도 경로와 AI 브리핑으로 보여주는 웹서비스.
 2026 My AI 랩(강릉과학산업진흥원) 과제. **12월 초 GitHub 결과물 평가**, 12/11 최종 제출.
 
-- 기획·설계 문서: https://claude.ai/artifact/TZSUcqLRtTSZst2edEm5L6
-- 디자인 시안 v2 (기준): https://claude.ai/artifact/S2A6vTW33w69QtFQssuoTu
-- 로컬 사본: `docs/planning.md`(기획 문서 스냅샷, 최신본은 위 링크) · `docs/design/`(화면별 시안 원본) · `docs/data/`(관광지 조사표)
-  · `docs/handoff.md`(기획 대화 인수인계, 열린 결정 목록) · `docs/ai-plan.md`(AI 활용 후보, 미확정)
+- 기획·설계 문서(참고용, 갱신 중단): https://claude.ai/artifact/TZSUcqLRtTSZst2edEm5L6
+- 디자인 시안 v2(참고용, 갱신 중단): https://claude.ai/artifact/S2A6vTW33w69QtFQssuoTu
+- 기준 문서(이 저장소): `docs/planning.md`(기획 문서, rev 26 스냅샷부터 여기서 고침) · `docs/design/`(화면별 시안 원본)
+  · `docs/data/`(관광지 조사표) · `docs/handoff.md`(기획 대화 인수인계, 열린 결정 목록) · `docs/ai-plan.md`(AI 활용 후보, 미확정)
 
 ## 절대 원칙
 1. **판정은 규칙, 설명은 LLM.** 갈 수 있는지(조건 충족 여부)는 `src/lib/engine`의 규칙만 판단한다.
