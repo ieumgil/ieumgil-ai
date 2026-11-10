@@ -67,7 +67,7 @@ test("휠체어 · 자가용 + 표지 차량: 장애인 전용 주차가 필수 
   await expect(page).toHaveURL(/\/plan\/taste$/);
   await expect(page.getByRole("button", { name: "좋아하는 곳을 골라 주세요" })).toBeDisabled();
   await page.getByRole("button", { name: /바다·해변/ }).click();
-  await expect(page.getByRole("link", { name: "루트 만들기" })).toHaveAttribute("href", "/trip/new");
+  await expect(page.getByRole("link", { name: "루트 만들기" })).toHaveAttribute("href", "/plan/making");
 });
 
 test("휠체어 · 택시: 장애인 전용 주차 조건이 나오지 않는다", async ({ page }) => {

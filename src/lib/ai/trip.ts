@@ -57,19 +57,32 @@ export function ruleOption(rule: RulePlan): PlanOption {
   };
 }
 
-export async function makeTrip(llm: LlmClient, input: PlanInput, places: Place[], evidence: EvidenceIndex, travel: TravelFn): Promise<TripResult> {
+/** 진행 단계(화면 '만드는 중'에 보여준다) */
+export type TripStage = "rule" | "judge" | "plan" | "review" | "done";
+
+export async function makeTrip(
+  llm: LlmClient,
+  input: PlanInput,
+  places: Place[],
+  evidence: EvidenceIndex,
+  travel: TravelFn,
+  onStage: (stage: TripStage) => void = () => {},
+): Promise<TripResult> {
   const t0 = Date.now();
+  onStage("rule");
   const rule = rulePlan(input, places, travel);
   const llmCandidates = selectForLlm(rule.filter.candidates, rule.frames, 20);
   const placesById = new Map(places.map((p) => [p.id, p]));
   let calls = 0;
 
+  onStage("judge");
   const judge = await judgePlaces(llm, { input, conditions: rule.filter.conditions, candidates: llmCandidates, evidence });
   calls += judge.calls;
   if (judge.failedCalls === judge.calls) {
     return { rule, llmCandidates, judge, reviews: [], options: [ruleOption(rule)], usedFallback: true, calls, ms: Date.now() - t0 };
   }
 
+  onStage("plan");
   const strategies = pickStrategies(input, llmCandidates, judge.judgments);
   const plan = await planOptions(
     llm,
@@ -78,6 +91,7 @@ export async function makeTrip(llm: LlmClient, input: PlanInput, places: Place[]
   );
   calls += plan.calls;
 
+  onStage("review");
   let reviews = await reviewOptions(llm, input, plan.options, placesById);
   if (plan.options.length) calls += 1;
 

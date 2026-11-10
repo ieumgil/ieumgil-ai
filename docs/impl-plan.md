@@ -30,7 +30,7 @@
 | 4. 코드 엔진 | 11/10 | `filter.ts`, `timeline.ts`, `check.ts`, `fallback.ts` | 엔진 시나리오 10개 통과(필수 조건 위반 0건) | ✅ 시나리오 10개 + 유형 조합 14개 위반 0건. `scripts/engine/try-plan.ts`로 실제 152곳 확인 |
 | 5. ② 판단 | 11/10 | `ai/judge.ts` + 프롬프트, 3회 비교·확신도 | 가짜 LLM 테스트, 실제 Gemini 시나리오 5개 | ✅ 가짜 LLM 4개 + 실제 Gemini 2개 시나리오(판단 3회 합치기) |
 | 6. ③ 계획 | 11/10 | `ai/plan.ts`(2~3안), 걸린 안만 수정, `ai/review.ts` | 검사 통과한 안만 남음, 실패 시 규칙 일정 1안 | ✅ 가짜 LLM 5개, 실제 Gemini로 2~3안 검사 통과(요청당 호출 5회·약 25초) |
-| 7. 연결 + 화면 | 11/23~26 | `kakao.ts`, `/api/plan` 스트리밍, `/plan/making`, `/trip/[id]` 안 비교 → 상세 | E2E 입력 → 비교 → 상세. 비교 화면 시안 먼저 | |
+| 7. 연결 + 화면 | 11/10~ | `kakao.ts`, `/api/plan` 스트리밍, `/plan/making`, `/trip/[id]` 안 비교 → 상세 | E2E 입력 → 비교 → 상세. 비교 화면 시안 먼저 | 🔶 `/api/plan`(NDJSON 스트림)·만드는 중·결과(목록) 완료, 실제 시연 57초. 남음: 카카오 이동시간·지도 |
 | 8. 풀어주기·추가 질문 | 11/27~29 | `ai/explain.ts`, `ai/ask.ts` + `/plan/ask`, 예시 루트 JSON | 예시 루트가 LLM 없이 열림 | |
 | 9. 평가·마무리 | 11/30~12/3 | `scripts/eval-ai.ts`, `docs/eval/`, 사용자 테스트, README 숫자, 배포 | README에 정확도·위반 0건 | |
 | 나중에 | — | 공유 링크, Supabase `trips`, 요약 이미지 | | |

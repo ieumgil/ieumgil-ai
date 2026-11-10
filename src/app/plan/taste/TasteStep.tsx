@@ -57,7 +57,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
       footer={
         <StepFooter
           prevHref="/plan/conditions"
-          nextHref="/trip/new"
+          nextHref="/plan/making"
           nextLabel="루트 만들기"
           blockedLabel={plan.categories.length === 0 ? "좋아하는 곳을 골라 주세요" : incompleteLabel(plan, 4)}
         />
