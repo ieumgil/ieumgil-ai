@@ -1,0 +1,83 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:55:02.081Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN23",
+    "access": {
+      "step_free_entrance": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "출입구에 턱이나 계단이 없나요?"
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "급한 경사가 없나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면이 포장되어 평탄한가요?"
+      },
+      "accessible_toilet": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 화장실이 있나요?"
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 전용 주차구역이 있나요?"
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_weekdays": [
+        "화"
+      ],
+      "summer": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "17:00"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T07:00:44.117Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN80",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "정동진역에 엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "정동진역 경사로가 완만하게 되어 있나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "정동진역 노면 상태는 어떤가요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "evidence": [
+          "lactationroom-1"
+        ]
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "정동진역에 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ]
+      },
+      "rental_stroller": {
+        "value": "불가",
+        "evidence": [
+          "intro-chkbabycarriage-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": false,
+      "evidence": [
+        "intro-usetime-1"
+      ],
+      "ask": "정동진역의 구체적인 이용 시간을 알 수 있나요?",
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "note": "노선별로 상이함",
+      "summer": {
+        "open": "00:00",
+        "close": "00:00"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "00:00"
+      }
+    },
+    "on_site": {
+      "text": "장애인 전용 주차구역이 있으며, 출입구와 주출입구까지 턱이 없어 휠체어 접근이 가능합니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1"
+      ]
+    }
+  }
+}

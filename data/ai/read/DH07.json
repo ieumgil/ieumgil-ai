@@ -1,0 +1,100 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:57:07.132Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "DH07",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "급한 경사가 없나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면 포장이 잘 되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "evidence": [
+          "lactationroom-1",
+          "infantsfamilyetc-1"
+        ]
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "쉬어갈 수 있는 벤치가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ]
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [],
+      "closed_weekdays": [
+        "월"
+      ],
+      "summer": {
+        "open": "09:30",
+        "close": "17:30",
+        "last_entry": "16:30"
+      },
+      "winter": {
+        "open": "09:30",
+        "close": "17:30",
+        "last_entry": "16:30"
+      }
+    },
+    "on_site": {
+      "text": "제1주차장과 제2주차장에 주차 공간이 있고, 출입구에 턱이 없으며 엘리베이터와 장애인 전용 화장실이 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "elevator-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T07:02:20.326Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN97",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면 상태가 평탄하고 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 전용 주차구역이 있나요?"
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "벤치나 쉼터 등의 휴게 공간이 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ]
+      },
+      "rental_stroller": {
+        "value": "가능",
+        "evidence": [
+          "stroller-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [
+        "1월 1일",
+        "설 당일",
+        "추석 당일"
+      ],
+      "closed_weekdays": [
+        "월"
+      ],
+      "note": "허균·허난설헌 기념공원은 상시 개방이며, 기념관은 09:00~18:00 운영됩니다.",
+      "summer": {
+        "open": "09:00",
+        "close": "18:00"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "18:00"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

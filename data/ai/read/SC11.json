@@ -1,0 +1,93 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:58:26.655Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "SC11",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "경사로가 완만하게 설치되어 있나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면이 평탄하게 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ],
+        "note": "2층에 위치"
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 쉼터나 벤치가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": false,
+      "evidence": [
+        "intro-usetime-1"
+      ],
+      "always_open": false,
+      "ask": "운영 시간은 어떻게 되나요?",
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "",
+        "close": ""
+      },
+      "winter": {
+        "open": "",
+        "close": ""
+      }
+    },
+    "on_site": {
+      "text": "장애인 주차장에 주차 후 턱이 없는 접근로와 출입구를 통해 진입하며, 2층에 장애인 화장실과 엘리베이터가 있다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "elevator-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

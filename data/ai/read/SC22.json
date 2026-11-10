@@ -1,0 +1,94 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T07:00:07.473Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "SC22",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면은 어떻게 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "evidence": [
+          "infantsfamilyetc-1"
+        ]
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 장소나 벤치가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어를 대여할 수 있나요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차를 대여할 수 있나요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
+    },
+    "on_site": {
+      "text": "주차장에 장애인 전용 주차구역이 있으며, 접근로에 완만한 경사로가 있고 출입구에 턱이 없어 진입한 뒤 주차장 입구 앞에 장애인 화장실이 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

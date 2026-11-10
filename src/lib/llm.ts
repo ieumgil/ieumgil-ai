@@ -15,7 +15,10 @@ export interface LlmRequest {
   task: string;
   system: string;
   input: string;
+  /** 모델에 보내는 스키마(Gemini는 enum이 많거나 중첩이 깊으면 400을 낸다 → 가볍게) */
   schema: JsonSchema;
+  /** 받은 답을 검사할 스키마(없으면 schema). 근거 id enum처럼 엄격한 조건은 여기에 둔다 */
+  check?: JsonSchema;
   tier?: ModelTier;
   temperature?: number;
 }
@@ -85,7 +88,7 @@ export function createLlm(opts: LlmOptions): LlmClient {
   return {
     async json<T>(req: LlmRequest): Promise<LlmResult<T>> {
       const t0 = Date.now();
-      const validate = validatorFor(req.schema);
+      const validate = validatorFor(req.check ?? req.schema);
       const chain = req.tier === "read" ? [models.read, models.fast] : [models.fast];
       let attempts = 0;
       let lastMessage = "";

@@ -1,0 +1,98 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:55:27.378Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN28",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면은 어떻게 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "evidence": [
+          "lactationroom-1"
+        ]
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 공간이나 벤치가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ]
+      },
+      "rental_stroller": {
+        "value": "가능",
+        "evidence": [
+          "stroller-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "10:00",
+        "close": "18:00",
+        "last_entry": "17:30"
+      },
+      "winter": {
+        "open": "10:00",
+        "close": "18:00",
+        "last_entry": "17:30"
+      }
+    },
+    "on_site": {
+      "text": "장애인 전용 주차구역이 있으며, 주출입구까지 경사로와 턱이 없는 자동문으로 진입할 수 있고 1층에 장애인 화장실이 위치한다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T07:01:37.786Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN89",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "경사로가 완만한가요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면 상태가 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "모름",
+        "evidence": [
+          "info-화장실-1"
+        ],
+        "note": "화장실은 있으나 장애인 화장실 여부는 모름"
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 전용 주차구역이 있나요?"
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어를 대여할 수 있나요?"
+      },
+      "rental_stroller": {
+        "value": "불가",
+        "evidence": [
+          "intro-chkbabycarriage-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": false,
+      "evidence": [
+        "intro-usetime-1"
+      ],
+      "ask": "점포별 이용시간이 어떻게 되나요?",
+      "summer": {
+        "open": "00:00",
+        "close": "00:00"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "00:00"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

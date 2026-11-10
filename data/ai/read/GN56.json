@@ -1,0 +1,86 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:58:01.214Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN56",
+    "access": {
+      "step_free_entrance": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "해수욕장 진입로에 계단이나 단차가 없나요?"
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "class-1"
+        ],
+        "note": "층이 없는 시설"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "해변으로 가는 길에 경사로나 오르막이 있나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "해변 주변 노면이 평탄하고 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "쉬어갈 수 있는 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어를 대여할 수 있나요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차를 대여할 수 있나요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

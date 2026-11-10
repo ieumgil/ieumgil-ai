@@ -1,0 +1,90 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:55:02.081Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN21",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "경사로가 완만하거나 급하지 않은가요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면이 평탄하고 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "evidence": [
+          "lactationroom-1"
+        ]
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": true,
+      "note": "연중무휴",
+      "summer": {
+        "open": "09:30",
+        "close": "17:30"
+      },
+      "winter": {
+        "open": "09:30",
+        "close": "17:30"
+      }
+    },
+    "on_site": {
+      "text": "장애인 전용 주차구역에 주차 후 경사로가 설치된 출입구로 진입할 수 있으며, 장애인 전용 화장실이 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

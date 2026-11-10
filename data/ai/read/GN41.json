@@ -1,0 +1,97 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:56:03.882Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN41",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "경사로가 완만하거나 급한 구간이 없나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면이 평탄하고 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어를 대여할 수 있나요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차를 대여할 수 있나요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [
+        "1월 1일",
+        "설·추석 당일"
+      ],
+      "closed_weekdays": [
+        "월",
+        "화"
+      ],
+      "summer": {
+        "open": "10:00",
+        "close": "18:00"
+      },
+      "winter": {
+        "open": "10:00",
+        "close": "18:00"
+      }
+    },
+    "on_site": {
+      "text": "지상주차장에 장애인 전용 주차구역이 있으며, 출입구까지 경사로가 설치되어 있고 턱이 없어 장애인 화장실까지 접근이 가능합니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

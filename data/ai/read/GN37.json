@@ -1,0 +1,100 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:55:53.006Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN37",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "국립대관령치유의숲에 엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "overview-1"
+        ]
+      },
+      "surface": {
+        "value": "가능",
+        "evidence": [
+          "overview-1"
+        ],
+        "note": "무장애 데크로드가 조성되어 있음"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1",
+          "info-화장실-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "국립대관령치유의숲에 수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "국립대관령치유의숲에 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ]
+      },
+      "rental_stroller": {
+        "value": "가능",
+        "evidence": [
+          "stroller-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_weekdays": [
+        "토",
+        "일"
+      ],
+      "summer": {
+        "open": "09:00",
+        "close": "18:00"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "18:00"
+      }
+    },
+    "on_site": {
+      "text": "장애인 전용 주차구역에서 출발하여 경사로가 설치된 출입구와 턱이 없는 주출입구를 거쳐 이동할 수 있으며 장애인 화장실이 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

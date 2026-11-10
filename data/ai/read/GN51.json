@@ -1,0 +1,93 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:56:56.383Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN51",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ],
+        "note": "경사로가 설치되어 있음"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면은 평탄하거나 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "가능",
+        "evidence": [
+          "overview-1"
+        ],
+        "note": "바다 쪽으로 벤치가 자리 잡고 있음"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ]
+      },
+      "rental_stroller": {
+        "value": "가능",
+        "evidence": [
+          "stroller-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

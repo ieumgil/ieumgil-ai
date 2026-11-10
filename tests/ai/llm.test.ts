@@ -68,6 +68,22 @@ describe("llm.json", () => {
     expect(calls.length).toBe(1);
   });
 
+  it("검사용 스키마(check)가 있으면 그걸로 검사한다(모델에는 가벼운 스키마만 보냄)", async () => {
+    const loose = { type: "object", properties: { value: { type: "string" } }, required: ["value"] };
+    const sent: unknown[] = [];
+    const responses = ['{"value":"아마도"}', '{"value":"모름"}'];
+    const llm = createLlm({
+      transport: async ({ schema: s }) => {
+        sent.push(s);
+        return responses.shift() ?? "";
+      },
+      sleep: noSleep,
+    });
+    const res = await llm.json({ ...req, schema: loose, check: schema });
+    expect(res).toMatchObject({ ok: true, data: { value: "모름" }, attempts: 2 });
+    expect(sent[0]).toBe(loose);
+  });
+
   it("모델 이름은 환경변수로 바꿀 수 있다", async () => {
     const { transport, calls } = scripted(['{"value":"가능"}']);
     await createLlm({ transport, sleep: noSleep, models: { fast: "my-fast" } }).json(req);

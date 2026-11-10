@@ -61,3 +61,6 @@ next-env.d.ts
 
 # 관광공사 API 원본 응답(커밋 여부 미정)
 /data/raw/
+
+# 장소 데이터 중간 산출물(API 원본에서 다시 만듦)
+/data/build/

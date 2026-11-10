@@ -1,0 +1,99 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:58:26.655Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "SC10",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "설악산 자생식물원에 엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "surface": {
+        "value": "부분가능",
+        "evidence": [
+          "route-1",
+          "handicapetc-1"
+        ],
+        "note": "흙구간이 있고 일부 계단으로 되어 있어 휠체어 및 유모차가 접근 불가한 구간 있음"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ],
+        "note": "관리사무소에 위치"
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 쉼터나 벤치가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ],
+        "note": "관리사무소에서 1대 대여 가능"
+      },
+      "rental_stroller": {
+        "value": "가능",
+        "evidence": [
+          "stroller-1"
+        ],
+        "note": "관리사무소에서 1대 대여 가능"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "09:00",
+        "close": "17:30"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "17:30"
+      }
+    },
+    "on_site": {
+      "text": "장애인 주차장에 주차 후 턱이 없는 출입구와 접근로를 통해 진입하며, 관리사무소에 장애인 화장실이 있다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

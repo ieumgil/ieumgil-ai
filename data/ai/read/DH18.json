@@ -1,0 +1,86 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T07:01:52.208Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "DH18",
+    "access": {
+      "step_free_entrance": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "추암 촛대바위의 진입로에 계단이나 단차가 없나요?"
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "추암 촛대바위에 엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "추암 촛대바위 가는 길에 급경사가 없나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "추암 촛대바위의 노면은 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "09:00",
+        "close": "18:00",
+        "last_entry": "17:00"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "17:00",
+        "last_entry": "16:00"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

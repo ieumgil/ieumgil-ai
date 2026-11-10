@@ -1,0 +1,86 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T07:01:52.208Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "DH19",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "추암조각공원에 엘리베이터가 있나요?"
+      },
+      "slope": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "추암조각공원 접근로에 경사가 완만하거나 급경사가 없나요?"
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "추암조각공원 산책로의 노면은 평탄하게 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "장애인 화장실이 있나요?"
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이나 기저귀 교환대가 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "가능",
+        "evidence": [
+          "overview-1"
+        ]
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": true,
+      "closed_dates": [],
+      "closed_weekdays": [],
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
+    },
+    "on_site": {
+      "text": "",
+      "evidence": []
+    }
+  }
+}

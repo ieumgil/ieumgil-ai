@@ -1,0 +1,104 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:55:53.006Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "SC01",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1",
+          "exit-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "elevator-1"
+        ]
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "국립산악박물관의 노면은 어떻게 포장되어 있나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "가능",
+        "evidence": [
+          "lactationroom-1",
+          "infantsfamilyetc-1"
+        ]
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "국립산악박물관에 벤치나 쉼터가 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "가능",
+        "evidence": [
+          "wheelchair-1"
+        ]
+      },
+      "rental_stroller": {
+        "value": "가능",
+        "evidence": [
+          "stroller-1"
+        ]
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1",
+        "intro-restdate-1"
+      ],
+      "always_open": false,
+      "closed_dates": [
+        "1월 1일",
+        "설 연휴",
+        "추석 연휴"
+      ],
+      "closed_weekdays": [
+        "월"
+      ],
+      "note": "월요일이 공휴일인 경우 정상 개관",
+      "summer": {
+        "open": "09:00",
+        "close": "18:00"
+      },
+      "winter": {
+        "open": "09:00",
+        "close": "18:00"
+      }
+    },
+    "on_site": {
+      "text": "장애인 주차장에서 출발하여 경사로가 설치된 출입구와 턱이 없는 주출입구를 통해 이동할 수 있으며 장애인 화장실이 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "exit-1",
+        "restroom-1"
+      ]
+    }
+  }
+}

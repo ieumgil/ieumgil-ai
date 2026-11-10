@@ -1,0 +1,89 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "readAt": "2026-11-10T06:58:41.052Z",
+  "attempts": 1,
+  "result": {
+    "placeId": "GN61",
+    "access": {
+      "step_free_entrance": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "elevator": {
+        "value": "가능",
+        "evidence": [
+          "class-1"
+        ],
+        "note": "층이 없는 시설"
+      },
+      "slope": {
+        "value": "가능",
+        "evidence": [
+          "route-1"
+        ]
+      },
+      "surface": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "노면 상태가 어떻게 되나요?"
+      },
+      "accessible_toilet": {
+        "value": "가능",
+        "evidence": [
+          "restroom-1"
+        ]
+      },
+      "diaper_nursing": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "수유실이 있나요?"
+      },
+      "disabled_parking": {
+        "value": "가능",
+        "evidence": [
+          "parking-1"
+        ]
+      },
+      "rest_area": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휴게 공간이 있나요?"
+      },
+      "rental_wheelchair": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "휠체어 대여가 가능한가요?"
+      },
+      "rental_stroller": {
+        "value": "모름",
+        "evidence": [],
+        "ask": "유모차 대여가 가능한가요?"
+      }
+    },
+    "hours": {
+      "known": true,
+      "evidence": [
+        "intro-usetime-1"
+      ],
+      "always_open": true,
+      "summer": {
+        "open": "00:00",
+        "close": "23:59"
+      },
+      "winter": {
+        "open": "00:00",
+        "close": "23:59"
+      }
+    },
+    "on_site": {
+      "text": "주출입구 근처 지상주차장의 장애인 전용 주차구역에 주차 후 경사로를 통해 출입구로 접근할 수 있으며 장애인 화장실이 있습니다.",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "restroom-1"
+      ]
+    }
+  }
+}
