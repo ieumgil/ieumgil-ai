@@ -76,25 +76,55 @@ export function validatePlaces(data: unknown): ValidationResult {
   const add = (place: Place, i: number, sub: string, message: string) =>
     issues.push({ placeId: place.id, path: `[${i}]${sub}`, message });
 
-  const ids = new Set<string>();
+  const dupIds = new Set<string>();
   const seen = new Set<string>();
+  const dupContent = new Set<string>();
+  const seenContent = new Set<string>();
   for (const p of places) {
-    if (seen.has(p.id)) ids.add(p.id); // 중복 id 기록
+    if (seen.has(p.id)) dupIds.add(p.id);
     seen.add(p.id);
+    if (p.tour_content_id) {
+      if (seenContent.has(p.tour_content_id)) dupContent.add(p.tour_content_id);
+      seenContent.add(p.tour_content_id);
+    }
   }
 
+  const blank = (s: string | undefined) => !s || s.trim() === "";
+
   places.forEach((p, i) => {
-    if (ids.has(p.id)) add(p, i, ".id", `id가 중복돼요: ${p.id}`);
+    if (dupIds.has(p.id)) add(p, i, ".id", `id가 중복돼요: ${p.id}`);
+    if (p.tour_content_id && dupContent.has(p.tour_content_id)) {
+      add(p, i, ".tour_content_id", `관광공사 contentid가 중복돼요: ${p.tour_content_id}`);
+    }
 
     if (!p.id.startsWith(ID_PREFIX[p.region])) {
       add(p, i, ".id", `${p.region} 장소의 id는 ${ID_PREFIX[p.region]}로 시작해야 해요.`);
     }
 
-    // '정보 없음' 금지 원칙
+    // 원칙 2: '모름'은 숨기지 않고 확인할 방법(질문 + 공식 전화번호)을 준다
+    if (!/\d/.test(p.phone)) add(p, i, ".phone", `공식 전화번호가 필요해요(지금: "${p.phone}").`);
+
     for (const key of ACCESS_KEYS) {
-      if (p.access[key].value === "미확인") {
-        add(p, i, `.access.${key}.value`, "미확인 값이 남아 있어요. 조사하거나 후보에서 빼야 해요.");
+      const a = p.access[key];
+      if (a.value === "모름" && blank(a.ask)) {
+        add(p, i, `.access.${key}`, "'모름'이면 출발 전에 물어볼 질문(ask)이 있어야 해요.");
       }
+      if (a.value === "부분가능" && blank(a.note)) {
+        add(p, i, `.access.${key}`, "부분가능이면 어떤 부분인지 메모(note)가 있어야 해요.");
+      }
+      // AI가 정리한 값은 근거 문장이 있어야 한다(근거 없는 판단 금지)
+      if (a.grade === "ai" && a.value !== "모름" && !(a.evidence && a.evidence.length > 0)) {
+        add(p, i, `.access.${key}`, "AI가 정리한 값에 근거 id(evidence)가 없어요. 근거가 없으면 '모름'이어야 해요.");
+      }
+    }
+
+    if (p.on_site && p.on_site.grade === "ai" && p.on_site.evidence.length === 0) {
+      add(p, i, ".on_site", "도착 후 동선에 근거 id(evidence)가 없어요.");
+    }
+
+    const h = p.hours;
+    if (!h.summer && !h.winter && !h.always_open && blank(h.ask)) {
+      add(p, i, ".hours", "운영시간을 모르면 물어볼 질문(hours.ask)이 있어야 해요.");
     }
 
     if (p.stay_min > p.stay_max) {
@@ -103,6 +133,7 @@ export function validatePlaces(data: unknown): ValidationResult {
 
     for (const season of ["summer", "winter"] as const) {
       const h = p.hours[season];
+      if (!h) continue;
       if (minutes(h.open) >= minutes(h.close)) {
         add(p, i, `.hours.${season}`, `여는 시각(${h.open})이 닫는 시각(${h.close})보다 늦거나 같아요.`);
       }

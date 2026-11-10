@@ -13,8 +13,11 @@ export const CATEGORIES = [
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
 
-/** 운영 데이터에서는 '미확인'이 하나라도 있으면 검사가 실패한다. */
-export type AccessStatus = "가능" | "부분가능" | "불가" | "미확인";
+/** '모름'은 허용하되 물어볼 질문(ask)이 반드시 있어야 한다(원칙 2, docs/ai-plan.md v3). */
+export type AccessStatus = "가능" | "부분가능" | "불가" | "모름";
+
+/** 값의 출처 등급: ai = LLM이 관광공사 문장을 읽고 정리, human = 사람이 전화·현장으로 확인 */
+export type Grade = "ai" | "human";
 
 export const ACCESS_KEYS = [
   "step_free_entrance", // 계단·단차 없는 진입
@@ -42,10 +45,22 @@ export interface AccessItem {
   value: AccessStatus;
   /** 부분가능이면 필수 */
   note?: string;
-  source_url: string;
-  /** yyyy-mm-dd */
+  /** 모름이면 필수: 출발 전에 전화로 물어볼 질문 */
+  ask?: string;
+  /** 근거 문장 id(data/docs/places/{id}.md의 문단 id, 예: "route-1"). 등급 ai이고 모름이 아니면 1개 이상 */
+  evidence?: string[];
+  grade: Grade;
+  method: AccessMethod;
+  /** yyyy-mm-dd: ai면 API 조회일, human이면 확인한 날 */
   verified_at: string;
-  method?: AccessMethod;
+  source_url?: string;
+}
+
+/** 도착 후 동선 초안(① 읽기). 요청할 때 사용자 유형에 맞춰 다듬는다 */
+export interface OnSite {
+  text: string;
+  evidence: string[];
+  grade: Grade;
 }
 
 export interface OpeningHours {
@@ -57,12 +72,19 @@ export interface OpeningHours {
 
 export type Weekday = "일" | "월" | "화" | "수" | "목" | "금" | "토";
 
+/** 운영시간. 모르면 summer/winter를 비우고 ask(물어볼 질문)를 넣는다. 상시 개방이면 always_open */
 export interface PlaceHours {
-  summer: OpeningHours;
-  winter: OpeningHours;
+  summer?: OpeningHours;
+  winter?: OpeningHours;
+  always_open?: boolean;
   closed_weekdays?: Weekday[];
   /** 예: "설날 당일", "2027-02-17" */
   closed_dates?: string[];
+  /** 원문 요약(예: "매표 09:00~17:00, 관람 09:00~18:00") */
+  note?: string;
+  ask?: string;
+  evidence?: string[];
+  grade?: Grade;
 }
 
 export interface DistanceNote {
@@ -79,8 +101,10 @@ export interface Photo {
 }
 
 export interface Place {
-  /** GN01, SC03, DH07 */
+  /** GN01, SC03, DH07, GN120 */
   id: string;
+  /** 한국관광공사 contentid */
+  tour_content_id?: string;
   name_ko: string;
   name_en?: string;
   region: Region;
@@ -90,6 +114,7 @@ export interface Place {
   parking_lat?: number;
   parking_lng?: number;
   address?: string;
+  /** 공식 문의 전화(필수, '출발 전 확인' 버튼) */
   phone: string;
   hours: PlaceHours;
   /** 권장 체류 범위(분) */
@@ -98,6 +123,7 @@ export interface Place {
   parking_to_entrance?: DistanceNote;
   route_length?: DistanceNote;
   access: Record<AccessKey, AccessItem>;
+  on_site?: OnSite;
   photos?: Photo[];
   /** 불가일 때 추천할 대안 장소 id */
   alternatives?: string[];

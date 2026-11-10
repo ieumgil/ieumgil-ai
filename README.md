@@ -116,7 +116,7 @@ flowchart LR
 
 | 항목 | 목표 | 현재 |
 | --- | --- | --- |
-| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 조건 계산 14개 · 날짜 계산 6개 · 장소 데이터 검사 10개 · 화면 흐름(E2E) 13개 × 모바일·PC |
+| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 조건 계산 14개 · 날짜 계산 6개 · 장소 데이터 검사 21개 · 화면 흐름(E2E) 13개 × 모바일·PC |
 | 엔진 시나리오 10개 | 필수 조건 위반 0건 | 조건 계산 부분 작성, 루트 엔진과 함께 완성 예정 |
 | AI 가드 테스트 (가짜 LLM) | 근거 없는 판단 0건 · '모름'이 적합으로 나간 경우 0건 · 검사를 통과하지 못한 안 노출 0건 | AI 기능과 함께 진행 예정 |
 | AI 읽기 정확도 (사람 판정 40곳) | 항목별 일치율 | 진행 예정 · 결과는 `docs/eval/` |

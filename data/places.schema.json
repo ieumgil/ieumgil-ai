@@ -1,22 +1,30 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "이음길 장소 데이터",
+  "title": "이음길 장소 데이터 (v3: '모름' + 질문, 등급 ai/human)",
   "type": "array",
   "items": { "$ref": "#/$defs/place" },
   "$defs": {
-    "status": { "enum": ["가능", "부분가능", "불가", "미확인"] },
+    "status": { "enum": ["가능", "부분가능", "불가", "모름"] },
+    "grade": { "enum": ["ai", "human"], "description": "ai = LLM이 관광공사 문장을 읽고 정리, human = 사람이 전화·현장으로 확인" },
+    "evidence": { "type": "array", "items": { "type": "string", "pattern": "^[a-z]+(-[a-z가-힣0-9]+)*-\\d+$" }, "description": "근거 문단 id(예: route-1, info-화장실-1)" },
     "access": {
       "type": "object",
-      "required": ["value", "source_url", "verified_at"],
+      "required": ["value", "grade", "method", "verified_at"],
       "properties": {
         "value": { "$ref": "#/$defs/status" },
         "note": { "type": "string", "description": "부분가능이면 필수" },
-        "source_url": { "type": "string" },
+        "ask": { "type": "string", "description": "모름이면 필수: 출발 전에 물어볼 질문" },
+        "evidence": { "$ref": "#/$defs/evidence" },
+        "grade": { "$ref": "#/$defs/grade" },
+        "method": { "enum": ["관광공사 API", "지자체 누리집", "열린관광", "전화 확인", "현장 확인", "기타"] },
         "verified_at": { "type": "string", "format": "date" },
-        "method": { "enum": ["관광공사 API", "지자체 누리집", "열린관광", "전화 확인", "현장 확인", "기타"] }
+        "source_url": { "type": "string" }
       },
-      "if": { "properties": { "value": { "const": "부분가능" } } },
-      "then": { "required": ["note"] }
+      "additionalProperties": false,
+      "allOf": [
+        { "if": { "properties": { "value": { "const": "부분가능" } } }, "then": { "required": ["note"] } },
+        { "if": { "properties": { "value": { "const": "모름" } } }, "then": { "required": ["ask"] } }
+      ]
     },
     "hours": {
       "type": "object",
@@ -25,13 +33,15 @@
         "close": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
         "last_entry": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" }
       },
-      "required": ["open", "close"]
+      "required": ["open", "close"],
+      "additionalProperties": false
     },
     "place": {
       "type": "object",
       "required": ["id", "name_ko", "region", "category", "lat", "lng", "hours", "stay_min", "stay_max", "access", "phone"],
       "properties": {
-        "id": { "type": "string", "pattern": "^(GN|SC|DH)\\d{2}$" },
+        "id": { "type": "string", "pattern": "^(GN|SC|DH)\\d{2,3}$" },
+        "tour_content_id": { "type": "string", "pattern": "^\\d+$" },
         "name_ko": { "type": "string" },
         "name_en": { "type": "string" },
         "region": { "enum": ["강릉", "속초", "동해"] },
@@ -41,16 +51,21 @@
         "parking_lat": { "type": "number" },
         "parking_lng": { "type": "number" },
         "address": { "type": "string" },
-        "phone": { "type": "string" },
+        "phone": { "type": "string", "description": "공식 문의 전화(필수)" },
         "hours": {
           "type": "object",
           "properties": {
             "summer": { "$ref": "#/$defs/hours" },
             "winter": { "$ref": "#/$defs/hours" },
+            "always_open": { "type": "boolean" },
             "closed_weekdays": { "type": "array", "items": { "enum": ["일", "월", "화", "수", "목", "금", "토"] } },
-            "closed_dates": { "type": "array", "items": { "type": "string" }, "description": "예: 설날 당일, 2027-02-17" }
+            "closed_dates": { "type": "array", "items": { "type": "string" }, "description": "예: 설날 당일, 2027-02-17" },
+            "note": { "type": "string" },
+            "ask": { "type": "string", "description": "운영시간을 모르면 필수" },
+            "evidence": { "$ref": "#/$defs/evidence" },
+            "grade": { "$ref": "#/$defs/grade" }
           },
-          "required": ["summer", "winter"]
+          "additionalProperties": false
         },
         "stay_min": { "type": "integer", "minimum": 10 },
         "stay_max": { "type": "integer", "minimum": 10 },
@@ -59,7 +74,14 @@
         "access": {
           "type": "object",
           "required": ["step_free_entrance", "elevator", "slope", "surface", "accessible_toilet", "diaper_nursing", "disabled_parking", "rest_area", "rental_wheelchair", "rental_stroller"],
+          "propertyNames": { "enum": ["step_free_entrance", "elevator", "slope", "surface", "accessible_toilet", "diaper_nursing", "disabled_parking", "rest_area", "rental_wheelchair", "rental_stroller"] },
           "additionalProperties": { "$ref": "#/$defs/access" }
+        },
+        "on_site": {
+          "type": "object",
+          "required": ["text", "evidence", "grade"],
+          "properties": { "text": { "type": "string" }, "evidence": { "$ref": "#/$defs/evidence" }, "grade": { "$ref": "#/$defs/grade" } },
+          "additionalProperties": false
         },
         "photos": {
           "type": "array",

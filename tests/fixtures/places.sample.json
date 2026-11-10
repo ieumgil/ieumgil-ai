@@ -26,7 +26,11 @@
       "closed_dates": [
         "설날 당일",
         "추석 당일"
-      ]
+      ],
+      "evidence": [
+        "usetime-1"
+      ],
+      "grade": "ai"
     },
     "stay_min": 50,
     "stay_max": 80,
@@ -41,66 +45,116 @@
     "access": {
       "step_free_entrance": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "exit-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "elevator": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타",
-        "note": "단층 시설"
+        "note": "단층 시설",
+        "evidence": [
+          "handicapetc-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "slope": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "route-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "surface": {
         "value": "부분가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타",
-        "note": "정문 쪽 포장로로 관람 가능, 안쪽 마당은 자갈길"
+        "note": "정문 쪽 포장로로 관람 가능, 안쪽 마당은 자갈길",
+        "evidence": [
+          "route-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "accessible_toilet": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "restroom-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "diaper_nursing": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "lactationroom-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "disabled_parking": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "parking-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rest_area": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "handicapetc-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rental_wheelchair": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "wheelchair-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rental_stroller": {
         "value": "불가",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "stroller-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       }
+    },
+    "tour_content_id": "9000001",
+    "on_site": {
+      "text": "[샘플] 주차장에서 포장로로 정문까지, 장애인 화장실은 정문 옆",
+      "evidence": [
+        "parking-1",
+        "route-1",
+        "restroom-1"
+      ],
+      "grade": "ai"
     }
   },
   {
@@ -124,7 +178,11 @@
       },
       "closed_weekdays": [
         "화"
-      ]
+      ],
+      "evidence": [
+        "usetime-1"
+      ],
+      "grade": "ai"
     },
     "stay_min": 40,
     "stay_max": 60,
@@ -139,65 +197,103 @@
     "access": {
       "step_free_entrance": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "exit-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "elevator": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "handicapetc-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "slope": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "route-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "surface": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "route-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "accessible_toilet": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "grade": "human",
+        "method": "전화 확인",
+        "verified_at": "2026-11-12",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "diaper_nursing": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "lactationroom-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "disabled_parking": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "parking-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rest_area": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "handicapetc-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rental_wheelchair": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "wheelchair-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rental_stroller": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "stroller-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       }
-    }
+    },
+    "tour_content_id": "9000002"
   },
   {
     "id": "GN93",
@@ -215,7 +311,11 @@
       "winter": {
         "open": "00:00",
         "close": "23:59"
-      }
+      },
+      "evidence": [
+        "usetime-1"
+      ],
+      "grade": "ai"
     },
     "stay_min": 30,
     "stay_max": 50,
@@ -230,70 +330,108 @@
     "access": {
       "step_free_entrance": {
         "value": "불가",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타",
-        "note": "전망 지점까지 긴 계단 구간"
+        "note": "전망 지점까지 긴 계단 구간",
+        "evidence": [
+          "exit-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "elevator": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타",
-        "note": "층이 없는 야외 시설"
+        "note": "층이 없는 야외 시설",
+        "evidence": [
+          "handicapetc-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "slope": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "route-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "surface": {
         "value": "부분가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타",
-        "note": "데크 구간까지 가능, 모래사장 진입 불가"
+        "note": "데크 구간까지 가능, 모래사장 진입 불가",
+        "evidence": [
+          "route-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "accessible_toilet": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "restroom-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "diaper_nursing": {
         "value": "불가",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "lactationroom-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "disabled_parking": {
         "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "parking-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rest_area": {
-        "value": "가능",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "value": "모름",
+        "ask": "전망 데크 근처에 앉아서 쉴 벤치가 있나요?",
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10"
       },
       "rental_wheelchair": {
         "value": "불가",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "wheelchair-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       },
       "rental_stroller": {
         "value": "불가",
-        "source_url": "https://example.com/ieumgil-sample",
-        "verified_at": "2026-11-09",
-        "method": "기타"
+        "evidence": [
+          "stroller-1"
+        ],
+        "grade": "ai",
+        "method": "관광공사 API",
+        "verified_at": "2026-11-10",
+        "source_url": "https://example.com/ieumgil-sample"
       }
     },
     "alternatives": [
       "GN92"
-    ]
+    ],
+    "tour_content_id": "9000003"
   }
 ]
