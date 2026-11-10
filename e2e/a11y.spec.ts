@@ -24,7 +24,7 @@ for (const path of ["/", "/plan/when", "/plan/who", "/plan/conditions", "/plan/t
       els
         .filter((el) => (el as HTMLElement).offsetParent !== null)
         .map((el) => ({ text: (el.textContent ?? "").trim().slice(0, 20), h: el.getBoundingClientRect().height }))
-        .filter((r) => r.h < 44),
+        .filter((r) => r.h < 43.5), // 소수점 반올림 오차 허용
     );
     expect(small, JSON.stringify(small)).toEqual([]);
   });

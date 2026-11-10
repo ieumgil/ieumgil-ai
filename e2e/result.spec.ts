@@ -1,0 +1,50 @@
+// 결과 화면: 저장해 둔 실제 AI 결과(e2e/fixtures/trip-view.json)로 확인한다(LLM 호출 없음).
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { expect, test } from "@playwright/test";
+
+const trip = readFileSync(resolve(__dirname, "fixtures/trip-view.json"), "utf8");
+const view = JSON.parse(trip) as { options: { id: string; title: string }[] };
+
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript((t) => sessionStorage.setItem("ieumgil-trip", t), trip);
+  await page.goto("/trip/new");
+});
+
+test("안을 바꾸면 그 안의 일정이 보인다", async ({ page }) => {
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(`일정 ${view.options.length}가지`);
+  const second = view.options[1];
+  await page.getByRole("radio").nth(1).click();
+  await expect(page.getByRole("radio").nth(1)).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByRole("heading", { level: 2, name: second.title })).toBeVisible();
+});
+
+test("장소 카드는 핵심만 보이고, [자세히]를 누르면 판단 이유·확인할 것이 펼쳐진다", async ({ page }) => {
+  const more = page.getByRole("button", { name: /자세히/ }).first();
+  await expect(more).toHaveAttribute("aria-expanded", "false");
+  await more.click();
+  await expect(more).toHaveAttribute("aria-expanded", "true");
+  await expect(page.getByText(/근거: 한국관광공사 무장애 여행정보/).first()).toBeVisible();
+});
+
+test("'이 일정으로 정하기'를 누르면 확인할 것 모음이 열리고, 정한 상태가 남는다", async ({ page }) => {
+  await page.getByRole("button", { name: /일정으로 정하기/ }).last().click();
+  const sheet = page.getByRole("dialog");
+  await expect(sheet).toContainText("일정으로 정했어요");
+  await expect(sheet.getByRole("link", { name: /\d{2,4}-\d{3,4}-\d{4}/ }).first()).toBeVisible();
+  await sheet.getByRole("button", { name: "닫기" }).last().click();
+  await expect(page.getByRole("button", { name: /정한 일정/ }).last()).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("button", { name: /정한 일정/ }).last()).toBeVisible();
+});
+
+test("결과 화면도 누를 수 있는 요소는 높이 44px 이상", async ({ page }) => {
+  await page.waitForLoadState("networkidle");
+  const small = await page.locator("main a, main button, main summary").evaluateAll((els) =>
+    els
+      .filter((el) => (el as HTMLElement).offsetParent !== null)
+      .map((el) => ({ text: (el.textContent ?? "").trim().slice(0, 20), h: el.getBoundingClientRect().height }))
+      .filter((r) => r.h < 43.5), // 소수점 반올림 오차 허용
+  );
+  expect(small, JSON.stringify(small)).toEqual([]);
+});

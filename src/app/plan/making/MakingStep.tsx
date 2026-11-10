@@ -14,7 +14,7 @@ import type { TripView } from "@/lib/trip/view";
 
 type StageId = "rule" | "judge" | "plan" | "review" | "done";
 type Tone = "info" | "ok" | "fix";
-type Event = { stage: StageId } | { stage: "log"; text: string; tone: Tone } | { stage: "candidates"; names: string[] } | { stage: "error"; message?: string } | { stage: "done"; trip: TripView };
+type Event = { stage: Exclude<StageId, "done"> } | { stage: "log"; text: string; tone: Tone } | { stage: "candidates"; names: string[] } | { stage: "error"; message?: string } | { stage: "done"; trip: TripView };
 
 const STAGES: { id: Exclude<StageId, "done">; label: string; sub: string; icon: ReactNode; from: number; to: number }[] = [
   { id: "rule", label: "조건에 맞는 장소 고르기", sub: "꼭 필요한 조건이 '불가'인 곳과 쉬는 날을 빼요", icon: <ScanSearch size={20} />, from: 0, to: 12 },

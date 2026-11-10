@@ -33,6 +33,48 @@ function read(): TripView | null {
   return cache.trip;
 }
 
+// 확정한 안(이 탭에서만). 값: "만든 시각|안 id" — 새 일정을 만들면 자동으로 풀린다.
+const CONFIRM_KEY = "ieumgil-trip-confirmed";
+const listeners = new Set<() => void>();
+let confirmed: string | null | undefined;
+
+export function confirmOption(trip: TripView, optionId: string | null) {
+  confirmed = optionId ? `${trip.createdAt}|${optionId}` : null;
+  try {
+    if (confirmed) sessionStorage.setItem(CONFIRM_KEY, confirmed);
+    else sessionStorage.removeItem(CONFIRM_KEY);
+  } catch {
+    // 저장이 막혀도 이번 화면에서는 동작
+  }
+  listeners.forEach((l) => l());
+}
+
+function readConfirmed(): string | null {
+  if (confirmed === undefined) {
+    try {
+      confirmed = sessionStorage.getItem(CONFIRM_KEY);
+    } catch {
+      confirmed = null;
+    }
+  }
+  return confirmed;
+}
+
+/** 확정한 안 id(이 일정의 것일 때만) */
+export function useConfirmedOption(trip: TripView): string | null {
+  const raw = useSyncExternalStore(
+    (l) => {
+      listeners.add(l);
+      return () => listeners.delete(l);
+    },
+    readConfirmed,
+    () => null,
+  );
+  if (!raw) return null;
+  const [createdAt, id] = raw.split("|");
+  return createdAt === trip.createdAt ? id : null;
+}
+
 /** undefined = 아직 브라우저에서 읽기 전(서버 렌더링), null = 없음 */
 export function useSavedTrip(): TripView | null | undefined {
   return useSyncExternalStore(
