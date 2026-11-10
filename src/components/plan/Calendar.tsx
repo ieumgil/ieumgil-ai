@@ -92,7 +92,7 @@ export function Calendar({
                 aria-pressed={isEdge}
                 aria-label={`${shown.y}년 ${shown.m}월 ${d}일 ${weekdayOf(day)}요일${day === today ? ", 오늘" : ""}`}
                 onClick={() => pick(day)}
-                className={`size-[2.625rem] rounded-full text-base focus-visible:outline-3 focus-visible:outline-primary ${
+                className={`size-touch rounded-full text-base focus-visible:outline-3 focus-visible:outline-primary ${
                   isEdge
                     ? "bg-primary font-bold text-white"
                     : past

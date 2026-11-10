@@ -12,7 +12,7 @@ export function TopBar({ backHref, backLabel = "이전 화면으로" }: { backHr
   if (!backHref) {
     return (
       <div className="flex items-center justify-between gap-2">
-        <Link href="/" aria-label="이음길 처음 화면">
+        <Link href="/" aria-label="이음길 처음 화면" className="flex min-h-touch items-center">
           <Logo />
         </Link>
         <FontSizeToggle />
@@ -28,7 +28,7 @@ export function TopBar({ backHref, backLabel = "이전 화면으로" }: { backHr
       >
         <ChevronLeftIcon size={20} />
       </Link>
-      <Link href="/" className="text-[1.0625rem] font-bold text-primary">
+      <Link href="/" className="flex min-h-touch items-center px-2 text-[1.0625rem] font-bold text-primary">
         이음길
       </Link>
       <FontSizeToggle />

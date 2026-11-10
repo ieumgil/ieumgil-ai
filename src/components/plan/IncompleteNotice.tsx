@@ -14,7 +14,7 @@ export function IncompleteNotice({ plan, step }: { plan: PlanInput; step: number
         !{" "}
       </span>
       앞 단계 &lsquo;{missing.name}&rsquo;에서 아직 고르지 않은 항목이 있어요.{" "}
-      <Link href={missing.href} className="font-bold underline underline-offset-4">
+      <Link href={missing.href} className="inline-flex min-h-touch items-center font-bold underline underline-offset-4">
         채우러 가기
       </Link>
     </div>
