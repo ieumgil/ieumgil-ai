@@ -58,11 +58,6 @@
 
 **LLM이 읽고 · 판단하고 · 계획하고 · 점검하고, 코드는 계산과 검사를 강제합니다.** 공공데이터가 문장으로만 있어 코드로는 가능/불가를 가를 수 없기 때문에, 판단은 LLM이 맡습니다. 대신 LLM의 답은 전부 **정해진 JSON 형식**으로 받고, 코드가 근거·안전 기준·시간을 검사한 뒤에만 화면에 나갑니다.
 
-<img src="docs/readme/flow.png" width="100%" alt="흐름: 공공 무장애 정보 → ① AI 읽기 → 장소 데이터 → 후보 거르기(코드, 입력 4단계 반영) → ② AI 판단 3회(가드는 코드) → ③ AI 일정 2~3안 → 시각 계산·검사(코드, 위반이면 걸린 안만 다시) → ④ AI 점검(2점 이하면 1회 개선) → 결과 화면 → 장소 바꾸기(코드, AI 호출 없음) → 확정 일정 + 지도. AI가 실패하면 규칙 일정 1안." />
-
-<details>
-<summary>같은 흐름을 글(Mermaid)로 보기</summary>
-
 ```mermaid
 flowchart TB
     subgraph PRE["미리 (스크립트)"]
@@ -88,8 +83,6 @@ flowchart TB
     F -.->|"AI 실패: 한도·시간 초과·형식 오류"| FB["규칙 일정 1안 (코드만)"]
     FB --> S
 ```
-
-</details>
 
 | 단계 | 누가 | 하는 일 | 코드가 지키는 것 |
 | --- | --- | --- | --- |
@@ -260,7 +253,6 @@ npm run dev                  # http://localhost:3000
 | `npx tsx scripts/ai/try-trip.ts wheelchair --cat "바다·해변"` | 실제 Gemini로 규칙 일정 vs AI 일정 비교 출력 |
 | `npm run build` | 데이터 검사 후 배포용 빌드 |
 | `npx tsx scripts/readme/capture.ts` | README 화면 캡처 다시 찍기(개발 서버 켠 뒤, AI 호출 없음) |
-| `npx tsx scripts/readme/flow.ts` | README 흐름 그림(flow.png) 다시 그리기 |
 
 ## 한계와 안내
 
