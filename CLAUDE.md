@@ -7,7 +7,7 @@
 
 - 기획·설계 문서(참고용, 갱신 중단): https://claude.ai/artifact/TZSUcqLRtTSZst2edEm5L6
 - 디자인 시안 v2(참고용, 갱신 중단): https://claude.ai/artifact/S2A6vTW33w69QtFQssuoTu
-- 기준 문서(이 저장소): `docs/planning.md`(기획 문서) · `docs/ai-plan.md`(**AI 설계 v3, 확정 — AI·데이터 관련은 이 문서가 우선**)
+- 기준 문서(이 저장소): `docs/planning.md`(기획 문서) · `docs/impl-plan.md`(구현 순서·진행 상태) · `docs/ai-plan.md`(**AI 설계 v3, 확정 — AI·데이터 관련은 이 문서가 우선**)
   · `docs/design/`(화면별 시안 원본) · `docs/data/`(조사표, `tour-api-fields.md` 공공데이터 조사) · `docs/handoff.md`(열린 결정 목록)
 
 ## 절대 원칙
@@ -32,17 +32,18 @@
 ## 스택
 Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(표시) · 카카오모빌리티
 다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini Flash(읽기·판단·계획·풀어주기, JSON 응답)
-· 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · Supabase(공유 일정 `trips`) · Vercel.
+· 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · Vercel.
+공유 링크·Supabase(`trips`)는 나중에(메인 기능 먼저, `docs/impl-plan.md`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`).
 글꼴 Pretendard.
 
 ## 폴더 구조 (목표)
 ```
 src/app/            page.tsx(시작) · plan/(입력 4단계 · ask/(추가 질문) · making/(만드는 중))
-                    · trip/[id]/(안 비교 → 상세) · api/plan(전체 흐름 + 스트리밍) · api/trips
+                    · trip/[id]/(안 비교 → 상세) · api/plan(전체 흐름 + 스트리밍) · (나중에) api/trips
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한·형식) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(③ 평가자) · explain.ts(④) · ask.ts(추가 질문) · prompts/*.ts
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정)
-src/lib/            kakao.ts · llm.ts(Gemini 호출은 이 파일 하나로) · supabase.ts · types.ts
+src/lib/            kakao.ts · llm.ts(Gemini 호출은 이 파일 하나로, 모델은 GEMINI_MODEL_FAST/READ) · types.ts
 data/               places.json · places.schema.json · docs/places/{id}.md(근거 문장) · eval/human-40.json · raw/(API 원본, 커밋 안 함)
 scripts/            tour/(관광공사 API 수집·보고서) · ai/read-places.ts(① 읽기) · validate-places.ts · eval-ai.ts(실제 Gemini, CI 밖)
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
