@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
 import { TopBar } from "@/components/TopBar";
-import { ButtonLink } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/button";
 import { StatusChip, type ChipStatus } from "@/components/ui/StatusChip";
 import type { Verdict } from "@/lib/ai/guards";
 import { toHHMM } from "@/lib/engine/types";

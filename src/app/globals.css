@@ -1,7 +1,12 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-/* 디자인 토큰 (시안 v2, CLAUDE.md 기준) */
-@theme {
+@custom-variant dark (&:is(.dark *));
+
+/* 디자인 토큰 (시안 v2, CLAUDE.md 기준) — 값은 여기서만 정한다. shadcn 변수는 아래 :root에서 이 토큰을 가리킨다.
+ * static: 화면에서 직접 안 써도 변수로 항상 내보낸다(shadcn 변수가 var(--color-…)로 참조하기 때문) */
+@theme static {
   --color-primary: #1e6fd0; /* 기본 */
   --color-primary-soft: #eaf2fd; /* 연한 기본 */
   --color-primary-ink: #1450a3; /* 기본(연한 바탕) 위 글자 */
@@ -23,8 +28,57 @@
   --spacing-touch: 2.75rem;
 }
 
+/* shadcn/ui가 쓰는 이름 → 위 토큰. --color-primary는 우리 토큰이 이미 그 이름이라 여기서 다시 잇지 않는다. */
 @theme inline {
   --font-sans: var(--font-pretendard), "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-heading: var(--font-sans);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: var(--color-ink);
+  --card: #ffffff;
+  --card-foreground: var(--color-ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-primary);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-surface);
+  --secondary-foreground: var(--color-ink);
+  --muted: var(--color-surface);
+  --muted-foreground: var(--color-ink-sub);
+  --accent: var(--color-primary-soft);
+  --accent-foreground: var(--color-primary-ink);
+  --destructive: var(--color-blocked-ink);
+  --border: var(--color-line);
+  --input: var(--color-line-strong);
+  --ring: var(--color-primary);
+  /* 시안의 큰 버튼·카드 모서리(0.875rem = 14px) */
+  --radius: 0.875rem;
 }
 
 /*
@@ -38,10 +92,16 @@ html[data-font-size="large"] {
   font-size: 18px;
 }
 
-body {
-  background: #ffffff;
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  letter-spacing: -0.02em;
-  word-break: keep-all;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+  }
 }

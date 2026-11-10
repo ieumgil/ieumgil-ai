@@ -87,6 +87,12 @@ e2e/                Playwright 화면 흐름
 · 상단에 "가 글씨 크게" 버튼(모바일·PC 공통) → 글자 크기는 rem 단위로 써서 한 번에 키울 수 있게
 · Tailwind v4라 토큰은 `src/app/globals.css`의 `@theme`에 있다(`bg-primary`, `text-ink-sub`, `bg-caution-bg`, `min-h-touch` 등)
 · 결과 '안 비교' 화면은 시안에 없다 → 새로 그린다(`docs/ai-plan.md` 화면 표)
+· **shadcn/ui**(Radix, `components.json`): `src/components/ui/`에 button·card·dialog·tabs·sheet·toggle-group·toggle.
+  shadcn 변수(--primary, --background, --border…)는 `globals.css` `:root`에서 우리 토큰을 가리킨다 — 토큰 값은 `@theme static`에서만 고친다.
+  `--color-primary`는 우리 토큰 이름이라 `@theme inline`에 다시 잇지 않는다(잇으면 shadcn 기본 검정으로 바뀜).
+  `button.tsx`는 우리 규칙(16px 이상·44px 이상)으로 고쳐 둔 파일 → `npx shadcn add button`이나 `--overwrite` 금지.
+  새 컴포넌트를 넣으면 기본 크기(h-8, text-sm)를 44px·16px 규칙으로 고치고 영어 문구(Close 등)를 한국어로 바꾼다.
+  파일 이름은 소문자(Linux CI·Vercel은 대소문자를 구분한다).
 
 ## 데이터와 테스트
 - 1차 출처: 한국관광공사 무장애 여행정보 API. 강릉·속초·동해 182곳 → 관광지 152곳(`build-places.ts`가 관광지 아닌 곳·전화 없는 곳 제외).

@@ -4,7 +4,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { TopBar } from "@/components/TopBar";
-import { ButtonLink, buttonClass } from "@/components/ui/Button";
+import { ButtonLink, buttonClass } from "@/components/ui/button";
 import { firstIncompleteStep } from "@/lib/plan/progress";
 import { usePlan } from "@/lib/plan/store";
 import { saveTrip } from "@/lib/trip/store";

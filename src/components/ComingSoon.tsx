@@ -1,5 +1,5 @@
 import { TopBar } from "./TopBar";
-import { ButtonLink } from "./ui/Button";
+import { ButtonLink } from "./ui/button";
 
 // 아직 만들지 않은 화면의 임시 안내. 해당 화면을 만들면 지운다.
 export function ComingSoon({ title }: { title: string }) {

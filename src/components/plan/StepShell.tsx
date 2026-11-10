@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
-import { buttonClass } from "@/components/ui/Button";
+import { buttonClass } from "@/components/ui/button";
 import { STEPS } from "@/lib/plan/progress";
 
 /** 입력 단계 공통 틀: 상단 바, 진행 막대, 제목, 본문, 아래 고정 버튼 */

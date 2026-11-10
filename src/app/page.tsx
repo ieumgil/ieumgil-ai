@@ -1,7 +1,7 @@
 // 시작 화면 (시안: docs/design/Main.dc.html)
 import type { ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
-import { ButtonLink } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/button";
 import { ChatIcon, CheckIcon, DocumentIcon } from "@/components/icons";
 
 const FEATURES: { icon: ReactNode; title: string; body: string }[] = [
