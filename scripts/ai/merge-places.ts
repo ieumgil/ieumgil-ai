@@ -41,7 +41,15 @@ interface ReadResult {
   };
   on_site: { text: string; evidence: string[] };
 }
-type HumanOverride = Record<string, Partial<Record<AccessKey, Omit<AccessItem, "grade">>>>;
+/** data/eval/human.json (scripts/ai/human-import.ts가 양식에서 만든다) */
+type HumanOverride = Record<
+  string,
+  {
+    access?: Partial<Record<AccessKey, Omit<AccessItem, "grade">>>;
+    parking_to_entrance?: { meters?: number; note?: string };
+    route_length?: { meters?: number; note?: string };
+  }
+>;
 
 const READ = "data/ai/read";
 const base: Base[] = JSON.parse(readFileSync("data/build/places-base.json", "utf8"));
@@ -84,7 +92,7 @@ for (const b of base) {
       item = { value: "가능", note: "층이 없는 야외 시설(관광공사 분류 기준)", evidence: ["class-1"], ...meta };
       stats.outdoorElevator++;
     }
-    const h = human[b.id]?.[key];
+    const h = human[b.id]?.access?.[key];
     if (h) {
       item = { ...h, grade: "human" } as AccessItem;
       stats.human++;
@@ -117,8 +125,11 @@ for (const b of base) {
   void _v;
   void _e;
   void _o;
+  const hp = human[b.id];
   out.push({
     ...rest,
+    ...(hp?.parking_to_entrance ? { parking_to_entrance: hp.parking_to_entrance } : {}),
+    ...(hp?.route_length ? { route_length: hp.route_length } : {}),
     hours,
     access,
     ...(onSiteText && onSiteEvidence.length >= 2 ? { on_site: { text: onSiteText, evidence: onSiteEvidence, grade: "ai" as const } } : {}),

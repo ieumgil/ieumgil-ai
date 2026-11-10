@@ -2,10 +2,14 @@
 // 사용: npx tsx scripts/ai/human-template.ts
 // 결과: data/eval/human-40.csv  → 조사 담당이 채운 뒤 scripts/ai/human-import.ts로 data/eval/human.json에 옮긴다.
 // 고르는 순서: 조사표(docs/data/ 32곳)에 해당하는 장소 → 무장애 정보가 많은 곳 순서로 40곳까지.
+// 칸 순서: 공공데이터에 거의 없는 노면·경사·걷는 거리를 앞에 둔다(11/10 결정: 이 항목 우선 확인).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { CONDITION_LABELS } from "../../src/lib/engine/conditions";
-import { ACCESS_KEYS } from "../../src/lib/types";
+import { ACCESS_KEYS, type AccessKey } from "../../src/lib/types";
+
+const PRIORITY: AccessKey[] = ["surface", "slope", "step_free_entrance", "accessible_toilet", "elevator", "disabled_parking", "rest_area", "diaper_nursing", "rental_wheelchair", "rental_stroller"];
+if (PRIORITY.length !== ACCESS_KEYS.length) throw new Error("PRIORITY에 모든 항목을 넣어 주세요");
 
 interface Base {
   id: string;
@@ -53,7 +57,10 @@ const head = [
   "공식 전화",
   "근거 문서",
   "조사표",
-  ...ACCESS_KEYS.flatMap((k) => [`${CONDITION_LABELS[k]} 값`, `${CONDITION_LABELS[k]} 메모`]),
+  "주차장→입구 거리(m)",
+  "관람 동선 길이(m)",
+  "거리 메모",
+  ...PRIORITY.flatMap((k) => [`${CONDITION_LABELS[k]} 값`, `${CONDITION_LABELS[k]} 메모`]),
   "확인 방법(전화 확인/현장 확인/열린관광/지자체 누리집)",
   "확인일(yyyy-mm-dd)",
 ];
@@ -64,12 +71,15 @@ const guide = [
   "",
   "",
   "",
-  ...ACCESS_KEYS.flatMap(() => ["가능/부분가능/불가/모름 중 하나", "부분가능이면 어느 부분인지, 모름이면 비움"]),
+  "숫자만(예: 120). 모르면 비움",
+  "숫자만(예: 600)",
+  "예: 평지 포장로, 오르막 있음",
+  ...PRIORITY.flatMap(() => ["가능/부분가능/불가/모름 중 하나", "부분가능이면 어느 부분인지, 모름이면 비움"]),
   "",
   "",
 ];
 const rows = picked.slice(0, 40).map((p) =>
-  [p.id, p.name_ko, p.region, p.phone, `data/docs/places/${p.id}.md`, p.survey ?? "", ...ACCESS_KEYS.flatMap(() => ["", ""]), "", ""].map(q).join(","),
+  [p.id, p.name_ko, p.region, p.phone, `data/docs/places/${p.id}.md`, p.survey ?? "", "", "", "", ...PRIORITY.flatMap(() => ["", ""]), "", ""].map(q).join(","),
 );
 mkdirSync("data/eval", { recursive: true });
 writeFileSync("data/eval/human-40.csv", "﻿" + [head.map(q).join(","), guide.map(q).join(","), ...rows].join("\n") + "\n");

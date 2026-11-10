@@ -31,7 +31,7 @@
 
 ## 스택
 Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(표시) · 카카오모빌리티
-다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini Flash(읽기·판단·계획·풀어주기, JSON 응답)
+다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini(기본 `gemini-3.5-flash-lite`, 읽기·판단·계획·풀어주기, JSON 응답)
 · 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · Vercel.
 공유 링크·Supabase(`trips`)는 나중에(메인 기능 먼저, `docs/impl-plan.md`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`).
 글꼴 Pretendard.
@@ -68,12 +68,12 @@ e2e/                Playwright 화면 흐름
 - 여러 유형 선택 시 항목마다 가장 엄격한 값
 
 ## 일정 흐름 (`POST /api/plan`, 상세: `docs/ai-plan.md`)
-미리(스크립트): ① 읽기로 182곳의 access·운영시간·동선 초안을 `places.json`에 만들어 둔다. 사람 판정 40곳은 `human`으로 덮어쓴다.
+미리(스크립트): ① 읽기로 152곳의 access·운영시간·동선 초안을 `places.json`에 만들어 둔다. 사람 판정 40곳은 `human`으로 덮어쓴다.
 요청할 때:
 1. 후보 거르기(코드): 지역·휴무·필수 조건 '불가' 제외, 최대 20곳
 2. ② 판단(LLM, 후보를 한 호출에 묶어 3번): 적합/주의/부적합/확인 필요 + 이유 + 근거 + 확신도 → 안전 하한(코드)
 3. 이동시간 표(카카오 다중 목적지, 날짜마다 ≤6회)
-4. ③ 계획(LLM 1회로 2~3안, 안마다 전략 지정): 장소·순서·날짜·체류·쉬는 곳·이유·주의·확인 질문. 시각 없음
+4. ③ 계획(LLM 1회로 2~3안, 안마다 전략 지정, 후보는 적합·주의 우선 + 모자라면 확인 필요를 표시해서): 장소·순서·날짜·체류·쉬는 곳·이유·주의·확인 질문. 시각 없음
 5. 시각 계산 + 검사(코드): 이동 + 체류 + 유형별 여유 + 승하차 여유 + 12~14시 점심 60분, 운영시간·하루 범위
 6. 위반 → 걸린 안만 다시 요청(최대 2회), 못 통과한 안은 뺀다 → 평가자(LLM): 피로도·여유·취향·화장실 간격, 2점 이하면 1회 수정
 7. ④ 풀어주기: 동선 다듬기, 출발 전 확인할 것(질문 + 전화), 대안(코드가 고르고 LLM이 이유)
@@ -89,9 +89,10 @@ e2e/                Playwright 화면 흐름
 · 결과 '안 비교' 화면은 시안에 없다 → 새로 그린다(`docs/ai-plan.md` 화면 표)
 
 ## 데이터와 테스트
-- 1차 출처: 한국관광공사 무장애 여행정보 API. 강릉·속초·동해 관광지·문화시설 182곳(관광지가 아닌 곳은 뺀다).
+- 1차 출처: 한국관광공사 무장애 여행정보 API. 강릉·속초·동해 182곳 → 관광지 152곳(`build-places.ts`가 관광지 아닌 곳·전화 없는 곳 제외).
   수집은 `scripts/tour/`, 필드 조사는 `docs/data/tour-api-fields.md`. 열린관광 사이트(access.visitkorea.or.kr)는 사람 검수 때 보는 출처로만 쓴다(자동 수집 안 함).
-- `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + 사람 확인 값(등급 `human`). 조사표 32곳은 '유명한 곳' 판단 기준으로 쓴다.
+- `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + 사람 확인 값(등급 `human`). 만드는 순서: `scripts/tour/build-places.ts` → `scripts/ai/read-places.ts` → `scripts/ai/merge-places.ts`.
+- 휠체어·어르신은 노면·경사·거리 '모름'이 많아 대부분 '확인 필요' → 일정에 넣되 표시한다(11/10 결정). 사람 판정은 이 항목 우선. 조사표 32곳은 '유명한 곳' 판단 기준으로 쓴다.
 - `tests/fixtures/places.sample.json`: 테스트 전용 가짜 장소(`[샘플] 관광지 A`, id `GN91~`). 화면·README 수치에 쓰지 않는다.
 - 카테고리는 스키마의 6개만 쓴다. 조사표의 `바다·자연`은 `바다·해변` 또는 `자연·산책`으로 나눠서 옮긴다.
 - 명령: `npm test`(vitest) · `npm run test:e2e`(Playwright) · `npm run validate:places [-- 파일]` · `npm run build`(prebuild에서 장소 검사가 먼저 돈다)
