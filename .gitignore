@@ -58,3 +58,6 @@ next-env.d.ts
 
 # Claude Code 개인 작업 규칙
 /CLAUDE.local.md
+
+# 관광공사 API 원본 응답(커밋 여부 미정)
+/data/raw/
