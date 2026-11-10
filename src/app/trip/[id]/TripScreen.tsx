@@ -18,7 +18,6 @@ import {
   Coffee,
   Flag,
   Hourglass,
-  ListChecks,
   Map as MapIcon,
   MapPin,
   PersonStanding,
@@ -33,21 +32,21 @@ import { ComingSoon } from "@/components/ComingSoon";
 import { TopBar } from "@/components/TopBar";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { StatusChip, type ChipStatus } from "@/components/ui/StatusChip";
+import { StatusChip } from "@/components/ui/StatusChip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import type { Verdict } from "@/lib/ai/guards";
 import { haversineKm } from "@/lib/engine/travel";
 import { toHHMM } from "@/lib/engine/types";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { alternativesFor, swapPlace } from "@/lib/trip/edit";
+import { VERDICT_CHIP } from "@/lib/trip/labels";
 import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
 
-const VERDICT_CHIP: Record<Verdict, ChipStatus> = { 적합: "ok", 주의: "caution", "확인 필요": "caution", 부적합: "blocked" };
 const FIT_CHIP = { 여유: { s: "ok", t: "시간 여유 있어요" }, 빠듯: { s: "caution", t: "조금 빠듯해요" }, 부족: { s: "blocked", t: "시간이 부족해요" } } as const;
 const STRATEGY_LABEL: Record<string, string> = { 여유: "여유롭게", 취향: "좋아하는 곳 중심", 실내: "실내 위주", "확인 적게": "확인할 것 적게", 규칙: "기본 일정" };
+const FINAL_HREF = "/trip/new/final";
 const TRAVELER_ICON = { wheelchair: <Accessibility size={16} />, elder: <PersonStanding size={16} />, stroller: <Baby size={16} /> } as const;
 
 export function TripScreen() {
@@ -107,11 +106,11 @@ function TripResult({ trip: base }: { trip: TripView }) {
           {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={setSelected} />}
           <div className="mx-5 mt-4 hidden flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line-strong bg-surface py-10 text-center text-ink-sub lg:mx-0 lg:flex">
             <MapIcon size={28} aria-hidden="true" />
-            <p className="text-base font-medium">지도는 곧 이곳에 보여드릴게요</p>
+            <p className="text-base font-medium">일정을 정하면 지도로 보여드려요</p>
             <p className="text-sm">번호는 타임라인 순서와 같아요</p>
           </div>
           <div className="mt-4 hidden lg:block">
-            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} onOpen={() => setSheetOpen(true)} title={option.title} />
+            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} title={option.title} />
           </div>
         </aside>
 
@@ -128,7 +127,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
       {/* 모바일: 아래 고정 확정 버튼 */}
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-white/95 px-5 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <div className="mx-auto max-w-[30rem]">
-          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} onOpen={() => setSheetOpen(true)} title={option.title} />
+          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} title={option.title} />
         </div>
       </div>
 
@@ -266,12 +265,12 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
   );
 }
 
-function ConfirmButton({ confirmed, onConfirm, onOpen, title }: { confirmed: boolean; onConfirm: () => void; onOpen: () => void; title: string }) {
+function ConfirmButton({ confirmed, onConfirm, title }: { confirmed: boolean; onConfirm: () => void; title: string }) {
   return confirmed ? (
-    <Button variant="outline" className="w-full" onClick={onOpen}>
-      <ListChecks aria-hidden="true" />
-      정한 일정 · 출발 전 확인할 것 보기
-    </Button>
+    <ButtonLink href={FINAL_HREF} variant="outline" className="w-full">
+      <MapIcon aria-hidden="true" />
+      정한 일정 · 지도로 보기
+    </ButtonLink>
   ) : (
     <Button className="w-full active:scale-[0.99]" onClick={onConfirm} aria-label={`${title} 일정으로 정하기`}>
       <CircleCheck aria-hidden="true" />이 일정으로 정하기
@@ -643,6 +642,10 @@ function ConfirmSheet({ o, trip, onChange }: { o: OptionView; trip: TripView; on
         })}
       </ol>
       <div className="mt-4 flex flex-col gap-2">
+        <ButtonLink href={FINAL_HREF}>
+          <MapIcon aria-hidden="true" />
+          확정 일정 지도로 보기
+        </ButtonLink>
         <Button variant="secondary" onClick={onChange}>
           닫기
         </Button>

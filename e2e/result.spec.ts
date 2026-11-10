@@ -33,9 +33,9 @@ test("'이 일정으로 정하기'를 누르면 확인할 것 모음이 열리�
   await expect(sheet).toContainText("일정으로 정했어요");
   await expect(sheet.getByRole("link", { name: /\d{2,4}-\d{3,4}-\d{4}/ }).first()).toBeVisible();
   await sheet.getByRole("button", { name: "닫기" }).last().click();
-  await expect(page.getByRole("button", { name: /정한 일정/ }).last()).toBeVisible();
+  await expect(page.getByRole("link", { name: /정한 일정/ }).last()).toBeVisible();
   await page.reload();
-  await expect(page.getByRole("button", { name: /정한 일정/ }).last()).toBeVisible();
+  await expect(page.getByRole("link", { name: /정한 일정/ }).last()).toHaveAttribute("href", "/trip/new/final");
 });
 
 test("[바꾸기]로 근처 후보로 바꾸면 시각을 다시 계산해 보여주고, 원래대로 되돌릴 수 있다", async ({ page }) => {
