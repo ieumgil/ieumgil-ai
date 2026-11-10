@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
 import { buttonClass } from "@/components/ui/button";
 import { STEPS } from "@/lib/plan/progress";
@@ -40,14 +40,17 @@ export function StepShell({
           aria-valuemax={4}
           aria-valuenow={step}
         >
-          <div className="h-1 rounded-full bg-primary" style={{ width: `${step * 25}%` }} />
+          <div
+            className="h-1 animate-fill rounded-full bg-primary"
+            style={{ width: `${step * 25}%`, "--from": `${(step - 1) * 25}%` } as CSSProperties}
+          />
         </div>
       </div>
-      <div className="px-5 pt-6 pb-1">
-        <h1 className="text-[1.75rem] leading-[1.35] font-bold">{title}</h1>
+      <div className="animate-rise px-5 pt-6 pb-1">
+        <h1 className="text-title font-bold">{title}</h1>
         {description && <p className="mt-2 text-base leading-relaxed text-ink-sub">{description}</p>}
       </div>
-      <div className="flex flex-1 flex-col pb-6">{children}</div>
+      <div className="flex flex-1 animate-rise flex-col pb-6 [animation-delay:60ms]">{children}</div>
       <div className="sticky bottom-0 border-t border-surface bg-white px-5 pt-4 pb-[calc(1.75rem+env(safe-area-inset-bottom))]">
         {footer}
       </div>
@@ -73,7 +76,7 @@ export function StepFooter({
       {blockedLabel}
     </button>
   ) : (
-    <Link href={nextHref} className={buttonClass("primary", "flex-[2] text-[1.0625rem]")}>
+    <Link href={nextHref} className={buttonClass("primary", "flex-[2] text-lead")}>
       {nextLabel}
     </Link>
   );

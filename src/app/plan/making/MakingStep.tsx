@@ -127,13 +127,13 @@ export function MakingStep() {
       <TopBar backHref="/plan/taste" backLabel="이전 단계로" />
       {missing ? (
         <div className="mt-8 flex animate-rise flex-col gap-4">
-          <h1 className="text-[1.75rem] leading-[1.35] font-bold">앞 단계를 먼저 채워 주세요</h1>
+          <h1 className="text-title font-bold">앞 단계를 먼저 채워 주세요</h1>
           <p className="text-base text-ink-sub">&lsquo;{missing.name}&rsquo;에서 아직 고르지 않은 항목이 있어요.</p>
           <ButtonLink href={missing.href}>채우러 가기</ButtonLink>
         </div>
       ) : error ? (
         <div className="mt-8 flex animate-rise flex-col gap-4">
-          <h1 className="text-[1.75rem] leading-[1.35] font-bold">일정을 만들지 못했어요</h1>
+          <h1 className="text-title font-bold">일정을 만들지 못했어요</h1>
           <p className="flex items-start gap-2 rounded-xl bg-blocked-bg px-4 py-3 text-base text-blocked-ink" role="alert">
             <TriangleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
             {error}
@@ -145,7 +145,7 @@ export function MakingStep() {
       ) : (
         <>
           <section className="mt-6 animate-rise" aria-label="진행 상황">
-            <h1 className="text-[1.75rem] leading-[1.35] font-bold">{stage === "done" ? "일정이 나왔어요" : "AI가 일정을 만들고 있어요"}</h1>
+            <h1 className="text-title font-bold">{stage === "done" ? "일정이 나왔어요" : "AI가 일정을 만들고 있어요"}</h1>
             <p className="mt-1.5 min-h-[1.5rem] text-base text-ink-sub" aria-live="polite">
               {latest ?? "조건을 확인하고 있어요"}
               {stage !== "done" && <span className="ml-1 inline-flex gap-0.5 align-middle" aria-hidden="true"><Dot d={0} /><Dot d={0.2} /><Dot d={0.4} /></span>}
@@ -178,7 +178,7 @@ export function MakingStep() {
                     {state === "done" ? <Check size={20} strokeWidth={3} /> : state === "now" ? <Loader2 size={20} className="animate-spin" /> : s.icon}
                   </span>
                   <span className="flex min-w-0 flex-col">
-                    <span className={`text-[1.0625rem] font-bold ${state === "todo" ? "text-ink-sub" : "text-ink"}`}>
+                    <span className={`text-lead font-bold ${state === "todo" ? "text-ink-sub" : "text-ink"}`}>
                       {s.label}
                       <span className="sr-only">{state === "done" ? " (끝남)" : state === "now" ? " (하는 중)" : " (대기)"}</span>
                     </span>

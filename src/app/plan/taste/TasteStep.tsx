@@ -73,12 +73,12 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
               type="button"
               aria-pressed={on}
               onClick={() => toggleCategory(c)}
-              className={`flex min-h-24 flex-col gap-1.5 rounded-2xl border-2 p-3.5 text-left transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+              className={`flex min-h-24 flex-col gap-1.5 rounded-2xl border-2 p-3.5 text-left transition-[background-color,border-color,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                 on ? "border-primary bg-primary-soft" : "border-surface bg-surface"
               }`}
             >
               <span className="flex w-full items-center justify-between gap-1">
-                <span className="text-[1.0625rem] font-bold text-ink">{c}</span>
+                <span className="text-lead font-bold text-ink">{c}</span>
                 <CheckDot on={on} size="sm" />
               </span>
               <span className="text-sm leading-snug text-ink-sub">{CATEGORY_DESC[c]}</span>

@@ -54,7 +54,7 @@ export function TripScreen() {
     return (
       <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-5 pt-4 pb-7">
         <TopBar backHref="/" backLabel="처음 화면으로" />
-        <h1 className="mt-8 text-[1.75rem] font-bold">만든 일정이 없어요</h1>
+        <h1 className="mt-8 text-title font-bold">만든 일정이 없어요</h1>
         <p className="text-base text-ink-sub">일정은 이 탭에서만 보관해요. 조건을 고르고 다시 만들어 주세요.</p>
         <ButtonLink href="/plan/when">일정 만들기</ButtonLink>
       </main>
@@ -128,7 +128,7 @@ function Summary({ trip }: { trip: TripView }) {
         <Sparkles size={16} aria-hidden="true" />
         {ai ? "AI 추천 일정" : "기본 일정"}
       </p>
-      <h1 className="mt-1 text-[1.75rem] leading-[1.3] font-bold">{ai ? `일정 ${trip.options.length}가지를 만들었어요` : "기본 일정을 만들었어요"}</h1>
+      <h1 className="mt-1 text-title font-bold">{ai ? `일정 ${trip.options.length}가지를 만들었어요` : "기본 일정을 만들었어요"}</h1>
       <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="여행 조건">
         <Pill icon={<CalendarDays size={16} />}>
           {trip.input.startDate && trip.input.endDate ? formatRange(trip.input.startDate, trip.input.endDate) : ""} · {tripLabel(nights)}
@@ -197,7 +197,7 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
             >
               <span className="flex items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-2 text-sm font-bold text-primary-ink">
-                  <span className="flex size-6 items-center justify-center rounded-full bg-primary text-xs text-white">{o.id}</span>
+                  <span className="flex size-7 items-center justify-center rounded-full bg-primary text-sm text-white">{o.id}</span>
                   {STRATEGY_LABEL[o.strategy] ?? o.strategy}
                 </span>
                 {confirmedId === o.id && (
@@ -207,7 +207,7 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
                   </span>
                 )}
               </span>
-              <span className="text-[1.0625rem] leading-snug font-bold text-ink">{o.title}</span>
+              <span className="text-lead leading-snug font-bold text-ink">{o.title}</span>
               <span className="line-clamp-2 text-sm leading-normal font-normal text-ink-sub">{o.summary}</span>
               <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-medium text-ink">
                 <span className="inline-flex items-center gap-1">

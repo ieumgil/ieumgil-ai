@@ -28,7 +28,7 @@ export function TopBar({ backHref, backLabel = "이전 화면으로" }: { backHr
       >
         <ChevronLeftIcon size={20} />
       </Link>
-      <Link href="/" className="flex min-h-touch items-center px-2 text-[1.0625rem] font-bold text-primary">
+      <Link href="/" className="flex min-h-touch items-center px-2 text-lead font-bold text-primary">
         이음길
       </Link>
       <FontSizeToggle />
