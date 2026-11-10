@@ -35,6 +35,11 @@
 | 9. 평가·마무리 | 11/30~12/3 | `scripts/eval-ai.ts`, `docs/eval/`, 사용자 테스트, README 숫자, 배포 | README에 정확도·위반 0건 | |
 | 나중에 | — | 공유 링크, Supabase `trips`, 요약 이미지 | | |
 
+## 카카오 시험 결과 (11/10, `scripts/kakao/smoke.ts`)
+
+- REST 키: 장소 검색 ✅, 1:1 길찾기 ✅(강릉역→오죽헌 8분·2.9km), 다중 목적지 ✅ — 단 **출발점 반경 10km 밖은 계산 안 됨**(강릉역→속초 실패). 7단계 `kakao.ts`: 10km 안은 다중 목적지, 밖은 1:1 또는 추정치.
+- JavaScript 키: 형식 정상, `domain mismatched! caller=http://localhost:3000` → 카카오 콘솔에 사이트 도메인 등록 필요.
+
 ## 필요한 키·사람 일
 
-- Gemini `GEMINI_API_KEY` ✅ · 관광공사 `TOUR_API_KEY` ✅ · 카카오 JS·REST 키(7단계 전, 11/22까지) · 강환일 님 사람 판정 40곳(3단계 후)
+- Gemini `GEMINI_API_KEY` ✅ · 관광공사 `TOUR_API_KEY` ✅ · 카카오 REST 키 ✅ · 카카오 JS 키(도메인 등록 필요) · 강환일 님 사람 판정 40곳(3단계 후)
