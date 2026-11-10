@@ -55,3 +55,6 @@ next-env.d.ts
 
 # GSD Core 작업 문서(로컬 전용)
 /.planning/
+
+# Claude Code 개인 작업 규칙
+/CLAUDE.local.md

@@ -1,7 +1,6 @@
 ---
 name: spec-audit
-description: 구현 전에 기능 요구사항의 누락·충돌·예외·테스트 가능성을 이음길 원칙에 비춰 검토한다. 코드는 고치지 않는다.
-disable-model-invocation: true
+description: 구현 전에 기능 요구사항의 누락·충돌·예외·테스트 가능성을 이음길 원칙에 비춰 검토한다. 엔진 단계·새 화면·외부 연동을 계획하기 전에 쓴다. 코드는 고치지 않는다.
 argument-hint: "[검토할 기능 또는 GSD 단계 번호]"
 allowed-tools: Read Grep Glob
 ---
