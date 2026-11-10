@@ -26,6 +26,58 @@
 
   /* 터치 영역 최소 44px: min-h-touch / min-w-touch / size-touch */
   --spacing-touch: 2.75rem;
+
+  /* 움직임(적게, 의미 있게). 움직임 줄이기 설정이면 아래 미디어 쿼리가 모두 끈다 */
+  --animate-rise: rise 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both; /* 화면·카드가 들어올 때 살짝 떠오름 */
+  --animate-shimmer: shimmer 1.6s linear infinite; /* 진행 막대 위 빛 */
+  --animate-ring: ring 1.6s ease-out infinite; /* 지금 하는 단계 */
+  --animate-marquee: marquee 28s linear infinite; /* 살펴보는 장소 이름 흐름 */
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(250%);
+    }
+  }
+  @keyframes ring {
+    0% {
+      box-shadow: 0 0 0 0 rgb(30 111 208 / 0.35);
+    }
+    100% {
+      box-shadow: 0 0 0 0.6rem rgb(30 111 208 / 0);
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* shadcn/ui가 쓰는 이름 → 위 토큰. --color-primary는 우리 토큰이 이미 그 이름이라 여기서 다시 잇지 않는다. */

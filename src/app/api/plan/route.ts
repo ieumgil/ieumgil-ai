@@ -1,10 +1,11 @@
 // POST /api/plan — 입력 4단계 값으로 일정 2~3안을 만든다(docs/ai-plan.md v3 '일정 흐름').
-// 응답은 줄마다 JSON 하나(NDJSON) 스트림: {"stage":"judge"} … 마지막에 {"stage":"done","trip":{…}} 또는 {"stage":"error","message":…}
+// 응답은 줄마다 JSON 하나(NDJSON) 스트림: {"stage":"judge"} · {"stage":"log","text":…,"tone":…} · {"stage":"candidates","names":[…]}
+// … 마지막에 {"stage":"done","trip":{…}} 또는 {"stage":"error","message":…}
 // 서버에 아무것도 저장하지 않는다(개인정보·카카오 결과 저장 없음). 키는 서버 환경변수에서만 읽는다.
 
 import evidence from "../../../../data/evidence.json";
 import places from "../../../../data/places.json";
-import { makeTrip, type TripStage } from "@/lib/ai/trip";
+import { makeTrip, type TripEvent } from "@/lib/ai/trip";
 import { estimateLeg } from "@/lib/engine/travel";
 import { getLlm } from "@/lib/llm";
 import { nightsOf, tasteDone, whenDone, whoDone } from "@/lib/plan/progress";
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
       const send = (obj: unknown) => controller.enqueue(encoder.encode(JSON.stringify(obj) + "\n"));
       try {
         const llm = getLlm();
-        const trip = await makeTrip(llm, input, PLACES, evidence, estimateLeg, (stage: TripStage) => send({ stage }));
+        const trip = await makeTrip(llm, input, PLACES, evidence, estimateLeg, (ev: TripEvent) => send(ev));
         send({ stage: "done", trip: toTripView(trip, input, PLACES, evidence) });
       } catch (err) {
         console.error("[api/plan]", err);

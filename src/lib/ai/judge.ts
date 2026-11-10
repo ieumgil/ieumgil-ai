@@ -67,10 +67,11 @@ export interface JudgeResult {
 export async function judgePlaces(
   llm: LlmClient,
   args: { input: PlanInput; conditions: ResolvedConditions; candidates: Candidate[]; evidence: EvidenceIndex },
-  opts: { samples?: number } = {},
+  opts: { samples?: number; onSample?: (done: number, total: number, ok: boolean) => void } = {},
 ): Promise<JudgeResult> {
   const { input, conditions, candidates, evidence } = args;
   const samples = opts.samples ?? 3;
+  let done = 0;
   const placeIds = candidates.map((c) => c.place.id);
   const allEvidence = [...new Set(candidates.flatMap((c) => (evidence[c.place.id] ?? []).map((e) => e.id)))];
   const prompt = [
@@ -91,6 +92,9 @@ export async function judgePlaces(
         schema: judgeSchema(placeIds, allEvidence, false),
         check: judgeSchema(placeIds, allEvidence, true),
         temperature,
+      }).then((r) => {
+        opts.onSample?.(++done, temps.length, r.ok);
+        return r;
       }),
     ),
   );

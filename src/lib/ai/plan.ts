@@ -146,8 +146,21 @@ export interface PlanArgs {
   placesById: Map<string, Place>;
   travel: TravelFn;
   options: CheckContext["options"];
-  /** 좋아하는 분야 이름(프롬프트용) */
+  /** 진행 기록 한 줄(화면 '만드는 중') */
+  onLog?: (text: string, tone?: "info" | "ok" | "fix") => void;
 }
+
+/** 위반 종류를 짧은 말로(진행 기록용) */
+const VIOLATION_TEXT: Record<string, string> = {
+  운영시간: "운영시간을 넘는 곳이 있어",
+  하루범위: "마치는 시각을 넘어서",
+  휴무: "쉬는 날인 곳이 있어",
+  중복: "같은 곳이 두 번 들어가서",
+  후보아님: "후보에 없는 곳이 있어",
+  판단부적합: "조건에 맞지 않는 곳이 있어",
+  체류범위: "머무는 시간이 맞지 않아",
+  날짜: "날짜가 맞지 않아",
+};
 
 function toDraft(raw: RawOption, placesById: Map<string, Place>): PlanDraft {
   return {
@@ -232,18 +245,29 @@ export async function planOptions(
   const dropped: PlanResult["dropped"] = [];
   let pending = ids.map((id, i) => ({ id, strategy: strategies[i], fix: undefined as string | undefined, fixes: 0, fixed: [] as string[] }));
 
+  const log = args.onLog ?? (() => {});
   for (let round = 0; round <= maxFixes && pending.length > 0; round++) {
+    log(round === 0 ? `${pending.map((p) => p.id).join("·")}안을 짜고 있어요` : `${pending.map((p) => p.id).join("·")}안을 다시 짜고 있어요`);
     const got = await ask(pending);
     const next: typeof pending = [];
     for (const want of pending) {
       const raw = got.find((o) => o.id === want.id);
       if (!raw) {
-        if (round === maxFixes) dropped.push({ id: want.id, violations: ["안을 받지 못했어요"] });
-        else next.push({ ...want, fixes: want.fixes + 1 });
+        if (round === maxFixes) {
+          dropped.push({ id: want.id, violations: ["안을 받지 못했어요"] });
+          log(`${want.id}안은 받지 못해 뺐어요`, "fix");
+        } else next.push({ ...want, fixes: want.fixes + 1 });
         continue;
       }
       const draft = toDraft(raw, placesById);
       const check = checkPlan(draft, ctx);
+      if (!check.ok) {
+        const why = VIOLATION_TEXT[check.violations[0].kind] ?? "검사에 걸려";
+        log(round === maxFixes ? `${want.id}안은 끝까지 ${why} 뺐어요` : `${want.id}안: ${why} 고치는 중`, "fix");
+      } else {
+        const n = draft.days.reduce((a, d) => a + d.stops.length, 0);
+        log(`${want.id}안 "${raw.title.replace(/^[A-Z]안\s*[:：.]\s*/, "")}" 검사 통과 · ${n}곳`, "ok");
+      }
       if (check.ok) {
         // 안에 실제로 들어간 장소의 주의·질문만 남기고, ② 판단의 '모름' 질문을 더한다
         const inPlan = new Set(draft.days.flatMap((d) => d.stops.map((s) => s.placeId)));
@@ -283,7 +307,10 @@ export async function planOptions(
       const same = other.filter((x) => ids.has(x)).length;
       return same > Math.min(ids.size, other.length) / 2;
     });
-    if (overlap) dropped.push({ id: o.id, violations: ["다른 안과 장소가 절반 넘게 겹쳐요"] });
+    if (overlap) {
+      dropped.push({ id: o.id, violations: ["다른 안과 장소가 절반 넘게 겹쳐요"] });
+      log(`${o.id}안은 다른 안과 장소가 많이 겹쳐서 뺐어요`, "fix");
+    }
     else deduped.push(o);
   }
   return { options: deduped, calls, failedCalls, dropped };

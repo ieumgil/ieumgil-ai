@@ -59,6 +59,9 @@ export function ruleOption(rule: RulePlan): PlanOption {
 
 /** 진행 단계(화면 '만드는 중'에 보여준다) */
 export type TripStage = "rule" | "judge" | "plan" | "review" | "done";
+export type LogTone = "info" | "ok" | "fix";
+/** 진행 알림: 단계 시작, 진행 기록 한 줄, 판단할 후보 이름 */
+export type TripEvent = { stage: TripStage } | { stage: "log"; text: string; tone: LogTone } | { stage: "candidates"; names: string[] };
 
 export async function makeTrip(
   llm: LlmClient,
@@ -66,34 +69,47 @@ export async function makeTrip(
   places: Place[],
   evidence: EvidenceIndex,
   travel: TravelFn,
-  onStage: (stage: TripStage) => void = () => {},
+  onEvent: (ev: TripEvent) => void = () => {},
 ): Promise<TripResult> {
   const t0 = Date.now();
-  onStage("rule");
+  const log = (text: string, tone: LogTone = "info") => onEvent({ stage: "log", text, tone });
+  onEvent({ stage: "rule" });
   const rule = rulePlan(input, places, travel);
   const llmCandidates = selectForLlm(rule.filter.candidates, rule.frames, 20);
   const placesById = new Map(places.map((p) => [p.id, p]));
   let calls = 0;
+  log(`조건에 맞는 곳 ${rule.filter.candidates.length}곳을 찾았어요${rule.filter.excluded.length ? ` (어려운 곳 ${rule.filter.excluded.length}곳 제외)` : ""}`, "ok");
+  log(`그중 동선이 좋은 ${llmCandidates.length}곳을 AI에게 넘겨요`);
+  onEvent({ stage: "candidates", names: llmCandidates.map((c) => c.place.name_ko) });
 
-  onStage("judge");
-  const judge = await judgePlaces(llm, { input, conditions: rule.filter.conditions, candidates: llmCandidates, evidence });
+  onEvent({ stage: "judge" });
+  const judge = await judgePlaces(
+    llm,
+    { input, conditions: rule.filter.conditions, candidates: llmCandidates, evidence },
+    { onSample: (done, total, ok) => log(ok ? `장소 판단 ${done}/${total}번째 끝` : `장소 판단 ${done}/${total}번째는 응답이 오지 않았어요`, ok ? "ok" : "fix") },
+  );
   calls += judge.calls;
   if (judge.failedCalls === judge.calls) {
+    log("AI 판단을 받지 못해 규칙으로 일정을 만들어요", "fix");
     return { rule, llmCandidates, judge, reviews: [], options: [ruleOption(rule)], usedFallback: true, calls, ms: Date.now() - t0 };
   }
+  const counts = new Map<string, number>();
+  judge.judgments.forEach((j) => counts.set(j.verdict, (counts.get(j.verdict) ?? 0) + 1));
+  log(["적합", "주의", "확인 필요", "부적합"].filter((v) => counts.get(v)).map((v) => `${v} ${counts.get(v)}`).join(" · "), "ok");
 
-  onStage("plan");
+  onEvent({ stage: "plan" });
   const strategies = pickStrategies(input, llmCandidates, judge.judgments);
   const plan = await planOptions(
     llm,
-    { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input) },
+    { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input), onLog: log },
     strategies,
   );
   calls += plan.calls;
 
-  onStage("review");
+  onEvent({ stage: "review" });
   let reviews = await reviewOptions(llm, input, plan.options, placesById);
   if (plan.options.length) calls += 1;
+  for (const r of reviews) log(`${r.optionId}안 점검: 피로도 ${r.fatigue} · 시간 여유 ${r.slack} · 취향 ${r.taste}`, Math.min(r.fatigue, r.slack, r.taste) <= 2 ? "fix" : "ok");
 
   // 평가 점수 중 2점 이하가 있는 안은 개선 방향을 붙여 1회만 다시 만든다(통과하고 점수가 나아지면 바꾼다)
   const weak = reviews.filter((r) => Math.min(r.fatigue, r.slack, r.taste) <= 2 && plan.options.some((o) => o.id === r.optionId));
@@ -101,7 +117,8 @@ export async function makeTrip(
     const hints = Object.fromEntries(weak.map((r) => [r.optionId, r.improve ?? r.comment]));
     const ids = weak.map((r) => r.optionId);
     const strategies2 = ids.map((id) => plan.options.find((o) => o.id === id)!.strategy as Strategy);
-    const args = { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input) };
+    log(`${ids.join("·")}안을 점검 의견대로 한 번 더 다듬어요`, "fix");
+    const args = { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input), onLog: log };
     const redo = await planOptions(llm, args, strategies2, 1, hints, ids);
     calls += redo.calls;
     if (redo.options.length) {
