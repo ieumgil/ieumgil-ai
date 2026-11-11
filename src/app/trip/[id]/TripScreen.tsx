@@ -122,15 +122,10 @@ function TripResult({ trip: base }: { trip: TripView }) {
       </div>
 
       <div className="lg:grid lg:grid-cols-[23rem_minmax(0,1fr)] lg:gap-8 lg:px-5">
-        {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 지도 자리 */}
+        {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 정하기(PC) — 지도는 정한 뒤 확정 화면에서 */}
         <aside className="lg:sticky lg:top-4 lg:self-start">
           <Summary trip={trip} />
           {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
-          <div className="mx-5 mt-4 hidden flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line-strong bg-surface py-10 text-center text-ink-sub lg:mx-0 lg:flex">
-            <MapIcon size={28} aria-hidden="true" />
-            <p className="text-base font-medium">일정을 정하면 지도로 보여드려요</p>
-            <p className="text-sm">번호는 타임라인 순서와 같아요</p>
-          </div>
           <div className="mt-4 hidden lg:block">
             <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} />
           </div>

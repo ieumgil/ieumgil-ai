@@ -131,13 +131,15 @@ export function useEditedOptions(trip: TripView): Record<string, OptionView> {
   return value?.createdAt === trip.createdAt ? value.options : NO_EDITS;
 }
 
-// 출발 전 전화로 확인한 장소(이 탭에서만). 값: { createdAt, ids } — 새 일정을 만들면 자동으로 풀린다.
+// 출발 전 전화로 확인한 결과(이 탭에서만). 값: { createdAt, results: { 장소 id: "ok" | "hard" } } — 새 일정을 만들면 자동으로 풀린다.
+export type CallResult = "ok" | "hard";
+type Checks = { createdAt: string; results: Record<string, CallResult> };
 const CHECK_KEY = "ieumgil-trip-checked";
 const checkListeners = new Set<() => void>();
-let checked: { raw: string | null; value: { createdAt: string; ids: string[] } | null } | undefined;
-const NO_IDS: string[] = [];
+let checked: { raw: string | null; value: Checks | null } | undefined;
+const NO_RESULTS: Record<string, CallResult> = {};
 
-function readChecked() {
+function readChecked(): Checks | null {
   if (checked === undefined) {
     let raw: string | null = null;
     try {
@@ -145,9 +147,11 @@ function readChecked() {
     } catch {
       // 그대로
     }
-    let value = null;
+    let value: Checks | null = null;
     try {
-      value = raw ? (JSON.parse(raw) as { createdAt: string; ids: string[] }) : null;
+      const v = raw ? (JSON.parse(raw) as Partial<Checks> & { ids?: string[] }) : null;
+      // 예전 형식(ids = 확인한 곳)은 '괜찮음'으로 읽는다
+      if (v?.createdAt) value = { createdAt: v.createdAt, results: v.results ?? Object.fromEntries((v.ids ?? []).map((id) => [id, "ok" as const])) };
     } catch {
       value = null;
     }
@@ -156,12 +160,13 @@ function readChecked() {
   return checked.value;
 }
 
-export function setPlaceChecked(trip: TripView, placeId: string, on: boolean) {
+/** 전화 결과 저장. null이면 지운다 */
+export function setCallResult(trip: TripView, placeId: string, result: CallResult | null) {
   const cur = readChecked();
-  const ids = new Set(cur?.createdAt === trip.createdAt ? cur.ids : []);
-  if (on) ids.add(placeId);
-  else ids.delete(placeId);
-  const value = { createdAt: trip.createdAt, ids: [...ids] };
+  const results = { ...(cur?.createdAt === trip.createdAt ? cur.results : {}) };
+  if (result) results[placeId] = result;
+  else delete results[placeId];
+  const value: Checks = { createdAt: trip.createdAt, results };
   const raw = JSON.stringify(value);
   checked = { raw, value };
   try {
@@ -172,8 +177,8 @@ export function setPlaceChecked(trip: TripView, placeId: string, on: boolean) {
   checkListeners.forEach((l) => l());
 }
 
-/** 이 일정에서 전화로 확인했다고 표시한 장소 id */
-export function useCheckedPlaces(trip: TripView): string[] {
+/** 이 일정의 장소별 전화 결과 */
+export function useCallResults(trip: TripView): Record<string, CallResult> {
   const value = useSyncExternalStore(
     (l) => {
       checkListeners.add(l);
@@ -182,7 +187,7 @@ export function useCheckedPlaces(trip: TripView): string[] {
     readChecked,
     () => null,
   );
-  return value?.createdAt === trip.createdAt ? value.ids : NO_IDS;
+  return value?.createdAt === trip.createdAt ? value.results : NO_RESULTS;
 }
 
 /** undefined = 아직 브라우저에서 읽기 전(서버 렌더링), null = 없음 */

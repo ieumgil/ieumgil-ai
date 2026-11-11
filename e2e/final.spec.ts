@@ -60,7 +60,7 @@ test("경로선은 열 때마다 받고 브라우저에 저장하지 않는다",
   expect(stored).not.toContain('"path"');
 });
 
-test("출발 전 확인: 전화로 확인할 곳 수가 안 비교 카드와 같고, '확인 완료'는 새로고침해도 남는다", async ({ page }) => {
+test("출발 전 확인: 확인할 곳 수가 안 비교 카드와 같고, 전화 결과(괜찮대요)는 새로고침해도 남는다", async ({ page }) => {
   const confirmed = view.options[1];
   await setup(page, confirmed.id);
   await page.goto("/trip/new");
@@ -69,19 +69,35 @@ test("출발 전 확인: 전화로 확인할 곳 수가 안 비교 카드와 같
 
   await page.goto("/trip/new/final");
   await expect(page.getByText(`${calls}곳 중 0곳 확인했어요`)).toBeVisible();
-  await page.getByRole("button", { name: "확인 완료 표시" }).first().click();
+  await page.getByRole("button", { name: "괜찮대요" }).first().click();
   await expect(page.getByText(`${calls}곳 중 1곳 확인했어요`)).toBeVisible();
   await page.reload();
   await expect(page.getByText(`${calls}곳 중 1곳 확인했어요`)).toBeVisible();
-  await expect(page.getByRole("button", { name: "확인했어요" }).first()).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "괜찮대요" }).first()).toHaveAttribute("aria-pressed", "true");
 });
 
-test("확정 화면에서 '어렵다고 하면 다른 곳으로 바꾸기'를 누르면 그 장소의 바꾸기 창이 열린다", async ({ page }) => {
+test("모두 '괜찮대요'면 출발 준비 끝을 보여준다", async ({ page }) => {
   await setup(page, view.options[1].id);
   await page.goto("/trip/new/final");
-  const link = page.getByRole("link", { name: /다른 곳으로 바꾸기/ }).first();
-  const name = (await link.locator("xpath=ancestor::li[1]").locator("p").first().textContent())!.replace(/^\d+/, "").replace("확인 필요", "").trim();
-  await link.click();
+  const oks = page.getByRole("button", { name: "괜찮대요" });
+  await expect(oks.first()).toBeVisible(); // 그려진 뒤에 센다
+  const n = await oks.count();
+  expect(n).toBeGreaterThan(0);
+  for (let i = 0; i < n; i++) {
+    await oks.nth(i).click();
+    await expect(oks.nth(i)).toHaveAttribute("aria-pressed", "true");
+  }
+  await expect(page.getByText("출발 준비 끝!")).toBeVisible();
+});
+
+test("'어렵대요'를 고르면 바꾸기를 권하고, 누르면 그 장소의 바꾸기 창이 열린다", async ({ page }) => {
+  await setup(page, view.options[1].id);
+  await page.goto("/trip/new/final");
+  const item = page.getByRole("group", { name: /전화 결과/ }).first();
+  const name = ((await item.getAttribute("aria-label")) ?? "").replace(/ 전화 결과$/, "");
+  await item.getByRole("button", { name: "어렵대요" }).click();
+  await expect(page.getByText(/어렵다고 한 곳 1곳/)).toBeVisible();
+  await page.getByRole("link", { name: "다른 곳으로 바꾸기" }).first().click();
   await expect(page).toHaveURL(/\/trip\/new$/);
   await expect(page.getByRole("dialog")).toContainText(`${name} 대신 갈 곳`);
 });
