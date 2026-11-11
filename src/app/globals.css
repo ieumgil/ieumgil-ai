@@ -168,3 +168,54 @@
     word-break: keep-all;
   }
 }
+
+/*
+ * 첫 접속 인트로(src/components/Intro.tsx). 기본은 숨김, html[data-intro="on"]일 때만 보인다.
+ * JS가 실패해도 2.5초 뒤 CSS만으로 사라진다(intro-auto-out). 움직임 줄이기 설정이면 애초에 켜지지 않는다.
+ */
+.intro {
+  display: none;
+}
+html[data-intro="on"] .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  background: linear-gradient(180deg, #ffffff 0%, var(--color-primary-soft) 100%);
+  cursor: pointer;
+  animation: intro-auto-out 0.4s ease 2.5s forwards;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+html[data-intro="on"] .intro[data-leaving] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+html[data-intro="on"] .intro-mark {
+  animation: intro-pop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+html[data-intro="on"] .intro-name {
+  animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+}
+html[data-intro="on"] .intro-line {
+  animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both;
+}
+@keyframes intro-pop {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.9);
+  }
+}
+@keyframes intro-auto-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}

@@ -1,5 +1,6 @@
 // 시작 화면 (시안: docs/design/Main.dc.html)
 import type { ReactNode } from "react";
+import { Intro } from "@/components/Intro";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
 import { ChatIcon, CheckIcon, DocumentIcon } from "@/components/icons";
@@ -25,6 +26,7 @@ const FEATURES: { icon: ReactNode; title: string; body: string }[] = [
 export default function Home() {
   return (
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col">
+      <Intro />
       <header className="flex animate-rise flex-col gap-[1.125rem] px-6 pt-5 pb-2">
         <TopBar />
         <h1 className="mt-5 text-display font-bold">
