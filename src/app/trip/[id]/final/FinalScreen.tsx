@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
-import { TripMap, type MapPoint } from "@/components/map/TripMap";
+import { TripMap } from "@/components/map/TripMap";
 import { TopBar } from "@/components/TopBar";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { StatusChip } from "@/components/ui/StatusChip";
@@ -18,10 +18,8 @@ import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dat
 import { VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { setCallResult, useCallResults, useConfirmedOption, useEditedOptions, useSavedTrip, type CallResult } from "@/lib/trip/store";
-import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
-
-type Visit = Extract<ItemView, { kind: "visit" }>;
-const visitsOf = (d: DayView) => d.items.filter((x): x is Visit => x.kind === "visit");
+import { dayMapLabel, dayMapPoints, visitsOf } from "@/lib/trip/map-points";
+import type { DayView, OptionView, TripView } from "@/lib/trip/view";
 
 export function FinalScreen() {
   const { id } = useParams<{ id: string }>();
@@ -54,27 +52,14 @@ function Final({ trip }: { trip: TripView }) {
 function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
   const [dayIndex, setDayIndex] = useState(0);
   const day = o.days[dayIndex] ?? o.days[0];
-  const frame = trip.frames[dayIndex] ?? trip.frames[0];
-  const visits = visitsOf(day);
-  const points = useMemo<MapPoint[]>(
-    () => [
-      { id: "start", name: day.startName, lat: frame.start.lat, lng: frame.start.lng, label: "출발", kind: "start" },
-      ...visits.map((v, i) => {
-        const p = trip.placeData[v.placeId];
-        return { id: v.placeId, name: trip.places[v.placeId].name, lat: p.lat, lng: p.lng, label: String(i + 1), kind: "stop" as const };
-      }),
-      { id: "end", name: day.endName, lat: frame.end.lat, lng: frame.end.lng, label: "도착", kind: "end" },
-    ],
-    // 날짜·장소가 바뀔 때만 지도를 다시 그린다
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [o, dayIndex],
-  );
-  const mapLabel = `${dayIndex + 1}일째 지도: ${[day.startName, ...visits.map((v, i) => `${i + 1} ${trip.places[v.placeId].name}`), day.endName].join(" → ")}`;
+  // 날짜·장소가 바뀔 때만 새 배열 → 그때만 지도를 다시 그린다
+  const points = useMemo(() => dayMapPoints(trip, o, dayIndex), [trip, o, dayIndex]);
+  const mapLabel = dayMapLabel(trip, o, dayIndex);
   const nights = trip.input.startDate && trip.input.endDate ? nightsBetween(trip.input.startDate, trip.input.endDate) : 0;
   const callSet = new Set(callPlaces(o));
 
   return (
-    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 lg:max-w-[76rem]">
+    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem]">
       <div className="px-5 pt-4 print:hidden">
         <TopBar backHref="/trip/new" backLabel="일정 비교 화면으로" />
       </div>
@@ -113,9 +98,9 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
         </Tabs>
       )}
 
-      <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-8 lg:px-5">
+      <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-8 lg:px-5 xl:grid-cols-[minmax(0,1fr)_30rem]">
         <div className="px-5 lg:sticky lg:top-4 lg:self-start lg:px-0 print:hidden">
-          <TripMap key={dayIndex} points={points} label={mapLabel} className="h-72 lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]" />
+          <TripMap key={dayIndex} points={points} label={mapLabel} className="h-72 md:h-96 lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]" />
         </div>
 
         <div className="px-5 lg:px-0">

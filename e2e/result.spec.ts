@@ -7,6 +7,9 @@ const trip = readFileSync(resolve(__dirname, "fixtures/trip-view.json"), "utf8")
 const view = JSON.parse(trip) as { options: { id: string; title: string }[] };
 
 test.beforeEach(async ({ page }) => {
+  // 안 비교 화면에도 지도가 있다: 카카오 지도 SDK·경로선은 가짜로 막는다(외부 호출 없음)
+  await page.route("https://dapi.kakao.com/**", (r) => r.abort());
+  await page.route("**/api/route-line", (r) => r.fulfill({ json: { days: [null] } }));
   await page.addInitScript((t) => sessionStorage.setItem("ieumgil-trip", t), trip);
   await page.goto("/trip/new");
 });

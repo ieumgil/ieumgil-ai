@@ -3,18 +3,11 @@
 // 하루 일정 지도(카카오 지도 JS SDK): 출발·도착 깃발, 장소 번호(타임라인 번호와 같음), 일반 차량 경로선.
 // 경로선은 /api/route-line(카카오 다중 경유지 길찾기)에서 열 때마다 받고 저장하지 않는다(캐싱 금지).
 // 경로를 못 받으면 점선 직선으로 잇고 그렇다고 알린다. 지도 자체를 못 띄우면 안내 문구만 보여준다(일정은 그대로).
-// 확정 페이지에서 먼저 쓰고, 나중에 안 비교 화면에도 같은 부품을 쓴다.
+// 안 비교 화면과 확정 화면이 같이 쓴다. 창 크기가 바뀌어 지도 칸 크기가 바뀌면 다시 맞춘다(PC ↔ 휴대폰 배치 전환).
 import { useEffect, useRef, useState } from "react";
+import type { MapPoint } from "@/lib/trip/map-points";
 
-export interface MapPoint {
-  id: string;
-  name: string;
-  lat: number;
-  lng: number;
-  /** 장소면 번호, 출발·도착이면 "출발"/"도착" */
-  label: string;
-  kind: "stop" | "start" | "end";
-}
+export type { MapPoint };
 
 type Line = { path: [number, number][]; km: number; minutes: number } | null;
 
@@ -126,6 +119,18 @@ export function TripMap({ points, label, className = "" }: { points: MapPoint[];
     };
   }, [points]);
 
+  // 지도 칸 크기가 바뀌면(배치 전환·창 크기) 지도를 다시 맞춘다
+  const fit = useRef<(() => void) | null>(null);
+  useEffect(() => {
+    if (!drawn || !box.current) return;
+    const ro = new ResizeObserver(() => {
+      drawn.map.relayout();
+      fit.current?.();
+    });
+    ro.observe(box.current);
+    return () => ro.disconnect();
+  }, [drawn]);
+
   // 2) 경로선(받으면 그리고, 못 받으면 점선 직선)
   useEffect(() => {
     if (!drawn || line === undefined) return;
@@ -136,8 +141,12 @@ export function TripMap({ points, label, className = "" }: { points: MapPoint[];
     const bounds = new maps.LatLngBounds();
     pts.forEach((p) => bounds.extend(new maps.LatLng(p.lat, p.lng)));
     path.forEach((p) => bounds.extend(p));
-    map.setBounds(bounds, 40, 40, 40, 40);
-    return () => pl.setMap(null);
+    fit.current = () => map.setBounds(bounds, 40, 40, 40, 40);
+    fit.current();
+    return () => {
+      fit.current = null;
+      pl.setMap(null);
+    };
   }, [drawn, line]);
 
   if (failed) {

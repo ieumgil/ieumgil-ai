@@ -4,7 +4,11 @@
 // 가독성 원칙: 카드에는 핵심(시각·이름·판단·한 줄 이유·전화)만, 나머지는 [자세히]로 펼친다.
 // 장소마다 [바꾸기]로 AI가 이미 판단한 근처 후보로 바꿀 수 있다(AI·서버 호출 없이 코드가 시각을 다시 계산·검사).
 // 시각은 모두 코드가 계산한 값이고, 이동시간은 지금 직선거리 추정치라 '약'과 '추정'을 붙인다.
-// PC는 왼쪽(요약·안 고르기·지도 자리) + 오른쪽(타임라인), 모바일은 위아래로 쌓고 아래에 확정 버튼을 고정한다.
+// 배치(창 너비에 따라 바로 바뀐다):
+// - 휴대폰·태블릿(<1024px): 요약 → 안 고르기 → 고른 안(제목 → 날짜 탭 → 지도 → 타임라인), 아래에 확정 버튼 고정
+// - PC(1024px~): 왼쪽 요약·안 고르기·확정 버튼(고정) + 오른쪽 고른 안(지도는 날짜 탭 아래)
+// - 넓은 PC(1280px~): 안 고르기 · 고른 안 · 지도 3칸(지도 고정)
+// 지도 경로선은 열 때마다 받고 저장하지 않는다(일반 차량 경로).
 import {
   Accessibility,
   ArrowLeftRight,
@@ -31,8 +35,9 @@ import {
   Utensils,
 } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
+import { TripMap } from "@/components/map/TripMap";
 import { TopBar } from "@/components/TopBar";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -45,6 +50,8 @@ import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dat
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { alternativesFor, swapPlace } from "@/lib/trip/edit";
 import { euro } from "@/lib/text/particle";
+import { dayMapLabel, dayMapPoints } from "@/lib/trip/map-points";
+import { useMedia, WIDE } from "@/lib/use-media";
 import { routeSummary, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
@@ -53,6 +60,9 @@ import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
 const FIT_CHIP = { 여유: { s: "ok", t: "시간 여유 있어요" }, 빠듯: { s: "caution", t: "조금 빠듯해요" }, 부족: { s: "blocked", t: "시간이 부족해요" } } as const;
 const STRATEGY_LABEL: Record<string, string> = { 여유: "여유롭게", 취향: "좋아하는 곳 중심", 실내: "실내 위주", "확인 적게": "확인할 것 적게", 규칙: "기본 일정" };
 const FINAL_HREF = "/trip/new/final";
+// 창(바꾸기·확정): 휴대폰은 아래에서 올라오고, PC는 가운데 대화창
+const PANEL =
+  "mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-5 pb-8 lg:w-[34rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
 const TRAVELER_ICON = { wheelchair: <Accessibility size={16} />, elder: <PersonStanding size={16} />, stroller: <Baby size={16} /> } as const;
 
 export function TripScreen() {
@@ -91,6 +101,12 @@ function TripResult({ trip: base }: { trip: TripView }) {
   // 안을 바꿀 때는 눈에 보이는 배너 없이 화면 읽기 프로그램에만 알린다(화면은 그 일정으로 내려간다)
   const [announce, setAnnounce] = useState("");
   const option = trip.options.find((o) => o.id === selected) ?? trip.options[0];
+  const [dayIndex, setDayIndex] = useState(0);
+  const day = Math.min(dayIndex, option.days.length - 1);
+  const wide = useMedia(WIDE);
+  // 안·날짜·장소가 바뀔 때만 새 배열 → 그때만 지도를 다시 그린다
+  const points = useMemo(() => dayMapPoints(base, option, day), [base, option, day]);
+  const map = <TripMap points={points} label={dayMapLabel(base, option, day)} className={wide ? "h-[calc(100dvh-7rem)] max-h-[56rem] min-h-[28rem]" : "h-56 md:h-80"} />;
 
   const swap = (fromId: string, toId: string): string | null => {
     const r = swapPlace(base, option, fromId, toId);
@@ -105,6 +121,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
   const pick = (id: string) => {
     if (id === selected) return;
     setSelected(id);
+    setDayIndex(0);
     setNotice("");
     setAnnounce(`${id}안 일정을 보여 드려요.`);
     // 모바일(한 줄 배치)에서는 바뀐 일정 제목으로 내려간다. 움직임 줄이기 설정이면 바로 이동
@@ -120,7 +137,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
   };
 
   return (
-    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-28 lg:max-w-[72rem] lg:pb-12">
+    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-28 md:max-w-[48rem] lg:max-w-[72rem] lg:pb-12 xl:max-w-[96rem]">
       <div className="px-5 pt-4">
         <TopBar backHref="/plan/taste" backLabel="조건 화면으로" />
       </div>
@@ -128,8 +145,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
         {announce}
       </p>
 
-      <div className="lg:grid lg:grid-cols-[23rem_minmax(0,1fr)] lg:gap-8 lg:px-5">
-        {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 정하기(PC) — 지도는 정한 뒤 확정 화면에서 */}
+      <div className="lg:grid lg:grid-cols-[23rem_minmax(0,1fr)] lg:gap-8 lg:px-5 xl:grid-cols-[22rem_minmax(0,1fr)_minmax(0,1fr)]">
+        {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 정하기(PC) */}
         <aside className="lg:sticky lg:top-4 lg:self-start">
           <Summary trip={trip} />
           {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
@@ -156,9 +173,16 @@ function TripResult({ trip: base }: { trip: TripView }) {
               </p>
             )}
           </div>
-          <OptionDetail o={option} trip={trip} onSwap={setSwapFor} />
+          <OptionDetail o={option} trip={trip} onSwap={setSwapFor} day={day} onDay={setDayIndex} map={wide ? null : map} />
           <Footnotes trip={trip} />
         </section>
+
+        {/* 넓은 PC: 오른쪽 지도 칸(스크롤해도 고정) */}
+        {wide && (
+          <div className="sticky top-4 self-start pt-6" aria-label="고른 일정 지도" role="region">
+            {map}
+          </div>
+        )}
       </div>
 
       {/* 모바일: 아래 고정 확정 버튼 */}
@@ -169,13 +193,13 @@ function TripResult({ trip: base }: { trip: TripView }) {
       </div>
 
       <Sheet open={swapFor !== null} onOpenChange={(v) => !v && setSwapFor(null)}>
-        <SheetContent side="bottom" className="mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-5 pb-8">
+        <SheetContent side="bottom" className={PANEL}>
           {swapFor && <SwapSheet key={swapFor} placeId={swapFor} o={option} trip={trip} onSwap={swap} onClose={() => setSwapFor(null)} />}
         </SheetContent>
       </Sheet>
 
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent side="bottom" className="mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-5 pb-8">
+        <SheetContent side="bottom" className={PANEL}>
           <ConfirmSheet o={option} trip={trip} onChange={() => setSheetOpen(false)} />
         </SheetContent>
       </Sheet>
@@ -313,7 +337,22 @@ function ConfirmButton({ confirmed, onConfirm, optionId }: { confirmed: boolean;
   );
 }
 
-function OptionDetail({ o, trip, onSwap }: { o: OptionView; trip: TripView; onSwap: (placeId: string) => void }) {
+function OptionDetail({
+  o,
+  trip,
+  onSwap,
+  day: dayIndex,
+  onDay,
+  map,
+}: {
+  o: OptionView;
+  trip: TripView;
+  onSwap: (placeId: string) => void;
+  day: number;
+  onDay: (i: number) => void;
+  /** 이 칸 안에 넣을 지도(넓은 PC에서는 따로 칸이 있어 null) */
+  map: ReactNode;
+}) {
   const counts = new Map<string, number>();
   o.checkBeforeGo.forEach((q) => counts.set(q.question, (counts.get(q.question) ?? 0) + 1));
   const common = new Set([...counts].filter(([, n]) => n > 1).map(([q]) => q));
@@ -340,7 +379,7 @@ function OptionDetail({ o, trip, onSwap }: { o: OptionView; trip: TripView; onSw
         </details>
       )}
       {o.days.length > 1 ? (
-        <Tabs defaultValue={o.days[0].date} className="mt-5">
+        <Tabs value={o.days[dayIndex].date} onValueChange={(v) => onDay(Math.max(0, o.days.findIndex((d) => d.date === v)))} className="mt-5">
           <TabsList className="w-full">
             {o.days.map((d, i) => (
               <TabsTrigger key={d.date} value={d.date} className="flex-col gap-0 font-bold data-active:text-primary-ink">
@@ -349,6 +388,7 @@ function OptionDetail({ o, trip, onSwap }: { o: OptionView; trip: TripView; onSw
               </TabsTrigger>
             ))}
           </TabsList>
+          {map && <div className="mt-4">{map}</div>}
           {o.days.map((d, i) => (
             <TabsContent key={d.date} value={d.date} className="animate-rise">
               {day(d, i)}
@@ -356,7 +396,10 @@ function OptionDetail({ o, trip, onSwap }: { o: OptionView; trip: TripView; onSw
           ))}
         </Tabs>
       ) : (
-        o.days.map(day)
+        <>
+          {map && <div className="mt-5">{map}</div>}
+          {o.days.map(day)}
+        </>
       )}
     </div>
   );

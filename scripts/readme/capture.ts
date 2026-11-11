@@ -1,8 +1,9 @@
 // README 화면 캡처(docs/readme/*.png)를 다시 만든다. AI를 부르지 않는다:
 // 결과 화면은 저장해 둔 실제 AI 결과(e2e/fixtures/trip-view.json), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
 // 확정 일정의 지도는 실제 카카오 지도·경로선이라 개발 서버(localhost:3000, 카카오에 등록한 주소)가 켜져 있어야 한다.
+// 시작 화면 PC 미리보기(public/preview/compare.png, final.png)도 07·10 캡처로 함께 바꾼다.
 // 사용: npm run dev  →  npx tsx scripts/readme/capture.ts
-import { readFileSync } from "node:fs";
+import { copyFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { chromium, type Browser, type Page } from "@playwright/test";
 
@@ -92,7 +93,13 @@ const SHOTS: Shot[] = [
       await p.waitForTimeout(300);
     },
   },
+  // PC: 시작(왼쪽 소개 + 오른쪽 미리보기), 안 비교(안 고르기 · 상세 · 지도 3칸)
+  { name: "13-home-desktop", path: "/", desktop: true },
+  { name: "14-compare-desktop", path: "/trip/new", desktop: true, act: waitMap },
 ];
+
+/** 시작 화면 미리보기에 쓰는 캡처 */
+const PREVIEW: Record<string, string> = { "07-result-compare": "compare", "10-final": "final" };
 
 async function waitMap(p: Page) {
   await p.getByText(/카카오\)|직선으로|불러오지 못했어요/).first().waitFor({ timeout: 20_000 });
@@ -122,6 +129,7 @@ async function capture(b: Browser, s: Shot) {
   await page.addStyleTag({ content: "nextjs-portal{display:none!important}" });
   if (s.act) await s.act(page);
   await page.screenshot({ path: `${OUT}/${s.name}.png` });
+  if (PREVIEW[s.name]) copyFileSync(`${OUT}/${s.name}.png`, resolve(`public/preview/${PREVIEW[s.name]}.png`));
   await ctx.close();
   console.log(`✓ ${s.name}`);
 }

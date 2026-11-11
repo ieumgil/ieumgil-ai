@@ -29,7 +29,8 @@ test("결과 화면에서 정하면 확정 일정 페이지로 가고, 다른 �
   await expect(page).toHaveURL(/\/trip\/new\/final$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(second.title);
   await expect(page.getByRole("radio")).toHaveCount(0); // 안 고르기 없음
-  await expect(page.getByText("지도를 불러오지 못했어요")).toBeVisible(); // 지도가 막혀도 일정은 보인다
+  // 지도가 막혀도 일정은 보인다(앞 화면은 숨긴 채 남아 있을 수 있어 보이는 것만 센다)
+  await expect(page.getByText("지도를 불러오지 못했어요").filter({ visible: true })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: /번째 장소/ }).first()).toBeVisible();
   await expect(page.getByText("지도의 선은 일반 차량 경로예요")).toBeVisible();
 
