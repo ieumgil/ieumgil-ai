@@ -79,6 +79,19 @@ const SHOTS: Shot[] = [
   },
   { name: "10-final", path: "/trip/new/final", act: waitMap },
   { name: "11-final-desktop", path: "/trip/new/final", desktop: true, act: waitMap },
+  {
+    name: "12-checklist",
+    path: "/trip/new/final",
+    act: async (p) => {
+      await waitMap(p);
+      const g = p.getByRole("group", { name: /전화 결과/ });
+      await g.nth(0).getByRole("button", { name: "괜찮대요" }).click();
+      await g.nth(1).getByRole("button", { name: "어렵대요" }).click();
+      await p.locator("#checklist-title").evaluate((el) => el.scrollIntoView({ block: "start" }));
+      await p.evaluate(() => window.scrollBy(0, -16));
+      await p.waitForTimeout(300);
+    },
+  },
 ];
 
 async function waitMap(p: Page) {
