@@ -18,6 +18,7 @@ import {
   Coffee,
   Flag,
   Hourglass,
+  Info,
   Map as MapIcon,
   MapPin,
   PersonStanding,
@@ -27,8 +28,8 @@ import {
   X,
   Utensils,
 } from "lucide-react";
-import { useParams } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { useEffect, useState, type ReactNode } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
 import { TopBar } from "@/components/TopBar";
 import { Button, ButtonLink } from "@/components/ui/button";
@@ -42,7 +43,8 @@ import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dat
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { alternativesFor, swapPlace } from "@/lib/trip/edit";
 import { euro } from "@/lib/text/particle";
-import { VERDICT_CHIP } from "@/lib/trip/labels";
+import { reviewWords, UNKNOWN_LABEL, VERDICT_CHIP } from "@/lib/trip/labels";
+import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
 
@@ -74,9 +76,15 @@ function TripResult({ trip: base }: { trip: TripView }) {
   const edited = useEditedOptions(base);
   // 화면에는 장소를 바꾼 안을 보여준다(원래 안은 base에 그대로: 되돌리기·이유에 쓴다)
   const trip: TripView = { ...base, options: base.options.map((o) => edited[o.id] ?? o) };
+  const params = useSearchParams();
+  const swapParam = params.get("swap");
   const [selected, setSelected] = useState(confirmedId ?? trip.options[0]?.id);
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [swapFor, setSwapFor] = useState<string | null>(null);
+  const [swapFor, setSwapFor] = useState<string | null>(swapParam && base.placeData[swapParam] ? swapParam : null);
+  // 주소의 ?swap=은 한 번만 쓴다(새로고침해도 창이 다시 열리지 않게)
+  useEffect(() => {
+    if (swapParam) window.history.replaceState(null, "", window.location.pathname);
+  }, [swapParam]);
   const [notice, setNotice] = useState("");
   const option = trip.options.find((o) => o.id === selected) ?? trip.options[0];
 
@@ -225,17 +233,18 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
         value={selected}
         onValueChange={(v) => v && onSelect(v)}
         aria-label="일정 고르기"
+        rovingFocus={false}
         spacing={3}
-        className="mt-3 flex w-full snap-x items-stretch justify-start gap-3 overflow-x-auto px-5 pb-2 lg:flex-col lg:overflow-visible lg:px-0"
+        className="mt-3 flex w-full flex-col items-stretch gap-3 px-5 lg:px-0"
       >
         {trip.options.map((o, i) => {
-          const avg = o.review ? ((o.review.fatigue + o.review.slack + o.review.taste) / 3).toFixed(1) : null;
+          const calls = callPlaces(o).length;
           return (
             <ToggleGroupItem
               key={o.id}
               value={o.id}
               style={{ animationDelay: `${60 + i * 70}ms` }}
-              className="h-auto w-[16.5rem] shrink-0 animate-rise snap-start flex-col items-stretch gap-2 rounded-2xl border-2 border-surface bg-surface p-4 text-left whitespace-normal transition-[border-color,background-color,transform] duration-200 hover:bg-surface active:scale-[0.99] data-[state=on]:border-primary data-[state=on]:bg-primary-soft lg:w-full"
+              className="h-auto w-full animate-rise flex-col items-stretch gap-2 rounded-2xl border-2 border-surface bg-surface p-4 text-left whitespace-normal transition-[border-color,background-color,transform] duration-200 hover:bg-surface active:scale-[0.99] data-[state=on]:border-primary data-[state=on]:bg-primary-soft"
             >
               <span className="flex items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-2 text-sm font-bold text-primary-ink">
@@ -251,7 +260,7 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
               </span>
               <span className="text-lead leading-snug font-bold text-ink">{o.title}</span>
               <span className="line-clamp-2 text-sm leading-normal font-normal text-ink-sub">{o.summary}</span>
-              <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-medium text-ink">
+              <span className="mt-1 grid grid-cols-3 gap-2 text-sm font-medium text-ink">
                 <span className="inline-flex items-center gap-1">
                   <MapPin size={16} className="text-ink-sub" aria-hidden="true" />
                   {o.stats.places}곳
@@ -260,18 +269,12 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
                   <Car size={16} className="text-ink-sub" aria-hidden="true" />
                   이동 약 {o.stats.travelMin}분
                 </span>
-                {o.stats.checkNeeded > 0 && (
-                  <span className="inline-flex items-center gap-1 text-caution-ink">
-                    <CircleAlert size={16} aria-hidden="true" />
-                    확인 {o.stats.checkNeeded}곳
-                  </span>
-                )}
-              </span>
-              {o.review && (
-                <span className="text-sm font-normal text-ink-sub">
-                  AI 점검 {avg}/5 <span>(피로도 {o.review.fatigue} · 여유 {o.review.slack} · 취향 {o.review.taste})</span>
+                <span className={`inline-flex items-center gap-1 ${calls > 0 ? "text-caution-ink" : "text-ink"}`}>
+                  <Phone size={16} aria-hidden="true" />
+                  전화 확인 {calls}곳
                 </span>
-              )}
+              </span>
+              {o.review && <span className="text-sm font-normal text-ink-sub">AI 점검: {reviewWords(o.review)}</span>}
             </ToggleGroupItem>
           );
         })}
@@ -308,7 +311,7 @@ function OptionDetail({ o, trip, onSwap }: { o: OptionView; trip: TripView; onSw
           <summary className="flex min-h-touch cursor-pointer list-none items-center justify-between gap-2 text-base font-bold">
             <span className="inline-flex items-center gap-2">
               <CircleAlert size={20} aria-hidden="true" />
-              여러 곳 공통으로 확인할 것 {common.size}가지
+              여러 곳에 공통으로 물어볼 것 {common.size}가지
             </span>
             <ChevronDown size={20} className="transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
           </summary>
@@ -428,7 +431,8 @@ function PlaceCard({
   const [open, setOpen] = useState(false);
   const p = trip.places[it.placeId];
   const j = trip.judgments[it.placeId];
-  const questions = o.checkBeforeGo.filter((q) => q.placeId === it.placeId && !common.has(q.question)).map((q) => q.question);
+  const questions = (questionsByPlace(o).get(it.placeId) ?? []).filter((q) => !common.has(q));
+  const unknown = (trip.unknowns?.[it.placeId] ?? []).map((k) => UNKNOWN_LABEL[k] ?? k);
   const cautions = o.cautions.filter((c) => c.placeId === it.placeId).map((c) => c.text);
   const headline = it.why ?? j.reasons[0];
   const reasons = j.reasons.filter((r) => r !== headline);
@@ -461,6 +465,12 @@ function PlaceCard({
         <div className="mt-1.5 flex flex-wrap items-center gap-2">
           <StatusChip status={VERDICT_CHIP[j.verdict]}>{j.verdict}</StatusChip>
         </div>
+        {unknown.length > 0 && (
+          <p className="mt-1.5 flex items-start gap-1.5 text-sm text-ink-sub">
+            <Info size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+            공식 정보 없음: {unknown.join(" · ")}
+          </p>
+        )}
         {headline && <p className="mt-2.5 text-base leading-relaxed">{headline}</p>}
         {cautions.map((c) => (
           <p key={c} className="mt-2 flex items-start gap-2 rounded-lg bg-caution-bg px-3 py-2 text-base text-caution-ink">
@@ -496,7 +506,7 @@ function PlaceCard({
             className="inline-flex min-h-touch grow basis-[6rem] items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-medium whitespace-nowrap text-ink transition-[background-color,transform] duration-150 hover:bg-line active:scale-[0.98]"
           >
             자세히
-            {questions.length > 0 && <span className="rounded-full bg-caution-bg px-1.5 text-sm font-bold text-caution-ink">확인 {questions.length}</span>}
+            {questions.length > 0 && <span className="rounded-full bg-caution-bg px-1.5 text-sm font-bold text-caution-ink">물어볼 것 {questions.length}</span>}
             <ChevronDown size={18} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} aria-hidden="true" />
           </button>
         </div>
@@ -518,7 +528,7 @@ function PlaceCard({
             )}
             {p.onSite && <Block title="도착하면">{p.onSite}</Block>}
             {questions.length > 0 && (
-              <Block title="출발 전 확인">
+              <Block title="전화로 물어볼 것">
                 <ul className="list-disc pl-5">
                   {questions.map((q) => (
                     <li key={q}>{q}</li>
@@ -613,8 +623,7 @@ function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: string; o: 
 }
 
 function ConfirmSheet({ o, trip, onChange }: { o: OptionView; trip: TripView; onChange: () => void }) {
-  const byPlace = new Map<string, string[]>();
-  for (const q of o.checkBeforeGo) byPlace.set(q.placeId, [...(byPlace.get(q.placeId) ?? []), q.question]);
+  const byPlace = questionsByPlace(o);
   const places = o.days.flatMap((d) => d.items.filter((x): x is Extract<ItemView, { kind: "visit" }> => x.kind === "visit").map((v) => v.placeId));
   return (
     <>

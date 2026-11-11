@@ -2459,5 +2459,47 @@
   "GN42": [
    "노면은 포장되어 있나요?"
   ]
+ },
+ "unknowns": {
+  "GN12": [
+   "surface"
+  ],
+  "GN09": [
+   "elevator",
+   "surface",
+   "accessible_toilet"
+  ],
+  "GN98": [
+   "elevator",
+   "surface"
+  ],
+  "GN33": [
+   "surface"
+  ],
+  "GN99": [
+   "elevator",
+   "slope",
+   "surface"
+  ],
+  "GN05": [
+   "elevator",
+   "surface"
+  ],
+  "GN14": [
+   "surface"
+  ],
+  "GN62": [
+   "surface"
+  ],
+  "GN68": [
+   "slope",
+   "surface"
+  ],
+  "GN25": [
+   "surface"
+  ],
+  "GN42": [
+   "surface"
+  ]
  }
 }

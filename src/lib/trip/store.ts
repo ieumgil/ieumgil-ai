@@ -131,6 +131,60 @@ export function useEditedOptions(trip: TripView): Record<string, OptionView> {
   return value?.createdAt === trip.createdAt ? value.options : NO_EDITS;
 }
 
+// 출발 전 전화로 확인한 장소(이 탭에서만). 값: { createdAt, ids } — 새 일정을 만들면 자동으로 풀린다.
+const CHECK_KEY = "ieumgil-trip-checked";
+const checkListeners = new Set<() => void>();
+let checked: { raw: string | null; value: { createdAt: string; ids: string[] } | null } | undefined;
+const NO_IDS: string[] = [];
+
+function readChecked() {
+  if (checked === undefined) {
+    let raw: string | null = null;
+    try {
+      raw = sessionStorage.getItem(CHECK_KEY);
+    } catch {
+      // 그대로
+    }
+    let value = null;
+    try {
+      value = raw ? (JSON.parse(raw) as { createdAt: string; ids: string[] }) : null;
+    } catch {
+      value = null;
+    }
+    checked = { raw, value };
+  }
+  return checked.value;
+}
+
+export function setPlaceChecked(trip: TripView, placeId: string, on: boolean) {
+  const cur = readChecked();
+  const ids = new Set(cur?.createdAt === trip.createdAt ? cur.ids : []);
+  if (on) ids.add(placeId);
+  else ids.delete(placeId);
+  const value = { createdAt: trip.createdAt, ids: [...ids] };
+  const raw = JSON.stringify(value);
+  checked = { raw, value };
+  try {
+    sessionStorage.setItem(CHECK_KEY, raw);
+  } catch {
+    // 저장이 막혀도 이번 화면에서는 동작
+  }
+  checkListeners.forEach((l) => l());
+}
+
+/** 이 일정에서 전화로 확인했다고 표시한 장소 id */
+export function useCheckedPlaces(trip: TripView): string[] {
+  const value = useSyncExternalStore(
+    (l) => {
+      checkListeners.add(l);
+      return () => checkListeners.delete(l);
+    },
+    readChecked,
+    () => null,
+  );
+  return value?.createdAt === trip.createdAt ? value.ids : NO_IDS;
+}
+
 /** undefined = 아직 브라우저에서 읽기 전(서버 렌더링), null = 없음 */
 export function useSavedTrip(): TripView | null | undefined {
   return useSyncExternalStore(

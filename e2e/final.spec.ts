@@ -60,6 +60,32 @@ test("경로선은 열 때마다 받고 브라우저에 저장하지 않는다",
   expect(stored).not.toContain('"path"');
 });
 
+test("출발 전 확인: 전화로 확인할 곳 수가 안 비교 카드와 같고, '확인 완료'는 새로고침해도 남는다", async ({ page }) => {
+  const confirmed = view.options[1];
+  await setup(page, confirmed.id);
+  await page.goto("/trip/new");
+  const card = page.getByRole("radio").nth(1);
+  const calls = Number((await card.textContent())!.match(/전화 확인 (\d+)곳/)![1]);
+
+  await page.goto("/trip/new/final");
+  await expect(page.getByText(`${calls}곳 중 0곳 확인했어요`)).toBeVisible();
+  await page.getByRole("button", { name: "확인 완료 표시" }).first().click();
+  await expect(page.getByText(`${calls}곳 중 1곳 확인했어요`)).toBeVisible();
+  await page.reload();
+  await expect(page.getByText(`${calls}곳 중 1곳 확인했어요`)).toBeVisible();
+  await expect(page.getByRole("button", { name: "확인했어요" }).first()).toHaveAttribute("aria-pressed", "true");
+});
+
+test("확정 화면에서 '어렵다고 하면 다른 곳으로 바꾸기'를 누르면 그 장소의 바꾸기 창이 열린다", async ({ page }) => {
+  await setup(page, view.options[1].id);
+  await page.goto("/trip/new/final");
+  const link = page.getByRole("link", { name: /다른 곳으로 바꾸기/ }).first();
+  const name = (await link.locator("xpath=ancestor::li[1]").locator("p").first().textContent())!.replace(/^\d+/, "").replace("확인 필요", "").trim();
+  await link.click();
+  await expect(page).toHaveURL(/\/trip\/new$/);
+  await expect(page.getByRole("dialog")).toContainText(`${name} 대신 갈 곳`);
+});
+
 test("정한 일정이 없으면 고르러 가라고 안내한다", async ({ page }) => {
   await setup(page);
   await page.goto("/trip/new/final");

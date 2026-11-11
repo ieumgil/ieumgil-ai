@@ -3,20 +3,21 @@
 // 확정 일정: 정한 안 하나와 지도만(다른 안·비교·설계 과정은 뺀다). 장소를 바꿨으면 바꾼 일정으로 보여준다.
 // 모바일: 위 지도 + 아래 일정, PC: 왼쪽 지도 + 오른쪽 일정. 지도 경로선은 열 때마다 받고 저장하지 않는다.
 // 시각은 모두 코드가 계산한 값(이동시간은 직선거리 어림)이고, 경로선은 "일반 차량 경로"다.
-import { ArrowLeft, Car, CircleAlert, CircleCheck, Flag, ListChecks, Phone, Utensils } from "lucide-react";
+import { ArrowLeft, ArrowLeftRight, Car, Check, CircleCheck, Flag, ListChecks, Phone, Printer, Utensils } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
 import { TripMap, type MapPoint } from "@/components/map/TripMap";
 import { TopBar } from "@/components/TopBar";
-import { ButtonLink } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toHHMM } from "@/lib/engine/types";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { VERDICT_CHIP } from "@/lib/trip/labels";
-import { useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
+import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
+import { setPlaceChecked, useCheckedPlaces, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
 
 type Visit = Extract<ItemView, { kind: "visit" }>;
@@ -73,15 +74,21 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
 
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 lg:max-w-[76rem]">
-      <div className="px-5 pt-4">
+      <div className="px-5 pt-4 print:hidden">
         <TopBar backHref="/trip/new" backLabel="일정 비교 화면으로" />
       </div>
 
       <header className="animate-rise px-5 pt-5">
-        <Link href="/trip/new" className="inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
-          <ArrowLeft size={18} aria-hidden="true" />
-          다른 안 보기
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-2 print:hidden">
+          <Link href="/trip/new" className="inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
+            <ArrowLeft size={18} aria-hidden="true" />
+            다른 안 보기
+          </Link>
+          <Button variant="ghost" size="sm" onClick={() => window.print()}>
+            <Printer aria-hidden="true" />
+            인쇄·PDF로 저장
+          </Button>
+        </div>
         <p className="mt-3 flex items-center gap-1.5 text-sm font-bold text-primary-ink">
           <CircleCheck size={16} aria-hidden="true" />
           확정한 일정
@@ -93,7 +100,7 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
       </header>
 
       {o.days.length > 1 && (
-        <Tabs value={day.date} onValueChange={(v) => setDayIndex(Math.max(0, o.days.findIndex((d) => d.date === v)))} className="mt-4 px-5">
+        <Tabs value={day.date} onValueChange={(v) => setDayIndex(Math.max(0, o.days.findIndex((d) => d.date === v)))} className="mt-4 px-5 print:hidden">
           <TabsList className="w-full">
             {o.days.map((d, i) => (
               <TabsTrigger key={d.date} value={d.date} className="flex-col gap-0 font-bold data-active:text-primary-ink">
@@ -106,14 +113,21 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
       )}
 
       <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-8 lg:px-5">
-        <div className="px-5 lg:sticky lg:top-4 lg:self-start lg:px-0">
+        <div className="px-5 lg:sticky lg:top-4 lg:self-start lg:px-0 print:hidden">
           <TripMap key={dayIndex} points={points} label={mapLabel} className="h-72 lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]" />
         </div>
 
         <div className="px-5 lg:px-0">
-          <section key={day.date} className="animate-rise" aria-label={`${dayIndex + 1}일째 일정`}>
-            <DayList d={day} trip={trip} />
-          </section>
+          {o.days.map((d, i) => (
+            <section key={d.date} className={i === dayIndex ? "animate-rise" : "hidden print:block"} aria-label={`${i + 1}일째 일정`}>
+              {o.days.length > 1 && (
+                <h2 className={`mb-2 text-lg font-bold ${i === dayIndex ? "hidden print:block" : ""}`}>
+                  {i + 1}일째 · {formatDay(d.date)}
+                </h2>
+              )}
+              <DayList d={d} trip={trip} />
+            </section>
+          ))}
           <Checklist o={o} trip={trip} />
           <section className="mt-8 flex flex-col gap-1.5 text-sm leading-normal text-ink-sub">
             <p>지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.</p>
@@ -205,38 +219,90 @@ function Row({ icon, children }: { icon: React.ReactNode; children: React.ReactN
 }
 
 function Checklist({ o, trip }: { o: OptionView; trip: TripView }) {
-  const byPlace = new Map<string, string[]>();
-  for (const q of o.checkBeforeGo) byPlace.set(q.placeId, [...new Set([...(byPlace.get(q.placeId) ?? []), q.question])]);
-  const ids = o.days.flatMap((d) => visitsOf(d).map((v) => v.placeId)).filter((id) => byPlace.has(id));
-  if (ids.length === 0) return null;
+  const qs = questionsByPlace(o);
+  const all = callPlaces(o);
+  const checked = useCheckedPlaces(trip);
+  if (all.length === 0) return null;
+  const done = all.filter((id) => checked.includes(id)).length;
+  const left = all.length - done;
   return (
-    <section className="mt-8" aria-labelledby="checklist-title">
+    <section className="mt-8 break-inside-avoid-page" aria-labelledby="checklist-title">
       <h2 id="checklist-title" className="flex items-center gap-2 text-lg font-bold">
         <ListChecks size={20} className="text-primary" aria-hidden="true" />
-        출발 전 확인할 것 {ids.length}곳
+        출발 전 전화로 확인할 곳
       </h2>
-      <ul className="mt-3 flex flex-col gap-3">
-        {ids.map((id) => {
-          const p = trip.places[id];
-          return (
-            <li key={id} className="rounded-2xl bg-caution-bg p-4 text-caution-ink">
-              <p className="flex items-center gap-2 text-base font-bold">
-                <CircleAlert size={18} aria-hidden="true" />
-                {p.name}
-              </p>
-              <ul className="mt-1.5 list-disc pl-6 text-base leading-relaxed">
-                {byPlace.get(id)!.map((q) => (
-                  <li key={q}>{q}</li>
-                ))}
-              </ul>
-              <a href={`tel:${p.phone.replace(/[^\d]/g, "")}`} className="mt-3 inline-flex min-h-touch w-full items-center justify-center gap-2 rounded-xl border-[1.5px] border-primary bg-white text-base font-bold text-primary">
-                <Phone size={18} aria-hidden="true" />
-                {p.phone}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+      <p className="mt-1 text-base text-ink-sub" aria-live="polite">
+        {left === 0 ? "모두 확인했어요." : `${all.length}곳 중 ${done}곳 확인했어요 · 남은 곳 ${left}곳`}
+      </p>
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-line print:hidden" aria-hidden="true">
+        <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${(done / all.length) * 100}%` }} />
+      </div>
+
+      {o.days.map((d, di) => {
+        const visits = visitsOf(d);
+        const ids = visits.map((v) => v.placeId).filter((id) => all.includes(id));
+        if (ids.length === 0) return null;
+        return (
+          <div key={d.date} className="mt-5">
+            {o.days.length > 1 && (
+              <h3 className="text-base font-bold text-ink-sub">
+                {di + 1}일째 · {formatDay(d.date)}
+              </h3>
+            )}
+            <ul className="mt-2 flex flex-col gap-3">
+              {ids.map((id) => {
+                const p = trip.places[id];
+                const j = trip.judgments[id];
+                const no = visits.findIndex((v) => v.placeId === id) + 1;
+                const on = checked.includes(id);
+                return (
+                  <li key={id} className={`break-inside-avoid rounded-2xl p-4 ring-1 transition-colors ${on ? "bg-surface ring-transparent" : "bg-white ring-line"}`}>
+                    <p className="flex flex-wrap items-center gap-2 text-base font-bold">
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm text-white" aria-hidden="true">
+                        {no}
+                      </span>
+                      <span className={on ? "text-ink-sub" : ""}>{p.name}</span>
+                      {j.verdict === "확인 필요" && <StatusChip status="caution">확인 필요</StatusChip>}
+                    </p>
+                    <ul className={`mt-2 list-disc pl-6 text-base leading-relaxed ${on ? "text-ink-sub" : ""}`}>
+                      {qs.get(id)!.map((q) => (
+                        <li key={q}>{q}</li>
+                      ))}
+                    </ul>
+                    <div className="mt-3 flex flex-wrap gap-2 print:hidden">
+                      <a
+                        href={`tel:${p.phone.replace(/[^\d]/g, "")}`}
+                        aria-label={`공식 전화 ${p.phone} 걸기`}
+                        className="inline-flex min-h-touch grow basis-[11.5rem] items-center justify-center gap-1.5 rounded-xl border-[1.5px] border-primary bg-white px-3 text-base font-bold whitespace-nowrap text-primary tabular-nums"
+                      >
+                        <Phone size={18} aria-hidden="true" />
+                        {p.phone}
+                      </a>
+                      <button
+                        type="button"
+                        aria-pressed={on}
+                        onClick={() => setPlaceChecked(trip, id, !on)}
+                        className={`inline-flex min-h-touch grow basis-[8rem] items-center justify-center gap-1.5 rounded-xl px-3 text-base font-bold whitespace-nowrap transition-[background-color,transform] duration-150 active:scale-[0.98] ${on ? "bg-primary text-white" : "bg-surface text-ink hover:bg-line"}`}
+                      >
+                        <Check size={18} aria-hidden="true" />
+                        {on ? "확인했어요" : "확인 완료 표시"}
+                      </button>
+                    </div>
+                    <p className="hidden text-base print:block">☎ {p.phone}</p>
+                    <Link
+                      href={`/trip/new?swap=${id}`}
+                      className="mt-2 inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline print:hidden"
+                    >
+                      <ArrowLeftRight size={16} aria-hidden="true" />
+                      어렵다고 하면 다른 곳으로 바꾸기
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      })}
     </section>
   );
 }

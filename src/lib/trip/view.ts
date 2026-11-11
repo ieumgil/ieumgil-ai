@@ -90,6 +90,8 @@ export interface TripView {
   placeData: Record<string, Place>;
   /** 장소별 '모름' 항목 질문(코드 안전 하한). 바꾼 장소의 출발 전 확인에 쓴다 */
   asks: Record<string, string[]>;
+  /** 장소별 공식 정보가 없는 필수 항목(access 키 또는 walk_distance). '확인 필요'의 이유로 보여준다 */
+  unknowns?: Record<string, string[]>;
 }
 
 /** 계산된 하루 일정 → 화면 값 */
@@ -125,7 +127,8 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
     const v = verdictOf(c.place.id);
     return v && v !== "부적합" ? [{ place: c.place, verdict: v }] : [];
   });
-  const asksOf = (id: string) => r.rule.filter.candidates.find((c) => c.place.id === id)?.floor.asks ?? [];
+  const floorOf = (id: string) => r.rule.filter.candidates.find((c) => c.place.id === id)?.floor;
+  const asksOf = (id: string) => floorOf(id)?.asks ?? [];
 
   const options: OptionView[] = r.options.map((o) => {
     const review = r.reviews.find((x) => x.optionId === o.id);
@@ -159,9 +162,11 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
   const placeViews: Record<string, PlaceView> = {};
   const placeData: Record<string, Place> = {};
   const asks: Record<string, string[]> = {};
+  const unknowns: Record<string, string[]> = {};
   for (const id of used) {
     placeData[id] = byId.get(id)!;
     asks[id] = asksOf(id);
+    unknowns[id] = floorOf(id)?.unknown ?? [];
     const p = byId.get(id)!;
     const labels = new Map((evidence[id] ?? []).map((e) => [e.id, e.label]));
     const j = r.judge?.judgments.get(id);
@@ -199,5 +204,6 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
     frames: r.rule.frames,
     placeData,
     asks,
+    unknowns,
   };
 }
