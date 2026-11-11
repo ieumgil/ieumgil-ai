@@ -149,9 +149,9 @@ export function TripMap({ points, label, className = "" }: { points: MapPoint[];
     );
   }
   return (
-    <figure className={`relative overflow-hidden rounded-2xl bg-surface ${className}`}>
-      <div ref={box} className="size-full" role="img" aria-label={label} />
-      <figcaption className="absolute inset-x-2 bottom-2 z-10 rounded-lg bg-white/90 px-2.5 py-1 text-sm text-ink-sub backdrop-blur">
+    <figure className={`flex flex-col overflow-hidden rounded-2xl bg-surface ${className}`}>
+      <div ref={box} className="min-h-0 flex-1" role="img" aria-label={label} />
+      <figcaption className="border-t border-line px-3 py-2 text-sm text-ink-sub">
         {line === undefined
           ? "경로를 불러오는 중이에요"
           : line

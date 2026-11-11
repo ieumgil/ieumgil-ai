@@ -1,6 +1,7 @@
 "use client";
 
 // 4단계 좋아하는 곳 (시안 Taste.dc.html)
+import { euro } from "@/lib/text/particle";
 import { useId, useState } from "react";
 import { CloseIcon, SearchIcon } from "@/components/icons";
 import { CheckDot, SegmentButton } from "@/components/plan/choices";
@@ -125,7 +126,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
         {q && (
           <ul className="flex flex-col overflow-hidden rounded-xl border border-line" aria-label="검색 결과">
             {results.length === 0 ? (
-              <li className="px-4 py-3 text-base text-ink-sub">&lsquo;{q}&rsquo;(으)로 찾은 곳이 없어요</li>
+              <li className="px-4 py-3 text-base text-ink-sub">&lsquo;{q}&rsquo;{euro(q).slice(q.length)} 찾은 곳이 없어요</li>
             ) : (
               results.map((p) => (
                 <li key={p.id} className="border-b border-line last:border-b-0">

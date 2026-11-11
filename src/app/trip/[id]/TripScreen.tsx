@@ -24,6 +24,7 @@ import {
   Phone,
   Sparkles,
   Undo2,
+  X,
   Utensils,
 } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -40,6 +41,7 @@ import { toHHMM } from "@/lib/engine/types";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { alternativesFor, swapPlace } from "@/lib/trip/edit";
+import { euro } from "@/lib/text/particle";
 import { VERDICT_CHIP } from "@/lib/trip/labels";
 import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
@@ -83,7 +85,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
     if (!r.ok) return r.reason;
     saveEditedOption(base, r.option);
     setSwapFor(null);
-    setNotice(`${trip.places[fromId].name} 대신 ${trip.places[toId].name}(으)로 바꿨어요. 시각을 다시 계산했어요.`);
+    setNotice(`${trip.places[fromId].name} 대신 ${euro(trip.places[toId].name)} 바꿨어요. 시각을 다시 계산했어요.`);
     return null;
   };
   const isConfirmed = confirmedId === option.id;
@@ -116,9 +118,22 @@ function TripResult({ trip: base }: { trip: TripView }) {
 
         {/* 오른쪽(PC) / 아래(모바일): 고른 안 */}
         <section key={option.id} className="animate-rise" aria-label={`${option.title} 일정`}>
-          <p role="status" className="sr-only">
-            {notice}
-          </p>
+          <div role="status" className="px-5 lg:px-0">
+            {notice && (
+              <p className="mt-5 flex animate-rise items-center gap-2 rounded-2xl bg-primary-soft py-1 pr-1 pl-4 text-base text-primary-ink">
+                <CircleCheck size={20} className="shrink-0" aria-hidden="true" />
+                <span className="flex-1 py-2">{notice}</span>
+                <button
+                  type="button"
+                  onClick={() => setNotice("")}
+                  aria-label="안내 닫기"
+                  className="flex size-touch shrink-0 items-center justify-center rounded-xl transition-colors hover:bg-white/60"
+                >
+                  <X size={20} aria-hidden="true" />
+                </button>
+              </p>
+            )}
+          </div>
           <OptionDetail o={option} trip={trip} onSwap={setSwapFor} />
           <Footnotes trip={trip} />
         </section>
@@ -228,7 +243,7 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
                   {STRATEGY_LABEL[o.strategy] ?? o.strategy}
                 </span>
                 {confirmedId === o.id && (
-                  <span className="inline-flex items-center gap-1 text-sm font-bold text-primary">
+                  <span className="inline-flex items-center gap-1 text-sm font-bold text-primary-ink">
                     <CircleCheck size={16} aria-hidden="true" />
                     정했어요
                   </span>
@@ -254,7 +269,7 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
               </span>
               {o.review && (
                 <span className="text-sm font-normal text-ink-sub">
-                  AI 점검 {avg}/5 <span className="text-ink-sub/80">(피로도 {o.review.fatigue} · 여유 {o.review.slack} · 취향 {o.review.taste})</span>
+                  AI 점검 {avg}/5 <span>(피로도 {o.review.fatigue} · 여유 {o.review.slack} · 취향 {o.review.taste})</span>
                 </span>
               )}
             </ToggleGroupItem>
@@ -444,13 +459,7 @@ function PlaceCard({
           </p>
         )}
         <div className="mt-1.5 flex flex-wrap items-center gap-2">
-          <StatusChip status={VERDICT_CHIP[j.verdict]}>
-            {j.verdict}
-            {j.confidence ? ` · 확신 ${j.confidence}` : ""}
-          </StatusChip>
-          <span className="text-sm text-ink-sub">
-            {p.region} · {p.category}
-          </span>
+          <StatusChip status={VERDICT_CHIP[j.verdict]}>{j.verdict}</StatusChip>
         </div>
         {headline && <p className="mt-2.5 text-base leading-relaxed">{headline}</p>}
         {cautions.map((c) => (
@@ -494,6 +503,10 @@ function PlaceCard({
 
         {open && (
           <div id={detailId} className="mt-3 flex animate-rise flex-col gap-3 border-t border-line pt-3 text-base leading-relaxed">
+            <p className="text-sm text-ink-sub">
+              {p.region} · {p.category}
+              {j.confidence ? ` · AI 판단의 확신 ${j.confidence}` : ""}
+            </p>
             {reasons.length > 0 && (
               <Block title="AI 판단 이유">
                 <ul className="list-disc pl-5">
