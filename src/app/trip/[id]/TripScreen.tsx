@@ -36,7 +36,6 @@ import {
 } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ComingSoon } from "@/components/ComingSoon";
 import { TripMap } from "@/components/map/TripMap";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { TopBar } from "@/components/TopBar";
@@ -56,12 +55,12 @@ import { dayMapLabel, dayMapPoints } from "@/lib/trip/map-points";
 import { useMedia, WIDE } from "@/lib/use-media";
 import { routeSummary, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
-import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
+import { tripHref, useTripFor } from "@/lib/trip/example";
+import { confirmOption, isExampleTrip, saveEditedOption, useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
 
 const FIT_CHIP = { 여유: { s: "ok", t: "시간 여유 있어요" }, 빠듯: { s: "caution", t: "조금 빠듯해요" }, 부족: { s: "blocked", t: "시간이 부족해요" } } as const;
 const STRATEGY_LABEL: Record<string, string> = { 여유: "여유롭게", 취향: "좋아하는 곳 중심", 실내: "실내 위주", "확인 적게": "확인할 것 적게", 규칙: "기본 일정" };
-const FINAL_HREF = "/trip/new/final";
 // 창(바꾸기·확정): 휴대폰은 아래에서 올라오고, PC는 가운데 대화창
 const PANEL =
   "mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-5 pb-8 lg:w-[34rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
@@ -69,8 +68,7 @@ const TRAVELER_ICON = { wheelchair: <Accessibility size={16} />, elder: <PersonS
 
 export function TripScreen() {
   const { id } = useParams<{ id: string }>();
-  const trip = useSavedTrip();
-  if (id !== "new") return <ComingSoon title="예시 루트" />;
+  const trip = useTripFor(id);
   if (trip === undefined) return null;
   if (trip === null) {
     return (
@@ -79,6 +77,9 @@ export function TripScreen() {
         <h1 className="mt-8 text-title font-bold">만든 일정이 없어요</h1>
         <p className="text-base text-ink-sub">일정은 이 탭에서만 보관해요. 조건을 고르고 다시 만들어 주세요.</p>
         <ButtonLink href="/plan/when">일정 만들기</ButtonLink>
+        <ButtonLink href="/trip/example" variant="outline">
+          예시 루트 먼저 보기
+        </ButtonLink>
       </main>
     );
   }
@@ -103,6 +104,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
   // 안을 바꿀 때는 눈에 보이는 배너 없이 화면 읽기 프로그램에만 알린다(화면은 그 일정으로 내려간다)
   const [announce, setAnnounce] = useState("");
   const option = trip.options.find((o) => o.id === selected) ?? trip.options[0];
+  const example = isExampleTrip(base);
+  const finalHref = `${tripHref(base)}/final`;
   const [dayIndex, setDayIndex] = useState(0);
   const day = Math.min(dayIndex, option.days.length - 1);
   const wide = useMedia(WIDE);
@@ -141,8 +144,9 @@ function TripResult({ trip: base }: { trip: TripView }) {
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-28 md:max-w-[48rem] lg:max-w-[72rem] lg:pb-12 xl:max-w-[96rem]">
       <div className="px-5 pt-4">
-        <TopBar backHref="/plan/taste" backLabel="조건 화면으로" />
+        <TopBar backHref={example ? "/" : "/plan/taste"} backLabel={example ? "처음 화면으로" : "조건 화면으로"} />
       </div>
+      {example && <ExampleBanner />}
       <p role="status" className="sr-only">
         {announce}
       </p>
@@ -153,7 +157,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
           <Summary trip={trip} />
           {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
           <div className="mt-4 hidden lg:block">
-            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} />
+            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} finalHref={finalHref} />
           </div>
         </aside>
 
@@ -190,7 +194,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
       {/* 모바일: 아래 고정 확정 버튼 */}
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-white/95 px-5 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <div className="mx-auto max-w-[30rem]">
-          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} />
+          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} finalHref={finalHref} />
         </div>
       </div>
 
@@ -325,9 +329,9 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
   );
 }
 
-function ConfirmButton({ confirmed, onConfirm, optionId }: { confirmed: boolean; onConfirm: () => void; optionId: string }) {
+function ConfirmButton({ confirmed, onConfirm, optionId, finalHref }: { confirmed: boolean; onConfirm: () => void; optionId: string; finalHref: string }) {
   return confirmed ? (
-    <ButtonLink href={FINAL_HREF} variant="outline" className="w-full">
+    <ButtonLink href={finalHref} variant="outline" className="w-full">
       <MapIcon aria-hidden="true" />
       정한 일정 · 지도로 보기
     </ButtonLink>
@@ -695,6 +699,23 @@ function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: string; o: 
   );
 }
 
+/** 예시 루트 안내: 미리 만든 결과라는 것과 내 조건으로 만들러 가기 */
+function ExampleBanner() {
+  return (
+    <div className="mx-5 mt-4 flex flex-col gap-3 rounded-2xl bg-primary-soft px-4 py-3 text-base text-primary-ink md:flex-row md:items-center">
+      <p className="flex min-w-0 flex-1 items-start gap-2">
+        <Sparkles size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+        <span>
+          <span className="font-bold">예시 일정이에요.</span> 실제 AI가 미리 만든 결과라 바로 열려요. 장소 바꾸기·확정·지도를 그대로 해 볼 수 있어요.
+        </span>
+      </p>
+      <ButtonLink href="/plan" variant="outline" className="min-h-touch w-full bg-white px-3 text-base md:w-auto">
+        내 조건으로 만들기
+      </ButtonLink>
+    </div>
+  );
+}
+
 function ConfirmSheet({ o, trip, onChange }: { o: OptionView; trip: TripView; onChange: () => void }) {
   const calls = callPlaces(o);
   const qCount = calls.reduce((n, id) => n + (questionsByPlace(o).get(id)?.length ?? 0), 0);
@@ -722,7 +743,7 @@ function ConfirmSheet({ o, trip, onChange }: { o: OptionView; trip: TripView; on
         <p className="rounded-2xl bg-surface p-4 text-base">따로 전화로 확인할 곳은 없어요.</p>
       )}
       <div className="mt-4 flex flex-col gap-2">
-        <ButtonLink href={FINAL_HREF}>
+        <ButtonLink href={`${tripHref(trip)}/final`}>
           <MapIcon aria-hidden="true" />
           확정 일정 보기
         </ButtonLink>

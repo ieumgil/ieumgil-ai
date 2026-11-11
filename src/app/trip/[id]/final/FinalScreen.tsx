@@ -7,7 +7,6 @@ import { ArrowLeft, ArrowLeftRight, Car, Check, CircleAlert, CircleCheck, Flag, 
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import { ComingSoon } from "@/components/ComingSoon";
 import { TripMap } from "@/components/map/TripMap";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { TopBar } from "@/components/TopBar";
@@ -18,23 +17,23 @@ import { toHHMM } from "@/lib/engine/types";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
-import { setCallResult, useCallResults, useConfirmedOption, useEditedOptions, useSavedTrip, type CallResult } from "@/lib/trip/store";
+import { tripHref, useTripFor } from "@/lib/trip/example";
+import { setCallResult, useCallResults, useConfirmedOption, useEditedOptions, type CallResult } from "@/lib/trip/store";
 import { dayMapLabel, dayMapPoints, visitsOf } from "@/lib/trip/map-points";
 import type { DayView, OptionView, TripView } from "@/lib/trip/view";
 
 export function FinalScreen() {
   const { id } = useParams<{ id: string }>();
-  const trip = useSavedTrip();
-  if (id !== "new") return <ComingSoon title="예시 루트" />;
+  const trip = useTripFor(id);
   if (trip === undefined) return null;
   if (trip === null) return <Empty text="만든 일정이 없어요" body="일정은 이 탭에서만 보관해요. 조건을 고르고 다시 만들어 주세요." href="/plan/when" cta="일정 만들기" />;
   return <Final trip={trip} />;
 }
 
-function Empty({ text, body, href, cta }: { text: string; body: string; href: string; cta: string }) {
+function Empty({ text, body, href, cta, back = "/trip/new" }: { text: string; body: string; href: string; cta: string; back?: string }) {
   return (
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-5 pt-4 pb-7">
-      <TopBar backHref="/trip/new" backLabel="일정 비교 화면으로" />
+      <TopBar backHref={back} backLabel="일정 비교 화면으로" />
       <h1 className="mt-8 text-title font-bold">{text}</h1>
       <p className="text-base text-ink-sub">{body}</p>
       <ButtonLink href={href}>{cta}</ButtonLink>
@@ -46,7 +45,7 @@ function Final({ trip }: { trip: TripView }) {
   const confirmedId = useConfirmedOption(trip);
   const edited = useEditedOptions(trip);
   const base = trip.options.find((o) => o.id === confirmedId);
-  if (!base) return <Empty text="아직 정한 일정이 없어요" body="일정 비교 화면에서 마음에 드는 안을 골라 '이 일정으로 정하기'를 눌러 주세요." href="/trip/new" cta="일정 고르러 가기" />;
+  if (!base) return <Empty text="아직 정한 일정이 없어요" body="일정 비교 화면에서 마음에 드는 안을 골라 '이 일정으로 정하기'를 눌러 주세요." href={tripHref(trip)} back={tripHref(trip)} cta="일정 고르러 가기" />;
   return <FinalOption trip={trip} o={edited[base.id] ?? base} />;
 }
 
@@ -62,12 +61,12 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem]">
       <div className="px-5 pt-4 print:hidden">
-        <TopBar backHref="/trip/new" backLabel="일정 비교 화면으로" />
+        <TopBar backHref={tripHref(trip)} backLabel="일정 비교 화면으로" />
       </div>
 
       <header className="animate-rise px-5 pt-5">
         <div className="flex flex-wrap items-center justify-between gap-2 print:hidden">
-          <Link href="/trip/new" className="inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
+          <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
             <ArrowLeft size={18} aria-hidden="true" />
             다른 안 보기
           </Link>
@@ -317,7 +316,7 @@ function CallItem({ trip, id, no, questions, result }: { trip: TripView; id: str
             <CircleAlert size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
             어렵다면 근처의 다른 곳으로 바꾸는 게 좋아요.
           </p>
-          <ButtonLink href={`/trip/new?swap=${id}`} className="h-12 w-full text-base">
+          <ButtonLink href={`${tripHref(trip)}?swap=${id}`} className="h-12 w-full text-base">
             <ArrowLeftRight aria-hidden="true" />
             다른 곳으로 바꾸기
           </ButtonLink>
