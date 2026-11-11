@@ -18,6 +18,7 @@ import {
   Coffee,
   Flag,
   Hourglass,
+  ListChecks,
   Info,
   Map as MapIcon,
   MapPin,
@@ -29,7 +30,7 @@ import {
   Utensils,
 } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
 import { TopBar } from "@/components/TopBar";
 import { Button, ButtonLink } from "@/components/ui/button";
@@ -43,7 +44,7 @@ import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dat
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { alternativesFor, swapPlace } from "@/lib/trip/edit";
 import { euro } from "@/lib/text/particle";
-import { reviewWords, UNKNOWN_LABEL, VERDICT_CHIP } from "@/lib/trip/labels";
+import { reviewWords, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
@@ -97,6 +98,17 @@ function TripResult({ trip: base }: { trip: TripView }) {
     return null;
   };
   const isConfirmed = confirmedId === option.id;
+  const detailRef = useRef<HTMLElement>(null);
+  const pick = (id: string) => {
+    if (id === selected) return;
+    setSelected(id);
+    setNotice(`${id}안 일정을 보여 드려요.`);
+    // 모바일(한 줄 배치)에서는 바뀐 일정 제목으로 내려간다. 움직임 줄이기 설정이면 바로 이동
+    if (window.matchMedia("(max-width: 1023px)").matches) {
+      const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      requestAnimationFrame(() => detailRef.current?.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" }));
+    }
+  };
 
   const confirm = () => {
     confirmOption(trip, option.id);
@@ -113,19 +125,19 @@ function TripResult({ trip: base }: { trip: TripView }) {
         {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 지도 자리 */}
         <aside className="lg:sticky lg:top-4 lg:self-start">
           <Summary trip={trip} />
-          {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={setSelected} />}
+          {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
           <div className="mx-5 mt-4 hidden flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line-strong bg-surface py-10 text-center text-ink-sub lg:mx-0 lg:flex">
             <MapIcon size={28} aria-hidden="true" />
             <p className="text-base font-medium">일정을 정하면 지도로 보여드려요</p>
             <p className="text-sm">번호는 타임라인 순서와 같아요</p>
           </div>
           <div className="mt-4 hidden lg:block">
-            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} title={option.title} />
+            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} />
           </div>
         </aside>
 
         {/* 오른쪽(PC) / 아래(모바일): 고른 안 */}
-        <section key={option.id} className="animate-rise" aria-label={`${option.title} 일정`}>
+        <section key={option.id} ref={detailRef} className="scroll-mt-4 animate-rise" aria-label={`${option.title} 일정`}>
           <div role="status" className="px-5 lg:px-0">
             {notice && (
               <p className="mt-5 flex animate-rise items-center gap-2 rounded-2xl bg-primary-soft py-1 pr-1 pl-4 text-base text-primary-ink">
@@ -150,7 +162,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
       {/* 모바일: 아래 고정 확정 버튼 */}
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-white/95 px-5 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <div className="mx-auto max-w-[30rem]">
-          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} title={option.title} />
+          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} />
         </div>
       </div>
 
@@ -259,7 +271,6 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
                 )}
               </span>
               <span className="text-lead leading-snug font-bold text-ink">{o.title}</span>
-              <span className="line-clamp-2 text-sm leading-normal font-normal text-ink-sub">{o.summary}</span>
               <span className="mt-1 grid grid-cols-3 gap-2 text-sm font-medium text-ink">
                 <span className="inline-flex items-center gap-1">
                   <MapPin size={16} className="text-ink-sub" aria-hidden="true" />
@@ -283,15 +294,16 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
   );
 }
 
-function ConfirmButton({ confirmed, onConfirm, title }: { confirmed: boolean; onConfirm: () => void; title: string }) {
+function ConfirmButton({ confirmed, onConfirm, optionId }: { confirmed: boolean; onConfirm: () => void; optionId: string }) {
   return confirmed ? (
     <ButtonLink href={FINAL_HREF} variant="outline" className="w-full">
       <MapIcon aria-hidden="true" />
       정한 일정 · 지도로 보기
     </ButtonLink>
   ) : (
-    <Button className="w-full active:scale-[0.99]" onClick={onConfirm} aria-label={`${title} 일정으로 정하기`}>
-      <CircleCheck aria-hidden="true" />이 일정으로 정하기
+    <Button className="w-full" onClick={onConfirm}>
+      <CircleCheck aria-hidden="true" />
+      {optionId === "R" ? "이 일정으로 정하기" : `${optionId}안 일정으로 정하기`}
     </Button>
   );
 }
@@ -463,7 +475,7 @@ function PlaceCard({
           </p>
         )}
         <div className="mt-1.5 flex flex-wrap items-center gap-2">
-          <StatusChip status={VERDICT_CHIP[j.verdict]}>{j.verdict}</StatusChip>
+          <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, questions.length + unknown.length > 0)}</StatusChip>
         </div>
         {unknown.length > 0 && (
           <p className="mt-1.5 flex items-start gap-1.5 text-sm text-ink-sub">
@@ -566,7 +578,7 @@ function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: string; o: 
   return (
     <>
       <SheetHeader className="px-0 pt-6">
-        <SheetTitle className="flex items-center gap-2 text-xl font-bold">
+        <SheetTitle className="flex items-center gap-2 pr-12 text-xl font-bold">
           <ArrowLeftRight className="shrink-0 text-primary" aria-hidden="true" />
           {trip.places[placeId].name} 대신 갈 곳
         </SheetTitle>
@@ -585,7 +597,7 @@ function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: string; o: 
               <li key={id} className="rounded-2xl bg-surface p-4">
                 <p className="text-lg leading-snug font-bold">{p.name}</p>
                 <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                  <StatusChip status={VERDICT_CHIP[j.verdict]}>{j.verdict}</StatusChip>
+                  <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, (trip.unknowns?.[id]?.length ?? 0) + (trip.asks[id]?.length ?? 0) > 0)}</StatusChip>
                   <span className="text-sm text-ink-sub">
                     {p.region} · {p.category}
                     {km !== null && ` · 약 ${km < 1 ? "1km 안" : `${Math.round(km)}km`}`}
@@ -623,50 +635,35 @@ function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: string; o: 
 }
 
 function ConfirmSheet({ o, trip, onChange }: { o: OptionView; trip: TripView; onChange: () => void }) {
-  const byPlace = questionsByPlace(o);
-  const places = o.days.flatMap((d) => d.items.filter((x): x is Extract<ItemView, { kind: "visit" }> => x.kind === "visit").map((v) => v.placeId));
+  const calls = callPlaces(o);
+  const qCount = calls.reduce((n, id) => n + (questionsByPlace(o).get(id)?.length ?? 0), 0);
+  const quoted = `\u2018${o.title}\u2019${euro(o.title).slice(o.title.length)}`;
   return (
     <>
       <SheetHeader className="px-0 pt-6">
-        <SheetTitle className="flex items-center gap-2 text-xl font-bold">
-          <CircleCheck className="text-primary" aria-hidden="true" />
-          &lsquo;{o.title}&rsquo; 일정으로 정했어요
+        <SheetTitle className="flex items-center gap-2 pr-12 text-xl font-bold">
+          <CircleCheck className="shrink-0 text-primary" aria-hidden="true" />
+          {quoted} 정했어요
         </SheetTitle>
-        <SheetDescription>출발 전에 아래 장소에 전화로 확인해 두면 좋아요. 이 일정은 이 탭에만 보관돼요.</SheetDescription>
+        <SheetDescription>정한 일정은 이 탭에 보관돼요. 지도와 함께 다시 볼 수 있어요.</SheetDescription>
       </SheetHeader>
-      <ol className="flex flex-col gap-3">
-        {places.map((id, i) => {
-          const p = trip.places[id];
-          const qs = byPlace.get(id) ?? [];
-          return (
-            <li key={id} className="rounded-2xl bg-surface p-4">
-              <p className="flex items-center gap-2 text-base font-bold">
-                <span className="flex size-6 items-center justify-center rounded-full bg-primary text-sm text-white" aria-hidden="true">
-                  {i + 1}
-                </span>
-                {p.name}
-              </p>
-              {qs.length > 0 ? (
-                <ul className="mt-2 list-disc pl-5 text-base leading-relaxed">
-                  {qs.map((q) => (
-                    <li key={q}>{q}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="mt-1 text-base text-ink-sub">따로 확인할 것은 없어요.</p>
-              )}
-              <a href={`tel:${p.phone.replace(/[^\d]/g, "")}`} className="mt-3 inline-flex min-h-touch w-full items-center justify-center gap-2 rounded-xl border-[1.5px] border-primary bg-white text-base font-bold text-primary">
-                <Phone size={18} aria-hidden="true" />
-                {p.phone}
-              </a>
-            </li>
-          );
-        })}
-      </ol>
+      {calls.length > 0 ? (
+        <div className="flex items-start gap-3 rounded-2xl bg-surface p-4">
+          <ListChecks size={22} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+          <p className="text-base leading-relaxed">
+            <span className="font-bold">출발 전 전화로 확인할 곳 {calls.length}곳</span>
+            <span className="text-ink-sub"> (물어볼 것 {qCount}개)</span>
+            <br />
+            확정 일정 화면에서 장소마다 전화하고, 확인한 곳을 표시할 수 있어요.
+          </p>
+        </div>
+      ) : (
+        <p className="rounded-2xl bg-surface p-4 text-base">따로 전화로 확인할 곳은 없어요.</p>
+      )}
       <div className="mt-4 flex flex-col gap-2">
         <ButtonLink href={FINAL_HREF}>
           <MapIcon aria-hidden="true" />
-          확정 일정 지도로 보기
+          확정 일정 보기
         </ButtonLink>
         <Button variant="secondary" onClick={onChange}>
           닫기

@@ -30,8 +30,9 @@ test("장소 카드는 핵심만 보이고, [자세히]를 누르면 판단 이�
 test("'이 일정으로 정하기'를 누르면 확인할 것 모음이 열리고, 정한 상태가 남는다", async ({ page }) => {
   await page.getByRole("button", { name: /일정으로 정하기/ }).last().click();
   const sheet = page.getByRole("dialog");
-  await expect(sheet).toContainText("일정으로 정했어요");
-  await expect(sheet.getByRole("link", { name: /\d{2,4}-\d{3,4}-\d{4}/ }).first()).toBeVisible();
+  await expect(sheet).toContainText("정했어요");
+  await expect(sheet).toContainText(/출발 전 전화로 확인할 곳 \d+곳/);
+  await expect(sheet.getByRole("link", { name: "확정 일정 보기" })).toHaveAttribute("href", "/trip/new/final");
   await sheet.getByRole("button", { name: "닫기" }).last().click();
   await expect(page.getByRole("link", { name: /정한 일정/ }).last()).toBeVisible();
   await page.reload();
@@ -70,4 +71,25 @@ test("결과 화면도 누를 수 있는 요소는 높이 44px 이상", async ({
       .filter((r) => r.h < 43.5), // 소수점 반올림 오차 허용
   );
   expect(small, JSON.stringify(small)).toEqual([]);
+});
+
+test("적합이어도 전화로 물어볼 것이 있으면 칩에 함께 적고, 안을 바꾸면 그 안이라고 알려준다", async ({ page }) => {
+  await expect(page.getByText(/적합 · 전화로 확인할 것 있음/).first()).toBeVisible();
+  const other = page.getByRole("radio").nth(0);
+  const id = (await other.textContent())!.trim().charAt(0);
+  if ((await other.getAttribute("aria-checked")) !== "true") {
+    await other.click();
+    await expect(page.getByRole("status").first()).toContainText(`${id}안 일정을 보여 드려요`);
+  }
+  await expect(page.getByRole("button", { name: `${id}안 일정으로 정하기` }).last()).toBeVisible();
+});
+
+test("버튼 모양 링크도 키보드 포커스 테두리가 보인다", async ({ page }) => {
+  await page.getByRole("button", { name: /일정으로 정하기/ }).last().click();
+  const link = page.getByRole("dialog").getByRole("link", { name: "확정 일정 보기" });
+  await link.focus();
+  await page.keyboard.press("Shift+Tab");
+  await page.keyboard.press("Tab");
+  const style = await link.evaluate((el) => getComputedStyle(el).outlineStyle);
+  expect(style).not.toBe("none");
 });

@@ -6,6 +6,11 @@ import type { OptionView } from "./view";
 /** 판단 → 상태 칩(색 + 기호 + 글자) */
 export const VERDICT_CHIP: Record<Verdict, ChipStatus> = { 적합: "ok", 주의: "caution", "확인 필요": "caution", 부적합: "blocked" };
 
+/** 판정 칩 글자: 적합·주의여도 전화로 물어볼 것이 있으면 함께 적는다(판단 규칙 11/10: '모름'은 판단을 막지 않고 질문으로) */
+export function verdictText(verdict: Verdict, needsCall: boolean): string {
+  return needsCall && (verdict === "적합" || verdict === "주의") ? `${verdict} · 전화로 확인할 것 있음` : verdict;
+}
+
 /** '확인 필요'의 이유: 공식 정보가 없는 항목(짧은 이름) */
 export const UNKNOWN_LABEL: Record<string, string> = {
   step_free_entrance: "진입로",

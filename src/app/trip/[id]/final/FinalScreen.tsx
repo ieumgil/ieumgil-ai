@@ -15,7 +15,7 @@ import { StatusChip } from "@/components/ui/StatusChip";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toHHMM } from "@/lib/engine/types";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
-import { VERDICT_CHIP } from "@/lib/trip/labels";
+import { VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { setPlaceChecked, useCheckedPlaces, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
@@ -71,6 +71,7 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
   );
   const mapLabel = `${dayIndex + 1}일째 지도: ${[day.startName, ...visits.map((v, i) => `${i + 1} ${trip.places[v.placeId].name}`), day.endName].join(" → ")}`;
   const nights = trip.input.startDate && trip.input.endDate ? nightsBetween(trip.input.startDate, trip.input.endDate) : 0;
+  const callSet = new Set(callPlaces(o));
 
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 lg:max-w-[76rem]">
@@ -125,7 +126,7 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
                   {i + 1}일째 · {formatDay(d.date)}
                 </h2>
               )}
-              <DayList d={d} trip={trip} />
+              <DayList d={d} trip={trip} calls={callSet} />
             </section>
           ))}
           <Checklist o={o} trip={trip} />
@@ -139,7 +140,7 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
   );
 }
 
-function DayList({ d, trip }: { d: DayView; trip: TripView }) {
+function DayList({ d, trip, calls }: { d: DayView; trip: TripView; calls: Set<string> }) {
   const numberOf = new Map(visitsOf(d).map((v, i) => [v.placeId, i + 1]));
   const last = d.items.at(-1);
   const arrival = last && last.kind === "travel" ? last.startMin + last.minutes : d.endMin;
@@ -190,7 +191,7 @@ function DayList({ d, trip }: { d: DayView; trip: TripView }) {
                 {p.name}
               </h2>
               <div className="mt-1 flex flex-wrap items-center gap-2">
-                <StatusChip status={VERDICT_CHIP[j.verdict]}>{j.verdict}</StatusChip>
+                <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, calls.has(it.placeId))}</StatusChip>
                 <a href={`tel:${p.phone.replace(/[^\d]/g, "")}`} aria-label={`공식 전화 ${p.phone} 걸기`} className="inline-flex min-h-touch items-center gap-1.5 text-base font-bold text-primary tabular-nums">
                   <Phone size={16} aria-hidden="true" />
                   {p.phone}

@@ -24,7 +24,7 @@ test("결과 화면에서 정하면 확정 일정 페이지로 가고, 다른 �
   const second = view.options[1];
   await page.getByRole("radio").nth(1).click();
   await page.getByRole("button", { name: /일정으로 정하기/ }).last().click();
-  await page.getByRole("dialog").getByRole("link", { name: "확정 일정 지도로 보기" }).click();
+  await page.getByRole("dialog").getByRole("link", { name: "확정 일정 보기" }).click();
 
   await expect(page).toHaveURL(/\/trip\/new\/final$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(second.title);
