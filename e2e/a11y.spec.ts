@@ -1,20 +1,5 @@
-// 접근성 기본 약속: '가 글씨 크게' 버튼, 터치 영역 44px 이상.
+// 접근성 기본 약속: 터치 영역 44px 이상(글자 크기는 rem이라 브라우저·휴대폰 설정을 따른다).
 import { expect, test } from "@playwright/test";
-
-test("'가 글씨 크게'를 누르면 글자가 커지고, 새로고침해도 유지된다", async ({ page }) => {
-  await page.goto("/");
-  const html = page.locator("html");
-  const before = await html.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
-
-  await page.getByRole("button", { name: "가 글씨 크게" }).click();
-  await expect(html).toHaveAttribute("data-font-size", "large");
-  const after = await html.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
-  expect(after).toBeGreaterThan(before);
-
-  await page.reload();
-  await expect(html).toHaveAttribute("data-font-size", "large");
-  await expect(page.getByRole("button", { name: "가 글씨 작게" })).toHaveAttribute("aria-pressed", "true");
-});
 
 for (const path of ["/", "/plan/when", "/plan/who", "/plan/conditions", "/plan/taste"]) {
   test(`${path}: 누를 수 있는 요소는 높이 44px 이상`, async ({ page }) => {

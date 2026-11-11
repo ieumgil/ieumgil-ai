@@ -24,6 +24,7 @@ import {
   MapPin,
   PersonStanding,
   Phone,
+  Route,
   Sparkles,
   Undo2,
   X,
@@ -44,7 +45,7 @@ import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dat
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { alternativesFor, swapPlace } from "@/lib/trip/edit";
 import { euro } from "@/lib/text/particle";
-import { reviewWords, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
+import { routeSummary, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { confirmOption, saveEditedOption, useConfirmedOption, useEditedOptions, useSavedTrip } from "@/lib/trip/store";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
@@ -87,6 +88,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
     if (swapParam) window.history.replaceState(null, "", window.location.pathname);
   }, [swapParam]);
   const [notice, setNotice] = useState("");
+  // 안을 바꿀 때는 눈에 보이는 배너 없이 화면 읽기 프로그램에만 알린다(화면은 그 일정으로 내려간다)
+  const [announce, setAnnounce] = useState("");
   const option = trip.options.find((o) => o.id === selected) ?? trip.options[0];
 
   const swap = (fromId: string, toId: string): string | null => {
@@ -102,7 +105,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
   const pick = (id: string) => {
     if (id === selected) return;
     setSelected(id);
-    setNotice(`${id}안 일정을 보여 드려요.`);
+    setNotice("");
+    setAnnounce(`${id}안 일정을 보여 드려요.`);
     // 모바일(한 줄 배치)에서는 바뀐 일정 제목으로 내려간다. 움직임 줄이기 설정이면 바로 이동
     if (window.matchMedia("(max-width: 1023px)").matches) {
       const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -120,6 +124,9 @@ function TripResult({ trip: base }: { trip: TripView }) {
       <div className="px-5 pt-4">
         <TopBar backHref="/plan/taste" backLabel="조건 화면으로" />
       </div>
+      <p role="status" className="sr-only">
+        {announce}
+      </p>
 
       <div className="lg:grid lg:grid-cols-[23rem_minmax(0,1fr)] lg:gap-8 lg:px-5">
         {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 정하기(PC) — 지도는 정한 뒤 확정 화면에서 */}
@@ -266,6 +273,10 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
                 )}
               </span>
               <span className="text-lead leading-snug font-bold text-ink">{o.title}</span>
+              <span className="flex items-start gap-1.5 text-base leading-snug font-medium text-ink">
+                <Route size={18} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+                <span>{routeSummary(o, trip)}</span>
+              </span>
               <span className="mt-1 grid grid-cols-3 gap-2 text-sm font-medium text-ink">
                 <span className="inline-flex items-center gap-1">
                   <MapPin size={16} className="text-ink-sub" aria-hidden="true" />
@@ -280,7 +291,6 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
                   전화 확인 {calls}곳
                 </span>
               </span>
-              {o.review && <span className="text-sm font-normal text-ink-sub">AI 점검: {reviewWords(o.review)}</span>}
             </ToggleGroupItem>
           );
         })}

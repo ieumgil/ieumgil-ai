@@ -26,10 +26,16 @@ export const UNKNOWN_LABEL: Record<string, string> = {
   walk_distance: "걷는 거리",
 };
 
-/** AI 점검 점수(1~5, 높을수록 좋음)를 말로 */
-export function reviewWords(r: NonNullable<OptionView["review"]>): string {
-  const body = r.fatigue >= 4 ? "몸 부담 적은 편" : r.fatigue === 3 ? "몸 부담 보통" : "몸 부담 큰 편";
-  const time = r.slack >= 4 ? "시간 여유 있음" : r.slack === 3 ? "시간 적당" : "시간 빠듯";
-  const taste = r.taste >= 4 ? "취향 잘 맞음" : r.taste === 3 ? "취향 보통" : "취향 덜 맞음";
-  return `${body} · ${time} · ${taste}`;
+/** 장소 이름을 짧게: 앞의 지역명·괄호·'·' 뒤를 뺀다("강릉 오죽헌·시립박물관" → "오죽헌") */
+export function shortName(name: string): string {
+  return name.replace(/^(강릉|속초|동해)\s+/, "").replace(/\(.*?\)/g, "").split("·")[0].trim();
+}
+
+/** 안 비교용 한 줄 요약: "강릉 · 오죽헌 → 대도호부 관아 → 안목해변 외 3곳" */
+export function routeSummary(o: Pick<OptionView, "days">, trip: { places: Record<string, { name: string; region: string }> }): string {
+  const ids = o.days.flatMap((d) => d.items.flatMap((i) => (i.kind === "visit" ? [i.placeId] : [])));
+  const regions = [...new Set(ids.map((id) => trip.places[id]?.region).filter(Boolean))];
+  const head = ids.slice(0, 3).map((id) => shortName(trip.places[id]?.name ?? id));
+  const rest = ids.length - head.length;
+  return `${regions.join("·")} · ${head.join(" → ")}${rest > 0 ? ` 외 ${rest}곳` : ""}`;
 }

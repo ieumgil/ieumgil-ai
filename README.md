@@ -148,7 +148,7 @@ AI 점검: 피로도 4 · 시간 여유 4 · 취향 4
 | :---: | :---: | :---: | :---: | :---: |
 | <img src="docs/readme/01-home.png" width="160" alt="시작 화면" /> | <img src="docs/readme/02-when.png" width="160" alt="1단계: 달력으로 날짜 고르기" /> | <img src="docs/readme/03-who.png" width="160" alt="2단계: 함께 가는 사람 유형 고르기" /> | <img src="docs/readme/04-conditions.png" width="160" alt="3단계: 유형별 필수 조건 확인" /> | <img src="docs/readme/05-taste.png" width="160" alt="4단계: 좋아하는 곳과 일정 밀도" /> |
 
-**누구나 쓸 수 있게**: 본문 16px 이상 · 터치 영역 44px 이상(자동 검사) · '가 글씨 크게' 버튼 · 상태를 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 모바일 우선, PC 반응형
+**누구나 쓸 수 있게**: 본문 16px 이상 · 터치 영역 44px 이상(자동 검사) · 글자 크기는 rem이라 휴대폰·브라우저 설정을 그대로 따름 · 상태를 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 모바일 우선, PC 반응형
 
 ## 데이터
 

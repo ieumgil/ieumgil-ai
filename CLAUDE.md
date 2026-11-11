@@ -86,7 +86,7 @@ e2e/                Playwright 화면 흐름
 기본 #1E6FD0 · 연한 기본 #EAF2FD · 기본 위 글자 #1450A3 · 면 #F2F4F6 · 글자 #191F28 · 보조 글자 #4E5968
 · 경로선 #E8743B · 주의 #FFF4E5/#7A4A00 · 불가 #FBEAE7/#8A2A1C · 본문 16px 이상 · 터치 영역 44px 이상
 · 상태는 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 모바일 우선(시안 390px), PC는 왼쪽 지도 + 오른쪽 루트(시안 1440px)
-· 상단에 "가 글씨 크게" 버튼(모바일·PC 공통) → 글자 크기는 rem 단위로 써서 한 번에 키울 수 있게
+· 글자 크기는 rem 단위 → 휴대폰·브라우저의 글자 크기 설정과 확대를 그대로 따른다("가 글씨 크게" 버튼은 11/11 실사용 피드백으로 뺐다)
 · Tailwind v4라 토큰은 `src/app/globals.css`의 `@theme`에 있다(`bg-primary`, `text-ink-sub`, `bg-caution-bg`, `min-h-touch` 등)
 · 결과 '안 비교' 화면은 시안에 없다 → 새로 그린다(`docs/ai-plan.md` 화면 표)
 · **shadcn/ui**(Radix, `components.json`): `src/components/ui/`에 button·card·dialog·tabs·sheet·toggle-group·toggle.
