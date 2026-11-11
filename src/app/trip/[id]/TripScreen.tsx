@@ -38,6 +38,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
 import { TripMap } from "@/components/map/TripMap";
+import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { TopBar } from "@/components/TopBar";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -505,25 +506,31 @@ function PlaceCard({
         {no}
       </span>
       <article className="min-w-0 flex-1 rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgb(25_31_40/0.08),0_4px_16px_rgb(25_31_40/0.06)] ring-1 ring-line">
-        <p className="flex flex-wrap items-baseline gap-x-2 text-base">
-          <span className="font-bold text-primary-ink tabular-nums">
-            약 {toHHMM(it.arriveMin)}~{toHHMM(it.departMin)}
-          </span>
-          <span className="text-sm text-ink-sub">
-            머무는 {it.stayMin}분{it.extraMin ? ` + 여유 ${it.extraMin}분` : ""}
-          </span>
-        </p>
-        <h3 className="mt-1 text-lg leading-snug font-bold">
-          <span className="sr-only">{no}번째 장소: </span>
-          {p.name}
-        </h3>
+        <div className="flex gap-3">
+          <PlacePhoto id={it.placeId} name={p.name} category={p.category} />
+          <div className="min-w-0 flex-1">
+            <p className="flex flex-wrap items-baseline gap-x-2 text-base">
+              <span className="font-bold text-primary-ink tabular-nums">
+                약 {toHHMM(it.arriveMin)}~{toHHMM(it.departMin)}
+              </span>
+              <span className="text-sm text-ink-sub">
+                머무는 {it.stayMin}분{it.extraMin ? ` + 여유 ${it.extraMin}분` : ""}
+              </span>
+            </p>
+            <h3 className="mt-1 text-lg leading-snug font-bold">
+              <span className="sr-only">{no}번째 장소: </span>
+              {p.name}
+            </h3>
+          </div>
+        </div>
+        {/* 판정·바꾼 장소는 사진 아래 전체 너비로(좁은 칸에서 칩이 꺾이지 않게) */}
         {replacedId && (
-          <p className="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-primary-soft px-2 py-0.5 text-sm font-medium text-primary-ink">
+          <p className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-primary-soft px-2 py-0.5 text-sm font-medium text-primary-ink">
             <ArrowLeftRight size={14} aria-hidden="true" />
             바꾼 장소 · 원래 {trip.places[replacedId]?.name}
           </p>
         )}
-        <div className="mt-1.5 flex flex-wrap items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-2">
           <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, questions.length + unknown.length > 0)}</StatusChip>
         </div>
         {unknown.length > 0 && (
@@ -644,13 +651,18 @@ function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: string; o: 
             const km = from && trip.placeData[id] ? haversineKm(from, trip.placeData[id]) : null;
             return (
               <li key={id} className="rounded-2xl bg-surface p-4">
-                <p className="text-lg leading-snug font-bold">{p.name}</p>
-                <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                  <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, (trip.unknowns?.[id]?.length ?? 0) + (trip.asks[id]?.length ?? 0) > 0)}</StatusChip>
-                  <span className="text-sm text-ink-sub">
-                    {p.region} · {p.category}
-                    {km !== null && ` · 약 ${km < 1 ? "1km 안" : `${Math.round(km)}km`}`}
-                  </span>
+                <div className="flex gap-3">
+                  <PlacePhoto id={id} name={p.name} category={p.category} size="sm" className="bg-white" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-lg leading-snug font-bold">{p.name}</p>
+                    <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                      <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, (trip.unknowns?.[id]?.length ?? 0) + (trip.asks[id]?.length ?? 0) > 0)}</StatusChip>
+                      <span className="text-sm text-ink-sub">
+                        {p.region} · {p.category}
+                        {km !== null && ` · 약 ${km < 1 ? "1km 안" : `${Math.round(km)}km`}`}
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 {j.reasons[0] && <p className="mt-2 text-base leading-relaxed">{j.reasons[0]}</p>}
                 {errors[id] && (

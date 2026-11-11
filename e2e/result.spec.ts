@@ -10,8 +10,24 @@ test.beforeEach(async ({ page }) => {
   // 안 비교 화면에도 지도가 있다: 카카오 지도 SDK·경로선은 가짜로 막는다(외부 호출 없음)
   await page.route("https://dapi.kakao.com/**", (r) => r.abort());
   await page.route("**/api/route-line", (r) => r.fulfill({ json: { days: [null] } }));
+  // 관광공사 원본 사진(3유형·크게 보기)도 막는다 → 못 불러오면 분류 아이콘. 1유형 작은 사진은 저장소 파일(/photos)
+  await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort());
   await page.addInitScript((t) => sessionStorage.setItem("ieumgil-trip", t), trip);
   await page.goto("/trip/new");
+});
+
+test("장소 카드에 사진이 있고, 누르면 크게 보기에 출처(공공누리)가 나온다", async ({ page }) => {
+  const photo = page.locator("article").first().getByRole("button", { name: /사진 \d+장 크게 보기/ });
+  await expect(photo).toBeVisible();
+  await expect(photo.locator("img")).toHaveAttribute("src", /^\/photos\/.+\.webp$/); // 1유형은 미리 줄여 둔 작은 사진
+  await photo.click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByRole("heading", { name: /사진$/ })).toBeVisible();
+  await expect(dialog.getByText(/사진: 한국관광공사 · 공공누리 제[13]유형/)).toBeVisible();
+  await dialog.getByRole("button", { name: "다음 사진" }).click();
+  await expect(dialog.getByText(/^2 \/ \d+$/)).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);
 });
 
 test("안을 바꾸면 그 안의 일정이 보인다", async ({ page }) => {

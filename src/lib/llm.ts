@@ -21,6 +21,14 @@ export interface LlmRequest {
   check?: JsonSchema;
   tier?: ModelTier;
   temperature?: number;
+  /** 함께 보낼 사진(미리 하는 스크립트 전용: 관광지 사진 분류). 요청할 때 흐름에서는 쓰지 않는다 */
+  images?: LlmImage[];
+}
+
+export interface LlmImage {
+  /** base64 */
+  data: string;
+  mimeType: string;
 }
 
 export type LlmError = "invalid" | "request" | "unavailable";
@@ -41,6 +49,7 @@ export type LlmTransport = (call: {
   schema: JsonSchema;
   temperature: number;
   timeoutMs: number;
+  images?: LlmImage[];
 }) => Promise<string>;
 
 export interface LlmOptions {
@@ -100,7 +109,7 @@ export function createLlm(opts: LlmOptions): LlmClient {
           attempts++;
           let text: string;
           try {
-            text = await opts.transport({ model, system: req.system, input, schema: req.schema, temperature: req.temperature ?? 0.2, timeoutMs });
+            text = await opts.transport({ model, system: req.system, input, schema: req.schema, temperature: req.temperature ?? 0.2, timeoutMs, images: req.images });
           } catch (err) {
             const status = statusOf(err);
             lastMessage = `${model}: ${status ?? ""} ${(err as Error).message ?? String(err)}`.slice(0, 300);
@@ -134,13 +143,19 @@ export function createLlm(opts: LlmOptions): LlmClient {
 /** Gemini(@google/genai) 전송. SDK는 이 함수 안에서만 불러온다 */
 export function geminiTransport(apiKey: string): LlmTransport {
   let clientPromise: Promise<import("@google/genai").GoogleGenAI> | undefined;
-  return async ({ model, system, input, schema, temperature, timeoutMs }) => {
-    clientPromise ??= import("@google/genai").then(({ GoogleGenAI }) => new GoogleGenAI({ apiKey }));
-    const client = await clientPromise;
+  // 사진 입력은 v1beta에서만 받는다(분류 스크립트 전용) → 사진이 있을 때만 베타 클라이언트
+  let betaPromise: Promise<import("@google/genai").GoogleGenAI> | undefined;
+  return async ({ model, system, input, schema, temperature, timeoutMs, images }) => {
+    const client = images?.length
+      ? await (betaPromise ??= import("@google/genai").then(({ GoogleGenAI }) => new GoogleGenAI({ apiKey, apiVersion: "v1beta" })))
+      : await (clientPromise ??= import("@google/genai").then(({ GoogleGenAI }) => new GoogleGenAI({ apiKey })));
     const res = await client.interactions.create(
       {
         model,
-        input,
+        // 사진이 있으면 글 + 사진 묶음으로(사진은 낮은 해상도로 충분: 분류만 한다)
+        input: images?.length
+          ? [{ type: "text" as const, text: input }, ...images.map((im) => ({ type: "image" as const, data: im.data, mime_type: im.mimeType, resolution: "low" }))]
+          : input,
         system_instruction: system,
         response_format: { type: "text", mime_type: "application/json", schema },
         generation_config: { temperature },

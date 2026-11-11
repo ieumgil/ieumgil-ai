@@ -128,6 +128,9 @@ async function capture(b: Browser, s: Shot) {
   // 개발 서버 표시(Next.js 'N' 버튼) 숨기기
   await page.addStyleTag({ content: "nextjs-portal{display:none!important}" });
   if (s.act) await s.act(page);
+  // 관광지 사진은 화면에 보일 때 불러온다 → 다 뜰 때까지 기다린다(못 불러오면 아이콘이라 계속 진행)
+  await page.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 15_000 }).catch(() => {});
+  await page.waitForTimeout(300);
   await page.screenshot({ path: `${OUT}/${s.name}.png` });
   if (PREVIEW[s.name]) copyFileSync(`${OUT}/${s.name}.png`, resolve(`public/preview/${PREVIEW[s.name]}.png`));
   await ctx.close();

@@ -7,6 +7,7 @@ import { CloseIcon, SearchIcon } from "@/components/icons";
 import { CheckDot, LIFT, SegmentButton } from "@/components/plan/choices";
 import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
+import { categoryThumb } from "@/lib/places/category-photos";
 import { updatePlan, usePlan } from "@/lib/plan/store";
 import type { Pace } from "@/lib/plan/types";
 import type { Category } from "@/lib/types";
@@ -75,10 +76,24 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
               type="button"
               aria-pressed={on}
               onClick={() => toggleCategory(c)}
-              className={`group flex min-h-24 flex-col gap-1.5 rounded-2xl border-2 p-3.5 text-left transition-[background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+              className={`group relative isolate flex min-h-24 flex-col gap-1.5 overflow-hidden rounded-2xl border-2 p-3.5 text-left transition-[background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                 on ? "border-primary bg-primary-soft" : `border-surface bg-surface hover:border-primary/40 hover:bg-white ${LIFT}`
               }`}
             >
+              {/* 옅은 배경 사진: 오른쪽에만 보이고 글자 쪽은 카드 바탕색으로 덮는다(글씨가 잘 보이게) */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- 미리 줄여 둔 작은 장식 사진 */}
+              <img
+                src={categoryThumb(c)}
+                alt=""
+                aria-hidden="true"
+                className={`absolute inset-0 -z-10 size-full object-cover transition-[opacity,scale] duration-300 ${on ? "opacity-45" : "opacity-35 group-hover:opacity-55 motion-safe:group-hover:scale-105"}`}
+              />
+              <span
+                aria-hidden="true"
+                className={`absolute inset-0 -z-10 bg-gradient-to-r transition-colors duration-150 ${
+                  on ? "from-primary-soft from-30% via-primary-soft/85 via-55% to-primary-soft/20" : "from-surface from-30% via-surface/85 via-55% to-surface/20 group-hover:from-white group-hover:via-white/85 group-hover:to-white/20"
+                }`}
+              />
               <span className="flex w-full items-center justify-between gap-1">
                 <span className="text-lead font-bold text-ink">{c}</span>
                 <CheckDot on={on} size="sm" />
@@ -88,6 +103,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
           );
         })}
       </div>
+      <p className="px-5 pt-1 text-sm text-ink-sub">배경 사진: 한국관광공사 · 공공누리 제1유형</p>
 
       <section className="flex flex-col gap-2.5 px-5 pt-6">
         <h2 className="text-lg font-bold" id="pace-title">

@@ -99,6 +99,7 @@ e2e/                Playwright 화면 흐름
 ## 데이터와 테스트
 - 1차 출처: 한국관광공사 무장애 여행정보 API. 강릉·속초·동해 182곳 → 관광지 152곳(`build-places.ts`가 관광지 아닌 곳·전화 없는 곳 제외).
   수집은 `scripts/tour/`, 필드 조사는 `docs/data/tour-api-fields.md`. 열린관광 사이트(access.visitkorea.or.kr)는 사람 검수 때 보는 출처로만 쓴다(자동 수집 안 함).
+- `data/photos.json`: 관광지 사진 분류(풍경/편의시설/기타, 공공누리 유형). 대표는 풍경만, 1유형은 `public/photos/`에 줄여 저장, 3유형은 원본 통째로(변경 금지). `scripts/tour/classify-photos.ts --build-only`로 다시 만든다.
 - `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + (선택) 사람 확인 값(등급 `human`). 만드는 순서: `scripts/tour/build-places.ts` → `scripts/ai/read-places.ts` → `scripts/ai/merge-places.ts`.
 - 휠체어·어르신은 노면·경사·거리 '모름'이 많아 대부분 '확인 필요' → 일정에 넣되 질문 + 전화번호로 표시한다(11/10 결정). 사람 판정은 하지 않는다. 조사표 32곳은 '유명한 곳' 판단 기준으로 쓴다.
 - `tests/fixtures/places.sample.json`: 테스트 전용 가짜 장소(`[샘플] 관광지 A`, id `GN91~`). 화면·README 수치에 쓰지 않는다.

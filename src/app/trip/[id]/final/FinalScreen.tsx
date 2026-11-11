@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ComingSoon } from "@/components/ComingSoon";
 import { TripMap } from "@/components/map/TripMap";
+import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { TopBar } from "@/components/TopBar";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { StatusChip } from "@/components/ui/StatusChip";
@@ -167,6 +168,7 @@ function DayList({ d, trip, calls }: { d: DayView; trip: TripView; calls: Set<st
             <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white" aria-hidden="true">
               {numberOf.get(it.placeId)}
             </span>
+            <PlacePhoto id={it.placeId} name={p.name} category={p.category} size="sm" className="print:hidden" />
             <div className="min-w-0 flex-1">
               <p className="text-base font-bold text-primary-ink tabular-nums">
                 약 {toHHMM(it.arriveMin)}~{toHHMM(it.departMin)}
