@@ -41,6 +41,16 @@
   --animate-ring: ring 1.6s ease-out infinite; /* 지금 하는 단계 */
   --animate-marquee: marquee 28s linear infinite; /* 살펴보는 장소 이름 흐름 */
   --animate-fill: fill 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both; /* 입력 진행 막대가 이전 단계에서 차오름(--from) */
+  --animate-pop: pop 0.28s cubic-bezier(0.3, 1.6, 0.5, 1) both; /* 고르면 체크 표시가 톡 튀어나옴 */
+
+  @keyframes pop {
+    from {
+      transform: scale(0.5);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
 
   @keyframes fill {
     from {
@@ -93,6 +103,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  /* 안 고른 칸 표시는 움직임이 아니라 색 변화라 그대로 둔다(바로 사라지면 알아챌 수 없음) */
+  [data-attention] {
+    animation-duration: 1.6s !important;
   }
 }
 
@@ -206,6 +220,31 @@ html[data-intro="on"] .intro-name {
 html[data-intro="on"] .intro-line {
   animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both;
 }
+/* 누를 수 있는 것은 손가락 모양 커서(Tailwind v4 기본은 화살표) */
+button:not(:disabled):not([aria-disabled="true"]),
+[role="button"],
+label:has(input[type="checkbox"]) {
+  cursor: pointer;
+}
+
+/* 아직 안 고른 칸 짚어 주기: 옅은 빨간 바탕과 테두리가 잠깐 나타났다 사라진다(다음 버튼 글자가 이유를 말한다) */
+[data-attention] {
+  border-radius: 1rem;
+  animation: attention 1.6s ease-out;
+}
+@keyframes attention {
+  0%,
+  100% {
+    background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+  }
+  12%,
+  65% {
+    background-color: var(--color-blocked-bg);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-blocked-ink) 30%, transparent);
+  }
+}
+
 @keyframes intro-pop {
   from {
     opacity: 0;

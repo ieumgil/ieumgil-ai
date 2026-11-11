@@ -4,6 +4,11 @@ import { formatRange, tripLabel } from "./dates";
 import { nightsOf } from "./progress";
 import { ARRIVAL_POINTS, type Pace, type PlanInput } from "./types";
 
+/** 숙소 표시: 둘째 밤이 다르면 "강릉 → 속초" */
+export function lodgingText(first: string, second: string | undefined): string {
+  return second && second !== "same" && second !== first ? `${first} → ${second}` : first;
+}
+
 export const PACE_LABEL: Record<Pace, string> = { slow: "여유롭게", normal: "보통", busy: "많이" };
 
 /** 단계별 요약 줄. 아직 고르지 않았으면 빈 배열 */
@@ -13,7 +18,7 @@ export function summaryLines(p: PlanInput): string[][] {
     p.startDate && p.endDate && nights !== null ? `${formatRange(p.startDate, p.endDate)} · ${tripLabel(nights)}` : "",
     p.arrival ? `${ARRIVAL_POINTS.find((a) => a.id === p.arrival)?.label} 도착 · ${p.startTime}~${p.endTime}` : "",
     p.transport ? (p.transport === "car" ? `자가용${p.disabledPermit ? " · 장애인 표지" : ""}` : "택시") : "",
-    nights && p.lodging ? `숙소 ${p.lodging}` : "",
+    nights && p.lodging ? `숙소 ${lodgingText(p.lodging, nights > 1 ? p.lodging2 : "same")}` : "",
   ].filter(Boolean);
   const who = p.travelers.map((t) => TRAVELER_LABELS[t]);
   const rows = conditionRows(p);

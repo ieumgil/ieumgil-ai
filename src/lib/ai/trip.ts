@@ -27,7 +27,9 @@ export interface TripResult {
   ms: number;
 }
 
-/** 날마다 그날 출발점에서 가까운 후보를 고루 뽑아 최대 max곳 */
+/** 날마다 그날 출발점·도착점(숙소를 옮기는 날은 둘이 다르다)에서 가까운 후보를 고루 뽑아 최대 max곳 */
+const nearKm = (f: DayFrame, c: Candidate) => Math.min(haversineKm(f.start, c.place), haversineKm(f.end, c.place));
+
 export function selectForLlm(candidates: Candidate[], frames: DayFrame[], max = 20): Candidate[] {
   const picked = new Map<string, Candidate>();
   candidates.filter((c) => c.mustVisit).forEach((c) => picked.set(c.place.id, c));
@@ -35,7 +37,7 @@ export function selectForLlm(candidates: Candidate[], frames: DayFrame[], max = 
   for (const f of frames) {
     const near = candidates
       .filter((c) => !picked.has(c.place.id) && c.openDates.includes(f.date))
-      .sort((a, b) => b.score - b.tier * 6 - haversineKm(f.start, b.place) / 2 - (a.score - a.tier * 6 - haversineKm(f.start, a.place) / 2));
+      .sort((a, b) => b.score - b.tier * 6 - nearKm(f, b) / 2 - (a.score - a.tier * 6 - nearKm(f, a) / 2));
     near.slice(0, perDay).forEach((c) => picked.set(c.place.id, c));
   }
   return [...picked.values()].slice(0, Math.max(max, picked.size));

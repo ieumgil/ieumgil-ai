@@ -3,8 +3,8 @@
 // 2단계 누구와 (시안 Who.dc.html)
 import type { ReactNode } from "react";
 import { ElderIcon, LockIcon, StrollerIcon, WheelchairIcon } from "@/components/icons";
-import { CheckDot } from "@/components/plan/choices";
-import { IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
+import { CheckDot, LIFT } from "@/components/plan/choices";
+import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
 import { updatePlan, usePlan } from "@/lib/plan/store";
 import type { TravelerType } from "@/lib/plan/types";
@@ -49,11 +49,12 @@ export function WhoStep() {
           nextHref="/plan/conditions"
           nextLabel="다음 · 꼭 필요한 조건"
           blockedLabel={plan.travelers.length === 0 ? "유형을 골라 주세요" : incompleteLabel(plan, 2)}
+          blockedTarget={plan.travelers.length === 0 ? "field-travelers" : INCOMPLETE_ID}
         />
       }
     >
       <IncompleteNotice plan={plan} step={2} />
-      <div className="flex flex-col gap-3 px-5 pt-4">
+      <div id="field-travelers" className="flex flex-col gap-3 px-5 pt-4 pb-1">
         {TYPES.map((t) => {
           const on = plan.travelers.includes(t.id);
           return (
@@ -62,11 +63,11 @@ export function WhoStep() {
               type="button"
               aria-pressed={on}
               onClick={() => toggle(t.id)}
-              className={`flex min-h-23 w-full items-center gap-3.5 rounded-2xl border-2 p-4 text-left transition-[background-color,border-color,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                on ? "border-primary bg-primary-soft" : "border-surface bg-surface"
+              className={`group flex min-h-23 w-full items-center gap-3.5 rounded-2xl border-2 p-4 text-left transition-[background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                on ? "border-primary bg-primary-soft" : `border-surface bg-surface hover:border-primary/40 hover:bg-white ${LIFT}`
               }`}
             >
-              <span className="flex size-13 shrink-0 items-center justify-center rounded-full bg-white text-primary">
+              <span className="flex size-13 shrink-0 items-center justify-center rounded-full bg-white text-primary transition-transform duration-200 motion-safe:group-hover:scale-110">
                 {t.icon}
               </span>
               <span className="flex flex-1 flex-col gap-1">

@@ -4,8 +4,8 @@
 import { euro } from "@/lib/text/particle";
 import { useId, useState } from "react";
 import { CloseIcon, SearchIcon } from "@/components/icons";
-import { CheckDot, SegmentButton } from "@/components/plan/choices";
-import { IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
+import { CheckDot, LIFT, SegmentButton } from "@/components/plan/choices";
+import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
 import { updatePlan, usePlan } from "@/lib/plan/store";
 import type { Pace } from "@/lib/plan/types";
@@ -61,11 +61,12 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
           nextHref="/plan/making"
           nextLabel="루트 만들기"
           blockedLabel={plan.categories.length === 0 ? "좋아하는 곳을 골라 주세요" : incompleteLabel(plan, 4)}
+          blockedTarget={plan.categories.length === 0 ? "field-categories" : INCOMPLETE_ID}
         />
       }
     >
       <IncompleteNotice plan={plan} step={4} />
-      <div className="grid grid-cols-2 gap-2.5 px-5 pt-4">
+      <div id="field-categories" className="grid grid-cols-2 gap-2.5 px-5 pt-4 pb-1">
         {(Object.keys(CATEGORY_DESC) as Category[]).map((c) => {
           const on = plan.categories.includes(c);
           return (
@@ -74,8 +75,8 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
               type="button"
               aria-pressed={on}
               onClick={() => toggleCategory(c)}
-              className={`flex min-h-24 flex-col gap-1.5 rounded-2xl border-2 p-3.5 text-left transition-[background-color,border-color,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                on ? "border-primary bg-primary-soft" : "border-surface bg-surface"
+              className={`group flex min-h-24 flex-col gap-1.5 rounded-2xl border-2 p-3.5 text-left transition-[background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                on ? "border-primary bg-primary-soft" : `border-surface bg-surface hover:border-primary/40 hover:bg-white ${LIFT}`
               }`}
             >
               <span className="flex w-full items-center justify-between gap-1">

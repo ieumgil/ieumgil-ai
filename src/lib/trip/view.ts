@@ -76,7 +76,7 @@ export interface JudgmentView {
 export interface TripView {
   version: number;
   createdAt: string;
-  input: Pick<PlanInput, "startDate" | "endDate" | "travelers" | "transport" | "disabledPermit" | "categories" | "pace" | "lodging">;
+  input: Pick<PlanInput, "startDate" | "endDate" | "travelers" | "transport" | "disabledPermit" | "categories" | "pace" | "lodging"> & Partial<Pick<PlanInput, "lodging2">>;
   usedFallback: boolean;
   calls: number;
   ms: number;
@@ -193,7 +193,7 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
   return {
     version: TRIP_VIEW_VERSION,
     createdAt: new Date().toISOString(),
-    input: { startDate: input.startDate, endDate: input.endDate, travelers: input.travelers, transport: input.transport, disabledPermit: input.disabledPermit, categories: input.categories, pace: input.pace, lodging: input.lodging },
+    input: { startDate: input.startDate, endDate: input.endDate, travelers: input.travelers, transport: input.transport, disabledPermit: input.disabledPermit, categories: input.categories, pace: input.pace, lodging: input.lodging, lodging2: input.lodging2 },
     usedFallback: r.usedFallback,
     calls: r.calls,
     ms: r.ms,

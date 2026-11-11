@@ -29,6 +29,14 @@ describe("고른 조건 요약", () => {
     expect(taste).toEqual(["바다·해변", "일정 여유롭게", "꼭 갈 곳 1곳"]);
   });
 
+  it("2박 3일에 둘째 밤 숙소가 다르면 '강릉 → 속초', 1박이면 둘째 밤 값은 무시", () => {
+    const two = { ...EMPTY_PLAN, startDate: "2026-11-21", endDate: "2026-11-23", lodging: "강릉" as const, lodging2: "속초" as const };
+    expect(summaryLines(two)[0]).toContain("숙소 강릉 → 속초");
+    expect(summaryLines({ ...two, lodging2: "same" })[0]).toContain("숙소 강릉");
+    expect(summaryLines({ ...two, endDate: "2026-11-22" })[0]).toContain("숙소 강릉");
+    expect(summaryLines({ ...two, endDate: "2026-11-22" })[0].join()).not.toContain("속초");
+  });
+
   it("당일이면 숙소 줄이 없고, 끈 조건은 빠진다", () => {
     const [when, , conditions] = summaryLines({
       ...EMPTY_PLAN,

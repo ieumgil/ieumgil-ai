@@ -4,7 +4,7 @@
 // 어떤 조건이 필수/선호인지는 엔진 규칙(src/lib/engine/conditions.ts)이 정하고, 이 화면은 켜고 끄기만 한다.
 import Link from "next/link";
 import { CheckRow, SegmentButton } from "@/components/plan/choices";
-import { IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
+import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
 import { TRAVELER_LABELS, conditionRows } from "@/lib/engine/conditions";
 import { updatePlan, usePlan } from "@/lib/plan/store";
@@ -40,6 +40,7 @@ export function ConditionsStep() {
           nextHref="/plan/taste"
           nextLabel="다음 · 좋아하는 곳"
           blockedLabel={incompleteLabel(plan, 3)}
+          blockedTarget={INCOMPLETE_ID}
         />
       }
     >

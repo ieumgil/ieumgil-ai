@@ -31,8 +31,10 @@ export interface PlanInput {
   startTime: string;
   /** 마지막 날 마치는 시각 HH:MM */
   endTime: string;
-  /** 1박 이상일 때만 */
+  /** 1박 이상일 때만: 첫째 밤 숙소 지역 */
   lodging: LodgingRegion | null;
+  /** 2박 3일일 때만: 둘째 밤 숙소 지역. "same"이면 첫째 밤과 같음 */
+  lodging2: LodgingRegion | "same";
   travelers: TravelerType[];
   /** 사용자가 기본값에서 바꾼 조건 켜짐/꺼짐 */
   conditionOverrides: Partial<Record<string, boolean>>;
@@ -53,6 +55,7 @@ export const EMPTY_PLAN: PlanInput = {
   startTime: "10:00",
   endTime: "17:00",
   lodging: null,
+  lodging2: "same",
   travelers: [],
   conditionOverrides: {},
   walkLimit: 300,

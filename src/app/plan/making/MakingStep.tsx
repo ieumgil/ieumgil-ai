@@ -121,9 +121,10 @@ export function MakingStep() {
   const current = stage === "done" ? STAGES.length : STAGES.findIndex((s) => s.id === stage);
   const pct = Math.min(100, Math.round(progress));
   const latest = logs.at(-1)?.text;
+  const earlier = stage === "done" ? logs : logs.slice(0, -1);
 
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-5 pt-4 pb-7 md:max-w-[40rem] lg:max-w-[64rem]">
+    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-5 pt-4 pb-7 md:max-w-[40rem] lg:max-w-[52rem]">
       <TopBar backHref="/plan/taste" backLabel="이전 단계로" />
       {missing ? (
         <div className="mt-8 flex animate-rise flex-col gap-4">
@@ -144,91 +145,87 @@ export function MakingStep() {
         </div>
       ) : (
         <>
-          {/* PC(1024px~): 왼쪽 진행률·단계, 오른쪽 살펴보는 장소·진행 기록 */}
-          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
-            <div>
-              <section className="mt-6 animate-rise" aria-label="진행 상황">
-                <h1 className="text-title font-bold">{stage === "done" ? "일정이 나왔어요" : "AI가 일정을 만들고 있어요"}</h1>
-                <p className="mt-1.5 min-h-[1.5rem] text-base text-ink-sub" aria-live="polite">
-                  {latest ?? "조건을 확인하고 있어요"}
-                  {stage !== "done" && <span className="ml-1 inline-flex gap-0.5 align-middle" aria-hidden="true"><Dot d={0} /><Dot d={0.2} /><Dot d={0.4} /></span>}
-                </p>
-                <div className="mt-4 flex items-center gap-3">
-                  <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line" role="progressbar" aria-label="전체 진행" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
-                    <div className="relative h-full overflow-hidden rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${pct}%` }}>
-                      {stage !== "done" && <span className="absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/45 to-transparent" />}
-                    </div>
+          {/* PC(1024px~)도 한 칸에 시선을 모은다: 세로 가운데, 단계는 가로 한 줄, 장소 이름은 칸 전체 폭 */}
+          <div className="flex flex-1 flex-col lg:justify-center lg:pb-6">
+            <section className="mt-6 animate-rise lg:mt-0 lg:text-center" aria-label="진행 상황">
+              <h1 className="text-title font-bold lg:text-[2rem] lg:leading-tight">{stage === "done" ? "일정이 나왔어요" : "AI가 일정을 만들고 있어요"}</h1>
+              <p className="mt-1.5 min-h-[1.5rem] text-base text-ink-sub lg:mt-2 lg:text-lead" aria-live="polite">
+                {latest ?? "조건을 확인하고 있어요"}
+                {stage !== "done" && <span className="ml-1 inline-flex gap-0.5 align-middle" aria-hidden="true"><Dot d={0} /><Dot d={0.2} /><Dot d={0.4} /></span>}
+              </p>
+              <div className="mt-4 flex items-center gap-3 lg:mt-6">
+                <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line lg:h-3" role="progressbar" aria-label="전체 진행" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
+                  <div className="relative h-full overflow-hidden rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${pct}%` }}>
+                    {stage !== "done" && <span className="absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/45 to-transparent" />}
                   </div>
-                  <span className="w-12 text-right text-base font-bold tabular-nums text-primary-ink">{pct}%</span>
                 </div>
-                <p className="mt-1.5 text-sm text-ink-sub">보통 20~60초 걸려요 · {elapsed}초 지남</p>
-              </section>
+                <span className="w-12 text-right text-base font-bold tabular-nums text-primary-ink">{pct}%</span>
+              </div>
+              <p className="mt-1.5 text-sm text-ink-sub lg:mt-2">보통 20~60초 걸려요 · {elapsed}초 지남</p>
+            </section>
 
-              <ol className="mt-6 flex flex-col gap-2" aria-label="진행 단계">
-                {STAGES.map((s, i) => {
-                  const state = i < current ? "done" : i === current ? "now" : "todo";
-                  return (
-                    <li
-                      key={s.id}
-                      style={{ animationDelay: `${80 + i * 60}ms` }}
-                      className={`flex animate-rise items-center gap-3 rounded-2xl px-4 py-3 transition-colors duration-300 ${state === "now" ? "bg-primary-soft" : state === "done" ? "bg-white ring-1 ring-line" : "bg-surface"}`}
-                      aria-current={state === "now" ? "step" : undefined}
+            <ol className="mt-6 flex flex-col gap-2 lg:mt-8 lg:grid lg:grid-cols-4 lg:gap-3" aria-label="진행 단계">
+              {STAGES.map((s, i) => {
+                const state = i < current ? "done" : i === current ? "now" : "todo";
+                return (
+                  <li
+                    key={s.id}
+                    style={{ animationDelay: `${80 + i * 60}ms` }}
+                    className={`flex animate-rise items-center gap-3 rounded-2xl px-4 py-3 transition-colors duration-300 lg:flex-col lg:justify-start lg:gap-2.5 lg:px-3 lg:py-5 lg:text-center ${state === "now" ? "bg-primary-soft" : state === "done" ? "bg-white ring-1 ring-line" : "bg-surface"}`}
+                    aria-current={state === "now" ? "step" : undefined}
+                  >
+                    <span
+                      className={`flex size-10 shrink-0 items-center justify-center rounded-full transition-colors duration-300 lg:size-12 ${state === "done" ? "bg-primary text-white" : state === "now" ? "animate-ring bg-white text-primary ring-2 ring-primary" : "bg-white text-ink-sub"}`}
+                      aria-hidden="true"
                     >
-                      <span
-                        className={`flex size-10 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ${state === "done" ? "bg-primary text-white" : state === "now" ? "animate-ring bg-white text-primary ring-2 ring-primary" : "bg-white text-ink-sub"}`}
-                        aria-hidden="true"
-                      >
-                        {state === "done" ? <Check size={20} strokeWidth={3} /> : state === "now" ? <Loader2 size={20} className="animate-spin" /> : s.icon}
+                      {state === "done" ? <Check size={20} strokeWidth={3} /> : state === "now" ? <Loader2 size={20} className="animate-spin" /> : s.icon}
+                    </span>
+                    <span className="flex min-w-0 flex-col lg:items-center">
+                      <span className={`text-lead font-bold lg:text-base ${state === "todo" ? "text-ink-sub" : "text-ink"}`}>
+                        {s.label}
+                        <span className="sr-only">{state === "done" ? " (끝남)" : state === "now" ? " (하는 중)" : " (대기)"}</span>
                       </span>
-                      <span className="flex min-w-0 flex-col">
-                        <span className={`text-lead font-bold ${state === "todo" ? "text-ink-sub" : "text-ink"}`}>
-                          {s.label}
-                          <span className="sr-only">{state === "done" ? " (끝남)" : state === "now" ? " (하는 중)" : " (대기)"}</span>
-                        </span>
-                        {state === "now" && <span className="text-sm leading-normal text-ink-sub">{s.sub}</span>}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
+                      {state === "now" && <span className="text-sm leading-normal text-ink-sub">{s.sub}</span>}
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
 
-            <div className="lg:mt-6 lg:min-h-[20rem] lg:rounded-3xl lg:bg-surface lg:p-5">
-              {names.length > 0 && (
-                <section className="mt-5 animate-rise lg:mt-0" aria-label="AI가 살펴보는 장소">
-                  <h2 className="text-sm font-bold text-ink-sub">AI가 살펴보는 장소 {names.length}곳</h2>
-                  <div className="relative mt-2 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-                    <ul className={`flex w-max gap-2 ${stage === "judge" ? "animate-marquee" : ""}`}>
-                      {[...names, ...names].map((n, i) => (
-                        <li key={i} aria-hidden={i >= names.length} className="rounded-full bg-surface px-3 py-1.5 text-sm whitespace-nowrap text-ink lg:bg-white">
-                          {n}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </section>
-              )}
-
-              {logs.length > 0 && (
-                <section className="mt-5" aria-label="진행 기록">
-                  <h2 className="text-sm font-bold text-ink-sub">진행 기록</h2>
-                  <ol className="mt-2 flex flex-col gap-1.5" aria-live="polite">
-                    {logs.slice(-6).map((l) => (
-                      <li key={l.id} className="flex animate-rise items-start gap-2 text-base leading-snug">
-                        <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${l.tone === "ok" ? "bg-primary-soft text-primary-ink" : l.tone === "fix" ? "bg-caution-bg text-caution-ink" : "bg-surface text-ink-sub lg:bg-white"}`} aria-hidden="true">
-                          {l.tone === "ok" ? "✓" : l.tone === "fix" ? "!" : "·"}
-                        </span>
-                        <span className={l.tone === "fix" ? "text-caution-ink" : "text-ink"}>{l.text}</span>
+            {names.length > 0 && (
+              <section className="mt-5 animate-rise lg:mt-8" aria-label="AI가 살펴보는 장소">
+                <h2 className="text-sm font-bold text-ink-sub">AI가 살펴보는 장소 {names.length}곳</h2>
+                <div className="relative mt-2 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+                  <ul className={`flex w-max gap-2 ${stage === "judge" ? "animate-marquee" : ""}`}>
+                    {[...names, ...names].map((n, i) => (
+                      <li key={i} aria-hidden={i >= names.length} className="rounded-full bg-surface px-3 py-1.5 text-sm whitespace-nowrap text-ink">
+                        {n}
                       </li>
                     ))}
-                  </ol>
-                </section>
-              )}
-              {names.length === 0 && logs.length === 0 && <p className="hidden text-base text-ink-sub lg:block">AI가 살펴보는 장소와 진행 기록이 여기에 나와요.</p>}
-            </div>
-          </div>
+                  </ul>
+                </div>
+              </section>
+            )}
 
-          <p className="mt-auto pt-6 text-sm leading-normal text-ink-sub">이름·연락처는 보내지 않아요. 고른 조건만 일정 계산에 써요.</p>
+            {/* 지금 하는 일은 위 제목 아래 한 줄에 있으니, 기록에는 그 앞의 일만(끝나면 전부) */}
+            {earlier.length > 0 && (
+              <section className="mt-5 lg:mt-6" aria-label="진행 기록">
+                <h2 className="text-sm font-bold text-ink-sub">진행 기록</h2>
+                <ol className="mt-2 flex flex-col gap-1.5">
+                  {earlier.slice(-5).map((l) => (
+                    <li key={l.id} className="flex animate-rise items-start gap-2 text-base leading-snug">
+                      <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${l.tone === "ok" ? "bg-primary-soft text-primary-ink" : l.tone === "fix" ? "bg-caution-bg text-caution-ink" : "bg-surface text-ink-sub"}`} aria-hidden="true">
+                        {l.tone === "ok" ? "✓" : l.tone === "fix" ? "!" : "·"}
+                      </span>
+                      <span className={l.tone === "fix" ? "text-caution-ink" : "text-ink"}>{l.text}</span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )}
+
+            <p className="mt-auto pt-6 text-sm leading-normal text-ink-sub lg:mt-8 lg:pt-0">이름·연락처는 보내지 않아요. 고른 조건만 일정 계산에 써요.</p>
+          </div>
         </>
       )}
     </main>

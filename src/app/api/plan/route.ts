@@ -32,6 +32,7 @@ function readInput(body: unknown): PlanInput | string {
     startTime: b.startTime ?? EMPTY_PLAN.startTime,
     endTime: b.endTime ?? EMPTY_PLAN.endTime,
     lodging: b.lodging ?? null,
+    lodging2: b.lodging2 && ["same", "강릉", "속초", "동해", "미정"].includes(b.lodging2) ? b.lodging2 : "same",
     travelers: Array.isArray(b.travelers) ? b.travelers.filter((t) => ["wheelchair", "elder", "stroller"].includes(t)) : [],
     conditionOverrides: b.conditionOverrides && typeof b.conditionOverrides === "object" ? b.conditionOverrides : {},
     walkLimit: b.walkLimit === undefined ? EMPTY_PLAN.walkLimit : b.walkLimit,

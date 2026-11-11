@@ -49,6 +49,7 @@ import { toHHMM } from "@/lib/engine/types";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { alternativesFor, swapPlace } from "@/lib/trip/edit";
+import { lodgingText } from "@/lib/plan/summary";
 import { euro } from "@/lib/text/particle";
 import { dayMapLabel, dayMapPoints } from "@/lib/trip/map-points";
 import { useMedia, WIDE } from "@/lib/use-media";
@@ -227,7 +228,7 @@ function Summary({ trip }: { trip: TripView }) {
           </Pill>
         ))}
         <Pill icon={<Car size={16} />}>{trip.input.transport === "car" ? "자가용" : "택시"}</Pill>
-        {trip.input.lodging && <Pill icon={<BedDouble size={16} />}>숙소 {trip.input.lodging}</Pill>}
+        {trip.input.lodging && <Pill icon={<BedDouble size={16} />}>숙소 {lodgingText(trip.input.lodging, nights > 1 ? trip.input.lodging2 : "same")}</Pill>}
       </ul>
       {!ai && <Notice>AI 설계를 불러오지 못해 규칙으로 만든 일정이에요.</Notice>}
       {trip.notes.map((n) => (
@@ -282,7 +283,7 @@ function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripVie
               key={o.id}
               value={o.id}
               style={{ animationDelay: `${60 + i * 70}ms` }}
-              className="h-auto w-full animate-rise flex-col items-stretch gap-2 rounded-2xl border-2 border-surface bg-surface p-4 text-left whitespace-normal transition-[border-color,background-color,transform] duration-200 hover:bg-surface active:scale-[0.99] data-[state=on]:border-primary data-[state=on]:bg-primary-soft"
+              className="h-auto w-full animate-rise flex-col items-stretch gap-2 rounded-2xl border-2 border-surface bg-surface p-4 text-left whitespace-normal transition-[border-color,background-color,box-shadow,translate,transform] duration-200 motion-safe:hover:-translate-y-0.5 hover:border-primary/40 hover:bg-white hover:shadow-[0_0.5rem_1.25rem_rgb(20_80_163/0.12)] active:scale-[0.99] data-[state=on]:border-primary data-[state=on]:bg-primary-soft data-[state=on]:hover:translate-y-0 data-[state=on]:hover:shadow-none"
             >
               <span className="flex items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-2 text-sm font-bold text-primary-ink">

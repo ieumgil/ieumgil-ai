@@ -5,6 +5,8 @@ import type { ReactNode } from "react";
 import { CheckIcon } from "@/components/icons";
 
 const focus = "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary";
+/** 마우스를 올리면 살짝 떠오름(마우스가 있는 기기에서만, 움직임 줄이기 설정이면 꺼짐) */
+export const LIFT = "motion-safe:hover:-translate-y-0.5 hover:shadow-[0_0.5rem_1.25rem_rgb(20_80_163/0.12)]";
 
 /** 하나 또는 여러 개 고르는 알약/네모 버튼. 고르면 연한 파랑 + 파란 테두리. */
 export function ChoiceButton({
@@ -29,9 +31,9 @@ export function ChoiceButton({
       type="button"
       onClick={onClick}
       {...a11y}
-      className={`min-h-touch border-[1.5px] px-3.5 text-base transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.97] ${focus} ${
+      className={`min-h-touch border-[1.5px] px-3.5 text-base transition-[color,background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.97] ${focus} ${
         shape === "pill" ? "rounded-full" : "min-h-12 rounded-xl"
-      } ${selected ? "border-primary bg-primary-soft font-bold text-primary-ink" : "border-surface bg-surface text-ink"} ${className}`}
+      } ${selected ? "border-primary bg-primary-soft font-bold text-primary-ink" : `border-surface bg-surface text-ink hover:border-primary/40 hover:bg-white ${LIFT}`} ${className}`}
     >
       {children}
     </button>
@@ -56,8 +58,8 @@ export function SegmentButton({
       role="radio"
       aria-checked={selected}
       onClick={onClick}
-      className={`flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-xl border-[1.5px] px-1 transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.97] ${focus} ${
-        selected ? "border-primary bg-primary text-white" : "border-surface bg-surface text-ink"
+      className={`flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-xl border-[1.5px] px-1 transition-[color,background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.97] ${focus} ${
+        selected ? "border-primary bg-primary text-white" : `border-surface bg-surface text-ink hover:border-primary/40 hover:bg-white ${LIFT}`
       } ${className}`}
     >
       {children}
@@ -72,7 +74,7 @@ export function CheckDot({ on, size = "md" }: { on: boolean; size?: "md" | "sm" 
       aria-hidden="true"
       className={`flex shrink-0 items-center justify-center rounded-full border-2 ${
         size === "md" ? "size-7" : "size-6"
-      } ${on ? "border-primary bg-primary text-white" : "border-line-strong bg-white text-transparent"}`}
+      } ${on ? "animate-pop border-primary bg-primary text-white" : "border-line-strong bg-white text-transparent group-hover:border-primary/60"}`}
     >
       <CheckIcon size={size === "md" ? 16 : 14} strokeWidth={2.6} />
     </span>
@@ -93,8 +95,8 @@ export function CheckRow({
 }) {
   return (
     <label
-      className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] bg-surface px-3.5 py-2.5 transition-[border-color,transform] duration-150 active:scale-[0.99] has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${
-        checked ? "border-primary" : "border-surface"
+      className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] bg-surface px-3.5 py-2.5 transition-[background-color,border-color,transform] duration-150 active:scale-[0.99] has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${
+        checked ? "border-primary" : "border-surface hover:border-primary/40 hover:bg-white"
       }`}
     >
       <input

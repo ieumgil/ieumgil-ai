@@ -5,7 +5,7 @@ import { Calendar } from "@/components/plan/Calendar";
 import { ChoiceButton, CheckRow } from "@/components/plan/choices";
 import { Section, StepFooter, StepShell } from "@/components/plan/StepShell";
 import { formatRange, tripLabel } from "@/lib/plan/dates";
-import { missingWhen, nightsOf } from "@/lib/plan/progress";
+import { missingWhenFields, nightsOf } from "@/lib/plan/progress";
 import { updatePlan, usePlan } from "@/lib/plan/store";
 import { ARRIVAL_POINTS, type LodgingRegion, type Transport } from "@/lib/plan/types";
 
@@ -23,7 +23,7 @@ const selectClass =
 export function WhenStep() {
   const plan = usePlan();
   const nights = nightsOf(plan);
-  const missing = missingWhen(plan);
+  const missing = missingWhenFields(plan);
   const arrivalLabel = ARRIVAL_POINTS.find((a) => a.id === plan.arrival)?.label;
   const sameDay = nights === 0;
 
@@ -37,15 +37,18 @@ export function WhenStep() {
         <StepFooter
           nextHref="/plan/who"
           nextLabel="다음 · 누구와 가나요"
-          blockedLabel={missing[0] ?? null}
+          blockedLabel={missing[0]?.text ?? null}
+          blockedTarget={missing[0]?.id}
         />
       }
     >
-      <Calendar
-        start={plan.startDate}
-        end={plan.endDate}
-        onChange={({ start, end }) => updatePlan({ startDate: start, endDate: end })}
-      />
+      <div id="field-dates" className="pb-1">
+        <Calendar
+          start={plan.startDate}
+          end={plan.endDate}
+          onChange={({ start, end }) => updatePlan({ startDate: start, endDate: end })}
+        />
+      </div>
 
       <div
         className={`mx-5 mt-3 flex items-center justify-between gap-2 rounded-[0.875rem] px-4 py-3.5 ${
@@ -63,7 +66,7 @@ export function WhenStep() {
         )}
       </div>
 
-      <Section title="영동에 어디로 도착하나요?" hint="서울에서 오는 시간은 빼고, 도착한 곳부터 루트를 짜요.">
+      <Section id="field-arrival" title="영동에 어디로 도착하나요?" hint="서울에서 오는 시간은 빼고, 도착한 곳부터 루트를 짜요.">
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="도착 지점">
           {ARRIVAL_POINTS.map((a) => (
             <ChoiceButton
@@ -81,7 +84,7 @@ export function WhenStep() {
         </div>
       </Section>
 
-      <Section title="무엇으로 이동하나요?">
+      <Section id="field-transport" title="무엇으로 이동하나요?">
         <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="이동수단">
           {TRANSPORTS.map((t) => (
             <ChoiceButton
@@ -156,10 +159,16 @@ export function WhenStep() {
 
       {nights !== null && nights > 0 && (
         <Section
+          id="field-lodging"
           title="숙소는 어느 쪽인가요?"
-          hint="둘째 날부터 숙소 근처에서 출발해요. 중간 날은 09:30 출발 ~ 18:00 숙소 도착으로 짜고, 결과에서 바꿀 수 있어요. 숙소 추천은 하지 않아요."
+          hint={
+            nights > 1
+              ? "밤마다 고를 수 있어요. 숙소를 옮기면 2일째는 첫째 밤 숙소에서 출발해 둘째 밤 숙소 쪽으로 가며 둘러봐요. 숙소 추천은 하지 않아요."
+              : "둘째 날부터 숙소 근처에서 출발해요. 중간 날은 09:30 출발 ~ 18:00 숙소 도착으로 짜고, 결과에서 바꿀 수 있어요. 숙소 추천은 하지 않아요."
+          }
         >
-          <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label="숙소 지역">
+          {nights > 1 && <h3 className="text-base font-bold text-ink-sub">첫째 밤</h3>}
+          <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label={nights > 1 ? "첫째 밤 숙소 지역" : "숙소 지역"}>
             {LODGINGS.map((l) => (
               <ChoiceButton
                 key={l}
@@ -173,6 +182,28 @@ export function WhenStep() {
               </ChoiceButton>
             ))}
           </div>
+          {nights > 1 && (
+            <div className="flex animate-rise flex-col gap-2.5 pt-2">
+              <h3 className="text-base font-bold text-ink-sub">둘째 밤</h3>
+              <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label="둘째 밤 숙소 지역">
+                <ChoiceButton role="radio" shape="tile" className="col-span-4" selected={plan.lodging2 === "same"} onClick={() => updatePlan({ lodging2: "same" })}>
+                  첫째 밤과 같음{plan.lodging && plan.lodging !== "미정" ? ` (${plan.lodging})` : ""}
+                </ChoiceButton>
+                {LODGINGS.map((l) => (
+                  <ChoiceButton
+                    key={l}
+                    role="radio"
+                    shape="tile"
+                    className="px-1"
+                    selected={plan.lodging2 === l}
+                    onClick={() => updatePlan({ lodging2: l })}
+                  >
+                    {l}
+                  </ChoiceButton>
+                ))}
+              </div>
+            </div>
+          )}
         </Section>
       )}
     </StepShell>

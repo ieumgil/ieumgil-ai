@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
@@ -69,21 +71,45 @@ export function StepShell({
   );
 }
 
-/** 아래 고정 버튼 줄. 다음으로 갈 수 없으면 이유를 버튼 글자로 보여준다. */
+/**
+ * 아직 안 고른 칸으로 스크롤하고 옅은 빨간색으로 잠깐 표시한다(globals.css [data-attention]).
+ * 키보드·화면 읽기 사용자를 위해 그 칸의 첫 버튼으로 포커스도 옮긴다.
+ */
+export function pointTo(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
+  el.removeAttribute("data-attention");
+  void el.offsetWidth; // 연달아 눌러도 다시 깜빡이게
+  el.setAttribute("data-attention", "");
+  el.addEventListener("animationend", () => el.removeAttribute("data-attention"), { once: true });
+  el.querySelector<HTMLElement>("button, input, select, a")?.focus({ preventScroll: true });
+}
+
+/** 아래 고정 버튼 줄. 다음으로 갈 수 없으면 이유를 버튼 글자로 보여주고, 누르면 빠진 칸을 짚어 준다. */
 export function StepFooter({
   prevHref,
   nextHref,
   nextLabel,
   blockedLabel,
+  blockedTarget,
 }: {
   prevHref?: string;
   nextHref: string;
   nextLabel: string;
-  /** 값이 있으면 다음 버튼을 비활성으로 두고 이 문구를 보여준다 */
+  /** 값이 있으면 다음으로 가지 않고 이 문구를 보여준다 */
   blockedLabel?: string | null;
+  /** 막혔을 때 누르면 짚어 줄 칸의 id */
+  blockedTarget?: string | null;
 }) {
   const next = blockedLabel ? (
-    <button type="button" disabled className={buttonClass("disabled", "flex-[2]")}>
+    <button
+      type="button"
+      aria-disabled="true"
+      onClick={() => blockedTarget && pointTo(blockedTarget)}
+      className={buttonClass("disabled", "flex-[2] aria-disabled:pointer-events-auto")}
+    >
       {blockedLabel}
     </button>
   ) : (
@@ -103,9 +129,9 @@ export function StepFooter({
   );
 }
 
-export function Section({ title, hint, children }: { title: ReactNode; hint?: ReactNode; children: ReactNode }) {
+export function Section({ id, title, hint, children }: { id?: string; title: ReactNode; hint?: ReactNode; children: ReactNode }) {
   return (
-    <section className="flex flex-col gap-2.5 px-5 pt-6">
+    <section id={id} className="flex flex-col gap-2.5 px-5 pt-6 pb-1">
       <h2 className="text-lg font-bold">{title}</h2>
       {hint && <p className="text-sm leading-normal text-ink-sub">{hint}</p>}
       {children}

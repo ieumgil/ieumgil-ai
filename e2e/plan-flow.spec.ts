@@ -33,6 +33,48 @@ test("1단계: 다 채우기 전에는 다음으로 갈 수 없고, 빠진 항�
   await expect(page.getByRole("link", { name: "다음 · 누구와 가나요" })).toBeVisible();
 });
 
+test("막힌 다음 버튼을 누르면 아직 안 고른 칸으로 가서 잠깐 표시하고, 그 칸으로 포커스를 옮긴다", async ({ page }) => {
+  await page.goto("/plan/when");
+  await pickDay(page, 21);
+  const blocked = page.getByRole("button", { name: "도착 지점을 골라 주세요" });
+  await blocked.click({ force: true }); // 비활성 표시(aria-disabled)여도 실제로 눌린다
+  const arrival = page.locator("#field-arrival");
+  await expect(arrival).toHaveAttribute("data-attention", "");
+  await expect(arrival).toBeInViewport();
+  await expect(page.getByRole("radio", { name: "강릉역" })).toBeFocused();
+  await expect(arrival).not.toHaveAttribute("data-attention", "", { timeout: 4000 }); // 잠깐 뒤 사라짐
+  await expect(page).toHaveURL(/\/plan\/when$/); // 다음으로 넘어가지 않음
+
+  await page.goto("/plan/who");
+  await page.getByRole("button", { name: "유형을 골라 주세요" }).click({ force: true });
+  await expect(page.locator("#field-travelers")).toHaveAttribute("data-attention", "");
+});
+
+test("숙소: 1박이면 한 줄, 2박이면 '둘째 밤' 줄이 하나 더(기본은 첫째 밤과 같음)", async ({ page }) => {
+  await page.goto("/plan/when");
+  await pickDay(page, 21);
+  await pickDay(page, 22); // 1박 2일
+  await expect(page.getByRole("radiogroup", { name: "숙소 지역" })).toBeVisible();
+  await expect(page.getByRole("radiogroup", { name: "둘째 밤 숙소 지역" })).toHaveCount(0);
+
+  await pickDay(page, 21);
+  await pickDay(page, 23); // 2박 3일로 다시 고르기
+  await expect(page.getByRole("radiogroup", { name: "첫째 밤 숙소 지역" })).toBeVisible();
+  const second = page.getByRole("radiogroup", { name: "둘째 밤 숙소 지역" });
+  await expect(second.getByRole("radio", { name: /첫째 밤과 같음/ })).toHaveAttribute("aria-checked", "true");
+  await page.getByRole("radiogroup", { name: "첫째 밤 숙소 지역" }).getByRole("radio", { name: "강릉" }).click();
+  await second.getByRole("radio", { name: "속초" }).click();
+  await expect(second.getByRole("radio", { name: "속초" })).toHaveAttribute("aria-checked", "true");
+  const saved = await page.evaluate(() => JSON.parse(sessionStorage.getItem("ieumgil-plan") ?? "{}"));
+  expect([saved.lodging, saved.lodging2]).toEqual(["강릉", "속초"]);
+});
+
+test("1단계 이후 화면에는 가운데 로고가 없고 뒤로 버튼만 있다", async ({ page }) => {
+  await page.goto("/plan/who");
+  await expect(page.getByRole("link", { name: "이전 단계로" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "이음길 처음 화면" })).toHaveCount(0);
+});
+
 test("1박 이상이면 숙소 지역을 골라야 한다", async ({ page }) => {
   await page.goto("/plan/when");
   await pickDay(page, 21);

@@ -4,12 +4,14 @@ import Link from "next/link";
 import { firstIncompleteStep } from "@/lib/plan/progress";
 import type { PlanInput } from "@/lib/plan/types";
 
+export const INCOMPLETE_ID = "field-incomplete";
+
 /** 앞 단계가 덜 채워졌을 때 안내(주소로 바로 들어온 경우 등) */
 export function IncompleteNotice({ plan, step }: { plan: PlanInput; step: number }) {
   const missing = firstIncompleteStep(plan, step - 1);
   if (!missing) return null;
   return (
-    <div className="mx-5 mt-4 rounded-xl bg-caution-bg px-4 py-3 text-base text-caution-ink" role="status">
+    <div id={INCOMPLETE_ID} className="mx-5 mt-4 rounded-xl bg-caution-bg px-4 py-3 text-base text-caution-ink" role="status">
       <span aria-hidden="true" className="font-bold">
         !{" "}
       </span>

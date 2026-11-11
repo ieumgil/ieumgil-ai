@@ -92,12 +92,12 @@ export function Calendar({
                 aria-pressed={isEdge}
                 aria-label={`${shown.y}년 ${shown.m}월 ${d}일 ${weekdayOf(day)}요일${day === today ? ", 오늘" : ""}`}
                 onClick={() => pick(day)}
-                className={`size-touch rounded-full text-base focus-visible:outline-3 focus-visible:outline-primary ${
+                className={`size-touch rounded-full text-base transition-[background-color,color,box-shadow,transform] duration-150 active:scale-[0.92] focus-visible:outline-3 focus-visible:outline-primary ${
                   isEdge
                     ? "bg-primary font-bold text-white"
                     : past
                       ? "cursor-not-allowed text-past"
-                      : "text-ink hover:bg-white"
+                      : "text-ink hover:bg-white hover:text-primary-ink hover:shadow-[inset_0_0_0_1.5px_rgb(30_111_208/0.45)]"
                 } ${day === today && !isEdge ? "underline underline-offset-4" : ""}`}
               >
                 {d}
