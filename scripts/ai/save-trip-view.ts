@@ -1,6 +1,6 @@
 // 실제 Gemini로 일정을 한 번 만들어 결과 화면용 데이터(TripView)를 파일로 저장한다.
 // 결과 화면 디자인·E2E 확인 때 LLM을 다시 부르지 않으려고 쓴다(카카오 결과 없음: 이동시간은 직선거리 추정).
-// 사용: npx tsx scripts/ai/save-trip-view.ts [출력 파일]   (기본 e2e/fixtures/trip-view.json)
+// 사용: npx tsx scripts/ai/save-trip-view.ts [출력 파일]   (기본 tests/e2e/fixtures/trip-view.json)
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import evidence from "../../data/evidence.json";
@@ -17,7 +17,7 @@ try {
 } catch {
   // 환경변수로 이미 설정된 경우
 }
-const out = process.argv[2] ?? "e2e/fixtures/trip-view.json";
+const out = process.argv[2] ?? "tests/e2e/fixtures/trip-view.json";
 const input: PlanInput = {
   ...EMPTY_PLAN,
   startDate: "2026-11-21",

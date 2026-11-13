@@ -1,4 +1,4 @@
-// 결과 화면: 저장해 둔 실제 AI 결과(e2e/fixtures/trip-view.json)로 확인한다(LLM 호출 없음).
+// 결과 화면: 저장해 둔 실제 AI 결과(tests/e2e/fixtures/trip-view.json)로 확인한다(LLM 호출 없음).
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { expect, test } from "@playwright/test";

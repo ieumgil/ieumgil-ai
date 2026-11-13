@@ -286,7 +286,7 @@ src/lib/llm.ts      Gemini 호출을 한 곳에(재시도·예비 모델·JSON �
 src/components/     ui/(shadcn 기반 부품) · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · plan/(입력 단계 부품)
 data/               places.json · evidence.json · photos.json(사진 분류) · docs/places/(근거 원문) · ai/read/(AI 읽기 결과)
 scripts/            tour/(관광공사 API 수집) · ai/(읽기·전체 흐름 시험) · engine/(규칙 일정 시험) · readme/(README 화면 캡처)
-tests/ · e2e/       단위 테스트(엔진·AI 가드, 가짜 LLM) · 화면 흐름 테스트(Playwright)
+tests/              단위 테스트(엔진·AI 가드, 가짜 LLM) · e2e/(화면 흐름 테스트, Playwright)
 docs/               기획 문서, AI 설계, 구현 계획, 디자인 시안, 공공데이터 조사
 ```
 

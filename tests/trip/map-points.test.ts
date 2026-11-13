@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { dayMapLabel, dayMapPoints, visitsOf } from "@/lib/trip/map-points";
 import type { TripView } from "@/lib/trip/view";
 
-const trip = JSON.parse(readFileSync(resolve(__dirname, "../../e2e/fixtures/trip-view.json"), "utf8")) as TripView;
+const trip = JSON.parse(readFileSync(resolve(__dirname, "../e2e/fixtures/trip-view.json"), "utf8")) as TripView;
 
 describe("하루 지도 점", () => {
   it("출발 · 방문 순서대로 번호 · 도착", () => {

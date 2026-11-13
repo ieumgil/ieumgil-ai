@@ -1,5 +1,5 @@
 // README 화면 캡처(docs/readme/*.png)를 다시 만든다. AI를 부르지 않는다:
-// 결과 화면은 저장해 둔 실제 AI 결과(e2e/fixtures/trip-view.json), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
+// 결과 화면은 저장해 둔 실제 AI 결과(tests/e2e/fixtures/trip-view.json), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
 // 확정 일정의 지도는 실제 카카오 지도·경로선이라 개발 서버(localhost:3000, 카카오에 등록한 주소)가 켜져 있어야 한다.
 // 시작 화면 PC 미리보기(public/preview/compare.png, final.png)도 07·10 캡처로 함께 바꾼다.
 // 사용: npm run dev  →  npx tsx scripts/readme/capture.ts
@@ -9,7 +9,7 @@ import { chromium, type Browser, type Page } from "@playwright/test";
 
 const BASE = "http://localhost:3000";
 const OUT = resolve("docs/readme");
-const trip = readFileSync(resolve("e2e/fixtures/trip-view.json"), "utf8");
+const trip = readFileSync(resolve("tests/e2e/fixtures/trip-view.json"), "utf8");
 const view = JSON.parse(trip) as { createdAt: string; options: { id: string }[] };
 const confirmed = `${view.createdAt}|${(view.options[1] ?? view.options[0]).id}`;
 // 결과 데이터와 같은 조건(휠체어 · 택시 · 1박 2일 · 강릉)

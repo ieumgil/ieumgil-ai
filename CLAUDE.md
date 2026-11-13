@@ -49,7 +49,7 @@ data/               places.json · places.schema.json · docs/places/{id}.md(근
 scripts/            tour/(관광공사 API 수집·보고서) · ai/read-places.ts(① 읽기) · validate-places.ts · eval-ai.ts(실제 Gemini, CI 밖)
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
 tests/ai/           가짜 LLM으로 가드 검사(근거 없는 판단 버림, 모름≠적합, 시각은 코드 값, 실패 시 규칙 일정)
-e2e/                Playwright 화면 흐름
+tests/e2e/          Playwright 화면 흐름
 ```
 
 ## 사용자 입력 (4단계)
