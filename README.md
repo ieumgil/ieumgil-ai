@@ -42,63 +42,63 @@
 
 ## 계획서 대비 구현 현황
 
-[기획 문서](docs/planning.md)에 적은 계획을 항목마다 지금 상태와 확인할 곳으로 옮겼습니다. ✅ 완료 · 🟡 일부 · ⏳ 예정
+[기획 문서](docs/planning.md)에 적은 계획을 항목마다 지금 상태와 확인할 곳으로 옮겼습니다. 상태는 완료 · 일부 · 예정 세 가지입니다.
 
 **공고 의무 결과물**
 
 | 계획 | 상태 | 확인할 곳 |
 | --- | :---: | --- |
-| 핵심 기능 1개 이상 작동 | ✅ | 조건 입력 → AI 장소 판단 → AI 일정 2~3안 → 장소 바꾸기 → 확정 일정 + 지도 → 전화 확인 · [배포 사이트](https://ieumgil-ai.vercel.app) |
-| 실제 데이터로 시연 | ✅ | 관광공사 무장애 여행정보 API 182곳 → 관광지 152곳 · [데이터](#데이터) |
-| 배포 URL + GitHub 공개 | ✅ | Vercel(11/11부터) · 이 저장소 |
-| 사용자 테스트 1회 이상, 결과 기록 | ⏳ | 3~5명 과제형 테스트 예정 |
+| 핵심 기능 1개 이상 작동 | 완료 | 조건 입력 → AI 장소 판단 → AI 일정 2~3안 → 장소 바꾸기 → 확정 일정 + 지도 → 전화 확인 · [배포 사이트](https://ieumgil-ai.vercel.app) |
+| 실제 데이터로 시연 | 완료 | 관광공사 무장애 여행정보 API 182곳 → 관광지 152곳 · [데이터](#데이터) |
+| 배포 URL + GitHub 공개 | 완료 | Vercel(11/11부터) · 이 저장소 |
+| 사용자 테스트 1회 이상, 결과 기록 | 예정 | 3~5명 과제형 테스트 예정 |
 
 **AI가 하는 4가지 일** ([AI 설계](docs/ai-plan.md))
 
 | 계획 | 상태 | 확인할 곳 |
 | --- | :---: | --- |
-| ① 읽기: 관광공사 문장 → 접근성 10항목·운영시간·동선 (미리) | ✅ | 152곳 완료 · [`data/ai/read/`](data/ai/read/) · [`scripts/ai/read-places.ts`](scripts/ai/read-places.ts) |
-| ② 판단: 이 사람에게 적합 / 주의 / 확인 필요 / 부적합 (3회) | ✅ | [`src/lib/ai/judge.ts`](src/lib/ai/judge.ts) · 안전 하한 [`guards.ts`](src/lib/ai/guards.ts) |
-| ③ 계획: 성격이 다른 일정 2~3안 + 평가자 | ✅ | [`plan.ts`](src/lib/ai/plan.ts) · [`review.ts`](src/lib/ai/review.ts) · 전체 흐름 [`trip.ts`](src/lib/ai/trip.ts) |
-| ④ 풀어주기: 도착 후 동선 다듬기·대안 이유 | 🟡 | 도착 후 동선은 ① 읽기 결과를 카드에 표시, 출발 전 확인(질문 + 전화)은 체크리스트로 완료 · 요청할 때 다시 다듬는 호출은 예정 |
-| AI 추가 질문 0~3개 | ⏳ | 예정 |
-| AI가 실패해도 시연이 멈추지 않음(규칙 일정) | ✅ | [`fallback.ts`](src/lib/engine/fallback.ts) · 가짜 LLM 테스트 |
+| ① 읽기: 관광공사 문장 → 접근성 10항목·운영시간·동선 (미리) | 완료 | 152곳 완료 · [`data/ai/read/`](data/ai/read/) · [`scripts/ai/read-places.ts`](scripts/ai/read-places.ts) |
+| ② 판단: 이 사람에게 적합 / 주의 / 확인 필요 / 부적합 (3회) | 완료 | [`src/lib/ai/judge.ts`](src/lib/ai/judge.ts) · 안전 하한 [`guards.ts`](src/lib/ai/guards.ts) |
+| ③ 계획: 성격이 다른 일정 2~3안 + 평가자 | 완료 | [`plan.ts`](src/lib/ai/plan.ts) · [`review.ts`](src/lib/ai/review.ts) · 전체 흐름 [`trip.ts`](src/lib/ai/trip.ts) |
+| ④ 풀어주기: 도착 후 동선 다듬기·대안 이유 | 일부 | 도착 후 동선은 ① 읽기 결과를 카드에 표시, 출발 전 확인(질문 + 전화)은 체크리스트로 완료 · 요청할 때 다시 다듬는 호출은 예정 |
+| AI 추가 질문 0~3개 | 예정 | 예정 |
+| AI가 실패해도 시연이 멈추지 않음(규칙 일정) | 완료 | [`fallback.ts`](src/lib/engine/fallback.ts) · 가짜 LLM 테스트 |
 
 **코드가 지키는 원칙** ([CLAUDE.md](CLAUDE.md) 절대 원칙)
 
 | 계획 | 상태 | 확인할 곳 |
 | --- | :---: | --- |
-| LLM 답은 전부 JSON 스키마로 받고 코드가 검사 | ✅ | [`schemas.ts`](src/lib/ai/schemas.ts) · [`llm.ts`](src/lib/llm.ts) |
-| 시각은 코드가 계산, 검사를 통과한 안만 화면에 | ✅ | [`timeline.ts`](src/lib/engine/timeline.ts) · [`check.ts`](src/lib/engine/check.ts) |
-| '모름'은 숨기지 않고 질문 + 공식 전화 | ✅ | 빌드 검사 [`validate-places.ts`](scripts/validate-places.ts) |
-| 카카오 길찾기 결과 저장 안 함 · 키는 서버에서만 | ✅ | [`api/route-line`](src/app/api/route-line/route.ts) · 테스트 |
-| 개인정보 수집 없음 · 지도는 "일반 차량 경로"로만 | ✅ | 자유 입력 칸 없음 · 화면 안내 문구 |
+| LLM 답은 전부 JSON 스키마로 받고 코드가 검사 | 완료 | [`schemas.ts`](src/lib/ai/schemas.ts) · [`llm.ts`](src/lib/llm.ts) |
+| 시각은 코드가 계산, 검사를 통과한 안만 화면에 | 완료 | [`timeline.ts`](src/lib/engine/timeline.ts) · [`check.ts`](src/lib/engine/check.ts) |
+| '모름'은 숨기지 않고 질문 + 공식 전화 | 완료 | 빌드 검사 [`validate-places.ts`](scripts/validate-places.ts) |
+| 카카오 길찾기 결과 저장 안 함 · 키는 서버에서만 | 완료 | [`api/route-line`](src/app/api/route-line/route.ts) · 테스트 |
+| 개인정보 수집 없음 · 지도는 "일반 차량 경로"로만 | 완료 | 자유 입력 칸 없음 · 화면 안내 문구 |
 
 **화면과 기능**
 
 | 계획 | 상태 | 확인할 곳 |
 | --- | :---: | --- |
-| 시작 화면 + 예시 루트 바로 보기(심사용) | ✅ | [`/trip/example`](https://ieumgil-ai.vercel.app/trip/example) |
-| 입력 4단계(언제·어디서 / 누구와 / 꼭 필요한 조건 / 좋아하는 곳) | ✅ | [사용 흐름](#사용-흐름) |
-| 만드는 중 화면(실제 진행 기록 스트리밍) | ✅ | [`api/plan`](src/app/api/plan/route.ts) |
-| 안 비교 → 날짜별 상세 · 여유/빠듯/부족 판정 · 근거 표시 | ✅ | [`src/components/trip/`](src/components/trip/) |
-| 장소 바꾸기(AI 호출 없이 코드가 다시 계산·검사) | ✅ | [`edit.ts`](src/lib/trip/edit.ts) · 단위 6개 |
-| 확정 일정 + 카카오 지도·경로선 · 인쇄·PDF | ✅ | [`final/`](src/app/trip/%5Bid%5D/final/) |
-| 출발 전 확인할 것(질문 + 전화) 모음 | ✅ | 체크리스트(괜찮대요/어렵대요) |
-| 어려운 곳 목록과 대안 | ⏳ | 지금은 부적합 장소를 후보에서 빼고, 바꾸기 후보로 대안을 줌 |
-| 모바일·PC 반응형 | ✅ | 4단계 배치(휴대폰 · 태블릿 · PC · 넓은 PC) |
-| 관광지 사진(공공누리, 출처 표시) | ✅ | [`photos.json`](data/photos.json) |
-| 카카오 이동시간을 일정 시각에 반영 | ⏳ | 지금은 직선거리 추정(화면에 '추정' 표시) · 경로선만 카카오 |
-| 공유 링크(읽기 전용, 기간 지나면 자동 폐기) | ⏳ | 메인 기능 다음으로 미룸(11/10 결정) |
+| 시작 화면 + 예시 루트 바로 보기(심사용) | 완료 | [`/trip/example`](https://ieumgil-ai.vercel.app/trip/example) |
+| 입력 4단계(언제·어디서 / 누구와 / 꼭 필요한 조건 / 좋아하는 곳) | 완료 | [사용 흐름](#사용-흐름) |
+| 만드는 중 화면(실제 진행 기록 스트리밍) | 완료 | [`api/plan`](src/app/api/plan/route.ts) |
+| 안 비교 → 날짜별 상세 · 여유/빠듯/부족 판정 · 근거 표시 | 완료 | [`src/components/trip/`](src/components/trip/) |
+| 장소 바꾸기(AI 호출 없이 코드가 다시 계산·검사) | 완료 | [`edit.ts`](src/lib/trip/edit.ts) · 단위 6개 |
+| 확정 일정 + 카카오 지도·경로선 · 인쇄·PDF | 완료 | [`final/`](src/app/trip/%5Bid%5D/final/) |
+| 출발 전 확인할 것(질문 + 전화) 모음 | 완료 | 체크리스트(괜찮대요/어렵대요) |
+| 어려운 곳 목록과 대안 | 예정 | 지금은 부적합 장소를 후보에서 빼고, 바꾸기 후보로 대안을 줌 |
+| 모바일·PC 반응형 | 완료 | 4단계 배치(휴대폰 · 태블릿 · PC · 넓은 PC) |
+| 관광지 사진(공공누리, 출처 표시) | 완료 | [`photos.json`](data/photos.json) |
+| 카카오 이동시간을 일정 시각에 반영 | 예정 | 지금은 직선거리 추정(화면에 '추정' 표시) · 경로선만 카카오 |
+| 공유 링크(읽기 전용, 기간 지나면 자동 폐기) | 예정 | 메인 기능 다음으로 미룸(11/10 결정) |
 
 **검증**
 
 | 계획 | 상태 | 확인할 곳 |
 | --- | :---: | --- |
-| 엔진 시나리오 10개 · 필수 조건 위반 0건 | ✅ | [`tests/engine/scenarios.test.ts`](tests/engine/scenarios.test.ts) · [검증](#검증) |
-| 가짜 LLM 가드 테스트 · 화면 흐름 테스트(CI) | ✅ | [`tests/ai/`](tests/ai/) · [`tests/e2e/`](tests/e2e/) · GitHub Actions |
-| AI 읽기: 근거 없는 값 0건 · 반복 일치율 | ✅ | [`data/eval/`](data/eval/) |
-| AI 판단 3회 일치율 · 모델 간 비교 | ⏳ | 예정 |
+| 엔진 시나리오 10개 · 필수 조건 위반 0건 | 완료 | [`tests/engine/scenarios.test.ts`](tests/engine/scenarios.test.ts) · [검증](#검증) |
+| 가짜 LLM 가드 테스트 · 화면 흐름 테스트(CI) | 완료 | [`tests/ai/`](tests/ai/) · [`tests/e2e/`](tests/e2e/) · GitHub Actions |
+| AI 읽기: 근거 없는 값 0건 · 반복 일치율 | 완료 | [`data/eval/`](data/eval/) |
+| AI 판단 3회 일치율 · 모델 간 비교 | 예정 | 예정 |
 
 <details>
 <summary><b>계획에서 바꾼 결정과 이유</b></summary>
