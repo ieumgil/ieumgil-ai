@@ -281,12 +281,12 @@ src/app/            시작 · plan/(입력 4단계, making/ 만드는 중) · tr
                     · api/plan/(전체 흐름 + 스트리밍) · api/route-line/(카카오 경로선, 저장 안 함)
 src/lib/ai/         judge.ts(② 판단) · plan.ts(③ 일정 2~3안) · review.ts(평가자) · trip.ts(전체 흐름) · guards.ts(안전 하한·근거 검사) · schemas.ts
 src/lib/engine/     conditions.ts · filter.ts · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
-src/lib/trip/       view.ts(결과 화면 값) · alternatives.ts(대체 후보) · edit.ts(바꾸기 후 다시 계산) · store.ts(탭 보관)
+src/lib/trip/       view.ts(결과 화면 값) · alternatives.ts(대체 후보) · edit.ts(바꾸기 후 다시 계산) · store.ts(탭 보관) · example.ts(예시 루트)
 src/lib/llm.ts      Gemini 호출을 한 곳에(재시도·예비 모델·JSON 검사) · src/lib/kakao.ts(길찾기, 서버 전용)
-src/components/     ui/(shadcn 기반 부품) · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · plan/(입력 단계 부품)
-data/               places.json · evidence.json · photos.json(사진 분류) · docs/places/(근거 원문) · ai/read/(AI 읽기 결과)
-scripts/            tour/(관광공사 API 수집) · ai/(읽기·전체 흐름 시험) · engine/(규칙 일정 시험) · readme/(README 화면 캡처)
-tests/              단위 테스트(엔진·AI 가드, 가짜 LLM) · e2e/(화면 흐름 테스트, Playwright)
+src/components/     ui/(shadcn 기반 부품) · plan/(입력 단계) · trip/(결과·확정 화면: 장소 카드·안 고르기·바꾸기 창·체크리스트) · map/ · photos/
+data/               places.json · evidence.json · photos.json(사진 분류) · docs/places/(근거 원문) · ai/read/(AI 읽기 결과) · eval/(평가 자료)
+scripts/            tour/(관광공사 API 수집·사진) · ai/(① 읽기·합치기·예시) · readme/(캡처·구조도) · dev/(연결 확인·시험) — 실행 순서는 scripts/README.md
+tests/              단위 테스트(src와 같은 폴더 · 엔진·AI 가드, 가짜 LLM) · e2e/(화면 흐름 테스트, Playwright)
 docs/               기획 문서, AI 설계, 구현 계획, 디자인 시안, 공공데이터 조사
 ```
 
@@ -311,7 +311,8 @@ npm run dev                  # http://localhost:3000
 | `npm run validate:places` | 장소 데이터 검사 |
 | `npx tsx scripts/dev/try-trip.ts wheelchair --cat "바다·해변"` | 실제 Gemini로 규칙 일정 vs AI 일정 비교 출력 |
 | `npm run build` | 데이터 검사 후 배포용 빌드 |
-| `npx tsx scripts/readme/capture.ts` | README 화면 캡처 다시 찍기(개발 서버 켠 뒤, AI 호출 없음) |
+| `npm run readme:capture` · `npm run readme:architecture` | README 화면 캡처(개발 서버 켠 뒤, AI 호출 없음) · 구조도 다시 만들기 |
+| `npm run data:build` → `data:read` → `data:merge` | 장소 데이터 다시 만들기(관광공사 API·Gemini 키 필요) — 순서와 나머지 스크립트는 [scripts/README.md](scripts/README.md) |
 
 ## 한계와 안내
 

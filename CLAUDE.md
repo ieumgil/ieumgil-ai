@@ -36,20 +36,25 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 공유 링크·Supabase(`trips`)는 나중에(메인 기능 먼저, `docs/impl-plan.md`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`).
 글꼴 Pretendard.
 
-## 폴더 구조 (목표)
+## 폴더 구조 (지금 · 11/14 정리)
 ```
-src/app/            page.tsx(시작) · plan/(입력 4단계 · ask/(추가 질문) · making/(만드는 중))
-                    · trip/[id]/(안 비교 → 상세 · 장소 바꾸기) · trip/[id]/final(확정 일정 + 지도)
+src/app/            page.tsx(시작) · plan/(입력 4단계 · making/(만드는 중)) · (예정) plan/ask/(추가 질문)
+                    · trip/[id]/(안 비교 → 상세, id = new | example) · trip/[id]/final(확정 일정 + 지도)
                     · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · (나중에) api/trips
-src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한·형식) · judge.ts(② + 자기 일관성)
-                    · plan.ts(③ 여러 안 + 수정) · review.ts(③ 평가자) · explain.ts(④) · ask.ts(추가 질문) · prompts/*.ts
-src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정)
-src/lib/            kakao.ts · llm.ts(Gemini 호출은 이 파일 하나로, 모델은 GEMINI_MODEL_FAST/READ) · types.ts
-data/               places.json · places.schema.json · docs/places/{id}.md(근거 문장) · eval/human.json(선택: 사람 확인 값) · raw/(API 원본, 커밋 안 함)
-scripts/            tour/(관광공사 API 수집·보고서) · ai/read-places.ts(① 읽기) · validate-places.ts · eval-ai.ts(실제 Gemini, CI 밖)
+src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 …)
+                    · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · TopBar · Logo · Intro · icons
+src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
+                    · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④) · ask.ts(추가 질문)
+src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(날짜별 틀) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
+src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
+src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문
+src/lib/            llm.ts(Gemini 호출은 이 파일 하나로, 모델은 GEMINI_MODEL_FAST/READ) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
+data/               places.json · places.schema.json · evidence.json · photos.json · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과)
+                    · eval/(read-v1 · 선택 human.json) · raw/·build/(API 원본·중간 산출물, 커밋 안 함)
+scripts/            tour/(관광공사 API 수집·보고서·사진) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험) — scripts/README.md
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
 tests/ai/           가짜 LLM으로 가드 검사(근거 없는 판단 버림, 모름≠적합, 시각은 코드 값, 실패 시 규칙 일정)
-tests/e2e/          Playwright 화면 흐름
+tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) · tests/e2e/ Playwright 화면 흐름
 ```
 
 ## 사용자 입력 (4단계)
