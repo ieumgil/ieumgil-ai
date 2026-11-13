@@ -1,5 +1,5 @@
 // 전체 흐름을 실제 Gemini로 돌려 본다: 규칙 일정 vs AI 일정 2~3안 (이동시간은 직선거리 추정).
-// 사용: npx tsx scripts/ai/try-trip.ts [wheelchair|elder|stroller ...] [--car --permit] [--nights 0|1|2] [--lodging 강릉]
+// 사용: npx tsx scripts/dev/try-trip.ts [wheelchair|elder|stroller ...] [--car --permit] [--nights 0|1|2] [--lodging 강릉]
 //        [--cat 바다·해변,역사·문화] [--must GN12,GN03] [--pace slow|normal|busy]
 // LLM 호출 약 5~8회(판단 3 + 계획 1~3 + 평가 1)
 import evidence from "../../data/evidence.json";

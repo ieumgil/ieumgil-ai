@@ -12,7 +12,14 @@
     "validate:places": "tsx scripts/validate-places.ts",
     "prebuild": "npm run validate:places",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "data:build": "tsx scripts/tour/build-places.ts",
+    "data:read": "tsx scripts/ai/read-places.ts",
+    "data:merge": "tsx scripts/ai/merge-places.ts",
+    "data:photos": "tsx scripts/tour/classify-photos.ts --build-only",
+    "example:make": "tsx scripts/ai/make-example.ts",
+    "readme:capture": "tsx scripts/readme/capture.ts",
+    "readme:architecture": "tsx scripts/readme/architecture.ts"
   },
   "dependencies": {
     "@google/genai": "^3.0.0",

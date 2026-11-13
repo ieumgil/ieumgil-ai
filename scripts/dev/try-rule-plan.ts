@@ -1,5 +1,5 @@
 // 규칙 일정을 실제 장소 데이터로 돌려 보는 확인용 스크립트(카카오 대신 직선거리 추정).
-// 사용: npx tsx scripts/engine/try-plan.ts [wheelchair|elder|stroller ...] [--car --permit] [--nights 0|1|2] [--lodging 강릉]
+// 사용: npx tsx scripts/dev/try-rule-plan.ts [wheelchair|elder|stroller ...] [--car --permit] [--nights 0|1|2] [--lodging 강릉]
 import places from "../../data/places.json";
 import { rulePlan } from "../../src/lib/engine/fallback";
 import { estimateLeg } from "../../src/lib/engine/travel";

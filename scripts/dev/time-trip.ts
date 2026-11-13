@@ -1,6 +1,6 @@
 // 일정 만들기 시간 재기(실제 Gemini): AI 호출마다 시작·끝 시각, 시도 횟수, 실패 이유를 찍는다.
 // "느려졌다"를 코드 탓인지 Gemini 응답 탓인지 가르는 데 쓴다.
-// 사용: npx tsx scripts/ai/time-trip.ts [1박|2박|당일]
+// 사용: npx tsx scripts/dev/time-trip.ts [1박|2박|당일]
 import evidence from "../../data/evidence.json";
 import places from "../../data/places.json";
 import { makeTrip } from "../../src/lib/ai/trip";

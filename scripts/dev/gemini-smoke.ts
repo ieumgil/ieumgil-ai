@@ -1,5 +1,5 @@
 // Gemini 연결 확인: 관광공사 무장애 문장 하나를 JSON 스키마로 읽혀 본다(모델마다 1회).
-// 사용: npx tsx scripts/ai/smoke.ts
+// 사용: npx tsx scripts/dev/gemini-smoke.ts
 // 키: .env.local의 GEMINI_API_KEY. 모델: GEMINI_MODEL_FAST(요청할 때), GEMINI_MODEL_READ(미리 읽기).
 import { GoogleGenAI } from "@google/genai";
 

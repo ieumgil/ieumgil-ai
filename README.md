@@ -309,7 +309,7 @@ npm run dev                  # http://localhost:3000
 | `npm test` | 엔진·AI 가드 테스트(가짜 LLM, 키 필요 없음) |
 | `npm run test:e2e` | 화면 흐름 테스트 (처음 한 번 `npx playwright install chromium`) |
 | `npm run validate:places` | 장소 데이터 검사 |
-| `npx tsx scripts/ai/try-trip.ts wheelchair --cat "바다·해변"` | 실제 Gemini로 규칙 일정 vs AI 일정 비교 출력 |
+| `npx tsx scripts/dev/try-trip.ts wheelchair --cat "바다·해변"` | 실제 Gemini로 규칙 일정 vs AI 일정 비교 출력 |
 | `npm run build` | 데이터 검사 후 배포용 빌드 |
 | `npx tsx scripts/readme/capture.ts` | README 화면 캡처 다시 찍기(개발 서버 켠 뒤, AI 호출 없음) |
 

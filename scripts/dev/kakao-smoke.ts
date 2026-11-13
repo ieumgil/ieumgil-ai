@@ -1,5 +1,5 @@
 // 카카오 키 연결 확인(저장하지 않고 화면에만 출력: 카카오 길찾기 결과 캐싱 금지 원칙).
-// 사용: npx tsx scripts/kakao/smoke.ts
+// 사용: npx tsx scripts/dev/kakao-smoke.ts
 //  1) REST 키: 장소 검색(dapi.kakao.com), 길찾기(apis-navi.kakaomobility.com) 1:1, 다중 목적지
 //  2) JavaScript 키: Playwright로 http://localhost:3000 주소에서 지도 SDK를 띄운다(등록한 도메인에서만 동작)
 // 키는 .env.local의 KAKAO_REST_API_KEY, NEXT_PUBLIC_KAKAO_JS_KEY. 키 값은 출력하지 않는다.
