@@ -6,7 +6,6 @@ import { useSyncExternalStore } from "react";
 
 /** globals.css·Tailwind 기본 구간과 같은 값 */
 export const WIDE = "(min-width: 80rem)"; // 1280px: 안 비교 3칸
-export const DESKTOP = "(min-width: 64rem)"; // 1024px: PC 2칸
 
 export function useMedia(query: string): boolean {
   return useSyncExternalStore(

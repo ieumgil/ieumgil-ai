@@ -22,22 +22,6 @@ const CATEGORY_ICON: Record<string, (size: number) => ReactNode> = {
 
 const SIZE = { sm: "size-14", md: "size-20", lg: "size-24" } as const;
 
-/** 누를 수 없는 작은 사진(카드 전체가 버튼인 곳). 장식이라 화면 읽기에서는 숨긴다 */
-export function PlaceThumb({ id, category, className = "size-11" }: { id: string; category?: string; className?: string }) {
-  const cover = photosOf(id)?.cover;
-  const [failed, setFailed] = useState(false);
-  return (
-    <span className={`shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-line ${className}`} aria-hidden="true">
-      {cover && !failed ? (
-        // eslint-disable-next-line @next/next/no-img-element -- 3유형 원본은 그대로
-        <img src={cover.thumb ?? cover.url} alt="" loading="lazy" decoding="async" onError={() => setFailed(true)} className={`size-full ${cover.thumb ? "object-cover" : "object-contain"}`} />
-      ) : (
-        <span className="flex size-full items-center justify-center text-ink-sub">{(category && CATEGORY_ICON[category]?.(18)) ?? <Images size={18} />}</span>
-      )}
-    </span>
-  );
-}
-
 export function PlacePhoto({ id, name, category, size = "md", className = "" }: { id: string; name: string; category?: string; size?: keyof typeof SIZE; className?: string }) {
   const data = photosOf(id);
   const [failed, setFailed] = useState(false);

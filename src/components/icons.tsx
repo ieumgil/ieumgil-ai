@@ -49,13 +49,6 @@ export const ChevronLeftIcon = (p: IconProps) => (
   </Line>
 );
 
-export const InfoIcon = (p: IconProps) => (
-  <Line {...p}>
-    <circle cx="12" cy="12" r="9.5" />
-    <path d="M12 10.5v6M12 7.2v.3" />
-  </Line>
-);
-
 export const ChevronRightIcon = (p: IconProps) => (
   <Line {...p}>
     <path d="M9 5l7 7-7 7" />
