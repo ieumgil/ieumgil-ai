@@ -153,6 +153,22 @@ export async function kmaGet(
   return { status: res.status, json };
 }
 
+/** 중기예보 응답의 첫 항목 한 개(regId·tmFc는 호출하는 쪽 상수·계산값만). 항목이 없으면 readEnvelope가 KmaError "03"을 던진다 */
+async function fetchMidItem(op: "MidFcstInfoService/getMidLandFcst" | "MidFcstInfoService/getMidTa", regId: string, tmFc: string): Promise<Record<string, unknown>> {
+  const { json } = await kmaGet(op, { numOfRows: "10", pageNo: "1", regId, tmFc });
+  return readEnvelope(json).items[0];
+}
+
+/** 중기 육상예보(하늘·강수확률): regId는 육상 구역, tmFc는 YYYYMMDD0600 또는 …1800 */
+export function fetchMidLand(regId: string, tmFc: string): Promise<Record<string, unknown>> {
+  return fetchMidItem("MidFcstInfoService/getMidLandFcst", regId, tmFc);
+}
+
+/** 중기 기온예보(최저·최고): regId는 시 단위 기온 구역 */
+export function fetchMidTa(regId: string, tmFc: string): Promise<Record<string, unknown>> {
+  return fetchMidItem("MidFcstInfoService/getMidTa", regId, tmFc);
+}
+
 /**
  * 단기예보 한 격자·한 발표의 항목(문자열 필드 네 개가 다 있는 것만). 하루치가 1000행을 넘으면 쪽을 이어 받는다.
  * 멈춤: 모은 행 수가 totalCount 이상 / 2쪽부터 쪽이 비어 있음(03) / MAX_PAGES. 쪽 사이 오류는 그대로 던진다(부분 결과로 굳히지 않음).
