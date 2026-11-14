@@ -105,7 +105,7 @@
 | 모바일·PC 반응형 | 완료 | 4단계 배치(휴대폰 · 태블릿 · PC · 넓은 PC) |
 | 관광지 사진(공공누리, 출처 표시) | 완료 | [`photos.json`](data/photos.json) |
 | 카카오 이동시간을 일정 시각에 반영 | 완료 | 일정을 만들 때 실제 이동시간으로 다시 검사·시간 맞춤, 화면은 열 때마다 받아 다시 계산(저장 안 함) · [`/api/legs`](src/app/api/legs/route.ts) · [`real-travel.ts`](src/lib/trip/real-travel.ts) |
-| 공유 링크(읽기 전용, 기간 지나면 자동 폐기) | 예정 | 메인 기능 다음으로 미룸(11/10 결정) |
+| 공유 링크(읽기 전용, 기간 지나면 자동 폐기) | 완료 | 확정 일정의 [공유 링크 만들기] → `/s/{id}`(로그인 없이 읽기 전용, 지도 + 일정 + 물어볼 것). 고른 안만 Supabase에 저장(이동시간·개인정보 없음), 여행 끝 + 7일에 자동 삭제 · [`lib/share/`](src/lib/share/) · [SQL](supabase/migrations/20261114000000_trips.sql) |
 
 **검증**
 
@@ -166,7 +166,7 @@
 2. **일정 비교**: 성격이 다른 2~3안(여유롭게 / 좋아하는 곳 중심 / 확인할 것 적게)을 같은 줄에 맞춰 비교합니다(2박 3일은 하루하루 꼼꼼하게 1안) — 갈 곳 한 줄 요약("강릉 · 오죽헌 → 선교장 → 허난설헌 생가터 외 1곳"), 장소 수, 이동 시간, **전화로 확인할 곳 수**. 안을 누르면 그 일정으로 바로 내려가고, 고른 안·날짜의 **지도(일반 차량 경로선)**가 함께 바뀝니다.
 3. **장소 카드**: 처음에는 핵심만 — **관광지 사진**(누르면 크게 보기: 여러 장 넘겨 보기, 편의시설 사진은 "편의시설 사진: 화장실"처럼 표시, 사진마다 출처), 도착 예상 시각, 판단(예: "✓ 적합 · 전화로 확인할 것 있음"), 공식 정보가 없는 항목("공식 정보 없음: 노면"), 한 줄 이유, 공식 전화. [자세히]를 누르면 AI 판단 이유, 도착하면(장애인 주차 → 출입구 → 화장실), 전화로 물어볼 것, 가서 보고 확인할 것(바닥·경사·쉴 곳), 근거(관광공사 원문 항목)가 펼쳐집니다.
 4. **장소 바꾸기**: AI가 이미 판단해 둔 근처 장소(최대 3곳)로 바꿉니다. AI를 다시 부르지 않고 코드가 그 자리에서 시각과 운영시간을 다시 계산·검사하고, 걸리면 이유를 보여주고 바꾸지 않습니다. 원래 장소로 되돌릴 수 있습니다.
-5. **확정 일정**: 정한 안 하나만 남기고 카카오 지도에 **번호 + 장소 이름**과 **일반 차량 경로선**을 그립니다. 구간마다 진행 방향 화살표와 이동시간("↘ 12분")을 붙이고, 번호를 누르면 사진·시각·판단이 담긴 작은 카드가 떠서 [일정에서 보기]로 그 장소로 내려갑니다(반대로 일정의 번호를 누르면 지도가 그 장소로 갑니다). 경로는 열 때마다 새로 받고 저장하지 않습니다. 인쇄·PDF로 저장할 수 있습니다.
+5. **확정 일정**: 정한 안 하나만 남기고 카카오 지도에 **번호 + 장소 이름**과 **일반 차량 경로선**을 그립니다. 구간마다 진행 방향 화살표와 이동시간("↘ 12분")을 붙이고, 번호를 누르면 사진·시각·판단이 담긴 작은 카드가 떠서 [일정에서 보기]로 그 장소로 내려갑니다(반대로 일정의 번호를 누르면 지도가 그 장소로 갑니다). 경로는 열 때마다 새로 받고 저장하지 않습니다. 인쇄·PDF로 저장할 수 있고, [공유 링크 만들기]로 함께 가는 사람에게 읽기 전용 링크를 보낼 수 있습니다(여행 끝나고 7일 뒤 자동 삭제).
 6. **출발 전 전화 확인**: 날짜별로 장소마다 물어볼 것(엘리베이터·장애인 화장실·장애인 주차·출입구처럼 직원이 바로 답할 수 있는 것만, 같은 주제는 하나로)과 공식 전화를 모았습니다. 통화 뒤 **[괜찮대요] / [어렵대요]**를 누르면 진행률이 쌓이고, '어렵대요'면 그 자리에서 다른 곳으로 바꾸기를 권합니다. 모두 괜찮으면 "출발 준비 끝!"을 보여줍니다.
 7. **지도 번호 카드**: 확정 일정 지도의 번호를 누르면 사진·도착 시각·판단이 담긴 작은 카드가 뜨고, [일정에서 보기]로 그 장소로 내려갑니다.
 8. **순서 고치기**: 날짜마다 [순서 고치기]를 누르면 위·아래로 옮기거나 뺄 수 있습니다. AI를 부르지 않고 코드가 시각을 다시 계산·검사하며, 운영시간·하루 범위를 넘으면 고치지 않고 이유를 보여 줍니다. [처음 일정으로] 되돌릴 수 있습니다.
@@ -382,7 +382,7 @@ AI가 읽고 판단하고 계획하는 일, 공공데이터, 지도·길찾기, 
 | <img src="https://img.shields.io/badge/OpenAI_GPT--6_Luna-412991?style=flat-square" alt="OpenAI GPT-6 Luna" /><br />Responses API(fetch) | Gemini가 붐비거나(503·429) 30초 넘게 늦으면 같은 요청을 보내 먼저 온 답을 씀 | 엄격 JSON 스키마, `store: false`(요청 내용 보관 안 함). 둘 다 실패하면 규칙 일정 1개로 시연이 멈추지 않음 |
 | <img src="https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EA%B4%80%EA%B4%91%EA%B3%B5%EC%82%AC_%EB%AC%B4%EC%9E%A5%EC%95%A0_%EC%97%AC%ED%96%89%EC%A0%95%EB%B3%B4_API-0B5FA5?style=flat-square" alt="한국관광공사 무장애 여행정보 API" /><br />KorWithService2 · 공공누리 사진 | 강릉·속초·동해 182곳 → 관광지 152곳의 무장애 정보·운영시간·전화·사진의 1차 출처 | 수집 스크립트에서만 호출(키는 서버에만). 빈칸은 '모름'으로 두고 지어내지 않음. 사진은 공공누리 유형대로 출처 표시 |
 | <img src="https://img.shields.io/badge/Kakao_Map-FFCD00?style=flat-square&logo=kakao&logoColor=000" alt="Kakao Map" /><br />JavaScript SDK · 카카오모빌리티 길찾기 | 확정 일정 지도(번호·장소 이름·구간 화살표·이동시간), 실제 차량 이동시간, 경로선 | 길찾기 결과는 저장하지 않고 열 때마다 받음(탭에도 안 남김). "일반 차량 경로"로만 표시. REST 키는 서버에만, JS 키만 도메인 제한으로 브라우저에 |
-| <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" /><br />Postgres · RLS | 공유 링크(읽기 전용, 확정 일정 + 지도) — 개발 중 | 고른 안의 장소·순서·체류·이유만 저장, 이동시간·경로·개인정보는 저장 안 함. 기간이 지나면 자동 삭제. 서비스 키는 서버에만 |
+| <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" /><br />Postgres · RLS | 공유 링크(읽기 전용, 확정 일정 + 지도): 고른 안을 저장하고 `/s/{id}`로 열기 | 고른 안의 장소·순서·체류·이유만 저장, 이동시간·경로·개인정보는 저장 안 함(서버가 스키마로 검사). RLS로 브라우저 키 접근 막음, 여행 끝 + 7일에 자동 삭제(pg_cron). 서버 키는 서버에만 |
 | <img src="https://img.shields.io/badge/Vercel-000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" /> | 배포(서버 함수에서 AI·카카오 호출, 진행 단계 스트리밍) | 키는 환경변수에만 |
 | <img src="https://img.shields.io/badge/Next.js_16-000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js 16" /> <img src="https://img.shields.io/badge/React_19-149ECA?style=flat-square&logo=react&logoColor=white" alt="React 19" /> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /> | 화면과 서버(App Router, `/api/plan` 스트리밍 · `/api/legs` · `/api/route-line`) | TypeScript strict. AI·데이터 규칙은 `src/lib/`에 코드로 |
 | <img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4" /> <img src="https://img.shields.io/badge/shadcn%2Fui-000?style=flat-square&logo=shadcnui&logoColor=white" alt="shadcn/ui" /><br />Radix · lucide · Pretendard | 모바일 우선 화면, 디자인 토큰 | 본문 16px 이상 · 터치 44px 이상 · 상태는 색 + 기호(✓ ! ✕) + 글자 · rem 단위(기기 글자 크기 설정을 따름) |
