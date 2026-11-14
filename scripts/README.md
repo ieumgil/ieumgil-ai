@@ -44,6 +44,7 @@
 |---|---|
 | `npx tsx scripts/dev/gemini-smoke.ts` | Gemini 키·모델 연결 확인(문장 하나를 JSON으로 읽혀 보기) |
 | `npx tsx scripts/dev/kakao-smoke.ts` | 카카오 REST·JS 키 확인(결과는 화면에만, 저장 안 함) |
+| `npx tsx scripts/dev/weather-probe.ts [--dry-run] [--save]` | 기상청 키·게이트웨이 확인(포털·API허브 × 단기·중기, 키는 출력·저장 안 함, `--dry-run`은 부를 목록만, `--save`는 키를 지운 응답을 `tests/fixtures/weather/live/`에) — 키 `KMA_API_KEY` |
 | `npx tsx scripts/dev/try-rule-plan.ts wheelchair --nights 1` | AI 없이 규칙 일정만 실제 152곳으로 돌려 보기 |
 | `npx tsx scripts/dev/try-trip.ts wheelchair --cat "바다·해변"` | 실제 Gemini로 전체 흐름 돌려 보기(규칙 일정 vs AI 일정) |
 | `npx tsx scripts/dev/time-trip.ts 1박` | 일정 만들기 시간 재기(AI 호출마다 시간·시도 횟수) — 느려졌을 때 원인 가르기 |
