@@ -26,6 +26,7 @@
 | 명령 | 하는 일 | 결과 |
 |---|---|---|
 | `npm run example:make` | 시작 화면 '예시 루트'용 결과를 실제 AI로 한 번 만들기(안 3개가 나올 때까지 최대 3번) | `src/lib/trip/example-trip.json` |
+| `npx tsx scripts/ai/human-check.ts template` → (사람이 채움) → `score` | ① AI 읽기 정확도: 대표 관광지 20곳 × 4항목(진입·엘리베이터·장애인 화장실·장애인 주차)을 사람이 열린관광·전화로 확인해 AI 값과 비교(AI 값은 양식에 넣지 않음) | `data/eval/human-check.csv` → `human-check.md` |
 | `npx tsx scripts/ai/eval-judge.ts` | ② AI 판단 평가: 6개 장면 × 3회 판단으로 일치율·확신도·안전 하한·근거 버림, Gemini vs OpenAI(`--report`는 AI 없이 표만) | `data/eval/judge-v1.md`, `judge-v1.json` |
 | `npx tsx scripts/ai/save-trip-view.ts` | 화면 흐름 테스트(E2E)·README 캡처용 결과 만들기 | `tests/e2e/fixtures/trip-view.json` |
 

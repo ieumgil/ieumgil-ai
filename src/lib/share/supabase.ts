@@ -33,7 +33,19 @@ export async function saveShare(id: string, doc: ShareDoc, expires: Date): Promi
   return !!res?.ok;
 }
 
-export type LoadResult = { ok: true; doc: ShareDoc; expiresAt: string } | { ok: false; reason: "없음" | "만료" | "오류" };
+/** 깨워 두기: 행 1개의 id만 읽는다(쓰기 없음). 무료 프로젝트가 7일 동안 요청이 없으면 멈추는 것을 막는다 */
+export async function pingShare(): Promise<boolean> {
+  const c = config();
+  if (!c) return false;
+  const res = await fetch(`${c.url}/rest/v1/trips?select=id&limit=1`, {
+    headers: headers(c.key),
+    signal: AbortSignal.timeout(10_000),
+    cache: "no-store",
+  }).catch(() => null);
+  return !!res?.ok;
+}
+
+export type LoadResult ={ ok: true; doc: ShareDoc; expiresAt: string } | { ok: false; reason: "없음" | "만료" | "오류" };
 
 /** 읽기. 기간이 지난 것은 지워지기 전이라도 '만료' */
 export async function loadShare(id: string, now = new Date()): Promise<LoadResult> {

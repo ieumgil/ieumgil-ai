@@ -3,6 +3,7 @@
 // - 확신도 분포(높음/보통/낮음), 최종 판단 분포, 안전 하한으로 내린 비율, 근거가 맞지 않아 버린 비율
 // - 모델 간 일치율: 같은 장면·같은 장소에서 두 모델의 최종 판단이 같은 비율, '적합 ↔ 부적합'처럼 정반대로 갈린 수
 
+import type { AccessStatus } from "../types";
 import type { Confidence, Verdict } from "./guards";
 
 export const VERDICT_ORDER: Verdict[] = ["적합", "주의", "확인 필요", "부적합"];
@@ -110,4 +111,65 @@ export function crossAgreement(a: Map<string, Verdict>, b: Map<string, Verdict>)
     if (rank(vb) > rank(va)) bStricter++;
   }
   return { both, same, samePct: pct(same, both), opposite, aStricter, bStricter, table };
+}
+
+// ── ① 읽기 정확도: 사람이 직접 확인한 값과 비교(scripts/ai/eval-human.ts) ──
+// 사람이 '모름'이거나 비운 칸은 세지 않는다. AI '모름'은 틀린 게 아니라 빈칸(aiUnknown)으로 따로 센다.
+// 가장 위험한 다름: AI는 '가능'인데 사람은 '불가'(dangerous).
+
+/** 출발 전에 확인할 만하고, 사람이 열린관광·전화로 확인할 수 있는 4항목 */
+export const HUMAN_CHECK_KEYS = ["step_free_entrance", "elevator", "accessible_toilet", "disabled_parking"] as const;
+export type HumanCheckKey = (typeof HUMAN_CHECK_KEYS)[number];
+
+export interface HumanRow {
+  id: string;
+  human: Partial<Record<HumanCheckKey, AccessStatus>>;
+}
+export interface CheckCount {
+  compared: number;
+  match: number;
+  differ: number;
+  aiUnknown: number;
+  dangerous: number;
+}
+export interface HumanCompare {
+  places: number;
+  byKey: Record<HumanCheckKey, CheckCount>;
+  total: CheckCount;
+  /** 다른 칸 목록(보고서용) */
+  diffs: { id: string; key: HumanCheckKey; ai: AccessStatus; human: AccessStatus }[];
+}
+
+const zero = (): CheckCount => ({ compared: 0, match: 0, differ: 0, aiUnknown: 0, dangerous: 0 });
+
+export function compareHuman(rows: HumanRow[], aiValues: Map<string, Record<HumanCheckKey, AccessStatus>>): HumanCompare {
+  const byKey = Object.fromEntries(HUMAN_CHECK_KEYS.map((k) => [k, zero()])) as Record<HumanCheckKey, CheckCount>;
+  const total = zero();
+  const diffs: HumanCompare["diffs"] = [];
+  let places = 0;
+  for (const row of rows) {
+    const a = aiValues.get(row.id);
+    if (!a) continue;
+    let counted = false;
+    for (const key of HUMAN_CHECK_KEYS) {
+      const h = row.human[key];
+      if (!h || h === "모름") continue;
+      counted = true;
+      const add = (f: keyof CheckCount) => {
+        byKey[key][f]++;
+        total[f]++;
+      };
+      add("compared");
+      const v = a[key];
+      if (v === "모름") add("aiUnknown");
+      else if (v === h) add("match");
+      else {
+        add("differ");
+        diffs.push({ id: row.id, key, ai: v, human: h });
+        if (v === "가능" && h === "불가") add("dangerous");
+      }
+    }
+    if (counted) places++;
+  }
+  return { places, byKey, total, diffs };
 }
