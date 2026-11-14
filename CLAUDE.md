@@ -13,7 +13,7 @@
 ## 절대 원칙
 1. **LLM이 읽고·판단하고·계획하고·풀어준다. 코드는 계산과 검사만 강제한다.** (상세: `docs/ai-plan.md`)
    - LLM 4가지 일: ① 읽기(API 문장 → 접근성 값·운영시간·동선 초안, 미리) ② 판단(이 사람에게 적합/주의/부적합/확인 필요, 요청할 때)
-     ③ 계획(성격이 다른 일정 2~3안, 요청할 때) ④ 풀어주기(도착 후 동선, 출발 전 확인할 것, 대안 이유) + 추가 질문 0~3개.
+     ③ 계획(성격이 다른 일정 2~3안, 요청할 때) ④ 풀어주기(도착 후 동선, 출발 전 확인할 것, 대안 이유). (추가 질문 0~3개는 11/14에 뺐다)
    - LLM 출력은 전부 JSON 스키마로 받고(ajv) 코드가 검사한 뒤 화면에 그린다. 근거 id가 없거나 넘겨준 문장 밖이면 버린다.
      입력에 없는 시설·시간·거리를 쓰지 않는다.
    - **시각은 LLM이 쓰지 않는다.** 도착·출발 시각은 코드가 계산한다. 검사를 통과한 안만 화면에 나간다.
@@ -39,13 +39,13 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 
 ## 폴더 구조 (지금 · 11/14 정리)
 ```
-src/app/            page.tsx(시작) · plan/(입력 4단계 · making/(만드는 중)) · (예정) plan/ask/(추가 질문)
+src/app/            page.tsx(시작) · plan/(입력 4단계 · making/(만드는 중))
                     · trip/[id]/(안 비교 → 상세, id = new | example) · trip/[id]/final(확정 일정 + 지도)
                     · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · (나중에) api/trips
 src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 …)
                     · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · TopBar · Logo · Intro · icons
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
-                    · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④) · ask.ts(추가 질문)
+                    · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④)
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(날짜별 틀) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
 src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
 src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문
@@ -64,8 +64,7 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
 2. 누구와: 휠체어 / 보행 불편 고령자 / 유모차 (중복)
 3. 꼭 필요한 조건: 유형별 필수 조건이 기본으로 켜짐. 고령자면 한 번에 걸을 수 있는 거리(100/300/500m/제한 없음)
 4. 좋아하는 곳: 바다·해변 / 자연·산책 / 역사·문화 / 전시·박물관 / 시장·먹거리 / 전망·체험, 일정 밀도, 꼭 가고 싶은 곳
-- 그다음 `/plan/ask`: AI 추가 질문 0~3개(선택 카드, 자연어 입력 없음, 답은 `TravelerTraits` 정해진 항목만)
-  → `/plan/making`(진행 단계 스트리밍) → `/trip/[id]`(안 2~3개 비교 → 고른 안 상세)
+- 그다음 `/plan/making`(진행 단계 스트리밍) → `/trip/[id]`(안 2~3개 비교 → 고른 안 상세)
   → 장소별 [바꾸기](AI가 판단한 근처 후보, 코드가 다시 계산·검사, AI 호출 없음) → 이 일정으로 정하기 → `/trip/[id]/final`(확정 일정 + 지도)
 
 ## 유형별 필수 조건 (요약, 상세는 기획 문서)
