@@ -13,6 +13,7 @@
 | 4 | `npm run data:read` | **① AI 읽기**(Gemini): 문장 → 접근성 10항목·근거·모르면 질문·운영시간·동선 | `data/ai/read/*.json` |
 | 5 | `npm run data:merge` | 기본 정보 + AI 읽기 + 사람 확인 값 합치기(근거 없는 값은 '모름'+질문으로) | `data/places.json` |
 | 6 | `npm run validate:places` | 빌드 검사('모름'엔 질문, 부분가능엔 메모, 장소엔 전화) — `npm run build` 전에 자동 | — |
+| 6-1 | `npm run data:summary` | 관광지 한 줄 소개(AI): 관광공사 소개 → "어떤 곳인지 한 문장 + 볼 거리", 근거·원문 검사(이미 있는 곳은 건너뜀, `-- --force`는 모두 다시) | `data/ai/summary.json` |
 | 7 | `npm run data:photos` | 사진 분류 결과로 대표 사진 고르기·작은 사진 만들기 | `data/photos.json`, `public/photos/`, `src/lib/places/photo-index.json` |
 
 - `scripts/tour/report.ts` — 받은 원본으로 "무엇을 얼마나 받을 수 있는지" 보고서 → `docs/data/tour-api-fields.md`

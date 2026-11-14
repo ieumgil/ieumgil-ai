@@ -1,0 +1,1811 @@
+{
+  "note": "관광지 한 줄 소개(AI 정리, 등급 ai). 근거는 data/docs/places/{id}.md의 개요·소개 문단",
+  "places": {
+    "DH01": {
+      "summary": "다양한 동·식물이 서식하는 자연습지예요.",
+      "highlights": [],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN01": {
+      "summary": "전통 한과의 역사와 제조 기술을 배우고 직접 만들어 볼 수 있는 곳이에요.",
+      "highlights": [
+        "전시관",
+        "체험관",
+        "최봉석 명인"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN02": {
+      "summary": "강릉 지역의 독립 만세운동을 기념하는 공원이 조성되어 있는 곳이에요.",
+      "highlights": [
+        "강릉 3·1독립만세운동 기념탑",
+        "평화비"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN03": {
+      "summary": "고려시대에 창건된 아름다운 누각에서 멋진 경관을 즐길 수 있는 명승지에요.",
+      "highlights": [
+        "경포대",
+        "경포호",
+        "경포해수욕장"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN04": {
+      "summary": "청정 자연에너지를 활용한 시설에서 친환경 에너지와 관련된 다양한 체험을 할 수 있는 곳이에요.",
+      "highlights": [
+        "녹색도시 체험센터",
+        "친환경 에너지 체험"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN05": {
+      "summary": "고려시대부터 조선시대에 걸쳐 중앙의 관리들이 강릉에 내려오면 머물던 건물터예요.",
+      "highlights": [
+        "객사문"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN06": {
+      "summary": "시청과 옛 관아가 함께 자리하고 있어 강릉 행정의 중심 역할을 하던 곳이었어요.",
+      "highlights": [
+        "명주예술마당",
+        "이색카페"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN07": {
+      "summary": "모래가 많은 냇물이 흐른다고 하여 모래내라고 불리는 시골 마을이에요.",
+      "highlights": [
+        "갈골한과"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN08": {
+      "summary": "다양한 체험을 운영하는 농촌체험 휴양마을이에요.",
+      "highlights": [
+        "전통놀이 체험",
+        "과수원길 걷기"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN11": {
+      "summary": "안목해변과 연결된 공원이에요.",
+      "highlights": [
+        "포토존",
+        "벤치"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN12": {
+      "summary": "율곡 이이와 관련하여 유명해진 유적지예요.",
+      "highlights": [
+        "오죽헌",
+        "문성사",
+        "율곡기념관"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN13": {
+      "summary": "남대천 월화정 설화로 재탄생된 거리예요.",
+      "highlights": [],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN14": {
+      "summary": "강원특별자치도 강릉시 용강동에 있는 문 중 하나예요.",
+      "highlights": [],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN16": {
+      "summary": "다양한 생물들을 보고, 듣고, 느끼며 생태 체험을 할 수 있는 박물관이에요",
+      "highlights": [
+        "전시프로그램",
+        "체험학습",
+        "어류관과 파충류관, 곤충양서관"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN17": {
+      "summary": "지역 문화와 역사를 기반으로 특색 있는 주제 전시와 다양한 프로그램을 운영하는 곳이에요",
+      "highlights": [
+        "주제 전시"
+      ],
+      "evidence": [
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN18": {
+      "summary": "아이들이 교감할 수 있는 여러 동물친구들을 만날 수 있는 관광목장이에요",
+      "highlights": [
+        "기니피그",
+        "염소"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN19": {
+      "summary": "올림픽메달과 기념물들이 전시되어 있고 올림픽의 역사 등 다양한 정보를 접할 수 있는 장이에요",
+      "highlights": [
+        "체험시설",
+        "올림픽 기념물"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN20": {
+      "summary": "영동지역의 역사·문화를 살펴볼 수 있도록 전시가 구성되어 있는 곳이에요",
+      "highlights": [
+        "4층 전시실",
+        "교사 자료실",
+        "특별 전시실"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN21": {
+      "summary": "자수에 새겨진 옛 여인들의 마음결을 느낄 수 있는 자수 전문 박물관이에요",
+      "highlights": [
+        "상설 전시관",
+        "특별 전시실"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN22": {
+      "summary": "다양한 개성이 담긴 커피와 디저트를 맛볼 수 있으며 매년 커피 축제도 개최되는 곳이에요",
+      "highlights": [
+        "커피와 디저트",
+        "커피 축제"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN23": {
+      "summary": "커피나무 재배서부터 커피 유물 전시 등의 과정을 직접 눈으로 보고 경험할 수 있는 박물관이에요",
+      "highlights": [
+        "일반전시관",
+        "커피체험관",
+        "뮤지엄 카페"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN25": {
+      "summary": "항구인 곳이에요.",
+      "highlights": [
+        "낚시"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN26": {
+      "summary": "강문해변에 있는 다리예요.",
+      "highlights": [
+        "강문해변",
+        "경포해변"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN27": {
+      "summary": "주변에 작은 포구인 강문항이 있는 곳이에요.",
+      "highlights": [
+        "포토존"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2",
+        "overview-3"
+      ],
+      "grade": "ai"
+    },
+    "GN28": {
+      "summary": "경포호와 생태 관광의 명소 경포 가시연 습지를 끼고있는 아쿠아리움이에요.",
+      "highlights": [
+        "수달",
+        "체험"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN29": {
+      "summary": "생태 습지공원이에요.",
+      "highlights": [
+        "연꽃",
+        "가시연",
+        "산책로"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN30": {
+      "summary": "경포대, 경포호, 경포해수욕장을 중심으로 국가유산와 기념물 등이 있는 지역이에요.",
+      "highlights": [
+        "경포대",
+        "경포호",
+        "경포해수욕장"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN31": {
+      "summary": "생태저류지예요.",
+      "highlights": [
+        "산책로",
+        "유채꽃",
+        "코스모스"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN32": {
+      "summary": "자연과 꽃이 어우러진 힐링의 공간이에요",
+      "highlights": [
+        "튤립과 장미",
+        "수국",
+        "맨발로 걸을 수 있는 구간"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN33": {
+      "summary": "동해안 최대 해변으로 유명하며 해수욕과 산림욕을 동시에 즐길 수 있는 곳이에요",
+      "highlights": [
+        "소나무 숲",
+        "여름밤 예술제",
+        "자전거"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN34": {
+      "summary": "겨울 철새도래지로도 유명한 호수예요",
+      "highlights": [
+        "경포대",
+        "소나무 숲과 벚나무",
+        "경포해수욕장"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN35": {
+      "summary": "호수의 아름다운 경관과 함께 산책로, 자전거 도로, 휴식 공간 등이 마련되어 있는 공간이에요",
+      "highlights": [
+        "산책로",
+        "자전거 도로",
+        "휴식 공간"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN36": {
+      "summary": "한국에서 최초로 개장한 휴양림이에요",
+      "highlights": [
+        "소나무 숲",
+        "수련장 시설",
+        "위락 시설"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN37": {
+      "summary": "금강소나무가 원시림 상태로 보존된 산림치유 공간이에요",
+      "highlights": [
+        "건강측정실",
+        "치유 움막",
+        "무장애 데크로드"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC01": {
+      "summary": "우리나라 등산의 역사와 문화를 한눈에 담는 곳이에요",
+      "highlights": [
+        "고산체험실",
+        "산악체험실",
+        "인공 암벽 등반"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN38": {
+      "summary": "한국에서 가장 큰 당간지주예요",
+      "highlights": [
+        "굴산사지당간지주",
+        "범일국사"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN40": {
+      "summary": "경사가 완만하고 수심이 낮은 백사장이 있는 해변이에요.",
+      "highlights": [
+        "서핑",
+        "헌화로",
+        "금진온천"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN41": {
+      "summary": "생가 한 채와 전시관 한 동으로 구성되어 있는 문학관이에요.",
+      "highlights": [
+        "생가",
+        "전시실",
+        "서재"
+      ],
+      "evidence": [
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN42": {
+      "summary": "길이 600m, 2만 4천㎡의 백사장이 있는 간이해수욕장이에요.",
+      "highlights": [
+        "소나무 숲",
+        "솔밭",
+        "강릉항"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC02": {
+      "summary": "총 1.1㎞ 길이로 조성되어 있는 산책로예요.",
+      "highlights": [
+        "전망 쉼터",
+        "숲 놀이터",
+        "휴게 시설"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "DH02": {
+      "summary": "길이 350m, 폭 50m의 백사장을 품은 아담한 해변이에요.",
+      "highlights": [
+        "야영장",
+        "무료 주차장",
+        "샤워장"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN44": {
+      "summary": "선사, 역사, 민속유물 1,000여 점을 전시한 박물관이에요.",
+      "highlights": [
+        "청룡방",
+        "백호방",
+        "물레방아"
+      ],
+      "evidence": [
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN45": {
+      "summary": "강원도 최고의 산간마을이자 고랭지 채소와 씨감자 재배 마을로 푸른 고원 산촌 체험장이 있는 곳이에요",
+      "highlights": [
+        "나무 심기",
+        "야생화 탐사"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC03": {
+      "summary": "푸른 바다 위로 뜨는 해돋이와 설악산 너머로 지는 해넘이를 한 자리에서 만날 수 있는 명당자리예요",
+      "highlights": [
+        "해돋이",
+        "해넘이",
+        "대포항"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN46": {
+      "summary": "모래가 깨끗하고 주차장이 넓어 가족 단위로 많이 찾는 조용한 해변이에요",
+      "highlights": [
+        "야영장",
+        "낚시"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH03": {
+      "summary": "동해의 아름다운 풍광을 즐길 수 있도록 각종 체험시설을 조성한 관광지예요",
+      "highlights": [
+        "스카이워크",
+        "스카이 사이클",
+        "자이언트 슬라이드"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC04": {
+      "summary": "방파제가 축조되어 고깃배를 비롯한 많은 수의 배들이 정박하고 있는 항구예요",
+      "highlights": [
+        "활어시장",
+        "일출",
+        "영금정"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH04": {
+      "summary": "무릉계곡 입구에 자리한 환경성질환 예방 관리 센터로 동해시가 직접 운영하는 곳이에요",
+      "highlights": [
+        "테마체험실",
+        "온열테라피실",
+        "오선녀탕"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN47": {
+      "summary": "동해의 바다 경관을 즐기며, 강릉에서 푸른바다를 따라 분천까지 운행되는 열차예요",
+      "highlights": [
+        "동해산타열차",
+        "분천산타마을"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN49": {
+      "summary": "넓은 주차장과 소나무 숲이 우거져 있어 야영을 하기 좋은 곳이에요",
+      "highlights": [
+        "백사장",
+        "소나무 숲",
+        "산책로"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "DH05": {
+      "summary": "관광호텔, 망상오토캠핑리조트 등 숙박 및 각종 편의시설의 확충으로 사계절 관광지로 변모해 가고 있는 곳이에요",
+      "highlights": [
+        "망상해변",
+        "망상오토캠핑리조트",
+        "옥계지구 해군 전적비"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN50": {
+      "summary": "김시습 관련 유물·자료를 전시해 놓은 기념관이에요",
+      "highlights": [
+        "전시실",
+        "저포놀이 체험방",
+        "포토존방"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN51": {
+      "summary": "동해 바다와 산, 정동진 2리 마을을 배경으로 아담하게 꾸며져 있는 곳이에요",
+      "highlights": [
+        "모래시계",
+        "정동진해수욕장"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "DH06": {
+      "summary": "아름다운 자연경관과 다양한 지형을 볼 수 있는 계곡이에요.",
+      "highlights": [
+        "무릉반석",
+        "쌍폭",
+        "용추폭포"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH07": {
+      "summary": "다양한 체험시설과 2개의 에메랄드빛 호수를 품은 이색적인 관광명소예요",
+      "highlights": [
+        "청옥호",
+        "금곡호",
+        "스카이글라이더"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH08": {
+      "summary": "항해하는 선박들의 안전운항에 기여하기 위해 묵호항 근처에 건립된 곳이에요",
+      "highlights": [
+        "묵호등대",
+        "소공원"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH09": {
+      "summary": "싱싱한 횟감을 구경하고 어시장의 활기를 느낄 수 있는 어업기지예요.",
+      "highlights": [
+        "어시장",
+        "묵호등대",
+        "소공원"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH10": {
+      "summary": "동해바다를 감상할 수 있는 방파제와 전망대가 있는 수변공원이에요",
+      "highlights": [
+        "해돋이",
+        "도째비골 해랑 전망대",
+        "수변공원 전망대"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC05": {
+      "summary": "전시실과 야외 조경시설을 갖춘 발해역사관이에요",
+      "highlights": [
+        "전시실",
+        "야외 조경시설",
+        "발해체험실"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN52": {
+      "summary": "담백하고 구수한 감자옹심이 맛집이 많은 옹심이 마을이에요",
+      "highlights": [
+        "감자옹심이",
+        "감자전",
+        "닭발"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN53": {
+      "summary": "분청사기 가마터로는 유일한 보광리분청자요지에요",
+      "highlights": [
+        "가마터",
+        "청자·분청사기 조각",
+        "도침"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN54": {
+      "summary": "대좌와 광배를 갖춘 석조여래좌상이에요",
+      "highlights": [
+        "석조여래좌상",
+        "대좌",
+        "광배"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2",
+        "overview-3"
+      ],
+      "grade": "ai"
+    },
+    "GN55": {
+      "summary": "대웅전, 영산전, 지장전, 삼성각, 금강루 등의 전각들이 있는 보현사예요",
+      "highlights": [
+        "대웅전",
+        "영산전",
+        "아미타삼존불상"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-3"
+      ],
+      "grade": "ai"
+    },
+    "DH11": {
+      "summary": "너른 연꽃 단지로 유명한 농촌체험휴양마을이에요",
+      "highlights": [
+        "연꽃 단지",
+        "천연염색 체험",
+        "고택 체험"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN56": {
+      "summary": "넓은 백사장과 소나무 숲이 있는 간이 해변이에요.",
+      "highlights": [
+        "백사장",
+        "소나무 숲"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN57": {
+      "summary": "바닷물이 얕고 백사장이 넓게 펼쳐져 있는 해변이에요.",
+      "highlights": [
+        "사천항",
+        "강원특별자치도 요트장"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN58": {
+      "summary": "해송숲이 넓게 우거져 있고 깨끗한 백사장이 있는 해변이에요.",
+      "highlights": [
+        "해송숲",
+        "오토 캠핑장"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-3"
+      ],
+      "grade": "ai"
+    },
+    "DH13": {
+      "summary": "두타산과 청옥산에 둘러싸인 조계종 월정사의 말사예요.",
+      "highlights": [
+        "삼화사 템플스테이 산사체험"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC06": {
+      "summary": "미로처럼 펼쳐진 돌담길을 따라 걷다 보면 돌로 만든 다양한 미술작품을 만날 수 있는 마을이에요.",
+      "highlights": [
+        "학무정",
+        "송림쉼터의 솔숲",
+        "속초도문농요전수관"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC07": {
+      "summary": "우리나라 도자기의 역사와 국내외 수준 높은 도예가들의 작품을 전시한 도자기 전문 박물관이에요.",
+      "highlights": [
+        "산하관",
+        "역사관",
+        "사계관"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC08": {
+      "summary": "웅장한 산세와 기암괴석, 계곡이 어우러져 사계절 풍경을 선사하는 국립공원이에요.",
+      "highlights": [
+        "천불동계곡",
+        "울산바위",
+        "설악 케이블카"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC09": {
+      "summary": "외설악의 절경과 동해의 끝없는 바다가 펼쳐진 장관을 감상할 수 있는 고려 시대의 산성이에요.",
+      "highlights": [
+        "화채능선",
+        "권금성"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC10": {
+      "summary": "자연의 보고인 설악산을 축약해놓은 자연 생태학습장이에요",
+      "highlights": [
+        "수생식물원",
+        "암석원",
+        "미로원"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC11": {
+      "summary": "설악산의 비경을 편하게 감상하는 최적의 방법은 설악 케이블카를 이용하는 것이에요",
+      "highlights": [
+        "울산바위",
+        "만물상",
+        "권금성"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC12": {
+      "summary": "탁트인 푸른 비단 반짝이는 바다를 배경으로 조각 작품이 진열된 공 이에요",
+      "highlights": [
+        "사랑의 길",
+        "연인의 길",
+        "화합의 광장"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN60": {
+      "summary": "바람과 파도에 깎인 절묘하고 기괴한 모습의 기암괴석들을 볼 수 있는 곳이에요",
+      "highlights": [
+        "코끼리 바위",
+        "소돌해안일주 산책로",
+        "소돌해변"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN61": {
+      "summary": "수심이 얕고 물이 맑아 해수욕과 다양한 어촌 체험을 즐길 수 있는 항구예요.",
+      "highlights": [
+        "소돌해수욕장",
+        "아들바위공원",
+        "소돌어촌체험마을"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC14": {
+      "summary": "트릭아트를 중심으로 다양한 체험을 즐길 수 있는 속초의 실내 테마파크이에요",
+      "highlights": [
+        "어드벤처 랜드",
+        "네온 랜드",
+        "스위트 랜드"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC16": {
+      "summary": "선사시대부터 현대에 이르기까지 속초의 역사와 문화, 자연환경을 체험하고 배우는 문화 체험 관광지예요.",
+      "highlights": [
+        "실향민문화촌",
+        "발해역사관"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC17": {
+      "summary": "속초 시내와 가까이에 있는 항구로 러시아와 백두산으로 들어가는 여객 터미널이 자리잡고 있어요.",
+      "highlights": [
+        "여객 터미널",
+        "물량장",
+        "방파제"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN63": {
+      "summary": "조용하고 깨끗한 모래밭에서 피서를 즐길 수 있는 곳이에요.",
+      "highlights": [
+        "오토캠프장",
+        "파라솔"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN64": {
+      "summary": "숲의 소중함과 산불의 심각성을 배울 수 있는 곳이에요.",
+      "highlights": [
+        "산불교육관",
+        "산불영상체험관"
+      ],
+      "evidence": [
+        "overview-2",
+        "overview-3"
+      ],
+      "grade": "ai"
+    },
+    "GN65": {
+      "summary": "다양한 동물들을 만나며 직접 먹이를 주거나, 만져보는 동물체험이 가능한 소규모의 동물원이에요",
+      "highlights": [
+        "동물체험",
+        "동물 먹이주기"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN66": {
+      "summary": "바닷가 해발 60m 절벽 위에 세워진 유람선이에요",
+      "highlights": [
+        "조각 공원",
+        "장승 공원",
+        "범선 카페"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN67": {
+      "summary": "강원도의 지역적 특성을 담은 다양한 미디어아트 전시를 감상할 수 있어요.",
+      "highlights": [
+        "미디어아트 전시"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN68": {
+      "summary": "푸른 동해 바다와 향긋한 커피 향이 어우러진 명소예요",
+      "highlights": [
+        "커피거리"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN69": {
+      "summary": "가자미와 넙치가 많이 잡히고 어업에 종사하는 곳이에요",
+      "highlights": [
+        "풍어제"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN70": {
+      "summary": "군성강의 맑은 강물이 바다로 흘러들어 담수욕도 즐길 수 있는 곳이에요",
+      "highlights": [
+        "바다낚시",
+        "스킨스쿠버",
+        "담수욕"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN71": {
+      "summary": "다양한 동물들을 직접 만나고 먹이 주기 체험을 할 수 있는 곳이에요.",
+      "highlights": [
+        "앵무새",
+        "기니피그",
+        "공작새"
+      ],
+      "evidence": [
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH14": {
+      "summary": "백사장 길이 300m, 폭 20~30m에 지나지 않는 조그마한 해수욕장이에요.",
+      "highlights": [
+        "어달산 봉수대"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN72": {
+      "summary": "길이 700m, 5만 6천㎡의 넓은 백사장을 간직하고 있는 곳이에요.",
+      "highlights": [
+        "야영지"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "DH15": {
+      "summary": "세계 각국의 다양한 연필을 만나고 직접 써볼 수도 있는 박물관이에요.",
+      "highlights": [
+        "연필 전시",
+        "체험 공간"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC22": {
+      "summary": "속초시 동명동 속초등대 밑의 바닷가에 크고 넓은 바위들이 깔려있는 곳이에요.",
+      "highlights": [
+        "해상 정자"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC23": {
+      "summary": "아름다운 호숫길을 따라 여유롭게 산책하며 멋진 경치를 즐기는 곳이에요.",
+      "highlights": [
+        "범바위",
+        "보광사"
+      ],
+      "evidence": [
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC25": {
+      "summary": "영랑호에 유입되는 하천인 장천천 하류에 있는 습지형 생태공원이에요.",
+      "highlights": [
+        "생태탐방로",
+        "관찰 데크"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN73": {
+      "summary": "어민이 어선으로 가자미와 조개를 많이 잡는 곳이에요",
+      "highlights": [
+        "영진해수욕장",
+        "주문진항",
+        "고분군"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN74": {
+      "summary": "어민이 어선으로 가자미와 조개를 많이 잡는 곳이에요",
+      "highlights": [
+        "방파제",
+        "메밀꽃"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN75": {
+      "summary": "백사장과 송림지역을 갖춘 곳이에요",
+      "highlights": [
+        "옥계항",
+        "강원도 여성수련원"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN76": {
+      "summary": "대한민국 근대문화유산으로 지정된 성당이에요",
+      "highlights": [
+        "종탑",
+        "스테인드글라스",
+        "매화"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2",
+        "overview-3"
+      ],
+      "grade": "ai"
+    },
+    "GN77": {
+      "summary": "푸른 바다와 산의 정취를 함께 느낄 수 있는 휴양림이에요",
+      "highlights": [
+        "괘방산",
+        "안보체험 등산로",
+        "바우길 8구간"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN78": {
+      "summary": "나루터가 있는 마을이라는 뜻으로 이름 지어진 바닷가예요",
+      "highlights": [
+        "정동진역",
+        "레일바이크",
+        "모래시계 공원"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2",
+        "overview-4"
+      ],
+      "grade": "ai"
+    },
+    "GN79": {
+      "summary": "증기기관차와 180m 기차로 조성되어 있는 박물관이에요",
+      "highlights": [
+        "모래시계공원",
+        "모래시계",
+        "청동해시계"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC26": {
+      "summary": "백사장과 폭 50m 규모의 작은 해변이에요",
+      "highlights": [
+        "대포항",
+        "속초해수욕장"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN80": {
+      "summary": "바다가 가장 가까운 역이자 해돋이를 보기 위해 많은 사람이 찾아드는 곳이에요",
+      "highlights": [
+        "정동진해수욕장",
+        "모래시계나무",
+        "정동진 시비"
+      ],
+      "evidence": [
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN81": {
+      "summary": "해수욕할 수 있는 세 곳이 있고 해돋이 관광열차의 운행으로 관광객들이 붐비는 곳이에요",
+      "highlights": [
+        "조각(해돋이) 공원",
+        "헌화로"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN82": {
+      "summary": "강원특별자치도에서 첫 번째로 세워진 등대예요",
+      "highlights": [],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN83": {
+      "summary": "주문진항에서 첫 운항을 시작한 대형 유람선이에요",
+      "highlights": [
+        "대연회장",
+        "라이브홀",
+        "야외 전망대"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN84": {
+      "summary": "화물선이 주로 입출항하고 동해안의 주요 어항 기지인 곳이에요",
+      "highlights": [
+        "오징어",
+        "양미리",
+        "명태"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN85": {
+      "summary": "넓은 백사장과 수심이 얕고 바닷물이 맑아 가족 단위 피서지에 적합한 곳이에요",
+      "highlights": [
+        "체육공원",
+        "야영장",
+        "향호 저수지"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN86": {
+      "summary": "주문진해안의 주차타워 2층에 자리 잡고 있는 박물관이에요",
+      "highlights": [
+        "갑각류",
+        "암석",
+        "보석"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN87": {
+      "summary": "명품축음기와 에디슨의 발명품과 유품이 전시되어 있는 박물관이에요",
+      "highlights": [
+        "명품축음기",
+        "뮤직박스",
+        "에디슨의 발명품"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN88": {
+      "summary": "브랜드 제품 시음과 체험활동을 하는 체험관이에요.",
+      "highlights": [
+        "홍보관",
+        "견학로",
+        "라운지"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "DH16": {
+      "summary": "동굴 생성의 비밀을 간직한 돌리네 지형을 관찰하고 자연을 체험하는 공 이에요.",
+      "highlights": [
+        "잔디광장",
+        "철쭉원",
+        "야생화 체험공원"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC27": {
+      "summary": "설악산과 동해 바다를 감상하는 청초정이 세워진 자연 석호예요.",
+      "highlights": [
+        "청초정",
+        "해상보행교",
+        "산책로"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC28": {
+      "summary": "국제관광 엑스포가 개최된 호수공 이에요.",
+      "highlights": [
+        "속초 엑스포타워",
+        "울산바위",
+        "달마봉"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC29": {
+      "summary": "아바이마을 끝자락에 아담하게 자리한 간이해수욕장이에요.",
+      "highlights": [
+        "방파제",
+        "속초 크루즈국제여객터미널",
+        "아바이마을"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN89": {
+      "summary": "동해안의 바닷물로 응고시켜 만든 두부 요리를 맛볼 수 있는 마을이에요.",
+      "highlights": [
+        "두부전골",
+        "모두부",
+        "짬뽕순두부"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN90": {
+      "summary": "강원도문화재자료로 지정된 전통 가옥이에요.",
+      "highlights": [
+        "안채",
+        "사랑채",
+        "부엌"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH18": {
+      "summary": "수중의 기암괴석이 바다를 배경으로 함께 어울려 빚어내는 비경으로 감탄을 자아내는 장소예요",
+      "highlights": [
+        "촛대바위",
+        "형제바위",
+        "해돋이"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH20": {
+      "summary": "기암괴석이 늘어선 해안절벽과 고운 백사장이 아름다운 해변이에요",
+      "highlights": [
+        "추암 촛대바위",
+        "출렁다리",
+        "북평 해암정"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN91": {
+      "summary": "커피체리 수확에서부터 한 잔의 커피가 탄생하기까지의 모든 과정을 살펴볼 수 있는 곳이에요",
+      "highlights": [
+        "커피커퍼박물관",
+        "로스팅기계"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC30": {
+      "summary": "도둑게 생태체험을 할 수 있는 곳이에요",
+      "highlights": [
+        "도둑게 생태체험",
+        "탈피한 도둑게의 껍질과 알"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN92": {
+      "summary": "군사장비를 한곳에서 볼 수 있는 대규모 전시공원인 통일공원이에요",
+      "highlights": [
+        "통일공원"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN93": {
+      "summary": "자연과 사람, 예술이 조화롭게 공존하는 종합예술공간이에요",
+      "highlights": [
+        "조각공원",
+        "현대 미술관",
+        "피노키오 & 마리오네트 미술관"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN94": {
+      "summary": "백사장이 있는 곳이에요",
+      "highlights": [
+        "백사장",
+        "해송 숲",
+        "해다리바위"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "DH21": {
+      "summary": "하얗고 고운 백사장과 파란 바다가 펼쳐지는 바다예요.",
+      "highlights": [
+        "묵호등대",
+        "한섬감성바닷길",
+        "데크 산책로"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN97": {
+      "summary": "문학 공원이에요.",
+      "highlights": [
+        "허난설헌 생가 터",
+        "허균·허난설헌 기념관",
+        "전통차 체험관"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN98": {
+      "summary": "한옥 형태의 건물이에요.",
+      "highlights": [
+        "솟을대문",
+        "사랑채",
+        "안채"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN99": {
+      "summary": "울창한 소나무 군락이에요.",
+      "highlights": [
+        "허난설헌 생가터",
+        "기념관"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN100": {
+      "summary": "사찰이에요.",
+      "highlights": [
+        "만월산",
+        "소나무"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN101": {
+      "summary": "아시아 유일의 컵 박물관이에요.",
+      "highlights": [
+        "중국 강희년제 청화백자 커피잔",
+        "일본 사츠마야끼 불멸의 용",
+        "나만의 컵 만들기"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN09": {
+      "summary": "조선시대 상류층의 가옥을 대표하는 가옥이에요.",
+      "highlights": [
+        "안채",
+        "사랑채",
+        "활래정"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN10": {
+      "summary": "금강소나무를 잘 가꾸어 온 지역의 수목원이에요.",
+      "highlights": [
+        "숲생태관찰로",
+        "천년숨결 치유의 길",
+        "솔숲광장"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN15": {
+      "summary": "강릉시에 있는 교회예요.",
+      "highlights": [],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN24": {
+      "summary": "내부 전시시설과 외부 전시장이 있는 곳이에요.",
+      "highlights": [
+        "전시 시설",
+        "전투장비",
+        "함정전시관"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN39": {
+      "summary": "청어, 오징어, 임연수어, 넙치, 가자미, 양미리, 문어, 전복 등이 잡히는 어업을 주로 하는 항구예요.",
+      "highlights": [
+        "청어",
+        "넙치",
+        "가자미회 무침"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN43": {
+      "summary": "강릉단오제 홍보전시실은 보호전승 및 진흥의 중심공간이에요.",
+      "highlights": [
+        "강릉단오제",
+        "홍보전시실"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN48": {
+      "summary": "강원도 강릉시 강동면 정동진리 화비령 동록 괘방산 중턱에 위치하고 있는 곳이에요",
+      "highlights": [
+        "극락전",
+        "영산전",
+        "등명사지오층석탑"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH12": {
+      "summary": "시멘트 블록 성당 건물로 이루어진 북평성당이에요",
+      "highlights": [
+        "성당 건물",
+        "사제관"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC13": {
+      "summary": "설악해맞이공원 뒤편 바닷가에 세워진 조각상이에요",
+      "highlights": [
+        "인어 연인상",
+        "설악해맞이공원",
+        "잼버리 기념탑"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN59": {
+      "summary": "금강산을 방불케 하는 장엄한 경승 뿐만 아니라 고적으로도 유서가 깊은 곳이에요",
+      "highlights": [
+        "무릉계",
+        "십자소",
+        "구룡폭포"
+      ],
+      "evidence": [
+        "overview-2",
+        "overview-3"
+      ],
+      "grade": "ai"
+    },
+    "SC15": {
+      "summary": "청초호 바로 옆에 위치한 73.4m 높이의 전망타워예요.",
+      "highlights": [
+        "전망대",
+        "청초호 해상공원",
+        "석봉 도자기미술관"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC18": {
+      "summary": "1976년 처음 개장한 국내 대표적인 해수욕장 가운데 하나예요.",
+      "highlights": [
+        "소나무 숲",
+        "조형물",
+        "포토존"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN62": {
+      "summary": "송정동에 있으며 길이 700m, 2만8천㎡의 백사장이 있어요.",
+      "highlights": [
+        "백사장",
+        "송림",
+        "벤치"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC20": {
+      "summary": "쌍천 하류에 조성된 자연 탐방로예요",
+      "highlights": [
+        "코스모스 길",
+        "산책로"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC21": {
+      "summary": "실향민들의 삶과 생활상을 엿볼 수 있는 실향민 집단촌이에요",
+      "highlights": [
+        "벽화",
+        "식당가 골목",
+        "향토 음식점"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "SC24": {
+      "summary": "영랑호에 얽힌 설화를 조각상으로 재현한 공간이에요.",
+      "highlights": [
+        "조각상"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "DH17": {
+      "summary": "황금박쥐가 서식하는 석회암 동굴이에요.",
+      "highlights": [
+        "종유석",
+        "석순",
+        "석주"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "DH19": {
+      "summary": "조각전시장과 야외무대 및 휴게시설 등을 갖추고 있는 곳이에요",
+      "highlights": [
+        "조각전시장",
+        "야외무대",
+        "휴게시설"
+      ],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "GN95": {
+      "summary": "깨끗한 백사장과 맑은 바다가 펼쳐진 바닷가예요.",
+      "highlights": [
+        "BTS 버스정류장",
+        "솔밭 야영장"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    },
+    "GN96": {
+      "summary": "한옥 만의 분위기를 느낄 수 있는 공간이에요.",
+      "highlights": [],
+      "evidence": [
+        "overview-1"
+      ],
+      "grade": "ai"
+    },
+    "SC19": {
+      "summary": "신라 진덕여왕 때 자장율사가 창건했으며 초기에는 향성사라고 불렸어요.",
+      "highlights": [
+        "템플스테이"
+      ],
+      "evidence": [
+        "overview-1",
+        "overview-2"
+      ],
+      "grade": "ai"
+    }
+  }
+}

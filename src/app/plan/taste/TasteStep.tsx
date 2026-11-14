@@ -2,6 +2,8 @@
 
 // 4단계 좋아하는 곳 (시안 Taste.dc.html)
 import { euro } from "@/lib/text/particle";
+import { ChevronRight, MapPinned } from "lucide-react";
+import Link from "next/link";
 import { useId, useState } from "react";
 import { CloseIcon, SearchIcon } from "@/components/icons";
 import { CheckDot, LIFT, SegmentButton } from "@/components/plan/choices";
@@ -123,6 +125,17 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
         <h2 className="text-lg font-bold">
           꼭 가고 싶은 곳이 있나요? <span className="text-sm font-normal text-ink-sub">선택</span>
         </h2>
+        <Link
+          href="/places?from=plan"
+          className={`group flex min-h-touch items-center gap-3 rounded-2xl border-[1.5px] border-primary/30 bg-primary-soft px-4 py-3 text-left transition-colors hover:border-primary ${LIFT}`}
+        >
+          <MapPinned size={22} className="shrink-0 text-primary" aria-hidden="true" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-base font-bold text-primary-ink">관광지 둘러보고 고르기</span>
+            <span className="block text-sm leading-snug text-ink-sub">강릉·속초·동해의 대표 관광지와 어떤 곳인지, 접근성을 먼저 보고 담아요</span>
+          </span>
+          <ChevronRight size={20} className="shrink-0 text-primary transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+        </Link>
         <label
           htmlFor={searchId}
           className="flex h-12.5 items-center gap-2 rounded-xl border-[1.5px] border-surface bg-surface px-3.5 has-focus-visible:border-primary"
@@ -134,7 +147,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             disabled={places.length === 0}
-            placeholder={places.length === 0 ? "관광지 정보를 준비하고 있어요" : "관광지 이름으로 찾기"}
+            placeholder={places.length === 0 ? "관광지 정보를 준비하고 있어요" : "이름을 알면 바로 찾기"}
             aria-label="관광지 이름 검색"
             className="min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-ink-sub disabled:cursor-not-allowed"
           />

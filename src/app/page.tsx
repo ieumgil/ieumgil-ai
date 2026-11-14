@@ -1,6 +1,8 @@
 // 시작 화면 (시안: docs/design/Main.dc.html)
 // 휴대폰: 한 칸(소개 → 특징 → 아래 버튼). 태블릿: 넓은 한 칸. PC(1024px~): 왼쪽 소개·버튼 + 오른쪽 실제 결과 화면 미리보기.
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { Intro } from "@/components/Intro";
 import { TopBar } from "@/components/TopBar";
@@ -75,6 +77,10 @@ export default function Home() {
                 예시 루트 바로 보기
               </ButtonLink>
             </div>
+            <Link href="/places" className="mx-auto inline-flex min-h-touch items-center gap-1 px-2 text-base font-bold text-primary underline-offset-4 hover:underline lg:mx-0">
+              어떤 관광지가 있는지 먼저 보기
+              <ChevronRight size={18} aria-hidden="true" />
+            </Link>
             <p className="mt-1 text-center text-sm text-ink-sub lg:text-left">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
           </div>
         </div>

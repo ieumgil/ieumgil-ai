@@ -39,7 +39,7 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 
 ## 폴더 구조 (지금 · 11/14 정리)
 ```
-src/app/            page.tsx(시작) · plan/(입력 4단계 · making/(만드는 중))
+src/app/            page.tsx(시작) · places/(관광지 둘러보기: 지역·분야·AI 한 줄 소개·접근성 요약 → 꼭 가고 싶은 곳에 담기) · plan/(입력 4단계 · making/(만드는 중))
                     · trip/[id]/(안 비교 → 상세, id = new | example) · trip/[id]/final(확정 일정 + 지도)
                     · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · (나중에) api/trips
 src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 …)
@@ -50,7 +50,7 @@ src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(�
 src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
 src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문
 src/lib/            llm.ts(AI 호출은 이 파일 하나로: 제공자 순서 AI_ORDER, 모델 GEMINI_MODEL_FAST/READ · OPENAI_MODEL) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
-data/               places.json · places.schema.json · evidence.json · photos.json · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과)
+data/               places.json · places.schema.json · evidence.json · photos.json · featured.json(대표 관광지) · ai/summary.json(한 줄 소개) · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과)
                     · eval/(read-v1 · 선택 human.json) · raw/·build/(API 원본·중간 산출물, 커밋 안 함)
 scripts/            tour/(관광공사 API 수집·보고서·사진) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험) — scripts/README.md
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건

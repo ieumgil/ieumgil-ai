@@ -18,7 +18,7 @@
 
 | 관광지 | 필수 조건 위반 | 근거 없이 채운 값 | AI 읽기 일관성 | 자동 테스트 |
 | :---: | :---: | :---: | :---: | :---: |
-| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 191 · 화면 흐름 96</sub> |
+| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 199 · 화면 흐름 102</sub> |
 
 </div>
 
@@ -78,6 +78,7 @@
 | --- | :---: | --- |
 | 시작 화면 + 예시 루트 바로 보기(심사용) | 완료 | [`/trip/example`](https://ieumgil-ai.vercel.app/trip/example) |
 | 입력 4단계(언제·어디서 / 누구와 / 꼭 필요한 조건 / 좋아하는 곳) | 완료 | [사용 흐름](#사용-흐름) |
+| 관광지 둘러보기(이름을 몰라도 지역·분야로 찾아 어떤 곳인지 보고 담기) | 완료 | [`/places`](src/app/places/PlacesBrowser.tsx) · AI 한 줄 소개 [`summary.json`](data/ai/summary.json) · 대표 관광지 [`featured.json`](data/featured.json) |
 | 만드는 중 화면(실제 진행 기록 스트리밍) | 완료 | [`api/plan`](src/app/api/plan/route.ts) |
 | 안 비교 → 날짜별 상세 · 여유/빠듯/부족 판정 · 근거 표시 | 완료 | [`src/components/trip/`](src/components/trip/) |
 | 장소 바꾸기(AI 호출 없이 코드가 다시 계산·검사) | 완료 | [`edit.ts`](src/lib/trip/edit.ts) · 단위 6개 |
@@ -156,6 +157,8 @@
 | 시작(왼쪽 소개 + 실제 결과 화면 미리보기) | 확정 일정(왼쪽 지도 + 오른쪽 일정) |
 | :---: | :---: |
 | <img src="docs/readme/13-home-desktop.png" width="420" alt="PC 시작 화면: 왼쪽 소개와 시작 버튼, 오른쪽 일정 비교·확정 일정 화면 미리보기" /> | <img src="docs/readme/11-final-desktop.png" width="420" alt="PC 확정 일정: 왼쪽 카카오 지도와 경로선, 오른쪽 시간순 일정" /> |
+
+**관광지 둘러보기(`/places`)** — 이름을 몰라도 강릉·속초·동해 탭과 분야로 둘러봅니다. 카드마다 사진, **어떤 곳인지 한 줄**(관광공사 소개를 AI가 정리, 원문에 없는 내용은 검사로 버림), 볼 거리, 고른 유형 기준 접근성 요약(✓ 가능 · ! 일부만 · ✕ 어려움 · ? 공식 정보 없음)이 나오고, [자세히 보기]에서 관광공사 소개 원문·운영시간·전화·접근성 10항목을 본 뒤 [담기]로 꼭 가고 싶은 곳에 넣습니다. 대표 관광지(기획 조사표 38곳)를 먼저 보여 줍니다. 4단계와 시작 화면에서 들어갑니다.
 
 **누구나 쓸 수 있게**: 본문 16px 이상 · 터치 영역 44px 이상(자동 검사) · 글자 크기는 rem이라 휴대폰·브라우저 설정을 그대로 따름 · 상태를 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 안 고른 칸이 있으면 그 칸으로 데려가 잠깐 표시
 
@@ -297,6 +300,7 @@ AI 평가: 피로도 4 · 시간 여유 4 · 취향 4
 | 동해 | 21곳 | "주출입구는 턱이 없어 휠체어 접근 가능함" |
 
 - **AI가 모두 읽었어요**: 152곳 · 1,520항목. 근거 없이 채운 값은 코드가 '모름'으로 바꿉니다. 원문에 없는 항목은 '모름'(57%)으로 두고 질문을 붙였습니다. 노면·걷는 거리는 공공데이터에 거의 없어서 카드에 '출발 전 확인'으로 나옵니다.
+- **관광지 한 줄 소개**: 152곳의 관광공사 소개(개요)를 AI가 "어떤 곳인지 한 문장 + 볼 거리"로 정리했습니다([`summary.json`](data/ai/summary.json), [`scripts/ai/summarize-places.ts`](scripts/ai/summarize-places.ts)). 근거는 그 장소 소개 문단만, 볼 거리는 원문에 있는 낱말만 남기고 원문과 동떨어진 문장은 버립니다(처음 152곳 중 21곳을 버리고 다시 받음).
 - **모름은 숨기지 않아요**: '모름'에는 물어볼 질문이, 장소에는 공식 전화번호가 반드시 있어야 합니다. 빠지면 [검사 스크립트](scripts/validate-places.ts)가 빌드를 멈춥니다.
 - **근거 원문을 함께 공개**: 장소마다 [근거 문서](data/docs/places/)(관광공사 원문 + 문단 id)와 [AI 읽기 결과](data/ai/read/)를 저장소에 둡니다.
 - **사진**: 관광공사 API 사진(공공누리) **1,136장**을 장소별로 풍경·건물 / 편의시설(화장실·엘리베이터·주차장·경사로 등) / 기타(안내판·음식·광고)로 나눴습니다. 대표 사진은 풍경 사진만 쓰고, 화장실 같은 편의시설 사진은 대표가 되지 않게 코드가 막습니다([photos.ts](src/lib/places/photos.ts)). 152곳 중 **135곳**에 사진이 있습니다.
@@ -311,7 +315,7 @@ AI 평가: 피로도 4 · 시간 여유 4 · 취향 4
 
 | 항목 | 목표 | 현재 |
 | --- | --- | --- |
-| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 191개 · 화면 흐름(E2E) 45개 × 모바일·PC + 너비별 배치 6개 |
+| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 199개 · 화면 흐름(E2E) 48개 × 모바일·PC + 너비별 배치 6개 |
 | 엔진 시나리오 10개 + 유형 조합 14개 | 필수 조건 위반 0건 | **0건** |
 | AI 가드 (가짜 LLM 테스트 61개) | 근거 없는 판단 사용 0건 · 안전 하한보다 낙관 0건 · 검사를 통과하지 못한 안 노출 0건 · AI 실패 시 규칙 일정 | **모두 통과** |
 | AI 읽기 근거 | 원문에 없는 근거로 채운 값 0건 | **0건** (152곳 · 1,520항목) |
@@ -358,7 +362,7 @@ AI 평가: 피로도 4 · 시간 여유 4 · 취향 4
 <summary>폴더 구조</summary>
 
 ```
-src/app/            시작 · plan/(입력 4단계, making/ 만드는 중) · trip/[id]/(안 비교·상세·바꾸기) · trip/[id]/final/(확정 일정 + 지도)
+src/app/            시작 · places/(관광지 둘러보기) · plan/(입력 4단계, making/ 만드는 중) · trip/[id]/(안 비교·상세·바꾸기) · trip/[id]/final/(확정 일정 + 지도)
                     · api/plan/(전체 흐름 + 스트리밍) · api/route-line/(카카오 경로선, 저장 안 함)
 src/lib/ai/         judge.ts(② 판단) · plan.ts(③ 일정 2~3안) · review.ts(평가자) · trip.ts(전체 흐름) · guards.ts(안전 하한·근거 검사) · schemas.ts
 src/lib/engine/     conditions.ts · filter.ts · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
