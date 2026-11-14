@@ -182,7 +182,8 @@ export function PlaceCard({
                         ✓
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="font-medium">{l.label} · 가능</span>
+                        <span className="font-medium">{l.headline}</span>
+                        {l.noNursing && <span className="block text-base text-ink-sub">수유실은 정보 없음</span>}
                         <span className="block text-sm text-ink-sub">
                           {l.note}
                           {l.note ? " · " : ""}

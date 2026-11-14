@@ -3,7 +3,7 @@
 
 import type { ConditionInput } from "../engine/conditions";
 import { CONDITION_LABELS, resolveConditions } from "../engine/conditions";
-import { publicSourceLabel } from "../public/source";
+import { diaperDisplay, publicSourceLabel } from "../public/source";
 import { ACCESS_KEYS, type AccessKey, type AccessStatus as AccessValue, type Category, type Place, type PlaceHours, type Region } from "../types";
 import { firstSentence, isIntroParagraph, type Paragraph, type PlaceSummary } from "./summary";
 
@@ -25,7 +25,17 @@ export interface BrowsePlace {
   address?: string;
   hours: string;
   /** source: grade public(행정안전부 공중화장실 공공데이터)일 때만 "공공데이터(YYYY-MM 기준)". 화면 출처 표시용 */
-  access: Record<AccessKey, { value: AccessValue; note?: string; source?: string }>;
+  access: Record<AccessKey, BrowseAccess>;
+}
+
+export interface BrowseAccess {
+  value: AccessValue;
+  note?: string;
+  source?: string;
+  /** 공공데이터 기저귀 교환대 값만: 항목 이름 대신 쓰는 한 줄("기저귀 교환대 있음 · 여자화장실에만"). 수유실처럼 읽히지 않게 */
+  label?: string;
+  /** true면 "수유실은 정보 없음"을 따로 보여 준다 */
+  noNursing?: boolean;
 }
 
 const DAY: Record<string, string> = { 월: "월", 화: "화", 수: "수", 목: "목", 금: "금", 토: "토", 일: "일" };
@@ -59,8 +69,13 @@ export function toBrowsePlace(p: Place, summary: PlaceSummary | undefined, featu
     hours: hoursText(p.hours),
     access: Object.fromEntries(
       ACCESS_KEYS.map((k) => {
-        const src = publicSourceLabel(p.access[k]);
-        return [k, { value: p.access[k].value, ...(p.access[k].note ? { note: p.access[k].note } : {}), ...(src ? { source: src } : {}) }];
+        const item = p.access[k];
+        const src = publicSourceLabel(item);
+        if (src && k === "diaper_nursing") {
+          const d = diaperDisplay(item.note);
+          return [k, { value: item.value, label: d.headline, ...(d.note ? { note: d.note } : {}), ...(d.noNursing ? { noNursing: true } : {}), source: src }];
+        }
+        return [k, { value: item.value, ...(item.note ? { note: item.note } : {}), ...(src ? { source: src } : {}) }];
       }),
     ) as BrowsePlace["access"],
   };

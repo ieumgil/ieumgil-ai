@@ -2,7 +2,7 @@
 import type { ChipStatus } from "@/components/ui/StatusChip";
 import type { Verdict } from "../ai/guards";
 import { CONDITION_LABELS } from "../engine/conditions";
-import { isPublicEvidenceId, publicSourceLabel } from "../public/source";
+import { diaperDisplay, isPublicEvidenceId, publicSourceLabel } from "../public/source";
 import { ACCESS_KEYS, type AccessKey, type Place } from "../types";
 import type { OptionView } from "./view";
 
@@ -59,7 +59,11 @@ export function evidenceSourceText(evidence: { id: string; label: string }[]): s
 export interface PublicAccessLine {
   key: AccessKey;
   label: string;
+  /** 화면에 보이는 한 줄. 기저귀 교환대는 수유실처럼 읽히지 않게 "기저귀 교환대 있음 · 여자화장실에만" */
+  headline: string;
   note?: string;
+  /** true면 "수유실은 정보 없음"을 따로 보여 준다(기저귀 교환대만 공공데이터로 확인된 경우) */
+  noNursing?: boolean;
   /** "공공데이터(2024-12 기준)" */
   source: string;
 }
@@ -67,9 +71,15 @@ export interface PublicAccessLine {
 /** 장소 접근성 중 공공데이터(grade public) 값만, 항목 순서대로 */
 export function publicAccessLines(place: Pick<Place, "access"> | undefined): PublicAccessLine[] {
   if (!place) return [];
-  return ACCESS_KEYS.flatMap((key) => {
+  return ACCESS_KEYS.flatMap((key): PublicAccessLine[] => {
     const item = place.access[key];
     const source = publicSourceLabel(item);
-    return source ? [{ key, label: CONDITION_LABELS[key], ...(item.note ? { note: item.note } : {}), source }] : [];
+    if (!source) return [];
+    if (key === "diaper_nursing") {
+      const d = diaperDisplay(item.note);
+      return [{ key, label: "기저귀 교환대", headline: d.headline, ...(d.note ? { note: d.note } : {}), ...(d.noNursing ? { noNursing: true } : {}), source }];
+    }
+    const label = CONDITION_LABELS[key];
+    return [{ key, label, headline: `${label} · 가능`, ...(item.note ? { note: item.note } : {}), source }];
   });
 }

@@ -331,8 +331,16 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
                 {s.sym}
               </span>
               <span className="min-w-0 flex-1">
-                <span className={must.has(k) ? "font-bold" : ""}>{CONDITION_LABELS[k]}</span>
-                <span className="text-ink-sub"> · {a.value === "모름" ? "공식 정보 없음" : a.value}</span>
+                {a.label ? (
+                  // 공공데이터 기저귀 교환대: 수유실이 있다는 말로 읽히지 않게 교환대 문장으로 쓴다(✓ 기호 + 글자)
+                  <span className={must.has(k) ? "font-bold" : ""}>{a.label}</span>
+                ) : (
+                  <>
+                    <span className={must.has(k) ? "font-bold" : ""}>{CONDITION_LABELS[k]}</span>
+                    <span className="text-ink-sub"> · {a.value === "모름" ? "공식 정보 없음" : a.value}</span>
+                  </>
+                )}
+                {a.noNursing && <span className="block text-base text-ink-sub">수유실은 정보 없음</span>}
                 {(a.note || a.source) && (
                   <span className="block text-sm text-ink-sub">
                     {a.note}
