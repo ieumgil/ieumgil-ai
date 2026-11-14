@@ -9,9 +9,10 @@
 |---|---|---|---|
 | 1 | `npx tsx scripts/tour/probe.ts` | 관광공사 API로 강릉·속초·동해 목록 받기(약 10~20회 호출) | `data/raw/tour/list-*.json`(커밋 안 함) |
 | 2 | `npx tsx scripts/tour/fetch-all.ts` | 182곳 상세 5종 받기(약 910회, 끊겨도 이어서) | `data/raw/tour/places/*.json`(커밋 안 함) |
-| 3 | `npm run data:build` | 관광지 아닌 곳·전화 없는 곳 제외 → 152곳 기본 정보 + 근거 문단 | `data/build/`, `data/docs/places/*.md`, `data/evidence.json` |
+| 2-1 | `npm run data:public` | 행정안전부 공중화장실 CSV(강원 파일, cp949 — data.go.kr 15012892에서 받아 `data/raw/public/public-restrooms-gangwon.csv`로 저장, 커밋 안 함)에서 강릉·속초·동해만 골라 관광지 이름으로 짝짓기. 키 필요 없음 | `data/public/restrooms.json`, `docs/data/public-restrooms.md` |
+| 3 | `npm run data:build` | 관광지 아닌 곳·전화 없는 곳 제외 → 152곳 기본 정보 + 근거 문단 + 공공데이터 문단 | `data/build/`, `data/docs/places/*.md`, `data/evidence.json` |
 | 4 | `npm run data:read` | **① AI 읽기**(Gemini): 문장 → 접근성 10항목·근거·모르면 질문·운영시간·동선 | `data/ai/read/*.json` |
-| 5 | `npm run data:merge` | 기본 정보 + AI 읽기 + 사람 확인 값 합치기(근거 없는 값은 '모름'+질문으로) | `data/places.json` |
+| 5 | `npm run data:merge` | 기본 정보 + AI 읽기 + 공중화장실 공공데이터(있음만 가능으로) + 사람 확인 값 합치기(근거 없는 값은 '모름'+질문으로) | `data/places.json` |
 | 6 | `npm run validate:places` | 빌드 검사('모름'엔 질문, 부분가능엔 메모, 장소엔 전화) — `npm run build` 전에 자동 | — |
 | 6-1 | `npm run data:summary` | 관광지 한 줄 소개(AI): 관광공사 소개 → "어떤 곳인지 한 문장 + 볼 거리", 근거·원문 검사(이미 있는 곳은 건너뜀, `-- --force`는 모두 다시) | `data/ai/summary.json` |
 | 7 | `npm run data:photos` | 사진 분류 결과로 대표 사진 고르기·작은 사진 만들기 | `data/photos.json`, `public/photos/`, `src/lib/places/photo-index.json` |

@@ -20,7 +20,7 @@
 2. **'모름'은 숨기지 않고 확인할 방법을 준다.** access 값은 `가능 | 부분가능 | 불가 | 모름`. 빈칸은 '모름'으로 두고 지어내지 않는다.
    - 확인 방법은 둘(11/14): 엘리베이터·장애인 화장실·장애인 주차·출입구·수유실·걷는 거리는 **전화**, 노면·경사·쉴 곳은 **가서 보기**(코드가 정한 안내 한 줄, `lib/trip/questions.ts`). '전화로 확인할 것 있음' 표시와 체크리스트는 전화 항목만 센다.
    - '모름'에는 물어볼 질문(`ask`), 부분가능에는 메모, 장소에는 공식 전화번호가 반드시 있어야 한다. 하나라도 빠지면 빌드 검사가 실패한다.
-   - 값마다 출처 등급: `ai`(LLM이 관광공사 문장을 읽고 정리) / `human`(사람이 전화·현장으로 확인). 화면에 함께 표시한다.
+   - 값마다 출처 등급: `ai`(LLM이 관광공사 문장을 읽고 정리) / `public`(행정안전부 공중화장실 공공데이터를 코드가 그대로 옮김 — 장애인 화장실·기저귀 교환대를 '가능'으로만 올림, 11/14) / `human`(사람이 전화·현장으로 확인). 우선순위 human > public > ai. 화면에 함께 표시한다(공공데이터는 기준일과 함께).
 3. **카카오 길찾기 결과는 저장하지 않는다**(캐싱 금지 정책). 공유 링크에는 장소·순서·체류·이유 같은 안 JSON만 저장하고,
    이동시간·시각·경로는 열 때 다시 계산한다. 검사 위반도 종류와 장소만 저장한다.
    탭에 보관하는 일정(TripView)의 시각도 직선 추정이고, 화면은 열 때 `/api/legs`로 실제 값을 받아 메모리에서만 다시 계산한다(`lib/trip/real-travel.ts`, 11/14).
@@ -32,7 +32,7 @@
 ## 스택
 Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(표시) · 카카오모빌리티
 다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini(기본 `gemini-3.5-flash-lite`, 먼저) + OpenAI(`gpt-6-luna`, 503·429·30초 넘게 늦으면 같은 요청을 보내 먼저 온 답, 11/14) — 읽기·판단·계획·풀어주기, JSON 응답
-· 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · Vercel.
+· 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · 행정안전부 전국공중화장실표준데이터(CSV, 스크립트 전용, 원본 커밋 안 함) · Vercel.
 공유 링크는 Supabase(`trips`, 서버 키로 REST, RLS, 11/14 구현) · 인쇄는 A4 한 장 일정표(`components/trip/PrintSheet.tsx`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
 글꼴 Pretendard.
 
@@ -48,11 +48,11 @@ src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·�
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(날짜별 틀) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
 src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
 src/lib/share/      doc.ts(공유할 값·검사·사라지는 날) · supabase.ts(서버 전용 REST, 서비스 키) · view.ts(열 때 화면 값으로)   ·   supabase/migrations/(trips 테이블·RLS·pg_cron SQL)
-src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문
+src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문   ·   src/lib/public/(공중화장실 공공데이터 짝짓기·합치기·출처 표시)
 src/lib/            llm.ts(AI 호출은 이 파일 하나로: 제공자 순서 AI_ORDER, 모델 GEMINI_MODEL_FAST/READ · OPENAI_MODEL) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
-data/               places.json · places.schema.json · evidence.json · photos.json · featured.json(대표 관광지) · ai/summary.json(한 줄 소개) · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과)
+data/               places.json · places.schema.json · evidence.json · photos.json · featured.json(대표 관광지) · ai/summary.json(한 줄 소개) · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과) · public/restrooms.json(짝지은 공중화장실 요약)
                     · eval/(read-v1 · 선택 human.json) · raw/·build/(API 원본·중간 산출물, 커밋 안 함)
-scripts/            tour/(관광공사 API 수집·보고서·사진) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험) — scripts/README.md
+scripts/            tour/(관광공사 API 수집·보고서·사진) · public/(공중화장실 공공데이터) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험) — scripts/README.md
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
 tests/ai/           가짜 LLM으로 가드 검사(근거 없는 판단 버림, 모름≠적합, 시각은 코드 값, 실패 시 규칙 일정)
 tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) · tests/e2e/ Playwright 화면 흐름
@@ -75,7 +75,7 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
 - 여러 유형 선택 시 항목마다 가장 엄격한 값
 
 ## 일정 흐름 (`POST /api/plan`, 상세: `docs/ai-plan.md`)
-미리(스크립트): ① 읽기로 152곳의 access·운영시간·동선 초안을 `places.json`에 만들어 둔다. 사람 판정은 하지 않는다(11/10). 사람이 확인한 값이 생기면 `human`으로 덮어쓴다.
+미리(스크립트): ① 읽기로 152곳의 access·운영시간·동선 초안을 `places.json`에 만들어 둔다. 사람 판정은 하지 않는다(11/10). 사람이 확인한 값이 생기면 `human`으로 덮어쓴다. 공중화장실 공공데이터가 '있음'이면 장애인 화장실·기저귀 교환대를 `public` 가능으로 올린다(11/14).
 요청할 때:
 1. 후보 거르기(코드): 지역·휴무·필수 조건 '불가' 제외, 최대 20곳
 2. ② 판단(LLM, 후보를 한 호출에 묶어 3번): 적합/주의/부적합/확인 필요 + 이유 + 근거 + 확신도 → 안전 하한(코드)
@@ -106,7 +106,8 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
 - 1차 출처: 한국관광공사 무장애 여행정보 API. 강릉·속초·동해 182곳 → 관광지 152곳(`build-places.ts`가 관광지 아닌 곳·전화 없는 곳 제외).
   수집은 `scripts/tour/`, 필드 조사는 `docs/data/tour-api-fields.md`. 열린관광 사이트(access.visitkorea.or.kr)는 사람 검수 때 보는 출처로만 쓴다(자동 수집 안 함).
 - `data/photos.json`: 관광지 사진 분류(풍경/편의시설/기타, 공공누리 유형). 대표는 풍경만, 1유형은 `public/photos/`에 줄여 저장, 3유형은 원본 통째로(변경 금지). `scripts/tour/classify-photos.ts --build-only`로 다시 만든다.
-- `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + (선택) 사람 확인 값(등급 `human`). 만드는 순서: `scripts/tour/build-places.ts` → `scripts/ai/read-places.ts` → `scripts/ai/merge-places.ts`.
+- `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + 공중화장실 공공데이터(등급 `public`) + (선택) 사람 확인 값(등급 `human`). 만드는 순서: `scripts/public/build-restrooms.ts` → `scripts/tour/build-places.ts` → `scripts/ai/read-places.ts` → `scripts/ai/merge-places.ts`.
+- 공중화장실 원본은 `data/raw/public/`(cp949, 커밋 안 함). 짝 규칙: 화장실명에 관광지 이름이 들어 있고 같은 시일 때만, 주유소 제외, 주소만 같다고 짝짓지 않음. 결과는 `data/public/restrooms.json`·`docs/data/public-restrooms.md`, 근거 문단 id는 `public-화장실-N`.
 - 휠체어·어르신은 노면·경사·거리 '모름'이 많아 대부분 '확인 필요' → 일정에 넣되 질문 + 전화번호로 표시한다(11/10 결정). 사람 판정은 하지 않는다. 조사표 32곳은 '유명한 곳' 판단 기준으로 쓴다.
 - `tests/fixtures/places.sample.json`: 테스트 전용 가짜 장소(`[샘플] 관광지 A`, id `GN91~`). 화면·README 수치에 쓰지 않는다.
 - 카테고리는 스키마의 6개만 쓴다. 조사표의 `바다·자연`은 `바다·해변` 또는 `자연·산책`으로 나눠서 옮긴다.
