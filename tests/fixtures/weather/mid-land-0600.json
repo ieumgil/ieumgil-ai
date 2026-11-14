@@ -1,0 +1,42 @@
+{
+  "_source": "[ASSUMED] 중기 활용가이드(251212) 필드 이름 기준으로 만든 값 — 02-06 프로브 결과로 확인·교체(디지털 중기예보 개편 여부 포함)",
+  "_note": "tmFc 202611150600 발표분: 4일째(2026-11-19)부터 10일째(2026-11-25)까지",
+  "response": {
+    "header": { "resultCode": "00", "resultMsg": "NORMAL_SERVICE" },
+    "body": {
+      "dataType": "JSON",
+      "items": {
+        "item": [
+          {
+            "regId": "11D20000",
+            "rnSt4Am": 20,
+            "rnSt4Pm": 30,
+            "rnSt5Am": 60,
+            "rnSt5Pm": 70,
+            "rnSt6Am": 10,
+            "rnSt6Pm": 10,
+            "rnSt7Am": 0,
+            "rnSt7Pm": 20,
+            "rnSt8": 40,
+            "rnSt9": 80,
+            "rnSt10": 30,
+            "wf4Am": "구름많음",
+            "wf4Pm": "흐림",
+            "wf5Am": "흐리고 비",
+            "wf5Pm": "흐리고 비",
+            "wf6Am": "맑음",
+            "wf6Pm": "맑음",
+            "wf7Am": "구름많음",
+            "wf7Pm": "구름많음",
+            "wf8": "구름많음",
+            "wf9": "흐리고 눈",
+            "wf10": "구름많고비"
+          }
+        ]
+      },
+      "pageNo": 1,
+      "numOfRows": 10,
+      "totalCount": 1
+    }
+  }
+}
