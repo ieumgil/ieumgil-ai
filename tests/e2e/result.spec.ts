@@ -64,6 +64,24 @@ test("장소 카드는 핵심만 보이고, [자세히]를 누르면 판단 이�
   await expect(page.getByText(/근거: 한국관광공사 무장애 여행정보/).first()).toBeVisible();
 });
 
+test("장소 카드를 펼치면 공중화장실 공공데이터 값과 출처가 보이고, 접힌 카드에는 출처 문구가 없다", async ({ page }) => {
+  // 저장해 둔 결과의 대도호부 관아(GN05)를 지금 places.json 값(공공데이터 장애인 화장실)으로 바꾸고, 근거에 공공데이터를 더해 다시 연다
+  const t = JSON.parse(trip);
+  const places = JSON.parse(readFileSync(resolve(__dirname, "../../data/places.json"), "utf8"));
+  t.placeData.GN05 = (Array.isArray(places) ? places : places.places).find((p: { id: string }) => p.id === "GN05");
+  t.judgments.GN05.evidence = [...t.judgments.GN05.evidence, { id: "public-화장실-1", label: "공공데이터·공중화장실" }];
+  await page.addInitScript((v) => sessionStorage.setItem("ieumgil-trip", v), JSON.stringify(t));
+  await page.reload();
+  const card = page.locator("article:visible").filter({ hasText: t.places.GN05.name }).first();
+  await expect(card).toBeVisible();
+  await expect(card).not.toContainText("공공데이터"); // 접힌 상태
+  await card.getByRole("button", { name: /자세히/ }).click();
+  await expect(card.getByText("공공데이터로 확인한 것")).toBeVisible();
+  await expect(card.getByText(/장애인 칸 2/)).toBeVisible();
+  await expect(card.getByText("공공데이터(2024-12 기준)")).toBeVisible();
+  await expect(card.getByText("근거: 한국관광공사 무장애 여행정보", { exact: false })).toContainText("행정안전부 공중화장실 정보(공공데이터)");
+});
+
 test("'이 일정으로 정하기'를 누르면 확인할 것 모음이 열리고, 정한 상태가 남는다", async ({ page }) => {
   await page.getByRole("button", { name: /일정으로 정하기/ }).last().click();
   const sheet = page.getByRole("dialog");
