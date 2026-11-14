@@ -7,7 +7,8 @@ import { VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { stopAnchor, visitsOf } from "@/lib/trip/map-points";
 import type { DayView, TripView } from "@/lib/trip/view";
 
-export function DayList({ d, trip, calls, onSite }: { d: DayView; trip: TripView; calls: Set<string>; onSite?: Map<string, string[]> }) {
+/** cautions: 장소 id → 비·눈 주의 문구(확정·공유 화면이 날씨 예보로 만든 것, 없으면 지금 화면 그대로) */
+export function DayList({ d, trip, calls, onSite, cautions }: { d: DayView; trip: TripView; calls: Set<string>; onSite?: Map<string, string[]>; cautions?: Map<string, string> }) {
   const numberOf = new Map(visitsOf(d).map((v, i) => [v.placeId, i + 1]));
   const last = d.items.at(-1);
   const arrival = last && last.kind === "travel" ? last.startMin + last.minutes : d.endMin;
@@ -65,6 +66,13 @@ export function DayList({ d, trip, calls, onSite }: { d: DayView; trip: TripView
                   {p.phone}
                 </a>
               </div>
+              {cautions?.get(it.placeId) && (
+                <p className="mt-1.5 flex items-start gap-1.5 rounded-xl bg-caution-bg px-2.5 py-1.5 text-base font-medium text-caution-ink">
+                  <span aria-hidden="true" className="font-bold">!</span>
+                  <span className="sr-only">주의: </span>
+                  {cautions.get(it.placeId)}
+                </p>
+              )}
               {(onSite?.get(it.placeId) ?? []).length > 0 && (
                 <div className="mt-1.5 text-base leading-relaxed text-ink-sub">
                   <p className="font-bold">가서 보고 확인할 것</p>

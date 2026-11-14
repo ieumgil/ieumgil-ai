@@ -24,6 +24,8 @@ import { dayMapLabel, dayMapPoints, dayStopDetails, showStopInList } from "@/lib
 import { callPlaces, onSiteByPlace } from "@/lib/trip/questions";
 import { useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
 import type { OptionView, TripView } from "@/lib/trip/view";
+import { dayCautions, dayWeatherView, hasShownWeather } from "@/lib/weather/day-view";
+import { sourceLine } from "@/lib/weather/labels";
 import { useWeather } from "@/lib/weather/use-weather";
 
 export function FinalScreen() {
@@ -65,6 +67,9 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
   const points = useMemo(() => dayMapPoints(trip, o, dayIndex), [trip, o, dayIndex]);
   const mapLabel = dayMapLabel(trip, o, dayIndex);
   const nights = trip.input.startDate && trip.input.endDate ? nightsBetween(trip.input.startDate, trip.input.endDate) : 0;
+  // 날짜마다 날씨 줄·비 주의(범위 밖·지난 날·예보 없음 포함). 순수 계산이라 값이 바뀔 때만 다시 만든다
+  const weatherViews = useMemo(() => o.days.map((d) => ({ view: dayWeatherView(d, trip.places, weather), cautions: dayCautions(d, trip.places, weather) })), [o.days, trip.places, weather]);
+  const source = hasShownWeather(weatherViews.map((w) => w.view)) ? sourceLine(weather) : null;
   const callSet = new Set(callPlaces(o));
   const onSite = onSiteByPlace(o);
 
@@ -136,12 +141,13 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
                   {i + 1}일째 · {formatDay(d.date)}
                 </h2>
               )}
-              <DayWeather d={d} trip={trip} weather={weather} />
-              <DayList d={d} trip={trip} calls={callSet} onSite={onSite} />
+              <DayWeather view={weatherViews[i].view} />
+              <DayList d={d} trip={trip} calls={callSet} onSite={onSite} cautions={weatherViews[i].cautions} />
             </section>
           ))}
           <Checklist o={o} trip={trip} readOnly={!!shared} />
           <section className="mt-8 flex flex-col gap-1.5 text-sm leading-normal text-ink-sub">
+            {source && <p>{source}</p>}
             <p>지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.</p>
             <p>
               {o.days.some((d) => d.estimated) ? "일정의 이동 시간은 카카오 차량 길찾기 값이고, 받지 못한 구간은 직선거리 추정치예요." : "일정의 이동 시간은 카카오 차량 길찾기 값이에요(열 때마다 새로 받아요)."} 이
