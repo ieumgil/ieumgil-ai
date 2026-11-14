@@ -42,7 +42,7 @@ export default function Home() {
               함께 가는 영동 여행
             </h1>
             <p className="text-lead leading-relaxed text-ink-sub lg:max-w-[34rem]">
-              강릉·속초·동해 유명 관광지 중 우리 조건에 맞는 곳만 골라 지도 위 여행 루트로 짜 드려요.
+              강릉·속초·동해 유명 관광지 중 우리 조건에 맞는 곳만 골라, 당일부터 2박 3일까지 지도 위 여행 루트로 짜 드려요.
             </p>
           </header>
 

@@ -30,6 +30,23 @@ test("장소 카드에 사진이 있고, 누르면 크게 보기에 출처(공�
   await expect(dialog).toHaveCount(0);
 });
 
+test("크게 보기 사진은 밀어서·마우스 휠로 넘기고, 번호가 따라 바뀐다", async ({ page }) => {
+  const photo = page.locator("article").first().getByRole("button", { name: /사진 \d+장 크게 보기/ });
+  await expect(photo.getByText(/^\d+$/)).toBeVisible(); // 누를 수 있다는 표시(돋보기 + 장수)
+  await photo.click();
+  const dialog = page.getByRole("dialog");
+  const track = dialog.getByRole("list");
+  // 손가락으로 민 것처럼 옆으로 스크롤 → 번호와 이전 버튼이 따라온다
+  await track.evaluate((el) => el.scrollTo({ left: el.clientWidth }));
+  await expect(dialog.getByText(/^2 \/ \d+$/)).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "이전 사진" })).toBeEnabled();
+  // 마우스 휠(위아래)로도 한 장씩
+  const box = (await track.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.wheel(0, 120);
+  await expect(dialog.getByText(/^3 \/ \d+$/)).toBeVisible();
+});
+
 test("안을 바꾸면 그 안의 일정이 보인다", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText(`일정 ${view.options.length}가지`);
   const second = view.options[1];

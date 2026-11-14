@@ -32,7 +32,7 @@ export function WhenStep() {
       step={1}
       backHref="/"
       title="언제 여행하나요?"
-      description="가는 날과 오는 날을 눌러 주세요. 하루만 누르면 당일 여행이에요."
+      description="가는 날과 오는 날을 눌러 주세요. 하루만 누르면 당일 여행이고, 2박 3일까지 계획할 수 있어요."
       footer={
         <StepFooter
           nextHref="/plan/who"

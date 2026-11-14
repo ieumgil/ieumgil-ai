@@ -3,9 +3,12 @@
 // 관광지 작은 사진 + 크게 보기.
 // - 1유형 대표: 미리 줄여 둔 작은 사진(잘라서 꽉 채움)
 // - 3유형 대표: 관광공사 원본을 그대로 불러와 자르지 않고 통째로(object-contain, 옅은 여백)
-// - 사진이 없거나 못 불러오면 분류 아이콘
-// 누르면 크게 보기: 사진을 옆으로 넘겨 보고, 편의시설 사진은 "편의시설 사진: 화장실"처럼 표시, 사진마다 출처.
-import { Binoculars, ChevronLeft, ChevronRight, Frame, Images, Landmark, Store, Trees, Waves } from "lucide-react";
+// - 사진이 한 장도 없으면 사진 자리를 아예 두지 않는다(빈 칸·아이콘 없이)
+// - 대표로 쓸 사진이 없거나 못 불러오면 분류 아이콘(누르면 편의시설 사진 등은 볼 수 있다)
+// - 누를 수 있다는 걸 알 수 있게 오른쪽 아래에 돋보기 + 장수 표시
+// 누르면 크게 보기: 손가락으로 밀기 · 마우스 휠 · 마우스로 끌기 · 화살표 버튼 · 키보드 ←→로 넘긴다.
+// 편의시설 사진은 "편의시설 사진: 화장실"처럼 표시, 사진마다 출처.
+import { Binoculars, ChevronLeft, ChevronRight, Frame, Images, Landmark, Store, Trees, Waves, ZoomIn } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { photosOf } from "@/lib/places/client-photos";
@@ -34,9 +37,7 @@ export function PlacePhoto({ id, name, category, size = "md", className = "" }: 
     </span>
   );
 
-  if (!data || data.photos.length === 0) {
-    return <span className={box}>{icon}</span>;
-  }
+  if (!data || data.photos.length === 0) return null;
   return (
     <>
       <button
@@ -58,11 +59,10 @@ export function PlacePhoto({ id, name, category, size = "md", className = "" }: 
         ) : (
           icon
         )}
-        {data.photos.length > 1 && (
-          <span className="absolute right-1 bottom-1 rounded-md bg-ink/70 px-1 text-xs font-bold text-white tabular-nums" aria-hidden="true">
-            {data.photos.length}
-          </span>
-        )}
+        <span className="absolute right-1 bottom-1 inline-flex items-center gap-0.5 rounded-md bg-ink/75 px-1 py-px text-xs font-bold text-white tabular-nums" aria-hidden="true">
+          <ZoomIn size={12} strokeWidth={2.5} />
+          {data.photos.length > 1 && data.photos.length}
+        </span>
       </button>
       <PhotoViewer open={open} onOpenChange={setOpen} name={name} photos={data.photos} />
     </>
@@ -71,21 +71,59 @@ export function PlacePhoto({ id, name, category, size = "md", className = "" }: 
 
 function PhotoViewer({ open, onOpenChange, name, photos }: { open: boolean; onOpenChange: (v: boolean) => void; name: string; photos: LabeledPhoto[] }) {
   const [i, setI] = useState(0);
-  const track = useRef<HTMLUListElement>(null);
+  // 대화창은 열린 뒤에 그려지므로 ref 객체 대신 상태로 받아야 넘기기 처리를 붙일 수 있다
+  const [track, setTrack] = useState<HTMLUListElement | null>(null);
+  const last = photos.length - 1;
   const go = (n: number) => {
-    const next = Math.max(0, Math.min(photos.length - 1, n));
+    if (!track) return;
+    const next = Math.max(0, Math.min(last, n));
     setI(next);
-    const el = track.current?.children[next] as HTMLElement | undefined;
-    el?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest", inline: "center" });
+    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    track.scrollTo({ left: next * track.clientWidth, behavior: smooth ? "smooth" : "auto" });
   };
-  // 손가락으로 넘기면 지금 보이는 사진 번호를 맞춘다
+  const goRef = useRef(go);
   useEffect(() => {
-    const el = track.current;
-    if (!open || !el) return;
-    const onScroll = () => setI(Math.round(el.scrollLeft / el.clientWidth));
+    goRef.current = go;
+  });
+
+  useEffect(() => {
+    const el = track;
+    if (!el) return;
+    // 손가락으로 밀거나 끌어서 넘기면 지금 보이는 사진 번호를 맞춘다
+    const onScroll = () => setI(Math.max(0, Math.min(last, Math.round(el.scrollLeft / el.clientWidth))));
+    // 마우스 휠(위아래)로도 한 장씩 넘긴다. 연달아 오는 휠 신호는 한 번으로 친다
+    let lock = 0;
+    const onWheel = (e: WheelEvent) => {
+      const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : 0;
+      if (!d) return; // 옆으로 미는 터치패드는 브라우저가 알아서
+      e.preventDefault();
+      if (Date.now() < lock) return;
+      lock = Date.now() + 350;
+      const now = Math.round(el.scrollLeft / el.clientWidth);
+      goRef.current(now + (d > 0 ? 1 : -1));
+    };
+    // 마우스로 끌어서 넘기기(손가락은 브라우저 기본 밀기)
+    let startX: number | null = null;
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse" && e.button === 0) startX = e.clientX;
+    };
+    const onUp = (e: PointerEvent) => {
+      if (startX === null) return;
+      const dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40) goRef.current(Math.round(el.scrollLeft / el.clientWidth) + (dx < 0 ? 1 : -1));
+    };
     el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, [open]);
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointerup", onUp);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
+    };
+  }, [track, last]);
   const p = photos[i];
 
   return (
@@ -98,8 +136,8 @@ function PhotoViewer({ open, onOpenChange, name, photos }: { open: boolean; onOp
     >
       <DialogContent className="max-w-[calc(100%-1.5rem)] gap-3 rounded-3xl p-4 text-base sm:max-w-[44rem]" onKeyDown={(e) => (e.key === "ArrowRight" ? go(i + 1) : e.key === "ArrowLeft" ? go(i - 1) : undefined)}>
         <DialogTitle className="pr-12 text-lg font-bold">{name} 사진</DialogTitle>
-        <DialogDescription className="sr-only">사진 {photos.length}장. 옆으로 넘기거나 화살표 버튼으로 볼 수 있어요.</DialogDescription>
-        <ul ref={track} className="flex snap-x snap-mandatory overflow-x-auto rounded-2xl bg-surface [scrollbar-width:none]" aria-label={`${name} 사진 목록`}>
+        <DialogDescription className="sr-only">사진 {photos.length}장. 옆으로 밀거나 화살표 버튼으로 넘겨 볼 수 있어요.</DialogDescription>
+        <ul ref={setTrack} className="flex cursor-grab snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-2xl bg-surface select-none [scrollbar-width:none] active:cursor-grabbing" aria-label={`${name} 사진 목록`}>
           {photos.map((x, n) => (
             <li key={x.url} className="w-full shrink-0 snap-center" aria-current={n === i ? "true" : undefined}>
               {/* eslint-disable-next-line @next/next/no-img-element -- 원본을 자르지 않고 그대로 */}
@@ -107,6 +145,7 @@ function PhotoViewer({ open, onOpenChange, name, photos }: { open: boolean; onOp
                 src={x.url}
                 alt={x.kind === "facility" ? `${name} 편의시설 사진: ${FACILITY_LABEL[x.facility ?? "etc"]}` : `${name} 사진 ${n + 1}`}
                 loading={n < 2 ? "eager" : "lazy"}
+                draggable={false}
                 className="mx-auto aspect-[4/3] max-h-[60dvh] w-full object-contain"
               />
             </li>
