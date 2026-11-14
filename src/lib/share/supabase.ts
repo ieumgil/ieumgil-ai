@@ -1,4 +1,4 @@
-// 공유 링크 저장소(서버 전용, 원칙 4). Supabase REST(PostgREST)를 fetch로 부른다 — 서비스 키는 서버 환경변수에만.
+// 공유 링크 저장소(서버 전용, 원칙 4). Supabase REST(PostgREST)를 fetch로 부른다 — 서버 키(secret 또는 예전 service_role)는 서버 환경변수에만.
 // 테이블은 RLS로 외부(anon) 접근을 모두 막고(정책 없음) 서버만 읽고 쓴다: supabase/migrations/ 참고.
 // 행: id · doc(공유할 안 JSON) · expires_at · created_at. 이름·연락처·IP 칸은 없다.
 
@@ -12,7 +12,12 @@ function config(): { url: string; key: string } | null {
 
 export const shareReady = () => config() !== null;
 
-const headers = (key: string) => ({ apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" });
+// 새 Supabase 키(sb_secret_…)는 apikey 헤더에만, 예전 service_role 키(JWT, eyJ…)는 Authorization에도 넣는다
+const headers = (key: string): Record<string, string> => ({
+  apikey: key,
+  ...(key.startsWith("eyJ") ? { Authorization: `Bearer ${key}` } : {}),
+  "Content-Type": "application/json",
+});
 
 /** 저장. 성공하면 true */
 export async function saveShare(id: string, doc: ShareDoc, expires: Date): Promise<boolean> {

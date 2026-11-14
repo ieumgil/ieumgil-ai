@@ -12,16 +12,19 @@ import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { type CallResult, setCallResult, useCallResults } from "@/lib/trip/store";
 import type { OptionView, TripView } from "@/lib/trip/view";
 
-export function Checklist({ o, trip }: { o: OptionView; trip: TripView }) {
+/** readOnly: 공유 링크로 연 화면 — 물어볼 것과 전화만 보여 주고 결과([괜찮대요]/[어렵대요])는 기록하지 않는다 */
+export function Checklist({ o, trip, readOnly = false }: { o: OptionView; trip: TripView; readOnly?: boolean }) {
   const qs = questionsByPlace(o);
   const all = callPlaces(o);
-  const results = useCallResults(trip);
+  const saved = useCallResults(trip);
+  const results = readOnly ? {} : saved;
   if (all.length === 0) return null;
   const done = all.filter((id) => results[id]).length;
   const hard = all.filter((id) => results[id] === "hard").length;
   const left = all.length - done;
-  const status =
-    left > 0
+  const status = readOnly
+    ? `${all.length}곳에 출발 전 전화로 물어볼 것이 있어요.`
+    : left > 0
       ? `${all.length}곳 중 ${done}곳 확인했어요 · 남은 곳 ${left}곳${hard ? ` · 어렵다고 한 곳 ${hard}곳` : ""}`
       : hard
         ? `모두 확인했어요. 어렵다고 한 곳 ${hard}곳은 다른 곳으로 바꾸는 게 좋아요.`
@@ -35,10 +38,10 @@ export function Checklist({ o, trip }: { o: OptionView; trip: TripView }) {
       <p className="mt-1 text-base text-ink-sub" aria-live="polite">
         {status}
       </p>
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-line print:hidden" aria-hidden="true">
+      {!readOnly && <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-line print:hidden" aria-hidden="true">
         <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${(done / all.length) * 100}%` }} />
-      </div>
-      {left === 0 && hard === 0 && (
+      </div>}
+      {!readOnly && left === 0 && hard === 0 && (
         <p className="mt-4 flex animate-rise items-start gap-3 rounded-2xl bg-primary-soft p-4 text-base text-primary-ink">
           <CircleCheck size={22} className="mt-0.5 shrink-0" aria-hidden="true" />
           <span>
@@ -60,7 +63,7 @@ export function Checklist({ o, trip }: { o: OptionView; trip: TripView }) {
             )}
             <ul className="mt-2 flex flex-col gap-3">
               {ids.map((id) => (
-                <CallItem key={id} trip={trip} id={id} no={visits.findIndex((v) => v.placeId === id) + 1} questions={qs.get(id)!} result={results[id]} />
+                <CallItem key={id} trip={trip} id={id} no={visits.findIndex((v) => v.placeId === id) + 1} questions={qs.get(id)!} result={results[id]} readOnly={readOnly} />
               ))}
             </ul>
           </div>
@@ -72,7 +75,7 @@ export function Checklist({ o, trip }: { o: OptionView; trip: TripView }) {
 
 const RESULT_TEXT: Record<CallResult, string> = { ok: "괜찮다고 했어요", hard: "어렵다고 했어요" };
 
-function CallItem({ trip, id, no, questions, result }: { trip: TripView; id: string; no: number; questions: string[]; result?: CallResult }) {
+function CallItem({ trip, id, no, questions, result, readOnly }: { trip: TripView; id: string; no: number; questions: string[]; result?: CallResult; readOnly?: boolean }) {
   const p = trip.places[id];
   const j = trip.judgments[id];
   const choose = (r: CallResult) => setCallResult(trip, id, result === r ? null : r);
@@ -113,10 +116,10 @@ function CallItem({ trip, id, no, questions, result }: { trip: TripView; id: str
         ☎ {p.phone}
         {result ? ` · 확인 결과: ${RESULT_TEXT[result]}` : ""}
       </p>
-      <div className="mt-2 flex gap-2 print:hidden" role="group" aria-label={`${p.name} 전화 결과`}>
+      {!readOnly && <div className="mt-2 flex gap-2 print:hidden" role="group" aria-label={`${p.name} 전화 결과`}>
         {choice("ok", <Check size={18} aria-hidden="true" />, "괜찮대요", "bg-primary text-white")}
         {choice("hard", <X size={18} aria-hidden="true" />, "어렵대요", "bg-caution-bg text-caution-ink ring-1 ring-caution-ink/40")}
-      </div>
+      </div>}
       {result === "hard" && (
         <div className="mt-3 flex animate-rise flex-col gap-2 rounded-xl bg-caution-bg p-3 text-base text-caution-ink print:hidden">
           <p className="flex items-start gap-2">

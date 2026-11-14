@@ -50,7 +50,8 @@ function Final({ trip }: { trip: TripView }) {
   return <FinalOption trip={trip} o={edited[base.id] ?? base} />;
 }
 
-function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
+/** shared: 공유 링크로 연 읽기 전용(다른 안 보기·공유·전화 결과 기록 없음). until = 열려 있는 마지막 날 */
+export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: OptionView; shared?: { until: string } }) {
   // 보관된 안(추정 시각) → 열 때 받은 실제 이동시간으로 다시 계산해 보여준다(저장 안 함)
   const [o] = useRealTravel(trip, [kept]);
   const [dayIndex, setDayIndex] = useState(0);
@@ -65,17 +66,19 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem]">
       <div className="px-5 pt-4 print:hidden">
-        <TopBar backHref={tripHref(trip)} backLabel="일정 비교 화면으로" />
+        {shared ? <TopBar backHref="/" backLabel="이음길 처음 화면으로" /> : <TopBar backHref={tripHref(trip)} backLabel="일정 비교 화면으로" />}
       </div>
 
       <header className="animate-rise px-5 pt-5">
-        <div className="flex flex-wrap items-center justify-between gap-2 print:hidden">
-          <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
-            <ArrowLeft size={18} aria-hidden="true" />
-            다른 안 보기
-          </Link>
+        <div className={`flex flex-wrap items-center gap-2 print:hidden ${shared ? "justify-end" : "justify-between"}`}>
+          {!shared && (
+            <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
+              <ArrowLeft size={18} aria-hidden="true" />
+              다른 안 보기
+            </Link>
+          )}
           <div className="flex flex-wrap gap-1">
-            <ShareButton trip={trip} o={kept} />
+            {!shared && <ShareButton trip={trip} o={kept} />}
             <Button variant="ghost" size="sm" onClick={() => window.print()}>
               <Printer aria-hidden="true" />
               인쇄·PDF로 저장
@@ -84,7 +87,7 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
         </div>
         <p className="mt-3 flex items-center gap-1.5 text-sm font-bold text-primary-ink">
           <CircleCheck size={16} aria-hidden="true" />
-          확정한 일정
+          {shared ? "공유받은 일정 · 읽기 전용" : "확정한 일정"}
         </p>
         <h1 className="mt-1 text-title font-bold">{o.title}</h1>
         <p className="mt-1 text-base text-ink-sub">
@@ -128,12 +131,12 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
               <DayList d={d} trip={trip} calls={callSet} onSite={onSite} />
             </section>
           ))}
-          <Checklist o={o} trip={trip} />
+          <Checklist o={o} trip={trip} readOnly={!!shared} />
           <section className="mt-8 flex flex-col gap-1.5 text-sm leading-normal text-ink-sub">
             <p>지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.</p>
             <p>
               {o.days.some((d) => d.estimated) ? "일정의 이동 시간은 카카오 차량 길찾기 값이고, 받지 못한 구간은 직선거리 추정치예요." : "일정의 이동 시간은 카카오 차량 길찾기 값이에요(열 때마다 새로 받아요)."} 이
-              일정은 이 탭에만 보관돼요.
+              {shared ? `공유 링크는 ${shared.until}까지 열려요.` : "일정은 이 탭에만 보관돼요."}
             </p>
           </section>
         </div>

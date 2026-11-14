@@ -41,7 +41,7 @@ describe("POST /api/trips", () => {
     expect(init?.method).toBe("POST");
     const headers = new Headers(init?.headers);
     expect(headers.get("apikey")).toBe("service-key");
-    expect(headers.get("Authorization")).toBe("Bearer service-key");
+    expect(headers.get("Authorization")).toBeNull(); // 새 secret 키는 apikey에만
     const row = JSON.parse(String(init?.body)) as { id: string; doc: unknown; expires_at: string };
     expect(row).toEqual({ id: body.id, doc, expires_at: body.expiresAt }); // 이름·IP 같은 칸 없음
   });
@@ -63,5 +63,16 @@ describe("POST /api/trips", () => {
     vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "service-key");
     vi.stubGlobal("fetch", vi.fn(async () => new Response("down", { status: 500 })));
     expect((await POST(req(doc))).status).toBe(502);
+  });
+
+  it("예전 service_role 키(JWT)면 Authorization에도 넣는다", async () => {
+    vi.stubEnv("SUPABASE_URL", "https://example.supabase.co/");
+    vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "eyJhbGciOi.test.key");
+    const fetchMock = vi.fn<(url: string | URL | Request, init?: RequestInit) => Promise<Response>>(async () => new Response(null, { status: 201 }));
+    vi.stubGlobal("fetch", fetchMock);
+    expect((await POST(req(doc))).status).toBe(200);
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(String(url)).toBe("https://example.supabase.co/rest/v1/trips"); // 끝의 / 정리
+    expect(new Headers(init?.headers).get("Authorization")).toBe("Bearer eyJhbGciOi.test.key");
   });
 });

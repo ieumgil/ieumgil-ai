@@ -229,7 +229,7 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
   };
 }
 
-function toPlaceView(p: Place): PlaceView {
+export function toPlaceView(p: Place): PlaceView {
   return {
     id: p.id,
     name: p.name_ko,
