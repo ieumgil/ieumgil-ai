@@ -11,6 +11,7 @@ import { ScrollTop } from "@/components/ScrollTop";
 import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { Checklist } from "@/components/trip/Checklist";
+import { DayWeather } from "@/components/trip/DayWeather";
 import { DayList } from "@/components/trip/FinalDayList";
 import { PrintSheet } from "@/components/trip/PrintSheet";
 import { ShareButton } from "@/components/trip/ShareButton";
@@ -23,6 +24,7 @@ import { dayMapLabel, dayMapPoints, dayStopDetails, showStopInList } from "@/lib
 import { callPlaces, onSiteByPlace } from "@/lib/trip/questions";
 import { useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
 import type { OptionView, TripView } from "@/lib/trip/view";
+import { useWeather } from "@/lib/weather/use-weather";
 
 export function FinalScreen() {
   const { id } = useParams<{ id: string }>();
@@ -55,6 +57,8 @@ function Final({ trip }: { trip: TripView }) {
 export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: OptionView; shared?: { until: string; link?: string } }) {
   // 보관된 안(추정 시각) → 열 때 받은 실제 이동시간으로 다시 계산해 보여준다(저장 안 함)
   const [o] = useRealTravel(trip, [kept]);
+  // 날씨는 열 때 받아 화면 메모리에만 둔다(저장 안 함). 못 받으면 날씨 줄만 빠진다
+  const weather = useWeather();
   const [dayIndex, setDayIndex] = useState(0);
   const day = o.days[dayIndex] ?? o.days[0];
   // 날짜·장소가 바뀔 때만 새 배열 → 그때만 지도를 다시 그린다
@@ -132,6 +136,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
                   {i + 1}일째 · {formatDay(d.date)}
                 </h2>
               )}
+              <DayWeather d={d} trip={trip} weather={weather} />
               <DayList d={d} trip={trip} calls={callSet} onSite={onSite} />
             </section>
           ))}
