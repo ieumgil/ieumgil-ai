@@ -50,3 +50,30 @@ describe("routeLine(카카오 다중 경유지)", () => {
     expect(await routeLine([station, ojuk])).toBeNull();
   });
 });
+
+describe("POST /api/legs · routeLegs(구간별 실제 이동시간)", () => {
+  it("영동권 밖 좌표는 받지 않고, 키가 없으면 null(화면은 추정), 저장하지 않는다", async () => {
+    const { POST: legs } = await import("@/app/api/legs/route");
+    const r = (body: unknown) => new Request("http://localhost/api/legs", { method: "POST", body: JSON.stringify(body) });
+    expect((await legs(r({ days: [{ points: [{ lat: 0, lng: 0 }, station] }] }))).status).toBe(400);
+    vi.stubEnv("KAKAO_REST_API_KEY", "");
+    const res = await legs(r({ days: [{ points: [station, ojuk, station] }] }));
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+    expect(await res.json()).toEqual({ days: [null] });
+  });
+
+  it("구간마다 분(카카오 소요 + 주차·승하차 5분)·km, 구간 수가 지점 수 - 1이 아니면 null", async () => {
+    const { routeLegs } = await import("@/lib/kakao");
+    vi.stubEnv("KAKAO_REST_API_KEY", "test-key");
+    const sections = [
+      { distance: 2_900, duration: 480, roads: [] },
+      { distance: 3_100, duration: 540, roads: [] },
+    ];
+    vi.stubGlobal("fetch", vi.fn(async () => Response.json({ routes: [{ result_code: 0, result_msg: "ok", summary: { distance: 6_000, duration: 1_020 }, sections }] })));
+    expect(await routeLegs([station, ojuk, station])).toEqual([
+      { minutes: 13, km: 2.9 },
+      { minutes: 14, km: 3.1 },
+    ]);
+    expect(await routeLegs([station, ojuk, station, ojuk])).toBeNull();
+  });
+});

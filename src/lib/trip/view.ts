@@ -1,5 +1,5 @@
 // 결과 화면에 넘길 값(JSON으로 직렬화 가능). 서버(/api/plan)가 만들고 화면(/trip/[id])이 그린다.
-// 카카오 길찾기 결과는 넣지 않는다(지금은 직선거리 추정만 씀). 개인정보 없음.
+// 카카오 길찾기 결과는 넣지 않는다(탭에 보관하는 시각은 직선거리 추정, 화면은 열 때 real-travel.ts로 실제 값을 받아 다시 계산). 개인정보 없음.
 // 장소 바꾸기(대체 후보)는 화면에서 코드로 다시 계산한다 → 그때 필요한 하루 틀·장소 정보·초안도 함께 싣는다.
 
 import type { Confidence, Verdict } from "../ai/guards";
@@ -31,6 +31,8 @@ export interface DayView {
   travelMin: number;
   estimated: boolean;
   items: ItemView[];
+  /** 실제 이동시간(카카오)으로 다시 계산했더니 넘치는 경우 그 내용(화면 메모리에서만, 저장 안 함) */
+  realIssue?: string;
 }
 
 export interface OptionView {

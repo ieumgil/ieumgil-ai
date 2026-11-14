@@ -2,7 +2,7 @@
 
 // 확정 일정: 정한 안 하나와 지도만(다른 안·비교·설계 과정은 뺀다). 장소를 바꿨으면 바꾼 일정으로 보여준다.
 // 모바일: 위 지도 + 아래 일정, PC: 왼쪽 지도 + 오른쪽 일정. 지도 경로선은 열 때마다 받고 저장하지 않는다.
-// 시각은 모두 코드가 계산한 값(이동시간은 직선거리 어림)이고, 경로선은 "일반 차량 경로"다.
+// 시각은 모두 코드가 계산한 값(이동시간은 열 때 받은 카카오 실제 값, 못 받으면 직선거리 어림, 저장 안 함)이고, 경로선은 "일반 차량 경로"다.
 import { ArrowLeft, CircleCheck, Printer } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -15,6 +15,7 @@ import { Button, ButtonLink } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { tripHref, useTripFor } from "@/lib/trip/example";
+import { useRealTravel } from "@/lib/trip/real-travel";
 import { dayMapLabel, dayMapPoints } from "@/lib/trip/map-points";
 import { callPlaces } from "@/lib/trip/questions";
 import { useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
@@ -47,7 +48,9 @@ function Final({ trip }: { trip: TripView }) {
   return <FinalOption trip={trip} o={edited[base.id] ?? base} />;
 }
 
-function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
+function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
+  // 보관된 안(추정 시각) → 열 때 받은 실제 이동시간으로 다시 계산해 보여준다(저장 안 함)
+  const [o] = useRealTravel(trip, [kept]);
   const [dayIndex, setDayIndex] = useState(0);
   const day = o.days[dayIndex] ?? o.days[0];
   // 날짜·장소가 바뀔 때만 새 배열 → 그때만 지도를 다시 그린다
@@ -115,7 +118,10 @@ function FinalOption({ trip, o }: { trip: TripView; o: OptionView }) {
           <Checklist o={o} trip={trip} />
           <section className="mt-8 flex flex-col gap-1.5 text-sm leading-normal text-ink-sub">
             <p>지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.</p>
-            <p>일정의 이동 시간은 직선거리로 어림한 추정치예요. 이 일정은 이 탭에만 보관돼요.</p>
+            <p>
+              {o.days.some((d) => d.estimated) ? "일정의 이동 시간은 카카오 차량 길찾기 값이고, 받지 못한 구간은 직선거리 추정치예요." : "일정의 이동 시간은 카카오 차량 길찾기 값이에요(열 때마다 새로 받아요)."} 이
+              일정은 이 탭에만 보관돼요.
+            </p>
           </section>
         </div>
       </div>

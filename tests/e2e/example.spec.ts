@@ -10,6 +10,7 @@ const ownView = JSON.parse(own) as { createdAt: string; options: { id: string; t
 async function setup(page: Page) {
   await page.route("https://dapi.kakao.com/**", (r) => r.abort());
   await page.route("**/api/route-line", (r) => r.fulfill({ json: { days: [null] } }));
+  await page.route("**/api/legs", (r) => r.fulfill({ json: { days: [] } })); // 실제 이동시간 없음 → 추정 그대로
   await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort());
   let planCalled = false;
   await page.route("**/api/plan", (r) => {

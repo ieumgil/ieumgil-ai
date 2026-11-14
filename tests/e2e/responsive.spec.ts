@@ -11,6 +11,7 @@ test.beforeEach(async ({ page }, info) => {
   test.skip(info.project.name !== "desktop", "너비를 직접 바꿔 보는 테스트라 PC 프로젝트에서만");
   await page.route("https://dapi.kakao.com/**", (r) => r.abort());
   await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort()); // 관광공사 원본 사진(외부 호출 없음)
+  await page.route("**/api/legs", (r) => r.fulfill({ json: { days: [] } })); // 실제 이동시간 없음 → 추정 그대로
   await page.addInitScript(
     ([t, p]) => {
       sessionStorage.setItem("ieumgil-trip", t);

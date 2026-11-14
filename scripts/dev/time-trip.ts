@@ -5,6 +5,7 @@ import evidence from "../../data/evidence.json";
 import places from "../../data/places.json";
 import { makeTrip } from "../../src/lib/ai/trip";
 import { estimateLeg } from "../../src/lib/engine/travel";
+import { routeLegs } from "../../src/lib/kakao";
 import { getLlm, type LlmClient, type LlmRequest } from "../../src/lib/llm";
 import { EMPTY_PLAN, type PlanInput } from "../../src/lib/plan/types";
 import type { Place } from "../../src/lib/types";
@@ -32,9 +33,11 @@ async function main() {
       return r;
     },
   };
+  // 서비스와 같이 카카오 실제 이동시간으로 다시 검사(--no-kakao면 빼고)
+  const realLegs = process.argv.includes("--no-kakao") ? undefined : (days: { lat: number; lng: number }[][]) => Promise.all(days.map((pts) => routeLegs(pts)));
   const r = await makeTrip(llm, input, places as unknown as Place[], evidence, estimateLeg, (ev) => {
     if (ev.stage === "log") console.log(`    · ${ev.text}`);
-  });
+  }, { realLegs });
   console.log(`총 ${Math.round((Date.now() - t0) / 1000)}초 · 안 ${r.options.length}개 · AI ${r.calls}회 · ${length}`);
 }
 

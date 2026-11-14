@@ -10,6 +10,7 @@ test.beforeEach(async ({ page }) => {
   // 안 비교 화면에도 지도가 있다: 카카오 지도 SDK·경로선은 가짜로 막는다(외부 호출 없음)
   await page.route("https://dapi.kakao.com/**", (r) => r.abort());
   await page.route("**/api/route-line", (r) => r.fulfill({ json: { days: [null] } }));
+  await page.route("**/api/legs", (r) => r.fulfill({ json: { days: [] } })); // 실제 이동시간 없음 → 추정 그대로
   // 관광공사 원본 사진(3유형·크게 보기)도 막는다 → 못 불러오면 분류 아이콘. 1유형 작은 사진은 저장소 파일(/photos)
   await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort());
   await page.addInitScript((t) => sessionStorage.setItem("ieumgil-trip", t), trip);
@@ -128,4 +129,21 @@ test("버튼 모양 링크도 키보드 포커스 테두리가 보인다", async
   await page.keyboard.press("Tab");
   const style = await link.evaluate((el) => getComputedStyle(el).outlineStyle);
   expect(style).not.toBe("none");
+});
+
+test("열면 카카오 실제 이동시간을 받아 시각을 다시 계산하고 '추정'을 뗀다(탭에는 저장 안 함)", async ({ page }) => {
+  const asked: string[] = [];
+  await page.route("**/api/legs", (r) => {
+    const body = JSON.parse(r.request().postData() ?? "{}") as { days: { points: unknown[] }[] };
+    asked.push(r.request().postData() ?? "");
+    return r.fulfill({ json: { days: body.days.map((d) => d.points.slice(1).map(() => ({ minutes: 7, km: 2.5 }))) } });
+  });
+  await page.reload();
+  const detail = page.locator("section[aria-label$='일정']").first();
+  await expect(detail.getByText("차량 약 7분 · 2.5km").first()).toBeVisible();
+  await expect(detail.getByText(/· 추정$/)).toHaveCount(0);
+  await expect(page.getByText("열 때마다 새로 받아요")).toBeVisible();
+  expect(asked.length).toBeGreaterThan(0);
+  const stored = await page.evaluate(() => JSON.stringify(sessionStorage));
+  expect(stored).not.toContain('"km":2.5');
 });

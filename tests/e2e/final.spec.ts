@@ -10,6 +10,7 @@ async function setup(page: Page, confirmed?: string) {
   await page.route("https://dapi.kakao.com/**", (r) => r.abort());
   await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort()); // 관광공사 원본 사진(외부 호출 없음)
   await page.route("**/api/route-line", (r) => r.fulfill({ json: { days: [null] } }));
+  await page.route("**/api/legs", (r) => r.fulfill({ json: { days: [] } })); // 실제 이동시간 없음 → 추정 그대로
   await page.addInitScript(
     ([t, c]) => {
       sessionStorage.setItem("ieumgil-trip", t);

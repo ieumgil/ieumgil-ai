@@ -7,6 +7,7 @@ import evidence from "../../../../data/evidence.json";
 import places from "../../../../data/places.json";
 import { makeTrip, type TripEvent } from "@/lib/ai/trip";
 import { estimateLeg } from "@/lib/engine/travel";
+import { routeLegs } from "@/lib/kakao";
 import { getLlm } from "@/lib/llm";
 import { nightsOf, tasteDone, whenDone, whoDone } from "@/lib/plan/progress";
 import { EMPTY_PLAN, type PlanInput } from "@/lib/plan/types";
@@ -63,7 +64,9 @@ export async function POST(request: Request) {
       const send = (obj: unknown) => controller.enqueue(encoder.encode(JSON.stringify(obj) + "\n"));
       try {
         const llm = getLlm();
-        const trip = await makeTrip(llm, input, PLACES, evidence, estimateLeg, (ev: TripEvent) => send(ev));
+        // 카카오 실제 이동시간은 검사·시간 맞추기에만 쓰고 결과에는 넣지 않는다(화면은 열 때 /api/legs로 다시 받는다)
+        const realLegs = (days: { lat: number; lng: number }[][]) => Promise.all(days.map((pts) => routeLegs(pts)));
+        const trip = await makeTrip(llm, input, PLACES, evidence, estimateLeg, (ev: TripEvent) => send(ev), { realLegs });
         send({ stage: "done", trip: toTripView(trip, input, PLACES, evidence) });
       } catch (err) {
         console.error("[api/plan]", err);

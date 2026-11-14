@@ -3,7 +3,8 @@
 // 결과 화면: AI가 만든 일정 2~3안 비교 → 고른 안의 날짜별 타임라인 → 이 일정으로 정하기.
 // 가독성 원칙: 카드에는 핵심(시각·이름·판단·한 줄 이유·전화)만, 나머지는 [자세히]로 펼친다.
 // 장소마다 [바꾸기]로 AI가 이미 판단한 근처 후보로 바꿀 수 있다(AI·서버 호출 없이 코드가 시각을 다시 계산·검사).
-// 시각은 모두 코드가 계산한 값이고, 이동시간은 지금 직선거리 추정치라 '약'과 '추정'을 붙인다.
+// 시각은 모두 코드가 계산한 값이다. 이동시간은 열 때마다 카카오 실제 값을 받아 다시 계산하고(저장 안 함), 못 받은 구간만 '추정'.
+// 탭에 보관·바꾸기·확정에는 추정 기준 안(option)을 쓰고, 화면에만 실제 시간으로 다시 계산한 안(shown)을 보여준다.
 // 배치(창 너비에 따라 바로 바뀐다):
 // - 휴대폰·태블릿(<1024px): 요약 → 안 고르기 → 고른 안(제목 → 날짜 탭 → 지도 → 타임라인), 아래에 확정 버튼 고정
 // - PC(1024px~): 왼쪽 요약·안 고르기·확정 버튼(고정) + 오른쪽 고른 안(지도는 날짜 탭 아래)
@@ -26,6 +27,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { euro } from "@/lib/text/particle";
 import { swapPlace } from "@/lib/trip/edit";
 import { tripHref, useTripFor } from "@/lib/trip/example";
+import { useRealTravel } from "@/lib/trip/real-travel";
 import { dayMapLabel, dayMapPoints } from "@/lib/trip/map-points";
 import { confirmOption, isExampleTrip, saveEditedOption, useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
 import type { TripView } from "@/lib/trip/view";
@@ -73,6 +75,9 @@ function TripResult({ trip: base }: { trip: TripView }) {
   // 안을 바꿀 때는 눈에 보이는 배너 없이 화면 읽기 프로그램에만 알린다(화면은 그 일정으로 내려간다)
   const [announce, setAnnounce] = useState("");
   const option = trip.options.find((o) => o.id === selected) ?? trip.options[0];
+  const real = useRealTravel(base, trip.options);
+  const shownTrip: TripView = { ...trip, options: real };
+  const shown = real.find((o) => o.id === option.id) ?? option;
   const example = isExampleTrip(base);
   const finalHref = `${tripHref(base)}/final`;
   const [dayIndex, setDayIndex] = useState(0);
@@ -124,7 +129,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
         {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 정하기(PC) */}
         <aside className="lg:sticky lg:top-4 lg:self-start">
           <Summary trip={trip} />
-          {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
+          {trip.options.length > 1 && <OptionPicker trip={shownTrip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
           <div className="mt-4 hidden lg:block">
             <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} single={trip.options.length === 1} finalHref={finalHref} />
           </div>
@@ -148,8 +153,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
               </p>
             )}
           </div>
-          <OptionDetail o={option} trip={trip} onSwap={setSwapFor} day={day} onDay={setDayIndex} map={wide ? null : map} />
-          <Footnotes trip={trip} />
+          <OptionDetail o={shown} trip={trip} onSwap={setSwapFor} day={day} onDay={setDayIndex} map={wide ? null : map} />
+          <Footnotes trip={trip} estimated={shown.days.some((d) => d.estimated)} />
         </section>
 
         {/* 넓은 PC: 오른쪽 지도 칸(스크롤해도 고정) */}

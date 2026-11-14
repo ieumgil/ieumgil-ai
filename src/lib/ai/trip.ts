@@ -3,15 +3,21 @@
 // 3) ② 판단 4) ③ 일정 2~3안 + 검사·수정 5) 평가자 6) 안이 하나도 없으면 규칙 일정 1안
 // 전체 시간 한도(기본 90초, 배포 서버는 120초에 끊는다): 판단은 한도의 절반까지, 남은 시간이 모자라면
 // 덜 중요한 단계부터 건너뛴다(평가 후 다시 짜기 → 평가 → 걸린 안 다시 짜기). 검사를 통과한 안만 나가는 건 그대로.
+// 마지막에 안·날짜마다 카카오 실제 이동시간(realLegs)으로 다시 검사하고, 넘치면 코드가 시간을 맞춘다(체류 줄이기 → 장소 빼기).
+// 카카오 값은 이 검사에만 쓰고 버린다(결과에 넣지 않음, 화면은 열 때 다시 받는다).
 
+import { checkPlan, type CheckContext } from "../engine/check";
 import { rulePlan, type RulePlan } from "../engine/fallback";
+import { addLegs, dayPoints, tableTravel, type LegTable, type RealLeg } from "../engine/real-travel";
+import { repairTiming } from "../engine/repair";
 import type { Candidate } from "../engine/filter";
 import { haversineKm } from "../engine/travel";
 import { timelineOptions } from "../engine/timeline";
-import type { DayFrame, TravelFn } from "../engine/types";
+import type { DayFrame, Point, TravelFn } from "../engine/types";
 import type { LlmClient } from "../llm";
 import type { PlanInput } from "../plan/types";
 import type { Place } from "../types";
+import type { Verdict } from "./guards";
 import { judgePlaces, type EvidenceIndex, type JudgeResult } from "./judge";
 import { pickStrategies, planOptions, type PlanOption, type PlanResult, type Strategy } from "./plan";
 import { reviewOptions, type Review } from "./review";
@@ -54,6 +60,51 @@ export function selectForLlm(candidates: Candidate[], frames: DayFrame[], max = 
   return [...picked.values()].slice(0, Math.max(max, picked.size));
 }
 
+/**
+ * 안마다 카카오 실제 이동시간으로 다시 검사. 넘치면 시간 맞추기(체류 → 장소 빼기, 꼭 가고 싶은 곳은 남김).
+ * 맞추지 못하면 그 안은 그대로 두고(추정으로는 통과) 기록만 남긴다. 저장되는 검사 결과는 추정 기준(카카오 값은 버림).
+ */
+export async function withRealTravel(
+  options: PlanOption[],
+  ctx: CheckContext,
+  realLegs: (days: Point[][]) => Promise<(RealLeg[] | null)[]>,
+  keep: ReadonlySet<string>,
+  log: (text: string, tone?: LogTone) => void = () => {},
+): Promise<PlanOption[]> {
+  const days = options.flatMap((o) => o.draft.days.map((d, i) => dayPoints(ctx.frames[i], d, ctx.placesById)));
+  const legs = await realLegs(days).catch(() => [] as (RealLeg[] | null)[]);
+  const table: LegTable = new Map();
+  days.forEach((pts, i) => {
+    const l = legs[i];
+    if (l) addLegs(table, pts, l);
+  });
+  if (table.size === 0) {
+    log("실제 이동시간(카카오)을 받지 못해 추정 시간으로 계산했어요", "fix");
+    return options;
+  }
+  const real: CheckContext = { ...ctx, travel: tableTravel(table, ctx.travel) };
+  let checked = 0;
+  const out = options.map((o) => {
+    const check = checkPlan(o.draft, real);
+    checked++;
+    if (check.ok) return o;
+    const fixed = repairTiming(o.draft, real, keep);
+    if (!fixed) {
+      log(`${o.id === "R" ? "기본" : o.id}안: 실제 이동시간으로는 빠듯한 날이 있어요`, "fix");
+      return o;
+    }
+    log(`${o.id === "R" ? "기본" : o.id}안: 실제 이동시간이 길어 프로그램이 시간을 맞췄어요`, "fix");
+    return {
+      ...o,
+      draft: fixed.draft,
+      check: checkPlan(fixed.draft, ctx),
+      fixedViolations: [...o.fixedViolations, ...check.violations.map((v) => `실제 이동시간 기준 ${v.day}일째: ${v.message}`), ...fixed.notes],
+    };
+  });
+  if (checked) log("실제 차량 이동시간(카카오)으로 한 번 더 검사했어요", "ok");
+  return out;
+}
+
 export function ruleOption(rule: RulePlan): PlanOption {
   return {
     id: "R",
@@ -88,7 +139,11 @@ export async function makeTrip(
   evidence: EvidenceIndex,
   travel: TravelFn,
   onEvent: (ev: TripEvent) => void = () => {},
-  opts: { budgetMs?: number } = {},
+  opts: {
+    budgetMs?: number;
+    /** 날짜마다 지점 순서(출발 → 장소 → 도착)의 실제 구간 이동(카카오). 못 받은 날은 null. 없으면 추정만 */
+    realLegs?: (days: Point[][]) => Promise<(RealLeg[] | null)[]>;
+  } = {},
 ): Promise<TripResult> {
   const t0 = Date.now();
   const budget = opts.budgetMs ?? TRIP_BUDGET_MS;
@@ -106,6 +161,20 @@ export async function makeTrip(
   log(`그중 동선이 좋은 ${llmCandidates.length}곳을 AI에게 넘겨요`);
   onEvent({ stage: "candidates", names: llmCandidates.map((c) => c.place.name_ko) });
 
+  /** 카카오 실제 이동시간으로 다시 검사(시간이 남았고 realLegs가 있을 때만) */
+  const realCheck = async (list: PlanOption[]): Promise<PlanOption[]> => {
+    if (!opts.realLegs || left() <= 8_000) return list;
+    const ctx: CheckContext = {
+      frames: rule.frames,
+      placesById,
+      travel,
+      options: timelineOptions(input),
+      verdicts: judgeVerdicts,
+    };
+    return withRealTravel(list, ctx, opts.realLegs, new Set(input.mustVisit), log);
+  };
+  const judgeVerdicts = new Map<string, Verdict>();
+
   onEvent({ stage: "judge" });
   const judge = await judgePlaces(
     until(t0 + budget * SHARE.judge),
@@ -115,8 +184,10 @@ export async function makeTrip(
   calls += judge.calls;
   if (judge.failedCalls === judge.calls) {
     log("AI 판단을 받지 못해 규칙으로 일정을 만들어요", "fix");
-    return { rule, llmCandidates, judge, reviews: [], options: [ruleOption(rule)], usedFallback: true, calls, ms: Date.now() - t0 };
+    const options = await realCheck([ruleOption(rule)]);
+    return { rule, llmCandidates, judge, reviews: [], options, usedFallback: true, calls, ms: Date.now() - t0 };
   }
+  judge.judgments.forEach((j, id) => judgeVerdicts.set(id, j.verdict));
   const counts = new Map<string, number>();
   judge.judgments.forEach((j) => counts.set(j.verdict, (counts.get(j.verdict) ?? 0) + 1));
   log(["적합", "주의", "확인 필요", "부적합"].filter((v) => counts.get(v)).map((v) => `${v} ${counts.get(v)}`).join(" · "), "ok");
@@ -170,7 +241,7 @@ export async function makeTrip(
     }
   }
 
-  const options = plan.options.length ? plan.options : [ruleOption(rule)];
+  const options = await realCheck(plan.options.length ? plan.options : [ruleOption(rule)]);
   return {
     rule,
     llmCandidates,

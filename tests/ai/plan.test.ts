@@ -144,3 +144,41 @@ describe("2박 3일은 1안(11/14)", () => {
     expect(llmCandidateMax(3)).toBe(30);
   });
 });
+
+describe("카카오 실제 이동시간으로 다시 검사", () => {
+  const down = createLlm({ transport: async () => Promise.reject(Object.assign(new Error("down"), { status: 400 })), sleep: async () => {} });
+
+  it("날짜마다 출발 → 장소 → 도착 순서로 실제 이동시간을 묻고, 비슷하면 안을 그대로 둔다", async () => {
+    const asked: { lat: number; lng: number }[][] = [];
+    const logs: string[] = [];
+    const r = await makeTrip(down, inp, places, {}, estimateLeg, (e) => void ("text" in e && logs.push(e.text)), {
+      realLegs: async (days) => {
+        asked.push(...days);
+        return days.map((pts) => pts.slice(1).map((p, i) => estimateLeg(pts[i] as never, p as never))); // 추정과 같은 값
+      },
+    });
+    const o = r.options[0];
+    expect(asked).toHaveLength(o.draft.days.length);
+    expect(asked[0][0]).toMatchObject({ lat: r.rule.frames[0].start.lat, lng: r.rule.frames[0].start.lng });
+    expect(asked[0]).toHaveLength(o.draft.days[0].stops.length + 2);
+    expect(logs.some((t) => t.includes("실제 차량 이동시간"))).toBe(true);
+    expect(o.draft).toEqual(r.rule.draft);
+  });
+
+  it("실제 이동시간이 길어 넘치면 코드가 시간을 맞춘 안으로 바꾸고, 그 안은 실제 시간으로도 통과한다", async () => {
+    const slow = (days: { lat: number; lng: number }[][]) => Promise.resolve(days.map((pts) => pts.slice(1).map(() => ({ minutes: 45, km: 20 }))));
+    const longInp = input({ travelers: ["wheelchair"], pace: "busy" });
+    const r = await makeTrip(down, longInp, places, {}, estimateLeg, () => {}, { realLegs: slow });
+    const o = r.options[0];
+    const before = r.rule.draft.days[0].stops.length;
+    expect(o.draft.days[0].stops.length).toBeLessThanOrEqual(before);
+    if (o.draft.days[0].stops.length < before || o.fixedViolations.length) expect(o.fixedViolations.join(" ")).toContain("실제 이동시간");
+  });
+
+  it("실제 이동시간을 못 받으면(null) 추정 그대로 두고 그렇다고 남긴다", async () => {
+    const logs: string[] = [];
+    const r = await makeTrip(down, inp, places, {}, estimateLeg, (e) => void ("text" in e && logs.push(e.text)), { realLegs: async (days) => days.map(() => null) });
+    expect(r.options[0].draft).toEqual(r.rule.draft);
+    expect(logs.some((t) => t.includes("받지 못해"))).toBe(true);
+  });
+});

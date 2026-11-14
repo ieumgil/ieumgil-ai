@@ -28,6 +28,9 @@ export function haversineKm(a: { lat: number; lng: number }, b: { lat: number; l
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 
+/** 구간마다 더하는 주차·승하차 시간(분). 카카오 실제 이동시간에도 같은 값을 더한다 */
+export const PARK_MIN = 5;
+
 /**
  * 직선거리로 차량 이동시간 어림. 도로 우회 1.35배, 가까운 거리(10km 미만)는 시속 30km, 먼 거리는 시속 55km,
  * 주차·승하차 기본 5분. 카카오 시험값(강릉역→오죽헌 실제 8분·2.9km)과 비슷한 수준으로 맞췄다.
@@ -36,5 +39,5 @@ export function estimateLeg(from: Point, to: Point): Leg {
   if (from.id === to.id) return { minutes: 0, km: 0, estimated: true };
   const km = haversineKm(from, to) * 1.35;
   const speed = km < 10 ? 30 : 55;
-  return { minutes: Math.max(5, Math.round((km / speed) * 60) + 5), km: Math.round(km * 10) / 10, estimated: true };
+  return { minutes: Math.max(PARK_MIN, Math.round((km / speed) * 60) + PARK_MIN), km: Math.round(km * 10) / 10, estimated: true };
 }

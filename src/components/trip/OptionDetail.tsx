@@ -1,7 +1,7 @@
 "use client";
 
 // 고른 안의 상세: 공통 질문 → 날짜 탭(지도는 탭 아래) → 하루 타임라인(출발 · 이동 · 장소 카드 · 점심·휴식 · 도착).
-// 시각은 모두 코드가 계산한 값이고, 이동시간은 지금 직선거리 추정치라 '약'과 '추정'을 붙인다.
+// 시각은 모두 코드가 계산한 값이다. 이동시간은 열 때 받은 카카오 실제 값이고, 못 받은 구간만 직선거리 추정이라 '추정'을 붙인다.
 import { Car, ChevronDown, CircleAlert, Coffee, Flag, Hourglass, Utensils } from "lucide-react";
 import type { ReactNode } from "react";
 import { PlaceCard } from "@/components/trip/PlaceCard";
@@ -94,6 +94,11 @@ function DayPanel({ d, index, o, trip, common, onSwap }: { d: DayView; index: nu
           {visits.length}곳 · 이동 약 {d.travelMin}분{d.estimated ? "(추정)" : ""}
         </span>
       </div>
+      {d.realIssue && (
+        <p className="mt-2 rounded-xl bg-caution-bg px-3 py-2 text-sm leading-normal text-caution-ink">
+          <span className="sr-only">주의: </span>실제 차량 이동시간으로는 빠듯해요: {d.realIssue}
+        </p>
+      )}
 
       <ol className="relative mt-4 flex flex-col">
         <span className="absolute top-4 bottom-4 left-[0.9375rem] w-0.5 rounded-full bg-line" aria-hidden="true" />
