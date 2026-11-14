@@ -10,7 +10,9 @@ import type { DayTimeline } from "../engine/timeline";
 import type { DayFrame, PlanDayDraft, PlanDraft } from "../engine/types";
 import type { PlanInput } from "../plan/types";
 import type { Category, Place, Region } from "../types";
+import featured from "../../../data/featured.json";
 import { pickAlternatives, type PoolPlace } from "./alternatives";
+import { pickHardPlaces, type HardPlace } from "./hard";
 
 export const TRIP_VIEW_VERSION = 2;
 
@@ -96,6 +98,8 @@ export interface TripView {
   asks: Record<string, string[]>;
   /** 장소별 공식 정보가 없는 필수 항목(access 키 또는 walk_distance). '확인 필요'의 이유로 보여준다 */
   unknowns?: Record<string, string[]>;
+  /** 이번 조건으로 어려운 곳과 대안(정보만, 11/14). 장소 정보는 places에 함께 싣고, 대안의 판단은 judgments에 */
+  hard?: HardPlace[];
 }
 
 /** 계산된 하루 일정 → 화면 값 */
@@ -163,6 +167,22 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
     };
   });
 
+  // 어려운 곳: 꼭 가고 싶은 곳·대표 관광지·좋아하는 분야 중 이 조건으로 어려운 곳(정보만). 대안은 판단한 후보에서
+  const inPlan = new Set(r.options.flatMap((o) => o.draft.days.flatMap((d) => d.stops.map((s) => s.placeId))));
+  const hard = pickHardPlaces({
+    excluded: r.rule.filter.excluded,
+    judgedUnfit: r.llmCandidates.flatMap((c) => {
+      const j = r.judge?.judgments.get(c.place.id);
+      return j?.verdict === "부적합" ? [{ place: c.place, reasons: j.reasons }] : [];
+    }),
+    pool,
+    categories: input.categories,
+    featured: new Set(featured.ids),
+    regions: new Set([...inPlan].map((id) => byId.get(id)?.region).filter((x): x is Region => !!x)),
+    inPlan,
+  });
+  hard.forEach((h) => h.altId && used.add(h.altId));
+
   const placeViews: Record<string, PlaceView> = {};
   const placeData: Record<string, Place> = {};
   const asks: Record<string, string[]> = {};
@@ -182,16 +202,11 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
       source: j?.source ?? "rule",
       evidence: (j?.evidence ?? []).map((e) => ({ id: e, label: labels.get(e) ?? e })),
     };
-    placeViews[id] = {
-      id,
-      name: p.name_ko,
-      category: p.category,
-      region: p.region,
-      phone: p.phone,
-      address: p.address,
-      photo: p.photos?.[0] && { url: p.photos[0].url, credit: p.photos[0].credit },
-      onSite: p.on_site?.text,
-    };
+    placeViews[id] = toPlaceView(p);
+  }
+  for (const h of hard) {
+    placeViews[h.placeId] ??= toPlaceView(byId.get(h.placeId)!);
+    placeData[h.placeId] ??= byId.get(h.placeId)!;
   }
 
   return {
@@ -210,5 +225,19 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
     placeData,
     asks,
     unknowns,
+    ...(hard.length ? { hard } : {}),
+  };
+}
+
+function toPlaceView(p: Place): PlaceView {
+  return {
+    id: p.id,
+    name: p.name_ko,
+    category: p.category,
+    region: p.region,
+    phone: p.phone,
+    address: p.address,
+    photo: p.photos?.[0] && { url: p.photos[0].url, credit: p.photos[0].credit },
+    onSite: p.on_site?.text,
   };
 }

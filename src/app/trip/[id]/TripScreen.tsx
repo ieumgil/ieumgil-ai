@@ -19,6 +19,7 @@ import { TripMap } from "@/components/map/TripMap";
 import { ConfirmButton, ConfirmSheet } from "@/components/trip/ConfirmSheet";
 import { ExampleBanner } from "@/components/trip/ExampleBanner";
 import { Footnotes } from "@/components/trip/Footnotes";
+import { HardPlaces } from "@/components/trip/HardPlaces";
 import { OptionDetail } from "@/components/trip/OptionDetail";
 import { OptionPicker } from "@/components/trip/OptionPicker";
 import { Summary } from "@/components/trip/Summary";
@@ -175,6 +176,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
             )}
           </div>
           <OptionDetail o={shown} trip={trip} onSwap={setSwapFor} onMap={showOnMap} day={day} onDay={setDayIndex} map={wide ? null : map} />
+          <HardPlaces trip={trip} />
           <Footnotes trip={trip} estimated={shown.days.some((d) => d.estimated)} />
         </section>
 

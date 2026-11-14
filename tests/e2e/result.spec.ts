@@ -170,3 +170,22 @@ test("노면만 모르는 곳은 전화 질문이 아니라 '가서 보고 확�
   await expect(card.getByText("전화로 물어볼 것")).toHaveCount(0);
   await expect(page.getByText(/노면 .*재질/)).toHaveCount(0);
 });
+
+test("이번 조건으로 가기 어려운 곳: 이유(✕)와 대신 갈 만한 가까운 곳을 정보로 보여준다", async ({ page }) => {
+  // 저장해 둔 결과에 어려운 곳 하나를 넣어 다시 연다(강문해변 → 대안 경포해수욕장)
+  const t = JSON.parse(trip);
+  const places = JSON.parse(readFileSync(resolve(__dirname, "../../data/places.json"), "utf8"));
+  const gn27 = (Array.isArray(places) ? places : places.places).find((p: { id: string }) => p.id === "GN27");
+  t.places.GN27 = { id: "GN27", name: gn27.name_ko, category: gn27.category, region: gn27.region, phone: gn27.phone, address: gn27.address };
+  t.placeData.GN27 = gn27;
+  t.hard = [{ placeId: "GN27", kind: "조건", reasons: ["장애인 화장실: 어려워요"], mustVisit: false, altId: "GN33" }];
+  await page.addInitScript((v) => sessionStorage.setItem("ieumgil-trip", v), JSON.stringify(t));
+  await page.reload();
+  const box = page.getByText(/이번 조건으로 가기 어려운 곳 1곳/);
+  await box.click();
+  const item = page.locator("details li").filter({ hasText: "강문해변" }).first();
+  await expect(item).toContainText("꼭 필요한 조건이 맞지 않아요");
+  await expect(item).toContainText("장애인 화장실: 어려워요");
+  await expect(item).toContainText("대신 갈 만한 곳: 경포해수욕장");
+  await expect(item.getByRole("button", { name: /바꾸기|넣기|추가/ })).toHaveCount(0); // 정보만(사진 크게 보기만 누를 수 있음)
+});
