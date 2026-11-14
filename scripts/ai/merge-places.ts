@@ -6,12 +6,16 @@
 //  - 운영시간은 HH:MM·여는 시각 < 닫는 시각을 검사하고, 틀리면 버리고 질문으로 대체.
 //  - 엘리베이터: 관광공사 분류가 자연관광·도시공원(야외 시설)이고 AI가 '모름'이면 '가능(층이 없는 야외 시설)'으로 둔다.
 //    조건표의 엘리베이터는 '층이 있는 시설'에만 해당하기 때문(근거: class-1 분류 문단).
-//  - 사람 확인 값(data/eval/human.json, 있으면)이 AI 값을 덮어쓴다(등급 human).
+//  - 공공데이터(data/public/restrooms.json, 있으면): 장애인 화장실·기저귀 교환대를 '가능'으로만 올린다(등급 public).
+//    AI → 야외 엘리베이터 → 공공데이터 → 사람 순서로 덮이므로 사람 값이 맨 위다. 근거 문단은 npm run data:build가 만들어 둔다.
+//  - 사람 확인 값(data/eval/human.json, 있으면)이 위 값을 덮어쓴다(등급 human).
 // 읽기 결과가 있는 장소만 places.json에 들어간다(점점 늘어남).
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { DEFAULT_ASK, DEFAULT_HOURS_ASK } from "../../src/lib/places/asks";
-import { validatePlaces } from "../../src/lib/places/validate";
+import { validatePlaces, type EvidenceIds } from "../../src/lib/places/validate";
+import { mergePublic, type RestroomsFile } from "../../src/lib/public/restrooms";
+import { isPublicEvidenceId } from "../../src/lib/public/source";
 import { ACCESS_KEYS, type AccessItem, type AccessKey, type AccessStatus, type OpeningHours, type Place, type PlaceHours, type Weekday } from "../../src/lib/types";
 
 interface Base extends Omit<Place, "access" | "hours"> {
@@ -54,6 +58,10 @@ type HumanOverride = Record<
 const READ = "data/ai/read";
 const base: Base[] = JSON.parse(readFileSync("data/build/places-base.json", "utf8"));
 const human: HumanOverride = existsSync("data/eval/human.json") ? JSON.parse(readFileSync("data/eval/human.json", "utf8")) : {};
+const publicFile: RestroomsFile | undefined = existsSync("data/public/restrooms.json")
+  ? JSON.parse(readFileSync("data/public/restrooms.json", "utf8"))
+  : undefined;
+const evidenceIndex: EvidenceIds = existsSync("data/evidence.json") ? JSON.parse(readFileSync("data/evidence.json", "utf8")) : {};
 
 const nonBlank = (s?: string) => (s && s.trim() ? s.trim() : undefined);
 const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
@@ -64,7 +72,20 @@ function okTime(h?: OpeningHours): OpeningHours | undefined {
   return { open: h.open, close: h.close, ...(last ? { last_entry: last } : {}) };
 }
 
-const stats = { places: 0, unknown: 0, total: 0, demoted: 0, hoursUnknown: 0, human: 0, outdoorElevator: 0 };
+const stats = {
+  places: 0,
+  unknown: 0,
+  total: 0,
+  demoted: 0,
+  hoursUnknown: 0,
+  human: 0,
+  outdoorElevator: 0,
+  publicToilet: 0,
+  publicDiaper: 0,
+  toiletFromUnknown: 0,
+  toiletFromNo: 0,
+  diaperFromUnknown: 0,
+};
 const out: Place[] = [];
 
 for (const b of base) {
@@ -91,6 +112,23 @@ for (const b of base) {
     if (key === "elevator" && item.value === "모름" && b._outdoor && allowed.has("class-1")) {
       item = { value: "가능", note: "층이 없는 야외 시설(관광공사 분류 기준)", evidence: ["class-1"], ...meta };
       stats.outdoorElevator++;
+    }
+    const merged = mergePublic(item, key, publicFile?.places[b.id]);
+    if (merged !== item) {
+      const missing = (merged.evidence ?? []).filter((id) => isPublicEvidenceId(id) && !allowed.has(id));
+      if (missing.length > 0) {
+        console.error(`✕ ${b.id} ${key}: 공공데이터 근거 문단(${missing.join(", ")})이 기본 정보에 없어요 — npm run data:build를 먼저 다시 실행하세요`);
+        process.exit(1);
+      }
+      if (key === "accessible_toilet") {
+        stats.publicToilet++;
+        if (item.value === "모름") stats.toiletFromUnknown++;
+        if (item.value === "불가") stats.toiletFromNo++;
+      } else if (key === "diaper_nursing") {
+        stats.publicDiaper++;
+        if (item.value === "모름") stats.diaperFromUnknown++;
+      }
+      item = merged;
     }
     const h = human[b.id]?.access?.[key];
     if (h) {
@@ -139,11 +177,11 @@ for (const b of base) {
 }
 
 const cleaned = JSON.parse(JSON.stringify(out)) as Place[]; // undefined 필드 제거
-const result = validatePlaces(cleaned);
+const result = validatePlaces(cleaned, evidenceIndex);
 writeFileSync("data/places.json", JSON.stringify(cleaned, null, 2) + "\n");
 const pct = (n: number, d: number) => `${d ? Math.round((n / d) * 100) : 0}%`;
 console.log(
-  `${result.ok ? "✓" : "✕"} data/places.json ${stats.places}곳 · '모름' ${stats.unknown}/${stats.total}(${pct(stats.unknown, stats.total)}) · 근거 없어 모름으로 바꾼 값 ${stats.demoted} · 운영시간 모름 ${stats.hoursUnknown} · 사람 확인 값 ${stats.human} · 야외 시설 엘리베이터 ${stats.outdoorElevator}`,
+  `${result.ok ? "✓" : "✕"} data/places.json ${stats.places}곳 · '모름' ${stats.unknown}/${stats.total}(${pct(stats.unknown, stats.total)}) · 근거 없어 모름으로 바꾼 값 ${stats.demoted} · 운영시간 모름 ${stats.hoursUnknown} · 사람 확인 값 ${stats.human} · 야외 시설 엘리베이터 ${stats.outdoorElevator} · 공공데이터 ${stats.publicToilet + stats.publicDiaper}항목(장애인 화장실 ${stats.publicToilet} · 기저귀 교환대 ${stats.publicDiaper}) · 바뀐 값(장애인 화장실 모름→가능 ${stats.toiletFromUnknown} · 불가→가능 ${stats.toiletFromNo} · 기저귀 교환대 모름→가능 ${stats.diaperFromUnknown})`,
 );
 if (!result.ok) {
   result.issues.slice(0, 20).forEach((i) => console.log(`  - ${i.placeId} ${i.path}: ${i.message}`));

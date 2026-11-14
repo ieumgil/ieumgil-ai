@@ -5,14 +5,18 @@
 //  - data/docs/places/{id}.md: 근거 문장(문단 id + 출처). ① 읽기와 ② 판단이 이 id만 근거로 쓴다.
 //  - data/place-ids.json: contentid → 우리 id(고정, 다시 만들어도 안 바뀜)
 //  - data/evidence.json: 장소 id → 근거 문단 목록(서버가 ② 판단 때 읽는다. 원본 data/raw는 커밋하지 않으므로)
+//  - 공공데이터 문단(public-화장실-N): data/public/restrooms.json이 있으면 관광공사 문단 뒤에 덧붙여 md·evidence.json 둘 다에 쓴다.
+//    (원본 CSV는 읽지 않는다. data/public/restrooms.json은 npm run data:public이 만든다)
 //  - 관광지가 아닌 곳·전화번호가 없는 곳은 빼고 이유를 출력한다.
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { publicDocLines, publicParagraphs, type RestroomsFile } from "../../src/lib/public/restrooms";
 import type { Category, Photo, Region } from "../../src/lib/types";
 import { buildEvidence, cleanText, isOutdoorClass, type RawPlace } from "./evidence";
 
 const RAW = "data/raw/tour/places";
 const ID_FILE = "data/place-ids.json";
+const PUBLIC_FILE = "data/public/restrooms.json";
 
 const REGION_BY_SIGNGU: Record<string, Region> = { "150": "강릉", "210": "속초", "170": "동해" };
 const PREFIX: Record<Region, string> = { 강릉: "GN", 속초: "SC", 동해: "DH" };
@@ -76,6 +80,10 @@ for (const id of Object.values(ids)) {
   if (pre) nextNo[pre] = Math.max(nextNo[pre], Number(no) + 1);
 }
 
+const publicFile: RestroomsFile | undefined = existsSync(PUBLIC_FILE) ? JSON.parse(readFileSync(PUBLIC_FILE, "utf8")) : undefined;
+if (!publicFile) console.log(`  (${PUBLIC_FILE}이 없어 공공데이터 문단 없이 만듭니다 — npm run data:public)`);
+let publicPlaces = 0;
+
 const excluded: string[] = [];
 const evidenceOut: Record<string, { id: string; label: string; text: string }[]> = {};
 const base: { region: Region; category: Category; [k: string]: unknown }[] = [];
@@ -108,7 +116,11 @@ for (const p of raws) {
   ids[contentId] ??= `${prefix}${String(nextNo[prefix]++).padStart(2, "0")}`;
   const id = ids[contentId];
 
-  const evidence = buildEvidence(p);
+  const tourEvidence = buildEvidence(p);
+  const pubEntry = publicFile?.places[id];
+  const pub = publicParagraphs(pubEntry);
+  if (pub.length > 0) publicPlaces++;
+  const evidence = [...tourEvidence, ...pub];
   const fetched = p.fetchedAt.slice(0, 10);
   const md = [
     `# ${title} (${id})`,
@@ -116,7 +128,8 @@ for (const p of raws) {
     `> 출처: 한국관광공사 무장애 여행정보 API(KorWithService2) · contentid ${contentId} · 조회 ${fetched}`,
     "> 아래 문단 id가 AI 판단의 근거 id다. 원문 그대로이며 이음길이 고치지 않았다.",
     "",
-    ...evidence.map((e) => `- \`${e.id}\` (${e.label}) ${e.text}`),
+    ...tourEvidence.map((e) => `- \`${e.id}\` (${e.label}) ${e.text}`),
+    ...(pub.length > 0 ? ["", ...publicDocLines(pubEntry)] : []),
     "",
   ].join("\n");
   writeFileSync(`data/docs/places/${id}.md`, md);
@@ -147,7 +160,7 @@ writeFileSync("data/build/places-base.json", JSON.stringify(base, null, 2) + "\n
 writeFileSync("data/evidence.json", JSON.stringify(Object.fromEntries(Object.entries(evidenceOut).sort()), null, 1) + "\n");
 
 const by = (r: string) => base.filter((b) => b.region === r).length;
-console.log(`✓ 장소 ${base.length}곳 (강릉 ${by("강릉")} · 속초 ${by("속초")} · 동해 ${by("동해")}) · 제외 ${excluded.length}곳`);
+console.log(`✓ 장소 ${base.length}곳 (강릉 ${by("강릉")} · 속초 ${by("속초")} · 동해 ${by("동해")}) · 제외 ${excluded.length}곳 · 공공데이터 문단 ${publicPlaces}곳`);
 const cats: Record<string, number> = {};
 base.forEach((b) => (cats[b.category] = (cats[b.category] ?? 0) + 1));
 console.log("  카테고리:", cats);

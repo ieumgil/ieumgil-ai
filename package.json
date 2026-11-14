@@ -13,6 +13,7 @@
     "prebuild": "npm run validate:places",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
+    "data:public": "tsx scripts/public/build-restrooms.ts",
     "data:build": "tsx scripts/tour/build-places.ts",
     "data:read": "tsx scripts/ai/read-places.ts",
     "data:merge": "tsx scripts/ai/merge-places.ts",
