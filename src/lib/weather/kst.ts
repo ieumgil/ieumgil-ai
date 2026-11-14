@@ -54,3 +54,16 @@ export function pickShortBase(now: Date, marginMin = 15): ShortBase {
   }
   return { baseDate: addDaysISO(today, -1).replace(/-/g, ""), baseTime: "2300" };
 }
+
+const compactToISO = (c: string) => `${c.slice(0, 4)}-${c.slice(4, 6)}-${c.slice(6, 8)}`;
+
+/**
+ * 한 칸 앞 발표. 발표 직후 서버에 아직 자료가 없을 때(결과 코드 03) 직전 발표로 한 번 다시 부르는 데 쓴다.
+ * 순서는 공식 활용가이드의 base_time 표(02·05·08·11·14·17·20·23시)를 따른다(외부 블로그 값 아님).
+ * 0200의 앞은 전날 2300.
+ */
+export function prevShortBase(b: ShortBase): ShortBase {
+  const i = SHORT_BASE_TIMES.indexOf(b.baseTime);
+  if (i > 0) return { baseDate: b.baseDate, baseTime: SHORT_BASE_TIMES[i - 1] };
+  return { baseDate: addDaysISO(compactToISO(b.baseDate), -1).replace(/-/g, ""), baseTime: "2300" };
+}
