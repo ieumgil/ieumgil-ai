@@ -3,6 +3,7 @@
 
 import type { ConditionInput } from "../engine/conditions";
 import { CONDITION_LABELS, resolveConditions } from "../engine/conditions";
+import { publicSourceLabel } from "../public/source";
 import { ACCESS_KEYS, type AccessKey, type AccessStatus as AccessValue, type Category, type Place, type PlaceHours, type Region } from "../types";
 import { firstSentence, isIntroParagraph, type Paragraph, type PlaceSummary } from "./summary";
 
@@ -23,7 +24,8 @@ export interface BrowsePlace {
   phone: string;
   address?: string;
   hours: string;
-  access: Record<AccessKey, { value: AccessValue; note?: string }>;
+  /** source: grade public(행정안전부 공중화장실 공공데이터)일 때만 "공공데이터(YYYY-MM 기준)". 화면 출처 표시용 */
+  access: Record<AccessKey, { value: AccessValue; note?: string; source?: string }>;
 }
 
 const DAY: Record<string, string> = { 월: "월", 화: "화", 수: "수", 목: "목", 금: "금", 토: "토", 일: "일" };
@@ -55,7 +57,12 @@ export function toBrowsePlace(p: Place, summary: PlaceSummary | undefined, featu
     phone: p.phone,
     address: p.address,
     hours: hoursText(p.hours),
-    access: Object.fromEntries(ACCESS_KEYS.map((k) => [k, { value: p.access[k].value, ...(p.access[k].note ? { note: p.access[k].note } : {}) }])) as BrowsePlace["access"],
+    access: Object.fromEntries(
+      ACCESS_KEYS.map((k) => {
+        const src = publicSourceLabel(p.access[k]);
+        return [k, { value: p.access[k].value, ...(p.access[k].note ? { note: p.access[k].note } : {}), ...(src ? { source: src } : {}) }];
+      }),
+    ) as BrowsePlace["access"],
   };
 }
 
@@ -85,7 +92,7 @@ export interface GlanceItem {
 }
 
 /**
- * 카드의 접근성 요약: 고른 유형의 꼭 필요한 조건(없으면 기본 4개). 값은 공공데이터를 AI가 정리한 것(가능·부분가능·불가·모름).
+ * 카드의 접근성 요약: 고른 유형의 꼭 필요한 조건(없으면 기본 4개). 값은 관광공사 정보를 AI가 정리한 값(일부는 공공데이터 public)(가능·부분가능·불가·모름).
  * blocked: 꼭 필요한 조건 중 '불가'가 있으면 담을 때 알려 준다(일정을 만들 때 빠질 수 있음).
  */
 export function glance(p: Pick<BrowsePlace, "access">, input: ConditionInput | null): { items: GlanceItem[]; blocked: GlanceItem[]; byTraveler: boolean } {

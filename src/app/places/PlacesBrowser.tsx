@@ -1,7 +1,7 @@
 "use client";
 
 // 관광지 둘러보기: 지역(강릉·속초·동해) → 분야 → 사진 카드(어떤 곳인지 한 줄 · 볼 거리 · 고른 유형 기준 접근성 요약) → [담기].
-// 카드를 누르면 자세히(사진·관광공사 소개 원문·운영시간·전화·접근성 10항목). 담은 곳은 입력값의 '꼭 가고 싶은 곳'(mustVisit)이 된다.
+// 카드를 누르면 자세히(사진·관광공사 소개 원문·운영시간·전화·접근성 10항목). 장애인 화장실·기저귀 교환대는 공공데이터 값이면 출처·기준일('공공데이터(YYYY-MM 기준)')을 붙인다. 담은 곳은 입력값의 '꼭 가고 싶은 곳'(mustVisit)이 된다.
 // 4단계에서 왔으면(?from=plan) 아래 버튼이 '고른 곳 가지고 돌아가기', 시작 화면에서 왔으면 '이 곳들로 루트 만들기'.
 import { Check, ChevronRight, Phone, Plus, Search as SearchIcon, Sparkles } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -152,8 +152,8 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
         </Section>
       )}
       <p className="px-5 pt-6 text-sm leading-normal text-ink-sub">
-        소개는 한국관광공사 관광지 소개 글을 AI가 한 줄로 정리했어요(원문에 없는 내용은 쓰지 않게 검사). 접근성은 관광공사 무장애 정보를 AI가 정리한 값이라 현장과
-        다를 수 있어요. 사진: 한국관광공사 · 공공누리.
+        소개는 한국관광공사 관광지 소개 글을 AI가 한 줄로 정리했어요(원문에 없는 내용은 쓰지 않게 검사). 접근성은 관광공사 무장애 정보를 AI가 정리한 값(장애인
+        화장실·기저귀 교환대 일부는 행정안전부 공중화장실 공공데이터)이라 현장과 다를 수 있어요. 사진: 한국관광공사 · 공공누리.
       </p>
 
       {/* 담은 곳 */}
@@ -271,6 +271,7 @@ const ACCESS_ORDER = ["step_free_entrance", "elevator", "slope", "surface", "acc
 function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: boolean; plan: PlanLike; onToggle: (id: string) => void }) {
   const g = glance(p, plan);
   const must = new Set(g.byTraveler ? g.items.map((i) => i.key) : []);
+  const hasPublic = ACCESS_ORDER.some((k) => p.access[k].source);
   return (
     <>
       <SheetHeader className="px-0 pt-6 pb-0">
@@ -316,7 +317,10 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
       </a>
 
       <h3 className="mt-5 text-lg font-bold">접근성</h3>
-      <p className="text-sm text-ink-sub">관광공사 무장애 정보를 AI가 정리한 값이에요. {must.size ? "굵은 항목은 고른 분께 꼭 필요한 조건이에요." : ""}</p>
+      <p className="text-sm text-ink-sub">
+        {hasPublic ? "관광공사 무장애 정보를 AI가 정리한 값이고, '공공데이터' 표시는 행정안전부 공중화장실 정보예요." : "관광공사 무장애 정보를 AI가 정리한 값이에요."}{" "}
+        {must.size ? "굵은 항목은 고른 분께 꼭 필요한 조건이에요." : ""}
+      </p>
       <ul className="mt-2 flex flex-col divide-y divide-line rounded-2xl ring-1 ring-line">
         {ACCESS_ORDER.map((k) => {
           const a = p.access[k];
@@ -329,7 +333,13 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
               <span className="min-w-0 flex-1">
                 <span className={must.has(k) ? "font-bold" : ""}>{CONDITION_LABELS[k]}</span>
                 <span className="text-ink-sub"> · {a.value === "모름" ? "공식 정보 없음" : a.value}</span>
-                {a.note && <span className="block text-sm text-ink-sub">{a.note}</span>}
+                {(a.note || a.source) && (
+                  <span className="block text-sm text-ink-sub">
+                    {a.note}
+                    {a.note && a.source ? " · " : ""}
+                    {a.source && <span className="font-medium text-ink">{a.source}</span>}
+                  </span>
+                )}
               </span>
             </li>
           );
