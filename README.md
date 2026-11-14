@@ -14,6 +14,22 @@
 [![Last commit](https://img.shields.io/github/last-commit/ieumgil/ieumgil-ai?color=1E6FD0)](https://github.com/ieumgil/ieumgil-ai/commits/main)
 ![2026 My AI 랩](https://img.shields.io/badge/2026-My%20AI%20%EB%9E%A9-F5872A)
 
+[![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+[![OpenAI](https://img.shields.io/badge/OpenAI_GPT--6_Luna-412991?style=for-the-badge)](https://platform.openai.com/)
+[![한국관광공사 무장애 여행정보 API](https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EA%B4%80%EA%B4%91%EA%B3%B5%EC%82%AC_%EB%AC%B4%EC%9E%A5%EC%95%A0_%EC%97%AC%ED%96%89%EC%A0%95%EB%B3%B4_API-0B5FA5?style=for-the-badge)](https://www.data.go.kr/data/15101897/openapi.do)
+[![Kakao Map](https://img.shields.io/badge/Kakao_Map_%C2%B7_Mobility-FFCD00?style=for-the-badge&logo=kakao&logoColor=000)](https://apis.map.kakao.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-000?style=for-the-badge&logo=vercel&logoColor=white)](https://ieumgil-ai.vercel.app)
+<br />
+![Next.js](https://img.shields.io/badge/Next.js_16-000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-149ECA?style=for-the-badge&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000?style=for-the-badge&logo=shadcnui&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+
 <img src="docs/readme/cover.png" width="100%" alt="이음길 화면: 시작, AI가 일정을 만드는 중, 일정 2가지 비교, 확정 일정과 지도" />
 
 | 관광지 | 필수 조건 위반 | 근거 없이 채운 값 | AI 읽기 일관성 | 자동 테스트 |
@@ -24,7 +40,7 @@
 
 > [!TIP]
 > **입력 없이 결과부터 보려면** → [예시 루트](https://ieumgil-ai.vercel.app/trip/example)를 여세요. 실제 AI가 미리 만든 일정(휠체어 · 1박 2일 · 안 3개)이 AI를 부르지 않고 바로 열립니다. 장소 바꾸기 → 일정 확정 → 지도 → 출발 전 전화 확인까지 그대로 눌러 볼 수 있습니다.<br />
-> 직접 만들려면 [서비스](https://ieumgil-ai.vercel.app)에서 조건 4단계를 고르면 됩니다(AI 일정 만들기는 보통 30초~1분).
+> 직접 만들려면 [서비스](https://ieumgil-ai.vercel.app)에서 조건 4단계를 고르면 됩니다(AI 일정 만들기는 보통 10~40초).
 
 ## 왜 만들었나요
 
@@ -358,16 +374,19 @@ AI 평가: 피로도 4 · 시간 여유 4 · 취향 4
 
 ## 기술 스택
 
-| 구분 | 사용 |
-| --- | --- |
-| 화면·서버 | Next.js 16 (App Router), React 19, TypeScript (strict) |
-| 스타일 | Tailwind CSS v4, shadcn/ui(Radix), lucide 아이콘, Pretendard |
-| AI | Gemini Flash-Lite(`@google/genai`) 먼저 + OpenAI GPT-6 Luna(Responses API) 예비, 둘 다 JSON 스키마 응답 |
-| 데이터 | 한국관광공사 무장애 여행정보 API (수집 스크립트 전용) |
-| 지도·경로 | 카카오맵 JavaScript SDK(확정 일정 지도), 카카오모빌리티 다중 경유지 길찾기(경로선, 저장 안 함) |
-| 저장 | 없음 (일정·확정·바꾼 장소는 브라우저 탭에만 보관, 개인정보 없음) |
-| 검증 | Vitest, Playwright, JSON Schema (Ajv), GitHub Actions |
-| 배포 | Vercel |
+AI가 읽고 판단하고 계획하는 일, 공공데이터, 지도·길찾기, 저장·배포를 각각 맡은 기술과, 이 서비스에서 지킨 약속입니다.
+
+| 기술 | 이 서비스에서 맡은 일 | 지킨 원칙 |
+| --- | --- | --- |
+| <img src="https://img.shields.io/badge/Gemini-8E75B2?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini" /><br />`gemini-3.5-flash-lite` · `@google/genai` | ① 읽기(관광공사 문장 → 접근성 10항목·운영시간·도착 후 동선) · ② 판단(후보마다 3번 판단해 맞춰 봄) · ③ 일정 2~3안 · 점검 · 관광지 한 줄 소개 | 응답은 JSON 스키마로만 받고 코드가 검사(Ajv). 근거 id가 없거나 원문 밖이면 버림. 시각은 쓰지 않음(코드가 계산) |
+| <img src="https://img.shields.io/badge/OpenAI_GPT--6_Luna-412991?style=flat-square" alt="OpenAI GPT-6 Luna" /><br />Responses API(fetch) | Gemini가 붐비거나(503·429) 30초 넘게 늦으면 같은 요청을 보내 먼저 온 답을 씀 | 엄격 JSON 스키마, `store: false`(요청 내용 보관 안 함). 둘 다 실패하면 규칙 일정 1개로 시연이 멈추지 않음 |
+| <img src="https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EA%B4%80%EA%B4%91%EA%B3%B5%EC%82%AC_%EB%AC%B4%EC%9E%A5%EC%95%A0_%EC%97%AC%ED%96%89%EC%A0%95%EB%B3%B4_API-0B5FA5?style=flat-square" alt="한국관광공사 무장애 여행정보 API" /><br />KorWithService2 · 공공누리 사진 | 강릉·속초·동해 182곳 → 관광지 152곳의 무장애 정보·운영시간·전화·사진의 1차 출처 | 수집 스크립트에서만 호출(키는 서버에만). 빈칸은 '모름'으로 두고 지어내지 않음. 사진은 공공누리 유형대로 출처 표시 |
+| <img src="https://img.shields.io/badge/Kakao_Map-FFCD00?style=flat-square&logo=kakao&logoColor=000" alt="Kakao Map" /><br />JavaScript SDK · 카카오모빌리티 길찾기 | 확정 일정 지도(번호·장소 이름·구간 화살표·이동시간), 실제 차량 이동시간, 경로선 | 길찾기 결과는 저장하지 않고 열 때마다 받음(탭에도 안 남김). "일반 차량 경로"로만 표시. REST 키는 서버에만, JS 키만 도메인 제한으로 브라우저에 |
+| <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" /><br />Postgres · RLS | 공유 링크(읽기 전용, 확정 일정 + 지도) — 개발 중 | 고른 안의 장소·순서·체류·이유만 저장, 이동시간·경로·개인정보는 저장 안 함. 기간이 지나면 자동 삭제. 서비스 키는 서버에만 |
+| <img src="https://img.shields.io/badge/Vercel-000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" /> | 배포(서버 함수에서 AI·카카오 호출, 진행 단계 스트리밍) | 키는 환경변수에만 |
+| <img src="https://img.shields.io/badge/Next.js_16-000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js 16" /> <img src="https://img.shields.io/badge/React_19-149ECA?style=flat-square&logo=react&logoColor=white" alt="React 19" /> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /> | 화면과 서버(App Router, `/api/plan` 스트리밍 · `/api/legs` · `/api/route-line`) | TypeScript strict. AI·데이터 규칙은 `src/lib/`에 코드로 |
+| <img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4" /> <img src="https://img.shields.io/badge/shadcn%2Fui-000?style=flat-square&logo=shadcnui&logoColor=white" alt="shadcn/ui" /><br />Radix · lucide · Pretendard | 모바일 우선 화면, 디자인 토큰 | 본문 16px 이상 · 터치 44px 이상 · 상태는 색 + 기호(✓ ! ✕) + 글자 · rem 단위(기기 글자 크기 설정을 따름) |
+| <img src="https://img.shields.io/badge/Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white" alt="Vitest" /> <img src="https://img.shields.io/badge/Playwright-2EAD33?style=flat-square" alt="Playwright" /> <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white" alt="GitHub Actions" /> | 단위 테스트(엔진 시나리오·가짜 LLM 가드) · 화면 흐름 테스트(모바일·PC) · 푸시마다 자동 검사 | 필수 조건 위반 0건, 근거 없는 판단은 버리는지 테스트로 고정 |
 
 <details>
 <summary>폴더 구조</summary>
