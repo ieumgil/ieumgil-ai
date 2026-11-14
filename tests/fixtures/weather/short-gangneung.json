@@ -1,5 +1,5 @@
 {
-  "_source": "[ASSUMED] 공식 활용가이드 예제 모양으로 손으로 만든 값 — 키 발급 후 scripts/dev/weather-probe.ts --save 결과로 확인·교체(02-06)",
+  "_source": "[VERIFIED live 2026-11-15 프로브로 모양 확인, 값은 테스트용] 봉투·필드 이름·문자열 fcstValue·숫자 nx/ny가 실제 응답(공공데이터포털 getVilageFcst)과 같다. 실제 응답에는 이 파일에 없는 카테고리(UUU·VVV·VEC·WSD·WAV·PCP·REH·SNO)도 있고 PCP·SNO 값은 글자(1mm 미만·강수없음·적설없음)일 수 있다",
   "response": {
     "header": {
       "resultCode": "00",

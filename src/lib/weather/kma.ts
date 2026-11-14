@@ -13,7 +13,7 @@ const MAX_PAGES = 5;
 
 /**
  * 닫힌 두 게이트웨이. 기본은 포털(D-14).
- * apihub의 경로(/api/typ02/openApi/…)가 단기·중기 모두 같은 모양인지는 [ASSUMED](연구 Open Q2) — 02-06 프로브가 판정한다.
+ * 2026-11-15 프로브: 포털은 세 오퍼레이션 모두 이 키로 됐다(기본값 유지). apihub는 포털 키로 HTTP 401이라 경로(/api/typ02/openApi/…)가 맞는지는 아직 못 봤다([ASSUMED]) — apihub용 authKey를 받으면 다시 프로브한다.
  */
 export const KMA_GATEWAYS = {
   portal: { base: "https://apis.data.go.kr/1360000/", keyParam: "serviceKey" },

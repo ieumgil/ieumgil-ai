@@ -1,5 +1,5 @@
 {
-  "_source": "[ASSUMED] 중기 활용가이드(251212) 필드 이름 기준으로 만든 값 — 02-06 프로브 결과로 확인·교체(디지털 중기예보 개편 여부 포함)",
+  "_source": "[ASSUMED] 06시 발표분(4일째 taMin4·taMax4 포함)은 2026-11-15 프로브가 18시 발표분만 받아 못 봤다. taMin5~taMax10 필드 이름·숫자 값과 Low/High 범위 필드는 실제 응답으로 확인([VERIFIED live 2026-11-15])",
   "_note": "tmFc 202611150600 발표분, 강릉(11D20501): 4일째(2026-11-19)부터. taMin4Low 같은 범위 필드는 읽지 않는다",
   "response": {
     "header": { "resultCode": "00", "resultMsg": "NORMAL_SERVICE" },

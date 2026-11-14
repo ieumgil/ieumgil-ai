@@ -1,6 +1,9 @@
 {
-  "_source": "[ASSUMED] 가이드 오류 코드표 기준(연구 A2)",
+  "_source": "[VERIFIED live 2026-11-15 프로브] 중기 getMidLandFcst에 아직 없는 tmFc(202611201800)를 부르면 HTTP 200 + header만 있는 이 모양. 가이드 표의 NODATA_ERROR가 아니라 NO_DATA 문구",
   "response": {
-    "header": { "resultCode": "03", "resultMsg": "NODATA_ERROR" }
+    "header": {
+      "resultCode": "03",
+      "resultMsg": "NO_DATA"
+    }
   }
 }

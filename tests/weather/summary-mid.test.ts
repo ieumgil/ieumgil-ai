@@ -1,4 +1,4 @@
-// 중기예보(육상·기온) → 날짜별 하루 값. 픽스처는 공식 활용가이드 필드 이름으로 손으로 만든 값([ASSUMED])이다.
+// 중기예보(육상·기온) → 날짜별 하루 값. 픽스처는 값은 손으로 만들고 필드 이름·값 타입은 실제 응답으로 확인했다(18시 발표분 [VERIFIED live 2026-11-15], 06시 발표분 4일 필드는 [ASSUMED]).
 // 필드 이름의 N일은 오늘이 아니라 발표(tmFc) 날짜 기준이다(연구 Pitfall 4).
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
