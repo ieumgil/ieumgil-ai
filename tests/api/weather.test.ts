@@ -94,10 +94,56 @@ describe("GET /api/weather (정상)", () => {
     expect(urls.map((u) => `${u.searchParams.get("nx")},${u.searchParams.get("ny")}`).sort()).toEqual(["87,141", "92,131", "97,127"]);
   });
 
-  it("성공 응답은 CDN이 30분 쥘 수 있다(s-maxage=1800)", async () => {
+  // WR-02: 완전한 응답만 길게(15분 + 5분), 일부 실패한 응답은 1분, 없으면 no-store. 내부 캐시와 합쳐 1시간 안쪽.
+  it("모두 성공한 응답은 complete: true이고 CDN이 15분 쥘 수 있다(s-maxage=900, swr=300)", async () => {
     stubFetch();
     const res = await GET(req());
-    expect(res.headers.get("Cache-Control")).toContain("s-maxage=1800");
+    expect(((await res.json()) as { complete?: boolean }).complete).toBe(true);
+    expect(res.headers.get("Cache-Control")).toBe("public, s-maxage=900, stale-while-revalidate=300");
+  });
+
+  it("모든 호출이 데이터 없음(03)으로 끝나도 '제대로 받은 것'으로 본다(complete: true)", async () => {
+    stubFetch(undefined, { land: () => noData(), ta: () => noData() });
+    const res = await GET(req());
+    expect(((await res.json()) as { complete?: boolean }).complete).toBe(true);
+    expect(res.headers.get("Cache-Control")).toBe("public, s-maxage=900, stale-while-revalidate=300");
+  });
+
+  it("중기 육상이 실패하면 complete: false, 짧게만(s-maxage=60)", async () => {
+    stubFetch(undefined, { land: () => portalError() });
+    const res = await GET(req());
+    const body = (await res.json()) as { available: boolean; complete?: boolean };
+    expect(body.available).toBe(true);
+    expect(body.complete).toBe(false);
+    expect(res.headers.get("Cache-Control")).toBe("public, s-maxage=60");
+  });
+
+  it("중기 기온 한 시만 실패해도 complete: false, s-maxage=60", async () => {
+    stubFetch(undefined, { ta: (url) => (url.searchParams.get("regId") === "11D20401" ? portalError() : Response.json(ta0600)) });
+    const res = await GET(req());
+    expect(((await res.json()) as { complete?: boolean }).complete).toBe(false);
+    expect(res.headers.get("Cache-Control")).toBe("public, s-maxage=60");
+  });
+
+  it("단기 한 시가 실패해도(속초 nx 87) complete: false, s-maxage=60", async () => {
+    stubFetch((url) => (url.searchParams.get("nx") === "87" ? portalError() : Response.json(shortFixture)));
+    const res = await GET(req());
+    const body = (await res.json()) as { available: boolean; complete?: boolean };
+    expect(body.available).toBe(true);
+    expect(body.complete).toBe(false);
+    expect(res.headers.get("Cache-Control")).toBe("public, s-maxage=60");
+  });
+
+  it("available: false는 no-store이고 complete 필드가 없다", async () => {
+    stubAll(portalError);
+    const res = await GET(req());
+    expect(await res.json()).toEqual({ available: false });
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+  });
+
+  it("complete 필드가 있어도 화면용 검사(readPayload)는 그대로 받아들인다", async () => {
+    stubFetch();
+    expect(readPayload(await (await GET(req())).json())).not.toBeNull();
   });
 });
 
