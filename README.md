@@ -448,7 +448,7 @@ npm run dev                  # http://localhost:3000
 | `GEMINI_API_KEY` 또는 `OPENAI_API_KEY` | 일정 만들기(둘 중 하나는 필요) |
 | `NEXT_PUBLIC_KAKAO_JS_KEY` · `KAKAO_REST_API_KEY` | 지도 · 이동시간·경로선 |
 | `SUPABASE_URL` · `SUPABASE_SERVICE_ROLE_KEY` | 공유 링크(선택) |
-| `KMA_API_KEY` (선택 `KMA_GATEWAY`) | 날씨 예보(선택, 없으면 날씨 칸만 숨김) |
+| `KMA_API_KEY` (선택 `KMA_GATEWAY`) | 날씨 예보(선택, 없으면 날씨 칸만 숨김). `KMA_GATEWAY`는 비워 두면 공공데이터포털이고, 2026-11-15 실제 키로 단기·중기 세 호출이 모두 되는 것을 확인했습니다 |
 
 | 명령 | 하는 일 |
 | --- | --- |
