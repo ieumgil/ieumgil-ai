@@ -26,6 +26,8 @@ export interface LlmRequest {
   temperature?: number;
   /** 이 시간(ms)이 지나도 답이 없으면 다음 제공자에도 같은 요청을 보낸다(없으면 클라이언트 기본값) */
   hedgeMs?: number;
+  /** 이 시각(Date.now() 기준 ms)까지만 기다린다. 넘으면 보내지 않거나 끊고 실패(일정 만들기 전체 한도) */
+  deadline?: number;
   /** 함께 보낼 사진(미리 하는 스크립트 전용: 관광지 사진 분류). 요청할 때 흐름에서는 쓰지 않는다 */
   images?: LlmImage[];
 }
@@ -145,16 +147,22 @@ export function createLlm(opts: LlmOptions): LlmClient {
         let message = "";
         for (let retry = 0; retry <= maxRetries; ) {
           if (signal.aborted) break;
+          const left = (req.deadline ?? Infinity) - Date.now();
+          if (left < 500) {
+            message = `${model}: 시간 한도`;
+            break;
+          }
           attempts++;
           let text: string;
           try {
-            text = await transport({ model, system: req.system, input, schema: req.schema, temperature: req.temperature ?? 0.2, timeoutMs, images: req.images, signal });
+            text = await transport({ model, system: req.system, input, schema: req.schema, temperature: req.temperature ?? 0.2, timeoutMs: Math.min(timeoutMs, left), images: req.images, signal });
           } catch (err) {
             const status = statusOf(err);
             message = `${model}: ${status ?? ""} ${(err as Error).message ?? String(err)}`.slice(0, 300);
             if (!retryable(status)) return { ok: false, error: "request", message, model, ms: Date.now() - t0, attempts };
             if (hasNext) break; // 붐빔·시간 초과 → 기다리지 않고 다음 제공자로
-            if (retry < maxRetries) await sleep(baseDelay * 2 ** retry);
+            const wait = baseDelay * 2 ** retry;
+            if (retry < maxRetries && Date.now() + wait < (req.deadline ?? Infinity)) await sleep(wait);
             retry++;
             continue;
           }

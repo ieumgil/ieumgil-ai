@@ -89,3 +89,25 @@ describe("전체 흐름(makeTrip)", () => {
     expect(r.options[0].check.ok).toBe(true);
   });
 });
+
+describe("시간 한도", () => {
+  it("다시 짤 시간이 없으면(canRetry=false) 걸린 안을 다시 요청하지 않고 뺀다", async () => {
+    const bad = option("A", [["GN96", 50], ["GN96", 50]]); // 중복
+    const { llm, inputs } = scripted([JSON.stringify({ options: [bad, option("B", [["GN97", 40]])] })]);
+    const r = await planOptions(llm, { ...args, canRetry: () => false }, ["여유", "취향"]);
+    expect(inputs).toHaveLength(1);
+    expect(r.options.map((o) => o.id)).toEqual(["B"]);
+    expect(r.dropped.find((d) => d.id === "A")?.violations[0]).toContain("시간");
+  });
+
+  it("AI가 끝내 답하지 않아도 전체 한도 안에 규칙 일정으로 끝난다", async () => {
+    const hang: LlmTransport = ({ signal }) =>
+      new Promise((_, reject) => signal?.addEventListener("abort", () => reject(Object.assign(new Error("취소"), { name: "AbortError" }))));
+    const llm = createLlm({ transport: hang, sleep: async () => {} });
+    const t0 = Date.now();
+    const r = await makeTrip(llm, inp, places, {}, estimateLeg, () => {}, { budgetMs: 300 });
+    expect(Date.now() - t0).toBeLessThan(1_500);
+    expect(r.usedFallback).toBe(true);
+    expect(r.options[0].source).toBe("rule");
+  });
+});

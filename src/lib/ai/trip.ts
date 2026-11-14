@@ -1,6 +1,8 @@
 // 요청 하나의 전체 흐름(나중에 /api/plan이 이 함수를 부른다). docs/ai-plan.md v3 '일정 흐름'.
 // 1) 규칙 일정(LLM 없이): 날짜 틀·후보·대체 일정 2) LLM에 넘길 후보 최대 20곳 고르기(날마다 출발점 근처 고루)
 // 3) ② 판단 4) ③ 일정 2~3안 + 검사·수정 5) 평가자 6) 안이 하나도 없으면 규칙 일정 1안
+// 전체 시간 한도(기본 90초, 배포 서버는 120초에 끊는다): 판단은 한도의 절반까지, 남은 시간이 모자라면
+// 덜 중요한 단계부터 건너뛴다(평가 후 다시 짜기 → 평가 → 걸린 안 다시 짜기). 검사를 통과한 안만 나가는 건 그대로.
 
 import { rulePlan, type RulePlan } from "../engine/fallback";
 import type { Candidate } from "../engine/filter";
@@ -65,6 +67,11 @@ export type LogTone = "info" | "ok" | "fix";
 /** 진행 알림: 단계 시작, 진행 기록 한 줄, 판단할 후보 이름 */
 export type TripEvent = { stage: TripStage } | { stage: "log"; text: string; tone: LogTone } | { stage: "candidates"; names: string[] };
 
+/** 일정 만들기 전체 시간 한도(배포 서버 maxDuration 120초보다 넉넉히 짧게) */
+export const TRIP_BUDGET_MS = 90_000;
+/** 한도에 대한 비율: 판단은 절반까지 · 걸린 안 다시 짜기는 남은 시간이 25% 넘을 때 · 평가는 12% · 평가 후 다시 짜기는 40% */
+const SHARE = { judge: 0.5, fix: 0.25, review: 0.12, redo: 0.4 };
+
 export async function makeTrip(
   llm: LlmClient,
   input: PlanInput,
@@ -72,8 +79,14 @@ export async function makeTrip(
   evidence: EvidenceIndex,
   travel: TravelFn,
   onEvent: (ev: TripEvent) => void = () => {},
+  opts: { budgetMs?: number } = {},
 ): Promise<TripResult> {
   const t0 = Date.now();
+  const budget = opts.budgetMs ?? TRIP_BUDGET_MS;
+  const deadline = t0 + budget;
+  const left = () => deadline - Date.now();
+  /** 이 시각까지만 기다리는 LLM */
+  const until = (end: number): LlmClient => ({ json: (req) => llm.json({ ...req, deadline: Math.min(req.deadline ?? Infinity, end) }) });
   const log = (text: string, tone: LogTone = "info") => onEvent({ stage: "log", text, tone });
   onEvent({ stage: "rule" });
   const rule = rulePlan(input, places, travel);
@@ -86,7 +99,7 @@ export async function makeTrip(
 
   onEvent({ stage: "judge" });
   const judge = await judgePlaces(
-    llm,
+    until(t0 + budget * SHARE.judge),
     { input, conditions: rule.filter.conditions, candidates: llmCandidates, evidence },
     { onSample: (done, total, ok) => log(ok ? `장소 판단 ${done}/${total}번째 끝` : `장소 판단 ${done}/${total}번째는 응답이 오지 않았어요`, ok ? "ok" : "fix") },
   );
@@ -101,30 +114,35 @@ export async function makeTrip(
 
   onEvent({ stage: "plan" });
   const strategies = pickStrategies(input, llmCandidates, judge.judgments);
+  const canRetry = () => left() > budget * SHARE.fix;
   const plan = await planOptions(
-    llm,
-    { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input), onLog: log },
+    until(deadline),
+    { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input), onLog: log, canRetry },
     strategies,
   );
   calls += plan.calls;
 
   onEvent({ stage: "review" });
-  let reviews = await reviewOptions(llm, input, plan.options, placesById);
-  if (plan.options.length) calls += 1;
+  let reviews: Review[] = [];
+  if (plan.options.length && left() > budget * SHARE.review) {
+    reviews = await reviewOptions(until(deadline), input, plan.options, placesById);
+    calls += 1;
+  } else if (plan.options.length) log("시간이 부족해 일정 점검은 건너뛰었어요", "fix");
   for (const r of reviews) log(`${r.optionId}안 점검: 피로도 ${r.fatigue} · 시간 여유 ${r.slack} · 취향 ${r.taste}`, Math.min(r.fatigue, r.slack, r.taste) <= 2 ? "fix" : "ok");
 
   // 평가 점수 중 2점 이하가 있는 안은 개선 방향을 붙여 1회만 다시 만든다(통과하고 점수가 나아지면 바꾼다)
   const weak = reviews.filter((r) => Math.min(r.fatigue, r.slack, r.taste) <= 2 && plan.options.some((o) => o.id === r.optionId));
-  if (weak.length) {
+  if (weak.length && left() <= budget * SHARE.redo) log("시간이 부족해 점검 의견으로 다시 다듬는 건 건너뛰었어요", "fix");
+  else if (weak.length) {
     const hints = Object.fromEntries(weak.map((r) => [r.optionId, r.improve ?? r.comment]));
     const ids = weak.map((r) => r.optionId);
     const strategies2 = ids.map((id) => plan.options.find((o) => o.id === id)!.strategy as Strategy);
     log(`${ids.join("·")}안을 점검 의견대로 한 번 더 다듬어요`, "fix");
-    const args = { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input), onLog: log };
-    const redo = await planOptions(llm, args, strategies2, 1, hints, ids);
+    const args = { input, frames: rule.frames, candidates: llmCandidates, judgments: judge.judgments, placesById, travel, options: timelineOptions(input), onLog: log, canRetry };
+    const redo = await planOptions(until(deadline), args, strategies2, 1, hints, ids);
     calls += redo.calls;
-    if (redo.options.length) {
-      const again = await reviewOptions(llm, input, redo.options, placesById);
+    if (redo.options.length && left() > budget * SHARE.review) {
+      const again = await reviewOptions(until(deadline), input, redo.options, placesById);
       calls += 1;
       const total = (r?: Review) => (r ? r.fatigue + r.slack + r.taste : 0);
       for (const o of redo.options) {

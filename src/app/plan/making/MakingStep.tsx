@@ -24,6 +24,8 @@ const STAGES: { id: Exclude<StageId, "done">; label: string; sub: string; icon: 
 ];
 
 const subscribeNoop = () => () => {};
+/** 이만큼 지나도 안 끝나면 '늦어요' 안내(서버 전체 한도는 90초) */
+const SLOW_SEC = 40;
 
 export function MakingStep() {
   const plan = usePlan();
@@ -161,7 +163,23 @@ export function MakingStep() {
                 </div>
                 <span className="w-12 text-right text-base font-bold tabular-nums text-primary-ink">{pct}%</span>
               </div>
-              <p className="mt-1.5 text-sm text-ink-sub lg:mt-2">보통 20~60초 걸려요 · {elapsed}초 지남</p>
+              <p className="mt-1.5 text-sm text-ink-sub lg:mt-2">보통 10~40초 걸려요 · {elapsed}초 지남</p>
+              {elapsed >= SLOW_SEC && stage !== "done" && !error && (
+                <div role="status" className="mt-3 animate-rise rounded-2xl bg-caution-bg px-4 py-3 text-left text-base leading-normal text-caution-ink">
+                  <p className="flex items-start gap-2">
+                    <TriangleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+                    <span>AI 응답이 평소보다 늦어요. 늦어도 1분 30초 안에는 일정을 보여 드려요.</span>
+                  </p>
+                  <a
+                    href="/trip/example"
+                    target="_blank"
+                    rel="noopener"
+                    className="mt-1 inline-flex min-h-touch items-center gap-1 font-bold underline underline-offset-4"
+                  >
+                    기다리는 동안 예시 일정 보기(새 탭)
+                  </a>
+                </div>
+              )}
             </section>
 
             <ol className="mt-6 flex flex-col gap-2 lg:mt-8 lg:grid lg:grid-cols-4 lg:gap-3" aria-label="진행 단계">

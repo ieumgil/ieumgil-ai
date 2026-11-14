@@ -221,3 +221,23 @@ describe("openaiTransport", () => {
     expect(await openaiTransport("k", fakeFetch)({ model: "m", system: "s", input: "i", schema, temperature: 0, timeoutMs: 1000 })).toBe('{"value":"모름"}');
   });
 });
+
+describe("시간 한도(deadline)", () => {
+  it("한도가 이미 지났으면 보내지 않고 바로 실패", async () => {
+    const log: string[] = [];
+    const llm = createLlm({ providers: [{ name: "gemini", transport: scripted("gemini", ['{"value":"가능"}'], log) }], sleep: noSleep });
+    const res = await llm.json({ ...req, deadline: Date.now() - 1 });
+    expect(res).toMatchObject({ ok: false, error: "unavailable" });
+    expect(log).toEqual([]);
+  });
+
+  it("답이 늦어도 한도에서 끊는다(시간 제한을 남은 시간으로 줄임)", async () => {
+    const log: string[] = [];
+    const aborted: string[] = [];
+    const llm = createLlm({ providers: [{ name: "gemini", transport: delayed("gemini", 5_000, '{"value":"가능"}', log, aborted) }], sleep: noSleep });
+    const t0 = Date.now();
+    const res = await llm.json({ ...req, deadline: t0 + 80 });
+    expect(res.ok).toBe(false);
+    expect(Date.now() - t0).toBeLessThan(1_000);
+  });
+});

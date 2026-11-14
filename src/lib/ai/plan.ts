@@ -148,6 +148,8 @@ export interface PlanArgs {
   options: CheckContext["options"];
   /** 진행 기록 한 줄(화면 '만드는 중') */
   onLog?: (text: string, tone?: "info" | "ok" | "fix") => void;
+  /** 걸린 안을 다시 짤 시간이 남았는지(일정 만들기 전체 한도). 없으면 늘 다시 짠다 */
+  canRetry?: () => boolean;
 }
 
 /** 위반 종류를 짧은 말로(진행 기록용) */
@@ -256,6 +258,9 @@ export async function planOptions(
         if (round === maxFixes) {
           dropped.push({ id: want.id, violations: ["안을 받지 못했어요"] });
           log(`${want.id}안은 받지 못해 뺐어요`, "fix");
+        } else if (args.canRetry && !args.canRetry()) {
+          dropped.push({ id: want.id, violations: ["시간이 부족해 다시 받지 못했어요"] });
+          log(`${want.id}안은 받지 못했고 다시 받을 시간이 부족해 뺐어요`, "fix");
         } else next.push({ ...want, fixes: want.fixes + 1 });
         continue;
       }
@@ -290,6 +295,9 @@ export async function planOptions(
         });
       } else if (round === maxFixes) {
         dropped.push({ id: want.id, violations: check.violations.map((v) => v.message) });
+      } else if (args.canRetry && !args.canRetry()) {
+        dropped.push({ id: want.id, violations: ["시간이 부족해 다시 짜지 못했어요", ...check.violations.map((v) => v.message)] });
+        log(`${want.id}안은 고칠 시간이 부족해 뺐어요`, "fix");
       } else {
         const msgs = check.violations.map((v) => `${v.day}일째: ${v.message}`);
         next.push({ ...want, fix: msgs.join(" / "), fixes: want.fixes + 1, fixed: [...want.fixed, ...msgs] });
