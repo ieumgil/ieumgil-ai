@@ -8,7 +8,7 @@
 import { cacheLife } from "next/cache";
 import { REGIONS, type Region } from "../types";
 import { fetchShort, KmaError } from "./kma";
-import { kstDate, pickShortBase, prevShortBase } from "./kst";
+import { kstDate, kstHour, pickShortBase, prevShortBase } from "./kst";
 import { WEATHER_REGIONS } from "./regions";
 import { summarizeShort } from "./summary";
 import type { DayForecast, ShortBase, ShortItem, WeatherResponse } from "./types";
@@ -66,12 +66,13 @@ const baseKey = (b: ShortBase) => b.baseDate + b.baseTime;
 export async function buildWeatherPayload(now: Date, deps: WeatherDeps): Promise<WeatherResponse> {
   const base = pickShortBase(now);
   const today = kstDate(now);
+  const nowHour = kstHour(now);
   const results = await Promise.allSettled(REGIONS.map((r) => loadShort(deps, WEATHER_REGIONS[r].nx, WEATHER_REGIONS[r].ny, base)));
   const regions: Partial<Record<Region, Record<string, DayForecast>>> = {};
   let latest: ShortBase | null = null;
   results.forEach((res, i) => {
     if (res.status === "fulfilled") {
-      regions[REGIONS[i]] = summarizeShort(res.value.items);
+      regions[REGIONS[i]] = summarizeShort(res.value.items, today, nowHour);
       if (!latest || baseKey(res.value.used) > baseKey(latest)) latest = res.value.used;
     } else {
       // 실패는 코드만 남긴다(요청 URL·키·Error 객체는 찍지 않는다 — 원칙 4)
