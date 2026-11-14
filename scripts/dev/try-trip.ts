@@ -7,7 +7,7 @@ import places from "../../data/places.json";
 import { makeTrip } from "../../src/lib/ai/trip";
 import { describeOption } from "../../src/lib/ai/review";
 import { estimateLeg } from "../../src/lib/engine/travel";
-import { createLlm, geminiTransport } from "../../src/lib/llm";
+import { getLlm } from "../../src/lib/llm";
 import { EMPTY_PLAN, type PlanInput, type TravelerType } from "../../src/lib/plan/types";
 import type { Category, Place } from "../../src/lib/types";
 
@@ -35,7 +35,7 @@ const input: PlanInput = {
 };
 
 async function main() {
-  const llm = createLlm({ transport: geminiTransport(process.env.GEMINI_API_KEY!.trim()), models: { fast: process.env.GEMINI_MODEL_FAST?.trim() } });
+  const llm = getLlm();
   const ps = places as unknown as Place[];
   const byId = new Map(ps.map((p) => [p.id, p]));
   const r = await makeTrip(llm, input, ps, evidence, estimateLeg);

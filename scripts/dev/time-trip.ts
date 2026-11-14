@@ -1,11 +1,11 @@
-// 일정 만들기 시간 재기(실제 Gemini): AI 호출마다 시작·끝 시각, 시도 횟수, 실패 이유를 찍는다.
-// "느려졌다"를 코드 탓인지 Gemini 응답 탓인지 가르는 데 쓴다.
-// 사용: npx tsx scripts/dev/time-trip.ts [1박|2박|당일]
+// 일정 만들기 시간 재기(실제 AI): AI 호출마다 시작·끝 시각, 쓴 모델, 시도 횟수, 실패 이유를 찍는다.
+// "느려졌다"를 코드 탓인지 AI 응답 탓인지 가르는 데 쓴다. 서비스와 같은 설정(Gemini 먼저, 붐비거나 늦으면 OpenAI).
+// 사용: npx tsx scripts/dev/time-trip.ts [1박|2박|당일] [--gemini|--openai] [--busy]   (한 제공자만, --busy: 일정 많이)
 import evidence from "../../data/evidence.json";
 import places from "../../data/places.json";
 import { makeTrip } from "../../src/lib/ai/trip";
 import { estimateLeg } from "../../src/lib/engine/travel";
-import { createLlm, geminiTransport, type LlmClient, type LlmRequest } from "../../src/lib/llm";
+import { getLlm, type LlmClient, type LlmRequest } from "../../src/lib/llm";
 import { EMPTY_PLAN, type PlanInput } from "../../src/lib/plan/types";
 import type { Place } from "../../src/lib/types";
 
@@ -14,19 +14,21 @@ try {
 } catch {
   // 환경변수로 이미 설정된 경우
 }
-const length = process.argv[2] ?? "1박";
+if (process.argv.includes("--gemini")) delete process.env.OPENAI_API_KEY;
+if (process.argv.includes("--openai")) delete process.env.GEMINI_API_KEY;
+const length = process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "1박";
 const endDate = { 당일: "2026-12-12", "1박": "2026-12-13", "2박": "2026-12-14" }[length] ?? "2026-12-13";
-const input: PlanInput = { ...EMPTY_PLAN, startDate: "2026-12-12", endDate, arrival: "gangneung-station", transport: "car", travelers: ["wheelchair"], lodging: "강릉", categories: ["바다·해변", "전시·박물관", "역사·문화"], pace: "normal" };
+const input: PlanInput = { ...EMPTY_PLAN, startDate: "2026-12-12", endDate, arrival: "gangneung-station", transport: "car", travelers: ["wheelchair"], lodging: "강릉", categories: ["바다·해변", "전시·박물관", "역사·문화"], pace: process.argv.includes("--busy") ? "busy" : "normal" };
 
 async function main() {
-  const base = createLlm({ transport: geminiTransport(process.env.GEMINI_API_KEY!.trim()), models: { fast: process.env.GEMINI_MODEL_FAST?.trim() } });
+  const base = getLlm();
   const t0 = Date.now();
   const sec = (t: number) => ((t - t0) / 1000).toFixed(1);
   const llm: LlmClient = {
     async json<T>(req: LlmRequest) {
       const s = Date.now();
       const r = await base.json<T>(req);
-      console.log(`  [${sec(s)}s → ${sec(Date.now())}s] ${req.task} ${r.ok ? "ok" : `실패 ${r.message.slice(0, 90)}`} · 시도 ${r.attempts}`);
+      console.log(`  [${sec(s)}s → ${sec(Date.now())}s] ${req.task} ${r.model} ${r.ok ? "ok" : `실패 ${r.message.slice(0, 90)}`} · 시도 ${r.attempts}`);
       return r;
     },
   };

@@ -24,16 +24,16 @@
    - 값마다 출처 등급: `ai`(LLM이 관광공사 문장을 읽고 정리) / `human`(사람이 전화·현장으로 확인). 화면에 함께 표시한다.
 3. **카카오 길찾기 결과는 저장하지 않는다**(캐싱 금지 정책). 공유 링크에는 장소·순서·체류·이유 같은 안 JSON만 저장하고,
    이동시간·시각·경로는 열 때 다시 계산한다. 검사 위반도 종류와 장소만 저장한다.
-4. **키는 서버에서만.** 카카오 REST·Gemini·Supabase 서비스 키·관광공사 키는 서버 코드·스크립트와 환경변수에만.
+4. **키는 서버에서만.** 카카오 REST·Gemini·OpenAI·Supabase 서비스 키·관광공사 키는 서버 코드·스크립트와 환경변수에만.
    카카오 JS 키만 브라우저에 노출(도메인 제한).
-5. **개인정보 수집 없음.** 이름·연락처·IP 저장 금지. 저장하는 것은 유형·조건·날짜·순서뿐. Gemini에는 입력 조건과 장소 정보만 보낸다.
+5. **개인정보 수집 없음.** 이름·연락처·IP 저장 금지. 저장하는 것은 유형·조건·날짜·순서뿐. Gemini·OpenAI에는 입력 조건과 장소 정보만 보낸다(OpenAI는 `store: false`).
 6. 지도 경로는 "일반 차량 경로"로만 표현한다. 휠체어 안전 경로라고 쓰지 않는다.
 
 ## 스택
 Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(표시) · 카카오모빌리티
-다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini(기본 `gemini-3.5-flash-lite`, 읽기·판단·계획·풀어주기, JSON 응답)
+다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini(기본 `gemini-3.5-flash-lite`, 먼저) + OpenAI(`gpt-6-luna`, 503·429·15초 넘게 늦으면 같은 요청을 보내 먼저 온 답, 11/14) — 읽기·판단·계획·풀어주기, JSON 응답
 · 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · Vercel.
-공유 링크·Supabase(`trips`)는 나중에(메인 기능 먼저, `docs/impl-plan.md`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`).
+공유 링크·Supabase(`trips`)는 나중에(메인 기능 먼저, `docs/impl-plan.md`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
 글꼴 Pretendard.
 
 ## 폴더 구조 (지금 · 11/14 정리)
@@ -48,7 +48,7 @@ src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·�
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(날짜별 틀) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
 src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
 src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문
-src/lib/            llm.ts(Gemini 호출은 이 파일 하나로, 모델은 GEMINI_MODEL_FAST/READ) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
+src/lib/            llm.ts(AI 호출은 이 파일 하나로: 제공자 순서 AI_ORDER, 모델 GEMINI_MODEL_FAST/READ · OPENAI_MODEL) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
 data/               places.json · places.schema.json · evidence.json · photos.json · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과)
                     · eval/(read-v1 · 선택 human.json) · raw/·build/(API 원본·중간 산출물, 커밋 안 함)
 scripts/            tour/(관광공사 API 수집·보고서·사진) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험) — scripts/README.md

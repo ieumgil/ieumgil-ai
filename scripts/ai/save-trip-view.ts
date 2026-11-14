@@ -7,7 +7,7 @@ import evidence from "../../data/evidence.json";
 import places from "../../data/places.json";
 import { makeTrip } from "../../src/lib/ai/trip";
 import { estimateLeg } from "../../src/lib/engine/travel";
-import { createLlm, geminiTransport } from "../../src/lib/llm";
+import { getLlm } from "../../src/lib/llm";
 import { EMPTY_PLAN, type PlanInput } from "../../src/lib/plan/types";
 import { toTripView } from "../../src/lib/trip/view";
 import type { Place } from "../../src/lib/types";
@@ -32,7 +32,7 @@ const input: PlanInput = {
 };
 
 async function main() {
-  const llm = createLlm({ transport: geminiTransport(process.env.GEMINI_API_KEY!.trim()), models: { fast: process.env.GEMINI_MODEL_FAST?.trim() } });
+  const llm = getLlm();
   const ps = places as unknown as Place[];
   const r = await makeTrip(llm, input, ps, evidence, estimateLeg, (ev) => console.log(ev.stage === "log" ? `  ${ev.text}` : ev.stage === "candidates" ? `  후보: ${ev.names.join(", ")}` : `단계: ${ev.stage}`));
   const view = toTripView(r, input, ps, evidence);

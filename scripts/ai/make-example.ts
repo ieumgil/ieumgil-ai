@@ -6,7 +6,7 @@ import evidence from "../../data/evidence.json";
 import places from "../../data/places.json";
 import { makeTrip } from "../../src/lib/ai/trip";
 import { estimateLeg } from "../../src/lib/engine/travel";
-import { createLlm, geminiTransport } from "../../src/lib/llm";
+import { getLlm } from "../../src/lib/llm";
 import { EMPTY_PLAN, type PlanInput } from "../../src/lib/plan/types";
 import { toTripView } from "../../src/lib/trip/view";
 import type { Place } from "../../src/lib/types";
@@ -34,7 +34,7 @@ export const EXAMPLE_INPUT: PlanInput = {
 };
 
 async function main() {
-  const llm = createLlm({ transport: geminiTransport(process.env.GEMINI_API_KEY!.trim()), models: { fast: process.env.GEMINI_MODEL_FAST?.trim() } });
+  const llm = getLlm();
   const ps = places as unknown as Place[];
   let best: ReturnType<typeof toTripView> | null = null;
   for (let attempt = 1; attempt <= 3; attempt++) {

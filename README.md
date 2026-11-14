@@ -18,7 +18,7 @@
 
 | 관광지 | 필수 조건 위반 | 근거 없이 채운 값 | AI 읽기 일관성 | 자동 테스트 |
 | :---: | :---: | :---: | :---: | :---: |
-| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 146 · 화면 흐름 88</sub> |
+| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 160 · 화면 흐름 90</sub> |
 
 </div>
 
@@ -242,7 +242,7 @@ flowchart TB
 - 그 밖에 정보가 없는 항목은 판단을 막지 않고 **출발 전 확인 질문**으로 붙임
 - LLM이 실패해 규칙만으로 판단할 때는 엄격하게: 꼭 필요한 조건 중 하나라도 '모름'이면 확인 필요
 
-**요청 한 번에** LLM 호출 5~8회(판단 3 · 계획 1~3 · 평가 1~2), 보통 30초~1분(AI 서버가 붐비면 더 걸립니다). 모델은 Gemini Flash-Lite(무료 등급)이고 환경변수로 바꿀 수 있습니다. 이름·연락처는 받지도 보내지도 않습니다(자유 입력 칸 없음).
+**요청 한 번에** LLM 호출 5~8회(판단 3 · 계획 1~3 · 평가 1~2), 보통 10~40초입니다. 모델은 **Gemini Flash-Lite를 먼저** 쓰고, Gemini가 붐비거나(503) 15초 넘게 답이 없으면 같은 요청을 **OpenAI GPT-6 Luna**에도 보내 먼저 온 답을 씁니다([`llm.ts`](src/lib/llm.ts)). 둘 다 안 되면 규칙 일정 1안이 나옵니다. 모델은 환경변수로 바꿀 수 있고, OpenAI에는 대화를 저장하지 않게 보냅니다(`store: false`). 이름·연락처는 받지도 보내지도 않습니다(자유 입력 칸 없음).
 
 <details>
 <summary>실제 응답 예: ③ 계획이 낸 A안(검사 통과)과 코드가 계산한 시각</summary>
@@ -310,9 +310,9 @@ AI 평가: 피로도 4 · 시간 여유 4 · 취향 4
 
 | 항목 | 목표 | 현재 |
 | --- | --- | --- |
-| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 146개 · 화면 흐름(E2E) 41개 × 모바일·PC + 너비별 배치 6개 |
+| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 160개 · 화면 흐름(E2E) 42개 × 모바일·PC + 너비별 배치 6개 |
 | 엔진 시나리오 10개 + 유형 조합 14개 | 필수 조건 위반 0건 | **0건** |
-| AI 가드 (가짜 LLM 테스트 37개) | 근거 없는 판단 사용 0건 · 안전 하한보다 낙관 0건 · 검사를 통과하지 못한 안 노출 0건 · AI 실패 시 규칙 일정 | **모두 통과** |
+| AI 가드 (가짜 LLM 테스트 51개) | 근거 없는 판단 사용 0건 · 안전 하한보다 낙관 0건 · 검사를 통과하지 못한 안 노출 0건 · AI 실패 시 규칙 일정 | **모두 통과** |
 | AI 읽기 근거 | 원문에 없는 근거로 채운 값 0건 | **0건** (152곳 · 1,520항목) |
 | AI 읽기 일관성 | 같은 152곳을 두 번 읽었을 때 항목 일치율 | **96.4%** (프롬프트 예시 추가 전후 비교 · [`data/eval/`](data/eval/)) |
 | 장소 바꾸기 | 부적합·이미 있는 곳으로 바꾸기 0건 · 검사에 걸리면 안 바꿈 · 시각은 코드 값 | **모두 통과** (단위 6개 + E2E) |
@@ -345,7 +345,7 @@ AI 평가: 피로도 4 · 시간 여유 4 · 취향 4
 | --- | --- |
 | 화면·서버 | Next.js 16 (App Router), React 19, TypeScript (strict) |
 | 스타일 | Tailwind CSS v4, shadcn/ui(Radix), lucide 아이콘, Pretendard |
-| AI | Gemini Flash-Lite (`@google/genai`, JSON 스키마 응답) |
+| AI | Gemini Flash-Lite(`@google/genai`) 먼저 + OpenAI GPT-6 Luna(Responses API) 예비, 둘 다 JSON 스키마 응답 |
 | 데이터 | 한국관광공사 무장애 여행정보 API (수집 스크립트 전용) |
 | 지도·경로 | 카카오맵 JavaScript SDK(확정 일정 지도), 카카오모빌리티 다중 경유지 길찾기(경로선, 저장 안 함) |
 | 저장 | 없음 (일정·확정·바꾼 장소는 브라우저 탭에만 보관, 개인정보 없음) |
@@ -361,7 +361,7 @@ src/app/            시작 · plan/(입력 4단계, making/ 만드는 중) · tr
 src/lib/ai/         judge.ts(② 판단) · plan.ts(③ 일정 2~3안) · review.ts(평가자) · trip.ts(전체 흐름) · guards.ts(안전 하한·근거 검사) · schemas.ts
 src/lib/engine/     conditions.ts · filter.ts · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
 src/lib/trip/       view.ts(결과 화면 값) · alternatives.ts(대체 후보) · edit.ts(바꾸기 후 다시 계산) · store.ts(탭 보관) · example.ts(예시 루트)
-src/lib/llm.ts      Gemini 호출을 한 곳에(JSON 검사·형식 오류와 503·시간 초과 재시도) · src/lib/kakao.ts(길찾기, 서버 전용)
+src/lib/llm.ts      AI 호출을 한 곳에(Gemini → 붐비거나 늦으면 OpenAI, JSON 검사·형식 오류 재요청) · src/lib/kakao.ts(길찾기, 서버 전용)
 src/components/     ui/(shadcn 기반 부품) · plan/(입력 단계) · trip/(결과·확정 화면: 장소 카드·안 고르기·바꾸기 창·체크리스트) · map/ · photos/
 data/               places.json · evidence.json · photos.json(사진 분류) · docs/places/(근거 원문) · ai/read/(AI 읽기 결과) · eval/(평가 자료)
 scripts/            tour/(관광공사 API 수집·사진) · ai/(① 읽기·합치기·예시) · readme/(캡처·구조도) · dev/(연결 확인·시험) — 실행 순서는 scripts/README.md
@@ -388,7 +388,7 @@ npm run dev                  # http://localhost:3000
 | `npm test` | 엔진·AI 가드 테스트(가짜 LLM, 키 필요 없음) |
 | `npm run test:e2e` | 화면 흐름 테스트 (처음 한 번 `npx playwright install chromium`) |
 | `npm run validate:places` | 장소 데이터 검사 |
-| `npx tsx scripts/dev/try-trip.ts wheelchair --cat "바다·해변"` | 실제 Gemini로 규칙 일정 vs AI 일정 비교 출력 |
+| `npx tsx scripts/dev/try-trip.ts wheelchair --cat "바다·해변"` | 실제 AI로 규칙 일정 vs AI 일정 비교 출력 |
 | `npm run build` | 데이터 검사 후 배포용 빌드 |
 | `npm run readme:capture` · `npm run readme:architecture` | README 화면 캡처(개발 서버 켠 뒤, AI 호출 없음) · 구조도 다시 만들기 |
 | `npm run data:build` → `data:read` → `data:merge` | 장소 데이터 다시 만들기(관광공사 API·Gemini 키 필요) — 순서와 나머지 스크립트는 [scripts/README.md](scripts/README.md) |
@@ -397,7 +397,7 @@ npm run dev                  # http://localhost:3000
 ## 한계와 안내
 
 - 일정의 이동 시간은 지금 **직선거리로 어림한 추정치**입니다(카카오 이동시간 반영 예정). 지도 경로선은 카카오 일반 차량 경로이며 휠체어 안전 경로를 보장하지 않습니다.
-- AI 일정 만들기는 보통 30초~1분이지만, AI(Gemini) 서버가 붐비면(503·응답 지연) 3분 넘게 걸린 적이 있습니다(11/12). 늦은 요청을 하나 더 보내고 전체 시간에 한도를 두는 개선을 준비 중입니다. 기다리기 어려우면 [예시 루트](https://ieumgil-ai.vercel.app/trip/example)로 결과를 바로 볼 수 있습니다.
+- AI 일정 만들기는 보통 10~40초입니다. Gemini만 쓰던 때는 서버가 붐비면(503·응답 지연) 3분 넘게 걸린 적이 있어(11/12), 지금은 붐비거나 늦으면 OpenAI로 넘깁니다(11/14). 전체 시간 한도는 아직 없습니다. 기다리기 어려우면 [예시 루트](https://ieumgil-ai.vercel.app/trip/example)로 결과를 바로 볼 수 있습니다.
 - 장소 바꾸기 후보는 이번에 AI가 판단한 장소(최대 20곳) 안에서만 고릅니다. 그래서 같은 후보가 여러 장소에 나올 수 있습니다.
 - 접근성 정보는 한국관광공사 자료를 AI가 정리한 것으로 현장과 다를 수 있습니다. 출발 전 공식 전화로 확인해 주세요.
 - 관광지 사진은 관광공사가 등록한 사진이라 지금 모습과 다를 수 있습니다. 제3유형 사진은 원본을 불러와 휴대폰에서 조금 늦게 뜰 수 있습니다.
