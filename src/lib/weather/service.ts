@@ -1,7 +1,7 @@
 // 날씨 묶음 만들기(서버 전용). 3개 시의 단기예보 + 중기예보(육상·기온)를 불러 날짜별 하루 값 표로 정리한다.
 // D-04: 저장하지 않는다. 서버에서만 짧게 캐시한다('use cache' + cacheLife: 15분 뒤 다시 확인, 30분 뒤 만료 — CDN 15분+5분과 합쳐도 1시간 안쪽).
 //   캐시 키 = 함수 인자(격자·지역코드 + 발표 시각)라서 새 발표가 나오면 키가 바뀌어 따로 지울 필요가 없다.
-//   실패는 throw 그대로 둔다(null을 돌려주면 실패가 캐시에 굳는다). 데이터 없음(03)만 예외 — 아래 주석.
+//   실패는 throw 그대로 둔다(null을 돌려주면 실패가 캐시에 굳는다). 데이터 없음(03)과 결정적 오류(12·20·22·30·31·32)만 예외 — 아래 주석.
 // 'use cache' 안에서는 요청 정보(cookies·headers 등)를 읽지 않는다 — 시각은 라우트가 구해 인자로 내려 준다.
 // 발표 직후 자료가 아직 없으면(결과 코드 03) 시마다·구역마다 직전 발표로 딱 한 번만 다시 부른다(T-02-10·T-02-13: 호출을 늘리지 않는다).
 //
@@ -37,55 +37,95 @@ function errorCode(reason: unknown): string {
 
 const NO_DATA = "03";
 
-async function shortCached(nx: number, ny: number, baseDate: string, baseTime: string): Promise<ShortItem[]> {
+/**
+ * 다시 불러도 같은 결과일 오류(12·20 활용신청 누락, 22 호출 한도, 30·31·32 키 문제). 이 오류로 끝난 호출은 몇 초 뒤에도 똑같이 실패하므로,
+ * 요청마다 기상청을 다시 부르지 않게 값으로 내보내 짧게 캐시한다(WR-03). 22는 재시도하면 한도를 더 태우므로 더더욱 다시 부르지 않는다.
+ */
+const DETERMINISTIC_CODES = new Set(["12", "20", "22", "30", "31", "32"]);
+
+/** 'use cache' 안쪽에서 값으로 내보내는 결정적 실패. 서비스 바깥(cachedDeps)에서 다시 KmaError로 던진다 */
+interface CachedFailure {
+  kmaFailed: string;
+}
+const isCachedFailure = (v: unknown): v is CachedFailure => typeof v === "object" && v !== null && !Array.isArray(v) && typeof (v as CachedFailure).kmaFailed === "string";
+
+/** 값으로 내보낸 실패를 다시 던져, 서비스에는 예전처럼 throw 하나로만 보이게 한다(KmaError라 코드만 있고 키·URL은 없다) */
+async function unwrap<T>(promise: Promise<T | CachedFailure>): Promise<T> {
+  const value = await promise;
+  if (isCachedFailure(value)) throw new KmaError(value.kmaFailed);
+  return value;
+}
+
+// 'use cache' 안에서 던진 오류는 캐시에 저장되지 않는다. 하지만 운영 서버에서는 'use cache' 밖으로 나온 오류가 한 번 감싸여 코드를 읽을 수 없으므로,
+// 코드를 알아야 하는 두 경우만 값으로 내보내 짧게 캐시한다:
+//   - 데이터 없음(03): 곧 자료가 올라올 수 있어 1~2분(빈 배열·null → 서비스가 직전 발표로 한 번 더 부른다)
+//   - 결정적 오류(DETERMINISTIC_CODES): 30~60초({ kmaFailed: 코드 } → 서비스가 다시 던진다, 재시도하지 않는다)
+// 그 밖의 실패(네트워크·시간 초과·형식 오류)는 throw 그대로라 캐시에 굳지 않고 다음 요청이 다시 시도한다.
+async function shortCached(nx: number, ny: number, baseDate: string, baseTime: string): Promise<ShortItem[] | CachedFailure> {
   "use cache";
   try {
     const items = await fetchShort(nx, ny, { baseDate, baseTime });
     cacheLife({ stale: 300, revalidate: 900, expire: 1800 });
     return items;
   } catch (e) {
-    // 운영 서버에서는 'use cache' 밖으로 나온 오류가 한 번 감싸여 코드를 읽을 수 없다 → '데이터 없음'만은 값(빈 배열)으로 내보낸다.
-    // 곧 자료가 올라올 수 있으니 짧게만 캐시한다. 그 밖의 실패(키 오류·한도·네트워크)는 throw 그대로라 캐시에 굳지 않는다.
-    if (errorCode(e) === NO_DATA) {
+    const code = errorCode(e);
+    if (code === NO_DATA) {
       cacheLife({ stale: 30, revalidate: 60, expire: 120 });
       return [];
+    }
+    if (DETERMINISTIC_CODES.has(code)) {
+      cacheLife({ stale: 30, revalidate: 30, expire: 60 });
+      return { kmaFailed: code };
     }
     throw e;
   }
 }
 
-// 중기도 같은 모양: 03만 값(null)으로 내보내 짧게 캐시하고, 나머지 실패는 throw라 캐시에 굳지 않는다.
-async function midLandCached(regId: string, tmFc: string): Promise<MidItem | null> {
+async function midLandCached(regId: string, tmFc: string): Promise<MidItem | null | CachedFailure> {
   "use cache";
   try {
     const item = await fetchMidLand(regId, tmFc);
     cacheLife({ stale: 300, revalidate: 900, expire: 1800 });
     return item;
   } catch (e) {
-    if (errorCode(e) === NO_DATA) {
+    const code = errorCode(e);
+    if (code === NO_DATA) {
       cacheLife({ stale: 30, revalidate: 60, expire: 120 });
       return null;
+    }
+    if (DETERMINISTIC_CODES.has(code)) {
+      cacheLife({ stale: 30, revalidate: 30, expire: 60 });
+      return { kmaFailed: code };
     }
     throw e;
   }
 }
 
-async function midTaCached(regId: string, tmFc: string): Promise<MidItem | null> {
+async function midTaCached(regId: string, tmFc: string): Promise<MidItem | null | CachedFailure> {
   "use cache";
   try {
     const item = await fetchMidTa(regId, tmFc);
     cacheLife({ stale: 300, revalidate: 900, expire: 1800 });
     return item;
   } catch (e) {
-    if (errorCode(e) === NO_DATA) {
+    const code = errorCode(e);
+    if (code === NO_DATA) {
       cacheLife({ stale: 30, revalidate: 60, expire: 120 });
       return null;
+    }
+    if (DETERMINISTIC_CODES.has(code)) {
+      cacheLife({ stale: 30, revalidate: 30, expire: 60 });
+      return { kmaFailed: code };
     }
     throw e;
   }
 }
 
-export const cachedDeps: WeatherDeps = { short: shortCached, midLand: midLandCached, midTa: midTaCached };
+export const cachedDeps: WeatherDeps = {
+  short: (nx, ny, baseDate, baseTime) => unwrap(shortCached(nx, ny, baseDate, baseTime)),
+  midLand: (regId, tmFc) => unwrap(midLandCached(regId, tmFc)),
+  midTa: (regId, tmFc) => unwrap(midTaCached(regId, tmFc)),
+};
 
 /** 한 시의 예보를 부른다. 데이터 없음(03)이면 직전 발표로 한 번만 다시 부르고, 실제로 쓴 발표를 함께 돌려준다 */
 async function loadShort(deps: WeatherDeps, nx: number, ny: number, base: ShortBase): Promise<{ items: ShortItem[]; used: ShortBase }> {
