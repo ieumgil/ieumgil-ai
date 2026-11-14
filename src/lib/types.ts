@@ -16,8 +16,11 @@ export type Category = (typeof CATEGORIES)[number];
 /** '모름'은 허용하되 물어볼 질문(ask)이 반드시 있어야 한다(원칙 2, docs/ai-plan.md v3). */
 export type AccessStatus = "가능" | "부분가능" | "불가" | "모름";
 
-/** 값의 출처 등급: ai = LLM이 관광공사 문장을 읽고 정리, human = 사람이 전화·현장으로 확인 */
-export type Grade = "ai" | "human";
+/**
+ * 값의 출처 등급: ai = LLM이 관광공사 문장을 읽고 정리, public = 행정안전부 공중화장실 공공데이터를 코드가 그대로 옮김(AI 정리 아님),
+ * human = 사람이 전화·현장으로 확인. 우선순위는 human > public > ai.
+ */
+export type Grade = "ai" | "public" | "human";
 
 export const ACCESS_KEYS = [
   "step_free_entrance", // 계단·단차 없는 진입
@@ -39,6 +42,7 @@ export type AccessMethod =
   | "열린관광"
   | "전화 확인"
   | "현장 확인"
+  | "공공데이터"
   | "기타";
 
 export interface AccessItem {
@@ -47,11 +51,11 @@ export interface AccessItem {
   note?: string;
   /** 모름이면 필수: 출발 전에 전화로 물어볼 질문 */
   ask?: string;
-  /** 근거 문장 id(data/docs/places/{id}.md의 문단 id, 예: "route-1"). 등급 ai이고 모름이 아니면 1개 이상 */
+  /** 근거 문장 id(data/docs/places/{id}.md의 문단 id, 예: "route-1"). 등급 ai이고 모름이 아니면 1개 이상. public이면 public-화장실-N 문단 id */
   evidence?: string[];
   grade: Grade;
   method: AccessMethod;
-  /** yyyy-mm-dd: ai면 API 조회일, human이면 확인한 날 */
+  /** yyyy-mm-dd: ai면 API 조회일, public이면 공공데이터 기준일, human이면 확인한 날 */
   verified_at: string;
   source_url?: string;
 }

@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "이음길 장소 데이터 (v3: '모름' + 질문, 등급 ai/human)",
+  "title": "이음길 장소 데이터 (v3: '모름' + 질문, 등급 ai/public/human)",
   "type": "array",
   "items": { "$ref": "#/$defs/place" },
   "$defs": {
     "status": { "enum": ["가능", "부분가능", "불가", "모름"] },
-    "grade": { "enum": ["ai", "human"], "description": "ai = LLM이 관광공사 문장을 읽고 정리, human = 사람이 전화·현장으로 확인" },
+    "grade": { "enum": ["ai", "public", "human"], "description": "ai = LLM이 관광공사 문장을 읽고 정리, public = 행정안전부 공중화장실 공공데이터를 코드가 그대로 옮김, human = 사람이 전화·현장으로 확인" },
     "evidence": { "type": "array", "items": { "type": "string", "pattern": "^[a-z]+(-[a-z가-힣0-9]+)*-\\d+$" }, "description": "근거 문단 id(예: route-1, info-화장실-1)" },
     "access": {
       "type": "object",
@@ -16,7 +16,7 @@
         "ask": { "type": "string", "description": "모름이면 필수: 출발 전에 물어볼 질문" },
         "evidence": { "$ref": "#/$defs/evidence" },
         "grade": { "$ref": "#/$defs/grade" },
-        "method": { "enum": ["관광공사 API", "지자체 누리집", "열린관광", "전화 확인", "현장 확인", "기타"] },
+        "method": { "enum": ["관광공사 API", "지자체 누리집", "열린관광", "전화 확인", "현장 확인", "공공데이터", "기타"] },
         "verified_at": { "type": "string", "format": "date" },
         "source_url": { "type": "string" }
       },
