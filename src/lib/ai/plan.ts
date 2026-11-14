@@ -110,7 +110,8 @@ export const PLAN_SYSTEM = `너는 관광약자 여행 일정을 짜는 도우�
 4. 하루 장소 수는 일정 밀도를 따른다. 이동이 짧도록 가까운 곳끼리 묶고, 같은 분야만 이어지지 않게 섞는다.
 5. '적합'·'주의' 장소를 먼저 쓰고, 모자라면 '확인 필요' 장소를 넣는다. '확인 필요'를 넣으면 checkBeforeGo에 물어볼 질문을 쓴다.
 6. why는 이 여행자 기준으로 왜 골랐는지 쉬운 존댓말 한 문장. 판단 이유와 정리된 값에 없는 시설을 지어내지 않는다.
-7. 안마다 정해 준 방향(전략)을 따르고, 안끼리 장소가 절반 넘게 겹치지 않게 한다.`;
+7. 안마다 정해 준 방향(전략)을 따르고, 안끼리 장소가 절반 넘게 겹치지 않게 한다(꼭 가고 싶은 곳은 빼고 센다).
+8. '꼭 가고 싶은 곳'은 어떤 전략이든 모든 안에 반드시 넣는다(전략보다 우선). 넣을 자리가 모자라면 다른 장소를 뺀다.`;
 
 function candidateLines(candidates: Candidate[], judgments: Map<string, Judgment>, frames: DayFrame[], travel: TravelFn): string {
   return candidates
@@ -167,6 +168,7 @@ const VIOLATION_TEXT: Record<string, string> = {
   판단부적합: "조건에 맞지 않는 곳이 있어",
   체류범위: "머무는 시간이 맞지 않아",
   날짜: "날짜가 맞지 않아",
+  꼭갈곳빠짐: "꼭 가고 싶은 곳이 빠져서",
 };
 
 function toDraft(raw: RawOption, placesById: Map<string, Place>): PlanDraft {
@@ -211,6 +213,8 @@ export async function planOptions(
     options: args.options,
     candidateIds: new Set(placeIds),
     verdicts: new Map([...judgments].map(([k, v]) => [k, v.verdict])),
+    // 꼭 가고 싶은 곳: 일정에 넣을 수 있는 후보(부적합 아님)만 모든 안에 들어가야 한다
+    mustVisit: new Set(input.mustVisit.filter((id) => placeIds.includes(id))),
   };
   const categories = input.categories.join(", ") || "고르지 않음";
   const base = [
@@ -314,19 +318,21 @@ export async function planOptions(
         dropped.push({ id: want.id, violations: ["시간이 부족해 다시 짜지 못했어요", ...check.violations.map((v) => v.message)] });
         log(`${want.id}안은 고칠 시간이 부족해 뺐어요`, "fix");
       } else {
-        const msgs = check.violations.map((v) => `${v.day}일째: ${v.message}`);
+        const msgs = check.violations.map((v) => (v.day ? `${v.day}일째: ${v.message}` : v.message));
         next.push({ ...want, fix: msgs.join(" / "), fixes: want.fixes + 1, fixed: [...want.fixed, ...msgs] });
       }
     }
     pending = next;
   }
 
-  // 안끼리 장소가 절반 넘게 겹치면 뒤의 안을 뺀다(평가자 단계에서 다시 만들 수 있게 표시)
+  // 안끼리 장소가 절반 넘게 겹치면 뒤의 안을 뺀다(평가자 단계에서 다시 만들 수 있게 표시).
+  // 꼭 가고 싶은 곳은 모든 안에 들어가야 하므로 겹침을 셀 때 뺀다.
+  const must = ctx.mustVisit ?? new Set<string>();
   const deduped: PlanOption[] = [];
   for (const o of final) {
-    const ids = new Set(o.draft.days.flatMap((d) => d.stops.map((s) => s.placeId)));
+    const ids = new Set(o.draft.days.flatMap((d) => d.stops.map((s) => s.placeId)).filter((id) => !must.has(id)));
     const overlap = deduped.some((d) => {
-      const other = d.draft.days.flatMap((x) => x.stops.map((s) => s.placeId));
+      const other = d.draft.days.flatMap((x) => x.stops.map((s) => s.placeId)).filter((id) => !must.has(id));
       const same = other.filter((x) => ids.has(x)).length;
       return same > Math.min(ids.size, other.length) / 2;
     });

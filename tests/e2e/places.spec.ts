@@ -58,3 +58,15 @@ test("시작 화면에서도 들어갈 수 있고, 누를 수 있는 것은 44px
     if (box) expect(box.height, (await el.textContent()) ?? "").toBeGreaterThanOrEqual(44);
   }
 });
+
+test("내려가면 오른쪽 아래에 '맨 위로' 버튼이 뜨고, 누르면 맨 위로 올라간다", async ({ page }) => {
+  await page.goto("/places");
+  await expect(page.getByRole("button", { name: "맨 위로" })).toHaveCount(0);
+  await page.evaluate(() => window.scrollTo(0, 2000));
+  const top = page.getByRole("button", { name: "맨 위로" });
+  await expect(top).toBeVisible();
+  const box = (await top.boundingBox())!;
+  expect(box.height).toBeGreaterThanOrEqual(44);
+  await top.click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
+});

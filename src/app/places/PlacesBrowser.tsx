@@ -7,6 +7,7 @@ import { Check, ChevronRight, Phone, Plus, Search as SearchIcon, Sparkles } from
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
+import { ScrollTop } from "@/components/ScrollTop";
 import { SegmentButton } from "@/components/plan/choices";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
@@ -174,6 +175,9 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
           </ButtonLink>
         </div>
       </div>
+
+      {/* 맨 위로: 아래 '담은 곳' 막대 위에 */}
+      <ScrollTop bottom="calc(6.5rem + env(safe-area-inset-bottom))" />
 
       <Sheet open={open !== null} onOpenChange={(v) => !v && setOpen(null)}>
         <SheetContent side="bottom" className={PANEL}>

@@ -13,6 +13,7 @@
 import { CircleCheck, X } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { ScrollTop } from "@/components/ScrollTop";
 import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { ConfirmButton, ConfirmSheet } from "@/components/trip/ConfirmSheet";
@@ -191,6 +192,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
           <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} single={trip.options.length === 1} finalHref={finalHref} />
         </div>
       </div>
+
+      <ScrollTop bottom={wide ? "1.25rem" : "calc(6rem + env(safe-area-inset-bottom))"} />
 
       <Sheet open={swapFor !== null} onOpenChange={(v) => !v && setSwapFor(null)}>
         <SheetContent side="bottom" className={PANEL}>

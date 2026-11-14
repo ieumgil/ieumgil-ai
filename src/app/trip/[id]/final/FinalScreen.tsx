@@ -7,6 +7,7 @@ import { ArrowLeft, CircleCheck, Printer } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import { ScrollTop } from "@/components/ScrollTop";
 import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { Checklist } from "@/components/trip/Checklist";
@@ -132,6 +133,7 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
           </section>
         </div>
       </div>
+      <ScrollTop />
     </main>
   );
 }

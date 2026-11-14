@@ -17,9 +17,12 @@ try {
 }
 if (process.argv.includes("--gemini")) delete process.env.OPENAI_API_KEY;
 if (process.argv.includes("--openai")) delete process.env.GEMINI_API_KEY;
-const length = process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "1박";
+const length = process.argv.slice(2).find((a) => !a.startsWith("--") && !/^[A-Z]{2}\d/.test(a)) ?? "1박";
+// --must GN09,GN67 : 꼭 가고 싶은 곳(둘러보기 화면에서 담은 것과 같음) — 안마다 들어갔는지 찍는다
+const mustArg = process.argv.indexOf("--must");
+const mustVisit = mustArg > 0 ? process.argv[mustArg + 1].split(",") : [];
 const endDate = { 당일: "2026-12-12", "1박": "2026-12-13", "2박": "2026-12-14" }[length] ?? "2026-12-13";
-const input: PlanInput = { ...EMPTY_PLAN, startDate: "2026-12-12", endDate, arrival: "gangneung-station", transport: "car", travelers: ["wheelchair"], lodging: "강릉", categories: ["바다·해변", "전시·박물관", "역사·문화"], pace: process.argv.includes("--busy") ? "busy" : "normal" };
+const input: PlanInput = { ...EMPTY_PLAN, startDate: "2026-12-12", endDate, arrival: "gangneung-station", transport: "car", travelers: ["wheelchair"], lodging: "강릉", categories: ["바다·해변", "전시·박물관", "역사·문화"], pace: process.argv.includes("--busy") ? "busy" : "normal", mustVisit };
 
 async function main() {
   const base = getLlm();
@@ -39,6 +42,13 @@ async function main() {
     if (ev.stage === "log") console.log(`    · ${ev.text}`);
   }, { realLegs });
   console.log(`총 ${Math.round((Date.now() - t0) / 1000)}초 · 안 ${r.options.length}개 · AI ${r.calls}회 · ${length}`);
+  if (mustVisit.length) {
+    const name = (id: string) => (places as unknown as Place[]).find((p) => p.id === id)?.name_ko ?? id;
+    for (const o of r.options) {
+      const ids = new Set(o.draft.days.flatMap((d) => d.stops.map((s) => s.placeId)));
+      console.log(`  ${o.id}안 "${o.title}": ${mustVisit.map((m) => `${name(m)} ${ids.has(m) ? "✓ 들어감" : "✕ 빠짐"}`).join(" · ")}`);
+    }
+  }
 }
 
 main().catch((err) => {

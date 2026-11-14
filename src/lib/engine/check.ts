@@ -7,7 +7,7 @@ import { closedOn } from "./closed";
 import { computeDay, opening, type DayTimeline, type TimelineOptions } from "./timeline";
 import { toHHMM, type DayFrame, type PlanDraft, type TravelFn } from "./types";
 
-export type ViolationKind = "후보아님" | "판단부적합" | "중복" | "휴무" | "운영시간" | "체류범위" | "하루범위" | "날짜";
+export type ViolationKind = "후보아님" | "판단부적합" | "중복" | "휴무" | "운영시간" | "체류범위" | "하루범위" | "날짜" | "꼭갈곳빠짐";
 export type WarningKind = "확인 필요" | "운영시간 모름" | "휴무일 확인" | "추정 이동시간";
 
 export interface Violation {
@@ -43,6 +43,8 @@ export interface CheckContext {
   verdicts?: Map<string, Verdict>;
   /** 후보로 넘긴 장소 id. 있으면 그 밖의 장소는 위반 */
   candidateIds?: Set<string>;
+  /** 꼭 가고 싶은 곳(일정에 넣을 수 있는 것만). 있으면 안에 빠졌을 때 위반 — AI가 짠 안 검사에만 쓴다(바꾸기는 사용자 선택이라 쓰지 않음) */
+  mustVisit?: Set<string>;
 }
 
 export function checkPlan(draft: PlanDraft, ctx: CheckContext): CheckResult {
@@ -112,5 +114,11 @@ export function checkPlan(draft: PlanDraft, ctx: CheckContext): CheckResult {
     fits.push(maxEnd <= frame.endMin ? "여유" : minEnd <= frame.endMin ? "빠듯" : "부족");
   });
 
+  if (ctx.mustVisit?.size) {
+    const inPlan = new Set(draft.days.flatMap((d) => d.stops.map((s) => s.placeId)));
+    for (const id of ctx.mustVisit) {
+      if (!inPlan.has(id)) violations.push({ day: 0, placeId: id, kind: "꼭갈곳빠짐", message: `꼭 가고 싶은 곳 ${ctx.placesById.get(id)?.name_ko ?? id}(${id})이(가) 빠졌어요. 어느 날이든 넣어 주세요` });
+    }
+  }
   return { ok: violations.length === 0, violations, warnings, timelines, fits };
 }

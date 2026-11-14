@@ -182,3 +182,41 @@ describe("카카오 실제 이동시간으로 다시 검사", () => {
     expect(logs.some((t) => t.includes("받지 못해"))).toBe(true);
   });
 });
+
+describe("꼭 가고 싶은 곳", () => {
+  it("안에서 빠지면 검사에 걸려 그 내용을 붙여 다시 요청하고, 넣어 오면 쓴다", async () => {
+    const mustInp = input({ travelers: ["wheelchair"], mustVisit: ["GN97"] });
+    const f2 = filterCandidates(places, mustInp, [frames[0].date], frames[0].start);
+    const j2 = new Map<string, Judgment>(f2.candidates.map((c) => [c.place.id, { ...ruleJudgment(c.place, f2.conditions), source: "ai" as const }]));
+    const a2: PlanArgs = { ...args, input: mustInp, candidates: f2.candidates, judgments: j2 };
+    const without = option("A", [["GN96", 50]]);
+    const withMust = option("A", [["GN96", 50], ["GN97", 40]]);
+    const { llm, inputs } = scripted([JSON.stringify({ options: [without] }), JSON.stringify({ options: [withMust] })]);
+    const r = await planOptions(llm, a2, ["여유"]);
+    expect(inputs[0]).toContain("꼭 가고 싶은 곳: GN97");
+    expect(inputs[1]).toContain("꼭 가고 싶은 곳");
+    expect(inputs[1]).toContain("빠졌어요");
+    expect(r.options[0].draft.days[0].stops.map((s) => s.placeId)).toContain("GN97");
+  });
+
+  it("안끼리 겹침을 셀 때 꼭 가고 싶은 곳은 빼서, 같은 곳을 넣었다고 안이 빠지지 않는다", async () => {
+    const mustInp = input({ travelers: ["wheelchair"], mustVisit: ["GN97"] });
+    const f2 = filterCandidates(places, mustInp, [frames[0].date], frames[0].start);
+    const j2 = new Map<string, Judgment>(f2.candidates.map((c) => [c.place.id, { ...ruleJudgment(c.place, f2.conditions), source: "ai" as const }]));
+    const both = JSON.stringify({ options: [option("A", [["GN97", 40], ["GN96", 50]]), option("B", [["GN97", 40], ["GN94", 40]])] });
+    const { llm } = scripted([both]);
+    const r = await planOptions(llm, { ...args, input: mustInp, candidates: f2.candidates, judgments: j2 }, ["여유", "취향"]);
+    expect(r.options.map((o) => o.id)).toEqual(["A", "B"]);
+  });
+
+  it("끝까지 빠지면 그 안은 뺀다(꼭 가고 싶은 곳이 없는 안은 나가지 않는다)", async () => {
+    const mustInp = input({ travelers: ["wheelchair"], mustVisit: ["GN97"] });
+    const f2 = filterCandidates(places, mustInp, [frames[0].date], frames[0].start);
+    const j2 = new Map<string, Judgment>(f2.candidates.map((c) => [c.place.id, { ...ruleJudgment(c.place, f2.conditions), source: "ai" as const }]));
+    const without = JSON.stringify({ options: [option("A", [["GN96", 50]])] });
+    const { llm } = scripted([without, without, without]);
+    const r = await planOptions(llm, { ...args, input: mustInp, candidates: f2.candidates, judgments: j2 }, ["여유"]);
+    expect(r.options).toHaveLength(0);
+    expect(r.dropped[0].violations.join(" ")).toContain("꼭 가고 싶은 곳");
+  });
+});
