@@ -174,12 +174,15 @@ describe("장소 데이터 검사", () => {
         verified_at: "2024-12-31",
         source_url: PUBLIC_RESTROOM_SOURCE.url,
       };
-      // 샘플 장소 GN91이 쓰는 근거 id를 모두 목록에 넣는다
-      const used = new Set<string>(["public-화장실-1"]);
-      for (const a of Object.values(places[0].access)) for (const id of a.evidence ?? []) used.add(id);
-      for (const id of places[0].hours.evidence ?? []) used.add(id);
-      for (const id of places[0].on_site?.evidence ?? []) used.add(id);
-      const known = { ...evidence, GN91: [...used].map((id) => ({ id })) };
+      // 샘플 장소가 쓰는 근거 id를 장소마다 모두 목록에 넣는다
+      const known: Record<string, { id: string }[]> = {};
+      for (const p of places) {
+        const used = new Set<string>(["public-화장실-1"]);
+        for (const a of Object.values(p.access)) for (const id of a.evidence ?? []) used.add(id);
+        for (const id of p.hours.evidence ?? []) used.add(id);
+        for (const id of p.on_site?.evidence ?? []) used.add(id);
+        known[p.id] = [...used].map((id) => ({ id }));
+      }
       expect(validatePlaces(places, known).issues).toEqual([]);
     });
 

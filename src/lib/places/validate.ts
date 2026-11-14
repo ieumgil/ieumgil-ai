@@ -1,9 +1,12 @@
 // 장소 데이터 검사. scripts/validate-places.ts(빌드 전)와 테스트가 함께 쓴다.
 // 1단계: JSON Schema 형식 검사 / 2단계: 스키마로 표현하기 어려운 운영 규칙 검사.
+// 공공데이터 값(grade public)은 '가능'으로만 올릴 수 있고, public- 근거 id와 원본 주소(source_url)가 있어야 한다.
+// 근거 목록(data/evidence.json)을 함께 주면 근거 id가 실제 문단에 있는지도 본다.
 
 import Ajv2020 from "ajv/dist/2020";
 import addFormats from "ajv-formats";
 import schema from "../../../data/places.schema.json";
+import { isPublicEvidenceId } from "../public/source";
 import { ACCESS_KEYS, type Place } from "../types";
 
 export interface ValidationIssue {
@@ -54,7 +57,10 @@ function minutes(hhmm: string): number {
   return h * 60 + m;
 }
 
-export function validatePlaces(data: unknown): ValidationResult {
+/** 장소 id → 근거 문단 목록(data/evidence.json의 모양에서 id만 쓴다) */
+export type EvidenceIds = Record<string, { id: string }[]>;
+
+export function validatePlaces(data: unknown, evidence?: EvidenceIds): ValidationResult {
   if (!schemaValidate(data)) {
     const issues = (schemaValidate.errors ?? []).map((err) => {
       const path = toPath(err.instancePath) || "(루트)";
@@ -116,10 +122,32 @@ export function validatePlaces(data: unknown): ValidationResult {
       if (a.grade === "ai" && a.value !== "모름" && !(a.evidence && a.evidence.length > 0)) {
         add(p, i, `.access.${key}`, "AI가 정리한 값에 근거 id(evidence)가 없어요. 근거가 없으면 '모름'이어야 해요.");
       }
+      // 공공데이터 값: 가능으로만 올릴 수 있고(더 엄격하게 바꾸지 않음), 공공데이터 근거·원본 주소·방법이 있어야 한다
+      if (a.grade === "public") {
+        if (a.value !== "가능") add(p, i, `.access.${key}`, "공공데이터 값은 '가능'으로만 올릴 수 있어요(더 엄격하게 바꾸지 않음).");
+        if (!(a.evidence && a.evidence.some(isPublicEvidenceId))) {
+          add(p, i, `.access.${key}`, "공공데이터 값에 공공데이터 근거 id(public-…)가 없어요.");
+        }
+        if (blank(a.source_url)) add(p, i, `.access.${key}`, "공공데이터 값에 원본 주소(source_url)가 없어요.");
+        if (a.method !== "공공데이터") add(p, i, `.access.${key}`, "공공데이터 값의 확인 방법(method)은 '공공데이터'여야 해요.");
+      }
     }
 
     if (p.on_site && p.on_site.grade === "ai" && p.on_site.evidence.length === 0) {
       add(p, i, ".on_site", "도착 후 동선에 근거 id(evidence)가 없어요.");
+    }
+
+    // 근거 id는 그 장소의 근거 문단(data/evidence.json)에 실제로 있어야 한다(근거 목록을 줬을 때만 검사)
+    if (evidence) {
+      const known = new Set((evidence[p.id] ?? []).map((e) => e.id));
+      const missing = (ids: readonly string[] | undefined, sub: string) => {
+        for (const id of ids ?? []) {
+          if (!known.has(id)) add(p, i, sub, `근거 id ${id}가 근거 문단(data/evidence.json)에 없어요.`);
+        }
+      };
+      for (const key of ACCESS_KEYS) missing(p.access[key].evidence, `.access.${key}`);
+      missing(p.hours.evidence, ".hours");
+      missing(p.on_site?.evidence, ".on_site");
     }
 
     const h = p.hours;
