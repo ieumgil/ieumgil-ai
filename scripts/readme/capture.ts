@@ -86,11 +86,50 @@ const SHOTS: Shot[] = [
     act: async (p) => {
       await waitMap(p);
       const g = p.getByRole("group", { name: /전화 결과/ });
-      await g.nth(0).getByRole("button", { name: "괜찮대요" }).click();
-      await g.nth(1).getByRole("button", { name: "어렵대요" }).click();
+      // 확인할 곳이 둘 이상이면 하나는 괜찮대요, 하나는 어렵대요(바꾸기 권유가 보이게). 하나뿐이면 어렵대요
+      if ((await g.count()) > 1) await g.nth(0).getByRole("button", { name: "괜찮대요" }).click();
+      await g.last().getByRole("button", { name: "어렵대요" }).click();
       await p.locator("#checklist-title").evaluate((el) => el.scrollIntoView({ block: "start" }));
       await p.evaluate(() => window.scrollBy(0, -16));
       await p.waitForTimeout(300);
+    },
+  },
+  // 지도 번호를 누르면 작은 카드(사진 · 시각 · 판단 · 일정에서 보기)
+  {
+    name: "15-map-card",
+    path: "/trip/new/final",
+    act: async (p) => {
+      await waitMap(p);
+      await p.getByRole("button", { name: /^2번 .+ 정보 보기$/ }).first().click();
+      await p.getByRole("button", { name: "일정에서 보기" }).waitFor();
+      await p.waitForTimeout(1200);
+    },
+  },
+  // 관광지 둘러보기: 지역 탭 · 분야 · 카드(사진 · 한 줄 소개 · 볼 거리 · 접근성 요약)
+  { name: "16-places", path: "/places" },
+  // 이번 조건으로 가기 어려운 곳과 대안(펼친 모습)
+  {
+    name: "17-hard",
+    path: "/trip/new",
+    act: async (p) => {
+      const s = p.getByText(/이번 조건으로 가기 어려운 곳/);
+      await s.click();
+      await s.evaluate((el) => el.scrollIntoView({ block: "start" }));
+      await p.evaluate(() => window.scrollBy(0, -16));
+      await p.waitForTimeout(400);
+    },
+  },
+  // 순서 고치기: 위·아래로 옮기기 · 빼기 · 처음 일정으로
+  {
+    name: "18-reorder",
+    path: "/trip/new",
+    act: async (p) => {
+      await p.getByRole("button", { name: "순서 고치기" }).first().click();
+      const panel = p.getByRole("region", { name: /순서 고치기/ });
+      await panel.getByRole("button", { name: /아래로 옮기기/ }).first().click();
+      await panel.evaluate((el) => el.scrollIntoView({ block: "start" }));
+      await p.evaluate(() => window.scrollBy(0, -80));
+      await p.waitForTimeout(400);
     },
   },
   // PC: 시작(왼쪽 소개 + 오른쪽 미리보기), 안 비교(안 고르기 · 상세 · 지도 3칸)
@@ -126,7 +165,7 @@ async function capture(b: Browser, s: Shot) {
   await page.route("**/api/plan", (r) => r.fulfill({ contentType: "application/x-ndjson", body: events.map((e) => JSON.stringify(e)).join("\n") + "\n" }));
   await page.goto(BASE + s.path, { waitUntil: "networkidle" });
   // 개발 서버 표시(Next.js 'N' 버튼) 숨기기
-  await page.addStyleTag({ content: "nextjs-portal{display:none!important}" });
+  await page.addStyleTag({ content: "nextjs-portal,button[aria-label=\"맨 위로\"]{display:none!important}" });
   if (s.act) await s.act(page);
   // 관광지 사진은 화면에 보일 때 불러온다 → 다 뜰 때까지 기다린다(못 불러오면 아이콘이라 계속 진행)
   await page.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 15_000 }).catch(() => {});
