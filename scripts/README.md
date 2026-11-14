@@ -25,6 +25,7 @@
 | 명령 | 하는 일 | 결과 |
 |---|---|---|
 | `npm run example:make` | 시작 화면 '예시 루트'용 결과를 실제 AI로 한 번 만들기(안 3개가 나올 때까지 최대 3번) | `src/lib/trip/example-trip.json` |
+| `npx tsx scripts/ai/eval-judge.ts` | ② AI 판단 평가: 6개 장면 × 3회 판단으로 일치율·확신도·안전 하한·근거 버림, Gemini vs OpenAI(`--report`는 AI 없이 표만) | `data/eval/judge-v1.md`, `judge-v1.json` |
 | `npx tsx scripts/ai/save-trip-view.ts` | 화면 흐름 테스트(E2E)·README 캡처용 결과 만들기 | `tests/e2e/fixtures/trip-view.json` |
 
 ## 3. README 그림

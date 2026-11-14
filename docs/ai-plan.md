@@ -248,7 +248,7 @@ scripts/eval-ai.ts             AI 평가(실제 Gemini, CI 밖)
 7. ③ 여러 안 + 검사·수정 + 평가자
 8. `/api/plan` 스트리밍 + `/plan/making` + 결과 비교·상세 화면(비교 화면 시안 새로 그림)
 9. ④ 풀어주기(⑤ 추가 질문은 11/14에 뺐다)
-10. `eval-ai.ts`로 숫자 만들기 + 사용자 테스트 1회 이상(공고 의무) 기록
+10. `scripts/ai/eval-judge.ts`로 숫자 만들기(결과는 `data/eval/`)
 
 ## 확인할 것
 

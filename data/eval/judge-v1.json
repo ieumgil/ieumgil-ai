@@ -1,0 +1,2850 @@
+{
+  "date": "2026-11-14",
+  "scenes": [
+    "휠체어 · 택시 · 강릉 1박",
+    "휠체어 · 자가용(표지) · 강릉 당일",
+    "어르신(300m) · 자가용 · 속초 1박",
+    "유모차 · 택시 · 강릉 당일",
+    "휠체어 + 어르신 · 자가용(표지) · 동해 당일",
+    "어르신 + 유모차 · 택시 · 강릉 1박"
+  ],
+  "results": {
+    "Gemini": {
+      "model": "gemini-3.5-flash-lite",
+      "summary": {
+        "places": 119,
+        "unanimous": 102,
+        "majority": 17,
+        "split": 0,
+        "unanimousPct": 85.7,
+        "confidence": {
+          "높음": 102,
+          "보통": 18,
+          "낮음": 0
+        },
+        "verdicts": {
+          "적합": 72,
+          "주의": 27,
+          "확인 필요": 18,
+          "부적합": 3
+        },
+        "received": 360,
+        "dropped": 1,
+        "floored": 16,
+        "droppedPct": 0.3,
+        "flooredPct": 4.5
+      },
+      "scenes": [
+        {
+          "scene": "휠체어 · 택시 · 강릉 1박",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 6727,
+          "places": {
+            "GN70": {
+              "name": "안인해변",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN76": {
+              "name": "임당동 성당",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN05": {
+              "name": "강릉 대도호부 관아",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN14": {
+              "name": "강릉 임영관 삼문",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN98": {
+              "name": "허난설헌 생가터",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN30": {
+              "name": "경포도립공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN33": {
+              "name": "경포해수욕장",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN09": {
+              "name": "강릉 선교장",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN99": {
+              "name": "허난설헌 솔숲",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN03": {
+              "name": "강릉 경포대",
+              "samples": [
+                "부적합",
+                "주의",
+                "주의"
+              ],
+              "final": "부적합",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN15": {
+              "name": "강릉교회",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN62": {
+              "name": "송정해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN27": {
+              "name": "강문해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN68": {
+              "name": "안목해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN25": {
+              "name": "강릉항",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN42": {
+              "name": "남항진해변(남항진해수욕장)",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN56": {
+              "name": "사근진해변(사근진해수욕장)",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN63": {
+              "name": "순긋해변",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN38": {
+              "name": "굴산사지당간지주",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN58": {
+              "name": "사천해변(사천해수욕장)",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "휠체어 · 자가용(표지) · 강릉 당일",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 5987,
+          "places": {
+            "GN30": {
+              "name": "경포도립공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN17": {
+              "name": "강릉시립미술관 교동",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN12": {
+              "name": "강릉 오죽헌·시립박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN29": {
+              "name": "경포가시연습지",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN67": {
+              "name": "아르떼뮤지엄 강릉",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN97": {
+              "name": "허균·허난설헌 기념공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN19": {
+              "name": "강릉올림픽뮤지엄",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN43": {
+              "name": "단오타운전시관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN34": {
+              "name": "경포호(철새도래지)",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN31": {
+              "name": "경포생태저류지",
+              "samples": [
+                "확인 필요",
+                "주의",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN21": {
+              "name": "강릉자수박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN16": {
+              "name": "강릉생태체험박물관 자연아놀자",
+              "samples": [
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN50": {
+              "name": "매월당 김시습 기념관",
+              "samples": [
+                "확인 필요",
+                "주의",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN02": {
+              "name": "강릉 3·1운동 기념공원",
+              "samples": [
+                "확인 필요",
+                "주의",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN91": {
+              "name": "커피커퍼박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN87": {
+              "name": "참소리에디슨손성목영화박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN32": {
+              "name": "경포플라워가든",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN35": {
+              "name": "경포호수광장",
+              "samples": [
+                "적합",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN101": {
+              "name": "환희컵박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN11": {
+              "name": "강릉 안목해맞이공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "어르신(300m) · 자가용 · 속초 1박",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 5374,
+          "places": {
+            "SC18": {
+              "name": "속초해수욕장",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC17": {
+              "name": "속초항",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC21": {
+              "name": "아바이마을",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC04": {
+              "name": "동명항",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC22": {
+              "name": "영금정",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC29": {
+              "name": "청호해변",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "SC26": {
+              "name": "외옹치해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC27": {
+              "name": "청초호",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC07": {
+              "name": "석봉도자기미술관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC28": {
+              "name": "청초호 호수공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC23": {
+              "name": "영랑호",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC15": {
+              "name": "속초 엑스포타워",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC01": {
+              "name": "국립산악박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC12": {
+              "name": "설악해맞이공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC16": {
+              "name": "속초시립박물관·속초실향민문화촌",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC25": {
+              "name": "영랑호 습지생태공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC24": {
+              "name": "영랑호 설화공원",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "SC10": {
+              "name": "설악산 자생식물원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC13": {
+              "name": "설악해맞이공원 인어연인상",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC05": {
+              "name": "발해역사관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "유모차 · 택시 · 강릉 당일",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 16735,
+          "places": {
+            "GN28": {
+              "name": "경포 아쿠아리움",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN12": {
+              "name": "강릉 오죽헌·시립박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN47": {
+              "name": "동해산타열차",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN21": {
+              "name": "강릉자수박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN43": {
+              "name": "단오타운전시관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN88": {
+              "name": "처음처럼&새로 브랜드 체험관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN04": {
+              "name": "강릉 녹색도시체험센터",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN91": {
+              "name": "커피커퍼박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN87": {
+              "name": "참소리에디슨손성목영화박물관",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN50": {
+              "name": "매월당 김시습 기념관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN64": {
+              "name": "숲사랑홍보관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN17": {
+              "name": "강릉시립미술관 교동",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN67": {
+              "name": "아르떼뮤지엄 강릉",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN97": {
+              "name": "허균·허난설헌 기념공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN14": {
+              "name": "강릉 임영관 삼문",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN62": {
+              "name": "송정해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN31": {
+              "name": "경포생태저류지",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN11": {
+              "name": "강릉 안목해맞이공원",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN29": {
+              "name": "경포가시연습지",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN42": {
+              "name": "남항진해변(남항진해수욕장)",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "휠체어 + 어르신 · 자가용(표지) · 동해 당일",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 45161,
+          "places": {
+            "DH16": {
+              "name": "천곡천연동굴 자연학습체험공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH12": {
+              "name": "북평성당",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH19": {
+              "name": "추암조각공원",
+              "samples": [
+                "주의",
+                "적합",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "DH01": {
+              "name": "가원습지 생태자연공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH10": {
+              "name": "묵호항수변공원",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "DH06": {
+              "name": "무릉계곡",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH13": {
+              "name": "삼화사",
+              "samples": [
+                "부적합",
+                "주의",
+                "주의"
+              ],
+              "final": "부적합",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "DH20": {
+              "name": "추암해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH21": {
+              "name": "한섬해변&한섬감성바닷길",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH18": {
+              "name": "추암 촛대바위",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH15": {
+              "name": "연필뮤지엄",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH08": {
+              "name": "묵호등대",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH09": {
+              "name": "묵호항",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH03": {
+              "name": "도째비골스카이밸리",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH07": {
+              "name": "무릉별유천지",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH04": {
+              "name": "동해무릉건강숲",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH14": {
+              "name": "어달해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH05": {
+              "name": "망상해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH02": {
+              "name": "노봉해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN51": {
+              "name": "모래시계공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "어르신 + 유모차 · 택시 · 강릉 1박",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 5928,
+          "places": {
+            "GN13": {
+              "name": "강릉 월화거리",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN06": {
+              "name": "강릉 명주동 거리",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN62": {
+              "name": "송정해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN33": {
+              "name": "경포해수욕장",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN42": {
+              "name": "남항진해변(남항진해수욕장)",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN28": {
+              "name": "경포 아쿠아리움",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN25": {
+              "name": "강릉항",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN12": {
+              "name": "강릉 오죽헌·시립박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN17": {
+              "name": "강릉시립미술관 교동",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN52": {
+              "name": "병산 옹심이마을",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN22": {
+              "name": "강릉커피거리",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN68": {
+              "name": "안목해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN67": {
+              "name": "아르떼뮤지엄 강릉",
+              "samples": [
+                "적합",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN89": {
+              "name": "초당순두부마을",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN56": {
+              "name": "사근진해변(사근진해수욕장)",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN27": {
+              "name": "강문해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN63": {
+              "name": "순긋해변",
+              "samples": [
+                "부적합",
+                "부적합",
+                "주의"
+              ],
+              "final": "부적합",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN97": {
+              "name": "허균·허난설헌 기념공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN98": {
+              "name": "허난설헌 생가터",
+              "samples": [
+                "적합",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN21": {
+              "name": "강릉자수박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        }
+      ]
+    },
+    "OpenAI": {
+      "model": "gpt-6-luna",
+      "summary": {
+        "places": 120,
+        "unanimous": 94,
+        "majority": 25,
+        "split": 1,
+        "unanimousPct": 78.3,
+        "confidence": {
+          "높음": 94,
+          "보통": 25,
+          "낮음": 1
+        },
+        "verdicts": {
+          "적합": 34,
+          "주의": 34,
+          "확인 필요": 48,
+          "부적합": 4
+        },
+        "received": 360,
+        "dropped": 0,
+        "floored": 3,
+        "droppedPct": 0,
+        "flooredPct": 0.8
+      },
+      "scenes": [
+        {
+          "scene": "휠체어 · 택시 · 강릉 1박",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 15409,
+          "places": {
+            "GN70": {
+              "name": "안인해변",
+              "samples": [
+                "부적합",
+                "부적합",
+                "부적합"
+              ],
+              "final": "부적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN76": {
+              "name": "임당동 성당",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN05": {
+              "name": "강릉 대도호부 관아",
+              "samples": [
+                "적합",
+                "적합",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN14": {
+              "name": "강릉 임영관 삼문",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN98": {
+              "name": "허난설헌 생가터",
+              "samples": [
+                "주의",
+                "적합",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "낮음",
+              "source": "ai"
+            },
+            "GN30": {
+              "name": "경포도립공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN33": {
+              "name": "경포해수욕장",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN09": {
+              "name": "강릉 선교장",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN99": {
+              "name": "허난설헌 솔숲",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN03": {
+              "name": "강릉 경포대",
+              "samples": [
+                "부적합",
+                "부적합",
+                "부적합"
+              ],
+              "final": "부적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN15": {
+              "name": "강릉교회",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN62": {
+              "name": "송정해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN27": {
+              "name": "강문해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN68": {
+              "name": "안목해변",
+              "samples": [
+                "적합",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN25": {
+              "name": "강릉항",
+              "samples": [
+                "적합",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN42": {
+              "name": "남항진해변(남항진해수욕장)",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN56": {
+              "name": "사근진해변(사근진해수욕장)",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN63": {
+              "name": "순긋해변",
+              "samples": [
+                "부적합",
+                "부적합",
+                "부적합"
+              ],
+              "final": "부적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN38": {
+              "name": "굴산사지당간지주",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN58": {
+              "name": "사천해변(사천해수욕장)",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "휠체어 · 자가용(표지) · 강릉 당일",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 13814,
+          "places": {
+            "GN30": {
+              "name": "경포도립공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN17": {
+              "name": "강릉시립미술관 교동",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN12": {
+              "name": "강릉 오죽헌·시립박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN29": {
+              "name": "경포가시연습지",
+              "samples": [
+                "적합",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN67": {
+              "name": "아르떼뮤지엄 강릉",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN97": {
+              "name": "허균·허난설헌 기념공원",
+              "samples": [
+                "적합",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN19": {
+              "name": "강릉올림픽뮤지엄",
+              "samples": [
+                "확인 필요",
+                "적합",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN43": {
+              "name": "단오타운전시관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN34": {
+              "name": "경포호(철새도래지)",
+              "samples": [
+                "적합",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN31": {
+              "name": "경포생태저류지",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN21": {
+              "name": "강릉자수박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN16": {
+              "name": "강릉생태체험박물관 자연아놀자",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN50": {
+              "name": "매월당 김시습 기념관",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN02": {
+              "name": "강릉 3·1운동 기념공원",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN91": {
+              "name": "커피커퍼박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN87": {
+              "name": "참소리에디슨손성목영화박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN32": {
+              "name": "경포플라워가든",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN35": {
+              "name": "경포호수광장",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN101": {
+              "name": "환희컵박물관",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN11": {
+              "name": "강릉 안목해맞이공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "어르신(300m) · 자가용 · 속초 1박",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 24984,
+          "places": {
+            "SC18": {
+              "name": "속초해수욕장",
+              "samples": [
+                "주의",
+                "적합",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "SC17": {
+              "name": "속초항",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC21": {
+              "name": "아바이마을",
+              "samples": [
+                "주의",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "SC04": {
+              "name": "동명항",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC22": {
+              "name": "영금정",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC29": {
+              "name": "청호해변",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC26": {
+              "name": "외옹치해변",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC27": {
+              "name": "청초호",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC07": {
+              "name": "석봉도자기미술관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC28": {
+              "name": "청초호 호수공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC23": {
+              "name": "영랑호",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC15": {
+              "name": "속초 엑스포타워",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC01": {
+              "name": "국립산악박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC12": {
+              "name": "설악해맞이공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC16": {
+              "name": "속초시립박물관·속초실향민문화촌",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC25": {
+              "name": "영랑호 습지생태공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC24": {
+              "name": "영랑호 설화공원",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC10": {
+              "name": "설악산 자생식물원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC13": {
+              "name": "설악해맞이공원 인어연인상",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "SC05": {
+              "name": "발해역사관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "유모차 · 택시 · 강릉 당일",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 25344,
+          "places": {
+            "GN28": {
+              "name": "경포 아쿠아리움",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN12": {
+              "name": "강릉 오죽헌·시립박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN47": {
+              "name": "동해산타열차",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN21": {
+              "name": "강릉자수박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN43": {
+              "name": "단오타운전시관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN88": {
+              "name": "처음처럼&새로 브랜드 체험관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN04": {
+              "name": "강릉 녹색도시체험센터",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN91": {
+              "name": "커피커퍼박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN87": {
+              "name": "참소리에디슨손성목영화박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN50": {
+              "name": "매월당 김시습 기념관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN64": {
+              "name": "숲사랑홍보관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN17": {
+              "name": "강릉시립미술관 교동",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN67": {
+              "name": "아르떼뮤지엄 강릉",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN97": {
+              "name": "허균·허난설헌 기념공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN14": {
+              "name": "강릉 임영관 삼문",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN62": {
+              "name": "송정해변",
+              "samples": [
+                "주의",
+                "적합",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN31": {
+              "name": "경포생태저류지",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN11": {
+              "name": "강릉 안목해맞이공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN29": {
+              "name": "경포가시연습지",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN42": {
+              "name": "남항진해변(남항진해수욕장)",
+              "samples": [
+                "주의",
+                "적합",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "휠체어 + 어르신 · 자가용(표지) · 동해 당일",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 28369,
+          "places": {
+            "DH16": {
+              "name": "천곡천연동굴 자연학습체험공원",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH12": {
+              "name": "북평성당",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH19": {
+              "name": "추암조각공원",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH01": {
+              "name": "가원습지 생태자연공원",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH10": {
+              "name": "묵호항수변공원",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "DH06": {
+              "name": "무릉계곡",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH13": {
+              "name": "삼화사",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH20": {
+              "name": "추암해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH21": {
+              "name": "한섬해변&한섬감성바닷길",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "DH18": {
+              "name": "추암 촛대바위",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH15": {
+              "name": "연필뮤지엄",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH08": {
+              "name": "묵호등대",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH09": {
+              "name": "묵호항",
+              "samples": [
+                "주의",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "DH03": {
+              "name": "도째비골스카이밸리",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH07": {
+              "name": "무릉별유천지",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH04": {
+              "name": "동해무릉건강숲",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH14": {
+              "name": "어달해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "DH05": {
+              "name": "망상해변",
+              "samples": [
+                "주의",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "DH02": {
+              "name": "노봉해변",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN51": {
+              "name": "모래시계공원",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        },
+        {
+          "scene": "어르신 + 유모차 · 택시 · 강릉 1박",
+          "candidates": 20,
+          "calls": 3,
+          "failedCalls": 0,
+          "ms": 30542,
+          "places": {
+            "GN13": {
+              "name": "강릉 월화거리",
+              "samples": [
+                "적합",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN06": {
+              "name": "강릉 명주동 거리",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN62": {
+              "name": "송정해변",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN33": {
+              "name": "경포해수욕장",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN42": {
+              "name": "남항진해변(남항진해수욕장)",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN28": {
+              "name": "경포 아쿠아리움",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN25": {
+              "name": "강릉항",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN12": {
+              "name": "강릉 오죽헌·시립박물관",
+              "samples": [
+                "적합",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN17": {
+              "name": "강릉시립미술관 교동",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN52": {
+              "name": "병산 옹심이마을",
+              "samples": [
+                "확인 필요",
+                "주의",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN22": {
+              "name": "강릉커피거리",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN68": {
+              "name": "안목해변",
+              "samples": [
+                "주의",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN67": {
+              "name": "아르떼뮤지엄 강릉",
+              "samples": [
+                "확인 필요",
+                "적합",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN89": {
+              "name": "초당순두부마을",
+              "samples": [
+                "확인 필요",
+                "주의",
+                "주의"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN56": {
+              "name": "사근진해변(사근진해수욕장)",
+              "samples": [
+                "확인 필요",
+                "확인 필요",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN27": {
+              "name": "강문해변",
+              "samples": [
+                "주의",
+                "주의",
+                "확인 필요"
+              ],
+              "final": "확인 필요",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN63": {
+              "name": "순긋해변",
+              "samples": [
+                "부적합",
+                "부적합",
+                "부적합"
+              ],
+              "final": "부적합",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN97": {
+              "name": "허균·허난설헌 기념공원",
+              "samples": [
+                "적합",
+                "주의",
+                "적합"
+              ],
+              "final": "주의",
+              "confidence": "보통",
+              "source": "ai"
+            },
+            "GN98": {
+              "name": "허난설헌 생가터",
+              "samples": [
+                "주의",
+                "주의",
+                "주의"
+              ],
+              "final": "주의",
+              "confidence": "높음",
+              "source": "ai"
+            },
+            "GN21": {
+              "name": "강릉자수박물관",
+              "samples": [
+                "적합",
+                "적합",
+                "적합"
+              ],
+              "final": "적합",
+              "confidence": "높음",
+              "source": "ai"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "cross": {
+    "both": 120,
+    "same": 62,
+    "samePct": 51.7,
+    "opposite": 0,
+    "aStricter": 3,
+    "bStricter": 55,
+    "table": {
+      "적합": {
+        "적합": 32,
+        "주의": 23,
+        "확인 필요": 17,
+        "부적합": 0
+      },
+      "주의": {
+        "적합": 2,
+        "주의": 10,
+        "확인 필요": 13,
+        "부적합": 2
+      },
+      "확인 필요": {
+        "적합": 0,
+        "주의": 0,
+        "확인 필요": 18,
+        "부적합": 0
+      },
+      "부적합": {
+        "적합": 0,
+        "주의": 1,
+        "확인 필요": 0,
+        "부적합": 2
+      }
+    }
+  }
+}

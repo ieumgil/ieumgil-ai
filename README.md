@@ -18,7 +18,7 @@
 
 | 관광지 | 필수 조건 위반 | 근거 없이 채운 값 | AI 읽기 일관성 | 자동 테스트 |
 | :---: | :---: | :---: | :---: | :---: |
-| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 187 · 화면 흐름 96</sub> |
+| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 191 · 화면 흐름 96</sub> |
 
 </div>
 
@@ -51,7 +51,6 @@
 | 핵심 기능 1개 이상 작동 | 완료 | 조건 입력 → AI 장소 판단 → AI 일정 2~3안 → 장소 바꾸기 → 확정 일정 + 지도 → 전화 확인 · [배포 사이트](https://ieumgil-ai.vercel.app) |
 | 실제 데이터로 시연 | 완료 | 관광공사 무장애 여행정보 API 182곳 → 관광지 152곳 · [데이터](#데이터) |
 | 배포 URL + GitHub 공개 | 완료 | Vercel(11/11부터) · 이 저장소 |
-| 사용자 테스트 1회 이상, 결과 기록 | 예정 | 3~5명 과제형 테스트 예정 |
 
 **AI가 하는 4가지 일** ([AI 설계](docs/ai-plan.md))
 
@@ -97,7 +96,7 @@
 | 엔진 시나리오 10개 · 필수 조건 위반 0건 | 완료 | [`tests/engine/scenarios.test.ts`](tests/engine/scenarios.test.ts) · [검증](#검증) |
 | 가짜 LLM 가드 테스트 · 화면 흐름 테스트(CI) | 완료 | [`tests/ai/`](tests/ai/) · [`tests/e2e/`](tests/e2e/) · GitHub Actions |
 | AI 읽기: 근거 없는 값 0건 · 반복 일치율 | 완료 | [`data/eval/`](data/eval/) |
-| AI 판단 3회 일치율 · 모델 간 비교 | 예정 | 예정 |
+| AI 판단 3회 일치율 · 모델 간 비교 | 완료 | [`data/eval/judge-v1.md`](data/eval/judge-v1.md) · [`scripts/ai/eval-judge.ts`](scripts/ai/eval-judge.ts) |
 
 <details>
 <summary><b>계획에서 바꾼 결정과 이유</b></summary>
@@ -312,14 +311,15 @@ AI 평가: 피로도 4 · 시간 여유 4 · 취향 4
 
 | 항목 | 목표 | 현재 |
 | --- | --- | --- |
-| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 187개 · 화면 흐름(E2E) 45개 × 모바일·PC + 너비별 배치 6개 |
+| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 191개 · 화면 흐름(E2E) 45개 × 모바일·PC + 너비별 배치 6개 |
 | 엔진 시나리오 10개 + 유형 조합 14개 | 필수 조건 위반 0건 | **0건** |
-| AI 가드 (가짜 LLM 테스트 57개) | 근거 없는 판단 사용 0건 · 안전 하한보다 낙관 0건 · 검사를 통과하지 못한 안 노출 0건 · AI 실패 시 규칙 일정 | **모두 통과** |
+| AI 가드 (가짜 LLM 테스트 61개) | 근거 없는 판단 사용 0건 · 안전 하한보다 낙관 0건 · 검사를 통과하지 못한 안 노출 0건 · AI 실패 시 규칙 일정 | **모두 통과** |
 | AI 읽기 근거 | 원문에 없는 근거로 채운 값 0건 | **0건** (152곳 · 1,520항목) |
 | AI 읽기 일관성 | 같은 152곳을 두 번 읽었을 때 항목 일치율 | **96.4%** (프롬프트 예시 추가 전후 비교 · [`data/eval/`](data/eval/)) |
 | 장소 바꾸기 | 부적합·이미 있는 곳으로 바꾸기 0건 · 검사에 걸리면 안 바꿈 · 시각은 코드 값 | **모두 통과** (단위 6개 + E2E) |
 | 카카오 경로·이동시간 | 길찾기 결과 저장 0건(탭 보관 일정에도 없음) · 키는 서버에서만 · 영동권 밖 좌표 거부 | **모두 통과** (단위 6개 + E2E) |
-| AI 판단 일관성 | 같은 후보를 3회 판단했을 때 일치율(확신도 분포) | 측정 예정 |
+| AI 판단 일관성 | 같은 후보를 3회 판단했을 때 셋 다 같은 비율 · 두 모델의 정반대 판단(적합 ↔ 부적합) | **85.7%** (Gemini, 6개 장면 119곳) · OpenAI 78.3% · 정반대 **0건**, 갈린 곳은 대부분 OpenAI가 더 보수적 ([판단 평가](data/eval/judge-v1.md)) |
+| AI 판단 안전 규칙 | 원문에 없는 근거로 한 판단은 버림 · 안전 하한으로 보수적 조정 | 버림 0.3% · 하한 조정 4.5% (Gemini) — 코드가 막아 화면에 나가지 않음 |
 
 <details>
 <summary>엔진 시나리오 10개 (기획 문서 표 그대로, <a href="tests/engine/scenarios.test.ts">tests/engine/scenarios.test.ts</a>)</summary>
@@ -410,7 +410,7 @@ npm run dev                  # http://localhost:3000
 | 이름 | 역할 |
 | --- | --- |
 | 공지혁 | 기획, 화면·서버·데이터·AI 개발, 배포, 문서 |
-| 강환일 | 관광지 조사(조사표 32곳), 주간보고, 사용자 테스트 준비 |
+| 강환일 | 관광지 조사(조사표 32곳), 주간보고 |
 
 2026 My AI 랩(강릉과학산업진흥원) 과제입니다. 개발 과정은 [커밋 기록](https://github.com/ieumgil/ieumgil-ai/commits/main)과 [구현 계획](docs/impl-plan.md)에서 볼 수 있습니다.
 

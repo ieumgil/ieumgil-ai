@@ -62,6 +62,10 @@ export interface JudgeResult {
   failedCalls: number;
   /** 하한 때문에 LLM 판단보다 보수적으로 바뀐 장소 수 */
   floorApplied: number;
+  /** 평가용: 장소마다 근거 검사를 통과한 표본 판단(가드 뒤, 최대 3개) — 3회 일치율 */
+  samples: Map<string, Verdict[]>;
+  /** 평가용: 받은 판단 수 · 근거가 맞지 않아 버린 수 · 안전 하한으로 내린 수(표본 단위) */
+  stats: { received: number; dropped: number; floored: number };
 }
 
 export async function judgePlaces(
@@ -100,13 +104,19 @@ export async function judgePlaces(
   );
 
   const perPlace = new Map<string, Judgment[]>();
+  const stats = { received: 0, dropped: 0, floored: 0 };
   for (const r of results) {
     if (!r.ok) continue;
     for (const raw of r.data.judgments) {
       const c = candidates.find((x) => x.place.id === raw.placeId);
       if (!c) continue;
+      stats.received++;
       const g = applyGuards(raw, c.place, conditions, (evidence[c.place.id] ?? []).map((e) => e.id));
-      if (g.source !== "ai") continue; // 근거가 맞지 않은 판단은 버린다
+      if (g.source !== "ai") {
+        stats.dropped++;
+        continue; // 근거가 맞지 않은 판단은 버린다
+      }
+      if (g.floorApplied) stats.floored++;
       perPlace.set(c.place.id, [...(perPlace.get(c.place.id) ?? []), g]);
     }
   }
@@ -131,5 +141,6 @@ export async function judgePlaces(
       checkBeforeGo: c.floor.asks,
     });
   }
-  return { judgments, calls: results.length, failedCalls: results.filter((r) => !r.ok).length, floorApplied };
+  const bySample = new Map([...perPlace].map(([id, js]) => [id, js.map((j) => j.verdict)]));
+  return { judgments, calls: results.length, failedCalls: results.filter((r) => !r.ok).length, floorApplied, samples: bySample, stats };
 }

@@ -61,3 +61,20 @@ describe("② 판단", () => {
     expect(r.judgments.get("GN91")).toMatchObject({ verdict: "확인 필요", source: "rule" });
   });
 });
+
+describe("② 판단 평가용 기록", () => {
+  it("장소마다 근거 검사를 통과한 표본 판단(가드 뒤)과, 받은·버린·하한으로 내린 판단 수를 남긴다", async () => {
+    // GN92에만 있는 문단(photo-1)을 GN91 근거로 대면 형식은 맞지만 근거 검사에서 버려진다
+    const ev: EvidenceIndex = { ...evidence, GN92: [...evidence.GN92, { id: "photo-1", label: "사진", text: "데크 사진" }] };
+    // GN91: 적합·적합·(근거 틀림 → 버림) / GN92: 적합 3번(필수 '부분가능' → 하한으로 주의)
+    const r = await judgePlaces(llmWith([answer("적합", "적합"), answer("적합", "적합"), answer("적합", "적합", ["photo-1"])]), {
+      input: inp,
+      conditions: filtered.conditions,
+      candidates: filtered.candidates,
+      evidence: ev,
+    });
+    expect(r.samples.get("GN91")).toEqual(["적합", "적합"]);
+    expect(r.samples.get("GN92")).toEqual(["주의", "주의", "주의"]);
+    expect(r.stats).toEqual({ received: 6, dropped: 1, floored: 3 });
+  });
+});
