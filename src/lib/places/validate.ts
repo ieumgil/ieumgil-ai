@@ -2,10 +2,12 @@
 // 1단계: JSON Schema 형식 검사 / 2단계: 스키마로 표현하기 어려운 운영 규칙 검사.
 // 공공데이터 값(grade public)은 '가능'으로만 올릴 수 있고, public- 근거 id와 원본 주소(source_url)가 있어야 한다.
 // 근거 목록(data/evidence.json)을 함께 주면 근거 id가 실제 문단에 있는지도 본다.
+// 공공데이터 요약(data/public/restrooms.json)까지 주면 public- 근거 문단이 그 요약이 만드는 글과 같은지(오래되지 않았는지)도 본다.
 
 import Ajv2020 from "ajv/dist/2020";
 import addFormats from "ajv-formats";
 import schema from "../../../data/places.schema.json";
+import { publicParagraphs, type RestroomsFile } from "../public/restrooms";
 import { isPublicEvidenceId } from "../public/source";
 import { ACCESS_KEYS, type Place } from "../types";
 
@@ -57,10 +59,13 @@ function minutes(hhmm: string): number {
   return h * 60 + m;
 }
 
-/** 장소 id → 근거 문단 목록(data/evidence.json의 모양에서 id만 쓴다) */
-export type EvidenceIds = Record<string, { id: string }[]>;
+/** 장소 id → 근거 문단 목록(data/evidence.json의 모양). id만 쓰고, 공공데이터 문단이 최신인지 볼 때만 label·text도 쓴다 */
+export type EvidenceIds = Record<string, { id: string; label?: string; text?: string }[]>;
 
-export function validatePlaces(data: unknown, evidence?: EvidenceIds): ValidationResult {
+export const STALE_PUBLIC_MESSAGE =
+  "공공데이터 근거 문단(data/evidence.json의 public-…)이 data/public/restrooms.json이 만드는 글과 달라요. 근거 문단이 오래된 것이니 npm run data:build 를 먼저 다시 실행하고, 이어서 npm run data:merge 를 실행해 주세요.";
+
+export function validatePlaces(data: unknown, evidence?: EvidenceIds, publicRestrooms?: Pick<RestroomsFile, "places">): ValidationResult {
   if (!schemaValidate(data)) {
     const issues = (schemaValidate.errors ?? []).map((err) => {
       const path = toPath(err.instancePath) || "(루트)";
@@ -148,6 +153,16 @@ export function validatePlaces(data: unknown, evidence?: EvidenceIds): Validatio
       for (const key of ACCESS_KEYS) missing(p.access[key].evidence, `.access.${key}`);
       missing(p.hours.evidence, ".hours");
       missing(p.on_site?.evidence, ".on_site");
+
+      // 공공데이터 근거 문단이 restrooms.json이 지금 만드는 글과 같아야 한다(화장실 목록이 바뀐 뒤 data:build를 빠뜨리면 번호가 다른 화장실을 가리킨다)
+      if (publicRestrooms) {
+        const shape = (e: { id: string; label?: string; text?: string }) => JSON.stringify([e.id, e.label, e.text]);
+        const expected = publicParagraphs(publicRestrooms.places[p.id]).map(shape);
+        const actual = (evidence[p.id] ?? []).filter((e) => isPublicEvidenceId(e.id)).map(shape);
+        if (expected.length !== actual.length || expected.some((x, n) => x !== actual[n])) {
+          add(p, i, ".evidence", STALE_PUBLIC_MESSAGE);
+        }
+      }
     }
 
     const h = p.hours;
