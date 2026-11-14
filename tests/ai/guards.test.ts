@@ -95,6 +95,17 @@ describe("LLM 판단에 가드 적용", () => {
     }
   });
 
+  it("공공데이터 근거(public-화장실-1)가 그 장소 근거 목록에 있으면 판단을 버리지 않는다(회귀 방지)", () => {
+    const raw: RawJudgment = { placeId: "GN92", verdict: "적합", reasons: ["공중화장실에 장애인 칸이 있어요"], evidence: ["public-화장실-1"] };
+    const out = applyGuards(raw, placeB(), wheelchair, [...allowed.GN92, "public-화장실-1"]);
+    expect(out).toMatchObject({ source: "ai", evidence: ["public-화장실-1"] });
+  });
+
+  it("공공데이터 근거가 그 장소 근거 목록에 없으면 규칙 판단으로 바꾼다(회귀 방지)", () => {
+    const raw: RawJudgment = { placeId: "GN92", verdict: "적합", reasons: ["공중화장실에 장애인 칸이 있어요"], evidence: ["public-화장실-1"] };
+    expect(applyGuards(raw, placeB(), wheelchair, allowed.GN92)).toMatchObject({ source: "rule" });
+  });
+
   it("목록 밖 근거는 빼고, 남은 근거가 있으면 쓴다", () => {
     const raw: RawJudgment = { placeId: "GN92", verdict: "적합", reasons: ["좋아요"], evidence: ["route-1", "made-up-1"] };
     expect(applyGuards(raw, placeB(), wheelchair, allowed.GN92)).toMatchObject({ source: "ai", evidence: ["route-1"] });
