@@ -1,0 +1,10 @@
+{
+  "available": true,
+  "today": "2026-11-18",
+  "asOf": { "short": { "baseDate": "20261118", "baseTime": "1700" }, "mid": "202611180600" },
+  "regions": {
+    "강릉": { "2026-11-21": { "sky": 4, "precip": "비", "pop": 70, "tmin": 8, "tmax": 14, "source": "short" } },
+    "속초": { "2026-11-21": { "sky": 1, "precip": null, "pop": 10, "tmin": 5, "tmax": 12, "source": "short" } },
+    "동해": {}
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "_source": "[ASSUMED] 공식 활용가이드 예제 모양으로 손으로 만든 값 — 키 발급 후 scripts/dev/weather-probe.ts --save 결과로 확인·교체(02-06)",
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL_SERVICE"
+    },
+    "body": {
+      "dataType": "JSON",
+      "items": {
+        "item": [
+          { "baseDate": "20261115", "baseTime": "1700", "category": "POP", "fcstDate": "20261116", "fcstTime": "0300", "fcstValue": "90", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "SKY", "fcstDate": "20261116", "fcstTime": "0300", "fcstValue": "3", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMP", "fcstDate": "20261116", "fcstTime": "0300", "fcstValue": "4.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "POP", "fcstDate": "20261116", "fcstTime": "0600", "fcstValue": "20", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "SKY", "fcstDate": "20261116", "fcstTime": "0600", "fcstValue": "4", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "PTY", "fcstDate": "20261116", "fcstTime": "0600", "fcstValue": "0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMP", "fcstDate": "20261116", "fcstTime": "0600", "fcstValue": "4.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMN", "fcstDate": "20261116", "fcstTime": "0600", "fcstValue": "3.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "POP", "fcstDate": "20261116", "fcstTime": "0900", "fcstValue": "30", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "SKY", "fcstDate": "20261116", "fcstTime": "0900", "fcstValue": "4", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "PTY", "fcstDate": "20261116", "fcstTime": "0900", "fcstValue": "0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMP", "fcstDate": "20261116", "fcstTime": "0900", "fcstValue": "7.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "POP", "fcstDate": "20261116", "fcstTime": "1200", "fcstValue": "20", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "SKY", "fcstDate": "20261116", "fcstTime": "1200", "fcstValue": "3", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "PTY", "fcstDate": "20261116", "fcstTime": "1200", "fcstValue": "0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMP", "fcstDate": "20261116", "fcstTime": "1200", "fcstValue": "10.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "POP", "fcstDate": "20261116", "fcstTime": "1500", "fcstValue": "10", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "SKY", "fcstDate": "20261116", "fcstTime": "1500", "fcstValue": "3", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "PTY", "fcstDate": "20261116", "fcstTime": "1500", "fcstValue": "0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMP", "fcstDate": "20261116", "fcstTime": "1500", "fcstValue": "10.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMX", "fcstDate": "20261116", "fcstTime": "1500", "fcstValue": "11.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "POP", "fcstDate": "20261116", "fcstTime": "1800", "fcstValue": "10", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "SKY", "fcstDate": "20261116", "fcstTime": "1800", "fcstValue": "1", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "PTY", "fcstDate": "20261116", "fcstTime": "1800", "fcstValue": "0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMP", "fcstDate": "20261116", "fcstTime": "1800", "fcstValue": "8.0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "POP", "fcstDate": "20261116", "fcstTime": "2100", "fcstValue": "0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "PTY", "fcstDate": "20261116", "fcstTime": "2100", "fcstValue": "0", "nx": 92, "ny": 131 },
+          { "baseDate": "20261115", "baseTime": "1700", "category": "TMP", "fcstDate": "20261116", "fcstTime": "2100", "fcstValue": "6.0", "nx": 92, "ny": 131 }
+        ]
+      },
+      "numOfRows": 1000,
+      "pageNo": 1,
+      "totalCount": 28
+    }
+  }
+}
