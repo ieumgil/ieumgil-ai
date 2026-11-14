@@ -344,7 +344,7 @@ flowchart TB
 
 - **AI가 모두 읽었어요**: 152곳 · 1,520항목. 근거 없이 채운 값은 코드가 '모름'으로 바꿉니다. 원문에 없는 항목은 '모름'으로 두고 확인할 방법을 붙였습니다(공공데이터로 보충한 뒤 1,520항목 중 851개, 56%).
 - **공중화장실 공공데이터로 보충**: 행정안전부 「전국공중화장실표준데이터」([data.go.kr 15012892](https://www.data.go.kr/data/15012892/standard.do)) · 이용허락범위 제한 없음 · 받은 강원 파일의 데이터 기준일 2024-05\~2025-06 · 강릉·속초·동해 816건. 화장실 이름에 관광지 이름이 들어 있고 같은 시인 곳만 짝지어 **36곳**을 찾았습니다(주소만 같은 곳, 주유소 등은 제외). 장애인용 대변기가 있거나 기저귀 교환대가 있으면 그 항목을 '가능'으로 올리고, 31곳에 값을 채웠습니다(장애인 화장실 30 · 기저귀 교환대 23항목, 그중 '모름'·'불가'였다가 바뀐 것은 장애인 화장실 3 · 기저귀 교환대 18). 0칸이거나 목록에 없으면 AI 값을 그대로 둡니다(목록에 없다고 화장실이 없다는 뜻은 아니어서). 화면에는 '공공데이터(2024-12 기준)'처럼 표시합니다. 원본 CSV는 저장소에 두지 않고 짝지은 결과만 [`restrooms.json`](data/public/restrooms.json)과 [짝짓기 결과](docs/data/public-restrooms.md)에 둡니다. 수유실 정보는 이 데이터에 없습니다.
-- **날씨는 기상청 예보로**: 기상청 단기예보 조회서비스([data.go.kr 15084084](https://www.data.go.kr/data/15084084/openapi.do))와 중기예보 조회서비스([15059468](https://www.data.go.kr/data/15059468/openapi.do)) · 이용허락범위 저작자표시. 확정 일정과 공유 화면에서 날짜마다 그날 가는 시(강릉·속초·동해)의 하늘·강수확률·기온을 보여 줍니다. 오늘부터 약 10일 뒤까지만 예보가 있고, 그보다 먼 날은 '아직 예보 없음'으로 안내합니다. 비·눈 강수확률이 60% 이상이면 바다·해변·자연·산책 장소 카드에만 주의 한 줄을 붙입니다. 서버에서만 부르고(키는 서버 환경변수에만) 저장하지 않으며, 서버에 30분 단위로만 잠깐 보관합니다. 호출이 실패하거나 키가 없으면 날씨 칸만 숨깁니다. 날씨 문구는 코드에 고정된 글이라 AI가 쓰지 않습니다. 자세한 명세는 [기상청 API 정리](docs/data/kma-forecast.md)에 있습니다.
+- **날씨는 기상청 예보로**: 기상청 단기예보 조회서비스([data.go.kr 15084084](https://www.data.go.kr/data/15084084/openapi.do))와 중기예보 조회서비스([15059468](https://www.data.go.kr/data/15059468/openapi.do)) · 이용허락범위 저작자표시. 확정 일정과 공유 화면에서 날짜마다 그날 가는 시(강릉·속초·동해)의 하늘·강수확률·기온을 보여 줍니다. 오늘부터 약 10일 뒤까지만 예보가 있고, 그보다 먼 날은 '아직 예보 없음'으로 안내합니다. 비·눈 강수확률이 60% 이상이면 바다·해변·자연·산책 장소 카드에만 주의 한 줄을 붙입니다. 서버에서만 부르고(키는 서버 환경변수에만) 저장하지 않으며, 서버에 15분 단위로만 잠깐 보관합니다. 호출이 실패하거나 키가 없으면 날씨 칸만 숨깁니다. 날씨 문구는 코드에 고정된 글이라 AI가 쓰지 않습니다. 자세한 명세는 [기상청 API 정리](docs/data/kma-forecast.md)에 있습니다.
 - **주차장 공공데이터는 쓰지 않았어요**: 전국주차장정보표준데이터([15012896](https://www.data.go.kr/data/15012896/standard.do))는 세 도시 218건 모두 '장애인전용주차구역보유여부'가 빈칸이라 쓰지 않았습니다.
 - **공공데이터의 빈칸이 큽니다**: 휠체어에 중요한 노면은 152곳 중 134곳, 경사는 85곳이 '모름'입니다. 그래서 대부분 장소에 "가서 볼 것"이나 "전화로 물어볼 것"이 붙습니다. 숨기지 않고 화면에 그대로 보여 줍니다.
 - **관광지 한 줄 소개**: 관광공사 소개를 AI가 "어떤 곳인지 한 문장 + 볼 거리"로 정리했습니다([`summary.json`](data/ai/summary.json)). 원문과 동떨어진 문장은 검사로 버립니다(처음 152곳 중 21곳을 버리고 다시 받음).
@@ -420,7 +420,7 @@ src/lib/ai/         judge.ts(② 판단) · plan.ts(③ 일정 2~3안) · review
 src/lib/engine/     conditions.ts · filter.ts · timeline.ts(시각 계산) · check.ts(일정 검사) · repair.ts · fallback.ts(규칙 일정) · travel.ts
 src/lib/trip/       view.ts(결과 화면 값) · edit.ts(바꾸기·순서·빼기) · alternatives.ts · hard.ts(어려운 곳) · questions.ts · real-travel.ts · store.ts(탭 보관)
 src/lib/share/      doc.ts(공유할 값·검사) · supabase.ts(서버 전용) · view.ts(열 때 화면 값으로)   ·   supabase/migrations/(테이블·RLS·자동 삭제)
-src/lib/weather/    kma.ts(기상청 호출, 서버 전용) · service.ts(30분 캐시) · kst·summary·mid(날짜·하루 값) · day-view·caution·labels(화면 값·주의·문구) · use-weather
+src/lib/weather/    kma.ts(기상청 호출, 서버 전용) · service.ts(15분 캐시) · kst·summary·mid(날짜·하루 값) · day-view·caution·labels(화면 값·주의·문구) · use-weather
 src/lib/llm.ts      AI 호출을 한 곳에(Gemini → 늦으면 OpenAI, JSON 검사) · src/lib/kakao.ts(길찾기, 서버 전용)
 src/components/     ui/(shadcn 기반) · plan/(입력 단계) · trip/(장소 카드·안 고르기·바꾸기 창·체크리스트·공유 버튼·인쇄 일정표) · map/ · photos/
 data/               places.json · evidence.json · photos.json · featured.json · ai/(읽기 결과·한 줄 소개) · docs/places/(근거 원문) · eval/(평가)
