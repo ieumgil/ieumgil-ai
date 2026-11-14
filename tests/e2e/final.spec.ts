@@ -126,3 +126,32 @@ test("확정 페이지도 누를 수 있는 요소는 높이 44px 이상", async
   );
   expect(small, JSON.stringify(small)).toEqual([]);
 });
+
+test("공유 링크 만들기: 고른 안만 보내고(이동시간·시각 없음) 주소와 열리는 기간을 보여준다", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await setup(page, view.options[1].id);
+  let sent = "";
+  await page.route("**/api/trips", (r) => {
+    sent = r.request().postData() ?? "";
+    return r.fulfill({ json: { id: "Ab3dE5gH9k", expiresAt: "2026-11-29T15:00:00.000Z" } });
+  });
+  await page.goto("/trip/new/final");
+  await page.getByRole("button", { name: "공유 링크 만들기" }).click();
+  const dialog = page.getByRole("dialog", { name: "일정 공유 링크" });
+  await expect(dialog.getByRole("textbox", { name: "공유 주소" })).toHaveValue(/\/s\/Ab3dE5gH9k$/);
+  await expect(dialog).toContainText("11월 29일까지 열려요");
+  await expect(dialog).toContainText("이름·연락처는 저장하지 않아요");
+  const doc = JSON.parse(sent) as { option: { id: string } };
+  expect(doc.option.id).toBe(view.options[1].id);
+  for (const key of ["arriveMin", "departMin", "travelMin", "createdAt"]) expect(sent).not.toContain(`"${key}"`);
+  await dialog.getByRole("button", { name: "주소 복사" }).click();
+  await expect(dialog.getByRole("button", { name: "복사했어요" })).toBeVisible();
+});
+
+test("공유 저장소가 준비되지 않았으면 그렇다고 알려 준다", async ({ page }) => {
+  await setup(page, view.options[1].id);
+  await page.route("**/api/trips", (r) => r.fulfill({ status: 503, json: { message: "공유 링크는 아직 준비 중이에요" } }));
+  await page.goto("/trip/new/final");
+  await page.getByRole("button", { name: "공유 링크 만들기" }).click();
+  await expect(page.getByRole("dialog")).toContainText("공유 링크는 아직 준비 중이에요");
+});

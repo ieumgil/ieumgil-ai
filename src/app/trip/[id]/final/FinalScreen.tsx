@@ -12,6 +12,7 @@ import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { Checklist } from "@/components/trip/Checklist";
 import { DayList } from "@/components/trip/FinalDayList";
+import { ShareButton } from "@/components/trip/ShareButton";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
@@ -73,10 +74,13 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
             <ArrowLeft size={18} aria-hidden="true" />
             다른 안 보기
           </Link>
-          <Button variant="ghost" size="sm" onClick={() => window.print()}>
-            <Printer aria-hidden="true" />
-            인쇄·PDF로 저장
-          </Button>
+          <div className="flex flex-wrap gap-1">
+            <ShareButton trip={trip} o={kept} />
+            <Button variant="ghost" size="sm" onClick={() => window.print()}>
+              <Printer aria-hidden="true" />
+              인쇄·PDF로 저장
+            </Button>
+          </div>
         </div>
         <p className="mt-3 flex items-center gap-1.5 text-sm font-bold text-primary-ink">
           <CircleCheck size={16} aria-hidden="true" />

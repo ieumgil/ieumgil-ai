@@ -42,13 +42,14 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 ```
 src/app/            page.tsx(시작) · places/(관광지 둘러보기: 지역·분야·AI 한 줄 소개·접근성 요약 → 꼭 가고 싶은 곳에 담기) · plan/(입력 4단계 · making/(만드는 중))
                     · trip/[id]/(안 비교 → 상세, id = new | example) · trip/[id]/final(확정 일정 + 지도)
-                    · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · (나중에) api/trips
+                    · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · api/legs · api/trips(공유 링크 저장, 11/14) · (예정) s/[id](공유 읽기 전용)
 src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 …)
                     · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · TopBar · Logo · Intro · icons
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④)
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(날짜별 틀) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
 src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
+src/lib/share/      doc.ts(공유할 값·검사·사라지는 날) · supabase.ts(서버 전용 REST, 서비스 키)   ·   supabase/migrations/(trips 테이블·RLS·pg_cron SQL)
 src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문
 src/lib/            llm.ts(AI 호출은 이 파일 하나로: 제공자 순서 AI_ORDER, 모델 GEMINI_MODEL_FAST/READ · OPENAI_MODEL) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
 data/               places.json · places.schema.json · evidence.json · photos.json · featured.json(대표 관광지) · ai/summary.json(한 줄 소개) · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과)
