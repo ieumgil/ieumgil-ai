@@ -354,11 +354,11 @@ export function openaiTransport(apiKey: string, fetchImpl: typeof fetch = fetch)
 }
 
 let shared: LlmClient | undefined;
-/** 일정 만들기에서 이 시간이 지나도 답이 없으면 다음 제공자에도 같은 요청(평소 Gemini는 한 번에 1~9초) */
-export const DEFAULT_HEDGE_MS = 15_000;
+/** 일정 만들기에서 이 시간이 지나도 답이 없으면 다음 제공자로(평소 Gemini는 한 번에 1~9초). Gemini 시간 제한도 30초라 사실상 30초에 넘긴다 */
+export const DEFAULT_HEDGE_MS = 30_000;
 /**
  * 환경변수로 만든 공용 클라이언트. 제공자 순서는 Gemini(빠름) → OpenAI(붐빌 때 받쳐 줌).
- * - Gemini가 503·429·시간 초과면 다시 기다리지 않고 바로 OpenAI로, 15초(AI_HEDGE_MS) 넘게 답이 없으면 OpenAI에도 보내 먼저 온 답을 쓴다.
+ * - Gemini가 503·429·시간 초과면 다시 기다리지 않고 바로 OpenAI로, 30초(AI_HEDGE_MS) 넘게 답이 없으면 OpenAI에도 보내 먼저 온 답을 쓴다.
  * - 키가 있는 제공자만 쓴다. 순서를 바꾸려면 AI_ORDER=openai,gemini. 둘 다 없으면 오류.
  */
 export function getLlm(): LlmClient {
