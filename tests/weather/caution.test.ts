@@ -55,7 +55,7 @@ describe("바깥 장소 판정은 관광공사 '야외 시설' 분류와 같다"
       const cls = evidence[p.id]?.find((e) => e.id === "class-1")?.text ?? "";
       const official = cls.includes("야외 시설");
       if (isOutdoorPlace(p)) outdoor++;
-      if (isOutdoorPlace(p) !== official) mismatched.push(`${p.id} ${p.name} ${p.category}`);
+      if (isOutdoorPlace(p) !== official) mismatched.push(`${p.id} ${p.name_ko} ${p.category}`);
     }
     expect(mismatched).toEqual([]);
     expect(outdoor).toBe(70);
