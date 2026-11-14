@@ -77,3 +77,93 @@ describe("GET /api/weather (정상)", () => {
     expect(res.headers.get("Cache-Control")).toContain("s-maxage=1800");
   });
 });
+
+const portal30 = JSON.parse(readFileSync(resolve(__dirname, "../fixtures/weather/error-portal-30.json"), "utf8")) as unknown;
+const portalError = () => new Response(JSON.stringify(portal30), { status: 403, headers: { "content-type": "application/json" } });
+
+describe("GET /api/weather (실패해도 화면은 그대로 — D-05)", () => {
+  it("키가 비어 있으면 200 { available: false }, no-store, 기상청을 부르지 않는다", async () => {
+    vi.stubEnv("KMA_API_KEY", "");
+    const fetchMock = stubFetch();
+    const res = await GET(req());
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ available: false });
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("키가 공백뿐이어도 없는 것으로 본다", async () => {
+    vi.stubEnv("KMA_API_KEY", "   ");
+    const fetchMock = stubFetch();
+    expect(await (await GET(req())).json()).toEqual({ available: false });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("모든 호출이 포털 오류(30)면 200 { available: false }, no-store", async () => {
+    stubFetch(portalError);
+    const res = await GET(req());
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ available: false });
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+  });
+
+  it("fetch가 던져도(시간 초과·연결 끊김) 5xx가 아니라 200 { available: false }", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => Promise.reject(new TypeError("fetch failed"))));
+    const res = await GET(req());
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ available: false });
+  });
+
+  it("기상청이 JSON이 아닌 글을 줘도 200 { available: false }", async () => {
+    stubFetch(() => new Response("<html>점검 중</html>", { status: 200 }));
+    expect(await (await GET(req())).json()).toEqual({ available: false });
+  });
+
+  it("세 시 중 속초만 실패하면 강릉·동해만 담는다", async () => {
+    stubFetch((url) => (url.searchParams.get("nx") === "87" ? portalError() : Response.json(shortFixture)));
+    const body = (await (await GET(req())).json()) as { available: boolean; regions: Record<string, unknown> };
+    expect(body.available).toBe(true);
+    expect(Object.keys(body.regions).sort()).toEqual(["강릉", "동해"]);
+  });
+
+  it("쿼리가 붙은 요청은 400 { available: false }, no-store, 기상청을 부르지 않는다(CDN 캐시 우회 막기)", async () => {
+    const fetchMock = stubFetch();
+    const res = await GET(req("/api/weather?x=1"));
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ available: false });
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("GET /api/weather (키가 새지 않는다 — 원칙 4)", () => {
+  it("응답 본문과 console 출력 어디에도 키와 그 URL 인코딩 형태가 없다", async () => {
+    const logs: unknown[][] = [];
+    for (const m of ["log", "info", "warn", "error", "debug"] as const) vi.spyOn(console, m).mockImplementation((...a: unknown[]) => void logs.push(a));
+    const bodies: string[] = [];
+    const scenarios: (() => void)[] = [
+      () => stubFetch(),
+      () => stubFetch(portalError),
+      () => stubFetch(() => new Response(`장애 serviceKey=${encodeURIComponent(KEY)}`, { status: 500 })),
+      () => vi.stubGlobal("fetch", vi.fn(async (url: unknown) => Promise.reject(new TypeError(`fetch failed ${String(url)} ${KEY}`)))),
+    ];
+    for (const setup of scenarios) {
+      setup();
+      bodies.push(await (await GET(req())).text());
+    }
+    const seen = JSON.stringify([bodies, logs, logs.map((a) => a.map(String))]);
+    expect(seen).not.toContain(KEY);
+    expect(seen).not.toContain(encodeURIComponent(KEY));
+    expect(seen.toLowerCase()).not.toContain("servicekey");
+    expect(seen).not.toContain("apis.data.go.kr");
+  });
+
+  it("호출이 실패하면 코드만 남긴다(console.warn 한 줄, 시 이름·코드뿐)", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    stubFetch(portalError);
+    await GET(req());
+    expect(warn).toHaveBeenCalled();
+    const args = warn.mock.calls.map((c) => c.map(String).join(" ")).join(" | ");
+    expect(args).toContain("30");
+  });
+});

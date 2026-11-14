@@ -1,0 +1,6 @@
+{
+  "_source": "[ASSUMED] 가이드 오류 코드표 기준(연구 A2)",
+  "response": {
+    "header": { "resultCode": "03", "resultMsg": "NODATA_ERROR" }
+  }
+}

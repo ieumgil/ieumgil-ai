@@ -39,3 +39,23 @@ test("날씨는 탭 저장소에 남지 않는다(원칙 3)", async ({ page }) =
   expect(stored).not.toContain("흐림");
   expect(stored).not.toContain("available");
 });
+
+// D-05: 기상청이 어떤 모양으로 실패해도 일정·지도 안내는 그대로이고 날씨 줄만 빠진다
+const failures: [string, (r: Route) => Promise<void> | void][] = [
+  ["서버 오류(500)", (r) => r.fulfill({ status: 500, json: { message: "오류" } })],
+  ["연결 끊김", (r) => r.abort()],
+  ["예보 없음({ available: false })", (r) => r.fulfill({ json: { available: false } })],
+];
+
+for (const [name, handler] of failures) {
+  test(`날씨를 못 받아도(${name}) 일정은 그대로 열리고 날씨 줄만 없다`, async ({ page }) => {
+    await setup(page, handler);
+    await page.goto("/trip/new/final");
+    await expect(page.getByRole("heading", { level: 2, name: /번째 장소/ }).first()).toBeVisible();
+    await expect(page.getByText("지도의 선은 일반 차량 경로예요")).toBeVisible();
+    await page.waitForLoadState("networkidle");
+    await expect(page.getByText(/^강릉 · /)).toHaveCount(0);
+    await expect(page.getByText("날씨: 기상청")).toHaveCount(0);
+    await expect(page.getByRole("list", { name: "이날 날씨" })).toHaveCount(0);
+  });
+}
