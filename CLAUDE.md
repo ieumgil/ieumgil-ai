@@ -1,14 +1,12 @@
-# 이음길 AI — Claude Code 작업 안내
-@AGENTS.md
+# 이음길 AI — 개발 안내
 
 휠체어 이용자, 보행이 불편한 고령자, 유모차 동반 가족이 영동권(강릉·속초·동해) 관광지를
 당일~2박 3일 루트로 돌 수 있는지 AI가 공공 무장애 정보를 읽고 판단해, 성격이 다른 일정 2~3안과 현장 안내로 보여주는 웹서비스.
-2026 My AI 랩(강릉과학산업진흥원) 과제. **12/7까지 GitHub 제출** — 평가는 저장소만 보고 초기 계획서 대비 완성도를 본다(중간평가 없음).
+2026 My AI 랩(강릉과학산업진흥원) 과제. 이 파일은 개발할 때 지키는 원칙·구조·명령을 모은 안내다(AI 코딩 도구도 이 파일을 읽는다).
 
-- 기획·설계 문서(참고용, 갱신 중단): https://claude.ai/artifact/TZSUcqLRtTSZst2edEm5L6
-- 디자인 시안 v2(참고용, 갱신 중단): https://claude.ai/artifact/S2A6vTW33w69QtFQssuoTu
-- 기준 문서(이 저장소): `docs/planning.md`(기획 문서) · `docs/impl-plan.md`(구현 순서·진행 상태) · `docs/ai-plan.md`(**AI 설계 v3, 확정 — AI·데이터 관련은 이 문서가 우선**)
-  · `docs/design/`(화면별 시안 원본) · `docs/data/`(조사표, `tour-api-fields.md` 공공데이터 조사) · `docs/handoff.md`(열린 결정 목록)
+- 기준 문서: `docs/planning.md`(기획 문서) · `docs/impl-plan.md`(구현 순서·진행 상태) · `docs/ai-plan.md`(**AI 설계 v3, 확정 — AI·데이터 관련은 이 문서가 우선**)
+  · `docs/design/`(화면별 시안 원본) · `docs/data/`(조사표, `tour-api-fields.md` 공공데이터 조사)
+- Next.js 16(App Router, Cache Components)은 예전 버전과 API가 다르다. 코드를 쓰기 전에 `node_modules/next/dist/docs/`의 해당 안내를 먼저 본다.
 
 ## 절대 원칙
 1. **LLM이 읽고·판단하고·계획하고·풀어준다. 코드는 계산과 검사만 강제한다.** (상세: `docs/ai-plan.md`)
