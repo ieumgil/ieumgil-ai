@@ -1,0 +1,953 @@
+{
+  "source": {
+    "dataset": "전국공중화장실표준데이터",
+    "provider": "행정안전부",
+    "url": "https://www.data.go.kr/data/15012892/standard.do",
+    "license": "이용허락범위 제한 없음",
+    "rows": 4248,
+    "rows_3_cities": 816,
+    "by_city": {
+      "강릉": 379,
+      "속초": 233,
+      "동해": 204
+    },
+    "unique_3_cities": 701,
+    "disabled_rows": 373,
+    "diaper_rows": 153,
+    "closed_rows": 3,
+    "skipped_rows": 0,
+    "dates": [
+      "2024-05-01",
+      "2024-06-01",
+      "2024-12-31",
+      "2025-06-25"
+    ],
+    "matched_places": 36,
+    "places_with_values": 31
+  },
+  "places": {
+    "DH01": {
+      "name_ko": "가원습지 생태자연공원",
+      "restrooms": [
+        {
+          "no": "202542110000100296",
+          "name": "가원습지생태자연공원",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "상시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "DH03": {
+      "name_ko": "도째비골스카이밸리",
+      "restrooms": [
+        {
+          "no": "202542110000100336",
+          "name": "도째비골 스카이밸리 화장실",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "정시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "DH04": {
+      "name_ko": "동해무릉건강숲",
+      "restrooms": [
+        {
+          "no": "202542110000100220",
+          "name": "동해무릉건강숲",
+          "kind": "개방화장실",
+          "disabled_m": 0,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "정시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "DH05": {
+      "name_ko": "망상해변",
+      "restrooms": [
+        {
+          "no": "202542110000100314",
+          "name": "망상해변내 5호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "정시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202542110000100315",
+          "name": "망상해변내 4호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "정시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-2"
+        },
+        {
+          "no": "202542110000100313",
+          "name": "망상해변내 8호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "정시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-3"
+        },
+        {
+          "no": "202542110000100316",
+          "name": "망상해변내 3호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "정시",
+          "date": "2025-06-25"
+        }
+      ]
+    },
+    "DH06": {
+      "name_ko": "무릉계곡",
+      "restrooms": [
+        {
+          "no": "202542110000100230",
+          "name": "무릉계곡 관리동",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "정시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202542110000100310",
+          "name": "무릉계곡 1호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-2"
+        },
+        {
+          "no": "202542110000100309",
+          "name": "무릉계곡 2호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-3"
+        },
+        {
+          "no": "202542110000100308",
+          "name": "무릉계곡 3호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-4"
+        },
+        {
+          "no": "202542110000100307",
+          "name": "무릉계곡 4호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2025-06-25"
+        },
+        {
+          "no": "202542110000100306",
+          "name": "무릉계곡 5호",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2025-06-25"
+        }
+      ]
+    },
+    "DH08": {
+      "name_ko": "묵호등대",
+      "restrooms": [
+        {
+          "no": "202542110000100305",
+          "name": "묵호등대 공용화장실",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "정시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "DH09": {
+      "name_ko": "묵호항",
+      "restrooms": [
+        {
+          "no": "202542110000100301",
+          "name": "묵호항매립지(묵호수변공원)",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "상시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202542110000100302",
+          "name": "묵호항 북방파제",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-2"
+        },
+        {
+          "no": "202542110000100334",
+          "name": "묵호항여객선터미널",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "상시",
+          "date": "2025-06-25",
+          "evidence_id": "public-화장실-3"
+        }
+      ]
+    },
+    "DH13": {
+      "name_ko": "삼화사",
+      "restrooms": [
+        {
+          "no": "202542110000100381",
+          "name": "삼화사",
+          "kind": "개방화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "정시",
+          "date": "2025-06-25"
+        }
+      ]
+    },
+    "DH14": {
+      "name_ko": "어달해변",
+      "restrooms": [
+        {
+          "no": "202542110000100327",
+          "name": "어달해변",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2025-06-25"
+        }
+      ]
+    },
+    "GN04": {
+      "name_ko": "강릉 녹색도시체험센터",
+      "restrooms": [
+        {
+          "no": "202442010000101161",
+          "name": "강릉녹색도시체험센터 체험연수동",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "정시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202442010000101162",
+          "name": "강릉녹색도시체험센터 통합컨벤션동",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "정시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-2"
+        }
+      ]
+    },
+    "GN05": {
+      "name_ko": "강릉 대도호부 관아",
+      "restrooms": [
+        {
+          "no": "202442010000101304",
+          "name": "강릉대도호부관아 임영관 화장실",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "정시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN27": {
+      "name_ko": "강문해변",
+      "restrooms": [
+        {
+          "no": "202442010000101155",
+          "name": "강문해변",
+          "kind": "",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN34": {
+      "name_ko": "경포호(철새도래지)",
+      "restrooms": [
+        {
+          "no": "202442010000101153",
+          "name": "경포호수광장",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN35": {
+      "name_ko": "경포호수광장",
+      "restrooms": [
+        {
+          "no": "202442010000101153",
+          "name": "경포호수광장",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN39": {
+      "name_ko": "금진항(강릉)",
+      "restrooms": [
+        {
+          "no": "202442010000101373",
+          "name": "금진항 화장실",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN40": {
+      "name_ko": "금진해변",
+      "restrooms": [
+        {
+          "no": "202442010000101371",
+          "name": "금진해변 남쪽",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "남자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202442010000101372",
+          "name": "금진해변 중앙(풍차)",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "불규칙",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-2"
+        }
+      ]
+    },
+    "GN44": {
+      "name_ko": "대관령박물관",
+      "restrooms": [
+        {
+          "no": "202442010000101196",
+          "name": "대관령박물관 화장실",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "정시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202442010000101355",
+          "name": "대관령박물관",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-2"
+        }
+      ]
+    },
+    "GN49": {
+      "name_ko": "등명해변",
+      "restrooms": [
+        {
+          "no": "202442010000101320",
+          "name": "등명해변",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202442010000101325",
+          "name": "등명해변(철길옆)",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-12-31"
+        }
+      ]
+    },
+    "GN55": {
+      "name_ko": "보현사(강릉)",
+      "restrooms": [
+        {
+          "no": "202442010000101350",
+          "name": "보현사",
+          "kind": "간이화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202442010000101351",
+          "name": "보현사 주차장입구",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-2"
+        }
+      ]
+    },
+    "GN58": {
+      "name_ko": "사천해변(사천해수욕장)",
+      "restrooms": [
+        {
+          "no": "202442010000101404",
+          "name": "사천해변",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN59": {
+      "name_ko": "소금강",
+      "restrooms": [
+        {
+          "no": "202442010000101130",
+          "name": "소금강상가앞 화장실",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "정시",
+          "date": "2024-12-31"
+        }
+      ]
+    },
+    "GN62": {
+      "name_ko": "송정해변",
+      "restrooms": [
+        {
+          "no": "202442010000101332",
+          "name": "송정해변화장실",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN68": {
+      "name_ko": "안목해변",
+      "restrooms": [
+        {
+          "no": "202442010000101329",
+          "name": "안목해변화장실",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN73": {
+      "name_ko": "영진항",
+      "restrooms": [
+        {
+          "no": "202442010000101365",
+          "name": "영진항",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-12-31"
+        }
+      ]
+    },
+    "GN75": {
+      "name_ko": "옥계해변",
+      "restrooms": [
+        {
+          "no": "202442010000101381",
+          "name": "옥계해변남쪽주차장",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "불규칙",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202442010000101380",
+          "name": "옥계해변북쪽",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "불규칙",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-2"
+        },
+        {
+          "no": "202442010000101370",
+          "name": "옥계해변 남쪽",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-3"
+        },
+        {
+          "no": "202442010000101384",
+          "name": "옥계해변남쪽",
+          "kind": "간이화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-4"
+        }
+      ]
+    },
+    "GN78": {
+      "name_ko": "정동진",
+      "restrooms": [
+        {
+          "no": "202442010000101492",
+          "name": "정동진역",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202442010000101322",
+          "name": "정동진2리(전망대)",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-2"
+        }
+      ]
+    },
+    "GN80": {
+      "name_ko": "정동진역",
+      "restrooms": [
+        {
+          "no": "202442010000101492",
+          "name": "정동진역",
+          "kind": "개방화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN85": {
+      "name_ko": "주문진해변",
+      "restrooms": [
+        {
+          "no": "202442010000101409",
+          "name": "주문진해변샤워장옆 공중화장실",
+          "kind": "공중화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN94": {
+      "name_ko": "하평해변(강릉)",
+      "restrooms": [
+        {
+          "no": "202442010000101401",
+          "name": "하평해변",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "GN97": {
+      "name_ko": "허균·허난설헌 기념공원",
+      "restrooms": [
+        {
+          "no": "202442010000101306",
+          "name": "허균허난설헌 기념공원 화장실",
+          "kind": "공중화장실",
+          "disabled_m": 2,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "여자화장실",
+          "open": "상시",
+          "date": "2024-12-31",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "SC04": {
+      "name_ko": "동명항",
+      "restrooms": [
+        {
+          "no": "202542310000100029",
+          "name": "동명항 관공선 부두",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202542310000100037",
+          "name": "동명항",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-2"
+        }
+      ]
+    },
+    "SC12": {
+      "name_ko": "설악해맞이공원",
+      "restrooms": [
+        {
+          "no": "202542310000100036",
+          "name": "설악해맞이공원 안내소",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "SC19": {
+      "name_ko": "신흥사(설악산)",
+      "restrooms": [
+        {
+          "no": "202542310000100064",
+          "name": "신흥사 화장실",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-1"
+        }
+      ]
+    },
+    "SC22": {
+      "name_ko": "영금정",
+      "restrooms": [
+        {
+          "no": "202542310000100016",
+          "name": "영금정",
+          "kind": "간이화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01"
+        }
+      ]
+    },
+    "SC23": {
+      "name_ko": "영랑호",
+      "restrooms": [
+        {
+          "no": "202542310000100014",
+          "name": "영랑호 범바위",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": true,
+          "diaper_place": "남자화장실+여자화장실",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202542310000100011",
+          "name": "영랑호 카누경기장",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-2"
+        },
+        {
+          "no": "202542310000100055",
+          "name": "영랑호 동측 공중화장실",
+          "kind": "간이화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01"
+        },
+        {
+          "no": "202542310000100012",
+          "name": "영랑호 북측",
+          "kind": "간이화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01"
+        },
+        {
+          "no": "202542310000100051",
+          "name": "영랑호 입구",
+          "kind": "간이화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01"
+        },
+        {
+          "no": "202542310000100054",
+          "name": "영랑호수 윗길 주차장",
+          "kind": "간이화장실",
+          "disabled_m": 0,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01"
+        }
+      ]
+    },
+    "SC27": {
+      "name_ko": "청초호",
+      "restrooms": [
+        {
+          "no": "202542310000100019",
+          "name": "청초호유원지(남측)",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-1"
+        },
+        {
+          "no": "202542310000100020",
+          "name": "청초호유원지(중앙)",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 1,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-2"
+        },
+        {
+          "no": "202542310000100021",
+          "name": "청초호유원지(북측)",
+          "kind": "공중화장실",
+          "disabled_m": 1,
+          "disabled_f": 0,
+          "diaper": false,
+          "diaper_place": "",
+          "open": "상시",
+          "date": "2024-05-01",
+          "evidence_id": "public-화장실-3"
+        }
+      ]
+    }
+  }
+}

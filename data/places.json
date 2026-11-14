@@ -55,18 +55,26 @@
         "verified_at": "2026-11-10"
       },
       "accessible_toilet": {
-        "value": "모름",
-        "ask": "장애인 화장실이 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "공중화장실 '가원습지생태자연공원' · 장애인 칸 1",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '가원습지생태자연공원' 남녀 화장실 모두 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "모름",
@@ -546,21 +554,27 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '강릉녹색도시체험센터 체험연수동' · 장애인 칸 2 · 외 1곳",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '강릉녹색도시체험센터 체험연수동' 남녀 화장실 모두 · 외 1곳",
         "evidence": [
-          "infantsfamilyetc-1"
+          "infantsfamilyetc-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -675,12 +689,15 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '강릉대도호부관아 임영관 화장실' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -3504,11 +3521,15 @@
         "verified_at": "2026-11-10"
       },
       "accessible_toilet": {
-        "value": "모름",
-        "ask": "장애인 화장실이 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "공중화장실 '강문해변' · 장애인 칸 2",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -4412,20 +4433,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "3.1 통일공원, 경포호수광장, 경포대 광장",
+        "note": "공중화장실 '경포호수광장' · 장애인 칸 2 / 관광공사: 3.1 통일공원, 경포호수광장, 경포대 광장",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '경포호수광장' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -4527,21 +4554,27 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '경포호수광장' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '경포호수광장' 여자화장실에만",
         "evidence": [
-          "infantsfamilyetc-1"
+          "infantsfamilyetc-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "모름",
@@ -5166,19 +5199,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '금진항 화장실' · 장애인 칸 1",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '금진항 화장실' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -5273,19 +5313,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '금진해변 남쪽' · 장애인 칸 2 · 외 1곳",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '금진해변 남쪽' 남자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "모름",
@@ -6007,19 +6054,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '대관령박물관 화장실' · 장애인 칸 2 · 외 1곳",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '대관령박물관' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-2"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -6513,13 +6567,15 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "엘리베이터 타워 1층",
+        "note": "공중화장실 '도째비골 스카이밸리 화장실' · 장애인 칸 2 / 관광공사: 엘리베이터 타워 1층",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -6627,20 +6683,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "주차장 입구에 위치",
+        "note": "공중화장실 '동명항' · 장애인 칸 2 · 외 1곳 / 관광공사: 주차장 입구에 위치",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-2"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-05-01",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "동명항에 수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '동명항 관공선 부두' 남녀 화장실 모두 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-05-01",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -6745,19 +6807,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '동해무릉건강숲' · 장애인 칸 1",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "동해무릉건강숲에 수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '동해무릉건강숲' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -7095,20 +7164,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "동명해변 주차장 방면",
+        "note": "공중화장실 '등명해변' · 장애인 칸 2 / 관광공사: 동명해변 주차장 방면",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '등명해변' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -7233,22 +7308,27 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '망상해변내 5호' · 장애인 칸 1",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "가능",
-        "note": "장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음",
+        "note": "기저귀 교환대 · 공중화장실 '망상해변내 5호' 여자화장실에만 · 외 2곳 / 관광공사: 장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음",
         "evidence": [
-          "infantsfamilyetc-1"
+          "infantsfamilyetc-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -7682,20 +7762,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "2개",
+        "note": "공중화장실 '무릉계곡 관리동' · 장애인 칸 1 / 관광공사: 2개",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '무릉계곡 관리동' 여자화장실에만 · 외 3곳 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -7952,12 +8038,15 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '묵호등대 공용화장실' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -8091,20 +8180,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "주차장 입구",
+        "note": "공중화장실 '묵호항 북방파제' · 장애인 칸 2 · 외 1곳 / 관광공사: 주차장 입구",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-2"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '묵호항매립지(묵호수변공원)' 남녀 화장실 모두 · 외 1곳 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2025-06-25",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -8731,12 +8826,15 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '보현사' · 장애인 칸 2 · 외 1곳",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -9366,19 +9464,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '사천해변' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "사천해변에 수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '사천해변' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "모름",
@@ -10426,14 +10531,15 @@
         "verified_at": "2026-11-10"
       },
       "accessible_toilet": {
-        "value": "불가",
-        "note": "장애인전용 화장실은 설치예정임",
+        "value": "가능",
+        "note": "공중화장실 '설악해맞이공원 안내소' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-05-01",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -11761,19 +11867,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '송정해변화장실' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "기저귀 교환대나 수유실이 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '송정해변화장실' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "모름",
@@ -12166,12 +12279,15 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '신흥사 화장실' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-05-01",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -12923,20 +13039,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "안목 공영화장실",
+        "note": "공중화장실 '안목해변화장실' · 장애인 칸 2 / 관광공사: 안목 공영화장실",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '안목해변화장실' 남녀 화장실 모두 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -13952,19 +14074,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '영랑호 범바위' · 장애인 칸 2 · 외 1곳",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-05-01",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '영랑호 범바위' 남녀 화장실 모두 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-05-01",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "모름",
@@ -14579,19 +14708,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '옥계해변남쪽주차장' · 장애인 칸 2 · 외 3곳",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '옥계해변 남쪽' 남녀 화장실 모두 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-3"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -15048,23 +15184,28 @@
       },
       "accessible_toilet": {
         "value": "가능",
-        "note": "정동진 해변 방면 장애인 화장실",
+        "note": "공중화장실 '정동진역' · 장애인 칸 2 · 외 1곳 / 관광공사: 정동진 해변 방면 장애인 화장실",
         "evidence": [
           "restroom-1",
-          "info-화장실-1"
+          "info-화장실-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '정동진역' 여자화장실에만",
         "evidence": [
-          "lactationroom-1"
+          "lactationroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -15328,21 +15469,27 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '정동진역' · 장애인 칸 2",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '정동진역' 여자화장실에만",
         "evidence": [
-          "lactationroom-1"
+          "lactationroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -16004,11 +16151,15 @@
         "verified_at": "2026-11-10"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "주문진해변에 수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '주문진해변샤워장옆 공중화장실' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
@@ -16873,12 +17024,15 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '청초호유원지(남측)' · 장애인 칸 2 · 외 2곳",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-05-01",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
         "value": "모름",
@@ -18425,20 +18579,27 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '하평해변' · 장애인 칸 2",
         "evidence": [
           "restroom-1",
-          "info-화장실-1"
+          "info-화장실-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '하평해변' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "모름",
@@ -18965,19 +19126,26 @@
       },
       "accessible_toilet": {
         "value": "가능",
+        "note": "공중화장실 '허균허난설헌 기념공원 화장실' · 장애인 칸 3",
         "evidence": [
-          "restroom-1"
+          "restroom-1",
+          "public-화장실-1"
         ],
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "diaper_nursing": {
-        "value": "모름",
-        "ask": "수유실이나 기저귀 교환대가 있나요?",
-        "grade": "ai",
-        "method": "관광공사 API",
-        "verified_at": "2026-11-10"
+        "value": "가능",
+        "note": "기저귀 교환대 · 공중화장실 '허균허난설헌 기념공원 화장실' 여자화장실에만 · 수유실 정보 없음",
+        "evidence": [
+          "public-화장실-1"
+        ],
+        "grade": "public",
+        "method": "공공데이터",
+        "verified_at": "2024-12-31",
+        "source_url": "https://www.data.go.kr/data/15012892/standard.do"
       },
       "disabled_parking": {
         "value": "가능",
