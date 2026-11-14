@@ -1,6 +1,6 @@
 // 한국 시간(KST) 계산: 서버가 UTC여도 같은 값이 나와야 한다(기기 시간대에 기대지 않는다).
 import { describe, expect, it } from "vitest";
-import { addDaysISO, daysBetweenISO, kstDate, kstHour, pickShortBase } from "../../src/lib/weather/kst";
+import { addDaysISO, daysBetweenISO, kstDate, kstHour, pickShortBase, prevShortBase } from "../../src/lib/weather/kst";
 
 describe("kstDate / kstHour", () => {
   it("UTC 15:30은 한국 시간으로 다음 날 0시 30분", () => {
@@ -42,6 +42,24 @@ describe("pickShortBase: 발표 +15분 지난 가장 늦은 발표", () => {
 
   it("여유 분을 바꿀 수 있다(0분이면 02:10에도 0200)", () => {
     expect(pickShortBase(at("2026-11-16T02:00:00"), 0)).toEqual({ baseDate: "20261116", baseTime: "0200" });
+  });
+});
+
+describe("prevShortBase: 한 칸 앞 발표(발표 직후 데이터 없음(03)일 때 재시도용)", () => {
+  it("1700의 앞은 같은 날 1400", () => {
+    expect(prevShortBase({ baseDate: "20261115", baseTime: "1700" })).toEqual({ baseDate: "20261115", baseTime: "1400" });
+  });
+
+  it("0200의 앞은 전날 2300", () => {
+    expect(prevShortBase({ baseDate: "20261115", baseTime: "0200" })).toEqual({ baseDate: "20261114", baseTime: "2300" });
+  });
+
+  it("달을 넘긴다(12월 1일 0200 → 11월 30일 2300)", () => {
+    expect(prevShortBase({ baseDate: "20261201", baseTime: "0200" })).toEqual({ baseDate: "20261130", baseTime: "2300" });
+  });
+
+  it("해를 넘긴다(1월 1일 0200 → 전년 12월 31일 2300)", () => {
+    expect(prevShortBase({ baseDate: "20270101", baseTime: "0200" })).toEqual({ baseDate: "20261231", baseTime: "2300" });
   });
 });
 

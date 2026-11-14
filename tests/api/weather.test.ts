@@ -136,6 +136,56 @@ describe("GET /api/weather (실패해도 화면은 그대로 — D-05)", () => {
   });
 });
 
+const noData03 = JSON.parse(readFileSync(resolve(__dirname, "../fixtures/weather/no-data-03.json"), "utf8")) as unknown;
+const noData = () => Response.json(noData03);
+
+describe("GET /api/weather (발표 직후 데이터 없음(03)이면 직전 발표로 한 번만 — T-02-10)", () => {
+  it("1700 발표가 아직 03이면 1400 발표로 시마다 한 번 더 불러(총 6번) 세 시가 다 채워진다", async () => {
+    const fetchMock = stubFetch((url) => (url.searchParams.get("base_time") === "1700" ? noData() : Response.json(shortFixture)));
+    const body = (await (await GET(req())).json()) as { available: boolean; asOf: { short: unknown }; regions: Record<string, unknown> };
+    expect(fetchMock).toHaveBeenCalledTimes(6);
+    expect(body.available).toBe(true);
+    expect(body.asOf.short).toEqual({ baseDate: "20261115", baseTime: "1400" });
+    expect(Object.keys(body.regions).sort()).toEqual(["강릉", "동해", "속초"]);
+    const times = fetchMock.mock.calls.map(([u]) => new URL(String(u)).searchParams.get("base_time"));
+    expect(times.filter((t) => t === "1700")).toHaveLength(3);
+    expect(times.filter((t) => t === "1400")).toHaveLength(3);
+  });
+
+  it("포털 30(키 미등록) 오류면 재시도하지 않는다(총 3번, available false)", async () => {
+    const fetchMock = stubFetch(portalError);
+    const res = await GET(req());
+    expect(await res.json()).toEqual({ available: false });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it("직전 발표도 03이면 그 시만 빠진다(총 6번, 나머지 시는 정상)", async () => {
+    const fetchMock = stubFetch((url) => {
+      if (url.searchParams.get("nx") === "87") return noData(); // 속초는 두 발표 모두 없음
+      return url.searchParams.get("base_time") === "1700" ? noData() : Response.json(shortFixture);
+    });
+    const body = (await (await GET(req())).json()) as { available: boolean; regions: Record<string, unknown> };
+    expect(fetchMock).toHaveBeenCalledTimes(6);
+    expect(body.available).toBe(true);
+    expect(Object.keys(body.regions).sort()).toEqual(["강릉", "동해"]);
+  });
+
+  it("호출 한도(22)나 네트워크 오류도 재시도하지 않는다(총 3번)", async () => {
+    const limit = { response: { header: { resultCode: "22", resultMsg: "LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR" } } };
+    const fetchMock = stubFetch(() => Response.json(limit));
+    expect(await (await GET(req())).json()).toEqual({ available: false });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it("03이 아닌 시는 재시도 없이 한 번만 불러, 한 시만 03이면 총 4번이고 asOf는 쓴 발표 중 가장 늦은 것", async () => {
+    const fetchMock = stubFetch((url) => (url.searchParams.get("nx") === "87" && url.searchParams.get("base_time") === "1700" ? noData() : Response.json(shortFixture)));
+    const body = (await (await GET(req())).json()) as { asOf: { short: unknown }; regions: Record<string, unknown> };
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect(Object.keys(body.regions).sort()).toEqual(["강릉", "동해", "속초"]);
+    expect(body.asOf.short).toEqual({ baseDate: "20261115", baseTime: "1700" });
+  });
+});
+
 describe("GET /api/weather (키가 새지 않는다 — 원칙 4)", () => {
   it("응답 본문과 console 출력 어디에도 키와 그 URL 인코딩 형태가 없다", async () => {
     const logs: unknown[][] = [];
