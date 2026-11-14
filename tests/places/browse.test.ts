@@ -18,6 +18,25 @@ describe("관광지 둘러보기 값", () => {
     expect(noAi).toMatchObject({ summary: "율곡 이이가 태어난 곳이다.", summaryBy: "source", highlights: [] });
   });
 
+  it("공공데이터(grade public) 항목에만 출처·기준일 문구(source)가 붙는다", () => {
+    const p = makePlace("GN91", {
+      set: {
+        accessible_toilet: {
+          value: "가능",
+          note: "공중화장실 'A' · 장애인 칸 2",
+          evidence: ["public-화장실-1"],
+          grade: "public",
+          method: "공공데이터",
+          verified_at: "2024-12-31",
+          source_url: "https://www.data.go.kr/data/15012892/standard.do",
+        },
+      },
+    });
+    const b = toBrowsePlace(p, undefined, false, paragraphs);
+    expect(b.access.accessible_toilet).toEqual({ value: "가능", note: "공중화장실 'A' · 장애인 칸 2", source: "공공데이터(2024-12 기준)" });
+    expect("source" in b.access.elevator).toBe(false);
+  });
+
   it("운영시간 한 줄", () => {
     expect(hoursText({ always_open: true })).toBe("상시 개방");
     expect(hoursText({ summer: { open: "09:00", close: "18:00", last_entry: "17:00" }, winter: { open: "09:00", close: "17:00", last_entry: "16:00" }, closed_weekdays: ["월"] })).toBe(

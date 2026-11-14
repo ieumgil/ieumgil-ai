@@ -49,6 +49,35 @@ test("지역·분야를 바꾸고, 볼 거리 낱말로 찾고, 자세히 보기
   await expect(dialog.getByRole("link", { name: /\d{2,4}-\d{3,4}-\d{4}/ })).toBeVisible();
 });
 
+test("자세히 보기: 공중화장실 공공데이터 값은 출처·기준일과 함께 보인다(안목해변·망상해변)", async ({ page }) => {
+  await page.goto("/places");
+  await page.getByRole("searchbox", { name: "관광지 찾기" }).fill("안목해변");
+  await page.locator("article").filter({ hasText: "안목해변" }).first().getByRole("button", { name: "자세히 보기" }).click();
+  let dialog = page.getByRole("dialog");
+  await expect(dialog.getByText("장애인 칸 2").first()).toBeVisible();
+  await expect(dialog.getByText("남녀 화장실 모두")).toBeVisible();
+  await expect(dialog.getByText("공공데이터(2024-12 기준)").first()).toBeVisible();
+  await expect(dialog.getByText(/행정안전부/).first()).toBeVisible();
+  await expect(dialog.locator("ul").last().locator("li")).toHaveCount(10);
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("radio", { name: /동해/ }).click();
+  await page.getByRole("searchbox", { name: "관광지 찾기" }).fill("망상해변");
+  await page.locator("article").filter({ hasText: "망상해변" }).first().getByRole("button", { name: "자세히 보기" }).click();
+  dialog = page.getByRole("dialog");
+  await expect(dialog.getByText(/여자화장실에만/)).toBeVisible();
+  await expect(dialog.getByText("공공데이터(2025-06 기준)").first()).toBeVisible();
+});
+
+test("공공데이터 값이 없는 곳은 안내 문장이 그대로", async ({ page }) => {
+  await page.goto("/places");
+  await page.getByRole("searchbox", { name: "관광지 찾기" }).fill("율곡");
+  await page.locator("article").first().getByRole("button", { name: "자세히 보기" }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByText("관광공사 무장애 정보를 AI가 정리한 값이에요.")).toBeVisible();
+  await expect(dialog).not.toContainText("행정안전부");
+});
+
 test("시작 화면에서도 들어갈 수 있고, 누를 수 있는 것은 44px 이상", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: /어떤 관광지가 있는지 먼저 보기/ }).click();
