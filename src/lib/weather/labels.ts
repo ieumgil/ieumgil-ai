@@ -12,19 +12,21 @@ export function precipWord(precip: DayForecast["precip"]): string {
   return "비";
 }
 
-function tempPart(tmin: number | null, tmax: number | null): string | null {
-  if (tmin !== null && tmax !== null) return `${Math.round(tmin)}~${Math.round(tmax)}℃`;
-  if (tmin !== null) return `최저 ${Math.round(tmin)}℃`;
-  if (tmax !== null) return `최고 ${Math.round(tmax)}℃`;
+/** approx(TMN·TMX 대신 TMP로 채운 값, 오늘은 남은 시각만의 값)이면 '약'을 붙여 확정 값처럼 보이지 않게 한다 */
+function tempPart(tmin: number | null, tmax: number | null, approx = false): string | null {
+  const mark = approx ? "약 " : "";
+  if (tmin !== null && tmax !== null) return `${mark}${Math.round(tmin)}~${Math.round(tmax)}℃`;
+  if (tmin !== null) return `최저 ${mark}${Math.round(tmin)}℃`;
+  if (tmax !== null) return `최고 ${mark}${Math.round(tmax)}℃`;
   return null;
 }
 
-/** 예: "강릉 · 흐림 · 비 20% · 8~14℃" — 값이 없는 조각은 빠진다 */
+/** 예: "강릉 · 흐림 · 비 20% · 8~14℃", 대략 값이면 "… · 약 8~14℃" — 값이 없는 조각은 빠진다 */
 export function weatherLine(region: Region, day: DayForecast): string {
   const parts: string[] = [region];
   if (day.sky !== null) parts.push(SKY_LABEL[day.sky]);
   if (day.pop !== null) parts.push(`${precipWord(day.precip)} ${day.pop}%`);
-  const temp = tempPart(day.tmin, day.tmax);
+  const temp = tempPart(day.tmin, day.tmax, day.approxTemp === true);
   if (temp) parts.push(temp);
   return parts.join(" · ");
 }

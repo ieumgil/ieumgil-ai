@@ -28,6 +28,17 @@ describe("summarizeShort: 픽스처 날짜별 하루 값", () => {
     expect(out["2026-11-15"]).toEqual({ sky: 1, precip: null, pop: 20, tmin: 5, tmax: 10, source: "short", approxTemp: true });
   });
 
+  it("오늘 오후에 연 화면: 이미 지난 TMN·TMX 행은 쓰지 않고 남은 시각의 TMP로 채우되 approxTemp로 표시한다(WR-01)", () => {
+    const list = [
+      row("TMN", "0600", "3.0", "20261115"),
+      row("TMX", "1500", "18.0", "20261115"),
+      row("POP", "1800", "20", "20261115"),
+      row("TMP", "1800", "11", "20261115"),
+      row("TMP", "2100", "8", "20261115"),
+    ];
+    expect(run(list)["2026-11-15"]).toMatchObject({ tmin: 8, tmax: 11, approxTemp: true });
+  });
+
   it("2026-11-16: 낮 창(06~21시) 강수확률 최댓값 30, 하늘 4(동률이면 더 흐림), 기온 3~11, approxTemp 없음", () => {
     expect(out["2026-11-16"]).toEqual({ sky: 4, precip: null, pop: 30, tmin: 3, tmax: 11, source: "short" });
   });
