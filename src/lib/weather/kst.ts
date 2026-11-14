@@ -67,3 +67,24 @@ export function prevShortBase(b: ShortBase): ShortBase {
   if (i > 0) return { baseDate: b.baseDate, baseTime: SHORT_BASE_TIMES[i - 1] };
   return { baseDate: addDaysISO(compactToISO(b.baseDate), -1).replace(/-/g, ""), baseTime: "2300" };
 }
+
+/**
+ * 지금 부를 수 있는 가장 늦은 중기예보 발표 tmFc(YYYYMMDDHHMM, 06·18시). 가이드에는 발표 뒤 제공 지연 시각이 없어
+ * 보수적으로 30분(marginMin)을 둔다 — 연구 A5 [ASSUMED]. 너무 이르면 03(자료 없음)이 나오고 서비스가 prevMidTmFc로 한 번 흡수한다.
+ * 06:30 전은 전날 1800, 06:30~18:29는 당일 0600, 18:30부터 당일 1800.
+ */
+export function pickMidTmFc(now: Date, marginMin = 30): string {
+  const k = kstParts(now);
+  const minutes = k.getUTCHours() * 60 + k.getUTCMinutes();
+  const today = toISO(k);
+  if (minutes >= 18 * 60 + marginMin) return `${today.replace(/-/g, "")}1800`;
+  if (minutes >= 6 * 60 + marginMin) return `${today.replace(/-/g, "")}0600`;
+  return `${addDaysISO(today, -1).replace(/-/g, "")}1800`;
+}
+
+/** 한 칸 앞 중기 발표(재시도용): 0600의 앞은 전날 1800, 1800의 앞은 같은 날 0600 */
+export function prevMidTmFc(tmFc: string): string {
+  const date = tmFc.slice(0, 8);
+  if (tmFc.slice(8) === "1800") return `${date}0600`;
+  return `${addDaysISO(compactToISO(date), -1).replace(/-/g, "")}1800`;
+}
