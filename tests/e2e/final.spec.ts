@@ -72,10 +72,12 @@ test("출발 전 확인: 확인할 곳 수가 안 비교 카드와 같고, 전�
 
   await page.goto("/trip/new/final");
   await expect(page.getByText(`${calls}곳 중 0곳 확인했어요`)).toBeVisible();
+  // 1곳뿐이면 하나 확인하면 모두 확인한 것
+  const oneDone = calls > 1 ? `${calls}곳 중 1곳 확인했어요` : "모두 괜찮다고 확인했어요.";
   await page.getByRole("button", { name: "괜찮대요" }).first().click();
-  await expect(page.getByText(`${calls}곳 중 1곳 확인했어요`)).toBeVisible();
+  await expect(page.getByText(oneDone)).toBeVisible();
   await page.reload();
-  await expect(page.getByText(`${calls}곳 중 1곳 확인했어요`)).toBeVisible();
+  await expect(page.getByText(oneDone)).toBeVisible();
   await expect(page.getByRole("button", { name: "괜찮대요" }).first()).toHaveAttribute("aria-pressed", "true");
 });
 

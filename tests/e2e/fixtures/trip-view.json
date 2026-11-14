@@ -1,6 +1,6 @@
 {
  "version": 2,
- "createdAt": "2026-11-10T12:39:24.875Z",
+ "createdAt": "2026-11-14T06:25:39.074Z",
  "input": {
   "startDate": "2026-11-21",
   "endDate": "2026-11-22",
@@ -14,18 +14,22 @@
    "역사·문화"
   ],
   "pace": "normal",
-  "lodging": "강릉"
+  "lodging": "강릉",
+  "lodging2": "same",
+  "mustVisit": [
+   "GN12"
+  ]
  },
  "usedFallback": false,
  "calls": 5,
- "ms": 25615,
+ "ms": 15211,
  "notes": [],
  "options": [
   {
    "id": "A",
    "strategy": "여유",
-   "title": "여유로운 일정",
-   "summary": "이동 거리를 줄이고 여유롭게 둘러보는 코스입니다.",
+   "title": "여유롭게",
+   "summary": "이동을 최소화하고 여유롭게 둘러보는 일정입니다.",
    "source": "ai",
    "days": [
     {
@@ -35,7 +39,7 @@
      "startMin": 600,
      "endMin": 1080,
      "fit": "여유",
-     "travelMin": 31,
+     "travelMin": 62,
      "estimated": true,
      "items": [
       {
@@ -53,42 +57,54 @@
        "departMin": 696,
        "stayMin": 60,
        "extraMin": 25,
-       "why": "경사로와 엘리베이터가 있어 이동하기 편해서 골랐어요."
-      },
-      {
-       "kind": "rest",
-       "startMin": 696,
-       "endMin": 716
+       "why": "경사로와 엘리베이터가 있어 편하게 둘러볼 수 있어요."
       },
       {
        "kind": "travel",
-       "toName": "강릉 선교장",
-       "minutes": 8,
-       "km": 1.3,
+       "toName": "강릉 대도호부 관아",
+       "minutes": 13,
+       "km": 4.2,
        "estimated": true,
-       "startMin": 716
+       "startMin": 696
       },
       {
        "kind": "visit",
-       "placeId": "GN09",
-       "arriveMin": 724,
-       "departMin": 790,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "역사·문화 분야를 여유롭게 즐기기 좋은 곳이에요."
+       "placeId": "GN05",
+       "arriveMin": 709,
+       "departMin": 769,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "출입구에 턱이 없어 이동하기 수월해요."
       },
       {
        "kind": "lunch",
-       "startMin": 790,
-       "endMin": 850
+       "startMin": 769,
+       "endMin": 829
+      },
+      {
+       "kind": "travel",
+       "toName": "경포해수욕장",
+       "minutes": 21,
+       "km": 7.8,
+       "estimated": true,
+       "startMin": 829
+      },
+      {
+       "kind": "visit",
+       "placeId": "GN33",
+       "arriveMin": 850,
+       "departMin": 910,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "경사로가 설치되어 있어 바다를 감상하기 좋아요."
       },
       {
        "kind": "travel",
        "toName": "강릉 숙소(지역 기준점)",
-       "minutes": 12,
-       "km": 3.7,
+       "minutes": 17,
+       "km": 6,
        "estimated": true,
-       "startMin": 850
+       "startMin": 910
       }
      ]
     },
@@ -99,7 +115,7 @@
      "startMin": 570,
      "endMin": 1020,
      "fit": "여유",
-     "travelMin": 39,
+     "travelMin": 52,
      "estimated": true,
      "items": [
       {
@@ -114,317 +130,57 @@
        "kind": "visit",
        "placeId": "GN98",
        "arriveMin": 584,
-       "departMin": 650,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "경사로가 있어 휠체어로 편하게 접근할 수 있어요."
-      },
-      {
-       "kind": "rest",
-       "startMin": 650,
-       "endMin": 670
+       "departMin": 657,
+       "stayMin": 50,
+       "extraMin": 23,
+       "why": "경사로와 장애인 전용 편의시설이 잘 갖추어져 있어요."
       },
       {
        "kind": "travel",
-       "toName": "경포해수욕장",
-       "minutes": 8,
-       "km": 1.7,
+       "toName": "허난설헌 솔숲",
+       "minutes": 5,
+       "km": 0,
        "estimated": true,
-       "startMin": 670
+       "startMin": 657
       },
       {
        "kind": "visit",
-       "placeId": "GN33",
-       "arriveMin": 678,
-       "departMin": 744,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "경사로가 설치되어 있어 바다를 편하게 보기 좋아요."
+       "placeId": "GN99",
+       "arriveMin": 662,
+       "departMin": 722,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "출입구에 턱이 없어 진입하기 편리해요."
       },
       {
        "kind": "lunch",
-       "startMin": 744,
-       "endMin": 804
-      },
-      {
-       "kind": "travel",
-       "toName": "강릉역",
-       "minutes": 17,
-       "km": 6,
-       "estimated": true,
-       "startMin": 804
-      }
-     ]
-    }
-   ],
-   "checkBeforeGo": [
-    {
-     "placeId": "GN09",
-     "question": "장애인 화장실이 구비되어 있나요?"
-    },
-    {
-     "placeId": "GN12",
-     "question": "노면 포장 상태나 재질은 어떻게 되나요?"
-    },
-    {
-     "placeId": "GN09",
-     "question": "엘리베이터가 있나요?"
-    },
-    {
-     "placeId": "GN09",
-     "question": "노면이 평탄하게 포장되어 있나요?"
-    },
-    {
-     "placeId": "GN09",
-     "question": "장애인 화장실이 있나요?"
-    },
-    {
-     "placeId": "GN98",
-     "question": "엘리베이터가 있나요?"
-    },
-    {
-     "placeId": "GN98",
-     "question": "노면 재질이 어떻게 되나요?"
-    },
-    {
-     "placeId": "GN33",
-     "question": "노면 재질이 어떻게 되나요?"
-    }
-   ],
-   "cautions": [
-    {
-     "placeId": "GN33",
-     "text": "모래사장 인근 이동 시 주의가 필요해요."
-    }
-   ],
-   "review": {
-    "fatigue": 4,
-    "slack": 4,
-    "taste": 3,
-    "comment": "이동 거리가 짧고 휠체어 이용이 비교적 편리하지만 바다와 해변 일정이 조금 아쉽습니다."
-   },
-   "fixes": 0,
-   "fixedViolations": [],
-   "stats": {
-    "places": 4,
-    "travelMin": 70,
-    "checkNeeded": 1
-   },
-   "draft": {
-    "days": [
-     {
-      "date": "2026-11-21",
-      "stops": [
-       {
-        "placeId": "GN12",
-        "stayMin": 60,
-        "restAfter": true,
-        "why": "경사로와 엘리베이터가 있어 이동하기 편해서 골랐어요."
-       },
-       {
-        "placeId": "GN09",
-        "stayMin": 45,
-        "why": "역사·문화 분야를 여유롭게 즐기기 좋은 곳이에요."
-       }
-      ]
-     },
-     {
-      "date": "2026-11-22",
-      "stops": [
-       {
-        "placeId": "GN98",
-        "stayMin": 45,
-        "restAfter": true,
-        "why": "경사로가 있어 휠체어로 편하게 접근할 수 있어요."
-       },
-       {
-        "placeId": "GN33",
-        "stayMin": 45,
-        "why": "경사로가 설치되어 있어 바다를 편하게 보기 좋아요."
-       }
-      ]
-     }
-    ]
-   },
-   "alternatives": {
-    "GN12": [
-     "GN99",
-     "GN05",
-     "GN14"
-    ],
-    "GN09": [
-     "GN99",
-     "GN05",
-     "GN14"
-    ],
-    "GN98": [
-     "GN99",
-     "GN62",
-     "GN68"
-    ],
-    "GN33": [
-     "GN99",
-     "GN62",
-     "GN68"
-    ]
-   }
-  },
-  {
-   "id": "B",
-   "strategy": "취향",
-   "title": "좋아하는 분야 중심 일정",
-   "summary": "바다와 역사·문화 분야를 알차게 즐기는 코스입니다.",
-   "source": "ai",
-   "days": [
-    {
-     "date": "2026-11-21",
-     "startName": "강릉역",
-     "endName": "강릉 숙소(지역 기준점)",
-     "startMin": 600,
-     "endMin": 1080,
-     "fit": "여유",
-     "travelMin": 61,
-     "estimated": true,
-     "items": [
-      {
-       "kind": "travel",
-       "toName": "강릉 오죽헌·시립박물관",
-       "minutes": 11,
-       "km": 3.2,
-       "estimated": true,
-       "startMin": 600
-      },
-      {
-       "kind": "visit",
-       "placeId": "GN12",
-       "arriveMin": 611,
-       "departMin": 696,
-       "stayMin": 60,
-       "extraMin": 25,
-       "why": "꼭 가고 싶어 하신 경사로와 엘리베이터가 있는 전시 공간이에요."
-      },
-      {
-       "kind": "travel",
-       "toName": "강릉 대도호부 관아",
-       "minutes": 13,
-       "km": 4.2,
-       "estimated": true,
-       "startMin": 696
-      },
-      {
-       "kind": "visit",
-       "placeId": "GN05",
-       "arriveMin": 709,
-       "departMin": 775,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "턱 없는 출입구로 이동이 편리한 역사 문화 공간이에요."
-      },
-      {
-       "kind": "lunch",
-       "startMin": 775,
-       "endMin": 835
+       "startMin": 722,
+       "endMin": 782
       },
       {
        "kind": "travel",
        "toName": "안목해변",
-       "minutes": 20,
-       "km": 7.3,
+       "minutes": 16,
+       "km": 5.4,
        "estimated": true,
-       "startMin": 835
+       "startMin": 782
       },
       {
        "kind": "visit",
        "placeId": "GN68",
-       "arriveMin": 855,
-       "departMin": 921,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "출입구에 턱이 없어 휠체어로 바다를 접근하기 좋아요."
-      },
-      {
-       "kind": "travel",
-       "toName": "강릉 숙소(지역 기준점)",
-       "minutes": 17,
-       "km": 5.9,
-       "estimated": true,
-       "startMin": 921
-      }
-     ]
-    },
-    {
-     "date": "2026-11-22",
-     "startName": "강릉 숙소(지역 기준점)",
-     "endName": "강릉역",
-     "startMin": 570,
-     "endMin": 1020,
-     "fit": "여유",
-     "travelMin": 54,
-     "estimated": true,
-     "items": [
-      {
-       "kind": "travel",
-       "toName": "강릉 임영관 삼문",
-       "minutes": 9,
-       "km": 2,
-       "estimated": true,
-       "startMin": 570
-      },
-      {
-       "kind": "visit",
-       "placeId": "GN14",
-       "arriveMin": 579,
-       "departMin": 645,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "경사로가 설치되어 있고 턱이 없어 진입하기 편해요."
-      },
-      {
-       "kind": "travel",
-       "toName": "송정해변",
-       "minutes": 18,
-       "km": 6.7,
-       "estimated": true,
-       "startMin": 645
-      },
-      {
-       "kind": "visit",
-       "placeId": "GN62",
-       "arriveMin": 663,
-       "departMin": 729,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "경사로가 있고 턱이 없어 바다를 보기 편해요."
-      },
-      {
-       "kind": "lunch",
-       "startMin": 729,
-       "endMin": 789
-      },
-      {
-       "kind": "travel",
-       "toName": "강릉항",
-       "minutes": 9,
-       "km": 2.2,
-       "estimated": true,
-       "startMin": 789
-      },
-      {
-       "kind": "visit",
-       "placeId": "GN25",
        "arriveMin": 798,
-       "departMin": 864,
-       "stayMin": 45,
-       "extraMin": 21,
-       "why": "경사로와 턱 없는 통로로 항구 주변을 이동하기 편리해요."
+       "departMin": 858,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "출입구에 턱이 없어 휠체어 접근이 쉬워요."
       },
       {
        "kind": "travel",
        "toName": "강릉역",
-       "minutes": 18,
-       "km": 6.5,
+       "minutes": 17,
+       "km": 5.9,
        "estimated": true,
-       "startMin": 864
+       "startMin": 858
       }
      ]
     }
@@ -443,38 +199,55 @@
      "question": "바닥 노면은 평탄한가요?"
     },
     {
+     "placeId": "GN33",
+     "question": "노면 재질이 어떻게 되나요?"
+    },
+    {
+     "placeId": "GN98",
+     "question": "엘리베이터가 있나요?"
+    },
+    {
+     "placeId": "GN98",
+     "question": "노면 재질이 어떻게 되나요?"
+    },
+    {
+     "placeId": "GN99",
+     "question": "엘리베이터가 있나요?"
+    },
+    {
+     "placeId": "GN99",
+     "question": "경사로가 완만하게 되어 있나요?"
+    },
+    {
+     "placeId": "GN99",
+     "question": "노면 재질이 어떻게 되나요?"
+    },
+    {
      "placeId": "GN68",
      "question": "경사로가 설치되어 있거나 완만한가요?"
     },
     {
      "placeId": "GN68",
      "question": "노면이 포장되어 있거나 평탄한가요?"
-    },
-    {
-     "placeId": "GN14",
-     "question": "노면 포장 상태나 재질은 어떻게 되나요?"
-    },
-    {
-     "placeId": "GN62",
-     "question": "노면 재질이 어떻게 되나요?"
-    },
-    {
-     "placeId": "GN25",
-     "question": "노면은 어떤 재질인가요?"
     }
    ],
-   "cautions": [],
+   "cautions": [
+    {
+     "placeId": "GN33",
+     "text": "해변 모래사장 진입 시 노면 상태를 주의하세요."
+    }
+   ],
    "review": {
-    "fatigue": 3,
-    "slack": 3,
+    "fatigue": 5,
+    "slack": 5,
     "taste": 5,
-    "comment": "좋아하는 바다와 역사·문화 유적지를 골고루 잘 담았으나 이동 거리가 다소 깁니다."
+    "comment": "이동 동선이 휠체어 이용자에게 무난하며 취향에 맞는 장소들로 잘 구성되어 있습니다."
    },
    "fixes": 0,
    "fixedViolations": [],
    "stats": {
     "places": 6,
-    "travelMin": 115,
+    "travelMin": 114,
     "checkNeeded": 0
    },
    "draft": {
@@ -485,17 +258,17 @@
        {
         "placeId": "GN12",
         "stayMin": 60,
-        "why": "꼭 가고 싶어 하신 경사로와 엘리베이터가 있는 전시 공간이에요."
+        "why": "경사로와 엘리베이터가 있어 편하게 둘러볼 수 있어요."
        },
        {
         "placeId": "GN05",
-        "stayMin": 45,
-        "why": "턱 없는 출입구로 이동이 편리한 역사 문화 공간이에요."
+        "stayMin": 40,
+        "why": "출입구에 턱이 없어 이동하기 수월해요."
        },
        {
-        "placeId": "GN68",
-        "stayMin": 45,
-        "why": "출입구에 턱이 없어 휠체어로 바다를 접근하기 좋아요."
+        "placeId": "GN33",
+        "stayMin": 40,
+        "why": "경사로가 설치되어 있어 바다를 감상하기 좋아요."
        }
       ]
      },
@@ -503,19 +276,304 @@
       "date": "2026-11-22",
       "stops": [
        {
+        "placeId": "GN98",
+        "stayMin": 50,
+        "why": "경사로와 장애인 전용 편의시설이 잘 갖추어져 있어요."
+       },
+       {
+        "placeId": "GN99",
+        "stayMin": 40,
+        "why": "출입구에 턱이 없어 진입하기 편리해요."
+       },
+       {
+        "placeId": "GN68",
+        "stayMin": 40,
+        "why": "출입구에 턱이 없어 휠체어 접근이 쉬워요."
+       }
+      ]
+     }
+    ]
+   },
+   "alternatives": {
+    "GN12": [
+     "GN14",
+     "GN62",
+     "GN25"
+    ],
+    "GN05": [
+     "GN14",
+     "GN42",
+     "GN62"
+    ],
+    "GN33": [
+     "GN30",
+     "GN25",
+     "GN42"
+    ],
+    "GN98": [
+     "GN62",
+     "GN30",
+     "GN25"
+    ],
+    "GN99": [
+     "GN14",
+     "GN42",
+     "GN62"
+    ],
+    "GN68": [
+     "GN25",
+     "GN42",
+     "GN70"
+    ]
+   }
+  },
+  {
+   "id": "B",
+   "strategy": "취향",
+   "title": "좋아하는 곳 중심",
+   "summary": "역사·문화와 바다 해변 중심의 알찬 일정입니다.",
+   "source": "ai",
+   "days": [
+    {
+     "date": "2026-11-21",
+     "startName": "강릉역",
+     "endName": "강릉 숙소(지역 기준점)",
+     "startMin": 600,
+     "endMin": 1080,
+     "fit": "여유",
+     "travelMin": 57,
+     "estimated": true,
+     "items": [
+      {
+       "kind": "travel",
+       "toName": "강릉 오죽헌·시립박물관",
+       "minutes": 11,
+       "km": 3.2,
+       "estimated": true,
+       "startMin": 600
+      },
+      {
+       "kind": "visit",
+       "placeId": "GN12",
+       "arriveMin": 611,
+       "departMin": 696,
+       "stayMin": 60,
+       "extraMin": 25,
+       "why": "꼭 가고 싶었던 오죽헌을 편하게 관람할 수 있어요."
+      },
+      {
+       "kind": "travel",
+       "toName": "강릉 임영관 삼문",
+       "minutes": 13,
+       "km": 4.2,
+       "estimated": true,
+       "startMin": 696
+      },
+      {
+       "kind": "visit",
+       "placeId": "GN14",
+       "arriveMin": 709,
+       "departMin": 769,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "경사로와 턱 없는 주출입구로 편하게 진입할 수 있어요."
+      },
+      {
+       "kind": "lunch",
+       "startMin": 769,
+       "endMin": 829
+      },
+      {
+       "kind": "travel",
+       "toName": "송정해변",
+       "minutes": 18,
+       "km": 6.7,
+       "estimated": true,
+       "startMin": 829
+      },
+      {
+       "kind": "visit",
+       "placeId": "GN62",
+       "arriveMin": 847,
+       "departMin": 907,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "경사로가 있고 턱이 없어 진입하기 수월해요."
+      },
+      {
+       "kind": "travel",
+       "toName": "강릉 숙소(지역 기준점)",
+       "minutes": 15,
+       "km": 5,
+       "estimated": true,
+       "startMin": 907
+      }
+     ]
+    },
+    {
+     "date": "2026-11-22",
+     "startName": "강릉 숙소(지역 기준점)",
+     "endName": "강릉역",
+     "startMin": 570,
+     "endMin": 1020,
+     "fit": "여유",
+     "travelMin": 60,
+     "estimated": true,
+     "items": [
+      {
+       "kind": "travel",
+       "toName": "강릉 선교장",
+       "minutes": 12,
+       "km": 3.7,
+       "estimated": true,
+       "startMin": 570
+      },
+      {
+       "kind": "visit",
+       "placeId": "GN09",
+       "arriveMin": 582,
+       "departMin": 642,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "출입구에 턱이 없어 역사 문화를 즐기기 좋아요."
+      },
+      {
+       "kind": "travel",
+       "toName": "강릉항",
+       "minutes": 22,
+       "km": 8.3,
+       "estimated": true,
+       "startMin": 642
+      },
+      {
+       "kind": "visit",
+       "placeId": "GN25",
+       "arriveMin": 664,
+       "departMin": 724,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "경사로가 설치되어 있고 장애인 화장실을 이용할 수 있어요."
+      },
+      {
+       "kind": "lunch",
+       "startMin": 724,
+       "endMin": 784
+      },
+      {
+       "kind": "travel",
+       "toName": "남항진해변(남항진해수욕장)",
+       "minutes": 8,
+       "km": 1.3,
+       "estimated": true,
+       "startMin": 784
+      },
+      {
+       "kind": "visit",
+       "placeId": "GN42",
+       "arriveMin": 792,
+       "departMin": 852,
+       "stayMin": 40,
+       "extraMin": 20,
+       "why": "경사로가 있어 편하게 진입할 수 있어요."
+      },
+      {
+       "kind": "travel",
+       "toName": "강릉역",
+       "minutes": 18,
+       "km": 6.5,
+       "estimated": true,
+       "startMin": 852
+      }
+     ]
+    }
+   ],
+   "checkBeforeGo": [
+    {
+     "placeId": "GN09",
+     "question": "장애인 화장실이 있나요?"
+    },
+    {
+     "placeId": "GN12",
+     "question": "노면 포장 상태나 재질은 어떻게 되나요?"
+    },
+    {
+     "placeId": "GN14",
+     "question": "노면 포장 상태나 재질은 어떻게 되나요?"
+    },
+    {
+     "placeId": "GN62",
+     "question": "노면 재질이 어떻게 되나요?"
+    },
+    {
+     "placeId": "GN09",
+     "question": "엘리베이터가 있나요?"
+    },
+    {
+     "placeId": "GN09",
+     "question": "노면이 평탄하게 포장되어 있나요?"
+    },
+    {
+     "placeId": "GN25",
+     "question": "노면은 어떤 재질인가요?"
+    },
+    {
+     "placeId": "GN42",
+     "question": "노면은 포장되어 있나요?"
+    }
+   ],
+   "cautions": [],
+   "review": {
+    "fatigue": 4,
+    "slack": 5,
+    "taste": 5,
+    "comment": "역사와 바다를 알차게 즐길 수 있지만 일부 장소의 화장실 정보를 미리 확인하는 것이 좋습니다."
+   },
+   "fixes": 0,
+   "fixedViolations": [],
+   "stats": {
+    "places": 6,
+    "travelMin": 117,
+    "checkNeeded": 1
+   },
+   "draft": {
+    "days": [
+     {
+      "date": "2026-11-21",
+      "stops": [
+       {
+        "placeId": "GN12",
+        "stayMin": 60,
+        "why": "꼭 가고 싶었던 오죽헌을 편하게 관람할 수 있어요."
+       },
+       {
         "placeId": "GN14",
-        "stayMin": 45,
-        "why": "경사로가 설치되어 있고 턱이 없어 진입하기 편해요."
+        "stayMin": 40,
+        "why": "경사로와 턱 없는 주출입구로 편하게 진입할 수 있어요."
        },
        {
         "placeId": "GN62",
-        "stayMin": 45,
-        "why": "경사로가 있고 턱이 없어 바다를 보기 편해요."
+        "stayMin": 40,
+        "why": "경사로가 있고 턱이 없어 진입하기 수월해요."
+       }
+      ]
+     },
+     {
+      "date": "2026-11-22",
+      "stops": [
+       {
+        "placeId": "GN09",
+        "stayMin": 40,
+        "why": "출입구에 턱이 없어 역사 문화를 즐기기 좋아요."
        },
        {
         "placeId": "GN25",
-        "stayMin": 45,
-        "why": "경사로와 턱 없는 통로로 항구 주변을 이동하기 편리해요."
+        "stayMin": 40,
+        "why": "경사로가 설치되어 있고 장애인 화장실을 이용할 수 있어요."
+       },
+       {
+        "placeId": "GN42",
+        "stayMin": 40,
+        "why": "경사로가 있어 편하게 진입할 수 있어요."
        }
       ]
      }
@@ -525,32 +583,32 @@
     "GN12": [
      "GN99",
      "GN98",
-     "GN33"
-    ],
-    "GN05": [
-     "GN99",
-     "GN98",
-     "GN42"
-    ],
-    "GN68": [
-     "GN42",
-     "GN98",
-     "GN99"
+     "GN05"
     ],
     "GN14": [
-     "GN99",
-     "GN98",
-     "GN42"
+     "GN05",
+     "GN68",
+     "GN33"
     ],
     "GN62": [
-     "GN42",
+     "GN68",
      "GN98",
      "GN99"
     ],
+    "GN09": [
+     "GN33",
+     "GN99",
+     "GN98"
+    ],
     "GN25": [
-     "GN42",
-     "GN98",
-     "GN99"
+     "GN68",
+     "GN30",
+     "GN33"
+    ],
+    "GN42": [
+     "GN68",
+     "GN70",
+     "GN05"
     ]
    }
   }
@@ -569,23 +627,13 @@
    },
    "onSite": "지상주차장과 서원커피 주차장에 장애인 전용 주차구역이 있으며, 출입구까지 경사로가 설치되어 있고 출입통로에도 경사로가 있어 접근할 수 있습니다. 이후 장애인 화장실이 마련되어 있습니다."
   },
-  "GN09": {
-   "id": "GN09",
-   "name": "강릉 선교장",
+  "GN05": {
+   "id": "GN05",
+   "name": "강릉 대도호부 관아",
    "category": "역사·문화",
    "region": "강릉",
-   "phone": "033-648-5303",
-   "address": "강원특별자치도 강릉시 운정길 63 (운정동)",
-   "onSite": "장애인주차장 4칸 보유에서 출발하여 출입구에 턱이 없어 휠체어 접근 가능합니다."
-  },
-  "GN98": {
-   "id": "GN98",
-   "name": "허난설헌 생가터",
-   "category": "역사·문화",
-   "region": "강릉",
-   "phone": "033-640-4798",
-   "address": "강원특별자치도 강릉시 난설헌로193번길 1-16 (초당동)",
-   "onSite": "장애인 전용 주차구역이 마련되어 있고 출입구까지 경사로가 설치되어 있으며 제1주차장 방면에는 장애인 화장실이 있다."
+   "phone": "033-640-4468",
+   "address": "강원특별자치도 강릉시 임영로131번길 6"
   },
   "GN33": {
    "id": "GN33",
@@ -600,6 +648,15 @@
    },
    "onSite": "장애인 전용 주차구역(9면)이 있으며, 출입구에 경사로가 설치되어 있고 장애인 화장실이 있다."
   },
+  "GN98": {
+   "id": "GN98",
+   "name": "허난설헌 생가터",
+   "category": "역사·문화",
+   "region": "강릉",
+   "phone": "033-640-4798",
+   "address": "강원특별자치도 강릉시 난설헌로193번길 1-16 (초당동)",
+   "onSite": "장애인 전용 주차구역이 마련되어 있고 출입구까지 경사로가 설치되어 있으며 제1주차장 방면에는 장애인 화장실이 있다."
+  },
   "GN99": {
    "id": "GN99",
    "name": "허난설헌 솔숲",
@@ -609,13 +666,18 @@
    "address": "강원특별자치도 강릉시 난설헌로193번길 1-16 (초당동)",
    "onSite": "장애인 전용 주차구역이 있고 출입구와 주출입구에 턱이 없어 접근할 수 있으며 장애인 화장실이 있다."
   },
-  "GN05": {
-   "id": "GN05",
-   "name": "강릉 대도호부 관아",
-   "category": "역사·문화",
+  "GN68": {
+   "id": "GN68",
+   "name": "안목해변",
+   "category": "바다·해변",
    "region": "강릉",
-   "phone": "033-640-4468",
-   "address": "강원특별자치도 강릉시 임영로131번길 6"
+   "phone": "033-660-3887",
+   "address": "강원특별자치도 강릉시 창해로14번길 20-1",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/42/4145142_image2_1.jpg",
+    "credit": "강릉_안목해변 (2).jpg"
+   },
+   "onSite": "장애인 주차장(1면)을 지난 뒤 출입구와 주출입구에 턱이 없어 휠체어 접근이 가능하며 안목 공영화장실에 장애인 화장실이 있다."
   },
   "GN14": {
    "id": "GN14",
@@ -637,19 +699,6 @@
     "credit": "강릉시_송정해변 (3).jpg"
    }
   },
-  "GN68": {
-   "id": "GN68",
-   "name": "안목해변",
-   "category": "바다·해변",
-   "region": "강릉",
-   "phone": "033-660-3887",
-   "address": "강원특별자치도 강릉시 창해로14번길 20-1",
-   "photo": {
-    "url": "https://tong.visitkorea.or.kr/cms/resource/42/4145142_image2_1.jpg",
-    "credit": "강릉_안목해변 (2).jpg"
-   },
-   "onSite": "장애인 주차장(1면)을 지난 뒤 출입구와 주출입구에 턱이 없어 휠체어 접근이 가능하며 안목 공영화장실에 장애인 화장실이 있다."
-  },
   "GN25": {
    "id": "GN25",
    "name": "강릉항",
@@ -670,13 +719,86 @@
    "region": "강릉",
    "phone": "033-660-3953",
    "address": "강원특별자치도 강릉시 공항길127번길 67 (남항진동)"
+  },
+  "GN30": {
+   "id": "GN30",
+   "name": "경포도립공원",
+   "category": "자연·산책",
+   "region": "강릉",
+   "phone": "033-640-5647",
+   "address": "강원특별자치도 강릉시 창해로 473 (강문동)",
+   "onSite": "경포여행자센터 및 3.1기념공원에 장애인 전용 주차구역이 있으며, 평지로 연결되어 있고 단차가 없어 휠체어 접근이 가능합니다."
+  },
+  "GN70": {
+   "id": "GN70",
+   "name": "안인해변",
+   "category": "바다·해변",
+   "region": "강릉",
+   "phone": "033-660-3598",
+   "address": "강원특별자치도 강릉시 강동면 안인진리",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/07/3516907_image2_1.jpg",
+    "credit": "강릉_안인해변 (2)"
+   }
+  },
+  "GN09": {
+   "id": "GN09",
+   "name": "강릉 선교장",
+   "category": "역사·문화",
+   "region": "강릉",
+   "phone": "033-648-5303",
+   "address": "강원특별자치도 강릉시 운정길 63 (운정동)",
+   "onSite": "장애인주차장 4칸 보유에서 출발하여 출입구에 턱이 없어 휠체어 접근 가능합니다."
+  },
+  "GN15": {
+   "id": "GN15",
+   "name": "강릉교회",
+   "category": "역사·문화",
+   "region": "강릉",
+   "phone": "033-652-9191",
+   "address": "강원특별자치도 강릉시 해안로 333 (강문동)",
+   "onSite": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있으며, 출입구에 턱이 없어 진입한 뒤 엘리베이터를 이용할 수 있습니다."
+  },
+  "GN03": {
+   "id": "GN03",
+   "name": "강릉 경포대",
+   "category": "역사·문화",
+   "region": "강릉",
+   "phone": "033-640-5119",
+   "address": "강원특별자치도 강릉시 경포로 365 (저동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/37/4119537_image2_1.jpg",
+    "credit": "배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_6.jpg"
+   },
+   "onSite": "주차장에 장애인 전용 주차구역이 있으며 출입구까지 턱이 없어 접근할 수 있으나 주출입구는 계단으로 이어져 있다."
+  },
+  "GN37": {
+   "id": "GN37",
+   "name": "국립대관령치유의숲",
+   "category": "전망·체험",
+   "region": "강릉",
+   "phone": "033-642-8382",
+   "address": "강원특별자치도 강릉시 성산면 대관령옛길 127-42",
+   "onSite": "지상주차장의 장애인 전용 주차구역에 주차 후, 경사로와 턱이 없는 주출입구를 통해 진입하여 안내센터에서 휠체어와 유모차 대여가 가능하며 장애인 화장실을 이용할 수 있다."
+  },
+  "GN63": {
+   "id": "GN63",
+   "name": "순긋해변",
+   "category": "바다·해변",
+   "region": "강릉",
+   "phone": "033-640-4414",
+   "address": "강원특별자치도 강릉시 해안로 678 (안현동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/19/3516819_image2_1.jpg",
+    "credit": "강릉_순긋해변 (2)"
+   }
   }
  },
  "judgments": {
   "GN12": {
    "verdict": "적합",
    "reasons": [
-    "경사로와 엘리베이터가 있어 이동하기 편해요.",
+    "경사로와 엘리베이터가 있어 이동하기 편리해요.",
     "장애인 화장실이 마련되어 있어요."
    ],
    "confidence": "높음",
@@ -700,28 +822,10 @@
     }
    ]
   },
-  "GN09": {
-   "verdict": "확인 필요",
-   "reasons": [
-    "장애인 화장실 정보가 없어 확인이 필요해요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "parking-1",
-     "label": "무장애·주차"
-    }
-   ]
-  },
-  "GN98": {
+  "GN05": {
    "verdict": "적합",
    "reasons": [
-    "경사로가 있어 휠체어로 편하게 접근할 수 있어요.",
+    "출입구에 경사로와 턱이 없어 이동하기 수월해요.",
     "장애인 화장실이 있어요."
    ],
    "confidence": "높음",
@@ -732,96 +836,121 @@
      "label": "무장애·접근로"
     },
     {
-     "id": "restroom-1",
-     "label": "무장애·화장실"
+     "id": "exit-1",
+     "label": "무장애·출입통로"
     },
     {
-     "id": "parking-1",
-     "label": "무장애·주차"
+     "id": "restroom-1",
+     "label": "무장애·화장실"
     }
    ]
   },
   "GN33": {
    "verdict": "적합",
    "reasons": [
-    "경사로가 설치되어 있어 휠체어로 이동하기 좋아요.",
-    "장애인 화장실을 이용할 수 있어요."
+    "경사로가 설치되어 있고 장애인 주차구역과 화장실이 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
    "evidence": [
     {
-     "id": "route-1",
-     "label": "무장애·접근로"
+     "id": "parking-1",
+     "label": "무장애·주차"
     },
     {
-     "id": "exit-1",
-     "label": "무장애·출입통로"
+     "id": "route-1",
+     "label": "무장애·접근로"
     },
     {
      "id": "restroom-1",
      "label": "무장애·화장실"
     },
     {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    }
+   ]
+  },
+  "GN98": {
+   "verdict": "적합",
+   "reasons": [
+    "경사로가 설치되어 있고 장애인 전용 주차구역과 화장실이 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
      "id": "parking-1",
      "label": "무장애·주차"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "restroom-1",
+     "label": "무장애·화장실"
     }
    ]
   },
   "GN99": {
    "verdict": "적합",
    "reasons": [
-    "턱이 없어 휠체어로 진입하기 수월해요.",
-    "장애인 화장실이 있어요."
+    "출입구에 턱이 없어 진입하기 편리해요.",
+    "장애인 주차구역과 화장실이 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
    "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "exit-1",
-     "label": "무장애·출입통로"
-    },
-    {
-     "id": "restroom-1",
-     "label": "무장애·화장실"
-    },
     {
      "id": "parking-1",
      "label": "무장애·주차"
-    }
-   ]
-  },
-  "GN05": {
-   "verdict": "적합",
-   "reasons": [
-    "경사로와 턱 없는 출입구로 이동이 편리해요.",
-    "장애인 화장실이 있어요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
+    },
     {
      "id": "route-1",
      "label": "무장애·접근로"
     },
     {
+     "id": "restroom-1",
+     "label": "무장애·화장실"
+    },
+    {
      "id": "exit-1",
      "label": "무장애·출입통로"
+    }
+   ]
+  },
+  "GN68": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없어 휠체어 접근이 쉬워요.",
+    "장애인 주차구역과 화장실이 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
     },
     {
      "id": "restroom-1",
      "label": "무장애·화장실"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
     }
    ]
   },
   "GN14": {
    "verdict": "적합",
    "reasons": [
-    "경사로가 설치되어 있고 턱이 없어 진입하기 편해요.",
+    "경사로와 턱 없는 주출입구로 편하게 진입할 수 있어요.",
     "장애인 화장실이 마련되어 있어요."
    ],
    "confidence": "높음",
@@ -844,7 +973,7 @@
   "GN62": {
    "verdict": "적합",
    "reasons": [
-    "경사로가 있고 턱이 없어 진입하기 편해요.",
+    "경사로가 있고 턱이 없어 진입하기 수월해요.",
     "장애인 화장실이 마련되어 있어요."
    ],
    "confidence": "높음",
@@ -864,67 +993,133 @@
     }
    ]
   },
-  "GN68": {
-   "verdict": "적합",
-   "reasons": [
-    "출입구에 턱이 없어 휠체어로 접근하기 좋아요.",
-    "장애인 화장실이 있어요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "exit-1",
-     "label": "무장애·출입통로"
-    },
-    {
-     "id": "restroom-1",
-     "label": "무장애·화장실"
-    },
-    {
-     "id": "parking-1",
-     "label": "무장애·주차"
-    }
-   ]
-  },
   "GN25": {
    "verdict": "적합",
    "reasons": [
-    "경사로와 턱 없는 통로로 이동하기 편리해요.",
-    "장애인 화장실이 있어요."
+    "경사로가 설치되어 있고 장애인 화장실을 이용할 수 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
    "evidence": [
     {
-     "id": "route-1",
-     "label": "무장애·접근로"
+     "id": "parking-1",
+     "label": "무장애·주차"
     },
     {
-     "id": "exit-1",
-     "label": "무장애·출입통로"
+     "id": "route-1",
+     "label": "무장애·접근로"
     },
     {
      "id": "restroom-1",
      "label": "무장애·화장실"
     },
     {
-     "id": "parking-1",
-     "label": "무장애·주차"
+     "id": "exit-1",
+     "label": "무장애·출입통로"
     }
    ]
   },
   "GN42": {
    "verdict": "적합",
    "reasons": [
-    "경사로가 잘 설치되어 있어 휠체어 이동이 편해요.",
-    "장애인 화장실을 이용할 수 있어요."
+    "경사로가 있어 편하게 진입할 수 있어요.",
+    "장애인 주차구역과 화장실이 잘 갖춰져 있어요."
    ],
    "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "restroom-1",
+     "label": "무장애·화장실"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    }
+   ]
+  },
+  "GN30": {
+   "verdict": "주의",
+   "reasons": [
+    "일부 흙길 구간이 있어 이동할 때 조심해야 해요.",
+    "장애인 화장실과 주차장이 잘 갖춰져 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "restroom-1",
+     "label": "무장애·화장실"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    }
+   ]
+  },
+  "GN70": {
+   "verdict": "주의",
+   "reasons": [
+    "주출입구에 단차나 불규칙한 노면이 있어 휠체어 접근이 어려울 수 있어요.",
+    "장애인 화장실은 이용할 수 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "restroom-1",
+     "label": "무장애·화장실"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    }
+   ]
+  },
+  "GN09": {
+   "verdict": "확인 필요",
+   "reasons": [
+    "출입구에 턱이 없지만 장애인 화장실 정보가 없어 확인이 필요해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    }
+   ]
+  },
+  "GN15": {
+   "verdict": "확인 필요",
+   "reasons": [
+    "엘리베이터와 턱 없는 출입구가 있지만 장애인 화장실 정보가 없어요."
+   ],
+   "confidence": "보통",
    "source": "ai",
    "evidence": [
     {
@@ -936,8 +1131,8 @@
      "label": "무장애·출입통로"
     },
     {
-     "id": "restroom-1",
-     "label": "무장애·화장실"
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
     },
     {
      "id": "parking-1",
@@ -1149,131 +1344,16 @@
     "grade": "ai"
    }
   },
-  "GN09": {
-   "id": "GN09",
-   "tour_content_id": "125800",
-   "name_ko": "강릉 선교장",
+  "GN05": {
+   "id": "GN05",
+   "tour_content_id": "2605187",
+   "name_ko": "강릉 대도호부 관아",
    "region": "강릉",
    "category": "역사·문화",
-   "lat": 37.7865034333442,
-   "lng": 128.885049242082,
-   "address": "강원특별자치도 강릉시 운정길 63 (운정동)",
-   "phone": "033-648-5303",
-   "stay_min": 30,
-   "stay_max": 60,
-   "hours": {
-    "grade": "ai",
-    "summer": {
-     "open": "09:00",
-     "close": "18:00"
-    },
-    "winter": {
-     "open": "09:00",
-     "close": "18:00"
-    },
-    "evidence": [
-     "intro-usetime-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "가능",
-     "evidence": [
-      "route-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "모름",
-     "ask": "엘리베이터가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "가능",
-     "note": "출입구에 턱이 없어 휠체어 접근 가능",
-     "evidence": [
-      "route-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "노면이 평탄하게 포장되어 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "모름",
-     "ask": "장애인 화장실이 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "diaper_nursing": {
-     "value": "모름",
-     "ask": "수유실이나 기저귀 교환대가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "disabled_parking": {
-     "value": "가능",
-     "note": "장애인주차장 4칸 보유",
-     "evidence": [
-      "parking-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "모름",
-     "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "모름",
-     "ask": "휠체어를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "모름",
-     "ask": "유모차를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
-   },
-   "on_site": {
-    "text": "장애인주차장 4칸 보유에서 출발하여 출입구에 턱이 없어 휠체어 접근 가능합니다.",
-    "evidence": [
-     "parking-1",
-     "route-1"
-    ],
-    "grade": "ai"
-   }
-  },
-  "GN98": {
-   "id": "GN98",
-   "tour_content_id": "2605196",
-   "name_ko": "허난설헌 생가터",
-   "region": "강릉",
-   "category": "역사·문화",
-   "lat": 37.7918710332,
-   "lng": 128.9096606828,
-   "address": "강원특별자치도 강릉시 난설헌로193번길 1-16 (초당동)",
-   "phone": "033-640-4798",
+   "lat": 37.7532215015504,
+   "lng": 128.892094048853,
+   "address": "강원특별자치도 강릉시 임영로131번길 6",
+   "phone": "033-640-4468",
    "stay_min": 30,
    "stay_max": 60,
    "hours": {
@@ -1289,10 +1369,6 @@
     "closed_weekdays": [
      "월"
     ],
-    "closed_dates": [
-     "1월 1일",
-     "설·추석 당일"
-    ],
     "evidence": [
      "intro-usetime-1",
      "intro-restdate-1"
@@ -1302,7 +1378,8 @@
     "step_free_entrance": {
      "value": "가능",
      "evidence": [
-      "route-1"
+      "route-1",
+      "exit-1"
      ],
      "grade": "ai",
      "method": "관광공사 API",
@@ -1327,14 +1404,13 @@
     },
     "surface": {
      "value": "모름",
-     "ask": "노면 재질이 어떻게 되나요?",
+     "ask": "바닥 노면은 평탄한가요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "accessible_toilet": {
      "value": "가능",
-     "note": "제1주차장 방면",
      "evidence": [
       "restroom-1"
      ],
@@ -1344,57 +1420,39 @@
     },
     "diaper_nursing": {
      "value": "모름",
-     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "ask": "기저귀 교환대나 수유실이 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "disabled_parking": {
-     "value": "가능",
-     "note": "4면",
-     "evidence": [
-      "parking-1"
-     ],
+     "value": "모름",
+     "ask": "장애인 전용 주차구역이 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rest_area": {
      "value": "모름",
-     "ask": "휴게 쉼터나 벤치가 있나요?",
+     "ask": "휴게 벤치가 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rental_wheelchair": {
-     "value": "가능",
-     "note": "수동 휠체어 2대",
-     "evidence": [
-      "wheelchair-1"
-     ],
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rental_stroller": {
-     "value": "가능",
-     "note": "1대",
-     "evidence": [
-      "stroller-1"
-     ],
+     "value": "모름",
+     "ask": "유모차를 대여할 수 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     }
-   },
-   "on_site": {
-    "text": "장애인 전용 주차구역이 마련되어 있고 출입구까지 경사로가 설치되어 있으며 제1주차장 방면에는 장애인 화장실이 있다.",
-    "evidence": [
-     "parking-1",
-     "route-1",
-     "restroom-1"
-    ],
-    "grade": "ai"
    }
   },
   "GN33": {
@@ -1542,6 +1600,139 @@
     "grade": "ai"
    }
   },
+  "GN98": {
+   "id": "GN98",
+   "tour_content_id": "2605196",
+   "name_ko": "허난설헌 생가터",
+   "region": "강릉",
+   "category": "역사·문화",
+   "lat": 37.7918710332,
+   "lng": 128.9096606828,
+   "address": "강원특별자치도 강릉시 난설헌로193번길 1-16 (초당동)",
+   "phone": "033-640-4798",
+   "stay_min": 30,
+   "stay_max": 60,
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "winter": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "closed_weekdays": [
+     "월"
+    ],
+    "closed_dates": [
+     "1월 1일",
+     "설·추석 당일"
+    ],
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "모름",
+     "ask": "엘리베이터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구까지 경사로 설치",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 재질이 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "제1주차장 방면",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "4면",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "휴게 쉼터나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "가능",
+     "note": "수동 휠체어 2대",
+     "evidence": [
+      "wheelchair-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "가능",
+     "note": "1대",
+     "evidence": [
+      "stroller-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "장애인 전용 주차구역이 마련되어 있고 출입구까지 경사로가 설치되어 있으며 제1주차장 방면에는 장애인 화장실이 있다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "restroom-1"
+    ],
+    "grade": "ai"
+   }
+  },
   "GN99": {
    "id": "GN99",
    "tour_content_id": "2605207",
@@ -1665,31 +1856,47 @@
     "grade": "ai"
    }
   },
-  "GN05": {
-   "id": "GN05",
-   "tour_content_id": "2605187",
-   "name_ko": "강릉 대도호부 관아",
+  "GN68": {
+   "id": "GN68",
+   "tour_content_id": "127722",
+   "name_ko": "안목해변",
    "region": "강릉",
-   "category": "역사·문화",
-   "lat": 37.7532215015504,
-   "lng": 128.892094048853,
-   "address": "강원특별자치도 강릉시 임영로131번길 6",
-   "phone": "033-640-4468",
+   "category": "바다·해변",
+   "lat": 37.7722617595,
+   "lng": 128.9482754051,
+   "address": "강원특별자치도 강릉시 창해로14번길 20-1",
+   "phone": "033-660-3887",
    "stay_min": 30,
    "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/42/4145142_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안목해변 (2).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/41/4145141_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안목해변 (1).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/40/4145140_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안목해변 (5).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/38/4145138_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안목해변 (3).jpg"
+    }
+   ],
    "hours": {
     "grade": "ai",
-    "summer": {
-     "open": "09:00",
-     "close": "18:00"
-    },
-    "winter": {
-     "open": "09:00",
-     "close": "18:00"
-    },
-    "closed_weekdays": [
-     "월"
-    ],
+    "always_open": true,
     "evidence": [
      "intro-usetime-1",
      "intro-restdate-1"
@@ -1707,31 +1914,32 @@
      "verified_at": "2026-11-10"
     },
     "elevator": {
-     "value": "모름",
-     "ask": "엘리베이터가 있나요?",
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "slope": {
-     "value": "가능",
-     "note": "출입구까지 경사로 설치",
-     "evidence": [
-      "route-1"
-     ],
+     "value": "모름",
+     "ask": "경사로가 설치되어 있거나 완만한가요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "surface": {
      "value": "모름",
-     "ask": "바닥 노면은 평탄한가요?",
+     "ask": "노면이 포장되어 있거나 평탄한가요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "accessible_toilet": {
      "value": "가능",
+     "note": "안목 공영화장실",
      "evidence": [
       "restroom-1"
      ],
@@ -1741,28 +1949,31 @@
     },
     "diaper_nursing": {
      "value": "모름",
-     "ask": "기저귀 교환대나 수유실이 있나요?",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "disabled_parking": {
-     "value": "모름",
-     "ask": "장애인 전용 주차구역이 있나요?",
+     "value": "가능",
+     "note": "안목 공영화장실 방면, 1면",
+     "evidence": [
+      "parking-1"
+     ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rest_area": {
      "value": "모름",
-     "ask": "휴게 벤치가 있나요?",
+     "ask": "휴게 공간이나 벤치가 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rental_wheelchair": {
      "value": "모름",
-     "ask": "휠체어 대여가 가능한가요?",
+     "ask": "휠체어를 대여할 수 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
@@ -1774,6 +1985,16 @@
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     }
+   },
+   "on_site": {
+    "text": "장애인 주차장(1면)을 지난 뒤 출입구와 주출입구에 턱이 없어 휠체어 접근이 가능하며 안목 공영화장실에 장애인 화장실이 있다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1",
+     "restroom-1"
+    ],
+    "grade": "ai"
    }
   },
   "GN14": {
@@ -2016,147 +2237,6 @@
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     }
-   }
-  },
-  "GN68": {
-   "id": "GN68",
-   "tour_content_id": "127722",
-   "name_ko": "안목해변",
-   "region": "강릉",
-   "category": "바다·해변",
-   "lat": 37.7722617595,
-   "lng": 128.9482754051,
-   "address": "강원특별자치도 강릉시 창해로14번길 20-1",
-   "phone": "033-660-3887",
-   "stay_min": 30,
-   "stay_max": 60,
-   "photos": [
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/42/4145142_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "강릉_안목해변 (2).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/41/4145141_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "강릉_안목해변 (1).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/40/4145140_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "강릉_안목해변 (5).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/38/4145138_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "강릉_안목해변 (3).jpg"
-    }
-   ],
-   "hours": {
-    "grade": "ai",
-    "always_open": true,
-    "evidence": [
-     "intro-usetime-1",
-     "intro-restdate-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "가능",
-     "evidence": [
-      "route-1",
-      "exit-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
-     "evidence": [
-      "class-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "모름",
-     "ask": "경사로가 설치되어 있거나 완만한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "노면이 포장되어 있거나 평탄한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "가능",
-     "note": "안목 공영화장실",
-     "evidence": [
-      "restroom-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "diaper_nursing": {
-     "value": "모름",
-     "ask": "수유실이나 기저귀 교환대가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "disabled_parking": {
-     "value": "가능",
-     "note": "안목 공영화장실 방면, 1면",
-     "evidence": [
-      "parking-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "모름",
-     "ask": "휴게 공간이나 벤치가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "모름",
-     "ask": "휠체어를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "모름",
-     "ask": "유모차를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
-   },
-   "on_site": {
-    "text": "장애인 주차장(1면)을 지난 뒤 출입구와 주출입구에 턱이 없어 휠체어 접근이 가능하며 안목 공영화장실에 장애인 화장실이 있다.",
-    "evidence": [
-     "parking-1",
-     "route-1",
-     "exit-1",
-     "restroom-1"
-    ],
-    "grade": "ai"
    }
   },
   "GN25": {
@@ -2416,22 +2496,936 @@
      "verified_at": "2026-11-10"
     }
    }
+  },
+  "GN30": {
+   "id": "GN30",
+   "tour_content_id": "125588",
+   "name_ko": "경포도립공원",
+   "region": "강릉",
+   "category": "자연·산책",
+   "lat": 37.8026979943,
+   "lng": 128.910091665,
+   "address": "강원특별자치도 강릉시 창해로 473 (강문동)",
+   "phone": "033-640-5647",
+   "stay_min": 40,
+   "stay_max": 90,
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "평지로 연결되어 있으며 단차가 없음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "평지로 연결",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "부분가능",
+     "note": "출입구까지 평지로 연결되어 있으나 흙길 있음",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "3.1기념공원 주차장 내",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "경포여행자센터 주차장 5면, 3.1기념공원 주차장 3면",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "휴게 공간이나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "가능",
+     "note": "3.1기념공원 주차장, 수동휠체어 2대",
+     "evidence": [
+      "wheelchair-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "경포여행자센터 및 3.1기념공원에 장애인 전용 주차구역이 있으며, 평지로 연결되어 있고 단차가 없어 휠체어 접근이 가능합니다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "GN70": {
+   "id": "GN70",
+   "tour_content_id": "125697",
+   "name_ko": "안인해변",
+   "region": "강릉",
+   "category": "바다·해변",
+   "lat": 37.734256301455,
+   "lng": 128.990390717375,
+   "address": "강원특별자치도 강릉시 강동면 안인진리",
+   "phone": "033-660-3598",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/07/3516907_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안인해변 (2)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/08/3516908_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안인해변 (3)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/09/3516909_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안인해변 (4)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/10/3516910_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안인해변 (5)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/11/3516911_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_안인해변 (6)"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "부분가능",
+     "note": "출입구까지 평지로 연결되어 있으나 주출입구는 계단 또는 불규칙한 노면과 단차로 휠체어 접근 어려움",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구까지 평지로 연결",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "부분가능",
+     "note": "불규칙한 노면이 있음",
+     "evidence": [
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "모름",
+     "ask": "장애인 전용 주차구역이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "휴게 공간이나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "GN09": {
+   "id": "GN09",
+   "tour_content_id": "125800",
+   "name_ko": "강릉 선교장",
+   "region": "강릉",
+   "category": "역사·문화",
+   "lat": 37.7865034333442,
+   "lng": 128.885049242082,
+   "address": "강원특별자치도 강릉시 운정길 63 (운정동)",
+   "phone": "033-648-5303",
+   "stay_min": 30,
+   "stay_max": 60,
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "winter": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "evidence": [
+     "intro-usetime-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "모름",
+     "ask": "엘리베이터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구에 턱이 없어 휠체어 접근 가능",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면이 평탄하게 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "모름",
+     "ask": "장애인 화장실이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "장애인주차장 4칸 보유",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "장애인주차장 4칸 보유에서 출발하여 출입구에 턱이 없어 휠체어 접근 가능합니다.",
+    "evidence": [
+     "parking-1",
+     "route-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "GN15": {
+   "id": "GN15",
+   "tour_content_id": "3542927",
+   "name_ko": "강릉교회",
+   "region": "강릉",
+   "category": "역사·문화",
+   "lat": 37.7939586275,
+   "lng": 128.9166441773,
+   "address": "강원특별자치도 강릉시 해안로 333 (강문동)",
+   "phone": "033-652-9191",
+   "stay_min": 30,
+   "stay_max": 60,
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "04:00",
+     "close": "08:00"
+    },
+    "winter": {
+     "open": "04:00",
+     "close": "08:00"
+    },
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "출입구에 턱이 없음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "evidence": [
+      "elevator-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로가 완만하게 설치되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 포장 상태나 재질은 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "모름",
+     "ask": "장애인 화장실이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "주출입구 근처 지상주차장 7대",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉼터나 벤치는 마련되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "주출입구 근처 지상주차장에 장애인 전용 주차구역이 있으며, 출입구에 턱이 없어 진입한 뒤 엘리베이터를 이용할 수 있습니다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1",
+     "elevator-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "GN03": {
+   "id": "GN03",
+   "tour_content_id": "125790",
+   "name_ko": "강릉 경포대",
+   "region": "강릉",
+   "category": "역사·문화",
+   "lat": 37.7955136762,
+   "lng": 128.8964839666,
+   "address": "강원특별자치도 강릉시 경포로 365 (저동)",
+   "phone": "033-640-5119",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/37/4119537_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_6.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/36/4119536_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_5.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/35/4119535_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_4.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/33/4119533_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_3.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/31/4119531_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "배움에서 풍류로, 옛 선비를 따라가는 강릉 여행_강원_강릉_경포대_1.jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "부분가능",
+     "note": "출입구까지는 턱이 없으나 주출입구가 계단으로 이어져 있음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "모름",
+     "ask": "엘리베이터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 재질이 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "주출입구 근처 지상주차장 / 4면",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉼터나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "주차장에 장애인 전용 주차구역이 있으며 출입구까지 턱이 없어 접근할 수 있으나 주출입구는 계단으로 이어져 있다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "GN37": {
+   "id": "GN37",
+   "tour_content_id": "2554069",
+   "name_ko": "국립대관령치유의숲",
+   "region": "강릉",
+   "category": "전망·체험",
+   "lat": 37.70801453755232,
+   "lng": 128.7990246722837,
+   "address": "강원특별자치도 강릉시 성산면 대관령옛길 127-42",
+   "phone": "033-642-8382",
+   "stay_min": 40,
+   "stay_max": 80,
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "winter": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "closed_weekdays": [
+     "토",
+     "일"
+    ],
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "경사로 설치 및 턱 없음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "모름",
+     "ask": "엘리베이터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "무장애 데크로드 및 경사로 설치",
+     "evidence": [
+      "overview-1",
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "가능",
+     "note": "무장애 데크로드 조성",
+     "evidence": [
+      "overview-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "지상주차장 2면",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "가능",
+     "note": "안내센터 전동 1대, 수동 3대",
+     "evidence": [
+      "wheelchair-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "가능",
+     "note": "1대/안내센터",
+     "evidence": [
+      "stroller-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "지상주차장의 장애인 전용 주차구역에 주차 후, 경사로와 턱이 없는 주출입구를 통해 진입하여 안내센터에서 휠체어와 유모차 대여가 가능하며 장애인 화장실을 이용할 수 있다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1",
+     "wheelchair-1",
+     "stroller-1",
+     "restroom-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "GN63": {
+   "id": "GN63",
+   "tour_content_id": "585585",
+   "name_ko": "순긋해변",
+   "region": "강릉",
+   "category": "바다·해변",
+   "lat": 37.8161692056567,
+   "lng": 128.893345010573,
+   "address": "강원특별자치도 강릉시 해안로 678 (안현동)",
+   "phone": "033-640-4414",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/19/3516819_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_순긋해변 (2)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/20/3516820_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_순긋해변 (3)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/21/3516821_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_순긋해변 (4)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/22/3516822_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_순긋해변 (5)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/23/3516823_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강릉_순긋해변 (6)"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "부분가능",
+     "note": "자갈길을 지나 보도블록길로 이어지며 모래사장길로 접근성 떨어짐",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사도가 어떠한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "부분가능",
+     "note": "자갈길, 보도블록길, 모래사장길로 구성",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "모름",
+     "ask": "장애인 전용 주차구역이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
   }
  },
  "asks": {
   "GN12": [
    "노면 포장 상태나 재질은 어떻게 되나요?"
   ],
-  "GN09": [
+  "GN05": [
    "엘리베이터가 있나요?",
-   "노면이 평탄하게 포장되어 있나요?",
-   "장애인 화장실이 있나요?"
+   "바닥 노면은 평탄한가요?"
+  ],
+  "GN33": [
+   "노면 재질이 어떻게 되나요?"
   ],
   "GN98": [
    "엘리베이터가 있나요?",
-   "노면 재질이 어떻게 되나요?"
-  ],
-  "GN33": [
    "노면 재질이 어떻게 되나요?"
   ],
   "GN99": [
@@ -2439,9 +3433,9 @@
    "경사로가 완만하게 되어 있나요?",
    "노면 재질이 어떻게 되나요?"
   ],
-  "GN05": [
-   "엘리베이터가 있나요?",
-   "바닥 노면은 평탄한가요?"
+  "GN68": [
+   "경사로가 설치되어 있거나 완만한가요?",
+   "노면이 포장되어 있거나 평탄한가요?"
   ],
   "GN14": [
    "노면 포장 상태나 재질은 어떻게 되나요?"
@@ -2449,31 +3443,38 @@
   "GN62": [
    "노면 재질이 어떻게 되나요?"
   ],
-  "GN68": [
-   "경사로가 설치되어 있거나 완만한가요?",
-   "노면이 포장되어 있거나 평탄한가요?"
-  ],
   "GN25": [
    "노면은 어떤 재질인가요?"
   ],
   "GN42": [
    "노면은 포장되어 있나요?"
+  ],
+  "GN30": [],
+  "GN70": [],
+  "GN09": [
+   "엘리베이터가 있나요?",
+   "노면이 평탄하게 포장되어 있나요?",
+   "장애인 화장실이 있나요?"
+  ],
+  "GN15": [
+   "경사로가 완만하게 설치되어 있나요?",
+   "노면 포장 상태나 재질은 어떻게 되나요?",
+   "장애인 화장실이 있나요?"
   ]
  },
  "unknowns": {
   "GN12": [
    "surface"
   ],
-  "GN09": [
-   "elevator",
-   "surface",
-   "accessible_toilet"
-  ],
-  "GN98": [
+  "GN05": [
    "elevator",
    "surface"
   ],
   "GN33": [
+   "surface"
+  ],
+  "GN98": [
+   "elevator",
    "surface"
   ],
   "GN99": [
@@ -2481,8 +3482,8 @@
    "slope",
    "surface"
   ],
-  "GN05": [
-   "elevator",
+  "GN68": [
+   "slope",
    "surface"
   ],
   "GN14": [
@@ -2491,15 +3492,51 @@
   "GN62": [
    "surface"
   ],
-  "GN68": [
-   "slope",
-   "surface"
-  ],
   "GN25": [
    "surface"
   ],
   "GN42": [
    "surface"
+  ],
+  "GN30": [],
+  "GN70": [],
+  "GN09": [
+   "elevator",
+   "surface",
+   "accessible_toilet"
+  ],
+  "GN15": [
+   "slope",
+   "surface",
+   "accessible_toilet"
   ]
- }
+ },
+ "hard": [
+  {
+   "placeId": "GN03",
+   "kind": "AI 판단",
+   "reasons": [
+    "주출입구가 계단으로 이어져 있어 휠체어 이용이 어려워요."
+   ],
+   "mustVisit": false,
+   "altId": "GN15"
+  },
+  {
+   "placeId": "GN37",
+   "kind": "휴무",
+   "reasons": [
+    "여행 날짜에 쉬어요(매주 토요일 휴무)"
+   ],
+   "mustVisit": false
+  },
+  {
+   "placeId": "GN63",
+   "kind": "AI 판단",
+   "reasons": [
+    "자갈길과 모래사장길로 이어져 있어 휠체어 접근이 어려워요."
+   ],
+   "mustVisit": false,
+   "altId": "GN70"
+  }
+ ]
 }
