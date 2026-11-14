@@ -111,7 +111,9 @@ test("결과 화면도 누를 수 있는 요소는 높이 44px 이상", async ({
 });
 
 test("적합이어도 전화로 물어볼 것이 있으면 칩에 함께 적고, 안을 바꾸면 그 안이라고 알려준다", async ({ page }) => {
-  await expect(page.getByText(/적합 · 전화로 확인할 것 있음/).first()).toBeVisible();
+  // A안 2일째의 GN98은 엘리베이터가 '모름'(전화로 물을 것) → 적합이어도 함께 적는다
+  await page.getByRole("tab", { name: /2일째/ }).click();
+  await expect(page.getByText(/적합 · 전화로 확인할 것 있음/).filter({ visible: true }).first()).toBeVisible();
   const other = page.getByRole("radio").nth(0);
   const id = (await other.textContent())!.trim().charAt(0);
   if ((await other.getAttribute("aria-checked")) !== "true") {
@@ -155,4 +157,16 @@ test("장소 카드의 번호는 '지도에서 보기' 버튼이다(누를 수 �
   expect(box.height).toBeGreaterThanOrEqual(44);
   await btn.click(); // 시험 환경은 카카오 지도가 없어 안내 문구가 나오지만, 눌러도 오류 없이 그대로
   await expect(page.locator("article").first()).toBeVisible();
+});
+
+test("노면만 모르는 곳은 전화 질문이 아니라 '가서 보고 확인할 것'으로 보여준다", async ({ page }) => {
+  // 첫 장소(GN12)는 노면만 '모름' → 칩은 그냥 '적합', 자세히에 바닥 안내
+  const card = page.locator("article").first();
+  await expect(card).toContainText("적합");
+  await expect(card).not.toContainText("전화로 확인할 것 있음");
+  await card.getByRole("button", { name: /자세히/ }).click();
+  await expect(card.getByText("가서 보고 확인할 것")).toBeVisible();
+  await expect(card.getByText(/^바닥: /)).toBeVisible();
+  await expect(card.getByText("전화로 물어볼 것")).toHaveCount(0);
+  await expect(page.getByText(/노면 .*재질/)).toHaveCount(0);
 });

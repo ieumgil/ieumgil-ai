@@ -1,4 +1,4 @@
-// 확정 일정의 하루 목록: 출발 → 이동 → 장소(사진 · 시각 · 이름 · 판단 칩 · 전화) → 점심·휴식 → 도착. 인쇄할 때는 모든 날을 펼친다.
+// 확정 일정의 하루 목록: 출발 → 이동 → 장소(사진 · 시각 · 이름 · 판단 칩 · 전화 · 가서 볼 것) → 점심·휴식 → 도착. 인쇄할 때는 모든 날을 펼친다.
 import { Car, Flag, Phone, Utensils } from "lucide-react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { StatusChip } from "@/components/ui/StatusChip";
@@ -7,7 +7,7 @@ import { VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { stopAnchor, visitsOf } from "@/lib/trip/map-points";
 import type { DayView, TripView } from "@/lib/trip/view";
 
-export function DayList({ d, trip, calls }: { d: DayView; trip: TripView; calls: Set<string> }) {
+export function DayList({ d, trip, calls, onSite }: { d: DayView; trip: TripView; calls: Set<string>; onSite?: Map<string, string[]> }) {
   const numberOf = new Map(visitsOf(d).map((v, i) => [v.placeId, i + 1]));
   const last = d.items.at(-1);
   const arrival = last && last.kind === "travel" ? last.startMin + last.minutes : d.endMin;
@@ -65,6 +65,16 @@ export function DayList({ d, trip, calls }: { d: DayView; trip: TripView; calls:
                   {p.phone}
                 </a>
               </div>
+              {(onSite?.get(it.placeId) ?? []).length > 0 && (
+                <div className="mt-1.5 text-base leading-relaxed text-ink-sub">
+                  <p className="font-bold">가서 보고 확인할 것</p>
+                  <ul className="list-disc pl-5">
+                    {onSite!.get(it.placeId)!.map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </li>
         );

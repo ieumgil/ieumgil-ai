@@ -1,7 +1,7 @@
 "use client";
 
 // 장소 카드: 사진 · 도착 예상 시각 · 이름 · 판단 칩 · 공식 정보 없음 · 한 줄 이유 · 전화 · [바꾸기] · [자세히].
-// 가독성 원칙: 카드에는 핵심만, AI 판단 이유·도착하면·물어볼 것·근거는 [자세히]로 펼친다.
+// 가독성 원칙: 카드에는 핵심만, AI 판단 이유·도착하면·전화로 물어볼 것·가서 볼 것·근거는 [자세히]로 펼친다.
 import { ArrowLeftRight, ChevronDown, CircleAlert, Info, Phone } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
@@ -9,7 +9,7 @@ import { StatusChip } from "@/components/ui/StatusChip";
 import { toHHMM } from "@/lib/engine/types";
 import { UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { stopAnchor } from "@/lib/trip/map-points";
-import { questionsByPlace } from "@/lib/trip/questions";
+import { ON_SITE_KEYS, onSiteByPlace, questionsByPlace } from "@/lib/trip/questions";
 import type { ItemView, OptionView, TripView } from "@/lib/trip/view";
 
 export function PlaceCard({
@@ -36,7 +36,10 @@ export function PlaceCard({
   const p = trip.places[it.placeId];
   const j = trip.judgments[it.placeId];
   const questions = (questionsByPlace(o).get(it.placeId) ?? []).filter((q) => !common.has(q));
-  const unknown = (trip.unknowns?.[it.placeId] ?? []).map((k) => UNKNOWN_LABEL[k] ?? k);
+  const onSite = onSiteByPlace(o).get(it.placeId) ?? [];
+  const unknownKeys = trip.unknowns?.[it.placeId] ?? [];
+  const unknown = unknownKeys.map((k) => UNKNOWN_LABEL[k] ?? k);
+  const needsCall = questions.length > 0 || unknownKeys.some((k) => !ON_SITE_KEYS.has(k));
   const cautions = o.cautions.filter((c) => c.placeId === it.placeId).map((c) => c.text);
   const headline = it.why ?? j.reasons[0];
   const reasons = j.reasons.filter((r) => r !== headline);
@@ -87,7 +90,7 @@ export function PlaceCard({
           </p>
         )}
         <div className="mt-2 flex flex-wrap items-center gap-2">
-          <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, questions.length + unknown.length > 0)}</StatusChip>
+          <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, needsCall)}</StatusChip>
         </div>
         {unknown.length > 0 && (
           <p className="mt-1.5 flex items-start gap-1.5 text-sm text-ink-sub">
@@ -156,6 +159,15 @@ export function PlaceCard({
                 <ul className="list-disc pl-5">
                   {questions.map((q) => (
                     <li key={q}>{q}</li>
+                  ))}
+                </ul>
+              </Block>
+            )}
+            {onSite.length > 0 && (
+              <Block title="가서 보고 확인할 것">
+                <ul className="list-disc pl-5">
+                  {onSite.map((t) => (
+                    <li key={t}>{t}</li>
                   ))}
                 </ul>
               </Block>

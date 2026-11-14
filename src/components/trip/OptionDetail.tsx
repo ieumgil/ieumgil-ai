@@ -9,6 +9,7 @@ import { StatusChip } from "@/components/ui/StatusChip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toHHMM } from "@/lib/engine/types";
 import { formatDay } from "@/lib/plan/dates";
+import { isPhoneQuestion } from "@/lib/trip/questions";
 import type { DayView, ItemView, OptionView, TripView } from "@/lib/trip/view";
 
 const FIT_CHIP = { 여유: { s: "ok", t: "시간 여유 있어요" }, 빠듯: { s: "caution", t: "조금 빠듯해요" }, 부족: { s: "blocked", t: "시간이 부족해요" } } as const;
@@ -33,7 +34,7 @@ export function OptionDetail({
   map: ReactNode;
 }) {
   const counts = new Map<string, number>();
-  o.checkBeforeGo.forEach((q) => counts.set(q.question, (counts.get(q.question) ?? 0) + 1));
+  o.checkBeforeGo.filter((q) => isPhoneQuestion(q.question)).forEach((q) => counts.set(q.question, (counts.get(q.question) ?? 0) + 1));
   const common = new Set([...counts].filter(([, n]) => n > 1).map(([q]) => q));
   const day = (d: DayView, i: number) => <DayPanel key={d.date} d={d} index={i} o={o} trip={trip} common={common} onSwap={onSwap} onMap={onMap} />;
 

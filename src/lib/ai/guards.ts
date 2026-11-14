@@ -30,7 +30,7 @@ export interface Floor {
   reasons: string[];
 }
 
-const WALK_ASK = "주차장에서 입구까지, 그리고 관람 동선은 각각 몇 m 정도인가요?";
+const WALK_ASK = "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?";
 
 /** 이 사람 조건으로 이 장소가 최소 어디까지 보수적이어야 하는지(LLM 판단에 적용하는 하한) */
 export function safetyFloor(place: Place, cond: ResolvedConditions): Floor {

@@ -10,6 +10,7 @@ import { SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet
 import { haversineKm } from "@/lib/engine/travel";
 import { alternativesFor } from "@/lib/trip/edit";
 import { VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
+import { isPhoneQuestion, ON_SITE_KEYS } from "@/lib/trip/questions";
 import type { OptionView, TripView } from "@/lib/trip/view";
 
 /** 장소 바꾸기: AI가 이미 판단한 근처 후보. 고르면 코드가 시각을 다시 계산하고, 검사에 걸리면 이유를 보여주고 바꾸지 않는다 */
@@ -43,7 +44,7 @@ export function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: stri
                   <div className="min-w-0 flex-1">
                     <p className="text-lg leading-snug font-bold">{p.name}</p>
                     <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                      <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, (trip.unknowns?.[id]?.length ?? 0) + (trip.asks[id]?.length ?? 0) > 0)}</StatusChip>
+                      <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, (trip.unknowns?.[id] ?? []).some((k) => !ON_SITE_KEYS.has(k)) || (trip.asks[id] ?? []).some(isPhoneQuestion))}</StatusChip>
                       <span className="text-sm text-ink-sub">
                         {p.region} · {p.category}
                         {km !== null && ` · 약 ${km < 1 ? "1km 안" : `${Math.round(km)}km`}`}

@@ -18,7 +18,7 @@ import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dat
 import { tripHref, useTripFor } from "@/lib/trip/example";
 import { useRealTravel } from "@/lib/trip/real-travel";
 import { dayMapLabel, dayMapPoints, dayStopDetails, showStopInList } from "@/lib/trip/map-points";
-import { callPlaces } from "@/lib/trip/questions";
+import { callPlaces, onSiteByPlace } from "@/lib/trip/questions";
 import { useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
 import type { OptionView, TripView } from "@/lib/trip/view";
 
@@ -59,6 +59,7 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
   const mapLabel = dayMapLabel(trip, o, dayIndex);
   const nights = trip.input.startDate && trip.input.endDate ? nightsBetween(trip.input.startDate, trip.input.endDate) : 0;
   const callSet = new Set(callPlaces(o));
+  const onSite = onSiteByPlace(o);
 
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem]">
@@ -120,7 +121,7 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
                   {i + 1}일째 · {formatDay(d.date)}
                 </h2>
               )}
-              <DayList d={d} trip={trip} calls={callSet} />
+              <DayList d={d} trip={trip} calls={callSet} onSite={onSite} />
             </section>
           ))}
           <Checklist o={o} trip={trip} />
