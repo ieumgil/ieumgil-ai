@@ -6,6 +6,7 @@ import {
   mergePublic,
   normalizeName,
   parseRestroomCsv,
+  parseRestroomCsvDetailed,
   placeKey,
   publicDocLines,
   publicParagraphs,
@@ -142,6 +143,45 @@ describe("CSV 읽기", () => {
 
   it("필요한 열이 없으면 빠진 열 이름을 담은 오류를 낸다", () => {
     expect(() => parseRestroomCsv("관리번호,화장실명\n1,강문해변")).toThrow(/구분명/);
+  });
+
+  // WR-03: 따옴표 없는 칸 가운데의 큰따옴표는 글자일 뿐이다(여러 행이 한 칸으로 삼켜지면 안 된다)
+  const rawRow = (patch: Partial<Record<Column, string>>) => COLUMNS.map((c) => patch[c] ?? DEFAULT_ROW[c]).join(",");
+
+  it("따옴표 없는 칸 가운데의 큰따옴표는 따옴표 칸을 열지 않아 다음 행이 살아 있다", () => {
+    const text = [COLUMNS.join(","), rawRow({ 관리번호: "1", 화장실명: '강문해변 5" 배관' }), rawRow({ 관리번호: "2" }), rawRow({ 관리번호: "3" })].join("\n");
+    const rows = parseRestroomCsv(text);
+    expect(rows.map((r) => r["관리번호"])).toEqual(["1", "2", "3"]);
+    expect(rows[0]["화장실명"]).toBe('강문해변 5" 배관');
+  });
+
+  it("칸이 따옴표로 시작하면 그대로 따옴표 칸(줄바꿈·쉼표 포함)으로 읽는다", () => {
+    const text = [COLUMNS.join(","), rawRow({ 관리번호: "1", 화장실명: '"강문해변\n동쪽, ""임시"""' }), rawRow({ 관리번호: "2" })].join("\n");
+    const rows = parseRestroomCsv(text);
+    expect(rows.map((r) => r["관리번호"])).toEqual(["1", "2"]);
+    expect(rows[0]["화장실명"]).toBe('강문해변\n동쪽, "임시"');
+  });
+
+  it("열 개수가 헤더와 다른 행은 버리고 개수와 첫 행 번호(헤더가 1)를 알려 준다", () => {
+    const tooMany = rawRow({ 관리번호: "2" }) + ",딸린칸";
+    const tooFew = rawRow({ 관리번호: "3" }).split(",").slice(0, 5).join(",");
+    const text = [COLUMNS.join(","), rawRow({ 관리번호: "1" }), tooMany, tooFew, rawRow({ 관리번호: "4" })].join("\n");
+    const result = parseRestroomCsvDetailed(text);
+    expect(result.records.map((r) => r["관리번호"])).toEqual(["1", "4"]);
+    expect(result.badRows).toBe(2);
+    expect(result.firstBadRow).toBe(3);
+    expect(parseRestroomCsv(text)).toHaveLength(2);
+    expect(parseRestroomCsvDetailed(csv([{}])).badRows).toBe(0);
+  });
+
+  it("buildRestroomsFile은 열 개수가 안 맞아 버린 행 수를 돌려주고, 파일 통계(source)에는 넣지 않는다", () => {
+    const text = [COLUMNS.join(","), rawRow({ 관리번호: "1" }), rawRow({ 관리번호: "2" }) + ",딸린칸"].join("\n");
+    const { file, badColumnRows, firstBadColumnRow } = buildRestroomsFile(text, [GN27]);
+    expect(badColumnRows).toBe(1);
+    expect(firstBadColumnRow).toBe(3);
+    expect(file.places.GN27.restrooms.map((r) => r.no)).toEqual(["1"]);
+    expect(file.source.rows).toBe(1);
+    expect("bad_column_rows" in file.source).toBe(false);
   });
 });
 
