@@ -110,8 +110,16 @@ export interface ExcludedMatch {
 
 // ───────────────────────── CSV 읽기 ─────────────────────────
 
-/** 큰따옴표 칸·"" 이스케이프·칸 안 쉼표·CRLF를 처리하는 작은 CSV 파서. 첫 줄은 열 이름. */
-export function parseRestroomCsv(text: string): Record<string, string>[] {
+export interface ParsedRestroomCsv {
+  records: Record<string, string>[];
+  /** 열 개수가 헤더와 달라 버린 행 수 */
+  badRows: number;
+  /** 버린 첫 행의 번호(헤더 줄이 1, 따옴표 칸 안 줄바꿈은 한 행으로 센다) */
+  firstBadRow?: number;
+}
+
+/** 열 개수가 헤더와 다른 행을 버리고, 버린 수를 함께 돌려주는 CSV 읽기 */
+export function parseRestroomCsvDetailed(text: string): ParsedRestroomCsv {
   const src = text.replace(/^﻿/, "");
   const table: string[][] = [];
   let row: string[] = [];
@@ -126,7 +134,7 @@ export function parseRestroomCsv(text: string): Record<string, string>[] {
           i++;
         } else quoted = false;
       } else cell += ch;
-    } else if (ch === '"') quoted = true;
+    } else if (ch === '"' && cell === "") quoted = true; // 따옴표는 칸이 시작될 때만 연다(5" 배관 같은 칸 가운데 따옴표는 글자)
     else if (ch === ",") {
       row.push(cell);
       cell = "";
@@ -148,7 +156,20 @@ export function parseRestroomCsv(text: string): Record<string, string>[] {
   const header = lines[0].map((h) => h.trim());
   const missing = REQUIRED_COLUMNS.filter((c) => !header.includes(c));
   if (missing.length > 0) throw new Error(`CSV에 필요한 열이 없어요: ${missing.join(", ")}`);
-  return lines.slice(1).map((r) => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ""])));
+  // 열 개수가 헤더와 다른 행은 칸이 밀렸을 수 있어 버린다(엉뚱한 열을 읽는 것보다 낫다). 버린 수는 호출한 쪽이 알린다.
+  const body = lines.slice(1);
+  const good = body.filter((r) => r.length === header.length);
+  const firstBad = body.findIndex((r) => r.length !== header.length);
+  return {
+    records: good.map((r) => Object.fromEntries(header.map((h, i) => [h, r[i]]))),
+    badRows: body.length - good.length,
+    ...(firstBad >= 0 ? { firstBadRow: firstBad + 2 } : {}),
+  };
+}
+
+/** 큰따옴표 칸·"" 이스케이프·칸 안 쉼표·CRLF를 처리하는 작은 CSV 파서. 첫 줄은 열 이름. 열 개수가 다른 행은 버린다. */
+export function parseRestroomCsv(text: string): Record<string, string>[] {
+  return parseRestroomCsvDetailed(text).records;
 }
 
 // ───────────────────────── 칸 정리 (믿지 않는 입력) ─────────────────────────
@@ -274,8 +295,8 @@ function assignEvidenceIds(list: Restroom[]): Restroom[] {
 export function buildRestroomsFile(
   csvText: string,
   places: Pick<Place, "id" | "name_ko" | "region">[],
-): { file: RestroomsFile; excluded: ExcludedMatch[] } {
-  const records = parseRestroomCsv(csvText);
+): { file: RestroomsFile; excluded: ExcludedMatch[]; badColumnRows: number; firstBadColumnRow?: number } {
+  const { records, badRows: badColumnRows, firstBadRow: firstBadColumnRow } = parseRestroomCsvDetailed(csvText);
   const rows3 = records.map(toRestroomRow).filter((x): x is Row => x !== undefined);
   const valid = rows3.filter((x) => isValidDate(x.restroom.date));
   const unique = dedupeRows(valid);
@@ -318,7 +339,7 @@ export function buildRestroomsFile(
     },
     places: out,
   };
-  return { file, excluded };
+  return { file, excluded, badColumnRows, ...(firstBadColumnRow !== undefined ? { firstBadColumnRow } : {}) };
 }
 
 // ───────────────────────── 합치기 ─────────────────────────

@@ -33,20 +33,25 @@ const nameOf = new Map(places.map((p) => [p.id, p.name_ko]));
 // 표 칸에는 세로줄·줄바꿈이 없어야 한다
 const cell = (t: string) => t.replace(/[|\r\n]/g, " ").trim();
 
-const { file, excluded } = buildRestroomsFile(csv, places);
+const { file, excluded, badColumnRows, firstBadColumnRow } = buildRestroomsFile(csv, places);
 
 mkdirSync("data/public", { recursive: true });
 writeFileSync(OUT_JSON, JSON.stringify(file, null, 2) + "\n");
 mkdirSync("docs/data", { recursive: true });
-writeFileSync(OUT_REPORT, report(file, excluded));
+writeFileSync(OUT_REPORT, report(file, excluded, badColumnRows));
 
 const s = file.source;
 console.log(
-  `✓ ${OUT_JSON} · 전체 ${s.rows}행 · 3개 시 ${s.rows_3_cities}행(강릉 ${s.by_city.강릉} · 속초 ${s.by_city.속초} · 동해 ${s.by_city.동해}) · 중복 합치면 ${s.unique_3_cities}곳 · 관광지 짝 ${s.matched_places}곳 · 값 보충 ${s.places_with_values}곳 · 제외한 짝 ${excluded.length}`,
+  `✓ ${OUT_JSON} · 전체 ${s.rows}행 · 3개 시 ${s.rows_3_cities}행(강릉 ${s.by_city.강릉} · 속초 ${s.by_city.속초} · 동해 ${s.by_city.동해}) · 중복 합치면 ${s.unique_3_cities}곳 · 관광지 짝 ${s.matched_places}곳 · 값 보충 ${s.places_with_values}곳 · 제외한 짝 ${excluded.length} · 열 개수가 달라 버린 행 ${badColumnRows}`,
 );
+if (badColumnRows > 0) {
+  console.warn(
+    `! 열 개수가 헤더와 다른 행 ${badColumnRows}개를 버렸어요(첫 행 번호 ${firstBadColumnRow}, 헤더가 1). 원본 파일의 따옴표·쉼표를 확인해 주세요.`,
+  );
+}
 console.log(`✓ ${OUT_REPORT}`);
 
-function report(f: RestroomsFile, ex: ExcludedMatch[]): string {
+function report(f: RestroomsFile, ex: ExcludedMatch[], badColumnRows: number): string {
   const s = f.source;
   const ids = Object.keys(f.places).sort();
   const lines: string[] = [
@@ -72,6 +77,8 @@ function report(f: RestroomsFile, ex: ExcludedMatch[]): string {
     `- 기저귀 교환대 Y인 행: ${s.diaper_rows}행`,
     `- 미개방인 행: ${s.closed_rows}행`,
     `- 데이터 기준일자 형식이 틀려 버린 행: ${s.skipped_rows}행`,
+    // 0이면 줄을 넣지 않는다(지금 원본은 0 — 보고서가 달라지지 않게)
+    ...(badColumnRows > 0 ? [`- 열 개수가 헤더와 달라 버린 행: ${badColumnRows}행(원본 파일을 확인할 것)`] : []),
     `- 이름이 맞은 관광지: ${s.matched_places}곳 (그중 '있음' 화장실이 있어 값을 보충하는 곳 ${s.places_with_values}곳)`,
     "",
     "## 짝짓기 규칙",
