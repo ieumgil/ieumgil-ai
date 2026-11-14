@@ -11,6 +11,8 @@ async function setup(page: Page) {
   await page.route("https://dapi.kakao.com/**", (r) => r.abort());
   await page.route("**/api/route-line", (r) => r.fulfill({ json: { days: [null] } }));
   await page.route("**/api/legs", (r) => r.fulfill({ json: { days: [] } })); // 실제 이동시간 없음 → 추정 그대로
+  // 날씨는 이 테스트 대상이 아님 — 실제 기상청을 부르지 않는다
+  await page.route("**/api/weather", (r) => r.fulfill({ json: { available: false } }));
   await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort());
   let planCalled = false;
   await page.route("**/api/plan", (r) => {
