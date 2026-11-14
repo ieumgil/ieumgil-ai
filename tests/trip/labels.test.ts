@@ -52,7 +52,7 @@ describe("근거 줄·공공데이터 항목(AUDIT M1, D-08)", () => {
   });
 
   it("publicAccessLines: 항목 순서대로 grade public만, 없거나 place가 없으면 빈 목록", () => {
-    const pub = { value: "가능" as const, grade: "public" as const, method: "공공데이터", verified_at: "2024-12-31", source_url: "https://www.data.go.kr/data/15012892/standard.do" };
+    const pub = { value: "가능" as const, grade: "public" as const, method: "공공데이터" as const, verified_at: "2024-12-31", source_url: "https://www.data.go.kr/data/15012892/standard.do" };
     const p = makePlace("GN91", {
       set: {
         diaper_nursing: { ...pub, note: "기저귀 교환대 · 공중화장실 'A' 남녀 화장실 모두" },

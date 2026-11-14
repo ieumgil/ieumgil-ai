@@ -1,13 +1,13 @@
 "use client";
 
 // 장소 카드: 사진 · 도착 예상 시각 · 이름 · 판단 칩 · 공식 정보 없음 · 한 줄 이유 · 전화 · [바꾸기] · [자세히].
-// 가독성 원칙: 카드에는 핵심만, AI 판단 이유·도착하면·전화로 물어볼 것·가서 볼 것·근거는 [자세히]로 펼친다.
+// 가독성 원칙: 카드에는 핵심만, AI 판단 이유·도착하면·전화로 물어볼 것·가서 볼 것·공공데이터로 확인한 것·근거는 [자세히]로 펼친다.
 import { ArrowLeftRight, ChevronDown, CircleAlert, Info, Phone } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { toHHMM } from "@/lib/engine/types";
-import { UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
+import { evidenceSourceText, publicAccessLines, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { stopAnchor } from "@/lib/trip/map-points";
 import { ON_SITE_KEYS, onSiteByPlace, questionsByPlace } from "@/lib/trip/questions";
 import type { ItemView, OptionView, TripView } from "@/lib/trip/view";
@@ -43,6 +43,7 @@ export function PlaceCard({
   const cautions = o.cautions.filter((c) => c.placeId === it.placeId).map((c) => c.text);
   const headline = it.why ?? j.reasons[0];
   const reasons = j.reasons.filter((r) => r !== headline);
+  const pub = publicAccessLines(trip.placeData?.[it.placeId]);
   const detailId = `place-${it.placeId}-${no}`;
   const replacedId = o.swapped?.[it.placeId];
   return (
@@ -172,11 +173,28 @@ export function PlaceCard({
                 </ul>
               </Block>
             )}
-            {j.evidence.length > 0 && (
-              <p className="text-sm leading-normal text-ink-sub">
-                근거: 한국관광공사 무장애 여행정보({[...new Set(j.evidence.map((e) => e.label.replace(/^무장애·|^안내·/, "")))].join(", ")}) · AI 정리
-              </p>
+            {pub.length > 0 && (
+              <Block title="공공데이터로 확인한 것">
+                <ul className="flex flex-col gap-1.5">
+                  {pub.map((l) => (
+                    <li key={l.key} className="flex items-start gap-2">
+                      <span aria-hidden="true" className="font-bold text-primary-ink">
+                        ✓
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="font-medium">{l.label} · 가능</span>
+                        <span className="block text-sm text-ink-sub">
+                          {l.note}
+                          {l.note ? " · " : ""}
+                          {l.source}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Block>
             )}
+            {j.evidence.length > 0 && <p className="text-sm leading-normal text-ink-sub">{evidenceSourceText(j.evidence)}</p>}
           </div>
         )}
       </article>

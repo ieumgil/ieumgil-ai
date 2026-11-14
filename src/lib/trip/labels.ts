@@ -1,6 +1,9 @@
 // 결과·확정 화면이 같이 쓰는 표시 값
 import type { ChipStatus } from "@/components/ui/StatusChip";
 import type { Verdict } from "../ai/guards";
+import { CONDITION_LABELS } from "../engine/conditions";
+import { isPublicEvidenceId, publicSourceLabel } from "../public/source";
+import { ACCESS_KEYS, type AccessKey, type Place } from "../types";
 import type { OptionView } from "./view";
 
 /** 판단 → 상태 칩(색 + 기호 + 글자) */
@@ -38,4 +41,35 @@ export function routeSummary(o: Pick<OptionView, "days">, trip: { places: Record
   const head = ids.slice(0, 3).map((id) => shortName(trip.places[id]?.name ?? id));
   const rest = ids.length - head.length;
   return `${regions.join("·")} · ${head.join(" → ")}${rest > 0 ? ` 외 ${rest}곳` : ""}`;
+}
+
+/**
+ * 카드 [자세히] 맨 아래 근거 줄. 관광공사 근거와 공공데이터(행정안전부 공중화장실) 근거를 나눠 적는다.
+ * 관광공사 쪽 이름은 label에서 '무장애·'/'안내·'를 떼고 한 번씩만 쓴다.
+ */
+export function evidenceSourceText(evidence: { id: string; label: string }[]): string {
+  const tour = evidence.filter((e) => !isPublicEvidenceId(e.id));
+  const hasPublic = evidence.some((e) => isPublicEvidenceId(e.id));
+  const parts: string[] = [];
+  if (tour.length) parts.push(`한국관광공사 무장애 여행정보(${[...new Set(tour.map((e) => e.label.replace(/^무장애·|^안내·/, "")))].join(", ")}) · AI 정리`);
+  if (hasPublic) parts.push("행정안전부 공중화장실 정보(공공데이터)");
+  return `근거: ${parts.join(" / ")}`;
+}
+
+export interface PublicAccessLine {
+  key: AccessKey;
+  label: string;
+  note?: string;
+  /** "공공데이터(2024-12 기준)" */
+  source: string;
+}
+
+/** 장소 접근성 중 공공데이터(grade public) 값만, 항목 순서대로 */
+export function publicAccessLines(place: Pick<Place, "access"> | undefined): PublicAccessLine[] {
+  if (!place) return [];
+  return ACCESS_KEYS.flatMap((key) => {
+    const item = place.access[key];
+    const source = publicSourceLabel(item);
+    return source ? [{ key, label: CONDITION_LABELS[key], ...(item.note ? { note: item.note } : {}), source }] : [];
+  });
 }
