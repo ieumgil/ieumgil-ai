@@ -19,6 +19,7 @@
 [![OpenAI](https://img.shields.io/badge/OpenAI_GPT--6_Luna-412991?style=for-the-badge)](https://platform.openai.com/)
 [![한국관광공사 무장애 여행정보 API](https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EA%B4%80%EA%B4%91%EA%B3%B5%EC%82%AC_%EB%AC%B4%EC%9E%A5%EC%95%A0_%EC%97%AC%ED%96%89%EC%A0%95%EB%B3%B4_API-0B5FA5?style=for-the-badge)](https://www.data.go.kr/data/15101897/openapi.do)
 [![행정안전부 공중화장실 표준데이터](https://img.shields.io/badge/%ED%96%89%EC%A0%95%EC%95%88%EC%A0%84%EB%B6%80_%EA%B3%B5%EC%A4%91%ED%99%94%EC%9E%A5%EC%8B%A4_%ED%91%9C%EC%A4%80%EB%8D%B0%EC%9D%B4%ED%84%B0-2E7D32?style=for-the-badge)](https://www.data.go.kr/data/15012892/standard.do)
+[![기상청 단기·중기예보](https://img.shields.io/badge/%EA%B8%B0%EC%83%81%EC%B2%AD_%EB%8B%A8%EA%B8%B0%C2%B7%EC%A4%91%EA%B8%B0%EC%98%88%EB%B3%B4-3A7BD5?style=for-the-badge)](https://www.data.go.kr/data/15084084/openapi.do)
 [![Kakao Map](https://img.shields.io/badge/Kakao_Map_%C2%B7_Mobility-FFCD00?style=for-the-badge&logo=kakao&logoColor=000)](https://apis.map.kakao.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![Vercel](https://img.shields.io/badge/Vercel-000?style=for-the-badge&logo=vercel&logoColor=white)](https://ieumgil-ai.vercel.app)
@@ -339,10 +340,11 @@ flowchart TB
 
 ## 데이터
 
-1차 출처는 **한국관광공사 무장애 여행정보 API**<sup>[2](#참고-자료)</sup>입니다. 강릉·속초·동해의 관광지·문화시설 182곳을 받아, 화장실·문화원처럼 관광지가 아닌 곳을 빼고 **152곳**(강릉 101 · 속초 30 · 동해 21)을 씁니다. 어떤 정보가 얼마나 있는지는 [공공데이터 조사](docs/data/tour-api-fields.md)에 정리했습니다. 장애인 화장실·기저귀 교환대는 행정안전부 공중화장실 공공데이터로 보충합니다.<sup>[3](#참고-자료)</sup>
+1차 출처는 **한국관광공사 무장애 여행정보 API**<sup>[2](#참고-자료)</sup>입니다. 강릉·속초·동해의 관광지·문화시설 182곳을 받아, 화장실·문화원처럼 관광지가 아닌 곳을 빼고 **152곳**(강릉 101 · 속초 30 · 동해 21)을 씁니다. 어떤 정보가 얼마나 있는지는 [공공데이터 조사](docs/data/tour-api-fields.md)에 정리했습니다. 장애인 화장실·기저귀 교환대는 행정안전부 공중화장실 공공데이터로 보충합니다.<sup>[3](#참고-자료)</sup> 확정·공유 화면의 날짜별 날씨는 기상청 예보를 씁니다.<sup>[4](#참고-자료)</sup><sup>[5](#참고-자료)</sup>
 
 - **AI가 모두 읽었어요**: 152곳 · 1,520항목. 근거 없이 채운 값은 코드가 '모름'으로 바꿉니다. 원문에 없는 항목은 '모름'으로 두고 확인할 방법을 붙였습니다(공공데이터로 보충한 뒤 1,520항목 중 851개, 56%).
 - **공중화장실 공공데이터로 보충**: 행정안전부 「전국공중화장실표준데이터」([data.go.kr 15012892](https://www.data.go.kr/data/15012892/standard.do)) · 이용허락범위 제한 없음 · 받은 강원 파일의 데이터 기준일 2024-05\~2025-06 · 강릉·속초·동해 816건. 화장실 이름에 관광지 이름이 들어 있고 같은 시인 곳만 짝지어 **36곳**을 찾았습니다(주소만 같은 곳, 주유소 등은 제외). 장애인용 대변기가 있거나 기저귀 교환대가 있으면 그 항목을 '가능'으로 올리고, 31곳에 값을 채웠습니다(장애인 화장실 30 · 기저귀 교환대 23항목, 그중 '모름'·'불가'였다가 바뀐 것은 장애인 화장실 3 · 기저귀 교환대 18). 0칸이거나 목록에 없으면 AI 값을 그대로 둡니다(목록에 없다고 화장실이 없다는 뜻은 아니어서). 화면에는 '공공데이터(2024-12 기준)'처럼 표시합니다. 원본 CSV는 저장소에 두지 않고 짝지은 결과만 [`restrooms.json`](data/public/restrooms.json)과 [짝짓기 결과](docs/data/public-restrooms.md)에 둡니다. 수유실 정보는 이 데이터에 없습니다.
+- **날씨는 기상청 예보로**: 기상청 단기예보 조회서비스([data.go.kr 15084084](https://www.data.go.kr/data/15084084/openapi.do))와 중기예보 조회서비스([15059468](https://www.data.go.kr/data/15059468/openapi.do)) · 이용허락범위 저작자표시. 확정 일정과 공유 화면에서 날짜마다 그날 가는 시(강릉·속초·동해)의 하늘·강수확률·기온을 보여 줍니다. 오늘부터 약 10일 뒤까지만 예보가 있고, 그보다 먼 날은 '아직 예보 없음'으로 안내합니다. 비·눈 강수확률이 60% 이상이면 바다·해변·자연·산책 장소 카드에만 주의 한 줄을 붙입니다. 서버에서만 부르고(키는 서버 환경변수에만) 저장하지 않으며, 서버에 30분 단위로만 잠깐 보관합니다. 호출이 실패하거나 키가 없으면 날씨 칸만 숨깁니다. 날씨 문구는 코드에 고정된 글이라 AI가 쓰지 않습니다. 자세한 명세는 [기상청 API 정리](docs/data/kma-forecast.md)에 있습니다.
 - **주차장 공공데이터는 쓰지 않았어요**: 전국주차장정보표준데이터([15012896](https://www.data.go.kr/data/15012896/standard.do))는 세 도시 218건 모두 '장애인전용주차구역보유여부'가 빈칸이라 쓰지 않았습니다.
 - **공공데이터의 빈칸이 큽니다**: 휠체어에 중요한 노면은 152곳 중 134곳, 경사는 85곳이 '모름'입니다. 그래서 대부분 장소에 "가서 볼 것"이나 "전화로 물어볼 것"이 붙습니다. 숨기지 않고 화면에 그대로 보여 줍니다.
 - **관광지 한 줄 소개**: 관광공사 소개를 AI가 "어떤 곳인지 한 문장 + 볼 거리"로 정리했습니다([`summary.json`](data/ai/summary.json)). 원문과 동떨어진 문장은 검사로 버립니다(처음 152곳 중 21곳을 버리고 다시 받음).
@@ -397,6 +399,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 | OpenAI(GPT-6 Luna, Responses API) | Gemini가 붐비거나 30초 넘게 늦으면 같은 요청을 보내 먼저 온 답을 씀 | 엄격 JSON 스키마, `store: false`. 둘 다 실패하면 규칙 일정 |
 | 한국관광공사 무장애 여행정보 API | 152곳의 무장애 정보·운영시간·전화·사진의 1차 출처 | 수집 스크립트에서만 호출. 빈칸은 '모름'으로 두고 지어내지 않음 |
 | 행정안전부 전국공중화장실표준데이터(CSV) | 장애인 화장실·기저귀 교환대 보충(31곳) | 스크립트에서만 읽고 원본은 커밋 안 함. 이름이 맞는 곳만, '있음'만 '가능'으로(더 엄격하게 바꾸지 않음). 출처·기준일 표시 |
+| 기상청 단기·중기예보 API(공공데이터포털) | 확정·공유 화면 날짜별 날씨, 비·눈 날 바깥 장소 주의 | 서버에서만 호출(키 서버 전용), 저장 안 함, 실패하면 날씨 칸만 숨김, 문구는 코드 고정 |
 | 카카오맵 JS · 카카오모빌리티 길찾기 | 지도, 실제 차량 이동시간, 경로선 | 결과는 저장하지 않고 열 때마다 받음. "일반 차량 경로"로만 표시. REST 키는 서버에만 |
 | Supabase(Postgres) | 공유 링크 저장 | 고른 일정만 저장, 서버가 스키마로 검사. RLS로 브라우저 키 차단, 기간이 지나면 자동 삭제 |
 | Vercel | 배포(서버 함수에서 AI·카카오 호출, 진행 단계 스트리밍) | 키는 환경변수에만 |
@@ -412,11 +415,12 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 ```
 src/app/            시작 · places/(관광지 둘러보기) · plan/(입력 4단계, making/ 만드는 중) · trip/[id]/(안 비교·상세·고치기)
                     · trip/[id]/final/(확정 일정 + 지도 + 인쇄) · s/[id]/(공유 링크, 읽기 전용)
-                    · api/plan/(전체 흐름 + 스트리밍) · api/legs/·api/route-line/(카카오, 저장 안 함) · api/trips/(공유 저장)
+                    · api/plan/(전체 흐름 + 스트리밍) · api/legs/·api/route-line/(카카오, 저장 안 함) · api/trips/(공유 저장) · api/weather/(기상청, 저장 안 함)
 src/lib/ai/         judge.ts(② 판단) · plan.ts(③ 일정 2~3안) · review.ts(평가자) · trip.ts(전체 흐름) · guards.ts(안전 하한·근거 검사) · schemas.ts
 src/lib/engine/     conditions.ts · filter.ts · timeline.ts(시각 계산) · check.ts(일정 검사) · repair.ts · fallback.ts(규칙 일정) · travel.ts
 src/lib/trip/       view.ts(결과 화면 값) · edit.ts(바꾸기·순서·빼기) · alternatives.ts · hard.ts(어려운 곳) · questions.ts · real-travel.ts · store.ts(탭 보관)
 src/lib/share/      doc.ts(공유할 값·검사) · supabase.ts(서버 전용) · view.ts(열 때 화면 값으로)   ·   supabase/migrations/(테이블·RLS·자동 삭제)
+src/lib/weather/    kma.ts(기상청 호출, 서버 전용) · service.ts(30분 캐시) · kst·summary·mid(날짜·하루 값) · day-view·caution·labels(화면 값·주의·문구) · use-weather
 src/lib/llm.ts      AI 호출을 한 곳에(Gemini → 늦으면 OpenAI, JSON 검사) · src/lib/kakao.ts(길찾기, 서버 전용)
 src/components/     ui/(shadcn 기반) · plan/(입력 단계) · trip/(장소 카드·안 고르기·바꾸기 창·체크리스트·공유 버튼·인쇄 일정표) · map/ · photos/
 data/               places.json · evidence.json · photos.json · featured.json · ai/(읽기 결과·한 줄 소개) · docs/places/(근거 원문) · eval/(평가)
@@ -444,6 +448,7 @@ npm run dev                  # http://localhost:3000
 | `GEMINI_API_KEY` 또는 `OPENAI_API_KEY` | 일정 만들기(둘 중 하나는 필요) |
 | `NEXT_PUBLIC_KAKAO_JS_KEY` · `KAKAO_REST_API_KEY` | 지도 · 이동시간·경로선 |
 | `SUPABASE_URL` · `SUPABASE_SERVICE_ROLE_KEY` | 공유 링크(선택) |
+| `KMA_API_KEY` (선택 `KMA_GATEWAY`) | 날씨 예보(선택, 없으면 날씨 칸만 숨김) |
 
 | 명령 | 하는 일 |
 | --- | --- |
@@ -460,6 +465,7 @@ npm run dev                  # http://localhost:3000
 - 이동 시간은 카카오 일반 차량 길찾기 값이고(받지 못한 구간만 '추정'), 지도 경로선은 휠체어 안전 경로를 뜻하지 않습니다.
 - 장소 바꾸기 후보는 이번에 AI가 판단한 장소(최대 20곳) 안에서만 고릅니다.
 - 공유 링크는 로그인 없이 열리므로 링크를 아는 사람은 누구나 볼 수 있습니다. 이름·연락처는 저장하지 않고 여행이 끝나고 7일 뒤 지워집니다.
+- 날씨는 예보라 바뀔 수 있고 시 단위 값입니다. 비·눈 주의는 바다·해변·자연·산책 장소에만 붙이고, 폭염·강풍 주의는 하지 않습니다.
 - 음식점·카페·숙소는 추천하지 않습니다. 숙소는 지역만 받아 다음 날 출발점으로 씁니다.
 
 ## 팀 이음길
@@ -476,3 +482,5 @@ npm run dev                  # http://localhost:3000
 1. 문화체육관광부 보도자료, [첫 번째 '무장애 관광도시'로 강릉시 선정](https://www.mcst.go.kr/kor/s_notice/press/pressView.jsp?pSeq=19453) (2022.4.8.)
 2. 공공데이터포털, [한국관광공사 무장애 여행정보 API](https://www.data.go.kr/data/15101897/openapi.do)
 3. 공공데이터포털, [행정안전부 전국공중화장실표준데이터](https://www.data.go.kr/data/15012892/standard.do) (이용허락범위 제한 없음)
+4. 공공데이터포털, [기상청 단기예보 조회서비스](https://www.data.go.kr/data/15084084/openapi.do) (이용허락범위 저작자표시)
+5. 공공데이터포털, [기상청 중기예보 조회서비스](https://www.data.go.kr/data/15059468/openapi.do) (이용허락범위 저작자표시)

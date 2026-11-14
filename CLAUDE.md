@@ -14,7 +14,7 @@
      ③ 계획(성격이 다른 일정 2~3안, 요청할 때) ④ 풀어주기(도착 후 동선, 출발 전 확인할 것) — 미리 읽은 동선 + 체크리스트로 하고, 요청할 때 다시 다듬는 호출·추가 질문 0~3개는 11/14에 뺐다.
    - LLM 출력은 전부 JSON 스키마로 받고(ajv) 코드가 검사한 뒤 화면에 그린다. 근거 id가 없거나 넘겨준 문장 밖이면 버린다.
      입력에 없는 시설·시간·거리를 쓰지 않는다.
-   - **시각은 LLM이 쓰지 않는다.** 도착·출발 시각은 코드가 계산한다. 검사를 통과한 안만 화면에 나간다.
+   - **시각은 LLM이 쓰지 않는다.** 도착·출발 시각은 코드가 계산한다. 검사를 통과한 안만 화면에 나간다. 날씨(기상청 예보) 문구도 코드가 정한 고정 문구뿐이고 LLM이 쓰지 않는다(11/15).
    - 안전 하한(코드): 필수 항목 '불가' → 부적합, '부분가능' → 최소 주의, 알려진 걷는 거리 초과 → 부적합. '모름'은 판단을 막지 않고 전화로 물어볼 질문 + 공식 전화번호로 붙인다(11/10 개정. 휠체어는 '들어갈 수 있다'는 진입 원문이 없으면 확인 필요. LLM이 실패해 규칙만으로 판단할 때는 엄격: 필수 '모름' → 확인 필요). 화면은 적합·주의여도 물어볼 것이 있으면 '적합 · 전화로 확인할 것 있음'처럼 함께 표시한다. LLM은 더 보수적으로만 바꿀 수 있다.
    - LLM이 실패하면(시간 초과, 형식 오류, 호출 한도) 규칙 일정 1개를 보여준다. 시연이 멈추면 안 된다.
 2. **'모름'은 숨기지 않고 확인할 방법을 준다.** access 값은 `가능 | 부분가능 | 불가 | 모름`. 빈칸은 '모름'으로 두고 지어내지 않는다.
@@ -24,7 +24,8 @@
 3. **카카오 길찾기 결과는 저장하지 않는다**(캐싱 금지 정책). 공유 링크에는 장소·순서·체류·이유 같은 안 JSON만 저장하고,
    이동시간·시각·경로는 열 때 다시 계산한다. 검사 위반도 종류와 장소만 저장한다.
    탭에 보관하는 일정(TripView)의 시각도 직선 추정이고, 화면은 열 때 `/api/legs`로 실제 값을 받아 메모리에서만 다시 계산한다(`lib/trip/real-travel.ts`, 11/14).
-4. **키는 서버에서만.** 카카오 REST·Gemini·OpenAI·Supabase 서비스 키·관광공사 키는 서버 코드·스크립트와 환경변수에만.
+   날씨(기상청 예보)도 저장하지 않는다 — 열 때 `/api/weather`로 받아 메모리에서만 쓰고, 서버는 발표 시각 기준 짧은 캐시만 둔다(11/15).
+4. **키는 서버에서만.** 카카오 REST·Gemini·OpenAI·Supabase 서비스 키·관광공사 키·기상청(공공데이터포털) 키 `KMA_API_KEY`는 서버 코드·스크립트와 환경변수에만.
    카카오 JS 키만 브라우저에 노출(도메인 제한).
 5. **개인정보 수집 없음.** 이름·연락처·IP 저장 금지. 저장하는 것은 유형·조건·날짜·순서뿐. Gemini·OpenAI에는 입력 조건과 장소 정보만 보낸다(OpenAI는 `store: false`).
 6. 지도 경로는 "일반 차량 경로"로만 표현한다. 휠체어 안전 경로라고 쓰지 않는다.
@@ -32,7 +33,7 @@
 ## 스택
 Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(표시) · 카카오모빌리티
 다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini(기본 `gemini-3.5-flash-lite`, 먼저) + OpenAI(`gpt-6-luna`, 503·429·30초 넘게 늦으면 같은 요청을 보내 먼저 온 답, 11/14) — 읽기·판단·계획·풀어주기, JSON 응답
-· 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · 행정안전부 전국공중화장실표준데이터(CSV, 스크립트 전용, 원본 커밋 안 함) · Vercel.
+· 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · 행정안전부 전국공중화장실표준데이터(CSV, 스크립트 전용, 원본 커밋 안 함) · 기상청 단기·중기예보(공공데이터포털 15084084·15059468, 서버 전용 `/api/weather`, 11/15) · Vercel.
 공유 링크는 Supabase(`trips`, 서버 키로 REST, RLS, 11/14 구현) · 인쇄는 A4 한 장 일정표(`components/trip/PrintSheet.tsx`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
 글꼴 Pretendard.
 
@@ -40,8 +41,8 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 ```
 src/app/            page.tsx(시작) · places/(관광지 둘러보기: 지역·분야·AI 한 줄 소개·접근성 요약 → 꼭 가고 싶은 곳에 담기) · plan/(입력 4단계 · making/(만드는 중))
                     · trip/[id]/(안 비교 → 상세, id = new | example) · trip/[id]/final(확정 일정 + 지도)
-                    · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · api/legs · api/trips(공유 링크 저장, 11/14) · s/[id](공유 읽기 전용, 서버가 Supabase에서 읽음)
-src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 …)
+                    · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · api/legs · api/trips(공유 링크 저장, 11/14) · api/weather(기상청 예보, 저장 안 함, 11/15) · s/[id](공유 읽기 전용, 서버가 Supabase에서 읽음)
+src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 · DayWeather 날짜별 날씨 …)
                     · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · TopBar · Logo · Intro · icons
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④)
@@ -49,10 +50,11 @@ src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(�
 src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
 src/lib/share/      doc.ts(공유할 값·검사·사라지는 날) · supabase.ts(서버 전용 REST, 서비스 키) · view.ts(열 때 화면 값으로)   ·   supabase/migrations/(trips 테이블·RLS·pg_cron SQL)
 src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문   ·   src/lib/public/(공중화장실 공공데이터 짝짓기·합치기·출처 표시)
+src/lib/weather/    kma.ts(기상청 호출, 서버 전용) · service.ts(캐시) · kst·summary·mid(날짜·하루 값) · day-view·caution·labels(화면 값·주의·문구) · use-weather
 src/lib/            llm.ts(AI 호출은 이 파일 하나로: 제공자 순서 AI_ORDER, 모델 GEMINI_MODEL_FAST/READ · OPENAI_MODEL) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
 data/               places.json · places.schema.json · evidence.json · photos.json · featured.json(대표 관광지) · ai/summary.json(한 줄 소개) · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과) · public/restrooms.json(짝지은 공중화장실 요약)
                     · eval/(read-v1 · 선택 human.json) · raw/·build/(API 원본·중간 산출물, 커밋 안 함)
-scripts/            tour/(관광공사 API 수집·보고서·사진) · public/(공중화장실 공공데이터) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험) — scripts/README.md
+scripts/            tour/(관광공사 API 수집·보고서·사진) · public/(공중화장실 공공데이터) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험, weather-probe 기상청 키·게이트웨이 확인) — scripts/README.md
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
 tests/ai/           가짜 LLM으로 가드 검사(근거 없는 판단 버림, 모름≠적합, 시각은 코드 값, 실패 시 규칙 일정)
 tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) · tests/e2e/ Playwright 화면 흐름
