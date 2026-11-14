@@ -37,6 +37,24 @@ describe("weatherLine", () => {
   it("하늘 정보가 없어도 시와 나머지는 나온다", () => {
     expect(weatherLine("강릉", day({ sky: null }))).toBe("강릉 · 비 20% · 8~14℃");
   });
+
+  // WR-01: TMN·TMX 대신 TMP로 채운 값(approxTemp)은 확정 값처럼 보이면 안 된다 → '약'을 붙인다
+  it("approxTemp면 기온 앞에 '약 '이 붙는다", () => {
+    expect(weatherLine("강릉", day({ pop: 70, precip: "비", approxTemp: true }))).toBe("강릉 · 흐림 · 비 70% · 약 8~14℃");
+  });
+
+  it("approxTemp가 아니면 '약'이 없다", () => {
+    expect(weatherLine("강릉", day())).not.toContain("약");
+  });
+
+  it("approxTemp이고 한쪽 기온만 있으면 최저/최고 값 앞에 '약'이 붙는다", () => {
+    expect(weatherLine("강릉", day({ tmin: 5, tmax: null, approxTemp: true }))).toBe("강릉 · 흐림 · 비 20% · 최저 약 5℃");
+    expect(weatherLine("강릉", day({ tmin: null, tmax: 14, approxTemp: true }))).toBe("강릉 · 흐림 · 비 20% · 최고 약 14℃");
+  });
+
+  it("approxTemp여도 기온이 없으면 '약'만 남지 않는다", () => {
+    expect(weatherLine("강릉", day({ tmin: null, tmax: null, approxTemp: true }))).toBe("강릉 · 흐림 · 비 20%");
+  });
 });
 
 describe("precipWord / weatherIcon", () => {
