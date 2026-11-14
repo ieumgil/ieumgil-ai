@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { validatePlaces } from "@/lib/places/validate";
+import { publicParagraphs, type RestroomsFile } from "@/lib/public/restrooms";
 import { PUBLIC_RESTROOM_SOURCE } from "@/lib/public/source";
 import type { AccessItem } from "@/lib/types";
 import { loadSamplePlaces } from "../helpers";
@@ -194,6 +195,81 @@ describe("장소 데이터 검사", () => {
         .issues.map((i) => i.message)
         .join("\n");
       expect(messages).toContain("route-1");
+    });
+  });
+
+  // WR-04: 근거 문단(data/evidence.json)이 data/public/restrooms.json과 같은 글인지 본다(오래됐으면 실패)
+  describe("공공데이터 근거 문단이 최신인지(WR-04)", () => {
+    const restroom = {
+      no: "1",
+      name: "샘플 화장실",
+      kind: "",
+      disabled_m: 1,
+      disabled_f: 1,
+      diaper: true,
+      diaper_place: "여자화장실",
+      open: "상시",
+      date: "2024-12-31",
+      evidence_id: "public-화장실-1",
+    };
+    const restrooms = (r: Partial<typeof restroom> = {}) =>
+      ({ source: {}, places: { GN91: { name_ko: "[샘플] 관광지 A", restrooms: [{ ...restroom, ...r }] } } }) as unknown as RestroomsFile;
+    /** 근거 목록: 샘플 장소가 쓰는 id + 공공데이터 문단(restrooms.json이 만드는 글) */
+    const evidenceFor = (file: RestroomsFile) => {
+      const ev: Record<string, { id: string; label?: string; text?: string }[]> = {};
+      for (const p of loadSamplePlaces()) {
+        const used = new Set<string>();
+        for (const a of Object.values(p.access)) for (const id of a.evidence ?? []) used.add(id);
+        for (const id of p.hours.evidence ?? []) used.add(id);
+        for (const id of p.on_site?.evidence ?? []) used.add(id);
+        ev[p.id] = [...used].map((id) => ({ id, label: "관광공사", text: "원문" }));
+      }
+      for (const [id, entry] of Object.entries(file.places)) ev[id] = [...(ev[id] ?? []), ...publicParagraphs(entry)];
+      return ev;
+    };
+    const messagesWith = (ev: ReturnType<typeof evidenceFor>, file: RestroomsFile) =>
+      validatePlaces(loadSamplePlaces(), ev, file)
+        .issues.map((i) => i.message)
+        .join("\n");
+
+    it("근거 문단이 restrooms.json이 만드는 글과 같으면 통과한다", () => {
+      const file = restrooms();
+      expect(validatePlaces(loadSamplePlaces(), evidenceFor(file), file).issues).toEqual([]);
+    });
+
+    it("화장실 내용이 바뀌었는데 근거 문단이 옛 글이면 실패하고, 어떻게 고치는지 알려 준다", () => {
+      const stale = evidenceFor(restrooms());
+      const message = messagesWith(stale, restrooms({ name: "다른 화장실" }));
+      expect(message).toContain("공공데이터 근거 문단");
+      expect(message).toContain("npm run data:build");
+      expect(message).toContain("npm run data:merge");
+    });
+
+    it("번호는 같아도 글이 다르면(다른 화장실로 다시 배정) 실패한다", () => {
+      expect(validatePlaces(loadSamplePlaces(), evidenceFor(restrooms({ disabled_m: 0 })), restrooms({ disabled_m: 3 })).ok).toBe(false);
+    });
+
+    it("restrooms.json에 문단이 더 생겼는데 근거 목록에 없으면 실패한다", () => {
+      const ev = evidenceFor(restrooms());
+      ev.GN91 = ev.GN91.filter((e) => !e.id.startsWith("public-"));
+      expect(messagesWith(ev, restrooms())).toContain("npm run data:build");
+    });
+
+    it("근거 목록에 public- 문단이 남아 있는데 restrooms.json에는 그 장소가 없으면 실패한다", () => {
+      const ev = evidenceFor(restrooms());
+      const empty = { source: {}, places: {} } as unknown as RestroomsFile;
+      expect(messagesWith(ev, empty)).toContain("npm run data:build");
+    });
+
+    it("restrooms.json을 안 주면 이 검사를 하지 않는다(지금 동작 유지)", () => {
+      const ev = evidenceFor(restrooms());
+      expect(validatePlaces(loadSamplePlaces(), ev).ok).toBe(true);
+    });
+
+    it("실제 데이터: 커밋된 근거 문단은 restrooms.json과 같은 글이다", () => {
+      const read = (f: string) => JSON.parse(readFileSync(resolve(__dirname, "../..", f), "utf8"));
+      const result = validatePlaces(read("data/places.json"), read("data/evidence.json"), read("data/public/restrooms.json"));
+      expect(result.issues).toEqual([]);
     });
   });
 
