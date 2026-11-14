@@ -1,7 +1,7 @@
 // 날씨 문구는 코드의 고정 문구만(D-06). LLM이 쓰지 않는다.
 import { describe, expect, it } from "vitest";
-import { precipWord, weatherIcon, weatherLine } from "../../src/lib/weather/labels";
-import type { DayForecast } from "../../src/lib/weather/types";
+import { MISSING_TEXT, OUT_OF_RANGE_TEXT, PAST_TEXT, precipWord, sourceLine, weatherIcon, weatherLine } from "../../src/lib/weather/labels";
+import type { DayForecast, WeatherPayload } from "../../src/lib/weather/types";
 
 const day = (over: Partial<DayForecast> = {}): DayForecast => ({ sky: 4, precip: null, pop: 20, tmin: 8, tmax: 14, source: "short", ...over });
 
@@ -55,5 +55,36 @@ describe("precipWord / weatherIcon", () => {
     expect(weatherIcon(day({ sky: 3 }))).toBe("cloud-sun");
     expect(weatherIcon(day({ sky: 4 }))).toBe("cloud");
     expect(weatherIcon(day({ sky: null }))).toBeNull();
+  });
+});
+
+describe("날짜 상태 문구(D-09)", () => {
+  it("고정 문구", () => {
+    expect(PAST_TEXT).toBe("지난 일정이라 예보를 보여 주지 않아요");
+    expect(OUT_OF_RANGE_TEXT).toBe("아직 예보 없음 · 출발 약 10일 전부터 나와요");
+    expect(MISSING_TEXT).toBe("예보 없음");
+  });
+});
+
+describe("sourceLine(D-11)", () => {
+  const payload = (asOf: WeatherPayload["asOf"]): WeatherPayload => ({ available: true, today: "2026-11-18", asOf, regions: {} });
+
+  it("단기·중기 둘 다: 늦은 발표 시각", () => {
+    expect(sourceLine(payload({ short: { baseDate: "20261118", baseTime: "1700" }, mid: "202611180600" }))).toBe(
+      "날씨: 기상청 단기·중기예보(11월 18일 17시 발표). 예보는 바뀔 수 있어요.",
+    );
+  });
+
+  it("단기만", () => {
+    expect(sourceLine(payload({ short: { baseDate: "20261118", baseTime: "0200" } }))).toBe("날씨: 기상청 단기예보(11월 18일 2시 발표). 예보는 바뀔 수 있어요.");
+  });
+
+  it("중기만(앞자리 0 없이)", () => {
+    expect(sourceLine(payload({ mid: "202611180600" }))).toBe("날씨: 기상청 중기예보(11월 18일 6시 발표). 예보는 바뀔 수 있어요.");
+  });
+
+  it("둘 다 없거나 날씨가 없으면 null", () => {
+    expect(sourceLine(payload({}))).toBeNull();
+    expect(sourceLine(null)).toBeNull();
   });
 });
