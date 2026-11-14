@@ -46,6 +46,23 @@ describe("readEnvelope", () => {
     expect(codeOf(() => readEnvelope(fx("no-data-03.json")))).toBe("03");
   });
 
+  it("실제 응답(2026-11-15 프로브): 중기 데이터 없음은 header만 있는 03 NO_DATA 봉투(body 없음) → 03", () => {
+    const real = { response: { header: { resultCode: "03", resultMsg: "NO_DATA" } } };
+    expect(codeOf(() => readEnvelope(real))).toBe("03");
+  });
+
+  it("실제 응답(2026-11-15 프로브): 단기 범위 밖 base_time은 HTTP 200 + 코드 10, 중기 조회 기간 밖은 코드 99 — 한국어 글은 버리고 코드만", () => {
+    const tooNew = { response: { header: { resultCode: "10", resultMsg: "현재 이후의 base_time은 호출할 수 없습니다." } } };
+    const tooOld = { response: { header: { resultCode: "99", resultMsg: "최대 조회 기간은 오늘 기준으로 1일 전까지입니다." } } };
+    expect(codeOf(() => readEnvelope(tooNew))).toBe("10");
+    expect(codeOf(() => readEnvelope(tooOld))).toBe("99");
+  });
+
+  it("실제 응답: 숫자 필드(중기 강수확률 등)가 숫자로 와도 항목을 그대로 읽는다", () => {
+    const real = envelope("00", [{ regId: "11D20000", rnSt5Am: 10, wf5Am: "맑음" }]);
+    expect(readEnvelope(real).items[0]).toEqual({ regId: "11D20000", rnSt5Am: 10, wf5Am: "맑음" });
+  });
+
   it("00인데 item이 없거나 빈 배열이면 03", () => {
     expect(codeOf(() => readEnvelope(envelope("00")))).toBe("03");
     expect(codeOf(() => readEnvelope(envelope("00", [])))).toBe("03");

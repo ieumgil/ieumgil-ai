@@ -161,3 +161,25 @@ describe("summarizeShort: 오늘의 지난 시각", () => {
     expect(run([row("POP", "0900", "55")])["2026-11-16"].pop).toBe(55);
   });
 });
+
+describe("summarizeShort: 실제 응답에만 있던 모양(2026-11-15 프로브)", () => {
+  it('시간별 기온이 정수 문자열("12")이어도 읽고, 쓰지 않는 카테고리(PCP·SNO·UUU·WSD 등)와 글자 값은 결과에 영향이 없다', () => {
+    const base = [row("POP", "0900", "30"), row("SKY", "0900", "3"), row("PTY", "0900", "0"), row("TMP", "0900", "12"), row("TMP", "1500", "16")];
+    const noise = [
+      row("PCP", "0900", "1mm 미만"),
+      row("PCP", "1200", "강수없음"),
+      row("PCP", "1500", "1.0mm"),
+      row("SNO", "0900", "적설없음"),
+      row("SNO", "1200", "0"),
+      row("UUU", "0900", "-0.5"),
+      row("VVV", "0900", "-1.2"),
+      row("VEC", "0900", "350"),
+      row("WSD", "0900", "1.4"),
+      row("WAV", "0900", "0"),
+      row("REH", "0900", "90"),
+    ];
+    const clean = run(base)["2026-11-16"];
+    expect(clean).toEqual({ sky: 3, precip: null, pop: 30, tmin: 12, tmax: 16, source: "short", approxTemp: true });
+    expect(run([...base, ...noise])["2026-11-16"]).toEqual(clean);
+  });
+});
