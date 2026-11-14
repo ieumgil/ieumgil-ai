@@ -37,6 +37,28 @@ describe("관광지 둘러보기 값", () => {
     expect("source" in b.access.elevator).toBe(false);
   });
 
+  it("기저귀 교환대 공공데이터 값은 '수유실'이 아니라 교환대 문장으로 보인다(WR-02)", () => {
+    const pub = { value: "가능" as const, evidence: ["public-화장실-1"], grade: "public" as const, method: "공공데이터" as const, verified_at: "2024-12-31", source_url: "https://www.data.go.kr/data/15012892/standard.do" };
+    const only = toBrowsePlace(makePlace("GN91", { set: { diaper_nursing: { ...pub, note: "기저귀 교환대 · 공중화장실 'A' 여자화장실에만 · 수유실 정보 없음" } } }), undefined, false, paragraphs);
+    expect(only.access.diaper_nursing).toEqual({
+      value: "가능",
+      label: "기저귀 교환대 있음 · 여자화장실에만",
+      note: "공중화장실 'A'",
+      noNursing: true,
+      source: "공공데이터(2024-12 기준)",
+    });
+    const both = toBrowsePlace(makePlace("GN91", { set: { diaper_nursing: { ...pub, note: "기저귀 교환대 · 공중화장실 'A' 남녀 화장실 모두 / 관광공사: 수유실 있음" } } }), undefined, false, paragraphs);
+    expect(both.access.diaper_nursing).toEqual({
+      value: "가능",
+      label: "기저귀 교환대 있음 · 남녀 화장실 모두",
+      note: "공중화장실 'A' / 관광공사: 수유실 있음",
+      source: "공공데이터(2024-12 기준)",
+    });
+    // 공공데이터가 아닌 기저귀 값은 그대로(label 없음)
+    const ai = toBrowsePlace(makePlace("GN91", { set: { diaper_nursing: { value: "가능", note: "수유실 있음", grade: "ai", method: "관광공사 API", verified_at: "2026-11-10", evidence: ["info-1"] } } }), undefined, false, paragraphs);
+    expect(ai.access.diaper_nursing).toEqual({ value: "가능", note: "수유실 있음" });
+  });
+
   it("운영시간 한 줄", () => {
     expect(hoursText({ always_open: true })).toBe("상시 개방");
     expect(hoursText({ summer: { open: "09:00", close: "18:00", last_entry: "17:00" }, winter: { open: "09:00", close: "17:00", last_entry: "16:00" }, closed_weekdays: ["월"] })).toBe(
