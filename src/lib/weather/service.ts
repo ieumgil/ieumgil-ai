@@ -24,6 +24,15 @@ async function shortCached(nx: number, ny: number, baseDate: string, baseTime: s
 
 export const cachedDeps: WeatherDeps = { short: shortCached };
 
+/**
+ * 로그에 남길 오류 코드. 'use cache'를 지나면 Error 클래스와 code 필드가 사라지고 message만 남으므로,
+ * KmaError의 고정 문장("기상청 응답 오류(코드)")에서 코드만 꺼낸다. 모르는 모양이면 "ERROR"(원문은 찍지 않는다).
+ */
+function errorCode(reason: unknown): string {
+  const msg = reason instanceof Error ? reason.message : "";
+  return /^기상청 응답 오류\(([A-Za-z0-9_]{1,12})\)$/.exec(msg)?.[1] ?? "ERROR";
+}
+
 /** 시마다 따로 불러, 실패한 시는 빼고 돌려준다. 하나도 못 받으면 { available: false } */
 export async function buildWeatherPayload(now: Date, deps: WeatherDeps): Promise<WeatherResponse> {
   const base = pickShortBase(now);
@@ -33,6 +42,8 @@ export async function buildWeatherPayload(now: Date, deps: WeatherDeps): Promise
   const regions: Partial<Record<Region, Record<string, DayForecast>>> = {};
   results.forEach((res, i) => {
     if (res.status === "fulfilled") regions[REGIONS[i]] = summarizeShort(res.value);
+    // 실패는 코드만 남긴다(요청 URL·키·Error 객체는 찍지 않는다 — 원칙 4)
+    else console.warn("[weather] 기상청 호출 실패", REGIONS[i], errorCode(res.reason));
   });
   if (Object.keys(regions).length === 0) return { available: false };
   return { available: true, today: kstDate(now), asOf: { short: base }, regions };

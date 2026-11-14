@@ -32,36 +32,69 @@ export function hasKmaKey(): boolean {
   return readKey() !== "";
 }
 
-/** 기상청 호출 한 번. URLSearchParams가 키를 한 번만 인코딩한다(손으로 이어 붙이지 않는다) */
+/** 오류 코드로 쓸 수 있는 모양(짧은 영숫자). 외부 응답의 긴 글·공백이 든 값은 그대로 옮기지 않는다 */
+const SAFE_CODE = /^[A-Za-z0-9_]{1,12}$/;
+const safeCode = (v: unknown): string => (typeof v === "string" || typeof v === "number" ? (SAFE_CODE.test(String(v)) ? String(v) : "ENVELOPE") : "ENVELOPE");
+
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
+
+/**
+ * 기상청 응답 봉투 읽기. 모양이 세 가지다(HTTP 상태만 보면 안 된다):
+ *  (a) 정상 response.header.resultCode "00" + body.items.item[]  (b) 포털 게이트웨이 오류 OpenAPI_ServiceResponse.cmmMsgHeader  (c) API허브 오류 result.status
+ * 정상이면 항목을, 그 밖은 KmaError(코드)를 던진다. 데이터 없음(03·item 없음)은 코드 "03".
+ */
+export function readEnvelope(json: unknown): { items: Record<string, unknown>[]; totalCount: number } {
+  if (!isRecord(json)) throw new KmaError("ENVELOPE");
+
+  const portal = json.OpenAPI_ServiceResponse;
+  if (isRecord(portal)) {
+    const header = portal.cmmMsgHeader;
+    throw new KmaError(isRecord(header) ? safeCode(header.returnReasonCode) : "ENVELOPE");
+  }
+
+  const result = json.result;
+  if (isRecord(result) && typeof result.status === "number") throw new KmaError(safeCode(`HTTP${result.status}`));
+
+  const response = json.response;
+  const header = isRecord(response) ? response.header : undefined;
+  if (!isRecord(header)) throw new KmaError("ENVELOPE");
+  if (String(header.resultCode) !== "00") throw new KmaError(safeCode(header.resultCode));
+
+  const body = isRecord(response) ? response.body : undefined;
+  if (!isRecord(body)) throw new KmaError("ENVELOPE");
+  const rawItems = isRecord(body.items) ? body.items.item : undefined;
+  const list = Array.isArray(rawItems) ? rawItems : isRecord(rawItems) ? [rawItems] : [];
+  const items = list.filter(isRecord);
+  if (items.length === 0) throw new KmaError("03");
+  return { items, totalCount: typeof body.totalCount === "number" ? body.totalCount : items.length };
+}
+
+/** 기상청 호출 한 번. URLSearchParams가 키를 한 번만 인코딩한다(손으로 이어 붙이지 않는다). 실패는 모두 KmaError(코드만) */
 export async function kmaGet(op: KmaOperation, params: Record<string, string>): Promise<{ status: number; json: unknown }> {
   const url = new URL(GATEWAY_BASE + op);
   url.searchParams.set(KEY_PARAM, readKey());
   url.searchParams.set("dataType", "JSON");
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
-  const res = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+
+  let res: Response;
+  try {
+    res = await fetch(url, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+  } catch {
+    // 시간 초과·네트워크 오류: 원래 오류 글에 URL(키)이 들어 있을 수 있어 버린다
+    throw new KmaError("NETWORK");
+  }
   let json: unknown;
   try {
     json = await res.json();
   } catch {
-    throw new KmaError("PARSE");
+    throw new KmaError(res.ok ? "PARSE" : `HTTP${res.status}`);
+  }
+  // 비정상 HTTP여도 JSON 오류 봉투면 그 코드를 살린다(예: 403 + 포털 30)
+  if (!res.ok) {
+    readEnvelope(json);
+    throw new KmaError(`HTTP${res.status}`);
   }
   return { status: res.status, json };
-}
-
-const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
-
-/** 정상 봉투(response.header.resultCode "00" + body.items.item)에서 항목을 꺼낸다. 그 밖은 KmaError */
-export function readEnvelope(json: unknown): { items: Record<string, unknown>[]; totalCount: number } {
-  const response = isRecord(json) ? json.response : undefined;
-  const header = isRecord(response) ? response.header : undefined;
-  const body = isRecord(response) ? response.body : undefined;
-  if (!isRecord(header) || header.resultCode !== "00" || !isRecord(body)) throw new KmaError("ENVELOPE");
-  const rawItems = isRecord(body.items) ? body.items.item : undefined;
-  const list = Array.isArray(rawItems) ? rawItems : isRecord(rawItems) ? [rawItems] : null;
-  if (!list) throw new KmaError("ENVELOPE");
-  const items = list.filter(isRecord);
-  const total = typeof body.totalCount === "number" ? body.totalCount : items.length;
-  return { items, totalCount: total };
 }
 
 /** 단기예보 한 격자·한 발표의 항목(문자열 필드 네 개가 다 있는 것만) */
