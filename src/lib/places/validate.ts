@@ -1,6 +1,7 @@
 // 장소 데이터 검사. scripts/validate-places.ts(빌드 전)와 테스트가 함께 쓴다.
 // 1단계: JSON Schema 형식 검사 / 2단계: 스키마로 표현하기 어려운 운영 규칙 검사.
-// 공공데이터 값(grade public)은 '가능'으로만 올릴 수 있고, public- 근거 id와 원본 주소(source_url)가 있어야 한다.
+// 공공데이터 값(grade public)은 장애인 화장실·기저귀 교환대에만, '가능'으로만 올릴 수 있고, public- 근거 id와 출처 상수와 같은 원본 주소(source_url)가 있어야 한다.
+// 방법(method)이 '공공데이터'이면 등급도 public이어야 한다(반대 방향도 검사).
 // 근거 목록(data/evidence.json)을 함께 주면 근거 id가 실제 문단에 있는지도 본다.
 // 공공데이터 요약(data/public/restrooms.json)까지 주면 public- 근거 문단이 그 요약이 만드는 글과 같은지(오래되지 않았는지)도 본다.
 
@@ -8,8 +9,8 @@ import Ajv2020 from "ajv/dist/2020";
 import addFormats from "ajv-formats";
 import schema from "../../../data/places.schema.json";
 import { publicParagraphs, type RestroomsFile } from "../public/restrooms";
-import { isPublicEvidenceId } from "../public/source";
-import { ACCESS_KEYS, type Place } from "../types";
+import { isPublicEvidenceId, PUBLIC_RESTROOM_SOURCE } from "../public/source";
+import { ACCESS_KEYS, type AccessKey, type Place } from "../types";
 
 export interface ValidationIssue {
   /** 문제가 난 장소 id(알 수 있을 때) */
@@ -27,6 +28,9 @@ export interface ValidationResult {
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
 const schemaValidate = ajv.compile(schema);
+
+/** 공공데이터(grade public)로 올릴 수 있는 항목: 합치기 코드(mergePublic)가 올리는 두 가지뿐 */
+const PUBLIC_KEYS = new Set<AccessKey>(["accessible_toilet", "diaper_nursing"]);
 
 const ID_PREFIX: Record<Place["region"], string> = {
   강릉: "GN",
@@ -128,12 +132,19 @@ export function validatePlaces(data: unknown, evidence?: EvidenceIds, publicRest
         add(p, i, `.access.${key}`, "AI가 정리한 값에 근거 id(evidence)가 없어요. 근거가 없으면 '모름'이어야 해요.");
       }
       // 공공데이터 값: 가능으로만 올릴 수 있고(더 엄격하게 바꾸지 않음), 공공데이터 근거·원본 주소·방법이 있어야 한다
+      if (a.method === "공공데이터" && a.grade !== "public") {
+        add(p, i, `.access.${key}`, "방법이 '공공데이터'이면 등급도 public이어야 해요(method와 grade가 서로 맞아야 해요).");
+      }
       if (a.grade === "public") {
+        if (!PUBLIC_KEYS.has(key)) add(p, i, `.access.${key}`, "공공데이터 값은 장애인 화장실·기저귀 교환대에만 쓸 수 있어요.");
         if (a.value !== "가능") add(p, i, `.access.${key}`, "공공데이터 값은 '가능'으로만 올릴 수 있어요(더 엄격하게 바꾸지 않음).");
         if (!(a.evidence && a.evidence.some(isPublicEvidenceId))) {
           add(p, i, `.access.${key}`, "공공데이터 값에 공공데이터 근거 id(public-…)가 없어요.");
         }
         if (blank(a.source_url)) add(p, i, `.access.${key}`, "공공데이터 값에 원본 주소(source_url)가 없어요.");
+        else if (a.source_url !== PUBLIC_RESTROOM_SOURCE.url) {
+          add(p, i, `.access.${key}`, `공공데이터 값의 원본 주소(source_url)가 출처 상수와 달라요(${PUBLIC_RESTROOM_SOURCE.url}여야 해요).`);
+        }
         if (a.method !== "공공데이터") add(p, i, `.access.${key}`, "공공데이터 값의 확인 방법(method)은 '공공데이터'여야 해요.");
       }
     }
