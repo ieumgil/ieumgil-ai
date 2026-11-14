@@ -17,12 +17,15 @@ export interface Review {
   improve?: string;
 }
 
+const PACE_TEXT: Record<PlanInput["pace"], string> = { slow: "여유롭게(하루 2~3곳)", normal: "보통(하루 3~4곳)", busy: "많이(하루 4~5곳)" };
+
 const REVIEW_SYSTEM = `너는 관광약자 여행 일정을 점검하는 평가자다. JSON으로만 답한다.
 안마다 1~5점(5가 가장 좋음)으로 매긴다.
 - fatigue(피로도): 이동·걷기·연속 관람이 이 여행자에게 무리 없는가. 쉬는 시간과 화장실이 있는 곳 사이 간격도 본다.
 - slack(시간 여유): 마치는 시각과 운영시간에 쫓기지 않는가.
 - taste(취향): 좋아하는 분야와 꼭 가고 싶은 곳이 반영됐는가.
-comment는 쉬운 존댓말 한 문장. 2점 이하가 있으면 improve에 고칠 방향을 한 문장으로 쓴다. 일정에 없는 사실을 만들지 않는다.`;
+여행자가 고른 일정 밀도(하루 장소 수)는 여행자의 선택이다. 장소 수가 밀도에 맞으면 그것만으로 피로도를 낮추지 말고, 쉬는 시간·이동·화장실 간격으로 판단한다.
+comment는 쉬운 존댓말 한 문장. 2점 이하가 있으면 improve에 고칠 방향을 한 문장으로 쓴다(장소를 빼기보다 순서·머무는 시간·쉬는 곳으로). 일정에 없는 사실을 만들지 않는다.`;
 
 function schema(ids: string[]): JsonSchema {
   const score = { type: "integer", minimum: 1, maximum: 5 };
@@ -64,7 +67,7 @@ export async function reviewOptions(llm: LlmClient, input: PlanInput, options: P
   const res = await llm.json<{ reviews: Review[] }>({
     task: "review",
     system: REVIEW_SYSTEM,
-    input: `여행자: ${who} · 좋아하는 분야: ${input.categories.join(", ") || "없음"}\n\n${options.map((o) => describeOption(o, placesById)).join("\n\n")}`,
+    input: `여행자: ${who} · 좋아하는 분야: ${input.categories.join(", ") || "없음"} · 고른 일정 밀도: ${PACE_TEXT[input.pace]}\n\n${options.map((o) => describeOption(o, placesById)).join("\n\n")}`,
     schema: schema(options.map((o) => o.id)),
     temperature: 0.2,
   });

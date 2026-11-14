@@ -1,9 +1,12 @@
 // ③ 계획(요청할 때): 성격이 다른 일정 2~3안을 한 번에 받는다(docs/ai-plan.md v3).
 // LLM이 정하는 것: 장소 선택·날짜 배분·순서·머무는 시간·쉬는 곳·이유·주의·확인 질문. 시각은 쓰지 않는다.
-// 코드가 하는 것: 체류를 범위 안으로 맞춤 → 시각 계산 → 검사(check.ts) → 걸린 안만 위반 내용을 돌려줘 다시 요청(최대 2회)
+// 코드가 하는 것: 체류를 범위 안으로 맞춤 → 시각 계산 → 검사(check.ts) → 시간만 조금 넘치면 코드가 맞춤(repair.ts)
+//                → 그래도 걸린 안만 위반 내용을 돌려줘 다시 요청(최대 2회)
 //                → 끝까지 못 통과한 안은 뺀다 → 하나도 없으면 규칙 일정 1안.
 
 import { checkPlan, type CheckContext, type CheckResult } from "../engine/check";
+import { mobilityLimited } from "../engine/fallback";
+import { repairTiming } from "../engine/repair";
 import type { Candidate } from "../engine/filter";
 import { opening } from "../engine/timeline";
 import { toHHMM, type DayFrame, type PlanDraft, type TravelFn } from "../engine/types";
@@ -131,7 +134,9 @@ function travelTable(candidates: Candidate[], travel: TravelFn): string {
 }
 
 function frameLines(frames: DayFrame[], input: PlanInput): string {
-  const per = { slow: "여유롭게(하루 2~3곳)", normal: "보통(하루 3~4곳)", busy: "많이(하루 4~5곳)" }[input.pace];
+  // 휠체어·보행 불편 어르신은 '많이'도 하루 3~4곳(11/14)
+  const busy = mobilityLimited(input) ? "많이(하루 3~4곳, 휠체어·어르신이라 4곳까지)" : "많이(하루 4~5곳)";
+  const per = { slow: "여유롭게(하루 2~3곳)", normal: "보통(하루 3~4곳)", busy }[input.pace];
   return [
     `일정 밀도: ${per}`,
     ...frames.map((f, i) => `${i + 1}일째 ${f.date}: ${f.start.name}에서 ${toHHMM(f.startMin)} 출발 → ${f.end.name}에 ${toHHMM(f.endMin)}까지 도착`),
@@ -264,8 +269,18 @@ export async function planOptions(
         } else next.push({ ...want, fixes: want.fixes + 1 });
         continue;
       }
-      const draft = toDraft(raw, placesById);
-      const check = checkPlan(draft, ctx);
+      let draft = toDraft(raw, placesById);
+      let check = checkPlan(draft, ctx);
+      if (!check.ok) {
+        // 시간만 조금 넘쳤으면 코드가 맞춘다(체류 줄이기 → 뒤쪽 장소 빼기, 꼭 가고 싶은 곳은 남김)
+        const fixed = repairTiming(draft, ctx, new Set(input.mustVisit));
+        if (fixed) {
+          log(`${want.id}안: 시간이 조금 넘쳐 프로그램이 맞췄어요`, "fix");
+          want.fixed = [...want.fixed, ...check.violations.map((v) => `${v.day}일째: ${v.message}`), ...fixed.notes];
+          draft = fixed.draft;
+          check = fixed.check;
+        }
+      }
       if (!check.ok) {
         const why = VIOLATION_TEXT[check.violations[0].kind] ?? "검사에 걸려";
         log(round === maxFixes ? `${want.id}안은 끝까지 ${why} 뺐어요` : `${want.id}안: ${why} 고치는 중`, "fix");

@@ -1,5 +1,5 @@
 // 결과 화면 맨 위 요약: 몇 가지 일정을 만들었는지, 여행 조건(날짜·유형·이동·숙소) 알약, 안내(규칙 일정·후보 부족 등).
-import { Accessibility, Baby, BedDouble, CalendarDays, Car, CircleAlert, PersonStanding, Sparkles } from "lucide-react";
+import { Accessibility, Baby, BedDouble, CalendarDays, Car, CircleAlert, Info, PersonStanding, Sparkles } from "lucide-react";
 import type { ReactNode } from "react";
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
@@ -17,7 +17,7 @@ export function Summary({ trip }: { trip: TripView }) {
         <Sparkles size={16} aria-hidden="true" />
         {ai ? "AI 추천 일정" : "기본 일정"}
       </p>
-      <h1 className="mt-1 text-title font-bold">{ai ? `일정 ${trip.options.length}가지를 만들었어요` : "기본 일정을 만들었어요"}</h1>
+      <h1 className="mt-1 text-title font-bold">{!ai ? "기본 일정을 만들었어요" : trip.options.length > 1 ? `일정 ${trip.options.length}가지를 만들었어요` : "일정을 만들었어요"}</h1>
       <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="여행 조건">
         <Pill icon={<CalendarDays size={16} />}>
           {trip.input.startDate && trip.input.endDate ? formatRange(trip.input.startDate, trip.input.endDate) : ""} · {tripLabel(nights)}
@@ -31,6 +31,12 @@ export function Summary({ trip }: { trip: TripView }) {
         {trip.input.lodging && <Pill icon={<BedDouble size={16} />}>숙소 {lodgingText(trip.input.lodging, nights > 1 ? trip.input.lodging2 : "same")}</Pill>}
       </ul>
       {!ai && <Notice>AI 설계를 불러오지 못해 규칙으로 만든 일정이에요.</Notice>}
+      {ai && trip.oneOption && (
+        <p className="mt-3 flex items-start gap-2 rounded-xl bg-primary-soft px-4 py-3 text-base text-primary-ink">
+          <Info size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+          <span>{trip.oneOption}</span>
+        </p>
+      )}
       {trip.notes.map((n) => (
         <Notice key={n}>{n}</Notice>
       ))}

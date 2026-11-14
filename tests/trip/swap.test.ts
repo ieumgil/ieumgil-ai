@@ -42,6 +42,19 @@ describe("대체 후보 고르기", () => {
     expect(pickAlternatives(draft, pool, byId)).toEqual({ GN81: ["GN82", "GN83", "GN86"] });
   });
 
+  it("같은 후보가 모든 장소에 반복되지 않게, 이미 다른 장소에 먼저 보여 준 후보는 뒤로 미룬다", () => {
+    // 일정 장소 2곳이 같은 자리, 후보 4곳도 같은 자리(판단·거리 같음) → 앞 장소와 뒤 장소의 첫 후보가 달라야 한다
+    const stops = ["GN81", "GN82"].map((id) => makePlace(id, { lat: 37.77, lng: 128.89 }));
+    const cands = ["GN83", "GN84", "GN85", "GN86"].map((id) => makePlace(id, { lat: 37.7701, lng: 128.8901 }));
+    const byId = new Map([...stops, ...cands].map((p) => [p.id, p]));
+    const draft = { days: [{ date: "2026-11-21", stops: stops.map((p) => ({ placeId: p.id, stayMin: 40 })) }] };
+    const alt = pickAlternatives(draft, cands.map((place) => ({ place, verdict: "적합" as const })), byId);
+    expect(alt.GN81).toHaveLength(3);
+    expect(alt.GN82).toHaveLength(3);
+    expect(alt.GN82[0]).not.toBe(alt.GN81[0]);
+    expect(new Set([...alt.GN81, ...alt.GN82]).size).toBe(4); // 후보 4곳이 모두 어딘가에 나온다
+  });
+
   it("결과에는 장소마다 후보와, 다시 계산에 필요한 장소 정보·하루 틀이 실린다", async () => {
     const trip = await tripOf();
     const o = trip.options[0];

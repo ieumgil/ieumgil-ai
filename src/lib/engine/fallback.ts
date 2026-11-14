@@ -21,11 +21,15 @@ export interface RulePlan {
 }
 
 /** 날마다 몇 곳: 쓸 수 있는 시간 5시간 미만이면 반나절 */
-export function targetCount(availableMin: number, pace: PlanInput["pace"]): number {
+/** 하루 장소 수. limited(휠체어·보행 불편 어르신)면 '많이'도 하루 4곳까지(11/14) */
+export function targetCount(availableMin: number, pace: PlanInput["pace"], limited = false): number {
   const half = availableMin < 5 * 60;
-  const table = half ? { slow: 2, normal: 2, busy: 3 } : { slow: 3, normal: 4, busy: 5 };
+  const table = half ? { slow: 2, normal: 2, busy: 3 } : { slow: 3, normal: 4, busy: limited ? 4 : 5 };
   return table[pace];
 }
+
+/** 이동이 힘든 유형(휠체어·보행 불편 어르신)이 있는지 */
+export const mobilityLimited = (input: Pick<PlanInput, "travelers">) => input.travelers.some((t) => t === "wheelchair" || t === "elder");
 
 const midStay = (p: Place) => Math.round((p.stay_min + p.stay_max) / 2 / 5) * 5;
 
@@ -54,7 +58,7 @@ export function rulePlan(input: PlanInput, places: Place[], travel: TravelFn): R
   for (let di = 0; di < frames.length; di++) {
     const frame = frames[di];
     const available = frame.endMin - frame.startMin;
-    const want = targetCount(available, input.pace);
+    const want = targetCount(available, input.pace, mobilityLimited(input));
     // 확인 필요는 감점(-6), 그날 출발점에서 멀수록 감점(km/2): 멀리 떨어진 적합 1곳보다 가까운 곳들을 묶는다
     const near = (c: Candidate, from: Point) => c.score - c.tier * 6 - haversineKm(from, c.place) / 2;
     const pool = filter.candidates

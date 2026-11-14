@@ -81,6 +81,8 @@ export interface TripView {
   calls: number;
   ms: number;
   notes: string[];
+  /** 안을 하나만 만든 이유(2박 3일 등). 있으면 결과 위에 안내로 보여준다 */
+  oneOption?: string;
   options: OptionView[];
   places: Record<string, PlaceView>;
   judgments: Record<string, JudgmentView>;
@@ -198,6 +200,7 @@ export function toTripView(r: TripResult, input: PlanInput, places: Place[], evi
     calls: r.calls,
     ms: r.ms,
     notes: r.rule.notes.filter((n) => n.startsWith("꼭 가고 싶은 곳") || n.includes("숙소")),
+    ...(r.oneOption ? { oneOption: r.oneOption } : {}),
     options,
     places: placeViews,
     judgments,

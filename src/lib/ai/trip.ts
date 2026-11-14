@@ -27,7 +27,16 @@ export interface TripResult {
   usedFallback: boolean;
   calls: number;
   ms: number;
+  /** 안을 하나만 만든 이유(화면 안내). 2박 3일은 하루하루 꼼꼼하게 1안 */
+  oneOption?: string;
 }
+
+/** 이 일수부터는 안을 하나만 만든다(11/14 결정: 2박 3일은 비교보다 1안을 제대로 + 바꾸기) */
+export const SINGLE_OPTION_DAYS = 3;
+export const SINGLE_OPTION_NOTE = "2박 3일은 하루하루 꼼꼼하게 일정 1가지로 짰어요. 장소마다 [다른 곳으로 바꾸기]로 고칠 수 있어요.";
+
+/** AI에 넘길 후보 수: 당일·1박 20곳, 2박 3일 30곳(장소와 바꾸기 후보가 함께 넉넉하게) */
+export const llmCandidateMax = (days: number) => Math.min(30, Math.max(20, days * 10));
 
 /** 날마다 그날 출발점·도착점(숙소를 옮기는 날은 둘이 다르다)에서 가까운 후보를 고루 뽑아 최대 max곳 */
 const nearKm = (f: DayFrame, c: Candidate) => Math.min(haversineKm(f.start, c.place), haversineKm(f.end, c.place));
@@ -90,7 +99,7 @@ export async function makeTrip(
   const log = (text: string, tone: LogTone = "info") => onEvent({ stage: "log", text, tone });
   onEvent({ stage: "rule" });
   const rule = rulePlan(input, places, travel);
-  const llmCandidates = selectForLlm(rule.filter.candidates, rule.frames, 20);
+  const llmCandidates = selectForLlm(rule.filter.candidates, rule.frames, llmCandidateMax(rule.frames.length));
   const placesById = new Map(places.map((p) => [p.id, p]));
   let calls = 0;
   log(`조건에 맞는 곳 ${rule.filter.candidates.length}곳을 찾았어요${rule.filter.excluded.length ? ` (어려운 곳 ${rule.filter.excluded.length}곳 제외)` : ""}`, "ok");
@@ -113,7 +122,10 @@ export async function makeTrip(
   log(["적합", "주의", "확인 필요", "부적합"].filter((v) => counts.get(v)).map((v) => `${v} ${counts.get(v)}`).join(" · "), "ok");
 
   onEvent({ stage: "plan" });
-  const strategies = pickStrategies(input, llmCandidates, judge.judgments);
+  const single = rule.frames.length >= SINGLE_OPTION_DAYS;
+  // 2박 3일: 고른 밀도 그대로 + 좋아하는 곳 중심 1안(11/14 결정)
+  const strategies: Strategy[] = single ? [input.categories.length ? "취향" : "여유"] : pickStrategies(input, llmCandidates, judge.judgments);
+  if (single) log("2박 3일은 일정 1가지를 꼼꼼하게 짜요");
   const canRetry = () => left() > budget * SHARE.fix;
   const plan = await planOptions(
     until(deadline),
@@ -134,7 +146,8 @@ export async function makeTrip(
   const weak = reviews.filter((r) => Math.min(r.fatigue, r.slack, r.taste) <= 2 && plan.options.some((o) => o.id === r.optionId));
   if (weak.length && left() <= budget * SHARE.redo) log("시간이 부족해 점검 의견으로 다시 다듬는 건 건너뛰었어요", "fix");
   else if (weak.length) {
-    const hints = Object.fromEntries(weak.map((r) => [r.optionId, r.improve ?? r.comment]));
+    // 고른 일정 밀도보다 장소를 줄이지 않게(빡빡하면 순서·체류·쉬는 곳으로 풀게)
+    const hints = Object.fromEntries(weak.map((r) => [r.optionId, `${r.improve ?? r.comment} (장소 수는 일정 밀도에 맞게 유지하고, 순서·머무는 시간·쉬는 곳으로 조정)`]));
     const ids = weak.map((r) => r.optionId);
     const strategies2 = ids.map((id) => plan.options.find((o) => o.id === id)!.strategy as Strategy);
     log(`${ids.join("·")}안을 점검 의견대로 한 번 더 다듬어요`, "fix");
@@ -158,5 +171,16 @@ export async function makeTrip(
   }
 
   const options = plan.options.length ? plan.options : [ruleOption(rule)];
-  return { rule, llmCandidates, judge, plan, reviews, options, usedFallback: plan.options.length === 0, calls, ms: Date.now() - t0 };
+  return {
+    rule,
+    llmCandidates,
+    judge,
+    plan,
+    reviews,
+    options,
+    usedFallback: plan.options.length === 0,
+    calls,
+    ms: Date.now() - t0,
+    oneOption: single && plan.options.length ? SINGLE_OPTION_NOTE : undefined,
+  };
 }

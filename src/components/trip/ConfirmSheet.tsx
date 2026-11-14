@@ -8,7 +8,8 @@ import { callPlaces, questionsByPlace } from "@/lib/trip/questions";
 import { confirmOption } from "@/lib/trip/store";
 import type { OptionView, TripView } from "@/lib/trip/view";
 
-export function ConfirmButton({ confirmed, onConfirm, optionId, finalHref }: { confirmed: boolean; onConfirm: () => void; optionId: string; finalHref: string }) {
+/** single: 안이 하나뿐이면 'A안' 대신 '이 일정' */
+export function ConfirmButton({ confirmed, onConfirm, optionId, single = false, finalHref }: { confirmed: boolean; onConfirm: () => void; optionId: string; single?: boolean; finalHref: string }) {
   return confirmed ? (
     <ButtonLink href={finalHref} variant="outline" className="w-full">
       <MapIcon aria-hidden="true" />
@@ -17,7 +18,7 @@ export function ConfirmButton({ confirmed, onConfirm, optionId, finalHref }: { c
   ) : (
     <Button className="w-full" onClick={onConfirm}>
       <CircleCheck aria-hidden="true" />
-      {optionId === "R" ? "이 일정으로 정하기" : `${optionId}안 일정으로 정하기`}
+      {optionId === "R" || single ? "이 일정으로 정하기" : `${optionId}안 일정으로 정하기`}
     </Button>
   );
 }

@@ -126,7 +126,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
           <Summary trip={trip} />
           {trip.options.length > 1 && <OptionPicker trip={trip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
           <div className="mt-4 hidden lg:block">
-            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} finalHref={finalHref} />
+            <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} single={trip.options.length === 1} finalHref={finalHref} />
           </div>
         </aside>
 
@@ -163,7 +163,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
       {/* 모바일: 아래 고정 확정 버튼 */}
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-white/95 px-5 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <div className="mx-auto max-w-[30rem]">
-          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} finalHref={finalHref} />
+          <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} single={trip.options.length === 1} finalHref={finalHref} />
         </div>
       </div>
 

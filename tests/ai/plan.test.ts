@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import { ruleJudgment, type Judgment } from "@/lib/ai/guards";
 import { planOptions, type PlanArgs } from "@/lib/ai/plan";
-import { makeTrip } from "@/lib/ai/trip";
+import { llmCandidateMax, makeTrip } from "@/lib/ai/trip";
 import { filterCandidates } from "@/lib/engine/filter";
 import { buildFrames } from "@/lib/engine/frames";
 import { timelineOptions } from "@/lib/engine/timeline";
@@ -109,5 +109,38 @@ describe("시간 한도", () => {
     expect(Date.now() - t0).toBeLessThan(1_500);
     expect(r.usedFallback).toBe(true);
     expect(r.options[0].source).toBe("rule");
+  });
+});
+
+describe("2박 3일은 1안(11/14)", () => {
+  it("안을 하나만(좋아하는 곳 중심) 요청하고, 화면에 이유를 남긴다", async () => {
+    const inp3 = input({ travelers: ["wheelchair"], endDate: "2026-11-23", lodging: "강릉" });
+    const planInputs: string[] = [];
+    // 가짜 LLM: 요청 스키마로 판단·계획·평가를 구분해 형식에 맞는 답을 준다
+    const transport: LlmTransport = async ({ input: i, schema }) => {
+      const props = (schema as { properties: Record<string, { items: { properties: Record<string, { enum?: string[]; items?: { properties: Record<string, { enum?: string[] }> } }> } }> }).properties;
+      if (props.judgments) {
+        const ids = props.judgments.items.properties.placeId.enum!;
+        return JSON.stringify({ judgments: ids.map((placeId) => ({ placeId, verdict: "적합", reasons: ["이유"], evidence: [] })) });
+      }
+      if (props.options) {
+        planInputs.push(i);
+        const dates = props.options.items.properties.days.items!.properties.date.enum!;
+        return JSON.stringify({ options: [{ id: "A", title: "시험", summary: "요약", days: dates.map((date) => ({ date, stops: [] })), cautions: [], checkBeforeGo: [] }] });
+      }
+      return JSON.stringify({ reviews: [{ optionId: "A", fatigue: 4, slack: 4, taste: 4, comment: "좋아요" }] });
+    };
+    const r = await makeTrip(createLlm({ transport, sleep: async () => {} }), inp3, places, {}, estimateLeg);
+    expect(planInputs).toHaveLength(1);
+    expect(planInputs[0]).toContain("- A안: 좋아하는 곳 중심");
+    expect(planInputs[0]).not.toContain("- B안");
+    expect(r.options).toHaveLength(1);
+    expect(r.oneOption).toContain("2박 3일");
+  });
+
+  it("AI에 넘기는 후보는 2박 3일이면 30곳, 그보다 짧으면 20곳까지", () => {
+    expect(llmCandidateMax(1)).toBe(20);
+    expect(llmCandidateMax(2)).toBe(20);
+    expect(llmCandidateMax(3)).toBe(30);
   });
 });
