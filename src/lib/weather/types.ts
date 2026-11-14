@@ -37,6 +37,8 @@ export interface WeatherPayload {
   today: string; // 서버가 본 한국 날짜 YYYY-MM-DD
   asOf: { short?: ShortBase; mid?: string /* YYYYMMDDHHMM */ };
   regions: Partial<Record<Region, Record<string, DayForecast>>>;
+  /** 서버가 붙인다: 세 시의 단기와 중기 호출이 모두 성공(또는 데이터 없음)이면 true. 라우트가 CDN 캐시 시간을 정하는 데만 쓰고 화면은 읽지 않는다 */
+  complete?: boolean;
 }
 
 export type WeatherResponse = WeatherPayload | { available: false };

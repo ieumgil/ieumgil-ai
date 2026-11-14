@@ -1,5 +1,5 @@
 // 날씨 묶음 만들기(서버 전용). 3개 시의 단기예보 + 중기예보(육상·기온)를 불러 날짜별 하루 값 표로 정리한다.
-// D-04: 저장하지 않는다. 서버에서만 짧게 캐시한다('use cache' + cacheLife, 1시간 안쪽).
+// D-04: 저장하지 않는다. 서버에서만 짧게 캐시한다('use cache' + cacheLife: 15분 뒤 다시 확인, 30분 뒤 만료 — CDN 15분+5분과 합쳐도 1시간 안쪽).
 //   캐시 키 = 함수 인자(격자·지역코드 + 발표 시각)라서 새 발표가 나오면 키가 바뀌어 따로 지울 필요가 없다.
 //   실패는 throw 그대로 둔다(null을 돌려주면 실패가 캐시에 굳는다). 데이터 없음(03)만 예외 — 아래 주석.
 // 'use cache' 안에서는 요청 정보(cookies·headers 등)를 읽지 않는다 — 시각은 라우트가 구해 인자로 내려 준다.
@@ -41,7 +41,7 @@ async function shortCached(nx: number, ny: number, baseDate: string, baseTime: s
   "use cache";
   try {
     const items = await fetchShort(nx, ny, { baseDate, baseTime });
-    cacheLife({ stale: 300, revalidate: 1800, expire: 3600 });
+    cacheLife({ stale: 300, revalidate: 900, expire: 1800 });
     return items;
   } catch (e) {
     // 운영 서버에서는 'use cache' 밖으로 나온 오류가 한 번 감싸여 코드를 읽을 수 없다 → '데이터 없음'만은 값(빈 배열)으로 내보낸다.
@@ -59,7 +59,7 @@ async function midLandCached(regId: string, tmFc: string): Promise<MidItem | nul
   "use cache";
   try {
     const item = await fetchMidLand(regId, tmFc);
-    cacheLife({ stale: 300, revalidate: 1800, expire: 3600 });
+    cacheLife({ stale: 300, revalidate: 900, expire: 1800 });
     return item;
   } catch (e) {
     if (errorCode(e) === NO_DATA) {
@@ -74,7 +74,7 @@ async function midTaCached(regId: string, tmFc: string): Promise<MidItem | null>
   "use cache";
   try {
     const item = await fetchMidTa(regId, tmFc);
-    cacheLife({ stale: 300, revalidate: 1800, expire: 3600 });
+    cacheLife({ stale: 300, revalidate: 900, expire: 1800 });
     return item;
   } catch (e) {
     if (errorCode(e) === NO_DATA) {
@@ -165,5 +165,9 @@ export async function buildWeatherPayload(now: Date, deps: WeatherDeps): Promise
   const asOf: { short?: ShortBase; mid?: string } = {};
   if (latest) asOf.short = latest;
   if (land) asOf.mid = land.tmFc;
-  return { available: true, today, asOf, regions };
+  // complete: 세 시의 단기와 중기(육상·기온) 호출이 모두 성공했거나 '데이터 없음(03)'이 확정된 경우뿐이다.
+  // 그 밖의 실패(시간 초과·한도·키 오류)가 하나라도 있으면 false → 라우트가 CDN에 짧게만 맡겨, 일시 오류로 빠진 구간이 오래 굳지 않게 한다(WR-02).
+  const settledOk = (res: PromiseSettledResult<unknown>) => res.status === "fulfilled" || errorCode(res.reason) === NO_DATA;
+  const complete = shortResults.every(settledOk) && settledOk(landResult) && taResults.every(settledOk);
+  return { available: true, today, asOf, regions, complete };
 }
