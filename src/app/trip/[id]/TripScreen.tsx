@@ -27,7 +27,7 @@ import { SwapSheet } from "@/components/trip/SwapSheet";
 import { ButtonLink } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { euro } from "@/lib/text/particle";
-import { swapPlace } from "@/lib/trip/edit";
+import { isEdited, moveStop, removeStop, swapPlace } from "@/lib/trip/edit";
 import { tripHref, useTripFor } from "@/lib/trip/example";
 import { useRealTravel } from "@/lib/trip/real-travel";
 import { dayMapLabel, dayMapPoints, dayStopDetails, showStopInList } from "@/lib/trip/map-points";
@@ -117,6 +117,23 @@ function TripResult({ trip: base }: { trip: TripView }) {
     setNotice(`${trip.places[fromId].name} 대신 ${euro(trip.places[toId].name)} 바꿨어요. 시각을 다시 계산했어요.`);
     return null;
   };
+  // 순서 바꾸기·빼기(같은 날 안에서, AI 호출 없음)
+  const editor = {
+    move: (placeId: string, dir: -1 | 1) => {
+      const r = moveStop(base, option, placeId, dir);
+      if (!r.ok) return r.reason;
+      saveEditedOption(base, r.option);
+      return null;
+    },
+    remove: (placeId: string) => {
+      const r = removeStop(base, option, placeId);
+      if (!r.ok) return r.reason;
+      saveEditedOption(base, r.option);
+      return null;
+    },
+    reset: () => saveEditedOption(base, base.options.find((o) => o.id === option.id) ?? option),
+    edited: isEdited(base, option),
+  };
   const isConfirmed = confirmedId === option.id;
   const detailRef = useRef<HTMLElement>(null);
   const pick = (id: string) => {
@@ -175,7 +192,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
               </p>
             )}
           </div>
-          <OptionDetail o={shown} trip={trip} onSwap={setSwapFor} onMap={showOnMap} day={day} onDay={setDayIndex} map={wide ? null : map} />
+          <OptionDetail o={shown} trip={trip} onSwap={setSwapFor} onMap={showOnMap} day={day} onDay={setDayIndex} map={wide ? null : map} editor={editor} />
           <HardPlaces trip={trip} />
           <Footnotes trip={trip} estimated={shown.days.some((d) => d.estimated)} />
         </section>

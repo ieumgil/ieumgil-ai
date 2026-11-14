@@ -189,3 +189,29 @@ test("이번 조건으로 가기 어려운 곳: 이유(✕)와 대신 갈 만한
   await expect(item).toContainText("대신 갈 만한 곳: 경포해수욕장");
   await expect(item.getByRole("button", { name: /바꾸기|넣기|추가/ })).toHaveCount(0); // 정보만(사진 크게 보기만 누를 수 있음)
 });
+
+test("[순서 고치기]로 위·아래로 옮기고 빼면 시각을 다시 계산하고, [처음 일정으로] 되돌린다", async ({ page }) => {
+  const names = async () => (await page.locator("article:visible h3").allTextContents()).map((t) => t.replace(/^\d+번째 장소: /, "").trim());
+  await expect(page.locator("article:visible").first()).toBeVisible();
+  const before = await names();
+  await page.getByRole("button", { name: "순서 고치기" }).first().click();
+  const panel = page.getByRole("region", { name: /1일째 순서 고치기/ });
+  await expect(panel).toBeVisible();
+  // 첫 장소는 위로 옮길 수 없다
+  await expect(panel.getByRole("button", { name: `${before[0]} 위로 옮기기` })).toBeDisabled();
+  await panel.getByRole("button", { name: `${before[0]} 아래로 옮기기` }).click();
+  await expect(panel).toContainText("시각을 다시 계산했어요");
+  await expect.poll(names).toEqual([before[1], before[0], ...before.slice(2)]);
+  // 누를 수 있는 것은 44px 이상
+  for (const b of await panel.getByRole("button").all()) expect((await b.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await panel.getByRole("button", { name: `${before[0]} 일정에서 빼기` }).click();
+  await expect.poll(names).not.toContain(before[0]);
+  // 새로고침해도 고친 일정이 남는다(이 탭에만)
+  await page.reload();
+  await expect.poll(names).not.toContain(before[0]);
+  await page.getByRole("button", { name: "순서 고치기" }).first().click();
+  await page.getByRole("button", { name: "처음 일정으로" }).click();
+  await expect.poll(names).toEqual(before);
+  await page.getByRole("button", { name: "다 고쳤어요" }).click();
+  await expect(page.getByRole("region", { name: /순서 고치기/ })).toHaveCount(0);
+});

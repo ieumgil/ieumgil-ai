@@ -4,6 +4,7 @@
 // 확정한 안·바꾼 장소·전화 결과는 일정마다 칸을 나눈다: 사용자가 만든 일정은 기본 칸, 예시 루트(/trip/example)는 ":example" 칸.
 // 그래서 예시를 둘러보며 장소를 바꾸거나 확정해도 사용자가 만든 일정 기록은 그대로다.
 import { useSyncExternalStore } from "react";
+import { isEdited } from "./edit";
 import { TRIP_VIEW_VERSION, type OptionView, type TripView } from "./view";
 
 const KEY = "ieumgil-trip";
@@ -119,12 +120,12 @@ function editsOf(raw: string | null): Edits | null {
   return value;
 }
 
-/** 바꾼 안을 저장한다. 바꾼 곳이 하나도 없으면(모두 되돌림) 지운다 */
+/** 고친 안(바꾸기·순서·빼기)을 저장한다. 처음 일정과 같아지면(모두 되돌림) 지운다 */
 export function saveEditedOption(trip: TripView, option: OptionView) {
   const key = keyFor(EDIT_KEY, trip);
   const cur = editsOf(readRaw(key));
   const options = { ...(cur?.createdAt === trip.createdAt ? cur.options : {}) };
-  if (option.swapped && Object.keys(option.swapped).length > 0) options[option.id] = option;
+  if (isEdited(trip, option)) options[option.id] = option;
   else delete options[option.id];
   writeRaw(key, JSON.stringify({ createdAt: trip.createdAt, options } satisfies Edits));
 }
