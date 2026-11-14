@@ -189,12 +189,62 @@ async function cover(b: Browser) {
   console.log("✓ cover");
 }
 
+/** 공유·인쇄: 공유 창(19) → 받은 사람 화면(20, 실제 Supabase에 저장된 링크) · 인쇄용 일정표(21).
+ *  공유 링크는 .env.local에 SUPABASE_URL·SUPABASE_SERVICE_ROLE_KEY가 있어야 만들어진다(없으면 19·20은 건너뜀). */
+async function shareShots(b: Browser) {
+  const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, locale: "ko-KR", timezoneId: "Asia/Seoul", reducedMotion: "reduce" });
+  await ctx.addInitScript(([t, c]) => { sessionStorage.setItem("ieumgil-trip", t); sessionStorage.setItem("ieumgil-trip-confirmed", c); }, [trip, confirmed]);
+  const page = await ctx.newPage();
+  await page.goto(BASE + "/trip/new/final", { waitUntil: "networkidle" });
+  await page.addStyleTag({ content: 'nextjs-portal,button[aria-label="맨 위로"]{display:none!important}' });
+  await waitMap(page);
+
+  // 21: 인쇄·PDF(A4 일정표) — 인쇄 모드로 A4 너비에서
+  await page.setViewportSize({ width: 794, height: 1123 });
+  await page.emulateMedia({ media: "print" });
+  await page.addStyleTag({ content: ".print-sheet{padding:40px 44px!important;background:#fff}" }); // 종이 여백처럼
+  await page.waitForTimeout(300);
+  await page.locator(".print-sheet").screenshot({ path: `${OUT}/21-print.png` });
+  console.log("✓ 21-print");
+  await page.emulateMedia({ media: "screen" });
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  await page.getByRole("button", { name: "공유 링크 만들기" }).click();
+  const box = page.getByRole("textbox", { name: "공유 주소" });
+  const ok = await box.waitFor({ timeout: 15_000 }).then(() => true, () => false);
+  if (!ok) {
+    console.log("… 공유 링크를 만들지 못해 19·20은 건너뜀(Supabase 키 확인)");
+    await ctx.close();
+    return;
+  }
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: `${OUT}/19-share.png` });
+  console.log("✓ 19-share");
+  const url = await box.inputValue();
+  await ctx.close();
+
+  // 20: 받은 사람(이 탭 기록 없음)이 링크를 열었을 때
+  const other = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, locale: "ko-KR", timezoneId: "Asia/Seoul", reducedMotion: "reduce" });
+  const p2 = await other.newPage();
+  await p2.goto(url, { waitUntil: "networkidle" });
+  await p2.addStyleTag({ content: 'nextjs-portal,button[aria-label="맨 위로"]{display:none!important}' });
+  await waitMap(p2);
+  await p2.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 15_000 }).catch(() => {});
+  await p2.screenshot({ path: `${OUT}/20-shared.png` });
+  console.log("✓ 20-shared");
+  await other.close();
+}
+
 async function main() {
   const res = await fetch(BASE).catch(() => null);
   if (!res?.ok) throw new Error(`${BASE}에 개발 서버가 없어요. 먼저 npm run dev`);
   const b = await chromium.launch();
-  for (const s of SHOTS) await capture(b, s);
-  await cover(b);
+  const only = process.argv[2]; // 예: share → 공유·인쇄만
+  if (only !== "share") {
+    for (const s of SHOTS) await capture(b, s);
+    await cover(b);
+  }
+  await shareShots(b);
   await b.close();
 }
 

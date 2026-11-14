@@ -35,7 +35,7 @@
 Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(표시) · 카카오모빌리티
 다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini(기본 `gemini-3.5-flash-lite`, 먼저) + OpenAI(`gpt-6-luna`, 503·429·30초 넘게 늦으면 같은 요청을 보내 먼저 온 답, 11/14) — 읽기·판단·계획·풀어주기, JSON 응답
 · 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · Vercel.
-공유 링크·Supabase(`trips`)는 나중에(메인 기능 먼저, `docs/impl-plan.md`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
+공유 링크는 Supabase(`trips`, 서버 키로 REST, RLS, 11/14 구현) · 인쇄는 A4 한 장 일정표(`components/trip/PrintSheet.tsx`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
 글꼴 Pretendard.
 
 ## 폴더 구조 (지금 · 11/14 정리)

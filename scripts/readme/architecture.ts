@@ -72,15 +72,17 @@ svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-eve
         <h4>화면</h4>
         ${item("ListChecks", "입력 4단계", "언제·어디서 / 누구와 / 꼭 필요한 조건 / 좋아하는 곳")}
         ${item("LayoutGrid", "일정 비교 · 상세", "안 2~3개, 날짜별 카드, 지도, 관광지 사진")}
-        ${item("Phone", "바꾸기 · 확정 · 전화 확인", "장소 바꾸기는 AI 없이 코드가 다시 계산")}
+        ${item("Phone", "바꾸기 · 순서 고치기 · 확정 · 전화 확인", "AI 없이 코드가 그 자리에서 다시 계산")}
+        ${item("Share2", "공유 링크 · A4 인쇄", "함께 가는 사람이 로그인 없이 읽기 전용으로")}
       </div>
       <div style="height:64px"></div>
       <div class="panel" id="back">
         <h4>서버 API</h4>
         ${item("Sparkles", '<span class="mono">POST /api/plan</span>', "일정 만들기 · 진행 상황 실시간 전송")}
-        ${item("Route", '<span class="mono">POST /api/route-line</span>', "지도 경로선 · 결과 저장 안 함")}
+        ${item("Route", '<span class="mono">POST /api/legs · route-line</span>', "실제 이동시간 · 경로선 · 결과 저장 안 함")}
+        ${item("Link", '<span class="mono">POST /api/trips · /s/[id]</span>', "공유할 일정 검사·저장 · 열 때 다시 계산")}
       </div>
-      <p class="note">일정·확정 기록은 이 브라우저 탭에만 보관<br>서버 저장 없음 · 이름·연락처 받지 않음</p>
+      <p class="note">일정·확정 기록은 이 브라우저 탭에만 보관<br>공유할 때만 고른 일정을 저장 · 이름·연락처 받지 않음</p>
     </div>
   </div>
 
@@ -101,9 +103,10 @@ svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-eve
 
   <div class="col side" style="width:440px">
     <div class="box" id="gemini">
-      <h3><span class="badge" style="background:#EAF2FD">${icon("BrainCircuit", 26, "#1E6FD0")}</span>Google Gemini API</h3>
+      <h3><span class="badge" style="background:#EAF2FD">${icon("BrainCircuit", 26, "#1E6FD0")}</span>Gemini → OpenAI</h3>
       <div class="list">
         <div><b>gemini-3.5-flash-lite</b>장소 판단 · 일정 · 평가 (요청할 때)</div>
+        <div><b>gpt-6-luna</b>Gemini가 붐비거나 30초 넘게 늦으면 같은 요청 → 먼저 온 답</div>
         <div><b>JSON 스키마로만 답받기</b>코드가 다시 검사 · 형식이 틀리면 1번 다시</div>
       </div>
     </div>
@@ -115,11 +118,18 @@ svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-eve
         <div><b>관광지 사진</b>공공누리 사진 135곳 · 출처 표시</div>
       </div>
     </div>
+    <div class="box" id="supabase">
+      <h3><span class="badge" style="background:#E6F8EF">${icon("Link", 24, "#1B7F4E")}</span>Supabase · 공유 링크</h3>
+      <div class="list">
+        <div><b>고른 일정만 저장</b>장소·순서·머무는 시간·이유 · 이동시간·이름은 저장 안 함</div>
+        <div><b>서버만 접근 · 자동 삭제</b>브라우저 키 차단(RLS) · 여행 끝 + 7일</div>
+      </div>
+    </div>
     <div class="box" id="kakao">
       <h3><span class="badge" style="background:#FFF4E5">${icon("Map", 24, "#7A4A00")}</span>카카오</h3>
       <div class="list">
         <div><b>카카오맵 JS</b>지도 · 장소 번호 표시</div>
-        <div><b>카카오모빌리티 길찾기</b>일반 차량 경로선 · 열 때마다 받고 저장 안 함</div>
+        <div><b>카카오모빌리티 길찾기</b>실제 이동시간 · 일반 차량 경로선 · 열 때마다 받고 저장 안 함</div>
       </div>
     </div>
   </div>
