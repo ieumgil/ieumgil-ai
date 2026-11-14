@@ -15,6 +15,8 @@ export interface RouteLine {
   path: [number, number][];
   km: number;
   minutes: number;
+  /** 구간(출발 → 1, 1 → 2, …, 마지막 → 도착)마다 경로·거리·시간(지도에 구간 화살표·시간 표시) */
+  sections: { path: [number, number][]; km: number; minutes: number }[];
 }
 
 const WAYPOINTS_URL = "https://apis-navi.kakaomobility.com/v1/waypoints/directions";
@@ -59,13 +61,14 @@ async function kakaoRoute(points: LatLng[], timeoutMs: number): Promise<KakaoRou
 export async function routeLine(points: LatLng[], { timeoutMs = 8_000 }: { timeoutMs?: number } = {}): Promise<RouteLine | null> {
   const route = await kakaoRoute(points, timeoutMs);
   if (!route?.summary) return null;
-  const path: [number, number][] = [];
-  for (const s of route.sections ?? []) {
+  const sections = (route.sections ?? []).map((s) => {
+    const path: [number, number][] = [];
     for (const r of s.roads ?? []) {
       for (let i = 0; i + 1 < r.vertexes.length; i += 2) path.push([r.vertexes[i + 1], r.vertexes[i]]);
     }
-  }
-  return { path, km: Math.round(route.summary.distance / 100) / 10, minutes: Math.round(route.summary.duration / 60) };
+    return { path, km: Math.round((s.distance ?? 0) / 100) / 10, minutes: Math.round((s.duration ?? 0) / 60) };
+  });
+  return { path: sections.flatMap((s) => s.path), km: Math.round(route.summary.distance / 100) / 10, minutes: Math.round(route.summary.duration / 60), sections };
 }
 
 /**

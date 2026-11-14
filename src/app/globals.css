@@ -105,7 +105,8 @@
     scroll-behavior: auto !important;
   }
   /* 안 고른 칸 표시는 움직임이 아니라 색 변화라 그대로 둔다(바로 사라지면 알아챌 수 없음) */
-  [data-attention] {
+  [data-attention],
+  [data-flash] {
     animation-duration: 1.6s !important;
   }
 }
@@ -242,6 +243,22 @@ label:has(input[type="checkbox"]) {
   65% {
     background-color: var(--color-blocked-bg);
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-blocked-ink) 30%, transparent);
+  }
+}
+
+/* 지도 카드의 '일정에서 보기'로 온 장소: 옅은 파란 테두리가 잠깐 나타났다 사라진다 */
+[data-flash] {
+  border-radius: 1rem;
+  animation: flash 1.6s ease-out;
+}
+@keyframes flash {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  12%,
+  65% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 55%, transparent);
   }
 }
 

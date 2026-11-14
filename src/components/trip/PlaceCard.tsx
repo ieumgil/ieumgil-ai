@@ -8,6 +8,7 @@ import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { toHHMM } from "@/lib/engine/types";
 import { UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
+import { stopAnchor } from "@/lib/trip/map-points";
 import { questionsByPlace } from "@/lib/trip/questions";
 import type { ItemView, OptionView, TripView } from "@/lib/trip/view";
 
@@ -19,6 +20,7 @@ export function PlaceCard({
   common,
   delay,
   onSwap,
+  onMap,
 }: {
   it: Extract<ItemView, { kind: "visit" }>;
   no: number;
@@ -27,6 +29,8 @@ export function PlaceCard({
   common: Set<string>;
   delay: number;
   onSwap: (placeId: string) => void;
+  /** 번호를 누르면 지도에서 이 장소를 보여준다(없으면 번호는 그냥 표시) */
+  onMap?: (placeId: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const p = trip.places[it.placeId];
@@ -40,10 +44,24 @@ export function PlaceCard({
   const replacedId = o.swapped?.[it.placeId];
   return (
     <li className="relative flex animate-rise gap-3 py-2" style={{ animationDelay: `${Math.min(delay, 8) * 50}ms` }}>
-      <span className="z-10 mt-3 flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white ring-4 ring-white" aria-hidden="true">
-        {no}
-      </span>
-      <article className="min-w-0 flex-1 rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgb(25_31_40/0.08),0_4px_16px_rgb(25_31_40/0.06)] ring-1 ring-line">
+      {onMap ? (
+        <button
+          type="button"
+          onClick={() => onMap(it.placeId)}
+          aria-label={`지도에서 ${no}번 ${p.name} 보기`}
+          title="지도에서 보기"
+          className="group/no z-10 -m-1.5 flex size-touch shrink-0 items-start justify-center pt-1.5 focus-visible:outline-none"
+        >
+          <span className="flex size-8 items-center justify-center rounded-full bg-primary text-base font-bold text-white ring-4 ring-white transition-transform group-hover/no:scale-110 group-focus-visible/no:outline-3 group-focus-visible/no:outline-offset-2 group-focus-visible/no:outline-primary">
+            {no}
+          </span>
+        </button>
+      ) : (
+        <span className="z-10 mt-3 flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white ring-4 ring-white" aria-hidden="true">
+          {no}
+        </span>
+      )}
+      <article id={stopAnchor(it.placeId)} className="min-w-0 flex-1 rounded-2xl bg-white p-4 shadow-[0_1px_3px_rgb(25_31_40/0.08),0_4px_16px_rgb(25_31_40/0.06)] ring-1 ring-line">
         <div className="flex gap-3">
           <PlacePhoto id={it.placeId} name={p.name} category={p.category} />
           <div className="min-w-0 flex-1">

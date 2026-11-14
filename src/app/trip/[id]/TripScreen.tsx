@@ -12,7 +12,7 @@
 // 지도 경로선은 열 때마다 받고 저장하지 않는다(일반 차량 경로).
 import { CircleCheck, X } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { ConfirmButton, ConfirmSheet } from "@/components/trip/ConfirmSheet";
@@ -28,7 +28,7 @@ import { euro } from "@/lib/text/particle";
 import { swapPlace } from "@/lib/trip/edit";
 import { tripHref, useTripFor } from "@/lib/trip/example";
 import { useRealTravel } from "@/lib/trip/real-travel";
-import { dayMapLabel, dayMapPoints } from "@/lib/trip/map-points";
+import { dayMapLabel, dayMapPoints, dayStopDetails, showStopInList } from "@/lib/trip/map-points";
 import { confirmOption, isExampleTrip, saveEditedOption, useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
 import type { TripView } from "@/lib/trip/view";
 import { useMedia, WIDE } from "@/lib/use-media";
@@ -83,9 +83,29 @@ function TripResult({ trip: base }: { trip: TripView }) {
   const [dayIndex, setDayIndex] = useState(0);
   const day = Math.min(dayIndex, option.days.length - 1);
   const wide = useMedia(WIDE);
-  // 안·날짜·장소가 바뀔 때만 새 배열 → 그때만 지도를 다시 그린다
-  const points = useMemo(() => dayMapPoints(base, option, day), [base, option, day]);
-  const map = <TripMap points={points} label={dayMapLabel(base, option, day)} className={wide ? "h-[calc(100dvh-7rem)] max-h-[56rem] min-h-[28rem]" : "h-56 md:h-80"} />;
+  // 지도는 점의 내용(장소·순서·좌표)이 바뀔 때만 다시 그린다
+  const points = dayMapPoints(base, option, day);
+  const [focus, setFocus] = useState<{ id: string; n: number } | null>(null);
+  const mapBox = useRef<HTMLDivElement>(null);
+  // 일정 카드의 번호 → 지도로(휴대폰은 지도까지 올라가서) 그 장소 카드를 연다
+  const showOnMap = (placeId: string) => {
+    const d = shown.days.findIndex((x) => x.items.some((it) => it.kind === "visit" && it.placeId === placeId));
+    if (d >= 0 && d !== day) setDayIndex(d);
+    setFocus((f) => ({ id: placeId, n: (f?.n ?? 0) + 1 }));
+    if (!wide) mapBox.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+  };
+  const map = (
+    <div ref={mapBox}>
+      <TripMap
+        points={points}
+        label={dayMapLabel(base, option, day)}
+        details={dayStopDetails(trip, shown, day)}
+        onPick={showStopInList}
+        focus={focus}
+        className={wide ? "h-[calc(100dvh-7rem)] max-h-[56rem] min-h-[28rem]" : "h-64 md:h-80"}
+      />
+    </div>
+  );
 
   const swap = (fromId: string, toId: string): string | null => {
     const r = swapPlace(base, option, fromId, toId);
@@ -153,7 +173,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
               </p>
             )}
           </div>
-          <OptionDetail o={shown} trip={trip} onSwap={setSwapFor} day={day} onDay={setDayIndex} map={wide ? null : map} />
+          <OptionDetail o={shown} trip={trip} onSwap={setSwapFor} onMap={showOnMap} day={day} onDay={setDayIndex} map={wide ? null : map} />
           <Footnotes trip={trip} estimated={shown.days.some((d) => d.estimated)} />
         </section>
 

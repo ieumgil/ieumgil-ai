@@ -37,7 +37,9 @@ describe("routeLine(카카오 다중 경유지)", () => {
     );
     vi.stubGlobal("fetch", fetchMock);
     const r = await routeLine([station, ojuk, station]);
-    expect(r).toEqual({ path: [[37.76, 128.9], [37.78, 128.88]], km: 12.2, minutes: 24 });
+    expect(r).toMatchObject({ path: [[37.76, 128.9], [37.78, 128.88]], km: 12.2, minutes: 24 });
+    expect(r?.sections).toHaveLength(1);
+    expect(r?.sections[0].path).toEqual([[37.76, 128.9], [37.78, 128.88]]);
     const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     const body = JSON.parse(init.body as string);
     expect(body.origin).toEqual({ x: "128.8996", y: "37.7646" });

@@ -16,7 +16,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDay, formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { tripHref, useTripFor } from "@/lib/trip/example";
 import { useRealTravel } from "@/lib/trip/real-travel";
-import { dayMapLabel, dayMapPoints } from "@/lib/trip/map-points";
+import { dayMapLabel, dayMapPoints, dayStopDetails, showStopInList } from "@/lib/trip/map-points";
 import { callPlaces } from "@/lib/trip/questions";
 import { useConfirmedOption, useEditedOptions } from "@/lib/trip/store";
 import type { OptionView, TripView } from "@/lib/trip/view";
@@ -101,7 +101,14 @@ function FinalOption({ trip, o: kept }: { trip: TripView; o: OptionView }) {
 
       <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-8 lg:px-5 xl:grid-cols-[minmax(0,1fr)_30rem]">
         <div className="px-5 lg:sticky lg:top-4 lg:self-start lg:px-0 print:hidden">
-          <TripMap key={dayIndex} points={points} label={mapLabel} className="h-72 md:h-96 lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]" />
+          <TripMap
+            key={dayIndex}
+            points={points}
+            label={mapLabel}
+            details={dayStopDetails(trip, o, dayIndex)}
+            onPick={showStopInList}
+            className="h-72 md:h-96 lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]"
+          />
         </div>
 
         <div className="px-5 lg:px-0">

@@ -4,7 +4,7 @@ import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { toHHMM } from "@/lib/engine/types";
 import { VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
-import { visitsOf } from "@/lib/trip/map-points";
+import { stopAnchor, visitsOf } from "@/lib/trip/map-points";
 import type { DayView, TripView } from "@/lib/trip/view";
 
 export function DayList({ d, trip, calls }: { d: DayView; trip: TripView; calls: Set<string> }) {
@@ -45,7 +45,7 @@ export function DayList({ d, trip, calls }: { d: DayView; trip: TripView; calls:
         const p = trip.places[it.placeId];
         const j = trip.judgments[it.placeId];
         return (
-          <li key={i} className="flex gap-3 rounded-2xl bg-white p-3 ring-1 ring-line">
+          <li key={i} id={stopAnchor(it.placeId)} className="flex gap-3 rounded-2xl bg-white p-3 ring-1 ring-line">
             <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white" aria-hidden="true">
               {numberOf.get(it.placeId)}
             </span>

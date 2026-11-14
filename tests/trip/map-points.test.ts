@@ -2,7 +2,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { dayMapLabel, dayMapPoints, visitsOf } from "@/lib/trip/map-points";
+import { dayMapLabel, dayMapPoints, dayStopDetails, visitsOf } from "@/lib/trip/map-points";
 import type { TripView } from "@/lib/trip/view";
 
 const trip = JSON.parse(readFileSync(resolve(__dirname, "../e2e/fixtures/trip-view.json"), "utf8")) as TripView;
@@ -30,5 +30,21 @@ describe("하루 지도 점", () => {
   it("없는 날짜를 물으면 첫날로", () => {
     const o = trip.options[0];
     expect(dayMapPoints(trip, o, 9).map((p) => p.id)).toEqual(dayMapPoints(trip, o, 0).map((p) => p.id));
+  });
+});
+
+describe("지도 번호 카드 내용", () => {
+  it("번호·짧은 이름·시각·판단 글자가 일정과 같다", () => {
+    const o = trip.options[0];
+    const details = dayStopDetails(trip, o, 0);
+    visitsOf(o.days[0]).forEach((v, i) => {
+      const d = details[v.placeId];
+      expect(d.no).toBe(i + 1);
+      expect(d.name).toBe(trip.places[v.placeId].name);
+      expect(d.short.length).toBeLessThanOrEqual(d.name.length);
+      expect(d.short).not.toMatch(/^(강릉|속초|동해)\s/);
+      expect(d.time).toMatch(/^약 \d{2}:\d{2}~\d{2}:\d{2}$/);
+      expect(d.verdictLabel.startsWith(d.verdict)).toBe(true);
+    });
   });
 });

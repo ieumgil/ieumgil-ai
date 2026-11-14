@@ -147,3 +147,12 @@ test("열면 카카오 실제 이동시간을 받아 시각을 다시 계산하�
   const stored = await page.evaluate(() => JSON.stringify(sessionStorage));
   expect(stored).not.toContain('"km":2.5');
 });
+
+test("장소 카드의 번호는 '지도에서 보기' 버튼이다(누를 수 있고 44px 이상)", async ({ page }) => {
+  const btn = page.getByRole("button", { name: /^지도에서 1번 / }).first();
+  await expect(btn).toBeVisible();
+  const box = (await btn.boundingBox())!;
+  expect(box.height).toBeGreaterThanOrEqual(44);
+  await btn.click(); // 시험 환경은 카카오 지도가 없어 안내 문구가 나오지만, 눌러도 오류 없이 그대로
+  await expect(page.locator("article").first()).toBeVisible();
+});

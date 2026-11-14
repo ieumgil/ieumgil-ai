@@ -17,6 +17,7 @@ export function OptionDetail({
   o,
   trip,
   onSwap,
+  onMap,
   day: dayIndex,
   onDay,
   map,
@@ -24,6 +25,8 @@ export function OptionDetail({
   o: OptionView;
   trip: TripView;
   onSwap: (placeId: string) => void;
+  /** 장소 번호를 누르면 지도에서 그 장소를 보여준다 */
+  onMap?: (placeId: string) => void;
   day: number;
   onDay: (i: number) => void;
   /** 이 칸 안에 넣을 지도(넓은 PC에서는 따로 칸이 있어 null) */
@@ -32,7 +35,7 @@ export function OptionDetail({
   const counts = new Map<string, number>();
   o.checkBeforeGo.forEach((q) => counts.set(q.question, (counts.get(q.question) ?? 0) + 1));
   const common = new Set([...counts].filter(([, n]) => n > 1).map(([q]) => q));
-  const day = (d: DayView, i: number) => <DayPanel key={d.date} d={d} index={i} o={o} trip={trip} common={common} onSwap={onSwap} />;
+  const day = (d: DayView, i: number) => <DayPanel key={d.date} d={d} index={i} o={o} trip={trip} common={common} onSwap={onSwap} onMap={onMap} />;
 
   return (
     <div className="px-5 pt-6 lg:px-0">
@@ -81,7 +84,23 @@ export function OptionDetail({
   );
 }
 
-function DayPanel({ d, index, o, trip, common, onSwap }: { d: DayView; index: number; o: OptionView; trip: TripView; common: Set<string>; onSwap: (placeId: string) => void }) {
+function DayPanel({
+  d,
+  index,
+  o,
+  trip,
+  common,
+  onSwap,
+  onMap,
+}: {
+  d: DayView;
+  index: number;
+  o: OptionView;
+  trip: TripView;
+  common: Set<string>;
+  onSwap: (placeId: string) => void;
+  onMap?: (placeId: string) => void;
+}) {
   const visits = d.items.filter((x): x is Extract<ItemView, { kind: "visit" }> => x.kind === "visit");
   const numberOf = new Map(visits.map((v, i) => [v.placeId, i + 1]));
   const last = d.items.at(-1);
@@ -131,7 +150,7 @@ function DayPanel({ d, index, o, trip, common, onSwap }: { d: DayView; index: nu
               </Node>
             );
           }
-          return <PlaceCard key={it.placeId} it={it} no={numberOf.get(it.placeId)!} o={o} trip={trip} common={common} delay={i} onSwap={onSwap} />;
+          return <PlaceCard key={it.placeId} it={it} no={numberOf.get(it.placeId)!} o={o} trip={trip} common={common} delay={i} onSwap={onSwap} onMap={onMap} />;
         })}
         <Node icon={<Flag size={16} />} muted>
           <span className="font-bold">약 {toHHMM(arrival)}</span> {d.endName} 도착 <span className="text-sm text-ink-sub">· 마치는 시각 {toHHMM(d.endMin)}</span>
