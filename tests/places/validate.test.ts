@@ -137,6 +137,37 @@ describe("장소 데이터 검사", () => {
     it("확인 방법이 공공데이터가 아니면 실패한다", () => {
       expect(validatePlaces(withPublic({ method: "관광공사 API" })).ok).toBe(false);
     });
+
+    // WR-05: 규칙을 합치기 코드와 맞춘다
+    it("공공데이터 등급은 장애인 화장실·기저귀 교환대에만 쓸 수 있다", () => {
+      const onDiaper = loadSamplePlaces();
+      onDiaper[0].access.diaper_nursing = publicValue({ note: "기저귀 교환대 · 공중화장실 'A' 여자화장실에만" });
+      expect(validatePlaces(onDiaper)).toEqual({ ok: true, issues: [] });
+      for (const key of ["elevator", "slope", "step_free_entrance", "disabled_parking"] as const) {
+        const places = loadSamplePlaces();
+        places[0].access[key] = publicValue();
+        const result = validatePlaces(places);
+        expect(result.ok, key).toBe(false);
+        expect(result.issues.map((i) => i.message).join("\n"), key).toContain("장애인 화장실·기저귀 교환대에만");
+      }
+    });
+
+    it("방법이 '공공데이터'이면 등급도 public이어야 한다(반대 방향)", () => {
+      for (const grade of ["ai", "human"] as const) {
+        const places = loadSamplePlaces();
+        places[0].access.accessible_toilet = publicValue({ grade, evidence: ["route-1"] });
+        const result = validatePlaces(places);
+        expect(result.ok, grade).toBe(false);
+        expect(result.issues.map((i) => i.message).join("\n"), grade).toContain("등급도 public");
+      }
+    });
+
+    it("원본 주소(source_url)는 출처 상수와 같아야 한다", () => {
+      expect(validatePlaces(withPublic({ source_url: PUBLIC_RESTROOM_SOURCE.url })).ok).toBe(true);
+      const message = messagesOf(withPublic({ source_url: "https://example.com/other" }));
+      expect(message).toContain("source_url");
+      expect(message).toContain(PUBLIC_RESTROOM_SOURCE.url);
+    });
   });
 
   describe("근거 id는 근거 문단에 있어야 한다", () => {
