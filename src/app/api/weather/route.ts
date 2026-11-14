@@ -7,7 +7,7 @@
 //   일시 오류로 빠진 구간이 CDN에 오래 굳지 않게 한다. 내부 캐시(15분 뒤 확인·30분 뒤 만료)와 합쳐도 1시간 안쪽이다.
 
 import { connection } from "next/server";
-import { hasKmaKey } from "@/lib/weather/kma";
+import { hasKmaKey, KmaError } from "@/lib/weather/kma";
 import { buildWeatherPayload, cachedDeps } from "@/lib/weather/service";
 
 const NO_STORE = { "Cache-Control": "no-store" };
@@ -22,7 +22,9 @@ export async function GET(request: Request) {
     const payload = await buildWeatherPayload(new Date(), cachedDeps);
     if (!payload.available) return Response.json(payload, { headers: NO_STORE });
     return Response.json(payload, { headers: payload.complete === true ? CACHE_COMPLETE : CACHE_PARTIAL });
-  } catch {
+  } catch (e) {
+    // 예기치 않은 오류(코드 실수 등). 화면은 날씨만 빠지고, 서버에는 한 줄만 남긴다 — 오류 이름·코드뿐(메시지·스택·키·URL 없음, 원칙 4)
+    console.warn("[weather] 예기치 않은 오류", e instanceof KmaError ? e.code : e instanceof Error ? e.name : "unknown");
     return Response.json({ available: false }, { headers: NO_STORE });
   }
 }
