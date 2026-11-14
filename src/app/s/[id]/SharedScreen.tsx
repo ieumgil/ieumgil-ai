@@ -1,13 +1,18 @@
 "use client";
 
 // 공유 링크 화면(읽기 전용): 확정 일정 화면을 그대로 쓰되 다른 안 보기·공유·전화 결과 기록은 뺀다.
+import { useSyncExternalStore } from "react";
 import { FinalOption } from "@/app/trip/[id]/final/FinalScreen";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
 import type { TripView } from "@/lib/trip/view";
 
+const noop = () => () => {};
+
 export function SharedScreen({ trip, until }: { trip: TripView; until: string }) {
-  return <FinalOption trip={trip} o={trip.options[0]} shared={{ until }} />;
+  // 인쇄한 종이에 이 링크 주소를 적는다(서버에서는 모름 → 화면에서만)
+  const link = useSyncExternalStore(noop, () => window.location.href, () => undefined);
+  return <FinalOption trip={trip} o={trip.options[0]} shared={{ until, link }} />;
 }
 
 const TEXT = {

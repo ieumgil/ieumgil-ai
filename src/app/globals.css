@@ -275,3 +275,22 @@ label:has(input[type="checkbox"]) {
     pointer-events: none;
   }
 }
+
+/* 인쇄·PDF: A4, 여백 12mm. 확정 일정은 화면 배치 대신 PrintSheet(한 장짜리 일정표)만 나온다 */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  nextjs-portal {
+    display: none !important;
+  }
+  .print-sheet tr,
+  .print-sheet li {
+    break-inside: avoid;
+  }
+}

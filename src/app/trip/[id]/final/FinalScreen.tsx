@@ -12,6 +12,7 @@ import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { Checklist } from "@/components/trip/Checklist";
 import { DayList } from "@/components/trip/FinalDayList";
+import { PrintSheet } from "@/components/trip/PrintSheet";
 import { ShareButton } from "@/components/trip/ShareButton";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -51,7 +52,7 @@ function Final({ trip }: { trip: TripView }) {
 }
 
 /** shared: 공유 링크로 연 읽기 전용(다른 안 보기·공유·전화 결과 기록 없음). until = 열려 있는 마지막 날 */
-export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: OptionView; shared?: { until: string } }) {
+export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: OptionView; shared?: { until: string; link?: string } }) {
   // 보관된 안(추정 시각) → 열 때 받은 실제 이동시간으로 다시 계산해 보여준다(저장 안 함)
   const [o] = useRealTravel(trip, [kept]);
   const [dayIndex, setDayIndex] = useState(0);
@@ -64,7 +65,10 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
   const onSite = onSiteByPlace(o);
 
   return (
-    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem]">
+    <>
+    {/* 인쇄·PDF: 화면 배치 대신 A4 1~2장짜리 일정표만 */}
+    <PrintSheet trip={trip} o={o} link={shared?.link} />
+    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem] print:hidden">
       <div className="px-5 pt-4 print:hidden">
         {shared ? <TopBar backHref="/" backLabel="이음길 처음 화면으로" /> : <TopBar backHref={tripHref(trip)} backLabel="일정 비교 화면으로" />}
       </div>
@@ -143,5 +147,6 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
       </div>
       <ScrollTop />
     </main>
+    </>
   );
 }

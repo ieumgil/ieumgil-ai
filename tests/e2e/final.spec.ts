@@ -155,3 +155,17 @@ test("공유 저장소가 준비되지 않았으면 그렇다고 알려 준다",
   await page.getByRole("button", { name: "공유 링크 만들기" }).click();
   await expect(page.getByRole("dialog")).toContainText("공유 링크는 아직 준비 중이에요");
 });
+
+test("인쇄·PDF: 화면 배치 대신 한 장짜리 일정표(시간표 + 전화로 물어볼 것)만 나온다", async ({ page }) => {
+  await setup(page, view.options[1].id);
+  await page.goto("/trip/new/final");
+  const sheet = page.locator(".print-sheet");
+  await expect(sheet).toBeHidden(); // 화면에서는 숨김
+  await page.emulateMedia({ media: "print" });
+  await expect(sheet).toBeVisible();
+  await expect(page.locator("main")).toBeHidden();
+  await expect(sheet.getByRole("heading", { level: 1 })).toHaveText(view.options[1].title);
+  await expect(sheet.locator("table")).toHaveCount((JSON.parse(trip) as { options: { days: unknown[] }[] }).options[1].days.length);
+  await expect(sheet).toContainText("출발 전 전화로 물어볼 것");
+  await expect(sheet.locator("img")).toHaveCount(0); // 사진·지도 없이
+});
