@@ -37,7 +37,7 @@
 
 | 관광지 | 필수 조건 위반 | 근거 없이 채운 값 | AI 읽기 일관성 | 자동 테스트 |
 | :---: | :---: | :---: | :---: | :---: |
-| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 522 · 화면 흐름 152</sub> |
+| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **CI 통과**<br /><sub>단위 547 · 화면 흐름 152</sub> |
 
 </div>
 
@@ -357,7 +357,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 
 | 항목 | 목표 | 현재 |
 | --- | --- | --- |
-| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 522개 · 화면 흐름 152개(모바일·PC) |
+| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 547개 · 화면 흐름 152개(모바일·PC) |
 | 엔진 시나리오 10개 + 유형 조합 14개 | 필수 조건 위반 0건 | **0건** |
 | AI 가드(가짜 LLM 테스트 69개) | 근거 없는 판단 사용 0건 · 안전 하한보다 낙관 0건 · 검사 안 된 안 노출 0건 · 실패 시 규칙 일정 | **모두 통과** |
 | AI 읽기 | 원문에 없는 근거로 채운 값 0건 · 두 번 읽었을 때 항목 일치율 | **0건** · **96.4%** ([`data/eval/`](data/eval/)) |
