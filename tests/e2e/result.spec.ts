@@ -233,3 +233,17 @@ test("[순서 고치기]로 위·아래로 옮기고 빼면 시각을 다시 계
   await page.getByRole("button", { name: "다 고쳤어요" }).click();
   await expect(page.getByRole("region", { name: /순서 고치기/ })).toHaveCount(0);
 });
+
+test("AI 설계 과정 보기는 44px 펼치기 줄이고, 누르면 과정이 보이며, 안전 안내 문장은 펼치기 전에도 보인다", async ({ page }) => {
+  const summary = page.locator("summary", { hasText: "AI 설계 과정 보기" });
+  await summary.scrollIntoViewIfNeeded();
+  await expect(summary).toBeVisible();
+  expect((await summary.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  // 원칙 6: 일반 차량 경로 안내는 접힌 상태에서도 보인다
+  await expect(page.getByText("휠체어 안전 경로를 뜻하지 않아요")).toBeVisible();
+  await expect(page.getByText(/이동 시간은 카카오 일반 차량 길찾기 값/)).toBeVisible(); // 실제 이동시간을 못 받은 상태(추정 안내)
+  const calls = page.getByText(/AI 호출 \d+회/);
+  await expect(calls).toBeHidden();
+  await summary.click();
+  await expect(calls).toBeVisible();
+});
