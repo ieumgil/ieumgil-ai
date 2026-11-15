@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "공유받은 여행 일정 · 이음
 
 export default function SharePage({ params }: { params: Promise<{ id: string }> }) {
   return (
-    <Suspense fallback={<p className="mx-auto max-w-[30rem] px-5 pt-16 text-base text-ink-sub">공유받은 일정을 불러오고 있어요…</p>}>
+    <Suspense fallback={<p className="mx-auto max-w-[30rem] px-4 pt-16 text-base text-ink-sub">공유받은 일정을 불러오고 있어요…</p>}>
       <Shared params={params} />
     </Suspense>
   );
