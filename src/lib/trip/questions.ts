@@ -73,3 +73,25 @@ export function callPlaces(o: Pick<OptionView, "checkBeforeGo" | "days">): strin
   const order = o.days.flatMap((d) => d.items.flatMap((i) => (i.kind === "visit" ? [i.placeId] : [])));
   return order.filter((id) => (qs.get(id)?.length ?? 0) > 0);
 }
+
+/**
+ * 같은 '가서 볼 것' 안내가 하루 2곳 이상이면 그날 목록 위에 한 번만 보여준다 — 확정 화면 반복 줄이기(UI-SPEC 패턴 13).
+ * 내용은 지우지 않는다: 공통 줄에 해당 장소 번호(방문 순서 + 1)를 붙이고, 한 곳에만 있는 문장은 그 장소 줄에 남긴다.
+ * 입력은 바꾸지 않는다.
+ */
+export function splitCommonOnSite(
+  placeIds: string[],
+  onSite: ReadonlyMap<string, readonly string[]>,
+): { common: { text: string; nos: number[] }[]; perPlace: Map<string, string[]> } {
+  const nosByText = new Map<string, number[]>();
+  placeIds.forEach((id, i) => {
+    for (const text of new Set(onSite.get(id) ?? [])) {
+      nosByText.set(text, [...(nosByText.get(text) ?? []), i + 1]);
+    }
+  });
+  const common = [...nosByText].filter(([, nos]) => nos.length >= 2).map(([text, nos]) => ({ text, nos }));
+  const commonTexts = new Set(common.map((c) => c.text));
+  const perPlace = new Map<string, string[]>();
+  for (const id of placeIds) perPlace.set(id, (onSite.get(id) ?? []).filter((t) => !commonTexts.has(t)));
+  return { common, perPlace };
+}
