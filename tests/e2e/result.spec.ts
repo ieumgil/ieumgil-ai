@@ -94,14 +94,14 @@ test("'이 일정으로 정하기'를 누르면 확인할 것 모음이 열리�
   await expect(page.getByRole("link", { name: /정한 일정/ }).last()).toHaveAttribute("href", "/trip/new/final");
 });
 
-test("[바꾸기]로 근처 후보로 바꾸면 시각을 다시 계산해 보여주고, 원래대로 되돌릴 수 있다", async ({ page }) => {
+test("[바꾸기]로 근처 후보로 바꾸면 시각을 다시 계산해 보여주고, 원래대로 되돌릴 수 있다 @swap-name", async ({ page }) => {
   await expect(page.getByRole("link", { name: "조건 바꿔 다시 만들기" })).toHaveCount(0);
   const swap = page.getByRole("button", { name: /다른 곳으로 바꾸기/ }).first();
   const fromName = ((await swap.getAttribute("aria-label")) ?? "").replace(/ 다른 곳으로 바꾸기$/, "");
   await swap.click();
   const sheet = page.getByRole("dialog");
   await expect(sheet).toContainText(`${fromName} 대신 갈 곳`);
-  const toName = (await sheet.locator("li p.text-lg").first().textContent())!.trim();
+  const toName = (await sheet.locator("li h3").first().textContent())!.trim();
   await sheet.getByRole("button", { name: "이곳으로 바꾸기" }).first().click();
   await expect(sheet).toBeHidden();
 
@@ -391,6 +391,78 @@ test.describe("장소 카드", () => {
         .filter((r) => r.sw > r.cw + 1 || r.sh > r.ch + 1 || r.h < 44),
     );
     expect(bad, JSON.stringify(bad)).toEqual([]);
+  });
+});
+
+// ---- 고른 안 상세(03-05): 고운바탕 h2 · 밑줄형 날짜 탭 · 상자 없는 공통 질문·순서 목록 · 깃발만 아이콘인 타임라인 ----
+test.describe("고른 안 상세", () => {
+  test("안 제목 h2는 고운바탕 20px이다 @p0305", async ({ page }) => {
+    const h2 = page.getByRole("heading", { level: 2, name: view.options[0].title, exact: true });
+    await expect(h2).toBeVisible();
+    const s = await h2.evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
+    });
+    expect(s.family.startsWith("Gowun")).toBe(true);
+    expect(s.size).toBe("20px");
+  });
+
+  test("날짜 탭은 밑줄형이고 고른 날은 솔숲 초록이며 높이 56px 이상이다 @p0305", async ({ page }) => {
+    const list = page.getByRole("tablist");
+    await expect(list).toHaveAttribute("data-variant", "line");
+    const selected = list.getByRole("tab", { selected: true });
+    expect(await selected.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(42, 106, 80)");
+    for (const tab of await list.getByRole("tab").all()) expect((await tab.boundingBox())!.height).toBeGreaterThanOrEqual(56);
+  });
+
+  test("글자 200%에서 날짜 탭 글자가 잘리지 않는다 @p0305", async ({ page }) => {
+    await page.addStyleTag({ content: "html{font-size:200% !important}" });
+    const tabs = page.getByRole("tablist").getByRole("tab");
+    await expect(tabs.first()).toBeVisible();
+    const bad = await tabs.evaluateAll((els) =>
+      els.map((el) => ({ t: (el.textContent ?? "").trim(), sw: el.scrollWidth, cw: el.clientWidth, sh: el.scrollHeight, ch: el.clientHeight })).filter((r) => r.sw > r.cw + 1 || r.sh > r.ch + 1),
+    );
+    expect(bad, JSON.stringify(bad)).toEqual([]);
+  });
+
+  test("순서 고치기 버튼은 접근 이름에 날짜가 들어 있고 배경이 없다 @p0305", async ({ page }) => {
+    const btn = page.getByRole("button", { name: "1일째 순서 고치기", exact: true });
+    await expect(btn).toBeVisible();
+    expect(await btn.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgba(0, 0, 0, 0)");
+    expect((await btn.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  });
+
+  test("여러 곳에 공통으로 물어볼 것은 상자 없이 44px 줄로 접혀 있고 펼치면 질문이 보인다 @p0305", async ({ page }) => {
+    const box = page.locator("details").filter({ hasText: "여러 곳에 공통으로 물어볼 것" }).first();
+    await expect(box).toBeVisible();
+    expect(await box.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgba(0, 0, 0, 0)");
+    const summary = box.locator("summary");
+    expect((await summary.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    await summary.click();
+    await expect(box.getByText("엘리베이터가 있나요?")).toBeVisible();
+  });
+
+  test("순서 고치기 목록은 파란 면 없이 구분선 행이다 @p0305", async ({ page }) => {
+    await page.getByRole("button", { name: "1일째 순서 고치기", exact: true }).click();
+    const panel = page.getByRole("region", { name: /1일째 순서 고치기/ });
+    await expect(panel).toBeVisible();
+    expect(await panel.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgba(0, 0, 0, 0)");
+    const rowBg = await panel.locator("ol > li").first().evaluate((el) => getComputedStyle(el).backgroundColor);
+    expect(rowBg).toBe("rgba(0, 0, 0, 0)");
+  });
+
+  test("타임라인은 출발·도착 깃발만 아이콘이고 이동·점심 줄에는 아이콘이 없다 @p0305", async ({ page }) => {
+    const rows = await page.locator("ol:has(article)").first().evaluate((ol) =>
+      [...ol.children].map((li) => ({ text: (li.textContent ?? "").replace(/\s+/g, " ").trim(), place: !!li.querySelector("article"), svgs: li.querySelectorAll("svg").length })),
+    );
+    const plain = rows.filter((r) => !r.place);
+    expect(plain.length).toBeGreaterThan(3);
+    expect(rows[0].svgs).toBe(1); // 출발 깃발
+    expect(rows.at(-1)!.svgs).toBe(1); // 도착 깃발
+    const middle = plain.slice(1, -1);
+    expect(middle.some((r) => r.text.includes("차량 약"))).toBe(true);
+    expect(middle.some((r) => r.text.includes("점심·휴식"))).toBe(true);
+    expect(middle.filter((r) => r.svgs > 0), JSON.stringify(middle)).toEqual([]);
   });
 });
 

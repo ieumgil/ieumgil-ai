@@ -42,13 +42,13 @@ test("결과 화면에서 정하면 확정 일정 페이지로 가고, 다른 �
   await expect(page).toHaveURL(/\/trip\/new$/);
 });
 
-test("장소를 바꾼 일정이면 확정 페이지에도 바꾼 장소가 나온다", async ({ page }) => {
+test("장소를 바꾼 일정이면 확정 페이지에도 바꾼 장소가 나온다 @swap-name", async ({ page }) => {
   await setup(page, view.options[0].id);
   await page.goto("/trip/new");
   const swap = page.getByRole("button", { name: /다른 곳으로 바꾸기/ }).first();
   await swap.click();
   const sheet = page.getByRole("dialog");
-  const toName = (await sheet.locator("li p.text-lg").first().textContent())!.trim();
+  const toName = (await sheet.locator("li h3").first().textContent())!.trim();
   await sheet.getByRole("button", { name: "이곳으로 바꾸기" }).first().click();
   await page.goto("/trip/new/final");
   await expect(page.getByRole("heading", { level: 2, name: new RegExp(toName.replace(/[()]/g, "\$&")) })).toBeVisible();
