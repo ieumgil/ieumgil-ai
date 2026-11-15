@@ -1,7 +1,7 @@
 // 전화로 물어볼 것: 같은 주제의 질문은 장소마다 하나만, 세는 기준은 '질문이 있는 장소 수'(확정 화면과 같은 숫자).
 // 노면·경사·쉴 곳처럼 가서 보면 아는 것은 전화 질문에서 빼고 '가서 볼 것'으로 따로 보여준다(11/14).
 import { describe, expect, it } from "vitest";
-import { callPlaces, isPhoneQuestion, onSiteByPlace, questionsByPlace } from "@/lib/trip/questions";
+import { callPlaces, isPhoneQuestion, onSiteByPlace, questionsByPlace, splitCommonOnSite } from "@/lib/trip/questions";
 import type { OptionView } from "@/lib/trip/view";
 
 const visit = (placeId: string) => ({ kind: "visit" as const, placeId, arriveMin: 600, departMin: 660, stayMin: 60, extraMin: 0 });
@@ -52,5 +52,50 @@ describe("가서 볼 것", () => {
     expect(os.get("A")![0]).toMatch(/^바닥/);
     expect(os.get("D")!.map((t) => t.split(":")[0])).toEqual(["경사", "쉴 곳"]);
     expect(os.has("B")).toBe(false);
+  });
+});
+
+describe("하루 공통 가서 볼 것", () => {
+  const FLOOR = "바닥: 모래·자갈·흙길이 보이면 포장길이나 데크로만 다니세요.";
+  const SLOPE = "경사: 급한 오르막·내리막이 보이면 무리하지 말고 돌아가거나 함께 간 사람의 도움을 받으세요.";
+
+  it("세 곳 모두 같은 문장이면 공통 한 줄(1·2·3번)이고 각 장소 줄은 비운다", () => {
+    const r = splitCommonOnSite(["A", "B", "C"], new Map([["A", [FLOOR]], ["B", [FLOOR]], ["C", [FLOOR]]]));
+    expect(r.common).toEqual([{ text: FLOOR, nos: [1, 2, 3] }]);
+    expect(r.perPlace.get("A")).toEqual([]);
+    expect(r.perPlace.get("B")).toEqual([]);
+    expect(r.perPlace.get("C")).toEqual([]);
+  });
+
+  it("한 곳에만 있는 문장은 그 장소 줄에 남는다", () => {
+    const r = splitCommonOnSite(["A", "B"], new Map([["A", [FLOOR, SLOPE]], ["B", [FLOOR]]]));
+    expect(r.common).toEqual([{ text: FLOOR, nos: [1, 2] }]);
+    expect(r.perPlace.get("A")).toEqual([SLOPE]);
+    expect(r.perPlace.get("B")).toEqual([]);
+  });
+
+  it("겹치는 문장이 없으면 공통은 비고 장소 줄은 입력 그대로", () => {
+    const r = splitCommonOnSite(["A", "B"], new Map([["A", [FLOOR]], ["B", [SLOPE]]]));
+    expect(r.common).toEqual([]);
+    expect(r.perPlace.get("A")).toEqual([FLOOR]);
+    expect(r.perPlace.get("B")).toEqual([SLOPE]);
+  });
+
+  it("공통은 그날 처음 나온 순서, 번호는 오름차순, 목록에 없는 장소는 빈 줄", () => {
+    const r = splitCommonOnSite(["A", "B", "C", "D"], new Map([["A", [SLOPE, FLOOR]], ["C", [FLOOR]], ["D", [SLOPE]]]));
+    expect(r.common).toEqual([
+      { text: SLOPE, nos: [1, 4] },
+      { text: FLOOR, nos: [1, 3] },
+    ]);
+    expect(r.perPlace.get("B")).toEqual([]);
+  });
+
+  it("입력 Map과 배열을 바꾸지 않는다", () => {
+    const a = [FLOOR, SLOPE];
+    const input = new Map([["A", a], ["B", [FLOOR]]]);
+    splitCommonOnSite(["A", "B"], input);
+    expect(input.get("A")).toEqual([FLOOR, SLOPE]);
+    expect(a).toEqual([FLOOR, SLOPE]);
+    expect(input.get("B")).toEqual([FLOOR]);
   });
 });
