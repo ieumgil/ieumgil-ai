@@ -142,3 +142,103 @@ test("1단계를 건너뛰고 2단계로 바로 들어오면 앞 단계를 먼�
   await page.getByRole("button", { name: /휠체어 이용/ }).click();
   await expect(page.getByRole("link", { name: "다음 · 꼭 필요한 조건" })).toHaveCount(0);
 });
+
+// ---- 03-07: 입력 공통 틀·1·2단계 정리 ----------------------------------------------------
+test.describe("입력 틀·1·2단계 정리", () => {
+  test("h1은 고운바탕 28px이고 개인정보 줄은 보인다 @p0307", async ({ page }) => {
+    await page.goto("/plan/who");
+    const h1 = page.getByRole("heading", { level: 1 });
+    const css = await h1.evaluate((el) => ({ family: getComputedStyle(el).fontFamily, size: getComputedStyle(el).fontSize }));
+    expect(css.family.replace(/["']/g, "").startsWith("Gowun Batang")).toBe(true);
+    expect(css.size).toBe("28px");
+    await expect(page.getByText("이름·연락처는 받지 않아요")).toBeVisible();
+  });
+
+  test("아래 고정 버튼 줄은 불투명 흰 바탕 + 위쪽 그림자다 @p0307", async ({ page }) => {
+    await page.goto("/plan/when");
+    const bar = page.locator("[data-bottom-bar]");
+    await expect(bar).toHaveCount(1);
+    await expect(bar).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(bar).toHaveCSS("backdrop-filter", "none");
+    const shadow = await bar.evaluate((el) => getComputedStyle(el).boxShadow);
+    expect(shadow).not.toBe("none");
+  });
+
+  test("선택지는 흰 바탕 + 회색 윤곽이고 고르면 파란 테두리 + ✓ 기호가 보인다 @p0307", async ({ page }) => {
+    await page.goto("/plan/when");
+    const station = page.getByRole("radio", { name: "강릉역" });
+    const other = page.getByRole("radio", { name: "동해역" });
+    await expect(station).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(station).toHaveCSS("border-top-color", "rgb(139, 149, 161)");
+    await expect(station.locator('span[aria-hidden="true"]', { hasText: "✓" })).not.toBeVisible();
+
+    await station.click();
+    await expect(station).toHaveCSS("border-top-color", "rgb(30, 111, 208)");
+    await expect(station).toHaveCSS("background-color", "rgb(234, 242, 253)");
+    await expect(station).toHaveCSS("border-top-width", "2px");
+    await expect(station.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
+    await expect(other.locator('span[aria-hidden="true"]', { hasText: "✓" })).not.toBeVisible();
+
+    // 타일 모양(이동수단)도 같은 규칙이다
+    const taxi = page.getByRole("radio", { name: "택시" });
+    await expect(taxi).toHaveCSS("border-top-color", "rgb(139, 149, 161)");
+    await expect(taxi).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await taxi.click();
+    await expect(taxi).toHaveCSS("border-top-color", "rgb(30, 111, 208)");
+    await expect(taxi).toHaveCSS("border-top-width", "2px");
+    await expect(taxi.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
+  });
+
+  test("1단계: 시각·떠나는 곳은 한 줄 요약 뒤에 접혀 있다 @p0307 @p0307-steps", async ({ page }) => {
+    await page.goto("/plan/when");
+    await expect(page.getByText(/^\d{2}:\d{2} 시작 · \d{2}:\d{2} 마침 · /)).toBeVisible();
+    await expect(page.getByLabel(/시작 시각/)).toHaveCount(0);
+    const toggle = page.getByRole("button", { name: "시각·떠나는 곳 설정 바꾸기" });
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    const start = page.getByLabel(/시작 시각/);
+    await expect(start).toBeVisible();
+    await start.selectOption("11:00");
+    await expect(page.getByText(/^11:00 시작 · /)).toBeVisible(); // 요약이 저장된 값을 그대로 보여 준다
+  });
+
+  test("1박이면 숙소 안내는 한 줄 + '숙소는 이렇게 짜요' 펼치기다 @p0307 @p0307-steps", async ({ page }) => {
+    await page.goto("/plan/when");
+    await pickDay(page, 21);
+    await pickDay(page, 22);
+    await expect(page.getByRole("radiogroup", { name: "숙소 지역" })).toBeVisible(); // 숙소는 접지 않는다
+    const more = page.locator("summary", { hasText: "숙소는 이렇게 짜요" });
+    await expect(more).toBeVisible();
+    const sentence = page.getByText("둘째 날부터 숙소 근처에서 출발해요");
+    await expect(sentence).not.toBeVisible();
+    await more.click();
+    await expect(sentence).toBeVisible();
+  });
+
+  test("글자 200%: 달력 숫자·누구와 타일이 잘리지 않고 문서 가로 스크롤 없음 @p0307 @p0307-steps", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "글자 확대는 휴대폰 폭에서만 본다");
+    const zoom = "html{font-size:200% !important}";
+    await page.goto("/plan/when");
+    await page.addStyleTag({ content: zoom });
+    await expect(page.getByRole("button", { name: /^2026년 11월 \d+ 일/ }).first()).toBeVisible();
+    const days = await page.getByRole("button", { name: /^2026년 11월 \d+ 일/ }).evaluateAll((els) =>
+      els
+        .filter((el) => !(el as HTMLButtonElement).disabled)
+        .map((el) => ({ t: el.textContent, w: el.scrollWidth - el.clientWidth, h: el.scrollHeight - el.clientHeight })),
+    );
+    expect(days.length).toBeGreaterThan(0);
+    expect(days.filter((d) => d.w > 1 || d.h > 1), JSON.stringify(days)).toEqual([]);
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(over).toBeLessThanOrEqual(0);
+
+    await page.goto("/plan/who");
+    await page.addStyleTag({ content: zoom });
+    await expect(page.getByRole("button", { name: /휠체어 이용/ })).toBeVisible();
+    const tiles = await page.locator("button[aria-pressed]").evaluateAll((els) => els.map((el) => ({ t: (el.textContent ?? "").slice(0, 8), w: el.scrollWidth - el.clientWidth })));
+    expect(tiles.length).toBe(3);
+    expect(tiles.filter((t) => t.w > 1), JSON.stringify(tiles)).toEqual([]);
+    const overWho = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overWho).toBeLessThanOrEqual(0);
+  });
+});
