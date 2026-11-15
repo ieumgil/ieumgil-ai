@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CheckRow, SegmentButton } from "@/components/plan/choices";
 import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
+import { Disclosure } from "@/components/ui/disclosure";
 import { TRAVELER_LABELS, conditionRows } from "@/lib/engine/conditions";
 import { updatePlan, usePlan } from "@/lib/plan/store";
 import type { WalkLimit } from "@/lib/plan/types";
@@ -23,6 +24,7 @@ export function ConditionsStep() {
   const rows = conditionRows(plan);
   const setOn = (key: string, on: boolean) =>
     updatePlan((cur) => ({ conditionOverrides: { ...cur.conditionOverrides, [key]: on } }));
+  const preferOn = rows.prefer.filter((r) => r.on).length;
   const hasParking = rows.must.some((r) => r.key === "disabled_parking");
   const parkingHint =
     plan.transport === "car" &&
@@ -44,22 +46,23 @@ export function ConditionsStep() {
         />
       }
     >
-      <div className="flex flex-wrap items-center gap-2 px-5 pt-3">
-        {plan.travelers.map((t) => (
-          <span key={t} className="rounded-full bg-primary-soft px-3 py-1.5 text-sm font-medium text-primary-ink">
-            {TRAVELER_CHIPS[t]}
-          </span>
-        ))}
-        <Link href="/plan/who" className="flex min-h-touch items-center px-1 text-base text-primary underline-offset-4 hover:underline">
+      <p className="px-4 text-sm text-ink-sub md:px-6">
+        {plan.travelers.map((t) => TRAVELER_CHIPS[t]).join(" · ")}
+        {plan.travelers.length > 0 && " · "}
+        <Link
+          href="/plan/who"
+          aria-label="여행 유형 바꾸기"
+          className="inline-flex min-h-touch items-center font-bold text-primary underline-offset-4 hover:underline"
+        >
           바꾸기
         </Link>
-      </div>
+      </p>
       <IncompleteNotice plan={plan} step={3} />
 
-      <div className="flex flex-col gap-2 px-5 pt-3">
+      <div className="mt-3 flex flex-col gap-2 px-4 md:px-6">
         {rows.must.length > 0 && (
           <>
-            <h2 className="mt-2 mb-0.5 text-base font-bold">꼭 필요해요 · 하나라도 안 맞으면 루트에서 빼요</h2>
+            <h2 className="text-base font-bold">꼭 필요해요 · 하나라도 안 맞으면 루트에서 빼요</h2>
             {rows.must.map((r) => (
               <CheckRow key={r.key} checked={r.on} onChange={(v) => setOn(r.key, v)} tag={r.who}>
                 {r.label}
@@ -67,6 +70,7 @@ export function ConditionsStep() {
             ))}
           </>
         )}
+        {/* 주차 안내는 한 곳에서 한 줄(표지가 있으면 켜진 이유, 없으면 1단계로 가는 길) */}
         {hasParking && (
           <p className="text-sm leading-normal text-ink-sub">
             장애인 전용 주차구역은 1단계에서 &lsquo;장애인 사용 자동차 표지&rsquo;를 골라서 나와요.
@@ -84,18 +88,13 @@ export function ConditionsStep() {
 
         {rows.showWalkLimit && (
           <>
-            <h2 className="mt-3.5 mb-0.5 text-base font-bold" id="walk-limit">
+            <h2 className="mt-6 text-base font-bold" id="walk-limit">
               한 번에 걸을 수 있는 거리 · {TRAVELER_LABELS.elder} 기준
             </h2>
-            <p className="mb-1 text-sm leading-normal text-ink-sub">주차장에서 입구까지, 관람 동선 길이와 비교해요</p>
-            <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-labelledby="walk-limit">
+            <p className="text-sm leading-normal text-ink-sub">주차장에서 입구까지, 관람 동선 길이와 비교해요</p>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-2" role="radiogroup" aria-labelledby="walk-limit">
               {WALK_LIMITS.map((w) => (
-                <SegmentButton
-                  key={w.label}
-                  selected={plan.walkLimit === w.value}
-                  onClick={() => updatePlan({ walkLimit: w.value })}
-                  className="text-base font-medium"
-                >
+                <SegmentButton key={w.label} selected={plan.walkLimit === w.value} onClick={() => updatePlan({ walkLimit: w.value })}>
                   {w.label}
                 </SegmentButton>
               ))}
@@ -104,14 +103,16 @@ export function ConditionsStep() {
         )}
 
         {rows.prefer.length > 0 && (
-          <>
-            <h2 className="mt-3.5 mb-0.5 text-base font-bold">있으면 좋아요 · 추천 순위에만 반영해요</h2>
-            {rows.prefer.map((r) => (
-              <CheckRow key={r.key} checked={r.on} onChange={(v) => setOn(r.key, v)} tag={r.who}>
-                {r.label}
-              </CheckRow>
-            ))}
-          </>
+          <Disclosure className="mt-6 border-y border-line" summary={`있으면 좋아요 · ${preferOn}개 켜짐`}>
+            <div className="flex flex-col gap-2 pt-1 pb-4">
+              <p className="text-sm leading-normal text-ink-sub">추천 순위에만 반영해요</p>
+              {rows.prefer.map((r) => (
+                <CheckRow key={r.key} checked={r.on} onChange={(v) => setOn(r.key, v)} tag={r.who}>
+                  {r.label}
+                </CheckRow>
+              ))}
+            </div>
+          </Disclosure>
         )}
       </div>
     </StepShell>

@@ -11,7 +11,7 @@ export function IncompleteNotice({ plan, step }: { plan: PlanInput; step: number
   const missing = firstIncompleteStep(plan, step - 1);
   if (!missing) return null;
   return (
-    <div id={INCOMPLETE_ID} className="mx-5 mt-4 rounded-xl bg-caution-bg px-4 py-3 text-base text-caution-ink" role="status">
+    <div id={INCOMPLETE_ID} className="mx-4 mt-4 md:mx-6 rounded-xl bg-caution-bg px-4 py-3 text-base text-caution-ink" role="status">
       <span aria-hidden="true" className="font-bold">
         !{" "}
       </span>

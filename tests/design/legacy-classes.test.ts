@@ -10,13 +10,11 @@ import { describe, expect, it } from "vitest";
 const PENDING: string[] = [
   "src/app/page.tsx",
   "src/app/places/PlacesBrowser.tsx",
-  "src/app/plan/conditions/ConditionsStep.tsx",
   "src/app/plan/making/MakingStep.tsx",
   "src/app/plan/taste/TasteStep.tsx",
   "src/app/s/[id]/page.tsx",
   "src/components/Intro.tsx",
   "src/components/Logo.tsx",
-  "src/components/plan/IncompleteNotice.tsx",
 ];
 
 const root = process.cwd();
