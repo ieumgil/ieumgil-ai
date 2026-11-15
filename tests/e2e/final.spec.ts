@@ -171,3 +171,87 @@ test("인쇄·PDF: 화면 배치 대신 한 장짜리 일정표(시간표 + 전�
   await expect(sheet).toContainText("출발 전 전화로 물어볼 것");
   await expect(sheet.locator("img")).toHaveCount(0); // 사진·지도 없이
 });
+
+test.describe("확정 화면 정리", () => {
+  test("꼬리표 대신 h1 아래 meta 한 줄이다 @p0306", async ({ page }) => {
+    await setup(page, view.options[0].id);
+    await page.goto("/trip/new/final");
+    const tag = page.getByText("확정한 일정", { exact: true });
+    await expect(tag).toBeVisible();
+    const meta = tag.locator("xpath=..");
+    await expect(meta).toContainText("1박 2일");
+    await expect(meta).toContainText("6곳");
+    const h1 = page.getByRole("heading", { level: 1 });
+    const s = await h1.evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
+    });
+    expect(s.family.startsWith("Gowun Batang")).toBe(true);
+    expect(s.size).toBe("28px");
+    // 머리 meta는 h1 아래에 있다(위 꼬리표 줄 없음)
+    const order = await page.evaluate(() => {
+      const h = document.querySelector("main h1")!;
+      const t = [...document.querySelectorAll("main span")].find((e) => e.textContent === "확정한 일정")!;
+      return !!(h.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    expect(order).toBe(true);
+  });
+
+  test("지도는 작게 시작하고 '지도 크게 보기'로 키운다 @p0306", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "PC는 왼쪽 고정 지도");
+    await setup(page, view.options[0].id);
+    await page.goto("/trip/new/final");
+    const map = page.getByRole("note").filter({ hasText: "지도를 불러오지 못했어요" });
+    await expect(map).toBeVisible();
+    const h = () => map.evaluate((el) => el.getBoundingClientRect().height);
+    expect(Math.abs((await h()) - 176)).toBeLessThanOrEqual(2);
+    const toggle = page.getByRole("button", { name: "지도 크게 보기" });
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await toggle.click();
+    const small = page.getByRole("button", { name: "지도 작게 보기" });
+    await expect(small).toHaveAttribute("aria-expanded", "true");
+    await expect.poll(async () => Math.abs((await h()) - 320)).toBeLessThanOrEqual(2);
+  });
+
+  test("가서 볼 것은 하루에 한 번, 공통 줄로 보인다 @p0306", async ({ page }) => {
+    await setup(page, view.options[0].id);
+    await page.goto("/trip/new/final");
+    const day = page.locator('section[id^="day-"]').filter({ visible: true });
+    await expect(day.getByText("가서 보고 확인할 것 · 공통")).toBeVisible();
+    await expect(day.getByText(/^바닥: /)).toHaveCount(1);
+    await expect(day.getByText(/^바닥: /)).toContainText("1·2·3번 장소");
+  });
+
+  test("장소 줄은 카드 없이 구분선이고 전화는 글자 링크다 @p0306", async ({ page }) => {
+    await setup(page, view.options[0].id);
+    await page.goto("/trip/new/final");
+    const row = page.locator('li[id^="stop-"]').filter({ visible: true }).first();
+    await expect(row).toBeVisible();
+    const s = await row.evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { shadow: c.boxShadow, bg: c.backgroundColor };
+    });
+    expect(s.shadow).toBe("none");
+    expect(s.bg).toBe("rgba(0, 0, 0, 0)");
+    const tel = row.locator('a[href^="tel:"]');
+    const t = await tel.evaluate((el) => ({ h: el.getBoundingClientRect().height, border: getComputedStyle(el).borderTopWidth }));
+    expect(t.h).toBeGreaterThanOrEqual(44);
+    expect(t.border).toBe("0px");
+    expect(await tel.locator("wbr").count()).toBeGreaterThanOrEqual(1);
+  });
+
+  test("날짜 탭은 밑줄형이고 고른 날은 솔숲 초록이다 @p0306", async ({ page }) => {
+    await setup(page, view.options[0].id);
+    await page.goto("/trip/new/final");
+    await expect(page.getByRole("tablist")).toHaveAttribute("data-variant", "line");
+    const color = await page.getByRole("tab", { selected: true }).evaluate((el) => getComputedStyle(el).color);
+    expect(color).toBe("rgb(42, 106, 80)");
+  });
+
+  test("맨 아래 세 문장은 접지 않고 늘 보인다 @p0306", async ({ page }) => {
+    await setup(page, view.options[0].id);
+    await page.goto("/trip/new/final");
+    await expect(page.getByText("지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.")).toBeVisible();
+    await expect(page.getByText(/일정의 이동 시간은 카카오 차량 길찾기 값/)).toBeVisible();
+  });
+});
