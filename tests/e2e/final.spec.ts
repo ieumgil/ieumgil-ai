@@ -255,3 +255,63 @@ test.describe("확정 화면 정리", () => {
     await expect(page.getByText(/일정의 이동 시간은 카카오 차량 길찾기 값/)).toBeVisible();
   });
 });
+
+test.describe("체크리스트", () => {
+  const list = (page: Page) => page.locator("section[aria-labelledby='checklist-title']");
+
+  test("장소 행은 카드 없이 구분선이다 @p0306-check", async ({ page }) => {
+    await setup(page, view.options[1].id);
+    await page.goto("/trip/new/final");
+    const row = list(page).locator("li").first();
+    await expect(row).toBeVisible();
+    const s = await row.evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { shadow: c.boxShadow, bg: c.backgroundColor };
+    });
+    expect(s.shadow).toBe("none");
+    expect(s.bg).toBe("rgba(0, 0, 0, 0)");
+  });
+
+  test("결과는 한 테두리 안 두 칸이다 @p0306-check", async ({ page }) => {
+    await setup(page, view.options[1].id);
+    await page.goto("/trip/new/final");
+    const group = page.getByRole("group", { name: /전화 결과/ }).first();
+    await expect(group).toBeVisible();
+    const name = ((await group.getAttribute("aria-label")) ?? "").replace(/ 전화 결과$/, "");
+    const buttons = group.getByRole("button");
+    await expect(buttons).toHaveCount(2);
+    expect(await group.evaluate((el) => getComputedStyle(el).borderTopWidth)).toBe("1.5px");
+    for (const b of await buttons.all()) expect((await b.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    const ok = group.getByRole("button", { name: `${name} 괜찮대요` });
+    const hard = group.getByRole("button", { name: `${name} 어렵대요` });
+    await expect(ok).toContainText("괜찮대요");
+    await expect(hard).toContainText("어렵대요");
+    await ok.click();
+    await expect(ok).toHaveAttribute("aria-pressed", "true");
+    expect(await ok.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(234, 242, 253)");
+    await hard.click();
+    await expect(hard).toHaveAttribute("aria-pressed", "true");
+    expect(await hard.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 244, 229)");
+  });
+
+  test("체크리스트 전화는 글자 링크다 @p0306-check", async ({ page }) => {
+    await setup(page, view.options[1].id);
+    await page.goto("/trip/new/final");
+    const tel = list(page).locator("li").first().locator('a[href^="tel:"]');
+    await expect(tel).toBeVisible();
+    const t = await tel.evaluate((el) => ({ h: el.getBoundingClientRect().height, border: getComputedStyle(el).borderTopWidth }));
+    expect(t.border).toBe("0px");
+    expect(t.h).toBeGreaterThanOrEqual(44);
+  });
+
+  test("제목은 고운바탕 20px이다 @p0306-check", async ({ page }) => {
+    await setup(page, view.options[1].id);
+    await page.goto("/trip/new/final");
+    const s = await page.locator("#checklist-title").evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
+    });
+    expect(s.family.startsWith("Gowun Batang")).toBe(true);
+    expect(s.size).toBe("20px");
+  });
+});
