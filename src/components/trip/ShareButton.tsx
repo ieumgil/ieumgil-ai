@@ -3,7 +3,7 @@
 // 확정 일정 공유 링크 만들기(11/14). 누르면 서버(/api/trips)가 검사 후 Supabase에 고른 안만 저장하고 주소를 돌려준다.
 // 받은 사람은 로그인 없이 읽기만 한다(/s/{id}). 이동시간·경로·개인정보는 저장하지 않고, 여행 끝 + 7일에 사라진다.
 // 같은 화면에서 다시 누르면 새로 만들지 않고 만든 주소를 다시 보여준다.
-import { Check, Copy, Link2, Share2 } from "lucide-react";
+import { Check, Copy, Share2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -52,12 +52,9 @@ export function ShareButton({ trip, o }: { trip: TripView; o: OptionView }) {
         공유 링크 만들기
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-[calc(100%-1.5rem)] gap-4 rounded-3xl p-5 text-base sm:max-w-[30rem]">
+        <DialogContent className="max-w-[calc(100%-1.5rem)] gap-4 rounded-3xl p-6 text-base sm:max-w-[30rem]">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-xl font-bold">
-              <Link2 size={22} className="text-primary" aria-hidden="true" />
-              일정 공유 링크
-            </DialogTitle>
+            <DialogTitle>일정 공유 링크</DialogTitle>
             <DialogDescription className="text-base text-ink-sub">함께 가는 사람에게 보내면 로그인 없이 지도와 일정을 볼 수 있어요. 받은 사람은 읽기만 해요.</DialogDescription>
           </DialogHeader>
 
@@ -97,7 +94,7 @@ export function ShareButton({ trip, o }: { trip: TripView; o: OptionView }) {
                     </Button>
                   )}
                 </div>
-                <ul className="list-disc pl-5 text-sm leading-normal text-ink-sub">
+                <ul className="list-disc pl-6 text-sm leading-normal text-ink-sub">
                   <li>{state.until}까지 열려요. 그 뒤에는 자동으로 지워져요.</li>
                   <li>장소·순서·머무는 시간만 저장하고, 이름·연락처는 저장하지 않아요.</li>
                   <li>이동시간과 지도 경로는 열 때마다 새로 계산해요.</li>

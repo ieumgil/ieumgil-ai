@@ -24,9 +24,9 @@ const TEXT = {
 export function SharedMissing({ reason }: { reason: keyof typeof TEXT }) {
   const t = TEXT[reason];
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-5 pt-4 pb-7">
+    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-4 pt-4 pb-7">
       <TopBar backHref="/" backLabel="이음길 처음 화면으로" />
-      <h1 className="mt-8 text-title font-bold">{t.title}</h1>
+      <h1 className="mt-8 font-heading text-title font-bold text-balance">{t.title}</h1>
       <p className="text-base text-ink-sub">{t.body}</p>
       <ButtonLink href="/">이음길에서 내 일정 만들기</ButtonLink>
     </main>

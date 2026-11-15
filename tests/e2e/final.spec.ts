@@ -280,7 +280,15 @@ test.describe("체크리스트", () => {
     const name = ((await group.getAttribute("aria-label")) ?? "").replace(/ 전화 결과$/, "");
     const buttons = group.getByRole("button");
     await expect(buttons).toHaveCount(2);
-    expect(await group.evaluate((el) => getComputedStyle(el).borderTopWidth)).toBe("1.5px");
+    // 1.5px로 그리지만 화면 배율 1배에서는 브라우저가 1px로 맞춘다 → 한 테두리(컨트롤 회색 실선)가 두 칸을 감싸면 된다
+    const border = await group.evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { w: parseFloat(c.borderTopWidth), style: c.borderTopStyle, color: c.borderTopColor };
+    });
+    expect(border.w).toBeGreaterThanOrEqual(1);
+    expect(border.w).toBeLessThanOrEqual(1.5);
+    expect(border.style).toBe("solid");
+    expect(border.color).toBe("rgb(139, 149, 161)");
     for (const b of await buttons.all()) expect((await b.boundingBox())!.height).toBeGreaterThanOrEqual(44);
     const ok = group.getByRole("button", { name: `${name} 괜찮대요` });
     const hard = group.getByRole("button", { name: `${name} 어렵대요` });

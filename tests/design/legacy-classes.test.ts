@@ -15,7 +15,6 @@ const PENDING: string[] = [
   "src/app/plan/taste/TasteStep.tsx",
   "src/app/plan/when/WhenStep.tsx",
   "src/app/plan/who/WhoStep.tsx",
-  "src/app/s/[id]/SharedScreen.tsx",
   "src/app/s/[id]/page.tsx",
   "src/components/Intro.tsx",
   "src/components/Logo.tsx",
@@ -24,8 +23,6 @@ const PENDING: string[] = [
   "src/components/plan/PlanSummary.tsx",
   "src/components/plan/StepShell.tsx",
   "src/components/plan/choices.tsx",
-  "src/components/trip/Checklist.tsx",
-  "src/components/trip/ShareButton.tsx",
 ];
 
 const root = process.cwd();

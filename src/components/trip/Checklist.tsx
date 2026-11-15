@@ -2,7 +2,8 @@
 
 // 출발 전 전화 확인 체크리스트: 날짜별로 장소마다 물어볼 것과 공식 전화, [괜찮대요]/[어렵대요].
 // 어렵대요면 그 자리에서 다른 곳으로 바꾸기를 권하고, 모두 괜찮으면 "출발 준비 끝!". 결과는 이 탭에만 보관한다.
-import { ArrowLeftRight, Check, CircleAlert, CircleCheck, ListChecks, Phone, X } from "lucide-react";
+import { ArrowLeftRight, Check, CircleAlert, CircleCheck, Phone, X } from "lucide-react";
+import { PhoneText } from "@/components/PhoneText";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { ButtonLink } from "@/components/ui/button";
 import { formatDay } from "@/lib/plan/dates";
@@ -31,8 +32,7 @@ export function Checklist({ o, trip, readOnly = false }: { o: OptionView; trip: 
         : "모두 괜찮다고 확인했어요.";
   return (
     <section className="mt-8 break-inside-avoid-page" aria-labelledby="checklist-title">
-      <h2 id="checklist-title" className="flex items-center gap-2 text-lg font-bold">
-        <ListChecks size={20} className="text-primary" aria-hidden="true" />
+      <h2 id="checklist-title" className="font-heading text-heading font-bold">
         출발 전 전화로 확인할 곳
       </h2>
       <p className="mt-1 text-base text-ink-sub" aria-live="polite">
@@ -42,7 +42,7 @@ export function Checklist({ o, trip, readOnly = false }: { o: OptionView; trip: 
         <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${(done / all.length) * 100}%` }} />
       </div>}
       {!readOnly && left === 0 && hard === 0 && (
-        <p className="mt-4 flex animate-rise items-start gap-3 rounded-2xl bg-primary-soft p-4 text-base text-primary-ink">
+        <p className="mt-4 flex items-start gap-3 rounded-2xl bg-primary-soft p-4 text-base text-primary-ink">
           <CircleCheck size={22} className="mt-0.5 shrink-0" aria-hidden="true" />
           <span>
             <span className="font-bold">출발 준비 끝!</span> 전화로 확인할 곳을 모두 확인했어요. 현장 사정은 바뀔 수 있으니 출발 당일에도 안내를 한 번 더 살펴봐 주세요.
@@ -55,13 +55,13 @@ export function Checklist({ o, trip, readOnly = false }: { o: OptionView; trip: 
         const ids = visits.map((v) => v.placeId).filter((id) => all.includes(id));
         if (ids.length === 0) return null;
         return (
-          <div key={d.date} className="mt-5">
+          <div key={d.date} className="mt-6">
             {o.days.length > 1 && (
-              <h3 className="text-base font-bold text-ink-sub">
+              <h3 className="text-base font-bold text-pine">
                 {di + 1}일째 · {formatDay(d.date)}
               </h3>
             )}
-            <ul className="mt-2 flex flex-col gap-3">
+            <ul className="mt-2 flex flex-col">
               {ids.map((id) => (
                 <CallItem key={id} trip={trip} id={id} no={visits.findIndex((v) => v.placeId === id) + 1} questions={qs.get(id)!} result={results[id]} readOnly={readOnly} />
               ))}
@@ -79,21 +79,22 @@ function CallItem({ trip, id, no, questions, result, readOnly }: { trip: TripVie
   const p = trip.places[id];
   const j = trip.judgments[id];
   const choose = (r: CallResult) => setCallResult(trip, id, result === r ? null : r);
-  const choice = (r: CallResult, icon: React.ReactNode, label: string, on: string) => (
+  const choice = (r: CallResult, icon: React.ReactNode, label: string, on: string, divider?: boolean) => (
     <button
       type="button"
       aria-pressed={result === r}
+      aria-label={`${p.name} ${label}`}
       onClick={() => choose(r)}
-      className={`inline-flex min-h-touch flex-1 items-center justify-center gap-1.5 rounded-xl px-3 text-base font-bold whitespace-nowrap transition-[background-color,color,transform] duration-150 active:scale-[0.98] ${result === r ? on : "bg-white text-ink ring-1 ring-line hover:bg-surface"}`}
+      className={`inline-flex min-h-touch flex-1 items-center justify-center gap-2 px-3 py-2 text-base font-bold ${divider ? "border-l-[1.5px] border-line-control" : ""} ${result === r ? on : "bg-white text-ink hover:bg-surface"}`}
     >
       {icon}
       {label}
     </button>
   );
   return (
-    <li className={`break-inside-avoid rounded-2xl p-4 ring-1 transition-colors ${result === "ok" ? "bg-surface ring-transparent" : result === "hard" ? "bg-white ring-caution-ink/40" : "bg-white ring-line"}`}>
+    <li className="break-inside-avoid border-b border-line py-4">
       <p className="flex flex-wrap items-center gap-2 text-base font-bold">
-        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm text-white" aria-hidden="true">
+        <span className="flex min-h-7 min-w-7 shrink-0 aspect-square items-center justify-center rounded-full bg-primary text-sm leading-none text-white" aria-hidden="true">
           {no}
         </span>
         <span className={result === "ok" ? "text-ink-sub" : ""}>{p.name}</span>
@@ -107,26 +108,30 @@ function CallItem({ trip, id, no, questions, result, readOnly }: { trip: TripVie
       <a
         href={`tel:${p.phone.replace(/[^\d]/g, "")}`}
         aria-label={`공식 전화 ${p.phone} 걸기`}
-        className="mt-3 inline-flex min-h-touch w-full items-center justify-center gap-1.5 rounded-xl border-[1.5px] border-primary bg-white px-3 text-base font-bold whitespace-nowrap text-primary tabular-nums print:hidden"
+        className="inline-flex min-h-touch items-center gap-2 text-base font-bold text-primary tabular-nums hover:underline print:hidden"
       >
         <Phone size={18} aria-hidden="true" />
-        {p.phone}
+        <span>
+          <PhoneText phone={p.phone} />
+        </span>
       </a>
       <p className="hidden text-base print:block">
         ☎ {p.phone}
         {result ? ` · 확인 결과: ${RESULT_TEXT[result]}` : ""}
       </p>
-      {!readOnly && <div className="mt-2 flex gap-2 print:hidden" role="group" aria-label={`${p.name} 전화 결과`}>
-        {choice("ok", <Check size={18} aria-hidden="true" />, "괜찮대요", "bg-primary text-white")}
-        {choice("hard", <X size={18} aria-hidden="true" />, "어렵대요", "bg-caution-bg text-caution-ink ring-1 ring-caution-ink/40")}
-      </div>}
+      {!readOnly && (
+        <div className="mt-2 flex w-full overflow-hidden rounded-xl border-[1.5px] border-line-control print:hidden" role="group" aria-label={`${p.name} 전화 결과`}>
+          {choice("ok", <Check size={18} aria-hidden="true" />, "괜찮대요", "bg-primary-soft text-primary-ink")}
+          {choice("hard", <X size={18} aria-hidden="true" />, "어렵대요", "bg-caution-bg text-caution-ink", true)}
+        </div>
+      )}
       {result === "hard" && (
-        <div className="mt-3 flex animate-rise flex-col gap-2 rounded-xl bg-caution-bg p-3 text-base text-caution-ink print:hidden">
+        <div className="mt-3 flex flex-col gap-2 rounded-xl bg-caution-bg p-3 text-base text-caution-ink print:hidden">
           <p className="flex items-start gap-2">
             <CircleAlert size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
             어렵다면 근처의 다른 곳으로 바꾸는 게 좋아요.
           </p>
-          <ButtonLink href={`${tripHref(trip)}?swap=${id}`} className="h-12 w-full text-base">
+          <ButtonLink href={`${tripHref(trip)}?swap=${id}`} className="min-h-12 w-full text-base">
             <ArrowLeftRight aria-hidden="true" />
             다른 곳으로 바꾸기
           </ButtonLink>
