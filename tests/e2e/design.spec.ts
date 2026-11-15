@@ -134,3 +134,42 @@ test("인쇄 일정표는 제목 글꼴을 쓰지 않는다", async ({ page }) =
   const family = await page.locator(".print-sheet h1").evaluate((el) => getComputedStyle(el).fontFamily);
   expect(family).not.toContain("Gowun");
 });
+
+// ---- 공용 부품(03-02): 버튼·판정 칩 ----------------------------------------------------------
+
+test.describe("공용 부품", () => {
+  test("주 버튼은 16px 700 · 반지름 12px", async ({ page }) => {
+    await block(page);
+    await page.goto("/");
+    const css = await page.getByRole("link", { name: "여행 루트 만들기" }).evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { size: cs.fontSize, weight: cs.fontWeight, radius: cs.borderTopLeftRadius };
+    });
+    expect(css).toEqual({ size: "16px", weight: "700", radius: "12px" });
+  });
+
+  test("outline 버튼 호버 글자는 primary-ink", async ({ page }) => {
+    await block(page);
+    await page.goto("/");
+    const link = page.getByRole("link", { name: "예시 루트 바로 보기" });
+    await link.hover();
+    // 색 바뀜 전환(150ms)이 끝난 뒤 값을 본다
+    await expect.poll(() => link.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(20, 80, 163)");
+  });
+
+  test("판정 칩은 기호 숨김 + 상태 글자 + 굵기 700", async ({ page }) => {
+    await block(page);
+    await page.goto("/trip/example");
+    const chip = page.locator("article").first().locator("span.rounded-full:has(> span.sr-only)").first();
+    await expect(chip).toBeVisible();
+    const parts = await chip.evaluate((el) => {
+      const kids = [...el.children] as HTMLElement[];
+      const symbol = kids.find((k) => k.getAttribute("aria-hidden") === "true");
+      const sr = kids.find((k) => k.classList.contains("sr-only"));
+      return { symbol: symbol?.textContent ?? "", sr: sr?.textContent ?? "", weight: getComputedStyle(el).fontWeight };
+    });
+    expect(["✓", "!", "✕"]).toContain(parts.symbol);
+    expect(/^(충족|주의|어려움): /.test(parts.sr), parts.sr).toBe(true);
+    expect(parts.weight).toBe("700");
+  });
+});
