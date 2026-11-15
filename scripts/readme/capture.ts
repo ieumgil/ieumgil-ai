@@ -100,7 +100,11 @@ const SHOTS: Shot[] = [
     path: "/trip/new/final",
     act: async (p) => {
       await waitMap(p);
-      await p.getByRole("button", { name: /^2번 .+ 정보 보기$/ }).first().click();
+      // 지도는 작게 시작한다(03단계) → 크게 본 뒤 번호를 누른다. 번호가 겹쳐 다른 번호가 가로채면 눌린 것과 같게 직접 누른다
+      await p.getByRole("button", { name: "지도 크게 보기" }).click();
+      await p.waitForTimeout(1500);
+      const pin = p.getByRole("button", { name: /^2번 .+ 정보 보기$/ }).first();
+      await pin.click({ timeout: 4000 }).catch(() => pin.evaluate((el) => (el as HTMLElement).click()));
       await p.getByRole("button", { name: "일정에서 보기" }).waitFor();
       await p.waitForTimeout(1200);
     },
@@ -239,12 +243,17 @@ async function main() {
   const res = await fetch(BASE).catch(() => null);
   if (!res?.ok) throw new Error(`${BASE}에 개발 서버가 없어요. 먼저 npm run dev`);
   const b = await chromium.launch();
-  const only = process.argv[2]; // 예: share → 공유·인쇄만
-  if (only !== "share") {
-    for (const s of SHOTS) await capture(b, s);
-    await cover(b);
+  const only = process.argv[2]; // 예: share → 공유·인쇄만, 15-map-card → 그 장면 하나만
+  const one = SHOTS.find((s) => s.name === only);
+  if (one) {
+    await capture(b, one);
+  } else {
+    if (only !== "share") {
+      for (const s of SHOTS) await capture(b, s);
+      await cover(b);
+    }
+    await shareShots(b);
   }
-  await shareShots(b);
   await b.close();
 }
 
