@@ -37,7 +37,7 @@ import { useMedia, WIDE } from "@/lib/use-media";
 
 // 창(바꾸기·확정): 휴대폰은 아래에서 올라오고, PC는 가운데 대화창
 const PANEL =
-  "mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-5 pb-8 lg:w-[34rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
+  "mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-4 pb-8 lg:w-[34rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
 
 export function TripScreen() {
   const { id } = useParams<{ id: string }>();
@@ -45,9 +45,9 @@ export function TripScreen() {
   if (trip === undefined) return null;
   if (trip === null) {
     return (
-      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-5 pt-4 pb-7">
+      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-4 pt-4 pb-7">
         <TopBar backHref="/" backLabel="처음 화면으로" />
-        <h1 className="mt-8 text-title font-bold">만든 일정이 없어요</h1>
+        <h1 className="mt-8 font-heading text-title font-bold text-balance">만든 일정이 없어요</h1>
         <p className="text-base text-ink-sub">일정은 이 탭에서만 보관해요. 조건을 고르고 다시 만들어 주세요.</p>
         <ButtonLink href="/plan/when">일정 만들기</ButtonLink>
         <ButtonLink href="/trip/example" variant="outline">
@@ -156,7 +156,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
 
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-28 md:max-w-[48rem] lg:max-w-[72rem] lg:pb-12 xl:max-w-[96rem]">
-      <div className="px-5 pt-4">
+      <div className="px-4 pt-4 md:px-6">
         <TopBar backHref={example ? "/" : "/plan/taste"} backLabel={example ? "처음 화면으로" : "조건 화면으로"} />
       </div>
       {example && <ExampleBanner />}
@@ -164,10 +164,10 @@ function TripResult({ trip: base }: { trip: TripView }) {
         {announce}
       </p>
 
-      <div className="lg:grid lg:grid-cols-[23rem_minmax(0,1fr)] lg:gap-8 lg:px-5 xl:grid-cols-[22rem_minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="lg:grid lg:grid-cols-[23rem_minmax(0,1fr)] lg:gap-8 lg:px-6 xl:grid-cols-[22rem_minmax(0,1fr)_minmax(0,1fr)]">
         {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 정하기(PC) */}
         <aside className="lg:sticky lg:top-4 lg:self-start">
-          <Summary trip={trip} />
+          <Summary trip={trip} bandUsed={example} />
           {trip.options.length > 1 && <OptionPicker trip={shownTrip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
           <div className="mt-4 hidden lg:block">
             <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} single={trip.options.length === 1} finalHref={finalHref} />
@@ -175,17 +175,17 @@ function TripResult({ trip: base }: { trip: TripView }) {
         </aside>
 
         {/* 오른쪽(PC) / 아래(모바일): 고른 안 */}
-        <section key={option.id} ref={detailRef} className="scroll-mt-4 animate-rise" aria-label={`${option.title} 일정`}>
-          <div role="status" className="px-5 lg:px-0">
+        <section key={option.id} ref={detailRef} className="scroll-mt-4" aria-label={`${option.title} 일정`}>
+          <div role="status" className="px-4 md:px-6 lg:px-0">
             {notice && (
-              <p className="mt-5 flex animate-rise items-center gap-2 rounded-2xl bg-primary-soft py-1 pr-1 pl-4 text-base text-primary-ink">
+              <p className="mt-4 flex items-center gap-2 rounded-2xl bg-primary-soft py-1 pr-1 pl-4 text-base text-primary-ink">
                 <CircleCheck size={20} className="shrink-0" aria-hidden="true" />
                 <span className="flex-1 py-2">{notice}</span>
                 <button
                   type="button"
                   onClick={() => setNotice("")}
                   aria-label="안내 닫기"
-                  className="flex size-touch shrink-0 items-center justify-center rounded-xl transition-colors hover:bg-white/60"
+                  className="flex min-h-touch min-w-touch shrink-0 items-center justify-center rounded-xl transition-colors hover:bg-white/60"
                 >
                   <X size={20} aria-hidden="true" />
                 </button>
@@ -206,7 +206,10 @@ function TripResult({ trip: base }: { trip: TripView }) {
       </div>
 
       {/* 모바일: 아래 고정 확정 버튼 */}
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-white/95 px-5 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
+      <div
+        data-bottom-bar
+        className="fixed inset-x-0 bottom-0 z-20 max-h-[30dvh] overflow-y-auto bg-white px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgb(25_31_40/0.08)] md:px-6 lg:hidden [@media(max-height:30rem)]:static"
+      >
         <div className="mx-auto max-w-[30rem]">
           <ConfirmButton confirmed={isConfirmed} onConfirm={confirm} optionId={option.id} single={trip.options.length === 1} finalHref={finalHref} />
         </div>

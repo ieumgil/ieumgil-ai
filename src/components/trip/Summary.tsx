@@ -1,68 +1,68 @@
-// 결과 화면 맨 위 요약: 몇 가지 일정을 만들었는지, 여행 조건(날짜·유형·이동·숙소) 알약, 안내(규칙 일정·후보 부족 등).
-import { Accessibility, Baby, BedDouble, CalendarDays, Car, CircleAlert, Info, PersonStanding, Sparkles } from "lucide-react";
+// 결과 화면 맨 위 머리: h1(몇 가지 일정을 만들었는지) + 조건을 글자로만 쓴 한 줄 meta + 안내(규칙 일정·후보 부족 등).
+// 첫 화면의 색 띠는 하나뿐이다: bandUsed(예시 안내 띠를 이미 썼는지)가 거짓이면 안내 후보 중 첫 번째만 띠, 나머지는 배경 없는 '!' + 글자 줄.
+// 문장은 하나도 지우지 않는다(규칙 일정 안내 등 사용자가 알아야 할 말).
 import type { ReactNode } from "react";
 import { TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { formatRange, nightsBetween, tripLabel } from "@/lib/plan/dates";
 import { lodgingText } from "@/lib/plan/summary";
 import type { TripView } from "@/lib/trip/view";
 
-const TRAVELER_ICON = { wheelchair: <Accessibility size={16} />, elder: <PersonStanding size={16} />, stroller: <Baby size={16} /> } as const;
+type Note = { text: string; tone: "caution" | "info" };
 
-export function Summary({ trip }: { trip: TripView }) {
-  const nights = trip.input.startDate && trip.input.endDate ? nightsBetween(trip.input.startDate, trip.input.endDate) : 0;
+export function Summary({ trip, bandUsed = false }: { trip: TripView; bandUsed?: boolean }) {
+  const { input } = trip;
+  const nights = input.startDate && input.endDate ? nightsBetween(input.startDate, input.endDate) : 0;
   const ai = !trip.usedFallback;
+  const meta = [
+    ai ? "AI 추천" : "기본 일정",
+    input.startDate && input.endDate ? formatRange(input.startDate, input.endDate) : "",
+    tripLabel(nights),
+    input.travelers.map((t) => TRAVELER_LABELS[t]).join(" · "),
+    input.transport === "car" ? "자가용" : "택시",
+    input.lodging ? `숙소 ${lodgingText(input.lodging, nights > 1 ? input.lodging2 : "same")}` : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+  // 띠 후보 순서: 규칙 일정 안내(AI 실패) → 후보 부족 안내 → 그 밖의 안내
+  const notes: Note[] = [
+    ...(!ai ? [{ text: "AI 설계를 불러오지 못해 규칙으로 만든 일정이에요.", tone: "caution" as const }] : []),
+    ...(ai && trip.oneOption ? [{ text: trip.oneOption, tone: "info" as const }] : []),
+    ...trip.notes.map((text) => ({ text, tone: "caution" as const })),
+  ];
   return (
-    <header className="animate-rise px-5 pt-6 lg:px-0">
-      <p className="flex items-center gap-1.5 text-sm font-bold text-primary-ink">
-        <Sparkles size={16} aria-hidden="true" />
-        {ai ? "AI 추천 일정" : "기본 일정"}
-      </p>
-      <h1 className="mt-1 text-title font-bold">{!ai ? "기본 일정을 만들었어요" : trip.options.length > 1 ? `일정 ${trip.options.length}가지를 만들었어요` : "일정을 만들었어요"}</h1>
-      <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="여행 조건">
-        <Pill icon={<CalendarDays size={16} />}>
-          {trip.input.startDate && trip.input.endDate ? formatRange(trip.input.startDate, trip.input.endDate) : ""} · {tripLabel(nights)}
-        </Pill>
-        {trip.input.travelers.map((t) => (
-          <Pill key={t} icon={TRAVELER_ICON[t]}>
-            {TRAVELER_LABELS[t]}
-          </Pill>
-        ))}
-        <Pill icon={<Car size={16} />}>{trip.input.transport === "car" ? "자가용" : "택시"}</Pill>
-        {trip.input.lodging && <Pill icon={<BedDouble size={16} />}>숙소 {lodgingText(trip.input.lodging, nights > 1 ? trip.input.lodging2 : "same")}</Pill>}
-      </ul>
-      {!ai && <Notice>AI 설계를 불러오지 못해 규칙으로 만든 일정이에요.</Notice>}
-      {ai && trip.oneOption && (
-        <p className="mt-3 flex items-start gap-2 rounded-xl bg-primary-soft px-4 py-3 text-base text-primary-ink">
-          <Info size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
-          <span>{trip.oneOption}</span>
-        </p>
-      )}
-      {trip.notes.map((n) => (
-        <Notice key={n}>{n}</Notice>
-      ))}
+    <header className="animate-rise px-4 pt-4 md:px-6 lg:px-0">
+      <h1 className="font-heading text-title font-bold text-balance">
+        {!ai ? "기본 일정을 만들었어요" : trip.options.length > 1 ? `일정 ${trip.options.length}가지를 만들었어요` : "일정을 만들었어요"}
+      </h1>
+      <p className="mt-2 text-sm text-pretty text-ink-sub">{meta}</p>
+      {notes.map((n, i) => (n.tone === "info" ? <InfoLine key={n.text} band={!bandUsed && i === 0}>{n.text}</InfoLine> : <Notice key={n.text} band={!bandUsed && i === 0}>{n.text}</Notice>))}
     </header>
   );
 }
 
-function Pill({ icon, children }: { icon: ReactNode; children: ReactNode }) {
+/** 주의 안내: band면 색 띠(첫 화면에 하나), 아니면 배경 없는 '!' + 글자 줄 */
+function Notice({ children, band }: { children: ReactNode; band: boolean }) {
   return (
-    <li className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-sm font-medium text-ink">
-      <span className="text-ink-sub" aria-hidden="true">
-        {icon}
+    <p className={`flex items-start gap-2 text-base text-caution-ink ${band ? "mt-4 rounded-2xl bg-caution-bg px-4 py-3" : "mt-3"}`}>
+      <span className="font-bold" aria-hidden="true">
+        !
       </span>
-      {children}
-    </li>
-  );
-}
-
-function Notice({ children }: { children: ReactNode }) {
-  return (
-    <p className="mt-3 flex items-start gap-2 rounded-xl bg-caution-bg px-4 py-3 text-base text-caution-ink">
-      <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
       <span>
         <span className="sr-only">주의: </span>
         {children}
       </span>
+    </p>
+  );
+}
+
+/** 안내(후보가 적어 안을 줄였을 때 등): band면 연한 파랑 띠, 아니면 배경 없는 줄 */
+function InfoLine({ children, band }: { children: ReactNode; band: boolean }) {
+  return (
+    <p className={`flex items-start gap-2 text-base ${band ? "mt-4 rounded-2xl bg-primary-soft px-4 py-3 text-primary-ink" : "mt-3 text-ink-sub"}`}>
+      <span className="font-bold" aria-hidden="true">
+        !
+      </span>
+      <span>{children}</span>
     </p>
   );
 }
