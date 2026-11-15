@@ -3,7 +3,7 @@
 // 확정 일정: 정한 안 하나와 지도만(다른 안·비교·설계 과정은 뺀다). 장소를 바꿨으면 바꾼 일정으로 보여준다.
 // 모바일: 위 지도 + 아래 일정, PC: 왼쪽 지도 + 오른쪽 일정. 지도 경로선은 열 때마다 받고 저장하지 않는다.
 // 시각은 모두 코드가 계산한 값(이동시간은 열 때 받은 카카오 실제 값, 못 받으면 직선거리 어림, 저장 안 함)이고, 경로선은 "일반 차량 경로"다.
-import { ArrowLeft, CircleCheck, Printer } from "lucide-react";
+import { ArrowLeft, Printer } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -38,9 +38,9 @@ export function FinalScreen() {
 
 function Empty({ text, body, href, cta, back = "/trip/new" }: { text: string; body: string; href: string; cta: string; back?: string }) {
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-5 pt-4 pb-7">
+    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-4 pt-4 pb-7">
       <TopBar backHref={back} backLabel="일정 비교 화면으로" />
-      <h1 className="mt-8 text-title font-bold">{text}</h1>
+      <h1 className="mt-8 font-heading text-title font-bold text-balance">{text}</h1>
       <p className="text-base text-ink-sub">{body}</p>
       <ButtonLink href={href}>{cta}</ButtonLink>
     </main>
@@ -62,6 +62,8 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
   // 날씨는 열 때 받아 화면 메모리에만 둔다(저장 안 함). 못 받으면 날씨 줄만 빠진다
   const weather = useWeather();
   const [dayIndex, setDayIndex] = useState(0);
+  // 휴대폰에서는 지도를 작게 시작하고 눌러서 키운다(PC는 왼쪽 고정 지도라 해당 없음)
+  const [bigMap, setBigMap] = useState(false);
   const day = o.days[dayIndex] ?? o.days[0];
   // 날짜·장소가 바뀔 때만 새 배열 → 그때만 지도를 다시 그린다
   const points = useMemo(() => dayMapPoints(trip, o, dayIndex), [trip, o, dayIndex]);
@@ -78,14 +80,14 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
     {/* 인쇄·PDF: 화면 배치 대신 A4 1~2장짜리 일정표만 */}
     <PrintSheet trip={trip} o={o} link={shared?.link} />
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem] print:hidden">
-      <div className="px-5 pt-4 print:hidden">
+      <div className="px-4 pt-4 print:hidden">
         {shared ? <TopBar backHref="/" backLabel="이음길 처음 화면으로" /> : <TopBar backHref={tripHref(trip)} backLabel="일정 비교 화면으로" />}
       </div>
 
-      <header className="animate-rise px-5 pt-5">
+      <header className="animate-rise px-4 pt-4">
         <div className={`flex flex-wrap items-center gap-2 print:hidden ${shared ? "justify-end" : "justify-between"}`}>
           {!shared && (
-            <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-1.5 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
+            <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-2 text-base font-bold text-primary-ink underline-offset-4 hover:underline">
               <ArrowLeft size={18} aria-hidden="true" />
               다른 안 보기
             </Link>
@@ -98,21 +100,25 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
             </Button>
           </div>
         </div>
-        <p className="mt-3 flex items-center gap-1.5 text-sm font-bold text-primary-ink">
-          <CircleCheck size={16} aria-hidden="true" />
-          {shared ? "공유받은 일정 · 읽기 전용" : "확정한 일정"}
-        </p>
-        <h1 className="mt-1 text-title font-bold">{o.title}</h1>
-        <p className="mt-1 text-base text-ink-sub">
-          {trip.input.startDate && trip.input.endDate ? formatRange(trip.input.startDate, trip.input.endDate) : ""} · {tripLabel(nights)} · {o.stats.places}곳
+        <h1 className="mt-4 font-heading text-title font-bold text-balance">{o.title}</h1>
+        <p className="mt-2 text-sm text-ink-sub">
+          {shared ? (
+            "공유받은 일정 · 읽기 전용"
+          ) : (
+            <>
+              <span aria-hidden="true">✓ </span>
+              <span>확정한 일정</span>
+            </>
+          )}
+          {` · ${trip.input.startDate && trip.input.endDate ? `${formatRange(trip.input.startDate, trip.input.endDate)} · ` : ""}${tripLabel(nights)} · ${o.stats.places}곳`}
         </p>
       </header>
 
       {o.days.length > 1 && (
-        <Tabs value={day.date} onValueChange={(v) => setDayIndex(Math.max(0, o.days.findIndex((d) => d.date === v)))} className="mt-4 px-5 print:hidden">
-          <TabsList className="w-full">
+        <Tabs value={day.date} onValueChange={(v) => setDayIndex(Math.max(0, o.days.findIndex((d) => d.date === v)))} className="mt-4 px-4 print:hidden">
+          <TabsList variant="line" className="w-full">
             {o.days.map((d, i) => (
-              <TabsTrigger key={d.date} value={d.date} aria-controls={`day-${d.date}`} className="flex-col gap-0 font-bold data-active:text-primary-ink">
+              <TabsTrigger key={d.date} value={d.date} aria-controls={`day-${d.date}`} className="flex-col gap-0">
                 {i + 1}일째
                 <span className="text-sm font-normal">{formatDay(d.date)}</span>
               </TabsTrigger>
@@ -121,23 +127,30 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
         </Tabs>
       )}
 
-      <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-8 lg:px-5 xl:grid-cols-[minmax(0,1fr)_30rem]">
-        <div className="px-5 lg:sticky lg:top-4 lg:self-start lg:px-0 print:hidden">
-          <TripMap
-            key={dayIndex}
-            points={points}
-            label={mapLabel}
-            details={dayStopDetails(trip, o, dayIndex)}
-            onPick={showStopInList}
-            className="h-72 md:h-96 lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]"
-          />
+      <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-8 lg:px-6 xl:grid-cols-[minmax(0,1fr)_30rem]">
+        <div className="px-4 lg:sticky lg:top-4 lg:self-start lg:px-0 print:hidden">
+          <div id="final-map">
+            <TripMap
+              key={dayIndex}
+              points={points}
+              label={mapLabel}
+              details={dayStopDetails(trip, o, dayIndex)}
+              onPick={showStopInList}
+              className={`${bigMap ? "h-80" : "h-44"} lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]`}
+            />
+          </div>
+          <div className="flex justify-end lg:hidden">
+            <Button variant="ghost" size="sm" aria-expanded={bigMap} aria-controls="final-map" onClick={() => setBigMap((v) => !v)}>
+              {bigMap ? "지도 작게 보기" : "지도 크게 보기"}
+            </Button>
+          </div>
         </div>
 
-        <div className="px-5 lg:px-0">
+        <div className="px-4 lg:px-0">
           {o.days.map((d, i) => (
-            <section key={d.date} id={`day-${d.date}`} className={i === dayIndex ? "animate-rise" : "hidden print:block"} aria-label={`${i + 1}일째 일정`}>
+            <section key={d.date} id={`day-${d.date}`} className={i === dayIndex ? "" : "hidden print:block"} aria-label={`${i + 1}일째 일정`}>
               {o.days.length > 1 && (
-                <h2 className={`mb-2 text-lg font-bold ${i === dayIndex ? "hidden print:block" : ""}`}>
+                <h2 className={`mb-2 font-heading text-heading font-bold ${i === dayIndex ? "hidden print:block" : ""}`}>
                   {i + 1}일째 · {formatDay(d.date)}
                 </h2>
               )}
@@ -146,7 +159,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
             </section>
           ))}
           <Checklist o={o} trip={trip} readOnly={!!shared} />
-          <section className="mt-8 flex flex-col gap-1.5 text-sm leading-normal text-ink-sub">
+          <section className="mt-8 flex flex-col gap-2 text-sm leading-normal text-ink-sub">
             {source && <p>{source}</p>}
             <p>지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.</p>
             <p>

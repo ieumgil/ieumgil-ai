@@ -17,7 +17,6 @@ const PENDING: string[] = [
   "src/app/plan/who/WhoStep.tsx",
   "src/app/s/[id]/SharedScreen.tsx",
   "src/app/s/[id]/page.tsx",
-  "src/app/trip/[id]/final/FinalScreen.tsx",
   "src/components/Intro.tsx",
   "src/components/Logo.tsx",
   "src/components/plan/Calendar.tsx",
@@ -26,7 +25,6 @@ const PENDING: string[] = [
   "src/components/plan/StepShell.tsx",
   "src/components/plan/choices.tsx",
   "src/components/trip/Checklist.tsx",
-  "src/components/trip/FinalDayList.tsx",
   "src/components/trip/ShareButton.tsx",
 ];
 

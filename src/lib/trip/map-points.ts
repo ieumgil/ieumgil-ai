@@ -1,6 +1,7 @@
 // 하루 일정 → 지도에 찍을 점(출발 · 장소 번호 · 도착)과 화면 읽기용 설명.
 // 안 비교 화면과 확정 화면이 같이 쓴다. 번호는 타임라인의 장소 번호와 같다.
 import type { Verdict } from "../ai/guards";
+import { openDetailsAround } from "../details";
 import { toHHMM } from "../engine/types";
 import { shortName, verdictText } from "./labels";
 import { callPlaces } from "./questions";
@@ -67,6 +68,7 @@ export const stopAnchor = (placeId: string) => `stop-${placeId}`;
 export function showStopInList(placeId: string) {
   const el = document.getElementById(stopAnchor(placeId));
   if (!el) return;
+  openDetailsAround(el); // 닫힌 펼치기 안이면 먼저 열어야 보인다
   const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
   el.removeAttribute("data-flash");
