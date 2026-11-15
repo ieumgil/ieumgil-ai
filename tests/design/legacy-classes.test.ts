@@ -32,7 +32,6 @@ const PENDING: string[] = [
   "src/components/trip/ConfirmSheet.tsx",
   "src/components/trip/ExampleBanner.tsx",
   "src/components/trip/FinalDayList.tsx",
-  "src/components/trip/Footnotes.tsx",
   "src/components/trip/HardPlaces.tsx",
   "src/components/trip/OptionDetail.tsx",
   "src/components/trip/OptionPicker.tsx",

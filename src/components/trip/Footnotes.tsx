@@ -1,12 +1,13 @@
 // 결과 화면 맨 아래 안내: 일반 차량 경로 · 추정 이동시간 · 출처 등.
-import { ChevronDown, Sparkles } from "lucide-react";
+// 안전 안내 문장(일반 차량 경로, AI가 정리한 정보)은 항상 보이고, 'AI 설계 과정'만 펼치기 안에 둔다.
+import { Disclosure } from "@/components/ui/disclosure";
 import type { TripView } from "@/lib/trip/view";
 
 /** estimated: 지금 보이는 일정에 직선거리 추정 구간이 있는지 */
 export function Footnotes({ trip, estimated = true }: { trip: TripView; estimated?: boolean }) {
   return (
-    <div className="px-5 lg:px-0">
-      <section className="mt-8 flex flex-col gap-1.5 text-sm leading-normal text-ink-sub">
+    <div className="mt-8 border-t border-line px-4 lg:px-0">
+      <section className="mt-6 flex flex-col gap-2 text-sm leading-normal text-ink-sub">
         <p>
           {estimated
             ? "이동 시간은 카카오 일반 차량 길찾기 값이고, 받지 못한 구간은 직선거리로 어림한 추정치예요."
@@ -15,15 +16,8 @@ export function Footnotes({ trip, estimated = true }: { trip: TripView; estimate
         </p>
         <p>접근성 정보는 한국관광공사 무장애 여행정보를 AI가 읽고 정리한 것이라 현장과 다를 수 있어요.</p>
       </section>
-      <details className="group mt-5 rounded-2xl bg-surface px-4 py-1">
-        <summary className="flex min-h-touch cursor-pointer list-none items-center justify-between text-base font-bold">
-          <span className="inline-flex items-center gap-2">
-            <Sparkles size={18} aria-hidden="true" />
-            AI 설계 과정 보기
-          </span>
-          <ChevronDown size={20} className="transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
-        </summary>
-        <ul className="flex flex-col gap-1.5 pb-3 text-sm leading-normal text-ink-sub">
+      <Disclosure summary="AI 설계 과정 보기" className="mt-4">
+        <ul className="flex flex-col gap-2 pb-4 text-sm leading-normal text-ink-sub">
           <li>
             AI 호출 {trip.calls}회 · {Math.round(trip.ms / 1000)}초
           </li>
@@ -36,7 +30,7 @@ export function Footnotes({ trip, estimated = true }: { trip: TripView; estimate
             </li>
           ))}
         </ul>
-      </details>
+      </Disclosure>
     </div>
   );
 }
