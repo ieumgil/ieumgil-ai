@@ -48,8 +48,8 @@ export function Intro() {
       <div className="intro-mark">
         <LogoMark size={80} />
       </div>
-      <p className="intro-name text-display font-bold text-primary">이음길</p>
-      <p className="intro-line text-lead text-ink-sub">휠체어, 어르신, 유모차와 함께 가는 영동 여행</p>
+      <p className="intro-name text-title font-bold text-primary">이음길</p>
+      <p className="intro-line text-base text-ink-sub">휠체어, 어르신, 유모차와 함께 가는 영동 여행</p>
     </div>
   );
 }
