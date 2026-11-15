@@ -313,7 +313,12 @@ export function TripMap({
     pts.forEach((p) => bounds.extend(new maps.LatLng(p.lat, p.lng)));
     (line?.path ?? []).forEach((p) => bounds.extend(ll(p)));
     // 오른쪽은 이름표가 있어 조금 더 비운다
-    fit.current = () => map.setBounds(bounds, 48, 72, 40, 40);
+    // 지도가 작게 시작하면(높이 176px) 위·아래 여백이 칸의 절반을 먹어 너무 멀리 맞춰지므로, 여백은 칸 높이의 15%를 넘지 않게 한다
+    fit.current = () => {
+      const h = box.current?.clientHeight ?? 0;
+      const v = (n: number) => (h > 0 ? Math.min(n, Math.round(h * 0.15)) : n);
+      map.setBounds(bounds, v(48), 72, v(40), 40);
+    };
     fit.current();
     return () => {
       fit.current = null;
