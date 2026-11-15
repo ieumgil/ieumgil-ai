@@ -242,3 +242,104 @@ test.describe("입력 틀·1·2단계 정리", () => {
     expect(overWho).toBeLessThanOrEqual(0);
   });
 });
+
+// ---- 03-08: 입력 3·4단계 정리 ----------------------------------------------------------
+/** 앞 단계를 채운 입력값을 탭 보관소에 미리 넣는다(화면 흐름 대신 3·4단계만 바로 본다) */
+async function seedPlan(page: Page, patch: Record<string, unknown>) {
+  await page.addInitScript((p) => {
+    sessionStorage.setItem(
+      "ieumgil-plan",
+      JSON.stringify({ startDate: "2026-12-12", endDate: "2026-12-12", arrival: "gangneung-station", transport: "taxi", travelers: ["stroller"], categories: [], mustVisit: [], ...p }),
+    );
+  }, patch);
+}
+
+const MARK = 'span[aria-hidden="true"]';
+
+test.describe("입력 3·4단계 정리", () => {
+  test("3단계 유형은 글자 한 줄, 바꾸기 이름은 '여행 유형 바꾸기' @p0308", async ({ page }) => {
+    await seedPlan(page, { travelers: ["stroller"] });
+    await page.goto("/plan/conditions");
+    const change = page.getByRole("link", { name: "여행 유형 바꾸기" });
+    await expect(change).toBeVisible();
+    await expect(change).toHaveAttribute("href", "/plan/who");
+    const line = page.getByText(/유모차 동반/).first();
+    await expect(line).toContainText(/유모차 동반.* · 바꾸기/);
+    await expect(line).toHaveCSS("background-color", "rgba(0, 0, 0, 0)"); // 알약 면이 아니라 글자
+  });
+
+  test("있으면 좋아요는 켜진 개수와 함께 접혀 있다 @p0308", async ({ page }) => {
+    await seedPlan(page, { travelers: ["stroller"] });
+    await page.goto("/plan/conditions");
+    const summary = page.locator("summary", { hasText: /있으면 좋아요 · \d+개 켜짐/ });
+    await expect(summary).toBeVisible();
+    const row = page.getByLabel(/수유실/);
+    await expect(row).not.toBeVisible();
+    await summary.click();
+    await expect(row).toBeVisible();
+  });
+
+  test("4단계: 꼭 가고 싶은 곳은 접혀 있다 @p0308 @p0308-taste", async ({ page }) => {
+    await seedPlan(page, { categories: ["바다·해변"] });
+    await page.goto("/plan/taste");
+    const summary = page.locator("summary", { hasText: "꼭 가고 싶은 곳 · 선택" });
+    await expect(summary).toBeVisible();
+    const browse = page.getByRole("link", { name: /관광지 둘러보고 고르기/ });
+    await expect(browse).not.toBeVisible();
+    await summary.click();
+    await expect(browse).toBeVisible();
+  });
+
+  test("4단계: 담은 곳이 있으면 요약에 개수, 이름 칩은 접혀도 보인다 @p0308 @p0308-taste", async ({ page }) => {
+    await seedPlan(page, { categories: ["바다·해변"], mustVisit: ["DH01"] });
+    await page.goto("/plan/taste");
+    await expect(page.locator("summary", { hasText: "1곳 담음" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /관광지 둘러보고 고르기/ })).not.toBeVisible(); // 접힘
+    await expect(page.getByRole("list", { name: "꼭 가고 싶은 곳" })).toBeVisible(); // 칩은 접혀도 보임
+  });
+
+  test("분야 썸네일은 또렷한 56px @p0308 @p0308-taste", async ({ page }) => {
+    await seedPlan(page, {});
+    await page.goto("/plan/taste");
+    const img = page.locator("button[aria-pressed]").first().locator("img");
+    await expect(img).toHaveCount(1);
+    await expect(img).toHaveCSS("opacity", "1");
+    const width = await img.evaluate((el) => (el as HTMLImageElement).getBoundingClientRect().width);
+    expect(Math.round(width)).toBe(56);
+    await expect(page.getByText("사진: 한국관광공사 · 공공누리 제1유형")).toBeVisible();
+  });
+
+  test("글자 200%: 분야·밀도 타일이 잘리지 않는다 @p0308 @p0308-taste", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "글자 확대는 휴대폰 폭에서만 본다");
+    await seedPlan(page, {});
+    await page.goto("/plan/taste");
+    await page.addStyleTag({ content: "html{font-size:200% !important}" });
+    const tiles = page.locator("button[aria-pressed]");
+    await expect(tiles).toHaveCount(6);
+    const radios = page.getByRole("radiogroup", { name: "하루에 얼마나 돌아볼까요?" }).getByRole("radio");
+    await expect(radios).toHaveCount(3);
+    const measure = (els: Element[]) => els.map((el) => ({ t: (el.textContent ?? "").slice(0, 8), w: el.scrollWidth - el.clientWidth, h: el.scrollHeight - el.clientHeight }));
+    const cut = [...(await tiles.evaluateAll(measure)), ...(await radios.evaluateAll(measure))];
+    expect(cut.filter((c) => c.w > 1 || c.h > 1), JSON.stringify(cut)).toEqual([]);
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(over).toBeLessThanOrEqual(0);
+  });
+
+  test("걷는 거리 고른 칸은 ✓로도 구분된다 @p0308", async ({ page }) => {
+    await seedPlan(page, { travelers: ["elder"] });
+    await page.goto("/plan/conditions");
+    const group = page.getByRole("radiogroup", { name: /한 번에 걸을 수 있는 거리/ });
+    await group.getByRole("radio", { name: "300m" }).click();
+    await expect(group.getByRole("radio", { name: "300m" }).locator(MARK, { hasText: "✓" })).toBeVisible();
+    await expect(group.getByRole("radio", { name: "100m" }).locator(MARK, { hasText: "✓" })).not.toBeVisible();
+  });
+
+  test("밀도 고른 칸은 ✓로도 구분된다 @p0308 @p0308-taste", async ({ page }) => {
+    await seedPlan(page, { categories: ["바다·해변"] });
+    await page.goto("/plan/taste");
+    const group = page.getByRole("radiogroup", { name: "하루에 얼마나 돌아볼까요?" });
+    await group.getByRole("radio", { name: /^보통/ }).click();
+    await expect(group.getByRole("radio", { name: /^보통/ }).locator(MARK, { hasText: "✓" })).toBeVisible();
+    await expect(group.getByRole("radio", { name: /^여유롭게/ }).locator(MARK, { hasText: "✓" })).not.toBeVisible();
+  });
+});
