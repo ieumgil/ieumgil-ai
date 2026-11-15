@@ -1,5 +1,6 @@
 // 관광지 둘러보기: 지역·분야로 둘러보고, 어떤 곳인지 보고, 담으면 4단계 '꼭 가고 싶은 곳'에 들어간다.
 import { expect, test, type Page } from "@playwright/test";
+import { openDisclosure } from "./open-details";
 
 test.beforeEach(async ({ page }) => {
   await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort()); // 관광공사 원본 사진(외부 호출 없음)
@@ -15,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 test("4단계에서 '관광지 둘러보고 고르기'로 들어가 담으면, 돌아왔을 때 꼭 가고 싶은 곳에 있다 @p0308-taste", async ({ page }) => {
   await page.goto("/plan/taste");
   // '꼭 가고 싶은 곳'은 선택 사항이라 접혀 있다: 펼친 뒤 링크를 누른다
-  await page.locator("summary", { hasText: "꼭 가고 싶은 곳" }).click();
+  await openDisclosure(page.locator("summary", { hasText: "꼭 가고 싶은 곳" }));
   await page.getByRole("link", { name: /관광지 둘러보고 고르기/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "영동 관광지 둘러보기" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "대표 관광지" })).toBeVisible();

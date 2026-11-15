@@ -1,6 +1,7 @@
 // 입력 4단계 흐름을 실제 브라우저로 검사한다.
 // 날짜는 고정 시계(2026-11-14 토)로 두고, 예시 날짜 11/21(토)을 고른다.
 import { expect, test, type Page } from "@playwright/test";
+import { openDisclosure } from "./open-details";
 
 test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-11-14T10:00:00+09:00"));
@@ -286,7 +287,7 @@ test.describe("입력 3·4단계 정리", () => {
     await expect(summary).toBeVisible();
     const browse = page.getByRole("link", { name: /관광지 둘러보고 고르기/ });
     await expect(browse).not.toBeVisible();
-    await summary.click();
+    await openDisclosure(summary);
     await expect(browse).toBeVisible();
   });
 
