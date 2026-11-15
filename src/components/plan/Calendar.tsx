@@ -5,6 +5,9 @@ import { useState, useSyncExternalStore } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 import { MAX_NIGHTS, WEEKDAYS, monthCells, pickDate, todayISO, weekdayOf } from "@/lib/plan/dates";
 
+/** 요일 줄과 날짜 칸이 함께 쓰는 7칸 틀(칸 하나는 터치 최소 크기 이상) */
+const GRID = "grid grid-cols-[repeat(7,minmax(2.75rem,1fr))]";
+
 const noop = () => () => {};
 /** 오늘 날짜는 사용자 기기 기준이라 서버에서는 모른다(null) */
 function useToday(): string | null {
@@ -34,7 +37,7 @@ export function Calendar({
 
   if (!today) {
     // 서버 렌더링·첫 화면: 자리만 잡아 둔다
-    return <div className="mx-5 mt-4 h-[23rem] rounded-2xl bg-surface" aria-hidden="true" />;
+    return <div className="mx-4 min-h-[23rem] md:mx-6" aria-hidden="true" />;
   }
 
   const shown = view ?? ymOf(start ?? today);
@@ -53,12 +56,12 @@ export function Calendar({
   }
 
   return (
-    <div className="mx-5 mt-4 rounded-2xl bg-surface p-4">
+    <div className="mx-4 md:mx-6">
       <div className="flex items-center justify-between">
         <MonthButton label="이전 달" disabled={cmp(shown, min) <= 0} onClick={() => setView(shift(shown, -1))}>
           <ChevronLeftIcon size={20} />
         </MonthButton>
-        <span className="text-lg font-bold" aria-live="polite">
+        <span className="text-base font-bold" aria-live="polite">
           {shown.y}년 {shown.m}월
         </span>
         <MonthButton label="다음 달" disabled={cmp(shown, max) >= 0} onClick={() => setView(shift(shown, 1))}>
@@ -66,53 +69,58 @@ export function Calendar({
         </MonthButton>
       </div>
 
-      <div className="mt-3 grid grid-cols-7 text-center text-sm text-ink-sub" aria-hidden="true">
-        {WEEKDAYS.map((d, i) => (
-          <span key={d} className={i === 0 ? "text-sunday" : i === 6 ? "text-primary" : ""}>
-            {d}
-          </span>
-        ))}
-      </div>
-
-      <div className="mt-1.5 grid grid-cols-7 gap-y-1">
-        {monthCells(shown.y, shown.m).map((day, i) => {
-          if (!day) return <div key={`blank-${i}`} className="h-11" />;
-          const past = day < today;
-          const isEdge = day === start || day === last;
-          const inRange = !!start && !!last && start !== last && day >= start && day <= last;
-          const band = inRange
-            ? `bg-primary-band ${day === start ? "rounded-l-full" : day === last ? "rounded-r-full" : ""}`
-            : "";
-          const d = Number(day.slice(8));
-          return (
-            <div key={day} className={`flex h-11 items-center justify-center ${band}`}>
-              <button
-                type="button"
-                disabled={past}
-                aria-pressed={isEdge}
-                aria-label={`${shown.y}년 ${shown.m}월 ${d} 일 ${weekdayOf(day)}요일${day === today ? ", 오늘" : ""}`}
-                onClick={() => pick(day)}
-                className={`size-touch rounded-full text-base transition-[background-color,color,box-shadow,transform] duration-150 active:scale-[0.92] focus-visible:outline-3 focus-visible:outline-primary ${
-                  isEdge
-                    ? "bg-primary font-bold text-white"
-                    : past
-                      ? "cursor-not-allowed text-past"
-                      : "text-ink hover:bg-white hover:text-primary-ink hover:shadow-[inset_0_0_0_1.5px_rgb(30_111_208/0.45)]"
-                } ${day === today && !isEdge ? "underline underline-offset-4" : ""}`}
-              >
+      {/* 요일 줄과 날짜 칸은 같은 칸 틀을 쓰고, 좁거나 글자가 커지면 이 칸 안에서만 가로로 밀린다(문서 전체는 안 밀림) */}
+      <div className="-mx-1 mt-2 overflow-x-auto px-1 py-1">
+        <div className="w-max min-w-full">
+          <div className={`${GRID} text-center text-sm text-ink-sub`} aria-hidden="true">
+            {WEEKDAYS.map((d, i) => (
+              <span key={d} className={i === 0 ? "text-sunday" : i === 6 ? "text-primary" : ""}>
                 {d}
-              </button>
-            </div>
-          );
-        })}
+              </span>
+            ))}
+          </div>
+
+          <div className={`${GRID} mt-2 gap-y-1`}>
+            {monthCells(shown.y, shown.m).map((day, i) => {
+              if (!day) return <div key={`blank-${i}`} className="min-h-11" />;
+              const past = day < today;
+              const isEdge = day === start || day === last;
+              const inRange = !!start && !!last && start !== last && day >= start && day <= last;
+              const band = inRange
+                ? `bg-primary-band ${day === start ? "rounded-l-full" : day === last ? "rounded-r-full" : ""}`
+                : "";
+              const d = Number(day.slice(8));
+              return (
+                <div key={day} className={`flex min-h-11 items-center justify-center ${band}`}>
+                  <button
+                    type="button"
+                    disabled={past}
+                    aria-pressed={isEdge}
+                    aria-label={`${shown.y}년 ${shown.m}월 ${d} 일 ${weekdayOf(day)}요일${day === today ? ", 오늘" : ""}`}
+                    onClick={() => pick(day)}
+                    className={`aspect-square min-h-touch min-w-touch rounded-full text-base leading-none transition-[background-color,color] duration-150 focus-visible:outline-3 focus-visible:outline-primary ${
+                      isEdge
+                        ? "bg-primary font-bold text-white"
+                        : past
+                          ? "cursor-not-allowed text-past"
+                          : "text-ink hover:bg-primary-soft hover:text-primary-ink"
+                    } ${day === today && !isEdge ? "underline underline-offset-4" : ""}`}
+                  >
+                    {d}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      <div className="mt-2.5 flex flex-wrap gap-x-3.5 text-sm text-ink-sub">
+      <div className="mt-3 flex flex-wrap gap-x-4 text-sm text-ink-sub">
         <span>회색 날짜는 지난 날이에요</span>
         <span>최대 {MAX_NIGHTS}박 {MAX_NIGHTS + 1}일</span>
       </div>
       {warn && (
-        <p className="mt-2 text-sm font-medium text-caution-ink" role="alert">
+        <p className="mt-2 text-sm font-bold text-caution-ink" role="alert">
           이음길은 {MAX_NIGHTS}박 {MAX_NIGHTS + 1}일까지 계획할 수 있어요.
         </p>
       )}
@@ -137,7 +145,7 @@ function MonthButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="flex size-touch items-center justify-center rounded-full text-ink hover:bg-white disabled:cursor-not-allowed disabled:text-past disabled:hover:bg-transparent"
+      className="flex min-h-touch min-w-touch items-center justify-center rounded-full text-ink hover:bg-surface disabled:cursor-not-allowed disabled:text-past disabled:hover:bg-transparent focus-visible:outline-3 focus-visible:outline-primary"
     >
       {children}
     </button>

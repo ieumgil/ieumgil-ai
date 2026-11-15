@@ -54,7 +54,7 @@ export function WhoStep() {
       }
     >
       <IncompleteNotice plan={plan} step={2} />
-      <div id="field-travelers" className="flex flex-col gap-3 px-5 pt-4 pb-1">
+      <div id="field-travelers" className="flex flex-col gap-3 px-4 md:px-6">
         {TYPES.map((t) => {
           const on = plan.travelers.includes(t.id);
           return (
@@ -63,25 +63,23 @@ export function WhoStep() {
               type="button"
               aria-pressed={on}
               onClick={() => toggle(t.id)}
-              className={`group flex min-h-23 w-full items-center gap-3.5 rounded-2xl border-2 p-4 text-left transition-[background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                on ? "border-primary bg-primary-soft" : `border-surface bg-surface hover:border-primary/40 hover:bg-white`
+              className={`flex min-h-20 w-full flex-wrap items-center gap-3 rounded-2xl p-4 text-left transition-[background-color,border-color] duration-150 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                on ? "border-2 border-primary bg-primary-soft" : "border-[1.5px] border-line-control bg-white hover:border-primary"
               }`}
             >
-              <span className="flex size-13 shrink-0 items-center justify-center rounded-full bg-white text-primary transition-transform duration-200 motion-safe:group-hover:scale-110">
-                {t.icon}
+              <span className="shrink-0 text-primary">{t.icon}</span>
+              <span className="flex min-w-0 grow basis-[10rem] flex-col gap-1">
+                <span className="text-base font-bold text-ink">{t.title}</span>
+                <span className="text-base text-ink-sub">{t.body}</span>
               </span>
-              <span className="flex flex-1 flex-col gap-1">
-                <span className="text-lg font-bold text-ink">{t.title}</span>
-                <span className="text-base leading-normal text-ink-sub">{t.body}</span>
+              <span className="ml-auto">
+                <CheckDot on={on} />
               </span>
-              <CheckDot on={on} />
             </button>
           );
         })}
-        <p className="mt-1 text-sm leading-relaxed text-ink-sub">
-          여러 개를 함께 고를 수 있어요. 예: 휠체어를 쓰는 할머니와 유모차를 탄 아이가 함께 가는 여행
-        </p>
-        <p className="flex items-start gap-1.5 text-sm leading-normal text-ink-sub">
+        <p className="text-sm text-ink-sub">여러 개를 함께 고를 수 있어요 · 예: 휠체어를 쓰는 할머니와 유모차를 탄 아이가 함께 가는 여행</p>
+        <p className="flex items-start gap-2 text-sm text-ink-sub">
           <LockIcon size={16} className="mt-0.5 shrink-0" />
           이름·연락처는 받지 않아요. 고른 조건은 일정 계산에만 써요.
         </p>

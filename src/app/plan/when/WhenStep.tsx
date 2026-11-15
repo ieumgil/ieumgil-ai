@@ -1,9 +1,11 @@
 "use client";
 
 // 1단계 언제, 어디서 (시안 When.dc.html)
+import { useState } from "react";
 import { Calendar } from "@/components/plan/Calendar";
 import { ChoiceButton, CheckRow } from "@/components/plan/choices";
 import { Section, StepFooter, StepShell } from "@/components/plan/StepShell";
+import { Disclosure } from "@/components/ui/disclosure";
 import { formatRange, tripLabel } from "@/lib/plan/dates";
 import { missingWhenFields, nightsOf } from "@/lib/plan/progress";
 import { updatePlan, usePlan } from "@/lib/plan/store";
@@ -18,7 +20,9 @@ const TRANSPORTS: { id: Transport; label: string }[] = [
 const LODGINGS: LodgingRegion[] = ["강릉", "속초", "동해", "미정"];
 
 const selectClass =
-  "h-12 w-full rounded-xl border-[1.5px] border-surface bg-surface px-3 text-base text-ink focus-visible:outline-3 focus-visible:outline-primary";
+  "min-h-12 w-full rounded-xl border-[1.5px] border-line-control bg-white px-3 text-base text-ink focus-visible:outline-3 focus-visible:outline-primary";
+/** 숙소 선택 칸 틀: 칸 폭이 5rem 아래로 줄면 줄바꿈(글자가 커지면 두 줄로) */
+const LODGING_GRID = "grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-2";
 
 export function WhenStep() {
   const plan = usePlan();
@@ -26,6 +30,12 @@ export function WhenStep() {
   const missing = missingWhenFields(plan);
   const arrivalLabel = ARRIVAL_POINTS.find((a) => a.id === plan.arrival)?.label;
   const sameDay = nights === 0;
+  // 시작·마치는 시각과 떠나는 곳은 기본값이 있어 한 줄 요약 뒤에 접어 둔다(저장된 값을 그대로 보여 준다)
+  const [timesOpen, setTimesOpen] = useState(false);
+  const departText =
+    plan.departure === "same"
+      ? "도착한 곳에서 떠나요"
+      : `${ARRIVAL_POINTS.find((a) => a.id === plan.departure)?.label ?? "도착한 곳"}에서 떠나요`;
 
   return (
     <StepShell
@@ -42,7 +52,7 @@ export function WhenStep() {
         />
       }
     >
-      <div id="field-dates" className="pb-1">
+      <div id="field-dates">
         <Calendar
           start={plan.startDate}
           end={plan.endDate}
@@ -51,15 +61,15 @@ export function WhenStep() {
       </div>
 
       <div
-        className={`mx-5 mt-3 flex items-center justify-between gap-2 rounded-[0.875rem] px-4 py-3.5 ${
+        className={`mx-4 mt-3 flex items-center justify-between gap-2 rounded-xl px-4 py-3 md:mx-6 ${
           nights === null ? "bg-surface text-ink-sub" : "bg-primary text-white"
         }`}
         aria-live="polite"
       >
         {plan.startDate && plan.endDate && nights !== null ? (
           <>
-            <span className="text-base font-medium">{formatRange(plan.startDate, plan.endDate)}</span>
-            <span className="shrink-0 text-lg font-bold">{tripLabel(nights)}</span>
+            <span className="text-base font-bold">{formatRange(plan.startDate, plan.endDate)}</span>
+            <span className="shrink-0 text-base font-bold">{tripLabel(nights)}</span>
           </>
         ) : (
           <span className="text-base">아직 날짜를 고르지 않았어요</span>
@@ -91,7 +101,7 @@ export function WhenStep() {
               key={t.id}
               role="radio"
               shape="tile"
-              className="min-h-14 font-medium"
+              className="min-h-14"
               selected={plan.transport === t.id}
               onClick={() => updatePlan({ transport: t.id })}
             >
@@ -104,71 +114,75 @@ export function WhenStep() {
             <CheckRow checked={plan.disabledPermit} onChange={(v) => updatePlan({ disabledPermit: v })}>
               장애인 사용 자동차 표지가 있어요
             </CheckRow>
-            <p className="text-sm leading-normal text-ink-sub">
-              표지가 있으면 장애인 전용 주차구역이 있는 곳을 우선 확인해요.
-            </p>
+            <p className="text-sm text-ink-sub">표지가 있으면 장애인 전용 주차구역이 있는 곳을 우선 확인해요.</p>
           </>
         )}
         {plan.transport === "taxi" && (
-          <p className="text-sm leading-normal text-ink-sub">
-            택시는 입구 앞에서 타고 내린다고 보고, 주차 조건은 확인하지 않아요.
-          </p>
+          <p className="text-sm text-ink-sub">택시는 입구 앞에서 타고 내린다고 보고, 주차 조건은 확인하지 않아요.</p>
         )}
       </Section>
 
-      <div className="grid grid-cols-2 gap-2.5 px-5 pt-6">
-        <label className="flex flex-col gap-1.5 text-base font-medium">
-          {sameDay ? "시작 시각" : "첫날 시작 시각"}
-          <select
-            className={selectClass}
-            value={plan.startTime}
-            onChange={(e) => updatePlan({ startTime: e.target.value })}
+      <div className="mt-8 px-4 md:px-6">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="min-w-0 text-base">
+            {plan.startTime} 시작 · {plan.endTime} 마침 · {departText}
+          </p>
+          <button
+            type="button"
+            aria-expanded={timesOpen}
+            aria-controls="when-times"
+            aria-label="시각·떠나는 곳 설정 바꾸기"
+            onClick={() => setTimesOpen((v) => !v)}
+            className="min-h-touch px-1 text-base font-bold text-primary underline underline-offset-4 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
-            {START_TIMES.map((t) => (
-              <option key={t}>{t}</option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1.5 text-base font-medium">
-          {sameDay ? "마치는 시각" : "마지막 날 마치는 시각"}
-          <select className={selectClass} value={plan.endTime} onChange={(e) => updatePlan({ endTime: e.target.value })}>
-            {END_TIMES.map((t) => (
-              <option key={t}>{t}</option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      <div className="px-5 pt-3">
-        <label className="flex flex-col gap-1.5 text-base font-medium">
-          {sameDay ? "어디서 떠나나요?" : "마지막 날 어디서 떠나나요?"}
-          <select
-            className={selectClass}
-            value={plan.departure}
-            onChange={(e) => updatePlan({ departure: e.target.value as typeof plan.departure })}
-          >
-            <option value="same">도착한 곳과 같음{arrivalLabel ? ` (${arrivalLabel})` : ""}</option>
-            {ARRIVAL_POINTS.filter((a) => a.id !== plan.arrival).map((a) => (
-              <option key={a.id} value={a.id}>
-                {a.label}
-              </option>
-            ))}
-          </select>
-        </label>
+            바꾸기
+          </button>
+        </div>
+        <div id="when-times">
+          {timesOpen && (
+            <div className="mt-4 flex flex-col gap-4">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-3">
+                <label className="flex flex-col gap-2 text-base font-bold">
+                  {sameDay ? "시작 시각" : "첫날 시작 시각"}
+                  <select className={selectClass} value={plan.startTime} onChange={(e) => updatePlan({ startTime: e.target.value })}>
+                    {START_TIMES.map((t) => (
+                      <option key={t}>{t}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex flex-col gap-2 text-base font-bold">
+                  {sameDay ? "마치는 시각" : "마지막 날 마치는 시각"}
+                  <select className={selectClass} value={plan.endTime} onChange={(e) => updatePlan({ endTime: e.target.value })}>
+                    {END_TIMES.map((t) => (
+                      <option key={t}>{t}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <label className="flex flex-col gap-2 text-base font-bold">
+                {sameDay ? "어디서 떠나나요?" : "마지막 날 어디서 떠나나요?"}
+                <select
+                  className={selectClass}
+                  value={plan.departure}
+                  onChange={(e) => updatePlan({ departure: e.target.value as typeof plan.departure })}
+                >
+                  <option value="same">도착한 곳과 같음{arrivalLabel ? ` (${arrivalLabel})` : ""}</option>
+                  {ARRIVAL_POINTS.filter((a) => a.id !== plan.arrival).map((a) => (
+                    <option key={a.id} value={a.id}>
+                      {a.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          )}
+        </div>
       </div>
 
       {nights !== null && nights > 0 && (
-        <Section
-          id="field-lodging"
-          title="숙소는 어느 쪽인가요?"
-          hint={
-            nights > 1
-              ? "밤마다 고를 수 있어요. 숙소를 옮기면 2일째는 첫째 밤 숙소에서 출발해 둘째 밤 숙소 쪽으로 가며 둘러봐요. 숙소 추천은 하지 않아요."
-              : "둘째 날부터 숙소 근처에서 출발해요. 중간 날은 09:30 출발 ~ 18:00 숙소 도착으로 짜고, 결과에서 바꿀 수 있어요. 숙소 추천은 하지 않아요."
-          }
-        >
+        <Section id="field-lodging" title="숙소는 어느 쪽인가요?" hint="숙소 추천은 하지 않아요.">
           {nights > 1 && <h3 className="text-base font-bold text-ink-sub">첫째 밤</h3>}
-          <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label={nights > 1 ? "첫째 밤 숙소 지역" : "숙소 지역"}>
+          <div className={LODGING_GRID} role="radiogroup" aria-label={nights > 1 ? "첫째 밤 숙소 지역" : "숙소 지역"}>
             {LODGINGS.map((l) => (
               <ChoiceButton
                 key={l}
@@ -183,10 +197,16 @@ export function WhenStep() {
             ))}
           </div>
           {nights > 1 && (
-            <div className="flex animate-rise flex-col gap-2.5 pt-2">
+            <div className="flex animate-rise flex-col gap-2 pt-2">
               <h3 className="text-base font-bold text-ink-sub">둘째 밤</h3>
-              <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label="둘째 밤 숙소 지역">
-                <ChoiceButton role="radio" shape="tile" className="col-span-4" selected={plan.lodging2 === "same"} onClick={() => updatePlan({ lodging2: "same" })}>
+              <div className={LODGING_GRID} role="radiogroup" aria-label="둘째 밤 숙소 지역">
+                <ChoiceButton
+                  role="radio"
+                  shape="tile"
+                  className="col-span-full"
+                  selected={plan.lodging2 === "same"}
+                  onClick={() => updatePlan({ lodging2: "same" })}
+                >
                   첫째 밤과 같음{plan.lodging && plan.lodging !== "미정" ? ` (${plan.lodging})` : ""}
                 </ChoiceButton>
                 {LODGINGS.map((l) => (
@@ -204,6 +224,13 @@ export function WhenStep() {
               </div>
             </div>
           )}
+          <Disclosure summary="숙소는 이렇게 짜요">
+            <p className="pb-2 text-sm text-ink-sub">
+              {nights > 1
+                ? "밤마다 고를 수 있어요. 숙소를 옮기면 2일째는 첫째 밤 숙소에서 출발해 둘째 밤 숙소 쪽으로 가며 둘러봐요."
+                : "둘째 날부터 숙소 근처에서 출발해요. 중간 날은 09:30 출발 ~ 18:00 숙소 도착으로 짜고, 결과에서 바꿀 수 있어요."}
+            </p>
+          </Disclosure>
         </Section>
       )}
     </StepShell>
