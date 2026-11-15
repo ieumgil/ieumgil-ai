@@ -175,3 +175,48 @@ test.describe("공용 부품", () => {
     expect(parts.weight).toBe("700");
   });
 });
+
+// ---- 대화창·시트(03-02): 제목은 고운바탕 700, 떠 있는 면은 불투명 · 흐림 없음 ----------------------------
+
+test.describe("대화창·시트", () => {
+  async function seed(page: Page) {
+    await block(page);
+    await page.addInitScript((t) => sessionStorage.setItem("ieumgil-trip", t), trip);
+  }
+
+  test("확정 창 제목은 고운바탕 700, 창은 불투명 흰 바탕이고 뒤 막에 흐림이 없다", async ({ page }) => {
+    await seed(page);
+    await page.goto("/trip/new");
+    await page.getByRole("button", { name: /일정으로 정하기/ }).last().click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    const title = await dialog.getByRole("heading", { level: 2 }).evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { family: cs.fontFamily.replace(/["']/g, ""), weight: cs.fontWeight };
+    });
+    expect(title.family.startsWith("Gowun Batang")).toBe(true);
+    expect(title.weight).toBe("700");
+    const box = await dialog.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { filter: cs.backdropFilter, bg: cs.backgroundColor };
+    });
+    expect(box.filter).toBe("none");
+    expect(box.bg).toBe("rgb(255, 255, 255)");
+    const overlay = await page.locator("[data-slot='sheet-overlay']").evaluate((el) => getComputedStyle(el).backdropFilter);
+    expect(overlay).toBe("none"); // 장식 흐림 없이 검은 10% 막만
+  });
+
+  test("사진 크게 보기 창 제목도 고운바탕 700이다", async ({ page }) => {
+    await seed(page);
+    await page.goto("/trip/new");
+    await page.locator("article").first().getByRole("button", { name: /사진 \d+ 장 크게 보기/ }).click();
+    const dialog = page.getByRole("dialog");
+    const title = await dialog.getByRole("heading", { name: /사진$/ }).evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { family: cs.fontFamily.replace(/["']/g, ""), weight: cs.fontWeight };
+    });
+    expect(title.family.startsWith("Gowun Batang")).toBe(true);
+    expect(title.weight).toBe("700");
+    expect(await page.locator("[data-slot='dialog-overlay']").evaluate((el) => getComputedStyle(el).backdropFilter)).toBe("none");
+  });
+});
