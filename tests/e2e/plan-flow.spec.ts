@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 async function pickDay(page: Page, day: number) {
-  await page.getByRole("button", { name: new RegExp(`^2026년 11월 ${day}일`) }).click();
+  await page.getByRole("button", { name: new RegExp(`^2026년 11월 ${day} 일`) }).click();
 }
 
 test("시작 화면에서 1단계로 들어간다", async ({ page }) => {

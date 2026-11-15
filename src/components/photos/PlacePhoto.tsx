@@ -43,7 +43,7 @@ export function PlacePhoto({ id, name, category, size = "md", className = "" }: 
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={`${name} 사진 ${data.photos.length}장 크게 보기`}
+        aria-label={`${name} 사진 ${data.photos.length} 장 크게 보기`}
         className={`${box} group relative transition-transform duration-150 active:scale-[0.97] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary`}
       >
         {cover ? (

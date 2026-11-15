@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("장소 카드에 사진이 있고, 누르면 크게 보기에 출처(공공누리)가 나온다", async ({ page }) => {
-  const photo = page.locator("article").first().getByRole("button", { name: /사진 \d+장 크게 보기/ });
+  const photo = page.locator("article").first().getByRole("button", { name: /사진 \d+ 장 크게 보기/ });
   await expect(photo).toBeVisible();
   await expect(photo.locator("img")).toHaveAttribute("src", /^\/photos\/.+\.webp$/); // 1유형은 미리 줄여 둔 작은 사진
   await photo.click();
@@ -32,7 +32,7 @@ test("장소 카드에 사진이 있고, 누르면 크게 보기에 출처(공�
 });
 
 test("크게 보기 사진은 밀어서·마우스 휠로 넘기고, 번호가 따라 바뀐다", async ({ page }) => {
-  const photo = page.locator("article").first().getByRole("button", { name: /사진 \d+장 크게 보기/ });
+  const photo = page.locator("article").first().getByRole("button", { name: /사진 \d+ 장 크게 보기/ });
   await expect(photo.getByText(/^\d+$/)).toBeVisible(); // 누를 수 있다는 표시(돋보기 + 장수)
   await photo.click();
   const dialog = page.getByRole("dialog");
@@ -169,7 +169,7 @@ test("열면 카카오 실제 이동시간을 받아 시각을 다시 계산하�
 });
 
 test("장소 카드의 번호는 '지도에서 보기' 버튼이다(누를 수 있고 44px 이상)", async ({ page }) => {
-  const btn = page.getByRole("button", { name: /^지도에서 1번 / }).first();
+  const btn = page.getByRole("button", { name: /^1 .* 지도에서 보기$/ }).first();
   await expect(btn).toBeVisible();
   const box = (await btn.boundingBox())!;
   expect(box.height).toBeGreaterThanOrEqual(44);

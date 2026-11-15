@@ -52,7 +52,7 @@ export function PlaceCard({
         <button
           type="button"
           onClick={() => onMap(it.placeId)}
-          aria-label={`지도에서 ${no}번 ${p.name} 보기`}
+          aria-label={`${no} ${p.name} 지도에서 보기`}
           title="지도에서 보기"
           className="group/no z-10 -m-1.5 flex size-touch shrink-0 items-start justify-center pt-1.5 focus-visible:outline-none"
         >
@@ -114,7 +114,7 @@ export function PlaceCard({
             className="inline-flex min-h-touch grow basis-[11.5rem] items-center justify-center gap-1.5 rounded-xl border-[1.5px] border-primary bg-white px-3 text-base font-bold whitespace-nowrap text-primary transition-colors hover:bg-primary-soft active:scale-[0.99]"
           >
             <Phone size={18} className="shrink-0" aria-hidden="true" />
-            <span className="hidden sm:inline">전화</span>
+            <span className="hidden sm:inline">전화 </span>
             <span className="tabular-nums">{p.phone}</span>
           </a>
           <button

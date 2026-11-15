@@ -112,7 +112,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
         <Tabs value={day.date} onValueChange={(v) => setDayIndex(Math.max(0, o.days.findIndex((d) => d.date === v)))} className="mt-4 px-5 print:hidden">
           <TabsList className="w-full">
             {o.days.map((d, i) => (
-              <TabsTrigger key={d.date} value={d.date} className="flex-col gap-0 font-bold data-active:text-primary-ink">
+              <TabsTrigger key={d.date} value={d.date} aria-controls={`day-${d.date}`} className="flex-col gap-0 font-bold data-active:text-primary-ink">
                 {i + 1}일째
                 <span className="text-sm font-normal">{formatDay(d.date)}</span>
               </TabsTrigger>
@@ -135,7 +135,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
 
         <div className="px-5 lg:px-0">
           {o.days.map((d, i) => (
-            <section key={d.date} className={i === dayIndex ? "animate-rise" : "hidden print:block"} aria-label={`${i + 1}일째 일정`}>
+            <section key={d.date} id={`day-${d.date}`} className={i === dayIndex ? "animate-rise" : "hidden print:block"} aria-label={`${i + 1}일째 일정`}>
               {o.days.length > 1 && (
                 <h2 className={`mb-2 text-lg font-bold ${i === dayIndex ? "hidden print:block" : ""}`}>
                   {i + 1}일째 · {formatDay(d.date)}
