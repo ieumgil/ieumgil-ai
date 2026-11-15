@@ -5,10 +5,20 @@ import type { ReactNode } from "react";
 import { CheckIcon } from "@/components/icons";
 
 const focus = "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary";
-/** 마우스를 올리면 살짝 떠오름(마우스가 있는 기기에서만, 움직임 줄이기 설정이면 꺼짐) */
-export const LIFT = "motion-safe:hover:-translate-y-0.5 hover:shadow-[0_0.5rem_1.25rem_rgb(20_80_163/0.12)]";
 
-/** 하나 또는 여러 개 고르는 알약/네모 버튼. 고르면 연한 파랑 + 파란 테두리. */
+/**
+ * 고르면 앞에 나타나는 ✓ 기호. 색만으로 구분하지 않으려고 쓰고(D-05),
+ * 안 고른 상태에서도 같은 자리를 invisible로 차지해 고를 때 폭이 흔들리지 않는다.
+ */
+function Mark({ on }: { on: boolean }) {
+  return (
+    <span aria-hidden="true" className={`font-bold ${on ? "" : "invisible"}`}>
+      ✓
+    </span>
+  );
+}
+
+/** 하나 또는 여러 개 고르는 알약/네모 버튼(S1). 안 고르면 흰 바탕 + 회색 윤곽, 고르면 2px 파란 테두리 + 연한 파랑 + ✓. */
 export function ChoiceButton({
   selected,
   onClick,
@@ -31,16 +41,17 @@ export function ChoiceButton({
       type="button"
       onClick={onClick}
       {...a11y}
-      className={`min-h-touch border-[1.5px] px-3.5 text-base transition-[color,background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.97] ${focus} ${
+      className={`inline-flex min-h-touch items-center justify-center gap-1 px-4 text-base font-bold transition-[color,background-color,border-color] duration-150 ${focus} ${
         shape === "pill" ? "rounded-full" : "min-h-12 rounded-xl"
-      } ${selected ? "border-primary bg-primary-soft font-bold text-primary-ink" : `border-surface bg-surface text-ink hover:border-primary/40 hover:bg-white ${LIFT}`} ${className}`}
+      } ${selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"} ${className}`}
     >
-      {children}
+      <Mark on={selected} />
+      <span className="min-w-0 [overflow-wrap:anywhere]">{children}</span>
     </button>
   );
 }
 
-/** 꽉 찬 파랑으로 표시하는 한 개 선택(걷는 거리, 일정 밀도) */
+/** 한 개 선택(걷는 거리, 일정 밀도, 지역). ChoiceButton과 같은 S1 상태이고 줄바꿈을 허용한다. */
 export function SegmentButton({
   selected,
   onClick,
@@ -58,11 +69,12 @@ export function SegmentButton({
       role="radio"
       aria-checked={selected}
       onClick={onClick}
-      className={`flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-xl border-[1.5px] px-1 transition-[color,background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.97] ${focus} ${
-        selected ? "border-primary bg-primary text-white" : `border-surface bg-surface text-ink hover:border-primary/40 hover:bg-white ${LIFT}`
+      className={`flex min-h-12 items-center justify-center gap-1 rounded-xl px-1 text-base font-bold text-balance transition-[color,background-color,border-color] duration-150 ${focus} ${
+        selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"
       } ${className}`}
     >
-      {children}
+      <Mark on={selected} />
+      <span className="flex min-w-0 flex-col items-center gap-0.5 [overflow-wrap:anywhere]">{children}</span>
     </button>
   );
 }
@@ -74,14 +86,14 @@ export function CheckDot({ on, size = "md" }: { on: boolean; size?: "md" | "sm" 
       aria-hidden="true"
       className={`flex shrink-0 items-center justify-center rounded-full border-2 ${
         size === "md" ? "size-7" : "size-6"
-      } ${on ? "animate-pop border-primary bg-primary text-white" : "border-line-strong bg-white text-transparent group-hover:border-primary/60"}`}
+      } ${on ? "animate-pop border-primary bg-primary text-white" : "border-line-control bg-white text-transparent group-hover:border-primary"}`}
     >
       <CheckIcon size={size === "md" ? 16 : 14} strokeWidth={2.6} />
     </span>
   );
 }
 
-/** 체크박스 줄(조건 목록, 장애인 표지) */
+/** 체크박스 줄(조건 목록, 장애인 표지). S1 행: 흰 바탕 + 회색 윤곽, 체크하면 파란 테두리. 태그는 상자 없이 글자만. */
 export function CheckRow({
   checked,
   onChange,
@@ -95,8 +107,8 @@ export function CheckRow({
 }) {
   return (
     <label
-      className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] bg-surface px-3.5 py-2.5 transition-[background-color,border-color,transform] duration-150 active:scale-[0.99] has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${
-        checked ? "border-primary" : "border-surface hover:border-primary/40 hover:bg-white"
+      className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] bg-white px-4 py-3 transition-[border-color] duration-150 has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${
+        checked ? "border-primary" : "border-line-control hover:border-primary"
       }`}
     >
       <input
@@ -106,7 +118,7 @@ export function CheckRow({
         className="size-5.5 shrink-0 accent-primary"
       />
       <span className="flex-1 text-base">{children}</span>
-      {tag && <span className="shrink-0 rounded-lg bg-white px-2 py-0.5 text-sm text-ink-sub">{tag}</span>}
+      {tag && <span className="shrink-0 text-sm text-ink-sub">{tag}</span>}
     </label>
   );
 }

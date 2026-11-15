@@ -14,8 +14,8 @@ export function PlanSummary({ current }: { current: 1 | 2 | 3 | 4 }) {
   // 3단계(조건)는 꼭 고를 것이 없어 지나간 뒤에만 끝난 것으로 본다
   const done = [whenDone(plan), whoDone(plan), whoDone(plan) && current > 3, tasteDone(plan)];
   return (
-    <section aria-labelledby="plan-summary" className="rounded-3xl bg-surface p-5">
-      <h2 id="plan-summary" className="text-lg font-bold">
+    <section aria-labelledby="plan-summary" className="rounded-3xl bg-surface p-6">
+      <h2 id="plan-summary" className="font-heading text-heading font-bold">
         고른 조건
       </h2>
       <ol className="mt-3 flex flex-col gap-1">

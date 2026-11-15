@@ -5,6 +5,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
 import { PlanSummary } from "./PlanSummary";
 import { buttonClass } from "@/components/ui/button";
+import { openDetailsAround } from "@/lib/details";
 import { STEPS } from "@/lib/plan/progress";
 
 /**
@@ -28,18 +29,15 @@ export function StepShell({
 }) {
   return (
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col md:max-w-[40rem] lg:max-w-[64rem]">
-      <div className="px-5 pt-4 pb-2">
+      <div className="px-4 pt-4 pb-2 md:px-6">
         <TopBar backHref={backHref} backLabel={step === 1 ? "처음 화면으로" : "이전 단계로"} />
       </div>
-      <div className="flex flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8 lg:pr-5">
+      <div className="flex flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8 lg:pr-6">
         <div className="flex flex-1 flex-col">
-          <div className="px-5 pt-2">
-            <div className="flex justify-between text-sm text-ink-sub">
-              <span>
-                {step} / 4 단계
-              </span>
-              <span>{STEPS[step - 1].name}</span>
-            </div>
+          <div className="animate-rise px-4 pt-4 md:px-6">
+            <p className="text-sm text-ink-sub">
+              {step} / 4 단계 · {STEPS[step - 1].name}
+            </p>
             <div
               className="mt-2 h-1 rounded-full bg-line"
               role="progressbar"
@@ -53,13 +51,14 @@ export function StepShell({
                 style={{ width: `${step * 25}%`, "--from": `${(step - 1) * 25}%` } as CSSProperties}
               />
             </div>
+            <h1 className="mt-4 font-heading text-title font-bold text-balance [overflow-wrap:anywhere]">{title}</h1>
+            {description && <p className="mt-2 text-base text-ink-sub text-pretty">{description}</p>}
           </div>
-          <div className="animate-rise px-5 pt-6 pb-1">
-            <h1 className="text-title font-bold">{title}</h1>
-            {description && <p className="mt-2 text-base leading-relaxed text-ink-sub">{description}</p>}
-          </div>
-          <div className="flex flex-1 animate-rise flex-col pb-6 [animation-delay:60ms]">{children}</div>
-          <div className="sticky bottom-0 border-t border-surface bg-white px-5 pt-4 pb-[calc(1.75rem+env(safe-area-inset-bottom))]">
+          <div className="mt-6 flex flex-1 flex-col pb-6">{children}</div>
+          <div
+            data-bottom-bar
+            className="sticky bottom-0 z-10 max-h-[30dvh] overflow-y-auto bg-white px-4 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgb(25_31_40/0.08)] md:px-6 [@media(max-height:30rem)]:static"
+          >
             {footer}
           </div>
         </div>
@@ -78,6 +77,7 @@ export function StepShell({
 export function pointTo(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
+  openDetailsAround(el); // 빠진 칸이 닫힌 펼치기 안이면 먼저 연다
   const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
   el.removeAttribute("data-attention");
@@ -113,12 +113,12 @@ export function StepFooter({
       {blockedLabel}
     </button>
   ) : (
-    <Link href={nextHref} className={buttonClass("primary", "flex-[2] text-lead")}>
+    <Link href={nextHref} className={buttonClass("primary", "flex-[2]")}>
       {nextLabel}
     </Link>
   );
   return (
-    <div className="flex gap-2.5">
+    <div className="flex gap-2">
       {prevHref && (
         <Link href={prevHref} className={buttonClass("secondary", "flex-1")}>
           이전
@@ -131,9 +131,9 @@ export function StepFooter({
 
 export function Section({ id, title, hint, children }: { id?: string; title: ReactNode; hint?: ReactNode; children: ReactNode }) {
   return (
-    <section id={id} className="flex flex-col gap-2.5 px-5 pt-6 pb-1">
-      <h2 className="text-lg font-bold">{title}</h2>
-      {hint && <p className="text-sm leading-normal text-ink-sub">{hint}</p>}
+    <section id={id} className="mt-8 flex flex-col gap-2 px-4 first:mt-0 md:px-6">
+      <h2 className="font-heading text-heading font-bold">{title}</h2>
+      {hint && <p className="mb-2 text-sm text-ink-sub">{hint}</p>}
       {children}
     </section>
   );

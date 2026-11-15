@@ -6,7 +6,7 @@ import { ChevronRight, MapPinned } from "lucide-react";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { CloseIcon, SearchIcon } from "@/components/icons";
-import { CheckDot, LIFT, SegmentButton } from "@/components/plan/choices";
+import { CheckDot, SegmentButton } from "@/components/plan/choices";
 import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
 import { categoryThumb } from "@/lib/places/category-photos";
@@ -79,7 +79,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
               aria-pressed={on}
               onClick={() => toggleCategory(c)}
               className={`group relative isolate flex min-h-24 flex-col gap-1.5 overflow-hidden rounded-2xl border-2 p-3.5 text-left transition-[background-color,border-color,box-shadow,translate,transform] duration-150 active:scale-[0.99] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                on ? "border-primary bg-primary-soft" : `border-surface bg-surface hover:border-primary/40 hover:bg-white ${LIFT}`
+                on ? "border-primary bg-primary-soft" : `border-surface bg-surface hover:border-primary/40 hover:bg-white`
               }`}
             >
               {/* 옅은 배경 사진: 오른쪽에만 보이고 글자 쪽은 카드 바탕색으로 덮는다(글씨가 잘 보이게) */}
@@ -127,7 +127,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
         </h2>
         <Link
           href="/places?from=plan"
-          className={`group flex min-h-touch items-center gap-3 rounded-2xl border-[1.5px] border-primary/30 bg-primary-soft px-4 py-3 text-left transition-colors hover:border-primary ${LIFT}`}
+          className={`group flex min-h-touch items-center gap-3 rounded-2xl border-[1.5px] border-primary/30 bg-primary-soft px-4 py-3 text-left transition-colors hover:border-primary`}
         >
           <MapPinned size={22} className="shrink-0 text-primary" aria-hidden="true" />
           <span className="min-w-0 flex-1">
