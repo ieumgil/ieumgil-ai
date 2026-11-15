@@ -8,9 +8,10 @@ import { useSearchParams } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { ScrollTop } from "@/components/ScrollTop";
-import { SegmentButton } from "@/components/plan/choices";
+import { ChoiceButton, SegmentButton } from "@/components/plan/choices";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
+import { Disclosure } from "@/components/ui/disclosure";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { CONDITION_LABELS, TRAVELER_LABELS } from "@/lib/engine/conditions";
 import { glance, matches, sortPlaces, type BrowsePlace, type GlanceItem } from "@/lib/places/browse";
@@ -30,10 +31,13 @@ const STATUS: Record<AccessStatus, { sym: string; cls: string; sr: string }> = {
   모름: { sym: "?", cls: "bg-surface text-ink-sub", sr: "공식 정보 없음" },
 };
 
+/** 장소 항목에 보이는 접근성 칩 개수. 나머지는 '+N'으로 알리고 10항목 전체는 자세히 보기에 있다 */
+const MAX_CHIPS = 4;
+
 function AccessChip({ item }: { item: Pick<GlanceItem, "label" | "value"> }) {
   const s = STATUS[item.value];
   return (
-    <li className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium ${s.cls}`}>
+    <li className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-sm font-bold ${s.cls}`}>
       <span aria-hidden="true" className="font-bold">
         {s.sym}
       </span>
@@ -72,58 +76,51 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
 
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-32 md:max-w-[48rem] lg:max-w-[72rem]">
-      <div className="px-5 pt-4">
+      <div className="px-4 pt-4 md:px-6">
         <TopBar backHref={fromPlan ? "/plan/taste" : "/"} backLabel={fromPlan ? "좋아하는 곳 고르기로" : "처음 화면으로"} />
       </div>
 
-      <header className="animate-rise px-5 pt-4">
-        <h1 className="text-title font-bold">영동 관광지 둘러보기</h1>
-        <p className="mt-1.5 text-base leading-normal text-ink-sub">
-          어떤 곳인지 먼저 보고, 가고 싶은 곳을 담아 두세요. 담은 곳은 일정에 꼭 넣어요.
-        </p>
-        <p className="mt-2 text-sm leading-normal text-ink-sub">
-          {travelers ? (
-            <>
-              <strong className="font-bold text-ink">{travelers}</strong> 기준으로 꼭 필요한 조건을 함께 보여 드려요.
-            </>
-          ) : (
-            "함께 가는 분(휠체어·어르신·유모차)을 고르면 그 기준으로 접근성을 보여 드려요. 지금은 기본 항목이에요."
+      {/* 머리 예산 300px: 제목 · 설명 · (유형 기준 한 줄) · 범례 펼치기 · 지역 분할 · 분야 칩 · 검색칸. 장소 목록이 첫 화면에 바로 보이게 한다 */}
+      <header className="animate-rise px-4 pt-4 md:px-6">
+        <h1 className="font-heading text-title font-bold text-balance">영동 관광지 둘러보기</h1>
+        <p className="mt-1 text-base text-ink-sub text-pretty">어떤 곳인지 먼저 보고, 가고 싶은 곳을 담아 두세요. 담은 곳은 일정에 꼭 넣어요.</p>
+        {travelers && (
+          <p className="mt-1 text-sm text-ink-sub">
+            <strong className="font-bold text-ink">{travelers}</strong> 기준으로 꼭 필요한 조건을 함께 보여 드려요.
+          </p>
+        )}
+        <Disclosure summary="접근성 표시 보는 법">
+          <p className="text-sm text-ink-sub">✓ 가능 · ! 일부만 · ✕ 어려움 · ? 공식 정보 없음</p>
+          {!travelers && (
+            <p className="mt-1 text-sm text-ink-sub">
+              함께 가는 분(휠체어·어르신·유모차)을 고르면 그 기준으로 접근성을 보여 드려요. 지금은 기본 항목이에요.
+            </p>
           )}
-        </p>
-        <p className="mt-1 text-sm text-ink-sub" aria-hidden="true">
-          ✓ 가능 · ! 일부만 · ✕ 어려움 · ? 공식 정보 없음
-        </p>
+        </Disclosure>
       </header>
 
-      {/* 지역 */}
-      <div className="grid grid-cols-3 gap-2 px-5 pt-5" role="radiogroup" aria-label="지역">
+      {/* 지역: 한 줄 분할 */}
+      <div className="mt-2 grid grid-cols-3 gap-2 px-4 md:px-6" role="radiogroup" aria-label="지역">
         {REGIONS.map((r) => (
           <SegmentButton key={r} selected={region === r} onClick={() => setRegion(r)}>
-            <span className="text-lead font-bold">{r}</span>
-            <span className="text-sm">{counts[r]}곳</span>
+            <span className="flex flex-wrap items-baseline justify-center gap-x-1">
+              <span>{r}</span>
+              <span className={`text-sm ${region === r ? "text-pine" : "text-ink-sub"}`}>{counts[r]}곳</span>
+            </span>
           </SegmentButton>
         ))}
       </div>
 
       {/* 분야 · 찾기 */}
-      <div className="flex gap-2 overflow-x-auto px-5 pt-3 pb-1 [scrollbar-width:none]" role="group" aria-label="분야">
-        {[null, ...CATEGORIES].map((c) => {
-          const on = category === c;
-          return (
-            <button
-              key={c ?? "all"}
-              type="button"
-              aria-pressed={on}
-              onClick={() => setCategory(c)}
-              className={`min-h-touch shrink-0 rounded-full border-[1.5px] px-3.5 text-base font-medium transition-colors ${on ? "border-primary bg-primary text-white" : "border-line bg-white text-ink hover:border-primary/40"}`}
-            >
-              {c ?? "전체"}
-            </button>
-          );
-        })}
+      <div className="mt-1 flex gap-2 overflow-x-auto px-4 py-1 md:px-6 [scrollbar-width:none]" role="group" aria-label="분야">
+        {[null, ...CATEGORIES].map((c) => (
+          <ChoiceButton key={c ?? "all"} selected={category === c} onClick={() => setCategory(c)} className="shrink-0">
+            {c ?? "전체"}
+          </ChoiceButton>
+        ))}
       </div>
-      <div className="px-5 pt-2">
-        <label className="flex h-12.5 items-center gap-2 rounded-xl border-[1.5px] border-surface bg-surface px-3.5 has-focus-visible:border-primary">
+      <div className="mt-1 px-4 md:px-6">
+        <label className="flex min-h-12 items-center gap-2 rounded-xl border-[1.5px] border-line-control bg-white px-4 has-focus-visible:border-primary has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary">
           <SearchIcon size={20} className="shrink-0 text-ink-sub" aria-hidden="true" />
           <input
             type="search"
@@ -136,7 +133,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
         </label>
       </div>
 
-      {shown.length === 0 && <p className="px-5 pt-8 text-center text-base text-ink-sub">조건에 맞는 곳이 없어요. 분야나 찾는 말을 바꿔 보세요.</p>}
+      {shown.length === 0 && <p className="px-4 pt-8 text-center text-base text-ink-sub md:px-6">조건에 맞는 곳이 없어요. 분야나 찾는 말을 바꿔 보세요.</p>}
       {featured.length > 0 && (
         <Section title="대표 관광지" sub={`${region}에서 많이 찾는 곳 ${featured.length}곳`}>
           {featured.map((p) => (
@@ -151,14 +148,17 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
           ))}
         </Section>
       )}
-      <p className="px-5 pt-6 text-sm leading-normal text-ink-sub">
+      <p className="mt-8 px-4 text-sm text-ink-sub md:px-6">
         소개는 한국관광공사 관광지 소개 글을 AI가 한 줄로 정리했어요(원문에 없는 내용은 쓰지 않게 검사). 접근성은 관광공사 무장애 정보를 AI가 정리한 값(장애인
         화장실·기저귀 교환대 일부는 행정안전부 공중화장실 공공데이터)이라 현장과 다를 수 있어요. 사진: 한국관광공사 · 공공누리.
       </p>
 
-      {/* 담은 곳 */}
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-white/95 px-5 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] backdrop-blur">
-        <div className="mx-auto flex max-w-[34rem] items-center gap-3 md:max-w-[48rem]">
+      {/* 담은 곳: 불투명 흰 바탕 + 위 그림자(S3). 세로가 아주 짧은 창에서는 따라다니지 않는다 */}
+      <div
+        data-bottom-bar
+        className="fixed inset-x-0 bottom-0 z-20 max-h-[30dvh] overflow-y-auto bg-white px-4 pt-3 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgb(25_31_40/0.08)] md:px-6 [@media(max-height:30rem)]:static"
+      >
+        <div className="mx-auto flex max-w-[32rem] items-center gap-3 md:max-w-[45rem] lg:max-w-[69rem]">
           <p className="min-w-0 flex-1 text-base" role="status">
             {picked.length ? (
               <>
@@ -169,7 +169,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
               <span className="text-ink-sub">아직 담은 곳이 없어요</span>
             )}
           </p>
-          <ButtonLink href={next} className="shrink-0 px-5">
+          <ButtonLink href={next} className="shrink-0 px-4">
             {fromPlan ? "돌아가기" : "루트 만들기"}
             <ChevronRight aria-hidden="true" />
           </ButtonLink>
@@ -190,11 +190,11 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
 
 function Section({ title, sub, children }: { title: string; sub: string; children: ReactNode }) {
   return (
-    <section className="px-5 pt-6">
-      <h2 className="flex items-baseline gap-2 text-lg font-bold">
-        {title} <span className="text-sm font-normal text-ink-sub">{sub}</span>
+    <section className="mt-8 px-4 md:px-6">
+      <h2 className="font-heading text-heading font-bold">
+        {title} <span className="ml-1 font-sans text-sm font-normal text-ink-sub">{sub}</span>
       </h2>
-      <ul className="mt-3 grid gap-3 lg:grid-cols-2">{children}</ul>
+      <ul className="mt-3 grid gap-4 lg:grid-cols-2">{children}</ul>
     </section>
   );
 }
@@ -207,9 +207,10 @@ function PickButton({ picked, onClick, name, full = false }: { picked: boolean; 
       type="button"
       onClick={onClick}
       aria-pressed={picked}
-      aria-label={picked ? `${name} 담기 취소` : `${name} 꼭 가고 싶은 곳에 담기`}
-      className={`inline-flex min-h-touch items-center justify-center gap-1.5 rounded-xl px-4 text-base font-bold transition-colors ${full ? "w-full" : ""} ${
-        picked ? "bg-primary text-white hover:bg-primary-ink" : "border-[1.5px] border-primary bg-white text-primary hover:bg-primary-soft"
+      // 보이는 글자('담기'·'담았어요')가 이름 안에 그대로 들어가게 한다(label-in-name)
+      aria-label={picked ? `${name} 담았어요, 누르면 담기 취소` : `${name} 꼭 가고 싶은 곳에 담기`}
+      className={`inline-flex min-h-touch items-center justify-center gap-2 rounded-xl border-[1.5px] px-4 text-base font-bold transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${full ? "w-full" : ""} ${
+        picked ? "border-primary bg-primary text-white hover:bg-primary-ink" : "border-primary bg-white text-primary hover:bg-primary-soft hover:text-primary-ink"
       }`}
     >
       {picked ? <Check size={18} aria-hidden="true" /> : <Plus size={18} aria-hidden="true" />}
@@ -222,32 +223,34 @@ function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; pick
   const g = glance(p, plan);
   return (
     <li>
-      <article className={`flex h-full flex-col gap-3 rounded-2xl bg-white p-4 ring-1 transition-shadow ${picked ? "ring-2 ring-primary" : "ring-line"}`}>
-        <div className="flex gap-3">
+      <article className={`flex h-full flex-col gap-3 rounded-2xl bg-white p-4 ${picked ? "border-2 border-primary" : "border border-line"}`}>
+        <div className="flex flex-wrap gap-3">
           <PlacePhoto id={p.id} name={p.name} category={p.category} />
-          <div className="min-w-0 flex-1">
-            <h3 className="text-lg leading-snug font-bold">
+          <div className="min-w-0 grow basis-40">
+            <h3 className="text-heading leading-snug font-bold [overflow-wrap:anywhere]">
               {p.name}
-              {p.featured && <span className="ml-1.5 inline-block rounded-md bg-primary-soft px-1.5 align-middle text-sm font-bold text-primary-ink">대표</span>}
+              {p.featured && <span className="ml-2 text-sm font-bold text-ink-sub">대표</span>}
             </h3>
-            <p className="text-sm text-ink-sub">
+            <p className="text-sm font-bold text-pine">
               {p.region} · {p.category}
             </p>
-            <p className="mt-1 text-base leading-normal">{p.summary}</p>
+            <p className="mt-1 text-base">{p.summary}</p>
           </div>
         </div>
-        {p.highlights.length > 0 && (
-          <p className="text-sm leading-normal text-ink-sub">
-            <span className="font-bold text-ink">볼 거리</span> {p.highlights.join(" · ")}
-          </p>
-        )}
-        <ul className="flex flex-wrap gap-1.5" aria-label={g.byTraveler ? "꼭 필요한 조건" : "접근성(기본 항목)"}>
-          {g.items.map((i) => (
+        <ul className="flex flex-wrap items-center gap-2" aria-label={g.byTraveler ? "꼭 필요한 조건" : "접근성(기본 항목)"}>
+          {g.items.slice(0, MAX_CHIPS).map((i) => (
             <AccessChip key={i.key} item={i} />
           ))}
+          {g.items.length > MAX_CHIPS && (
+            // 나머지 항목은 자세히 보기의 10항목에 모두 있다
+            <li className="text-sm font-bold text-ink-sub">
+              +{g.items.length - MAX_CHIPS}
+              <span className="sr-only">개 더 — 자세히 보기에서</span>
+            </li>
+          )}
         </ul>
         {g.blocked.length > 0 && (
-          <p className="rounded-xl bg-blocked-bg px-3 py-2 text-sm leading-normal text-blocked-ink">
+          <p className="rounded-xl bg-blocked-bg px-3 py-2 text-base text-blocked-ink">
             <span className="sr-only">주의: </span>공식 정보상 {g.blocked.map((b) => b.label).join(", ")}이(가) 어려워 일정을 만들 때 빠질 수 있어요.
           </p>
         )}
@@ -255,7 +258,7 @@ function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; pick
           <button
             type="button"
             onClick={() => onOpen(p)}
-            className="inline-flex min-h-touch flex-1 items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-medium text-ink transition-colors hover:bg-line"
+            className="inline-flex min-h-touch flex-1 items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-bold text-ink transition-colors hover:bg-line focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             자세히 보기
           </button>

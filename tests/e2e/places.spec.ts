@@ -1,5 +1,5 @@
 // 관광지 둘러보기: 지역·분야로 둘러보고, 어떤 곳인지 보고, 담으면 4단계 '꼭 가고 싶은 곳'에 들어간다.
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.route("https://tong.visitkorea.or.kr/**", (r) => r.abort()); // 관광공사 원본 사진(외부 호출 없음)
@@ -106,6 +106,13 @@ test("내려가면 오른쪽 아래에 '맨 위로' 버튼이 뜨고, 누르면 
 const MARK = 'span[aria-hidden="true"]';
 const PINE = "rgb(42, 106, 80)";
 
+/** 입력(휠체어)이 화면에 반영될 때까지 기다린다: 그 전에 누르면 아직 붙지 않은 화면이라 눌림이 사라진다 */
+async function gotoPlaces(page: Page) {
+  await page.goto("/places");
+  await expect(page.getByText("휠체어 기준으로 꼭 필요한 조건")).toBeVisible();
+  await expect(page.locator("article").first()).toBeVisible();
+}
+
 test.describe("둘러보기 첫 화면", () => {
   test("머리 영역은 300px 안, 첫 장소가 첫 화면에 @p0309", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "mobile", "머리 예산은 휴대폰 폭(390px)에서만 본다");
@@ -125,7 +132,7 @@ test.describe("둘러보기 첫 화면", () => {
       return first;
     };
 
-    await page.goto("/places"); // 휠체어 기준 한 줄이 더해진 상태: 그래도 첫 장소가 바 위에 보인다
+    await gotoPlaces(page); // 휠체어 기준 한 줄이 더해진 상태: 그래도 첫 장소가 바 위에 보인다
     await expect(page.locator("article").first()).toBeVisible();
     await firstAboveBar();
 
@@ -139,7 +146,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("지역은 한 줄 분할, 고른 지역 숫자는 솔숲 초록 @p0309", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     const radios = page.getByRole("radiogroup", { name: "지역" }).getByRole("radio");
     await expect(radios).toHaveCount(3);
     const boxes = await radios.evaluateAll((els) => els.map((el) => el.getBoundingClientRect()).map((r) => ({ y: r.y, h: r.height })));
@@ -152,7 +159,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("범례는 '접근성 표시 보는 법' 안에 있다 @p0309", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     const summary = page.locator("summary", { hasText: "접근성 표시 보는 법" });
     await expect(summary).toBeVisible();
     const legend = page.getByText(/✓ 가능 · ! 일부만/);
@@ -163,7 +170,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("장소 항목은 한 겹, 이름 20px, 지역·분류는 솔숲 초록, 볼 거리는 자세히 안 @p0309", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     const first = page.locator("article").first();
     await expect(first).toBeVisible();
     await expect(first).toHaveCSS("box-shadow", "none");
@@ -174,7 +181,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("칩은 4개까지 + 나머지 개수 @p0309", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     await expect(page.locator("article").first()).toBeVisible();
     const lists = await page.locator("article ul").evaluateAll((els) => els.map((ul) => [...ul.children].map((li) => li.textContent ?? "")));
     expect(lists.length).toBeGreaterThan(0);
@@ -186,7 +193,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("담았어요 이름에 보이는 글자가 들어간다 @p0309", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     const first = page.locator("article").first();
     await first.getByRole("button", { name: /담기$/ }).click();
     const done = first.getByRole("button", { name: /담았어요, 누르면 담기 취소/ });
@@ -197,7 +204,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("아래 바는 불투명 @p0309", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     const bar = page.locator("[data-bottom-bar]");
     await expect(bar).toBeVisible();
     await expect(bar).toHaveCSS("background-color", "rgb(255, 255, 255)");
@@ -205,7 +212,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("자세히 창 제목은 고운바탕 @p0309 @p0309-detail", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     await page.locator("article").first().getByRole("button", { name: "자세히 보기" }).click();
     const title = page.getByRole("dialog").getByRole("heading", { level: 2 });
     const family = await title.evaluate((el) => getComputedStyle(el).fontFamily);
@@ -214,7 +221,7 @@ test.describe("둘러보기 첫 화면", () => {
   });
 
   test("고른 지역·분야는 ✓로도 구분된다 @p0309", async ({ page }) => {
-    await page.goto("/places");
+    await gotoPlaces(page);
     const regions = page.getByRole("radiogroup", { name: "지역" });
     await expect(regions.getByRole("radio", { name: /강릉/ }).locator(MARK, { hasText: "✓" })).toBeVisible();
     await expect(regions.getByRole("radio", { name: /속초/ }).locator(MARK, { hasText: "✓" })).not.toBeVisible();
