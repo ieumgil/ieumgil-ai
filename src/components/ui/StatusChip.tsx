@@ -12,7 +12,7 @@ const styles: Record<ChipStatus, { symbol: string; className: string; sr: string
 export function StatusChip({ status, children }: { status: ChipStatus; children: ReactNode }) {
   const s = styles[status];
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-sm font-medium ${s.className}`}>
+    <span className={`inline-flex min-w-0 items-center gap-1 rounded-full px-3 py-1 text-sm leading-snug font-bold [overflow-wrap:anywhere] ${s.className}`}>
       <span aria-hidden="true" className="font-bold">
         {s.symbol}
       </span>

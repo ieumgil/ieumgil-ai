@@ -148,7 +148,9 @@ test.describe("공용 부품", () => {
     expect(css).toEqual({ size: "16px", weight: "700", radius: "12px" });
   });
 
-  test("outline 버튼 호버 글자는 primary-ink", async ({ page }) => {
+  test("outline 버튼 호버 글자는 primary-ink", async ({ page }, info) => {
+    // 터치 휴대폰은 호버가 없다(Tailwind hover:는 (hover: hover)일 때만 적용). 마우스가 있는 PC 폭에서 본다
+    test.skip(info.project.name !== "desktop", "호버는 PC(마우스)에서만 본다");
     await block(page);
     await page.goto("/");
     const link = page.getByRole("link", { name: "예시 루트 바로 보기" });
