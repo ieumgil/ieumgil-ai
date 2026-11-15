@@ -3,10 +3,11 @@
 // 관광지 둘러보기: 지역(강릉·속초·동해) → 분야 → 사진 카드(어떤 곳인지 한 줄 · 볼 거리 · 고른 유형 기준 접근성 요약) → [담기].
 // 카드를 누르면 자세히(사진·관광공사 소개 원문·운영시간·전화·접근성 10항목). 장애인 화장실·기저귀 교환대는 공공데이터 값이면 출처·기준일('공공데이터(YYYY-MM 기준)')을 붙인다. 담은 곳은 입력값의 '꼭 가고 싶은 곳'(mustVisit)이 된다.
 // 4단계에서 왔으면(?from=plan) 아래 버튼이 '고른 곳 가지고 돌아가기', 시작 화면에서 왔으면 '이 곳들로 루트 만들기'.
-import { Check, ChevronRight, Phone, Plus, Search as SearchIcon, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Phone, Plus, Search as SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
+import { PhoneText } from "@/components/PhoneText";
 import { ScrollTop } from "@/components/ScrollTop";
 import { ChoiceButton, SegmentButton } from "@/components/plan/choices";
 import { TopBar } from "@/components/TopBar";
@@ -21,7 +22,7 @@ import { updatePlan, usePlan } from "@/lib/plan/store";
 import { CATEGORIES, REGIONS, type AccessStatus, type Category, type Region } from "@/lib/types";
 
 const PANEL =
-  "mx-auto max-h-[88dvh] max-w-[36rem] overflow-y-auto rounded-t-3xl px-5 pb-8 lg:w-[36rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
+  "mx-auto max-h-[88dvh] max-w-[36rem] overflow-y-auto rounded-t-3xl px-4 pb-8 md:px-6 lg:w-[36rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
 
 /** 접근성 값 → 기호 + 색(색만으로 구분하지 않게 기호와 글자를 함께) */
 const STATUS: Record<AccessStatus, { sym: string; cls: string; sr: string }> = {
@@ -278,8 +279,8 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
   return (
     <>
       <SheetHeader className="px-0 pt-6 pb-0">
-        <SheetTitle className="text-title leading-snug font-bold">{p.name}</SheetTitle>
-        <SheetDescription className="text-base text-ink-sub">
+        <SheetTitle>{p.name}</SheetTitle>
+        <SheetDescription className="text-sm font-bold text-pine">
           {p.region} · {p.category}
           {p.featured ? " · 대표 관광지" : ""}
         </SheetDescription>
@@ -287,49 +288,52 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
       <div className="mt-3 flex gap-3">
         <PlacePhoto id={p.id} name={p.name} category={p.category} size="lg" />
         <div className="min-w-0 flex-1">
-          <p className="text-lead leading-normal font-medium">{p.summary}</p>
-          {p.summaryBy === "ai" && (
-            <p className="mt-1 inline-flex items-center gap-1 text-sm text-ink-sub">
-              <Sparkles size={14} aria-hidden="true" /> AI가 관광공사 소개를 정리했어요
-            </p>
-          )}
+          <p className="text-base font-bold">{p.summary}</p>
+          {p.summaryBy === "ai" && <p className="mt-1 text-sm text-ink-sub">AI가 관광공사 소개를 정리했어요</p>}
         </div>
       </div>
       {p.highlights.length > 0 && (
-        <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="볼 거리">
-          {p.highlights.map((h) => (
-            <li key={h} className="rounded-full bg-surface px-3 py-1 text-base">
+        <ul className="mt-3 flex flex-wrap gap-x-2 text-base" aria-label="볼 거리">
+          {p.highlights.map((h, i) => (
+            <li key={h} className="flex gap-2">
               {h}
+              {i < p.highlights.length - 1 && <span aria-hidden="true">·</span>}
             </li>
           ))}
         </ul>
       )}
 
-      <h3 className="mt-5 text-lg font-bold">관광공사 소개</h3>
+      <h3 className="mt-6 text-base font-bold">관광공사 소개</h3>
       <div className="mt-1.5 flex flex-col gap-2 text-base leading-relaxed text-ink-sub">
         {p.overview.map((t, i) => (
           <p key={i}>{t}</p>
         ))}
       </div>
 
-      <h3 className="mt-5 text-lg font-bold">운영시간 · 연락처</h3>
+      <h3 className="mt-6 text-base font-bold">운영시간 · 연락처</h3>
       <p className="mt-1.5 text-base">{p.hours}</p>
       {p.address && <p className="text-base text-ink-sub">{p.address}</p>}
-      <a href={`tel:${p.phone}`} className="mt-2 inline-flex min-h-touch items-center gap-2 rounded-xl border-[1.5px] border-primary px-4 text-base font-bold text-primary hover:bg-primary-soft">
-        <Phone size={18} aria-hidden="true" /> {p.phone}
+      <a
+        href={`tel:${p.phone}`}
+        className="mt-2 inline-flex min-h-touch items-center gap-2 rounded-xl border-[1.5px] border-primary px-4 text-base font-bold text-primary hover:bg-primary-soft hover:text-primary-ink focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        <Phone size={18} aria-hidden="true" />
+        <span>
+          <PhoneText phone={p.phone} />
+        </span>
       </a>
 
-      <h3 className="mt-5 text-lg font-bold">접근성</h3>
+      <h3 className="mt-6 text-base font-bold">접근성</h3>
       <p className="text-sm text-ink-sub">
         {hasPublic ? "관광공사 무장애 정보를 AI가 정리한 값이고, '공공데이터' 표시는 행정안전부 공중화장실 정보예요." : "관광공사 무장애 정보를 AI가 정리한 값이에요."}{" "}
         {must.size ? "굵은 항목은 고른 분께 꼭 필요한 조건이에요." : ""}
       </p>
-      <ul className="mt-2 flex flex-col divide-y divide-line rounded-2xl ring-1 ring-line">
+      <ul className="mt-2 flex flex-col divide-y divide-line rounded-2xl border border-line">
         {ACCESS_ORDER.map((k) => {
           const a = p.access[k];
           const s = STATUS[a.value];
           return (
-            <li key={k} className="flex items-start gap-3 px-3.5 py-2.5 text-base">
+            <li key={k} className="flex items-start gap-3 px-4 py-3 text-base">
               <span className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-sm font-bold ${s.cls}`} aria-hidden="true">
                 {s.sym}
               </span>
@@ -348,7 +352,7 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
                   <span className="block text-sm text-ink-sub">
                     {a.note}
                     {a.note && a.source ? " · " : ""}
-                    {a.source && <span className="font-medium text-ink">{a.source}</span>}
+                    {a.source && <span className="font-bold text-ink">{a.source}</span>}
                   </span>
                 )}
               </span>
@@ -357,7 +361,7 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
         })}
       </ul>
 
-      <div className="sticky bottom-0 mt-5 bg-white pt-2">
+      <div className="sticky bottom-0 mt-6 bg-white pt-2">
         <PickButton picked={picked} onClick={() => onToggle(p.id)} name={p.name} full />
       </div>
     </>

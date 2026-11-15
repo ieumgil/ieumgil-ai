@@ -9,7 +9,6 @@ import { describe, expect, it } from "vitest";
 /** 아직 고치지 않은 파일(저장소 루트 기준, 정렬). 각 화면 계획이 자기 파일을 지운다 */
 const PENDING: string[] = [
   "src/app/page.tsx",
-  "src/app/places/PlacesBrowser.tsx",
   "src/app/s/[id]/page.tsx",
   "src/components/Intro.tsx",
   "src/components/Logo.tsx",
