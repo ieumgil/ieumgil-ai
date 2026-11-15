@@ -90,13 +90,24 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
 - LLM 호출은 요청당 약 5~8회. 후보가 적으면 안 1개만 만들고 그렇다고 알린다. **2박 3일은 1안**(고른 밀도 + 좋아하는 곳 중심, 11/14 결정) — 비교 대신 [바꾸기]로 고친다. 후보는 당일·1박 20곳, 2박 3일 30곳.
 - 시간만 조금 넘친 안은 코드가 맞춘다(`engine/repair.ts`: 체류를 권장 최소로 → 뒤쪽 장소 빼기 최대 2곳, 꼭 가고 싶은 곳은 남김). 휠체어·어르신 '많이'는 하루 4곳까지.
 
-## 디자인 토큰 (시안 v2)
+## 디자인 토큰 (시안 v2 + 11/15 다듬기)
 기본 #1E6FD0 · 연한 기본 #EAF2FD · 기본 위 글자 #1450A3 · 면 #F2F4F6 · 글자 #191F28 · 보조 글자 #4E5968
 · 경로선 #E8743B · 주의 #FFF4E5/#7A4A00 · 불가 #FBEAE7/#8A2A1C · 본문 16px 이상 · 터치 영역 44px 이상
 · 상태는 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 모바일 우선(시안 390px), PC는 왼쪽 지도 + 오른쪽 루트(시안 1440px)
 · 글자 크기는 rem 단위 → 휴대폰·브라우저의 글자 크기 설정과 확대를 그대로 따른다("가 글씨 크게" 버튼은 11/11 실사용 피드백으로 뺐다)
 · Tailwind v4라 토큰은 `src/app/globals.css`의 `@theme`에 있다(`bg-primary`, `text-ink-sub`, `bg-caution-bg`, `min-h-touch` 등)
 · 결과 '안 비교' 화면은 시안에 없다 → 새로 그린다(`docs/ai-plan.md` 화면 표)
+· **11/15 다듬기(03단계, 'AI가 만든 티' 줄이기)** — 값은 모두 `globals.css` `@theme static`:
+  - 보조색 솔숲 초록 `--color-pine` #2A6A50 · 연한 면 `--color-pine-soft` #E8F3EC — **장소·지역·일차 정체성에만**(시작 화면 `영동 여행` 강조, `강릉 · 역사·문화` 같은 지역·분류 글자, 날짜 탭 활성 밑줄·일차 제목).
+    버튼·링크·선택 상태·상태 칩·경고·지도에는 쓰지 않는다(상태 칩은 계속 파랑 ✓ ! ✕). 입력 4단계에서는 쓰지 않는다. 초록이 혼자 뜻을 나르지 않는다(항상 글자와 함께).
+  - 선택 컨트롤 테두리 `--color-line-control` #8B95A1 — **흰 바탕 위**의 안 고른 타일·select·검색칸 테두리(대비 3:1). 회색 면 위에는 쓰지 않는다.
+  - 제목 글꼴 `--font-display` 고운바탕(Gowun Batang) 700 — **h1·h2 큰 제목만**(`font-heading` 클래스). 버튼·칩·장소 이름·본문·숫자·인쇄 일정표에는 쓰지 않는다.
+    `@fontsource/gowun-batang`을 자체 호스팅(SIL OFL 1.1, 외부 CDN 없음). 되돌리려면 `--font-display` 한 줄을 `var(--font-sans)`로.
+  - 글자 크기 4단계 28/20/16/14px(화면 제목·구역 제목·본문·보조, rem)와 굵기 2단계 400/700만 쓴다. 그 밖의 크기·굵기 클래스는 정리 감시 테스트(`tests/design/legacy-classes.test.ts`)가 막는다.
+  - 간격은 4px 배수. 카드 안 묶음 사이만 12px(compact), 카드·목록 항목 사이 16px, 구역 사이 32px(PC 48px). 모바일 좌우 여백 16px.
+  - 반지름 3단계 12·16·24px: 컨트롤 12 · 카드·타일 16 · 시트 24(알약은 `rounded-full`).
+  - 면 규칙: S0 평면(구역 대부분, 카드·그림자 없이 간격과 구분선) · S1 선택 타일(흰 바탕 + `line-control` 테두리, 고르면 파란 테두리 + 연한 파랑 + ✓ 기호도) · S2 개별 항목(1px 테두리, 그림자 없음, 안에 면 최대 1개) · S3 떠 있는 면(시트·대화상자·아래 고정 바, 불투명 + 위쪽 그림자 — **그림자는 여기만**). 카드 안에 카드를 넣지 않는다. 첫 화면 색 띠는 1개.
+  - 펼치기는 `Disclosure`(`src/components/ui/disclosure.tsx`, 네이티브 `<details>`). 접힌 상태에서도 판정 칩·'전화로 확인할 것 있음'·'공식 정보 없음'·'일반 차량 경로' 문구·개인정보 문구는 밖에 둔다(접어서 숨기지 않는다).
 · **shadcn/ui**(Radix, `components.json`): `src/components/ui/`에 button·card·dialog·tabs·sheet·toggle-group·toggle.
   shadcn 변수(--primary, --background, --border…)는 `globals.css` `:root`에서 우리 토큰을 가리킨다 — 토큰 값은 `@theme static`에서만 고친다.
   `--color-primary`는 우리 토큰 이름이라 `@theme inline`에 다시 잇지 않는다(잇으면 shadcn 기본 검정으로 바뀜).
