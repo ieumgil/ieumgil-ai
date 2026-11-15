@@ -27,8 +27,6 @@ export function PlaceCard({
   o: OptionView;
   trip: TripView;
   common: Set<string>;
-  /** 예전 호출처 호환용(쓰지 않음): 진입 움직임·단계 지연은 없앴다 */
-  delay?: number;
   onSwap: (placeId: string) => void;
   /** 번호를 누르면 지도에서 이 장소를 보여준다(없으면 번호는 그냥 표시) */
   onMap?: (placeId: string) => void;

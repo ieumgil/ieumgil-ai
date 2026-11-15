@@ -28,10 +28,8 @@ const PENDING: string[] = [
   "src/components/trip/Checklist.tsx",
   "src/components/trip/FinalDayList.tsx",
   "src/components/trip/HardPlaces.tsx",
-  "src/components/trip/OptionDetail.tsx",
   "src/components/trip/ShareButton.tsx",
   "src/components/trip/SwapSheet.tsx",
-  "src/components/ui/tabs.tsx",
 ];
 
 const root = process.cwd();

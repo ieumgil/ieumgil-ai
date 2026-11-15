@@ -453,7 +453,7 @@ test.describe("고른 안 상세", () => {
 
   test("타임라인은 출발·도착 깃발만 아이콘이고 이동·점심 줄에는 아이콘이 없다 @p0305", async ({ page }) => {
     const rows = await page.locator("ol:has(article)").first().evaluate((ol) =>
-      [...ol.children].map((li) => ({ text: (li.textContent ?? "").replace(/\s+/g, " ").trim(), place: !!li.querySelector("article"), svgs: li.querySelectorAll("svg").length })),
+      [...ol.querySelectorAll(":scope > li")].map((li) => ({ text: (li.textContent ?? "").replace(/\s+/g, " ").trim(), place: !!li.querySelector("article"), svgs: li.querySelectorAll("svg").length })),
     );
     const plain = rows.filter((r) => !r.place);
     expect(plain.length).toBeGreaterThan(3);
