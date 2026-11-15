@@ -1,27 +1,23 @@
-// 시작 화면 (시안: docs/design/Main.dc.html)
-// 휴대폰: 한 칸(소개 → 특징 → 아래 버튼). 태블릿: 넓은 한 칸. PC(1024px~): 왼쪽 소개·버튼 + 오른쪽 실제 결과 화면 미리보기.
+// 시작 화면 (시안: docs/design/Main.dc.html, 03단계 D-10)
+// 휴대폰: 한 칸(로고 → 제목 → 리드 → 버튼 → 구분선 → 특징 목록). 주 버튼은 소개 바로 아래라 667px 높이에서도 첫 화면에 보인다.
+// PC(1024px~): 왼쪽 소개·버튼·특징 + 오른쪽 실제 결과 화면 미리보기. 진입 움직임은 제목 머리 하나뿐.
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { Intro } from "@/components/Intro";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
-import { ChatIcon, CheckIcon, DocumentIcon } from "@/components/icons";
 
-const FEATURES: { icon: ReactNode; title: string; body: string }[] = [
+const FEATURES: { title: string; body: string }[] = [
   {
-    icon: <CheckIcon size={22} />,
     title: "조건을 어기는 곳은 빼요",
     body: "계단, 화장실, 걷는 거리처럼 꼭 필요한 조건을 유형별로 확인해요",
   },
   {
-    icon: <DocumentIcon size={22} />,
     title: "판정마다 근거를 보여줘요",
     body: "어디서 확인한 정보인지, 언제 확인했는지 함께 알려드려요",
   },
   {
-    icon: <ChatIcon size={22} />,
     title: "AI가 쉬운 말로 정리해요",
     body: "루트와 주의할 점, 챙길 것을 짧게 브리핑해요",
   },
@@ -29,47 +25,27 @@ const FEATURES: { icon: ReactNode; title: string; body: string }[] = [
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col md:max-w-[40rem] lg:max-w-[76rem] lg:px-6">
+    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-4 md:max-w-[40rem] md:px-6 lg:max-w-[76rem] lg:px-8">
       <Intro />
-      <div className="px-6 pt-5 lg:px-0">
+      <div className="pt-4">
         <TopBar />
       </div>
 
-      <div className="flex flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:items-center lg:gap-12 lg:pb-10">
-        <div className="flex flex-1 flex-col lg:flex-none">
-          <header className="flex animate-rise flex-col gap-[1.125rem] px-6 pt-8 pb-2 lg:px-0">
+      <div className="flex flex-1 flex-col pb-8 lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:items-center lg:gap-12 lg:pb-12">
+        <div className="flex flex-col">
+          <header className="flex animate-rise flex-col pt-12 lg:pt-16">
             <h1 className="font-heading text-title font-bold text-balance">
               휠체어, 어르신, 유모차와
               <br />
-              함께 가는 영동 여행
+              함께 가는 <span className="text-pine">영동 여행</span>
             </h1>
-            <p className="text-lead leading-relaxed text-ink-sub lg:max-w-[34rem]">
+            <p className="mt-2 text-base text-ink-sub text-pretty lg:max-w-[34rem]">
               강릉·속초·동해 유명 관광지 중 우리 조건에 맞는 곳만 골라, 당일부터 2박 3일까지 지도 위 여행 루트로 짜 드려요.
             </p>
           </header>
 
-          <ul className="flex flex-col gap-3 px-5 pt-6 lg:px-0">
-            {FEATURES.map((f, i) => (
-              <li
-                key={f.title}
-                className="flex animate-rise items-start gap-3.5 rounded-2xl bg-surface p-4"
-                style={{ animationDelay: `${120 + i * 70}ms` }}
-              >
-                <span className="flex size-touch shrink-0 items-center justify-center rounded-full bg-white text-primary">
-                  {f.icon}
-                </span>
-                <span className="flex flex-col gap-1">
-                  <span className="text-lead font-bold">{f.title}</span>
-                  <span className="text-base leading-normal text-ink-sub">{f.body}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="grow lg:hidden" />
-
-          <div className="flex animate-rise flex-col gap-2.5 px-5 pt-4 pb-7 [animation-delay:340ms] lg:px-0 lg:pt-8 lg:pb-0">
-            <div className="flex flex-col gap-2.5 lg:flex-row">
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="flex flex-col gap-2 lg:flex-row lg:gap-3">
               <ButtonLink href="/plan" className="lg:flex-[3]">
                 여행 루트 만들기
               </ButtonLink>
@@ -77,12 +53,21 @@ export default function Home() {
                 예시 루트 바로 보기
               </ButtonLink>
             </div>
-            <Link href="/places" className="mx-auto inline-flex min-h-touch items-center gap-1 px-2 text-base font-bold text-primary underline-offset-4 hover:underline lg:mx-0">
+            <Link href="/places" className="mx-auto inline-flex min-h-touch items-center gap-1 px-2 text-base font-bold text-primary underline-offset-4 hover:underline lg:mx-0 lg:px-0">
               어떤 관광지가 있는지 먼저 보기
               <ChevronRight size={18} aria-hidden="true" />
             </Link>
-            <p className="mt-1 text-center text-sm text-ink-sub lg:text-left">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
+            <p className="text-center text-sm text-ink-sub lg:text-left">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
           </div>
+
+          <ul aria-label="이음길 특징" className="mt-8 border-t border-line">
+            {FEATURES.map((f) => (
+              <li key={f.title} className="flex flex-col gap-1 border-b border-line py-4 last:border-b-0">
+                <span className="text-base font-bold">{f.title}</span>
+                <span className="text-base text-ink-sub text-pretty">{f.body}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <Preview />
@@ -93,10 +78,10 @@ export default function Home() {
 
 /** PC 전용: 실제 결과 화면 캡처 두 장(일정 비교, 확정 일정 지도). scripts/readme/capture.ts가 다시 만든다. */
 function Preview() {
-  const phone = "absolute w-[15rem] overflow-hidden rounded-[2.25rem] border-[0.5rem] border-ink bg-ink shadow-[0_1.5rem_3rem_rgb(20_80_163/0.18)]";
+  const phone = "absolute w-[15rem] overflow-hidden rounded-[2.25rem] border-[0.5rem] border-ink bg-ink shadow-[0_1rem_2rem_rgb(25_31_40/0.12)]";
   return (
-    <figure className="relative hidden h-[38rem] animate-rise [animation-delay:200ms] lg:block" aria-label="결과 화면 미리보기">
-      <div className="absolute inset-x-6 inset-y-10 rounded-[3rem] bg-primary-soft" aria-hidden="true" />
+    <figure className="relative hidden h-[38rem] lg:block" aria-label="결과 화면 미리보기">
+      <div className="absolute inset-x-6 inset-y-10 rounded-[3rem] bg-pine-soft" aria-hidden="true" />
       <div className={`${phone} top-0 right-2`}>
         <Image
           src="/preview/final.png"
