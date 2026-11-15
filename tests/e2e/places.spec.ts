@@ -97,8 +97,8 @@ test("내려가면 오른쪽 아래에 '맨 위로' 버튼이 뜨고, 누르면 
   await page.evaluate(() => window.scrollTo(0, 2000));
   const top = page.getByRole("button", { name: "맨 위로" });
   await expect(top).toBeVisible();
-  const box = (await top.boundingBox())!;
-  expect(box.height).toBeGreaterThanOrEqual(44);
+  // 나타날 때 톡 튀어나오는 움직임(animate-pop, 크기 0.x→1) 도중에는 화면 크기가 작게 잡힌다 → 움직임이 끝난 뒤의 높이를 본다
+  await expect.poll(async () => (await top.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   await top.click();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
 });
