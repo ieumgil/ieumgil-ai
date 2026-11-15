@@ -94,11 +94,11 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, css: string, text?: s
 
 /** 장소: 누를 수 있는 번호(터치 영역 44px) + 오른쪽에 짧은 이름 */
 function stopMarker(p: MapPoint, short: string, onClick: () => void): HTMLElement {
-  const wrap = el("div", "position:relative;width:2.75rem;height:2.75rem");
-  const btn = el("button", "display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer");
+  const wrap = el("div", "position:relative;display:flex;min-width:2.75rem;min-height:2.75rem");
+  const btn = el("button", "display:flex;align-items:center;justify-content:center;flex:1 1 auto;padding:0;border:0;background:transparent;cursor:pointer");
   btn.type = "button";
   btn.setAttribute("aria-label", `${p.label}번 ${p.name} 정보 보기`);
-  btn.append(el("span", `display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:9999px;background:${COLOR.primary};color:#fff;font-weight:700;font-size:1rem;border:3px solid #fff;box-shadow:${SHADOW}`, p.label));
+  btn.append(el("span", `display:flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:2rem;min-height:2rem;aspect-ratio:1;padding:0 0.25rem;line-height:1;border-radius:9999px;background:${COLOR.primary};color:#fff;font-weight:700;font-size:1rem;border:3px solid #fff;box-shadow:${SHADOW}`, p.label));
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
     onClick();

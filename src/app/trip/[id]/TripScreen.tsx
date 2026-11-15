@@ -166,7 +166,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
 
       <div className="lg:grid lg:grid-cols-[23rem_minmax(0,1fr)] lg:gap-8 lg:px-6 xl:grid-cols-[22rem_minmax(0,1fr)_minmax(0,1fr)]">
         {/* 왼쪽(PC) / 위(모바일): 요약 · 안 고르기 · 정하기(PC) */}
-        <aside className="lg:sticky lg:top-4 lg:self-start">
+        {/* 글자를 키우면 이 칸이 화면보다 커져 아래(안 고르기 · 정하기 버튼)가 닿지 않으므로, 화면 높이를 넘으면 이 칸 안에서 스크롤한다 */}
+        <aside className="lg:sticky lg:top-4 lg:-m-1 lg:max-h-[calc(100dvh-2rem)] lg:self-start lg:overflow-y-auto lg:p-1">
           <Summary trip={trip} bandUsed={example} />
           {trip.options.length > 1 && <OptionPicker trip={shownTrip} selected={option.id} confirmedId={confirmedId} onSelect={pick} />}
           <div className="mt-4 hidden lg:block">
