@@ -220,3 +220,107 @@ test.describe("대화창·시트", () => {
     expect(await page.locator("[data-slot='dialog-overlay']").evaluate((el) => getComputedStyle(el).backdropFilter)).toBe("none");
   });
 });
+
+// ---- 전 화면 글자·제목 글꼴·대비 조합(03-11): 계산값으로 본다 ------------------------------------------
+// 주요 8개 화면에서 14px 이상 · 누르는 것 16px 이상 · Button·summary 700 · h1 고운바탕 28px · 고운바탕은 제목에만
+// · primary-soft 바탕 위에 primary 글자 없음(대비 4.39). 예외로 뺀 선택자는 없다.
+
+const SCREENS = ["/", "/plan/when", "/plan/who", "/plan/conditions", "/plan/taste", "/places", "/trip/example", "/trip/example/final"];
+
+async function openScreen(page: Page, path: string) {
+  await block(page);
+  await page.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+  await page.goto(path);
+  await page.waitForLoadState("networkidle");
+  await expect(page.locator("main h1, h1").first()).toBeVisible();
+  await page.evaluate(() => document.fonts.ready);
+  // 나타나는 애니메이션이 끝난 뒤의 값을 본다
+  await page.waitForTimeout(600);
+}
+
+test.describe("전 화면 글자", () => {
+  for (const path of SCREENS) {
+    test(`${path}: 보이는 글자는 모두 14px 이상`, async ({ page }) => {
+      await openScreen(page, path);
+      const small = await page.locator("main").first().evaluate((main) => {
+        const out: { tag: string; text: string; size: number }[] = [];
+        for (const el of [main, ...main.querySelectorAll("*")]) {
+          const own = [...el.childNodes].filter((n) => n.nodeType === 3 && (n.textContent ?? "").trim() !== "");
+          if (own.length === 0) continue;
+          if (el.closest(".sr-only")) continue; // 화면 낭독 전용 글자는 보이지 않는다
+          const cs = getComputedStyle(el);
+          if (cs.visibility === "hidden" || cs.display === "none") continue;
+          const r = el.getBoundingClientRect();
+          if (r.width === 0 || r.height === 0) continue;
+          const size = parseFloat(cs.fontSize);
+          if (size < 14) out.push({ tag: el.tagName, text: (own[0].textContent ?? "").trim().slice(0, 20), size });
+        }
+        return out;
+      });
+      expect(small, JSON.stringify(small)).toEqual([]);
+    });
+
+    test(`${path}: 누를 수 있는 것은 16px 이상, Button·summary는 700`, async ({ page }) => {
+      await openScreen(page, path);
+      const bad = await page.locator("main").first().evaluate((main) => {
+        const out: { tag: string; text: string; size: number; weight: string }[] = [];
+        for (const el of main.querySelectorAll("a, button, summary, [role=tab], [data-slot=button]")) {
+          const r = el.getBoundingClientRect();
+          const cs = getComputedStyle(el);
+          if (cs.visibility === "hidden" || cs.display === "none" || r.width === 0 || r.height === 0) continue;
+          const size = parseFloat(cs.fontSize);
+          const needBold = el.matches("[data-slot=button], summary");
+          if (size < 16 || (needBold && cs.fontWeight !== "700")) {
+            out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20), size, weight: cs.fontWeight });
+          }
+        }
+        return out;
+      });
+      expect(bad, JSON.stringify(bad)).toEqual([]);
+    });
+
+    test(`${path}: h1은 고운바탕 28px, 고운바탕은 제목에만`, async ({ page }) => {
+      await openScreen(page, path);
+      const h1 = await page.locator("h1").first().evaluate((el) => {
+        const cs = getComputedStyle(el);
+        return { family: cs.fontFamily.replace(/["']/g, ""), size: cs.fontSize };
+      });
+      expect(h1.family.startsWith("Gowun Batang"), h1.family).toBe(true);
+      expect(h1.size).toBe("28px");
+
+      const stray = await page.evaluate(() => {
+        const out: { tag: string; text: string }[] = [];
+        for (const el of document.body.querySelectorAll("*")) {
+          if (el.closest("script, style, noscript, svg")) continue;
+          const cs = getComputedStyle(el);
+          if (!cs.fontFamily.replace(/["']/g, "").startsWith("Gowun")) continue;
+          const r = el.getBoundingClientRect();
+          if (cs.visibility === "hidden" || cs.display === "none" || r.width === 0 || r.height === 0) continue;
+          if (el.closest("h1, h2")) continue;
+          out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
+        }
+        return out;
+      });
+      expect(stray, JSON.stringify(stray)).toEqual([]);
+    });
+
+    test(`${path}: primary-soft 바탕 위에 primary 글자가 없다`, async ({ page }) => {
+      await openScreen(page, path);
+      const bad = await page.evaluate(() => {
+        const SOFT = "rgb(234, 242, 253)";
+        const PRIMARY = "rgb(30, 111, 208)";
+        const out: { tag: string; text: string }[] = [];
+        for (const soft of document.body.querySelectorAll("*")) {
+          const scs = getComputedStyle(soft);
+          if (scs.backgroundColor !== SOFT || scs.visibility === "hidden" || scs.display === "none") continue;
+          for (const el of [soft, ...soft.querySelectorAll("*")]) {
+            const own = [...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? "").trim() !== "");
+            if (own && getComputedStyle(el).color === PRIMARY) out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
+          }
+        }
+        return out;
+      });
+      expect(bad, JSON.stringify(bad)).toEqual([]);
+    });
+  }
+});
