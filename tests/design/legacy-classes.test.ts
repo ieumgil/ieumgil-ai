@@ -1,15 +1,9 @@
 // 정리 감시 테스트(03단계 디자인 다듬기): 'AI 티' 나는 옛 클래스·효과가 새로 들어오거나 되살아나지 않게 src 아래 파일을 훑는다.
 // 규칙은 03-UI-SPEC.md의 글자(크기 4단계·굵기 2단계) · 면(유리 효과·떠오름·카드 그림자·반지름 3단계) · 간격(금지 값) · 움직임(단계 지연)이다.
-// 아직 고치지 않은 파일은 PENDING에만 적어 건너뛴다. 각 화면 계획이 자기 파일을 지운다 · 11번 계획에서 목록이 비어야 한다.
-// 목록 밖 파일이 규칙을 어기면 실패하고, 이미 깨끗해진 파일이 목록에 남아 있어도 실패한다(지울 때를 알려 주려고).
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+// src 전체가 규칙을 지켜야 통과한다(건너뛰는 파일 목록 없음, 11번 계획에서 목록을 없앴다).
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
-
-/** 아직 고치지 않은 파일(저장소 루트 기준, 정렬). 각 화면 계획이 자기 파일을 지운다 */
-const PENDING: string[] = [
-  "src/app/s/[id]/page.tsx",
-];
 
 const root = process.cwd();
 const SRC = join(root, "src");
@@ -109,38 +103,21 @@ function violations() {
 }
 
 const found = violations();
-const pending = new Set(PENDING);
 
-describe("정리 감시: PENDING 밖 파일은 새 규칙을 지킨다", () => {
-  it("규칙을 어기는 파일이 목록 밖에 없다", () => {
-    const outside = [...found].filter(([path]) => !pending.has(path)).map(([path, ids]) => `${path} (${ids.join(",")})`);
-    expect(outside.sort(), `PENDING에 없는 파일이 규칙을 어김:\n${outside.join("\n")}`).toEqual([]);
+describe("정리 감시: src 전체가 새 규칙을 지킨다", () => {
+  it("규칙을 어기는 파일이 없다", () => {
+    const outside = [...found].map(([path, ids]) => `${path} (${ids.join(",")})`);
+    expect(outside.sort(), `규칙을 어기는 파일:\n${outside.join("\n")}`).toEqual([]);
   });
 
   for (const r of RULES) {
-    it(`${r.id} ${r.label}: 이 규칙을 어기는 곳이 PENDING 밖에 없다`, () => {
+    it(`${r.id} ${r.label}: 이 규칙을 어기는 곳이 없다`, () => {
       const lines = files
-        .filter((f) => !pending.has(f.path) && r.applies(f.path))
+        .filter((f) => r.applies(f.path))
         .flatMap((f) => r.find(f.path, f.text).map((hit) => `${f.path}: ${hit}`));
       expect(lines, lines.join("\n")).toEqual([]);
     });
   }
-});
-
-describe("PENDING 목록 관리", () => {
-  it("목록의 모든 경로가 실제로 있다(지운 파일이 남지 않게)", () => {
-    const missing = PENDING.filter((p) => !existsSync(join(root, p)));
-    expect(missing).toEqual([]);
-  });
-
-  it("목록이 정렬돼 있고 겹치지 않는다", () => {
-    expect([...PENDING]).toEqual([...new Set(PENDING)].sort());
-  });
-
-  it("목록의 파일은 아직 규칙을 어긴다(깨끗해졌으면 목록에서 지운다)", () => {
-    const clean = PENDING.filter((p) => !found.has(p));
-    expect(clean, `이미 깨끗한 파일은 PENDING에서 지운다:\n${clean.join("\n")}`).toEqual([]);
-  });
 });
 
 describe("규칙이 실제로 잡아낸다(검사 자체의 시험)", () => {
