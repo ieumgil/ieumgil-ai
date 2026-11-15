@@ -68,14 +68,15 @@ export function PlaceCard({
       <article id={stopAnchor(it.placeId)} className="min-w-0 flex-1 rounded-2xl border border-line bg-white p-4">
         <div className="flex flex-wrap gap-3">
           <PlacePhoto id={it.placeId} name={p.name} category={p.category} size="card" />
-          <div className="min-w-0 grow basis-[10rem]">
+          {/* min-w-0를 두지 않는다: 이름 낱말이 사진 옆 칸에 안 들어가면 칸이 사진 아래 줄로 내려가 넓게 쓰고, 그래도 안 들어갈 때만 글자 사이에서 끊긴다 */}
+          <div className="grow basis-[10rem] [overflow-wrap:break-word]">
             <p className="text-base font-bold text-primary-ink tabular-nums">
               약 {toHHMM(it.arriveMin)}~{toHHMM(it.departMin)}
             </p>
             <p className="text-sm text-ink-sub">
               머무는 {it.stayMin}분{it.extraMin ? ` + 여유 ${it.extraMin}분` : ""}
             </p>
-            <h3 id={nameId} className="mt-1 text-heading font-bold [overflow-wrap:anywhere]">
+            <h3 id={nameId} className="mt-1 text-heading font-bold">
               <span className="sr-only">{no}번째 장소: </span>
               {p.name}
             </h3>

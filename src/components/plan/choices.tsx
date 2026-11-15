@@ -57,11 +57,14 @@ export function SegmentButton({
   onClick,
   children,
   className = "",
+  fluid = false,
 }: {
   selected: boolean;
   onClick: () => void;
   children: ReactNode;
   className?: string;
+  /** 줄바꿈 묶음(flex-wrap) 안에서 쓴다: 글자가 커져 낱말이 안 들어가면 버튼이 아래 줄로 내려간다(칸을 줄이지 않음) */
+  fluid?: boolean;
 }) {
   return (
     <button
@@ -74,7 +77,7 @@ export function SegmentButton({
       } ${className}`}
     >
       <Mark on={selected} />
-      <span className="flex min-w-0 flex-col items-center gap-0.5 [overflow-wrap:anywhere]">{children}</span>
+      <span className={`flex flex-col items-center gap-0.5 ${fluid ? "[overflow-wrap:break-word]" : "min-w-0 [overflow-wrap:anywhere]"}`}>{children}</span>
     </button>
   );
 }

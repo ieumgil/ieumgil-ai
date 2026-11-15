@@ -79,12 +79,13 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
               type="button"
               aria-pressed={on}
               onClick={() => toggleCategory(c)}
-              className={`group relative flex min-h-20 items-center gap-3 rounded-2xl p-3 text-left transition-[background-color,border-color] duration-150 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+              className={`group relative flex min-h-20 flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl p-3 text-left transition-[background-color,border-color] duration-150 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                 on ? "border-2 border-primary bg-primary-soft" : "border-[1.5px] border-line-control bg-white hover:border-primary"
               }`}
             >
-              <span className="flex min-w-0 grow flex-col gap-1">
-                <span className="text-base font-bold text-ink [overflow-wrap:anywhere]">{c}</span>
+              {/* min-w-0를 두지 않는다: 글자가 커져 낱말이 안 들어가면 사진이 아래 줄로 내려가고, 그래도 넘칠 때만 글자 사이에서 끊긴다 */}
+              <span className="flex grow basis-[4.5rem] flex-col gap-1 [overflow-wrap:break-word]">
+                <span className="text-base font-bold text-ink">{c}</span>
                 <span className="text-sm leading-snug text-ink-sub">{CATEGORY_DESC[c]}</span>
               </span>
               {/* 사진은 또렷하게 오른쪽에(1유형 사진만, 출처는 아래 줄). 고른 표시는 사진 모서리에 걸친다 */}
@@ -103,9 +104,9 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
         <h2 className="font-heading text-heading font-bold" id="pace-title">
           하루에 얼마나 돌아볼까요?
         </h2>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(6.5rem,1fr))] gap-2" role="radiogroup" aria-labelledby="pace-title">
+        <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="pace-title">
           {PACES.map((p) => (
-            <SegmentButton key={p.id} selected={plan.pace === p.id} onClick={() => updatePlan({ pace: p.id })} className="min-h-16">
+            <SegmentButton key={p.id} selected={plan.pace === p.id} onClick={() => updatePlan({ pace: p.id })} fluid className="min-h-16 grow basis-[6.5rem]">
               <span className="text-base font-bold">{p.label}</span>
               <span className="text-sm font-normal">{p.sub}</span>
             </SegmentButton>

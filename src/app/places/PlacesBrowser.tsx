@@ -101,9 +101,9 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
       </header>
 
       {/* 지역: 한 줄 분할 */}
-      <div className="mt-2 grid grid-cols-3 gap-2 px-4 md:px-6" role="radiogroup" aria-label="지역">
+      <div className="mt-2 flex flex-wrap gap-2 px-4 md:px-6" role="radiogroup" aria-label="지역">
         {REGIONS.map((r) => (
-          <SegmentButton key={r} selected={region === r} onClick={() => setRegion(r)}>
+          <SegmentButton key={r} selected={region === r} onClick={() => setRegion(r)} fluid className="grow basis-[5.5rem]">
             <span className="flex flex-wrap items-baseline justify-center gap-x-1">
               <span>{r}</span>
               <span className={`text-sm ${region === r ? "text-pine" : "text-ink-sub"}`}>{counts[r]}곳</span>
@@ -192,8 +192,8 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
 function Section({ title, sub, children }: { title: string; sub: string; children: ReactNode }) {
   return (
     <section className="mt-8 px-4 md:px-6">
-      <h2 className="font-heading text-heading font-bold">
-        {title} <span className="ml-1 font-sans text-sm font-normal text-ink-sub">{sub}</span>
+      <h2 className="flex flex-wrap items-baseline gap-x-2 font-heading text-heading font-bold">
+        {title} <span className="font-sans text-sm font-normal text-ink-sub">{sub}</span>
       </h2>
       <ul className="mt-3 grid gap-4 lg:grid-cols-2">{children}</ul>
     </section>
@@ -227,15 +227,16 @@ function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; pick
       <article className={`flex h-full flex-col gap-3 rounded-2xl bg-white p-4 ${picked ? "border-2 border-primary" : "border border-line"}`}>
         <div className="flex flex-wrap gap-3">
           <PlacePhoto id={p.id} name={p.name} category={p.category} />
-          <div className="min-w-0 grow basis-40">
-            <h3 className="text-heading leading-snug font-bold [overflow-wrap:anywhere]">
-              {p.name}
-              {p.featured && <span className="ml-2 text-sm font-bold text-ink-sub">대표</span>}
+          {/* min-w-0를 두지 않는다: 이름 낱말이 사진 옆 칸에 안 들어가면 칸이 사진 아래 줄로 내려가 넓게 쓰고, 그래도 안 들어갈 때만 글자 사이에서 끊긴다 */}
+          <div className="grow basis-40 [overflow-wrap:break-word]">
+            <h3 className="text-heading leading-snug font-bold">
+              {p.featured ? `${p.name} ` : p.name}
+              {p.featured && <span className="text-sm font-bold whitespace-nowrap text-ink-sub">대표</span>}
             </h3>
             <p className="text-sm font-bold text-pine">
               {p.region} · {p.category}
             </p>
-            <p className="mt-1 text-base">{p.summary}</p>
+            <p className="mt-1 text-base [overflow-wrap:anywhere]">{p.summary}</p>
           </div>
         </div>
         <ul className="flex flex-wrap items-center gap-2" aria-label={g.byTraveler ? "꼭 필요한 조건" : "접근성(기본 항목)"}>

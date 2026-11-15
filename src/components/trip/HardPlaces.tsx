@@ -39,8 +39,8 @@ export function HardPlaces({ trip }: { trip: TripView }) {
               <li key={h.placeId} className="border-b border-line py-4 last:border-b-0">
                 <div className="flex flex-wrap gap-3">
                   <PlacePhoto id={h.placeId} name={p.name} category={p.category} size="sm" />
-                  <div className="min-w-0 grow basis-[10rem]">
-                    <h3 className="text-heading font-bold [overflow-wrap:anywhere]">{p.name}</h3>
+                  <div className="grow basis-[10rem] [overflow-wrap:break-word]">
+                    <h3 className="text-heading font-bold">{p.name}</h3>
                     <p className="text-sm font-bold text-pine">
                       {p.region} · {p.category}
                     </p>

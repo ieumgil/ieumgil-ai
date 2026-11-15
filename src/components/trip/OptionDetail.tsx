@@ -172,8 +172,9 @@ function DayPanel({
               <Node key={i}>
                 <span className="font-bold">
                   {toHHMM(it.startMin)}~{toHHMM(it.endMin)}
-                </span>{" "}
-                점심·휴식 <span className="text-sm text-ink-sub">· 음식점은 추천하지 않아요</span>
+                </span>
+                {" 점심·휴식 "}
+                <span className="text-sm text-ink-sub">· 음식점은 추천하지 않아요</span>
               </Node>
             );
           }
