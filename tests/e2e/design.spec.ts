@@ -45,6 +45,8 @@ test("제목 글꼴은 같은 사이트에서 받고 외부 글꼴 요청이 없
   for (const url of fontUrls) {
     const u = new URL(url);
     expect(u.origin, url).toBe(origin);
+    // 개발 서버의 오류 표시 창(Next 개발 도구)이 같은 사이트의 /__nextjs_font/ 에서 자기 글꼴을 받는다. 우리 글꼴이 아니라 배포에는 없다.
+    if (u.pathname.startsWith("/__nextjs_font/")) continue;
     expect(u.pathname.startsWith("/_next/"), url).toBe(true);
   }
   for (const url of allUrls) {

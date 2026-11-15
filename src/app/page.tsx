@@ -38,7 +38,7 @@ export default function Home() {
       <div className="flex flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:items-center lg:gap-12 lg:pb-10">
         <div className="flex flex-1 flex-col lg:flex-none">
           <header className="flex animate-rise flex-col gap-[1.125rem] px-6 pt-8 pb-2 lg:px-0">
-            <h1 className="text-display font-bold lg:text-[2.75rem] lg:leading-tight">
+            <h1 className="font-heading text-title font-bold text-balance">
               휠체어, 어르신, 유모차와
               <br />
               함께 가는 영동 여행

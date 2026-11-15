@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { INTRO_SCRIPT } from "@/lib/intro";
+// 제목 글꼴(고운바탕 700, D-08): next/font/local은 파일 하나씩만 받아 unicode-range 조각(96개)을 못 쓴다.
+// 패키지 CSS를 그대로 불러오면 브라우저가 화면에 쓴 글자가 든 조각만 받는다. 같은 사이트에서만 받고(외부 CDN·Google 요청 없음) 버전은 package.json에 고정.
+import "@fontsource/gowun-batang/700.css";
 import "./globals.css";
 
 const pretendard = localFont({
