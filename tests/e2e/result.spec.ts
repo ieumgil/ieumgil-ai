@@ -234,6 +234,59 @@ test("[순서 고치기]로 위·아래로 옮기고 빼면 시각을 다시 계
   await expect(page.getByRole("region", { name: /순서 고치기/ })).toHaveCount(0);
 });
 
+// ---- 안 비교 첫 화면(03-03): 꼬리표·알약·아이콘·유리 효과 없이 한눈에 비교 ----
+test.describe("안 비교 첫 화면", () => {
+  test("꼬리표 없이 h1 + 한 줄 조건만 보인다 @p0303", async ({ page }) => {
+    await expect(page.getByText("AI 추천 일정", { exact: true })).toHaveCount(0);
+    const meta = page.getByText(/^AI 추천 · /);
+    await expect(meta).toBeVisible();
+    for (const word of ["1박 2일", "휠체어", "택시", "숙소 강릉"]) await expect(meta).toContainText(word);
+    await expect(page.getByRole("list", { name: "여행 조건" })).toHaveCount(0); // 알약 목록 없음
+  });
+
+  test("안 카드는 아이콘 없는 네 줄이다 @p0303 @p0303-card", async ({ page }) => {
+    const radios = page.getByRole("radio");
+    await expect(radios).toHaveCount(view.options.length);
+    for (const radio of await radios.all()) {
+      await expect(radio.locator("svg")).toHaveCount(0);
+      await expect(radio).toHaveText(/\d+곳 · 이동 약 \d+분 · (! 전화 확인 [1-9]\d*곳|전화 확인 0곳)/);
+    }
+    await expect(radios.first()).toHaveText(/^A안/);
+  });
+
+  test("고른 안은 2px primary 테두리, 안 고른 안은 1.5px 회색 윤곽이다 @p0303 @p0303-card", async ({ page }) => {
+    const css = (loc: ReturnType<typeof page.getByRole>) =>
+      loc.evaluate((el) => {
+        const s = getComputedStyle(el);
+        return { w: s.borderTopWidth, c: s.borderTopColor, bg: s.backgroundColor };
+      });
+    const on = page.locator("[role=radio][aria-checked=true]");
+    const off = page.locator("[role=radio][aria-checked=false]").first();
+    expect(await css(on)).toEqual({ w: "2px", c: "rgb(30, 111, 208)", bg: "rgb(234, 242, 253)" });
+    expect(await css(off)).toEqual({ w: "1.5px", c: "rgb(139, 149, 161)", bg: "rgb(255, 255, 255)" });
+  });
+
+  test("390x844: 두 안이 아래 확정 바 위에 모두 보인다 @p0303 @p0303-card", async ({ page }, info) => {
+    test.skip(info.project.name !== "mobile", "아래 고정 바는 휴대폰 폭에서만");
+    const bar = (await page.locator("[data-bottom-bar]").boundingBox())!;
+    for (const radio of await page.getByRole("radio").all()) {
+      const box = (await radio.boundingBox())!;
+      expect(box.y + box.height, `카드 아래 끝 ${box.y + box.height} / 확정 바 위 ${bar.y}`).toBeLessThanOrEqual(bar.y);
+    }
+  });
+
+  test("아래 확정 바는 불투명 흰 바탕 + 위쪽 그림자이다 @p0303", async ({ page }, info) => {
+    test.skip(info.project.name !== "mobile", "아래 고정 바는 휴대폰 폭에서만");
+    const style = await page.locator("[data-bottom-bar]").evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { bg: s.backgroundColor, backdrop: s.backdropFilter, shadow: s.boxShadow };
+    });
+    expect(style.bg).toBe("rgb(255, 255, 255)");
+    expect(style.backdrop).toBe("none");
+    expect(style.shadow).not.toBe("none");
+  });
+});
+
 test("AI 설계 과정 보기는 44px 펼치기 줄이고, 누르면 과정이 보이며, 안전 안내 문장은 펼치기 전에도 보인다", async ({ page }) => {
   const summary = page.locator("summary", { hasText: "AI 설계 과정 보기" });
   await summary.scrollIntoViewIfNeeded();

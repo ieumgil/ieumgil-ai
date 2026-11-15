@@ -35,6 +35,21 @@ test("시작 화면의 '예시 루트 바로 보기'를 누르면 AI를 부르�
   expect(planCalled()).toBe(false);
 });
 
+test("예시 띠는 한 줄 안내 + 글자 버튼이고, 세 번째 안이 첫 화면에서 시작한다 @p0303 @p0303-card", async ({ page }, info) => {
+  test.skip(info.project.name !== "mobile", "첫 화면 위치는 휴대폰 폭 기준");
+  await setup(page);
+  await page.goto("/trip/example");
+  await expect(page.getByText("예시 일정이에요.")).toBeVisible();
+  const link = page.getByRole("link", { name: "내 조건으로 만들기" });
+  expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await expect(page.locator("[data-example-banner] svg")).toHaveCount(0);
+  const radios = page.getByRole("radio");
+  await expect(radios).toHaveCount(3);
+  const bar = (await page.locator("[data-bottom-bar]").boundingBox())!;
+  const third = (await radios.nth(2).boundingBox())!;
+  expect(third.y, `세 번째 카드 윗변 ${third.y} / 확정 바 위 ${bar.y}`).toBeLessThan(bar.y);
+});
+
 test("예시에서 정하면 예시 확정 화면으로 가고, 내가 만든 일정의 확정 기록은 그대로다", async ({ page }) => {
   await setup(page);
   const mine = ownView.options[0];
