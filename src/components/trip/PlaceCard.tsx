@@ -144,14 +144,14 @@ export function PlaceCard({
         </button>
 
         {open && (
-          <div id={detailId} className="mt-3 flex animate-rise flex-col gap-3 border-t border-line pt-3 text-base leading-relaxed">
-            <p className="text-sm text-ink-sub">
+          <div id={detailId} className="mt-4 flex flex-col gap-4 text-base leading-relaxed">
+            <p className="text-sm font-bold text-pine">
               {p.region} · {p.category}
-              {j.confidence ? ` · AI 판단의 확신 ${j.confidence}` : ""}
+              {j.confidence && <span className="font-normal text-ink-sub">{` · AI 판단의 확신 ${j.confidence}`}</span>}
             </p>
             {reasons.length > 0 && (
               <Block title="AI 판단 이유">
-                <ul className="list-disc pl-5">
+                <ul className="list-disc pl-6">
                   {reasons.map((r) => (
                     <li key={r}>{r}</li>
                   ))}
@@ -161,7 +161,7 @@ export function PlaceCard({
             {p.onSite && <Block title="도착하면">{p.onSite}</Block>}
             {questions.length > 0 && (
               <Block title="전화로 물어볼 것">
-                <ul className="list-disc pl-5">
+                <ul className="list-disc pl-6">
                   {questions.map((q) => (
                     <li key={q}>{q}</li>
                   ))}
@@ -170,7 +170,7 @@ export function PlaceCard({
             )}
             {onSite.length > 0 && (
               <Block title="가서 보고 확인할 것">
-                <ul className="list-disc pl-5">
+                <ul className="list-disc pl-6">
                   {onSite.map((t) => (
                     <li key={t}>{t}</li>
                   ))}
@@ -179,14 +179,14 @@ export function PlaceCard({
             )}
             {pub.length > 0 && (
               <Block title="공공데이터로 확인한 것">
-                <ul className="flex flex-col gap-1.5">
+                <ul className="flex flex-col gap-2">
                   {pub.map((l) => (
                     <li key={l.key} className="flex items-start gap-2">
                       <span aria-hidden="true" className="font-bold text-primary-ink">
                         ✓
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="font-medium">{l.headline}</span>
+                        <span className="font-bold">{l.headline}</span>
                         {l.noNursing && <span className="block text-base text-ink-sub">수유실은 정보 없음</span>}
                         <span className="block text-sm text-ink-sub">
                           {l.note}
@@ -210,8 +210,8 @@ export function PlaceCard({
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <p className="text-sm font-bold text-ink-sub">{title}</p>
-      <div className="mt-0.5">{children}</div>
+      <p className="text-base font-bold text-ink">{title}</p>
+      <div className="mt-1">{children}</div>
     </div>
   );
 }

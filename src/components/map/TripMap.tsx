@@ -329,7 +329,7 @@ export function TripMap({
   if (failed) {
     return (
       <div className={`flex flex-col items-center justify-center gap-1 rounded-2xl bg-surface p-6 text-center text-ink-sub ${className}`} role="note">
-        <p className="text-base font-medium">지도를 불러오지 못했어요</p>
+        <p className="text-base font-bold">지도를 불러오지 못했어요</p>
         <p className="text-sm">일정과 순서는 아래 목록에서 그대로 볼 수 있어요.</p>
       </div>
     );
