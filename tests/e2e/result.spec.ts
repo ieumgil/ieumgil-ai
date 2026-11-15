@@ -291,6 +291,104 @@ test.describe("안 비교 첫 화면", () => {
   });
 });
 
+// ---- 장소 카드(03-04): S2 한 겹, 접힌 상태에도 원칙 문구가 남고, 이름·번호는 잘리지 않는다 ----
+test.describe("장소 카드", () => {
+  const day1 = (view as unknown as { options: { days: { items: { kind: string; placeId?: string }[] }[] }[] }).options[0].days[0].items;
+  const unknowns = (view as unknown as { unknowns: Record<string, string[]> }).unknowns;
+  const withUnknown = day1.filter((i) => i.kind === "visit" && (unknowns[i.placeId!] ?? []).length > 0).map((i) => i.placeId!);
+
+  test("접힌 카드에 판정·모름 한 줄·전화·바꾸기가 보인다 @p0304", async ({ page }) => {
+    expect(withUnknown.length).toBeGreaterThan(0);
+    for (const id of withUnknown) await expect(page.locator(`#stop-${id}`).getByText(/공식 정보 없음:/)).toBeVisible();
+    const cards = page.locator("article:visible");
+    expect(await cards.count()).toBeGreaterThan(0);
+    for (const card of await cards.all()) {
+      await expect(card.getByRole("link", { name: /공식 전화 .* 걸기/ })).toBeVisible();
+      await expect(card.getByRole("button", { name: /다른 곳으로 바꾸기/ })).toBeVisible();
+    }
+  });
+
+  test("펼침 줄 이름은 '자세히' 또는 '자세히 · 물어볼 것 N'이고 장소 이름을 가리킨다 @p0304", async ({ page }) => {
+    const buttons = page.locator("article:visible button[aria-controls^='place-']");
+    const names: string[] = [];
+    for (const b of await buttons.all()) {
+      const name = (await b.evaluate((el) => (el.textContent ?? "").replace(/\s+/g, " ").trim())) as string;
+      expect(name).toMatch(/^자세히( · 물어볼 것 \d+)?$/);
+      names.push(name);
+      const target = await b.getAttribute("aria-describedby");
+      expect(target).toBeTruthy();
+      await expect(b.locator("xpath=ancestor::article").locator(`h3[id='${target}']`)).toHaveCount(1);
+    }
+    expect(names.some((n) => n.includes("물어볼 것"))).toBe(true);
+    const style = await buttons.first().evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { bg: s.backgroundColor, top: s.borderTopWidth, h: el.getBoundingClientRect().height };
+    });
+    expect(style.bg).toBe("rgba(0, 0, 0, 0)");
+    expect(style.top).toBe("1px");
+    expect(style.h).toBeGreaterThanOrEqual(44);
+  });
+
+  test("카드는 그림자 없는 한 겹이다 @p0304", async ({ page }) => {
+    const s = await page.locator("article:visible").first().evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { shadow: c.boxShadow, top: c.borderTopWidth };
+    });
+    expect(s).toEqual({ shadow: "none", top: "1px" });
+  });
+
+  test("이름은 20px 700 sans이다 @p0304", async ({ page }) => {
+    const s = await page.locator("article:visible h3").first().evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { size: c.fontSize, weight: c.fontWeight, family: c.fontFamily };
+    });
+    expect(s.size).toBe("20px");
+    expect(s.weight).toBe("700");
+    expect(s.family.startsWith("Gowun")).toBe(false);
+  });
+
+  test("펼치면 지역·분류가 솔숲 초록 meta로 맨 위에 온다 @p0304 @p0304-open", async ({ page }) => {
+    const more = page.locator("article:visible button[aria-controls^='place-']").first();
+    await more.click();
+    const panel = page.locator(`[id='${await more.getAttribute("aria-controls")}']`);
+    await expect(panel).toBeVisible();
+    const first = panel.locator("> *").first();
+    await expect(first).toContainText(" · ");
+    expect(await first.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(42, 106, 80)");
+  });
+
+  test("전화번호는 하이픈 뒤에서만 줄바꿈된다 @p0304", async ({ page }) => {
+    const tel = page.locator("article:visible").first().locator("a[href^='tel:']");
+    expect(await tel.locator("wbr").count()).toBeGreaterThan(0);
+  });
+
+  test("320px·글자 150%: 이름이 카드 밖으로 넘치지 않는다 @p0304", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 740 });
+    await page.addStyleTag({ content: "html{font-size:150% !important}" });
+    await expect(page.locator("article:visible").first()).toBeVisible();
+    const over = await page.locator("article:visible h3").evaluateAll((els) =>
+      els.map((el) => ({ t: (el.textContent ?? "").trim(), sw: el.scrollWidth, cw: el.clientWidth })).filter((r) => r.sw > r.cw + 1),
+    );
+    expect(over, JSON.stringify(over)).toEqual([]);
+  });
+
+  test("글자 200%: 번호 숫자가 잘리지 않는다 @p0304", async ({ page }) => {
+    await page.addStyleTag({ content: "html{font-size:200% !important}" });
+    const buttons = page.getByRole("button", { name: /지도에서 보기$/ });
+    await expect(buttons.first()).toBeVisible();
+    const bad = await buttons.evaluateAll((els) =>
+      els
+        .filter((el) => (el as HTMLElement).offsetParent !== null)
+        .map((el) => {
+          const circle = el.querySelector("span") as HTMLElement;
+          return { sw: circle.scrollWidth, cw: circle.clientWidth, sh: circle.scrollHeight, ch: circle.clientHeight, h: el.getBoundingClientRect().height };
+        })
+        .filter((r) => r.sw > r.cw + 1 || r.sh > r.ch + 1 || r.h < 44),
+    );
+    expect(bad, JSON.stringify(bad)).toEqual([]);
+  });
+});
+
 test("AI 설계 과정 보기는 44px 펼치기 줄이고, 누르면 과정이 보이며, 안전 안내 문장은 펼치기 전에도 보인다", async ({ page }) => {
   const summary = page.locator("summary", { hasText: "AI 설계 과정 보기" });
   await summary.scrollIntoViewIfNeeded();
