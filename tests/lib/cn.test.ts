@@ -14,6 +14,14 @@ describe("cn", () => {
     expect(cn("text-lg", "text-lead")).toBe("text-lead");
   });
 
+  it("text-heading은 글자 크기라 글자색과 함께 남는다", () => {
+    expect(cn("text-primary-foreground", "text-heading").split(" ")).toEqual(["text-primary-foreground", "text-heading"]);
+  });
+
+  it("text-title 뒤에 text-heading이 오면 text-heading만 남는다", () => {
+    expect(cn("text-title", "text-heading")).toBe("text-heading");
+  });
+
   it("다음 버튼(파랑)은 흰 글자를 유지한다", () => {
     expect(buttonClass("primary", "flex-[2] text-lead")).toContain("text-primary-foreground");
   });
