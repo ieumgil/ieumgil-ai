@@ -23,7 +23,7 @@ const CATEGORY_ICON: Record<string, (size: number) => ReactNode> = {
   "전망·체험": (s) => <Binoculars size={s} />,
 };
 
-const SIZE = { sm: "size-14", md: "size-20", lg: "size-24" } as const;
+const SIZE = { sm: "size-14", card: "size-18", md: "size-20", lg: "size-24" } as const;
 
 export function PlacePhoto({ id, name, category, size = "md", className = "" }: { id: string; name: string; category?: string; size?: keyof typeof SIZE; className?: string }) {
   const data = photosOf(id);
@@ -59,7 +59,7 @@ export function PlacePhoto({ id, name, category, size = "md", className = "" }: 
         ) : (
           icon
         )}
-        <span className="absolute right-1 bottom-1 inline-flex items-center gap-0.5 rounded-md bg-ink/75 px-1 py-px text-xs font-bold text-white tabular-nums" aria-hidden="true">
+        <span className="absolute right-1 bottom-1 inline-flex items-center gap-0.5 rounded-full bg-ink/75 px-2 py-0.5 text-sm font-bold text-white tabular-nums" aria-hidden="true">
           <ZoomIn size={12} strokeWidth={2.5} />
           {data.photos.length > 1 && data.photos.length}
         </span>
@@ -135,7 +135,7 @@ function PhotoViewer({ open, onOpenChange, name, photos }: { open: boolean; onOp
       }}
     >
       <DialogContent className="max-w-[calc(100%-1.5rem)] gap-3 rounded-3xl p-4 text-base sm:max-w-[44rem]" onKeyDown={(e) => (e.key === "ArrowRight" ? go(i + 1) : e.key === "ArrowLeft" ? go(i - 1) : undefined)}>
-        <DialogTitle className="pr-12 text-lg font-bold">{name} 사진</DialogTitle>
+        <DialogTitle className="pr-12">{name} 사진</DialogTitle>
         <DialogDescription className="sr-only">사진 {photos.length}장. 옆으로 밀거나 화살표 버튼으로 넘겨 볼 수 있어요.</DialogDescription>
         <ul ref={setTrack} className="flex cursor-grab snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-2xl bg-surface select-none [scrollbar-width:none] active:cursor-grabbing" aria-label={`${name} 사진 목록`}>
           {photos.map((x, n) => (
@@ -159,7 +159,7 @@ function PhotoViewer({ open, onOpenChange, name, photos }: { open: boolean; onOp
             <span className="font-bold text-ink tabular-nums">
               {i + 1} / {photos.length}
             </span>
-            {p?.kind === "facility" && <span className="ml-2 rounded-md bg-primary-soft px-1.5 py-0.5 font-medium text-primary-ink">편의시설 사진: {FACILITY_LABEL[p.facility ?? "etc"]}</span>}
+            {p?.kind === "facility" && <span className="ml-2 font-bold">편의시설 사진: {FACILITY_LABEL[p.facility ?? "etc"]}</span>}
             <span className="mt-0.5 block">{p ? photoCredit(p.kogl_type) : ""}</span>
           </p>
           <button type="button" onClick={() => go(i + 1)} disabled={i === photos.length - 1} aria-label="다음 사진" className="flex size-touch items-center justify-center rounded-full bg-surface text-ink transition-colors hover:bg-line disabled:opacity-40">

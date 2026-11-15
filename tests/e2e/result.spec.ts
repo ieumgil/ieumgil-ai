@@ -311,13 +311,17 @@ test.describe("장소 카드", () => {
   test("펼침 줄 이름은 '자세히' 또는 '자세히 · 물어볼 것 N'이고 장소 이름을 가리킨다 @p0304", async ({ page }) => {
     const buttons = page.locator("article:visible button[aria-controls^='place-']");
     const names: string[] = [];
-    for (const b of await buttons.all()) {
-      const name = (await b.evaluate((el) => (el.textContent ?? "").replace(/\s+/g, " ").trim())) as string;
-      expect(name).toMatch(/^자세히( · 물어볼 것 \d+)?$/);
-      names.push(name);
-      const target = await b.getAttribute("aria-describedby");
-      expect(target).toBeTruthy();
-      await expect(b.locator("xpath=ancestor::article").locator(`h3[id='${target}']`)).toHaveCount(1);
+    // 1일째에는 물어볼 것이 하나도 없으므로(공통 질문은 따로 모음) 2일째도 함께 본다
+    for (const tab of [null, /2일째/]) {
+      if (tab) await page.getByRole("tab", { name: tab }).click();
+      for (const b of await buttons.all()) {
+        const name = (await b.evaluate((el) => (el.textContent ?? "").replace(/\s+/g, " ").trim())) as string;
+        expect(name).toMatch(/^자세히( · 물어볼 것 \d+)?$/);
+        names.push(name);
+        const target = await b.getAttribute("aria-describedby");
+        expect(target).toBeTruthy();
+        await expect(b.locator("xpath=ancestor::article").locator(`h3[id='${target}']`)).toHaveCount(1);
+      }
     }
     expect(names.some((n) => n.includes("물어볼 것"))).toBe(true);
     const style = await buttons.first().evaluate((el) => {
@@ -359,7 +363,8 @@ test.describe("장소 카드", () => {
 
   test("전화번호는 하이픈 뒤에서만 줄바꿈된다 @p0304", async ({ page }) => {
     const tel = page.locator("article:visible").first().locator("a[href^='tel:']");
-    expect(await tel.locator("wbr").count()).toBeGreaterThan(0);
+    expect(await tel.evaluate((el) => el.querySelectorAll("wbr").length)).toBeGreaterThan(0);
+    await expect(tel).toHaveText(/^전화 \d{2,3}-\d{3,4}-\d{4}$/); // 글자는 그대로(wbr은 글자가 아님)
   });
 
   test("320px·글자 150%: 이름이 카드 밖으로 넘치지 않는다 @p0304", async ({ page }) => {
