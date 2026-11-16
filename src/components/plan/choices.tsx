@@ -9,11 +9,11 @@ const focus = "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visi
 /**
  * 고르면 나타나는 ✓ 기호. 색만으로 구분하지 않으려고 쓴다(D-05).
  * 글자 옆이 아니라 버튼 왼쪽 안쪽 여백에 띄워(absolute) 두어, 안 고른 상태에서도 글자가 가운데에 오고
- * 고를 때 폭·글자 자리가 흔들리지 않는다. 버튼은 좌우 같은 여백(px-6)이라 ✓와 글자가 겹치지 않는다.
+ * 고를 때 폭·글자 자리가 흔들리지 않는다. 버튼은 좌우 같은 여백(px-4)이라 ✓와 글자가 겹치지 않는다.
  */
 function Mark({ on }: { on: boolean }) {
   return (
-    <span aria-hidden="true" className={`pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 leading-none font-bold ${on ? "" : "invisible"}`}>
+    <span aria-hidden="true" className={`pointer-events-none absolute top-1/2 left-1 -translate-y-1/2 text-sm leading-none font-bold ${on ? "" : "invisible"}`}>
       ✓
     </span>
   );
@@ -42,7 +42,7 @@ export function ChoiceButton({
       type="button"
       onClick={onClick}
       {...a11y}
-      className={`relative inline-flex min-h-touch items-center justify-center px-6 text-base font-bold transition-[color,background-color,border-color] duration-150 ${focus} ${
+      className={`relative inline-flex min-h-touch items-center justify-center px-4 text-base font-bold transition-[color,background-color,border-color] duration-150 ${focus} ${
         shape === "pill" ? "rounded-full" : "min-h-12 rounded-xl"
       } ${selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"} ${className}`}
     >
@@ -73,7 +73,7 @@ export function SegmentButton({
       role="radio"
       aria-checked={selected}
       onClick={onClick}
-      className={`relative flex min-h-12 items-center justify-center rounded-xl px-6 text-base font-bold text-balance transition-[color,background-color,border-color] duration-150 ${focus} ${
+      className={`relative flex min-h-12 items-center justify-center rounded-xl px-4 text-base font-bold text-balance transition-[color,background-color,border-color] duration-150 ${focus} ${
         selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"
       } ${className}`}
     >
