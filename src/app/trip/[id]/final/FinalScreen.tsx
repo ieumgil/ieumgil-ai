@@ -139,7 +139,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
               label={mapLabel}
               details={dayStopDetails(trip, o, dayIndex)}
               onPick={showStopInList}
-              className={`${bigMap ? "h-80" : "h-44"} lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]`}
+              className={`${bigMap ? "h-80" : "h-60"} lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]`}
             />
           </div>
           <div className="flex justify-end lg:hidden">

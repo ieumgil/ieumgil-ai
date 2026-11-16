@@ -10,6 +10,7 @@
 import { useEffect, useRef, useState } from "react";
 import { photosOf } from "@/lib/places/client-photos";
 import { splitAtMiddle, type LatLngPair } from "@/lib/trip/map-geo";
+import { mapCaption } from "@/lib/trip/map-caption";
 import type { MapPoint, StopDetail } from "@/lib/trip/map-points";
 
 export type { MapPoint };
@@ -313,7 +314,7 @@ export function TripMap({
     pts.forEach((p) => bounds.extend(new maps.LatLng(p.lat, p.lng)));
     (line?.path ?? []).forEach((p) => bounds.extend(ll(p)));
     // 오른쪽은 이름표가 있어 조금 더 비운다
-    // 지도가 작게 시작하면(높이 176px) 위·아래 여백이 칸의 절반을 먹어 너무 멀리 맞춰지므로, 여백은 칸 높이의 15%를 넘지 않게 한다
+    // 지도가 작게 시작하면(높이 240px, 설명 줄 포함) 위·아래 여백이 칸의 절반을 먹어 너무 멀리 맞춰지므로, 여백은 칸 높이의 15%를 넘지 않게 한다
     fit.current = () => {
       const h = box.current?.clientHeight ?? 0;
       const v = (n: number) => (h > 0 ? Math.min(n, Math.round(h * 0.15)) : n);
@@ -331,6 +332,7 @@ export function TripMap({
     if (drawn && focus) drawn.open(focus.id);
   }, [drawn, focus]);
 
+  const caption = mapCaption(line);
   if (failed) {
     return (
       <div className={`flex flex-col items-center justify-center gap-1 rounded-2xl bg-surface p-6 text-center text-ink-sub ${className}`} role="note">
@@ -342,12 +344,9 @@ export function TripMap({
   return (
     <figure className={`flex flex-col overflow-hidden rounded-2xl bg-surface ${className}`}>
       <div ref={box} className="min-h-0 flex-1" role="group" aria-label={label} />
-      <figcaption className="border-t border-line px-3 py-2 text-sm text-ink-sub">
-        {line === undefined
-          ? "경로를 불러오는 중이에요"
-          : line
-            ? `일반 차량 경로 · 약 ${line.km}km · 약 ${line.minutes}분(카카오) · 번호를 누르면 장소 정보`
-            : "경로를 불러오지 못해 순서대로 직선으로 이었어요 · 번호를 누르면 장소 정보"}
+      <figcaption className="border-t border-line px-4 py-3">
+        <p className="text-heading leading-snug font-bold text-ink">{caption.head}</p>
+        <p className="mt-0.5 text-base text-ink-sub">{caption.sub}</p>
       </figcaption>
     </figure>
   );

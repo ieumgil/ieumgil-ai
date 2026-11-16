@@ -245,7 +245,7 @@ test.describe("확정 화면 정리", () => {
     const map = page.getByRole("note").filter({ hasText: "지도를 불러오지 못했어요" });
     await expect(map).toBeVisible();
     const h = () => map.evaluate((el) => el.getBoundingClientRect().height);
-    expect(Math.abs((await h()) - 176)).toBeLessThanOrEqual(2);
+    expect(Math.abs((await h()) - 240)).toBeLessThanOrEqual(2);
     const toggle = page.getByRole("button", { name: "지도 크게 보기" });
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     await toggle.click();
