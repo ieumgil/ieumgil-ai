@@ -177,6 +177,22 @@ test("장소 카드의 번호는 '지도에서 보기' 버튼이다(누를 수 �
   await expect(page.locator("article").first()).toBeVisible();
 });
 
+test("장소 번호 표시는 찌그러지지 않은 동그라미다(가로≈세로, 2rem 이상) @p0314", async ({ page }) => {
+  const buttons = page.getByRole("button", { name: /지도에서 보기$/ });
+  await expect(buttons.first()).toBeVisible();
+  const sizes = await buttons.evaluateAll((els) =>
+    els
+      .filter((el) => (el as HTMLElement).offsetParent !== null)
+      .map((el) => {
+        const r = (el.querySelector("span") as HTMLElement).getBoundingClientRect();
+        return { w: r.width, h: r.height };
+      }),
+  );
+  expect(sizes.length).toBeGreaterThan(0);
+  const bad = sizes.filter((s) => Math.abs(s.w - s.h) > 1 || s.w < 31.5);
+  expect(bad, JSON.stringify(sizes)).toEqual([]);
+});
+
 test("노면만 모르는 곳은 전화 질문이 아니라 '가서 보고 확인할 것'으로 보여준다", async ({ page }) => {
   // 첫 장소(GN12)는 노면만 '모름' → 칩은 그냥 '적합', 자세히에 바닥 안내
   const card = page.locator("article").first();

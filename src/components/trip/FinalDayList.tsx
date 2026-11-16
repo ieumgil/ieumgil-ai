@@ -72,7 +72,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
           return (
             <li key={i} id={stopAnchor(it.placeId)} className="flex gap-3 border-b border-line py-4">
               <span
-                className="flex min-h-8 min-w-8 shrink-0 aspect-square items-center justify-center rounded-full bg-primary text-base leading-none font-bold text-white"
+                className="flex min-h-8 min-w-8 shrink-0 aspect-square self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white"
                 aria-hidden="true"
               >
                 {numberOf.get(it.placeId)}

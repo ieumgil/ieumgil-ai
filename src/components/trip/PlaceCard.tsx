@@ -56,12 +56,12 @@ export function PlaceCard({
           title="지도에서 보기"
           className="group/no z-10 -m-1.5 flex min-h-touch min-w-touch shrink-0 items-start justify-center pt-1.5 focus-visible:outline-none"
         >
-          <span className="flex min-h-8 min-w-8 aspect-square items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white ring-4 ring-white transition-transform group-hover/no:scale-110 group-focus-visible/no:outline-3 group-focus-visible/no:outline-offset-2 group-focus-visible/no:outline-primary">
+          <span className="flex min-h-8 min-w-8 aspect-square self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white ring-4 ring-white transition-transform group-hover/no:scale-110 group-focus-visible/no:outline-3 group-focus-visible/no:outline-offset-2 group-focus-visible/no:outline-primary">
             {no}
           </span>
         </button>
       ) : (
-        <span className="z-10 mt-3 flex min-h-8 min-w-8 aspect-square shrink-0 items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white ring-4 ring-white" aria-hidden="true">
+        <span className="z-10 mt-3 flex min-h-8 min-w-8 aspect-square shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white ring-4 ring-white" aria-hidden="true">
           {no}
         </span>
       )}

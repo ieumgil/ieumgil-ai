@@ -223,7 +223,7 @@ function EditList({
           const name = trip.places[v.placeId].name;
           return (
             <li key={v.placeId} className="flex items-center gap-2 border-b border-line py-2 last:border-b-0">
-              <span className="flex aspect-square min-h-8 min-w-8 shrink-0 items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white" aria-hidden="true">
+              <span className="flex aspect-square min-h-8 min-w-8 shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white" aria-hidden="true">
                 {i + 1}
               </span>
               <span className="min-w-0 flex-1 text-base leading-snug font-bold [overflow-wrap:anywhere]">

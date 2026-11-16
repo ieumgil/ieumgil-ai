@@ -54,6 +54,24 @@ test("장소를 바꾼 일정이면 확정 페이지에도 바꾼 장소가 나�
   await expect(page.getByRole("heading", { level: 2, name: new RegExp(toName.replace(/[()]/g, "\$&")) })).toBeVisible();
 });
 
+test("확정 일정의 장소 번호 표시는 동그라미다(가로≈세로, 2rem 이상) @p0314", async ({ page }) => {
+  await setup(page, view.options[0].id);
+  await page.goto("/trip/new/final");
+  const dots = page.locator("li > span.rounded-full.bg-primary");
+  await expect(dots.first()).toBeVisible();
+  const sizes = await dots.evaluateAll((els) =>
+    els
+      .filter((el) => (el as HTMLElement).offsetParent !== null)
+      .map((el) => {
+        const r = el.getBoundingClientRect();
+        return { w: r.width, h: r.height };
+      }),
+  );
+  expect(sizes.length).toBeGreaterThan(0);
+  const bad = sizes.filter((s) => Math.abs(s.w - s.h) > 1 || s.w < 31.5);
+  expect(bad, JSON.stringify(sizes)).toEqual([]);
+});
+
 test("경로선은 열 때마다 받고 브라우저에 저장하지 않는다", async ({ page }) => {
   await setup(page, view.options[0].id);
   const req = page.waitForRequest("**/api/route-line");
