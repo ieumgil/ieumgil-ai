@@ -34,14 +34,14 @@ export function formatDay(iso: string): string {
   return `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일(${weekdayOf(iso)})`;
 }
 
-/** "11월 21일(토) ~ 22일(일)", 달이 바뀌면 "11월 30일(월) ~ 12월 1일(화)" */
-export function formatRange(start: string, end: string): string {
+/** "11월 21일(토) ~ 22일(일)", 달이 바뀌면 "11월 30일(월) ~ 12월 1일(화)". sep으로 구분 글자를 바꾼다(예: " → ") */
+export function formatRange(start: string, end: string, sep = " ~ "): string {
   if (start === end) return formatDay(start);
   const s = parse(start);
   const e = parse(end);
   const tail =
     s.getUTCMonth() === e.getUTCMonth() ? `${e.getUTCDate()}일(${weekdayOf(end)})` : formatDay(end);
-  return `${formatDay(start)} ~ ${tail}`;
+  return `${formatDay(start)}${sep}${tail}`;
 }
 
 export function tripLabel(nights: number): string {

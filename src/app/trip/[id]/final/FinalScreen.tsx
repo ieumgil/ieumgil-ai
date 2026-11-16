@@ -101,7 +101,11 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
           </div>
         </div>
         <h1 className="mt-4 font-heading text-title font-bold text-balance">{o.title}</h1>
-        <p className="mt-2 text-sm text-ink-sub">
+        {trip.input.startDate && trip.input.endDate && (
+          <p className="mt-2 text-heading font-bold text-ink tabular-nums">{formatRange(trip.input.startDate, trip.input.endDate, " → ")}</p>
+        )}
+        <p className="mt-1 text-base text-ink-sub">
+          {`${tripLabel(nights)} · ${o.stats.places}곳 · `}
           {shared ? (
             "공유받은 일정 · 읽기 전용"
           ) : (
@@ -110,7 +114,6 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
               <span>확정한 일정</span>
             </>
           )}
-          {` · ${trip.input.startDate && trip.input.endDate ? `${formatRange(trip.input.startDate, trip.input.endDate)} · ` : ""}${tripLabel(nights)} · ${o.stats.places}곳`}
         </p>
       </header>
 

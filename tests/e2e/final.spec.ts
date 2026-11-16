@@ -215,6 +215,29 @@ test.describe("확정 화면 정리", () => {
     expect(order).toBe(true);
   });
 
+  test("h1 아래 첫 줄은 날짜(20px 700, 화살표), 다음 줄은 16px 기간·곳 수·확정 표시다 @p0314", async ({ page }) => {
+    await setup(page, view.options[0].id);
+    await page.goto("/trip/new/final");
+    const tag = page.getByText("확정한 일정", { exact: true });
+    const meta = tag.locator("xpath=..");
+    const dates = page.getByText(/^\d+월 \d+일\(.\) → /);
+    await expect(dates).toBeVisible();
+    await expect(dates).toHaveText(/^\d+월 \d+일\([월화수목금토일]\) → (\d+월 )?\d+일\([월화수목금토일]\)$/);
+    const ds = await dates.evaluate((el) => ({ size: getComputedStyle(el).fontSize, weight: getComputedStyle(el).fontWeight }));
+    expect(ds).toEqual({ size: "20px", weight: "700" });
+    const ms = await meta.evaluate((el) => getComputedStyle(el).fontSize);
+    expect(ms).toBe("16px");
+    await expect(meta).toContainText("1박 2일 · 6곳");
+    // 날짜 줄은 h1 아래, 기간 줄은 날짜 줄 아래
+    const order = await page.evaluate(() => {
+      const h = document.querySelector("main h1")!;
+      const d = [...document.querySelectorAll("main p")].find((e) => /→/.test(e.textContent ?? ""))!;
+      const m = [...document.querySelectorAll("main span")].find((e) => e.textContent === "확정한 일정")!.parentElement!;
+      return !!(h.compareDocumentPosition(d) & Node.DOCUMENT_POSITION_FOLLOWING) && !!(d.compareDocumentPosition(m) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    expect(order).toBe(true);
+  });
+
   test("지도는 작게 시작하고 '지도 크게 보기'로 키운다 @p0306", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "mobile", "PC는 왼쪽 고정 지도");
     await setup(page, view.options[0].id);
