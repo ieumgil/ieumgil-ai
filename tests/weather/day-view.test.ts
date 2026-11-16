@@ -46,7 +46,7 @@ describe("dayRegions", () => {
 describe("dayWeatherView", () => {
   it("1일째: 시 하나면 줄 하나", () => {
     const v = dayWeatherView(day1, trip.places, payload);
-    expect(v).toEqual({ kind: "lines", lines: [{ region: "강릉", text: "강릉 · 흐림 · 비 70% · 8~14℃", icon: "rain", hasForecast: true }] });
+    expect(v).toEqual({ kind: "lines", lines: [{ region: "강릉", text: "강릉 · 흐림 · 비 70% · 8~14℃", icon: "rain", hasForecast: true, temp: "8~14℃", detail: "흐림 · 비 70%", rain: "비 예보" }] });
   });
 
   it("시가 둘이면 두 줄(첫 방문 순서)", () => {
@@ -55,14 +55,14 @@ describe("dayWeatherView", () => {
     expect(v).toEqual({
       kind: "lines",
       lines: [
-        { region: "강릉", text: "강릉 · 흐림 · 비 70% · 8~14℃", icon: "rain", hasForecast: true },
-        { region: "속초", text: "속초 · 맑음 · 비 10% · 5~12℃", icon: "sun", hasForecast: true },
+        { region: "강릉", text: "강릉 · 흐림 · 비 70% · 8~14℃", icon: "rain", hasForecast: true, temp: "8~14℃", detail: "흐림 · 비 70%", rain: "비 예보" },
+        { region: "속초", text: "속초 · 맑음 · 비 10% · 5~12℃", icon: "sun", hasForecast: true, temp: "5~12℃", detail: "맑음 · 비 10%", rain: null },
       ],
     });
   });
 
   it("2일째: 그날 값이 없으면 '예보 없음'으로 숨기지 않고 알린다", () => {
-    expect(dayWeatherView(day2, trip.places, payload)).toEqual({ kind: "lines", lines: [{ region: "강릉", text: "강릉 · 예보 없음", icon: null, hasForecast: false }] });
+    expect(dayWeatherView(day2, trip.places, payload)).toEqual({ kind: "lines", lines: [{ region: "강릉", text: "강릉 · 예보 없음", icon: null, hasForecast: false, temp: null, detail: null, rain: null }] });
   });
 
   it("출발까지 10일보다 많이 남으면 안내 한 줄", () => {
@@ -113,8 +113,8 @@ describe("공유 화면 값(WX-02 공유)", () => {
 });
 
 describe("hasShownWeather", () => {
-  const lines: DayWeatherView = { kind: "lines", lines: [{ region: "강릉", text: "강릉 · 흐림", icon: "cloud", hasForecast: true }] };
-  const missing: DayWeatherView = { kind: "lines", lines: [{ region: "강릉", text: "강릉 · 예보 없음", icon: null, hasForecast: false }] };
+  const lines: DayWeatherView = { kind: "lines", lines: [{ region: "강릉", text: "강릉 · 흐림", icon: "cloud", hasForecast: true, temp: null, detail: "흐림", rain: null }] };
+  const missing: DayWeatherView = { kind: "lines", lines: [{ region: "강릉", text: "강릉 · 예보 없음", icon: null, hasForecast: false, temp: null, detail: null, rain: null }] };
   const note: DayWeatherView = { kind: "note", text: "아직 예보 없음 · 출발 약 10일 전부터 나와요" };
 
   it("예보가 있는 줄이 하나라도 있으면 참", () => {

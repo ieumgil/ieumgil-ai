@@ -21,6 +21,19 @@ function tempPart(tmin: number | null, tmax: number | null, approx = false): str
   return null;
 }
 
+/** 날씨 칸의 큰 기온 글자: "8~14℃" · "약 8~14℃" · "최저 5℃"(값이 없으면 null) */
+export function tempText(day: DayForecast): string | null {
+  return tempPart(day.tmin, day.tmax, day.approxTemp === true);
+}
+
+/** 날씨 칸 둘째 줄: "흐림 · 비 20%"(하늘·강수확률, 빠진 조각은 뺀다, 둘 다 없으면 null) */
+export function skyPrecipText(day: DayForecast): string | null {
+  const parts: string[] = [];
+  if (day.sky !== null) parts.push(SKY_LABEL[day.sky]);
+  if (day.pop !== null) parts.push(`${precipWord(day.precip)} ${day.pop}%`);
+  return parts.length ? parts.join(" · ") : null;
+}
+
 /** 예: "강릉 · 흐림 · 비 20% · 8~14℃", 대략 값이면 "… · 약 8~14℃" — 값이 없는 조각은 빠진다 */
 export function weatherLine(region: Region, day: DayForecast): string {
   const parts: string[] = [region];

@@ -5,8 +5,8 @@
 import type { Category, Region } from "../types";
 import type { DayView } from "../trip/view";
 import { daysBetweenISO } from "./kst";
-import { isOutdoorPlace, rainCaution } from "./caution";
-import { MISSING_TEXT, OUT_OF_RANGE_TEXT, PAST_TEXT, weatherIcon, weatherLine, type WeatherIconName } from "./labels";
+import { isOutdoorPlace, rainCaution, rainFlag } from "./caution";
+import { MISSING_TEXT, OUT_OF_RANGE_TEXT, PAST_TEXT, skyPrecipText, tempText, weatherIcon, weatherLine, type WeatherIconName } from "./labels";
 import type { WeatherPayload } from "./types";
 
 /** 예보가 나오는 가장 먼 날(오늘 + 10일). 중기예보가 D+10까지라서, '약 10일 전부터'로 안내한다 */
@@ -39,6 +39,12 @@ export interface DayWeatherLine {
   text: string;
   icon: WeatherIconName | null;
   hasForecast: boolean;
+  /** 날씨 칸에서 크게 보이는 기온("7~11℃", 대략이면 "약 7~11℃"), 없으면 null */
+  temp: string | null;
+  /** 둘째 줄 "흐림 · 비 70%", 없으면 null */
+  detail: string | null;
+  /** 강수확률 60% 이상일 때 "비 예보" 같은 표식 글자(기호 ! 는 화면이 붙임), 아니면 null */
+  rain: string | null;
 }
 
 export type DayWeatherView = { kind: "note"; text: string } | { kind: "lines"; lines: DayWeatherLine[] };
@@ -55,7 +61,9 @@ export function dayWeatherView(d: DayLite, places: Record<string, PlaceLite>, pa
     kind: "lines",
     lines: regions.map((region) => {
       const f = payload.regions[region]?.[d.date];
-      return f ? { region, text: weatherLine(region, f), icon: weatherIcon(f), hasForecast: true } : { region, text: `${region} · ${MISSING_TEXT}`, icon: null, hasForecast: false };
+      return f
+        ? { region, text: weatherLine(region, f), icon: weatherIcon(f), hasForecast: true, temp: tempText(f), detail: skyPrecipText(f), rain: rainFlag(f) }
+        : { region, text: `${region} · ${MISSING_TEXT}`, icon: null, hasForecast: false, temp: null, detail: null, rain: null };
     }),
   };
 }

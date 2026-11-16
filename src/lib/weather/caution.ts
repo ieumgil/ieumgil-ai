@@ -20,3 +20,9 @@ export function rainCaution(day: DayForecast | undefined): string | null {
   if (!day || day.pop === null || day.pop < RAIN_POP_THRESHOLD) return null;
   return `${precipWord(day.precip)} 예보 — 데크·경사로가 미끄러울 수 있어요`;
 }
+
+/** 날씨 칸의 "! 비 예보" 표식 글자(기호 ! 는 화면이 붙인다). 주의 문구와 같은 기준(강수확률 60% 이상)이고, 아니면 null */
+export function rainFlag(day: DayForecast | undefined): string | null {
+  if (!day || day.pop === null || day.pop < RAIN_POP_THRESHOLD) return null;
+  return `${precipWord(day.precip)} 예보`;
+}

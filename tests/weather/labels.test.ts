@@ -1,6 +1,7 @@
 // 날씨 문구는 코드의 고정 문구만(D-06). LLM이 쓰지 않는다.
 import { describe, expect, it } from "vitest";
-import { MISSING_TEXT, OUT_OF_RANGE_TEXT, PAST_TEXT, precipWord, sourceLine, weatherIcon, weatherLine } from "../../src/lib/weather/labels";
+import { MISSING_TEXT, OUT_OF_RANGE_TEXT, PAST_TEXT, precipWord, skyPrecipText, sourceLine, tempText, weatherIcon, weatherLine } from "../../src/lib/weather/labels";
+import { rainFlag } from "../../src/lib/weather/caution";
 import type { DayForecast, WeatherPayload } from "../../src/lib/weather/types";
 
 const day = (over: Partial<DayForecast> = {}): DayForecast => ({ sky: 4, precip: null, pop: 20, tmin: 8, tmax: 14, source: "short", ...over });
@@ -104,5 +105,32 @@ describe("sourceLine(D-11)", () => {
   it("둘 다 없거나 날씨가 없으면 null", () => {
     expect(sourceLine(payload({}))).toBeNull();
     expect(sourceLine(null)).toBeNull();
+  });
+});
+
+// 날씨 칸(03-14): 기온은 크게, 하늘·강수는 둘째 줄, 비·눈 예보는 기호 + 글자 표식. weatherLine과 같은 값에서 나눠 만든다.
+describe("날씨 칸 조각", () => {
+  it("기온 글자: 범위 · 약 · 최저/최고 · 없음", () => {
+    expect(tempText(day())).toBe("8~14℃");
+    expect(tempText(day({ approxTemp: true }))).toBe("약 8~14℃");
+    expect(tempText(day({ tmin: 5, tmax: null }))).toBe("최저 5℃");
+    expect(tempText(day({ tmin: null, tmax: 14, approxTemp: true }))).toBe("최고 약 14℃");
+    expect(tempText(day({ tmin: null, tmax: null }))).toBeNull();
+  });
+
+  it("하늘 · 강수확률 둘째 줄: 빠진 조각은 뺀다", () => {
+    expect(skyPrecipText(day())).toBe("흐림 · 비 20%");
+    expect(skyPrecipText(day({ precip: "비/눈", pop: 70 }))).toBe("흐림 · 비·눈 70%");
+    expect(skyPrecipText(day({ sky: null }))).toBe("비 20%");
+    expect(skyPrecipText(day({ pop: null }))).toBe("흐림");
+    expect(skyPrecipText(day({ sky: null, pop: null }))).toBeNull();
+  });
+
+  it("강수확률 60% 이상이면 '비 예보' 표식 문구, 눈·비눈은 낱말이 바뀐다(주의 문구와 같은 기준)", () => {
+    expect(rainFlag(day({ pop: 59 }))).toBeNull();
+    expect(rainFlag(day({ pop: 60 }))).toBe("비 예보");
+    expect(rainFlag(day({ pop: 70, precip: "눈" }))).toBe("눈 예보");
+    expect(rainFlag(day({ pop: 70, precip: "비/눈" }))).toBe("비·눈 예보");
+    expect(rainFlag(day({ pop: null }))).toBeNull();
   });
 });
