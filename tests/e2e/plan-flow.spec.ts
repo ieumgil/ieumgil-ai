@@ -190,6 +190,39 @@ test.describe("입력 틀·1·2단계 정리", () => {
     await expect(taxi.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
   });
 
+  test("선택 버튼의 글자는 고르기 전·후 모두 버튼 가운데에 있다(✓가 글자를 밀지 않는다) @p0314", async ({ page }) => {
+    // 글자 칸(마지막 span)의 가운데와 버튼 가운데가 ±2px 안에 있어야 한다.
+    const centerGap = (btn: import("@playwright/test").Locator) =>
+      btn.evaluate((el) => {
+        const label = el.querySelector(":scope > span:last-of-type") as HTMLElement;
+        const b = el.getBoundingClientRect();
+        const l = label.getBoundingClientRect();
+        return Math.abs(l.left + l.width / 2 - (b.left + b.width / 2));
+      });
+    await page.goto("/plan/when");
+    const station = page.getByRole("radio", { name: "강릉역" });
+    expect(await centerGap(station)).toBeLessThanOrEqual(2);
+    await station.click();
+    expect(await centerGap(station)).toBeLessThanOrEqual(2);
+
+    await seedPlan(page, { categories: ["바다·해변"] });
+    await page.goto("/plan/taste");
+    const group = page.getByRole("radiogroup", { name: "하루에 얼마나 돌아볼까요?" });
+    const calm = group.getByRole("radio", { name: /^여유롭게/ });
+    const normal = group.getByRole("radio", { name: /^보통/ });
+    expect(await centerGap(calm)).toBeLessThanOrEqual(2);
+    await normal.click();
+    expect(await centerGap(normal)).toBeLessThanOrEqual(2);
+    expect(await centerGap(calm)).toBeLessThanOrEqual(2);
+    // ✓는 글자와 겹치지 않는다(보일 때 ✓의 오른쪽 끝이 글자 왼쪽 끝보다 왼쪽)
+    const overlap = await normal.evaluate((el) => {
+      const mark = el.querySelector(':scope > span[aria-hidden="true"]') as HTMLElement;
+      const label = el.querySelector(":scope > span:last-of-type") as HTMLElement;
+      return mark.getBoundingClientRect().right - label.getBoundingClientRect().left;
+    });
+    expect(overlap).toBeLessThanOrEqual(0);
+  });
+
   test("1단계: 시각·떠나는 곳은 한 줄 요약 뒤에 접혀 있다 @p0307 @p0307-steps", async ({ page }) => {
     await page.goto("/plan/when");
     await expect(page.getByText(/^\d{2}:\d{2} 시작 · \d{2}:\d{2} 마침 · /)).toBeVisible();

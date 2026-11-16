@@ -221,6 +221,25 @@ test.describe("둘러보기 첫 화면", () => {
     await expect(title).toHaveCSS("font-size", "20px");
   });
 
+  test("지역·분야 칩의 글자는 고르기 전·후 모두 칩 가운데에 있다 @p0314", async ({ page }) => {
+    await gotoPlaces(page);
+    const centerGap = (btn: import("@playwright/test").Locator) =>
+      btn.evaluate((el) => {
+        const label = el.querySelector(":scope > span:last-of-type") as HTMLElement;
+        const b = el.getBoundingClientRect();
+        const l = label.getBoundingClientRect();
+        return Math.abs(l.left + l.width / 2 - (b.left + b.width / 2));
+      });
+    const regions = page.getByRole("radiogroup", { name: "지역" });
+    expect(await centerGap(regions.getByRole("radio", { name: /속초/ }))).toBeLessThanOrEqual(2); // 안 고름
+    expect(await centerGap(regions.getByRole("radio", { name: /강릉/ }))).toBeLessThanOrEqual(2); // 고름
+    const cats = page.getByRole("group", { name: "분야" });
+    const exhibit = cats.getByRole("button", { name: "전시·박물관", exact: true });
+    expect(await centerGap(exhibit)).toBeLessThanOrEqual(2);
+    await exhibit.click();
+    expect(await centerGap(exhibit)).toBeLessThanOrEqual(2);
+  });
+
   test("고른 지역·분야는 ✓로도 구분된다 @p0309", async ({ page }) => {
     await gotoPlaces(page);
     const regions = page.getByRole("radiogroup", { name: "지역" });
