@@ -40,9 +40,21 @@ export interface LlmImage {
 
 export type LlmError = "invalid" | "request" | "unavailable";
 
+/** 전송 한 번의 토큰 수. thinking = output에 들어 있지 않지만 출력 단가로 내는 토큰(Gemini 사고 토큰). 비용 = input × 입력 단가 + (output + thinking) × 출력 단가 */
+export interface LlmTokens {
+  input: number;
+  output: number;
+  thinking: number;
+}
+/** 요청 하나에서 쓴 토큰(다시 요청·함께 보낸 다른 제공자까지 모두). calls = 토큰을 알려 준 전송 수 */
+export interface LlmUsage extends LlmTokens {
+  calls: number;
+  byModel: Record<string, LlmTokens & { calls: number }>;
+}
+
 export type LlmResult<T> =
-  | { ok: true; data: T; model: string; ms: number; attempts: number }
-  | { ok: false; error: LlmError; message: string; model: string; ms: number; attempts: number };
+  | { ok: true; data: T; model: string; ms: number; attempts: number; usage?: LlmUsage }
+  | { ok: false; error: LlmError; message: string; model: string; ms: number; attempts: number; usage?: LlmUsage };
 
 export interface LlmClient {
   json<T>(req: LlmRequest): Promise<LlmResult<T>>;
@@ -59,6 +71,8 @@ export type LlmTransport = (call: {
   images?: LlmImage[];
   /** 다른 제공자의 답이 먼저 오면 취소 */
   signal?: AbortSignal;
+  /** 응답에 토큰 수가 있으면 알려 준다(운영 비용 측정용, 없어도 된다) */
+  onUsage?: (tokens: LlmTokens) => void;
 }) => Promise<string>;
 
 export interface LlmProvider {
@@ -137,6 +151,17 @@ export function createLlm(opts: LlmOptions): LlmClient {
       });
       const hedgeMs = req.hedgeMs ?? opts.hedgeMs;
       let attempts = 0;
+      let usage: LlmUsage | undefined;
+      const record = (model: string) => (t: LlmTokens) => {
+        usage ??= { input: 0, output: 0, thinking: 0, calls: 0, byModel: {} };
+        const m = (usage.byModel[model] ??= { input: 0, output: 0, thinking: 0, calls: 0 });
+        for (const u of [usage, m]) {
+          u.input += t.input;
+          u.output += t.output;
+          u.thinking += t.thinking;
+          u.calls++;
+        }
+      };
 
       /** 한 차례(모델 하나)만 시도. 뒤에 다른 제공자가 있으면 일시 오류도 다시 기다리지 않고 바로 넘긴다 */
       async function runStep(i: number, signal: AbortSignal): Promise<LlmResult<T>> {
@@ -155,7 +180,7 @@ export function createLlm(opts: LlmOptions): LlmClient {
           attempts++;
           let text: string;
           try {
-            text = await transport({ model, system: req.system, input, schema: req.schema, temperature: req.temperature ?? 0.2, timeoutMs: Math.min(timeoutMs, left), images: req.images, signal });
+            text = await transport({ model, system: req.system, input, schema: req.schema, temperature: req.temperature ?? 0.2, timeoutMs: Math.min(timeoutMs, left), images: req.images, signal, onUsage: record(model) });
           } catch (err) {
             const status = statusOf(err);
             message = `${model}: ${status ?? ""} ${(err as Error).message ?? String(err)}`.slice(0, 300);
@@ -217,7 +242,7 @@ export function createLlm(opts: LlmOptions): LlmClient {
       }
 
       const res = await from(0, new AbortController().signal);
-      return { ...res, attempts };
+      return usage ? { ...res, attempts, usage } : { ...res, attempts };
     },
   };
 }
@@ -243,7 +268,7 @@ export function geminiTransport(apiKey: string): LlmTransport {
   let clientPromise: Promise<import("@google/genai").GoogleGenAI> | undefined;
   // 사진 입력은 v1beta에서만 받는다(분류 스크립트 전용) → 사진이 있을 때만 베타 클라이언트
   let betaPromise: Promise<import("@google/genai").GoogleGenAI> | undefined;
-  return async ({ model, system, input, schema, temperature, timeoutMs, images, signal }) => {
+  return async ({ model, system, input, schema, temperature, timeoutMs, images, signal, onUsage }) => {
     const client = images?.length
       ? await (betaPromise ??= import("@google/genai").then(({ GoogleGenAI }) => new GoogleGenAI({ apiKey, apiVersion: "v1beta" })))
       : await (clientPromise ??= import("@google/genai").then(({ GoogleGenAI }) => new GoogleGenAI({ apiKey })));
@@ -261,6 +286,8 @@ export function geminiTransport(apiKey: string): LlmTransport {
       },
       { timeout_ms: timeoutMs, signal: withTimeout(timeoutMs, signal) },
     );
+    const u = res.usage;
+    if (u) onUsage?.({ input: u.total_input_tokens ?? 0, output: u.total_output_tokens ?? 0, thinking: u.total_thought_tokens ?? 0 });
     return res.output_text ?? "";
   };
 }
@@ -317,7 +344,7 @@ export function stripNulls(value: unknown): unknown {
  */
 export function openaiTransport(apiKey: string, fetchImpl: typeof fetch = fetch): LlmTransport {
   const strictCache = new WeakMap<JsonSchema, JsonSchema>();
-  return async ({ model, system, input, schema, temperature, timeoutMs, images, signal }) => {
+  return async ({ model, system, input, schema, temperature, timeoutMs, images, signal, onUsage }) => {
     let strict = strictCache.get(schema);
     if (!strict) {
       strict = toStrictSchema(schema);
@@ -345,7 +372,13 @@ export function openaiTransport(apiKey: string, fetchImpl: typeof fetch = fetch)
       const detail = (await res.text().catch(() => "")).slice(0, 200);
       throw Object.assign(new Error(`OpenAI HTTP ${res.status} ${detail}`), { status: res.status });
     }
-    const body = (await res.json()) as { output_text?: string; output?: { type?: string; content?: { type?: string; text?: string }[] }[] };
+    const body = (await res.json()) as {
+      output_text?: string;
+      output?: { type?: string; content?: { type?: string; text?: string }[] }[];
+      usage?: { input_tokens?: number; output_tokens?: number; output_tokens_details?: { reasoning_tokens?: number } };
+    };
+    // OpenAI는 output_tokens에 추론 토큰이 이미 들어 있다 → thinking은 0(두 번 세지 않게). 이 호출은 reasoning: none이라 원래 0
+    if (body.usage) onUsage?.({ input: body.usage.input_tokens ?? 0, output: body.usage.output_tokens ?? 0, thinking: 0 });
     const text =
       body.output_text ??
       (body.output ?? [])
