@@ -38,11 +38,15 @@ async function noSideScroll(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 }
 
-test("시작 화면: PC에서만 결과 화면 미리보기가 옆에 나온다", async ({ page }) => {
+// 03-15: 휴대폰·태블릿에서도 미리보기가 나온다(맨 위, 작게). 달라지는 것은 자리다 — 좁으면 제목 위, 1024px부터 오른쪽 칸.
+test("시작 화면: 미리보기는 좁으면 제목 위에, PC에서는 옆에 나온다", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   const preview = page.getByRole("figure", { name: "결과 화면 미리보기" });
-  await expect(preview).toBeHidden();
+  await expect(preview).toBeVisible();
+  const narrowTitle = await page.getByRole("heading", { level: 1 }).boundingBox();
+  const narrowBox = await preview.boundingBox();
+  expect(narrowBox!.y + narrowBox!.height).toBeLessThanOrEqual(narrowTitle!.y + 1); // 제목 위
   await noSideScroll(page);
 
   await page.setViewportSize({ width: 1280, height: 900 });

@@ -1,6 +1,7 @@
 // 시작 화면 (시안: docs/design/Main.dc.html, 03단계 D-10)
-// 휴대폰: 한 칸(로고 → 제목 → 리드 → 버튼 → 구분선 → 특징 목록). 주 버튼은 소개 바로 아래라 667px 높이에서도 첫 화면에 보인다.
-// PC(1024px~): 왼쪽 소개·버튼·특징 + 오른쪽 실제 결과 화면 미리보기. 진입 움직임은 제목 머리 하나뿐.
+// 휴대폰·태블릿: 한 칸(로고 → 결과 화면 미리보기(아래가 잘린 휴대폰 두 대) → 제목·리드 → 버튼 → 구분선 → 특징 목록).
+//   미리보기 높이를 줄여 390×844에서도 주 버튼이 첫 화면 안에 들어온다(home.spec이 본다).
+// PC(1024px~): 왼쪽 소개·버튼·특징 + 오른쪽 실제 결과 화면 미리보기(잘리지 않은 전체). 진입 움직임은 제목 머리 하나뿐.
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +34,7 @@ export default function Home() {
 
       <div className="flex flex-1 flex-col pb-8 lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:items-center lg:gap-12 lg:pb-12">
         <div className="flex flex-col">
-          <header className="flex animate-rise flex-col pt-12 lg:pt-16">
+          <header className="flex animate-rise flex-col pt-6 lg:pt-16">
             <h1 className="font-heading text-title font-bold text-balance">
               휠체어, 어르신, 유모차와
               <br />
@@ -76,31 +77,41 @@ export default function Home() {
   );
 }
 
-/** PC 전용: 실제 결과 화면 캡처 두 장(일정 비교, 확정 일정 지도). scripts/readme/capture.ts가 다시 만든다. */
+/**
+ * 실제 결과 화면 캡처 두 장(일정 비교, 확정 일정 지도). scripts/readme/capture.ts가 다시 만든다.
+ * 휴대폰·태블릿: 맨 위(order-first)에 작게, 아래쪽을 잘라 높이를 줄인다. PC: 오른쪽 칸에 전체.
+ * 누르는 곳이 없는 그림이라 초점을 받지 않는다.
+ */
 function Preview() {
-  const phone = "absolute w-[15rem] overflow-hidden rounded-[2.25rem] border-[0.5rem] border-ink bg-ink shadow-[0_1rem_2rem_rgb(25_31_40/0.12)]";
+  const phone =
+    "absolute w-[11.5rem] overflow-hidden rounded-3xl border-[0.375rem] border-ink bg-ink shadow-[0_1rem_2rem_rgb(25_31_40/0.12)] md:w-[12rem] lg:w-[15rem] lg:rounded-[2.25rem] lg:border-[0.5rem]";
   return (
-    <figure className="relative hidden h-[38rem] lg:block" aria-label="결과 화면 미리보기">
-      <div className="absolute inset-x-6 inset-y-10 rounded-[3rem] bg-pine-soft" aria-hidden="true" />
-      <div className={`${phone} top-0 right-2`}>
+    <figure
+      className="relative order-first mx-auto mt-4 h-[19rem] w-full max-w-[22rem] overflow-hidden md:h-[22rem] md:max-w-[28rem] lg:order-none lg:mt-0 lg:h-[38rem] lg:max-w-none lg:overflow-visible"
+      aria-label="결과 화면 미리보기"
+    >
+      <div className="absolute inset-x-3 top-8 bottom-0 rounded-t-3xl bg-pine-soft lg:inset-x-6 lg:inset-y-10 lg:rounded-[3rem]" aria-hidden="true" />
+      <div className={`${phone} top-0 right-0 lg:right-2`}>
         <Image
           src="/preview/final.png"
           width={780}
           height={1688}
-          sizes="15rem"
+          sizes="(min-width: 1024px) 15rem, (min-width: 768px) 12rem, 11.5rem"
+          priority
           alt="확정한 일정 화면: 카카오 지도에 장소 번호와 일반 차량 경로선, 아래에 시간순 일정"
         />
       </div>
-      <div className={`${phone} top-12 left-2`}>
+      <div className={`${phone} top-8 left-0 lg:top-12 lg:left-2`}>
         <Image
           src="/preview/compare.png"
           width={780}
           height={1688}
-          sizes="15rem"
+          sizes="(min-width: 1024px) 15rem, (min-width: 768px) 12rem, 11.5rem"
+          priority
           alt="일정 비교 화면: 성격이 다른 일정 안 카드와 장소 수, 이동 시간, 전화로 확인할 곳 수"
         />
       </div>
-      <figcaption className="absolute inset-x-0 bottom-0 text-center text-sm text-ink-sub">실제 결과 화면 · 일정 비교와 확정 일정 지도</figcaption>
+      <figcaption className="absolute inset-x-0 bottom-0 hidden text-center lg:block text-sm text-ink-sub">실제 결과 화면 · 일정 비교와 확정 일정 지도</figcaption>
     </figure>
   );
 }

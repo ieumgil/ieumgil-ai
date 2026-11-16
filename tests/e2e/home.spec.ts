@@ -1,4 +1,5 @@
-// 시작 화면(/): 03단계 D-10 배치 — 주 버튼이 소개 바로 아래 첫 화면에 보이고, 특징은 카드 없는 목록, '영동 여행'과 미리보기 뒤 면만 솔숲 초록.
+// 시작 화면(/): 03단계 D-10 배치 — 휴대폰은 로고 → 결과 화면 미리보기 → 제목 → 주 버튼 → 특징 목록 순서(03-15), 주 버튼은 390×844 첫 화면 안.
+// 특징은 카드 없는 목록, '영동 여행'과 미리보기 뒤 면만 솔숲 초록. PC(1024px~)는 왼쪽 소개 + 오른쪽 미리보기 두 칸.
 // 인트로는 sessionStorage로 건너뛴다(인트로 자체는 intro.spec이 본다). 서비스 원칙 문구('일반 차량 경로 기준')와 특징 여섯 문장은 그대로 남아야 한다(원칙 6).
 import { expect, test } from "@playwright/test";
 
@@ -16,14 +17,45 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
 });
 
-test("667px 높이에서도 주 버튼이 스크롤 없이 보인다", async ({ page }, info) => {
+// 03-15: 휴대폰에서 미리보기가 맨 위로 올라왔다. 예전의 '667px 높이에서도 주 버튼 보임'(≤667)은 같은 뜻(스크롤 없이 주 버튼이 첫 화면 안)을
+// 시안 높이 390×844로 바꿔 지킨다(미리보기가 늘어난 만큼 예산을 844로 옮긴 오케스트레이터 결정).
+test("390×844 첫 화면 안에 주 버튼이 통째로 보인다", async ({ page }, info) => {
   test.skip(info.project.name !== "mobile", "휴대폰 화면 예산이라 모바일 프로젝트에서만");
-  await page.setViewportSize({ width: 390, height: 667 });
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   const main = page.getByRole("link", { name: "여행 루트 만들기" });
   await expect(main).toBeVisible();
   const box = await main.boundingBox();
-  expect(box!.y + box!.height).toBeLessThanOrEqual(667);
+  expect(box!.y + box!.height).toBeLessThanOrEqual(844);
+});
+
+test("휴대폰 순서: 미리보기 → 제목 → 주 버튼 → 특징 목록", async ({ page }, info) => {
+  test.skip(info.project.name !== "mobile", "휴대폰 순서라 모바일 프로젝트에서만");
+  await page.goto("/");
+  const preview = page.getByRole("figure", { name: "결과 화면 미리보기" });
+  await expect(preview).toBeVisible();
+  await expect(preview.getByRole("img")).toHaveCount(2);
+  const logo = await page.getByRole("link", { name: /이음길/ }).first().boundingBox();
+  const fig = await preview.boundingBox();
+  const h1 = await page.getByRole("heading", { level: 1 }).boundingBox();
+  const main = await page.getByRole("link", { name: "여행 루트 만들기" }).boundingBox();
+  const list = await page.getByRole("list", { name: "이음길 특징" }).boundingBox();
+  expect(logo!.y + logo!.height).toBeLessThanOrEqual(fig!.y + 1);
+  expect(fig!.y + fig!.height).toBeLessThanOrEqual(h1!.y + 1); // 미리보기가 제목 위
+  expect(h1!.y).toBeLessThan(main!.y);
+  expect(main!.y).toBeLessThan(list!.y); // 특징 목록이 맨 아래
+  expect(fig!.height).toBeLessThanOrEqual(340); // 첫 화면 예산 때문에 높이를 묶어 둠(잘린 휴대폰)
+});
+
+test("미리보기는 누르거나 초점이 가는 곳이 없고 가로 스크롤을 만들지 않는다", async ({ page }) => {
+  for (const width of [320, 390, 820]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const preview = page.getByRole("figure", { name: "결과 화면 미리보기" });
+    await expect(preview).toBeVisible();
+    await expect(preview.locator("a, button, input, [tabindex]")).toHaveCount(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth), `${width}px`).toBeLessThanOrEqual(0);
+  }
 });
 
 test("주 버튼이 특징 목록보다 위에 있다", async ({ page }) => {
@@ -68,4 +100,16 @@ test("PC 미리보기 뒤 면은 pine-soft다", async ({ page }, info) => {
   const figure = page.getByRole("figure", { name: "결과 화면 미리보기" });
   await expect(figure).toBeVisible();
   await expect(figure.locator(':scope > div[aria-hidden="true"]')).toHaveCSS("background-color", PINE_SOFT);
+});
+
+test("PC는 왼쪽 소개 + 오른쪽 미리보기 두 칸이고 미리보기는 잘리지 않는다", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "PC 배치는 PC 프로젝트에서만");
+  await page.goto("/");
+  const figure = page.getByRole("figure", { name: "결과 화면 미리보기" });
+  const h1 = await page.getByRole("heading", { level: 1 }).boundingBox();
+  const fig = await figure.boundingBox();
+  expect(fig!.x).toBeGreaterThan(h1!.x + h1!.width / 2); // 오른쪽 칸
+  expect(fig!.height).toBeGreaterThanOrEqual(600); // 38rem, 휴대폰 두 대 전체
+  await expect(figure).toHaveCSS("overflow", "visible");
+  await expect(figure.getByText("실제 결과 화면 · 일정 비교와 확정 일정 지도")).toBeVisible();
 });
