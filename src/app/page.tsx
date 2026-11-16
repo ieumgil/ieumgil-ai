@@ -1,6 +1,6 @@
 // 시작 화면 (시안: docs/design/Main.dc.html, 03단계 D-10)
 // 휴대폰·태블릿: 한 칸(로고 → 결과 화면 미리보기(아래가 잘린 휴대폰 두 대) → 제목·리드 → 버튼 → 구분선 → 특징 목록).
-//   미리보기 높이를 줄여 390×844에서도 주 버튼이 첫 화면 안에 들어온다(home.spec이 본다).
+//   첫 화면 묶음(로고~안내 문구)이 화면 높이(svh)를 채워 특징 목록은 항상 첫 화면 아래에서 시작하고, 주 버튼은 390×844·375×667에서도 첫 화면 안(home.spec이 본다).
 // PC(1024px~): 왼쪽 소개·버튼·특징 + 오른쪽 실제 결과 화면 미리보기(잘리지 않은 전체). 진입 움직임은 제목 머리 하나뿐.
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -28,13 +28,17 @@ export default function Home() {
   return (
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-4 md:max-w-[40rem] md:px-6 lg:max-w-[76rem] lg:px-8">
       <Intro />
-      <div className="pt-4">
-        <TopBar />
-      </div>
 
-      <div className="flex flex-1 flex-col pb-8 lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:items-center lg:gap-12 lg:pb-12">
-        <div className="flex flex-col">
-          <header className="flex animate-rise flex-col pt-6 lg:pt-16">
+      <div className="flex flex-1 flex-col pb-8 lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:grid-rows-[auto_1fr_auto_auto_auto_1fr] lg:gap-x-12 lg:pb-12">
+        {/* 휴대폰·태블릿: 첫 화면(로고 ~ 주 버튼 ~ 안내 문구)이 보이는 높이를 채워 특징 목록이 항상 첫 화면 아래에서 시작한다(svh).
+            남는 높이는 미리보기가 먼저 늘고(28rem까지), 그다음 제목·버튼 묶음 위아래 여백으로 나눈다. 모자라면 미리보기가 먼저 줄어든다.
+            PC(1024px~)는 contents로 풀어 격자 칸에 바로 놓는다. */}
+        <div className="flex min-h-svh flex-col lg:contents">
+          <div className="order-1 pt-4 lg:col-span-2 lg:row-start-1">
+            <TopBar />
+          </div>
+
+          <header className="order-3 mt-auto flex animate-rise flex-col pt-6 lg:col-start-1 lg:row-start-3 lg:mt-0 lg:pt-16">
             <h1 className="font-heading text-title font-bold text-balance">
               휠체어, 어르신, 유모차와
               <br />
@@ -45,7 +49,7 @@ export default function Home() {
             </p>
           </header>
 
-          <div className="mt-6 flex flex-col gap-2">
+          <div className="order-4 mt-6 mb-auto flex flex-col gap-2 lg:col-start-1 lg:row-start-4 lg:mb-0">
             <div className="flex flex-col gap-2 lg:flex-row lg:gap-3">
               <ButtonLink href="/plan" className="lg:flex-[3]">
                 여행 루트 만들기
@@ -61,17 +65,17 @@ export default function Home() {
             <p className="text-center text-sm text-ink-sub lg:text-left">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
           </div>
 
-          <ul aria-label="이음길 특징" className="mt-8 border-t border-line">
-            {FEATURES.map((f) => (
-              <li key={f.title} className="flex flex-col gap-1 border-b border-line py-4 last:border-b-0">
-                <span className="text-base font-bold">{f.title}</span>
-                <span className="text-base text-ink-sub text-pretty">{f.body}</span>
-              </li>
-            ))}
-          </ul>
+          <Preview />
         </div>
 
-        <Preview />
+        <ul aria-label="이음길 특징" className="mt-8 border-t border-line lg:col-start-1 lg:row-start-5">
+          {FEATURES.map((f) => (
+            <li key={f.title} className="flex flex-col gap-1 border-b border-line py-4 last:border-b-0">
+              <span className="text-base font-bold">{f.title}</span>
+              <span className="text-base text-ink-sub text-pretty">{f.body}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </main>
   );
@@ -87,7 +91,7 @@ function Preview() {
     "absolute w-[11.5rem] overflow-hidden rounded-3xl border-[0.375rem] border-ink bg-ink shadow-[0_1rem_2rem_rgb(25_31_40/0.12)] md:w-[12rem] lg:w-[15rem] lg:rounded-[2.25rem] lg:border-[0.5rem]";
   return (
     <figure
-      className="relative order-first mx-auto mt-4 h-[19rem] w-full max-w-[22rem] overflow-hidden md:h-[22rem] md:max-w-[28rem] lg:order-none lg:mt-0 lg:h-[38rem] lg:max-w-none lg:overflow-visible"
+      className="relative order-2 mx-auto mt-4 min-h-[12rem] w-full max-w-[22rem] flex-1 overflow-hidden max-h-[28rem] md:max-w-[28rem] lg:order-none lg:col-start-2 lg:row-span-5 lg:row-start-2 lg:mt-0 lg:h-[38rem] lg:max-h-none lg:min-h-0 lg:max-w-none lg:flex-none lg:self-center lg:overflow-visible"
       aria-label="결과 화면 미리보기"
     >
       <div className="absolute inset-x-3 top-8 bottom-0 rounded-t-3xl bg-pine-soft lg:inset-x-6 lg:inset-y-10 lg:rounded-[3rem]" aria-hidden="true" />

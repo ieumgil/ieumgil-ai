@@ -1,4 +1,4 @@
-// 시작 화면(/): 03단계 D-10 배치 — 휴대폰은 로고 → 결과 화면 미리보기 → 제목 → 주 버튼 → 특징 목록 순서(03-15), 주 버튼은 390×844 첫 화면 안.
+// 시작 화면(/): 03단계 D-10 배치 — 휴대폰은 로고 → 결과 화면 미리보기 → 제목 → 주 버튼 → 특징 목록 순서(03-15), 주 버튼은 390×844 첫 화면 안, 특징 목록은 첫 화면 아래(03-16).
 // 특징은 카드 없는 목록, '영동 여행'과 미리보기 뒤 면만 솔숲 초록. PC(1024px~)는 왼쪽 소개 + 오른쪽 미리보기 두 칸.
 // 인트로는 sessionStorage로 건너뛴다(인트로 자체는 intro.spec이 본다). 서비스 원칙 문구('일반 차량 경로 기준')와 특징 여섯 문장은 그대로 남아야 한다(원칙 6).
 import { expect, test } from "@playwright/test";
@@ -18,15 +18,36 @@ test.beforeEach(async ({ page }) => {
 });
 
 // 03-15: 휴대폰에서 미리보기가 맨 위로 올라왔다. 예전의 '667px 높이에서도 주 버튼 보임'(≤667)은 같은 뜻(스크롤 없이 주 버튼이 첫 화면 안)을
-// 시안 높이 390×844로 바꿔 지킨다(미리보기가 늘어난 만큼 예산을 844로 옮긴 오케스트레이터 결정).
-test("390×844 첫 화면 안에 주 버튼이 통째로 보인다", async ({ page }, info) => {
+// 시안 높이 390×844로 바꿔 지켰다. 03-16: 첫 화면(로고~안내 문구)이 화면 높이를 채워 특징 목록이 어떤 휴대폰 높이에서도
+// 첫 화면 아래에서 시작한다(맨 아래에 첫 줄이 반쯤 걸려 잘려 보이지 않게). 좁은 휴대폰(375×667)에서도 주 버튼은 첫 화면 안, 미리보기가 먼저 줄어든다.
+for (const [width, height] of [
+  [390, 844],
+  [375, 667],
+] as const) {
+  test(`${width}×${height}: 주 버튼은 첫 화면 안에 통째로 보이고 특징 목록은 첫 화면 아래에서 시작한다`, async ({ page }, info) => {
+    test.skip(info.project.name !== "mobile", "휴대폰 화면 예산이라 모바일 프로젝트에서만");
+    await page.setViewportSize({ width, height });
+    await page.goto("/");
+    const main = page.getByRole("link", { name: "여행 루트 만들기" });
+    await expect(main).toBeVisible();
+    const box = await main.boundingBox();
+    expect(box!.y + box!.height).toBeLessThanOrEqual(height);
+    const note = await page.getByText("회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준").boundingBox();
+    expect(note!.y + note!.height).toBeLessThanOrEqual(height + 1); // 안내 문구까지 첫 화면 안
+    const list = await page.getByRole("list", { name: "이음길 특징" }).boundingBox();
+    expect(list!.y).toBeGreaterThanOrEqual(height); // 첫 줄이 반쯤 걸려 잘려 보이지 않는다
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+  });
+}
+
+test("긴 화면(390×1000)에서도 특징 목록은 첫 화면 아래, 주 버튼은 안", async ({ page }, info) => {
   test.skip(info.project.name !== "mobile", "휴대폰 화면 예산이라 모바일 프로젝트에서만");
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 390, height: 1000 });
   await page.goto("/");
-  const main = page.getByRole("link", { name: "여행 루트 만들기" });
-  await expect(main).toBeVisible();
-  const box = await main.boundingBox();
-  expect(box!.y + box!.height).toBeLessThanOrEqual(844);
+  const main = await page.getByRole("link", { name: "여행 루트 만들기" }).boundingBox();
+  const list = await page.getByRole("list", { name: "이음길 특징" }).boundingBox();
+  expect(main!.y + main!.height).toBeLessThanOrEqual(1000);
+  expect(list!.y).toBeGreaterThanOrEqual(1000);
 });
 
 test("휴대폰 순서: 미리보기 → 제목 → 주 버튼 → 특징 목록", async ({ page }, info) => {
@@ -44,7 +65,7 @@ test("휴대폰 순서: 미리보기 → 제목 → 주 버튼 → 특징 목록
   expect(fig!.y + fig!.height).toBeLessThanOrEqual(h1!.y + 1); // 미리보기가 제목 위
   expect(h1!.y).toBeLessThan(main!.y);
   expect(main!.y).toBeLessThan(list!.y); // 특징 목록이 맨 아래
-  expect(fig!.height).toBeLessThanOrEqual(340); // 첫 화면 예산 때문에 높이를 묶어 둠(잘린 휴대폰)
+  expect(fig!.height).toBeLessThanOrEqual(448); // 28rem까지만 늘어난다(잘린 휴대폰)
 });
 
 test("미리보기는 누르거나 초점이 가는 곳이 없고 가로 스크롤을 만들지 않는다", async ({ page }) => {
