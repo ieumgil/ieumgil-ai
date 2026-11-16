@@ -3,9 +3,10 @@ import { describe, expect, it } from "vitest";
 import { mapCaption } from "@/lib/trip/map-caption";
 
 describe("mapCaption", () => {
-  it("경로를 받았으면 첫 줄은 '차량 약 N분(카카오) · 약 Nkm', 둘째 줄은 일반 차량 경로 안내", () => {
+  it("경로를 받았으면 첫 줄은 '차량 약 N분 · 약 Nkm'(카카오 글자 없음), 둘째 줄은 일반 차량 경로 안내", () => {
     const c = mapCaption({ km: 9.6, minutes: 29 });
-    expect(c.head).toBe("차량 약 29분(카카오) · 약 9.6km");
+    expect(c.head).toBe("차량 약 29분 · 약 9.6km");
+    expect(c.head).not.toContain("카카오");
     expect(c.sub).toBe("일반 차량 경로 · 번호를 누르면 장소 정보");
   });
 

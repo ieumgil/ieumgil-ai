@@ -7,5 +7,5 @@ export function mapCaption(line: { km: number; minutes: number } | null | undefi
   if (line === null) {
     return { head: "경로를 불러오지 못했어요", sub: "일반 차량 경로는 못 받아 순서대로 직선으로 이었어요 · 번호를 누르면 장소 정보" };
   }
-  return { head: `차량 약 ${line.minutes}분(카카오) · 약 ${line.km}km`, sub: "일반 차량 경로 · 번호를 누르면 장소 정보" };
+  return { head: `차량 약 ${line.minutes}분 · 약 ${line.km}km`, sub: "일반 차량 경로 · 번호를 누르면 장소 정보" };
 }
