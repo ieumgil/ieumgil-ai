@@ -8,13 +8,32 @@ const focus = "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visi
 
 /**
  * 고르면 나타나는 ✓ 기호. 색만으로 구분하지 않으려고 쓴다(D-05).
- * 글자 옆이 아니라 버튼 왼쪽 안쪽 여백에 띄워(absolute) 두어, 안 고른 상태에서도 글자가 가운데에 오고
- * 고를 때 폭·글자 자리가 흔들리지 않는다. 버튼은 좌우 같은 여백(알약 px-6, 분할 px-4)이라 ✓와 글자가 겹치지 않는다.
+ * 글자 폭만큼만 차지하는 알약 칩 전용: 버튼 왼쪽 안쪽 여백에 띄워(absolute) 두어, 안 고른 상태에서도 글자가 가운데에 오고
+ * 고를 때 폭·글자 자리가 흔들리지 않는다. 알약은 좌우 같은 여백(px-6)이라 ✓와 글자가 겹치지 않는다.
+ * 칸 폭이 정해진 분할·타일 버튼은 InlineLabel(✓를 글자 바로 앞에)을 쓴다.
  */
-function Mark({ on, left = "left-1" }: { on: boolean; left?: "left-1" | "left-2" }) {
+function Mark({ on }: { on: boolean }) {
   return (
-    <span aria-hidden="true" className={`pointer-events-none absolute top-1/2 ${left} -translate-y-1/2 text-sm leading-none font-bold ${on ? "" : "invisible"}`}>
+    <span aria-hidden="true" className={`pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 text-sm leading-none font-bold ${on ? "" : "invisible"}`}>
       ✓
+    </span>
+  );
+}
+
+/**
+ * 칸 폭이 정해진 넓은 버튼(분할·타일)의 글자 묶음: 고르면 ✓를 글자 바로 앞에 붙여 '✓ 속초 30곳'을 한 묶음으로 가운데에 둔다.
+ * 안 고르면 ✓ 자리를 비우지 않고 글자만 가운데에 온다(칸 폭은 격자가 정해서 흔들리지 않는다). ✓는 장식이라 접근 이름은 그대로.
+ * 두 줄 글자(밀도 '보통 / 하루 3~4곳')는 baseline 정렬로 ✓가 첫 줄에 붙는다.
+ */
+function InlineLabel({ on, className, children }: { on: boolean; className: string; children: ReactNode }) {
+  return (
+    <span className="flex min-w-0 items-baseline justify-center gap-1">
+      {on && (
+        <span aria-hidden="true" className="shrink-0 text-sm leading-none font-bold">
+          ✓
+        </span>
+      )}
+      <span className={className}>{children}</span>
     </span>
   );
 }
@@ -46,8 +65,17 @@ export function ChoiceButton({
         shape === "pill" ? "rounded-full" : "min-h-12 rounded-xl"
       } ${selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"} ${className}`}
     >
-      <Mark on={selected} left="left-2" />
-      <span className="min-w-0 [overflow-wrap:anywhere]">{children}</span>
+      {shape === "tile" ? (
+        // 타일은 격자 칸(폭 고정)이라 ✓를 글자 앞에 붙인다. 알약은 글자 폭만큼이라 왼쪽 여백에 띄운다.
+        <InlineLabel on={selected} className="min-w-0 [overflow-wrap:anywhere]">
+          {children}
+        </InlineLabel>
+      ) : (
+        <>
+          <Mark on={selected} />
+          <span className="min-w-0 [overflow-wrap:anywhere]">{children}</span>
+        </>
+      )}
     </button>
   );
 }
@@ -73,12 +101,13 @@ export function SegmentButton({
       role="radio"
       aria-checked={selected}
       onClick={onClick}
-      className={`relative flex min-h-12 items-center justify-center rounded-xl px-4 text-base font-bold text-balance transition-[color,background-color,border-color] duration-150 ${focus} ${
+      className={`relative flex min-h-12 items-center justify-center rounded-xl px-2 text-base font-bold text-balance transition-[color,background-color,border-color] duration-150 ${focus} ${
         selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"
       } ${className}`}
     >
-      <Mark on={selected} />
-      <span className={`flex flex-col items-center gap-0.5 ${fluid ? "[overflow-wrap:break-word]" : "min-w-0 [overflow-wrap:anywhere]"}`}>{children}</span>
+      <InlineLabel on={selected} className={`flex flex-col items-center gap-0.5 ${fluid ? "[overflow-wrap:break-word]" : "min-w-0 [overflow-wrap:anywhere]"}`}>
+        {children}
+      </InlineLabel>
     </button>
   );
 }

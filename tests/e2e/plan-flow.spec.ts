@@ -1,6 +1,7 @@
 // 입력 4단계 흐름을 실제 브라우저로 검사한다.
 // 날짜는 고정 시계(2026-11-14 토)로 두고, 예시 날짜 11/21(토)을 고른다.
 import { expect, test, type Page } from "@playwright/test";
+import { expectSelectedCentered, expectUnselectedCentered } from "./mark-geometry";
 import { openDisclosure } from "./open-details";
 
 test.beforeEach(async ({ page }) => {
@@ -190,8 +191,8 @@ test.describe("입력 틀·1·2단계 정리", () => {
     await expect(taxi.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
   });
 
-  test("선택 버튼의 글자는 고르기 전·후 모두 버튼 가운데에 있다(✓가 글자를 밀지 않는다) @p0314", async ({ page }) => {
-    // 글자 칸(마지막 span)의 가운데와 버튼 가운데가 ±2px 안에 있어야 한다.
+  test("선택 버튼의 글자는 고르기 전·후 모두 버튼 가운데에 있다(알약은 ✓가 글자를 밀지 않는다) @p0314", async ({ page }) => {
+    // 알약 칩(글자 폭만큼): 글자 칸(마지막 span)의 가운데와 버튼 가운데가 ±2px 안에 있어야 한다. ✓는 왼쪽 여백에 띄운다.
     const centerGap = (btn: import("@playwright/test").Locator) =>
       btn.evaluate((el) => {
         const label = el.querySelector(":scope > span:last-of-type") as HTMLElement;
@@ -204,23 +205,51 @@ test.describe("입력 틀·1·2단계 정리", () => {
     expect(await centerGap(station)).toBeLessThanOrEqual(2);
     await station.click();
     expect(await centerGap(station)).toBeLessThanOrEqual(2);
-
-    await seedPlan(page, { categories: ["바다·해변"] });
-    await page.goto("/plan/taste");
-    const group = page.getByRole("radiogroup", { name: "하루에 얼마나 돌아볼까요?" });
-    const calm = group.getByRole("radio", { name: /^여유롭게/ });
-    const normal = group.getByRole("radio", { name: /^보통/ });
-    expect(await centerGap(calm)).toBeLessThanOrEqual(2);
-    await normal.click();
-    expect(await centerGap(normal)).toBeLessThanOrEqual(2);
-    expect(await centerGap(calm)).toBeLessThanOrEqual(2);
     // ✓는 글자와 겹치지 않는다(보일 때 ✓의 오른쪽 끝이 글자 왼쪽 끝보다 왼쪽)
-    const overlap = await normal.evaluate((el) => {
+    const overlap = await station.evaluate((el) => {
       const mark = el.querySelector(':scope > span[aria-hidden="true"]') as HTMLElement;
       const label = el.querySelector(":scope > span:last-of-type") as HTMLElement;
       return mark.getBoundingClientRect().right - label.getBoundingClientRect().left;
     });
     expect(overlap).toBeLessThanOrEqual(0);
+  });
+
+  test("칸 폭이 정해진 넓은 선택 칸은 ✓가 글자 바로 앞에 붙고 묶음이 칸 가운데에 온다 @p0314 @p0315", async ({ page }) => {
+    // 이동수단 타일
+    await page.goto("/plan/when");
+    const taxi = page.getByRole("radio", { name: "택시" });
+    await expectUnselectedCentered(taxi);
+    await taxi.click();
+    await expectSelectedCentered(taxi);
+
+    // 숙소 지역 타일(1박)
+    await pickDay(page, 21);
+    await pickDay(page, 22);
+    const lodging = page.getByRole("radiogroup", { name: "숙소 지역" });
+    const gangneung = lodging.getByRole("radio", { name: "강릉" });
+    await expectUnselectedCentered(gangneung);
+    await gangneung.click();
+    await expectSelectedCentered(gangneung);
+    await expectUnselectedCentered(lodging.getByRole("radio", { name: "속초" }));
+
+    // 걷는 거리 분할(고령자)
+    await seedPlan(page, { travelers: ["elder"] });
+    await page.goto("/plan/conditions");
+    const walk = page.getByRole("radiogroup", { name: /한 번에 걸을 수 있는 거리/ });
+    await walk.getByRole("radio", { name: "300m" }).click();
+    await expectSelectedCentered(walk.getByRole("radio", { name: "300m" }));
+    await expectUnselectedCentered(walk.getByRole("radio", { name: "100m" }));
+
+    // 일정 밀도 분할(두 줄 글자: ✓는 첫 줄 '보통' 앞)
+    await seedPlan(page, { categories: ["바다·해변"] });
+    await page.goto("/plan/taste");
+    const group = page.getByRole("radiogroup", { name: "하루에 얼마나 돌아볼까요?" });
+    const calm = group.getByRole("radio", { name: /^여유롭게/ });
+    const normal = group.getByRole("radio", { name: /^보통/ });
+    await expectUnselectedCentered(calm);
+    await normal.click();
+    await expectSelectedCentered(normal);
+    await expectUnselectedCentered(calm);
   });
 
   test("1단계: 시각·떠나는 곳은 한 줄 요약 뒤에 접혀 있다 @p0307 @p0307-steps", async ({ page }) => {

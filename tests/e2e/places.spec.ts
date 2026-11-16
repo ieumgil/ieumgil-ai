@@ -1,5 +1,6 @@
 // 관광지 둘러보기: 지역·분야로 둘러보고, 어떤 곳인지 보고, 담으면 4단계 '꼭 가고 싶은 곳'에 들어간다.
 import { expect, test, type Page } from "@playwright/test";
+import { expectSelectedCentered, expectUnselectedCentered } from "./mark-geometry";
 import { openDisclosure } from "./open-details";
 
 test.beforeEach(async ({ page }) => {
@@ -233,6 +234,13 @@ test.describe("둘러보기 첫 화면", () => {
     const regions = page.getByRole("radiogroup", { name: "지역" });
     expect(await centerGap(regions.getByRole("radio", { name: /속초/ }))).toBeLessThanOrEqual(2); // 안 고름
     expect(await centerGap(regions.getByRole("radio", { name: /강릉/ }))).toBeLessThanOrEqual(2); // 고름
+    // 지역은 칸 폭이 정해진 넓은 분할 칸: ✓가 글자 바로 앞('✓ 강릉 101곳')이고 묶음이 칸 가운데, 안 고른 칸은 글자만 가운데(03-15)
+    await expectSelectedCentered(regions.getByRole("radio", { name: /강릉/ }));
+    await expectUnselectedCentered(regions.getByRole("radio", { name: /속초/ }));
+    await regions.getByRole("radio", { name: /속초/ }).click();
+    await expectSelectedCentered(regions.getByRole("radio", { name: /속초/ }));
+    await expectUnselectedCentered(regions.getByRole("radio", { name: /강릉/ }));
+    await regions.getByRole("radio", { name: /강릉/ }).click();
     const cats = page.getByRole("group", { name: "분야" });
     const exhibit = cats.getByRole("button", { name: "전시·박물관", exact: true });
     expect(await centerGap(exhibit)).toBeLessThanOrEqual(2);
