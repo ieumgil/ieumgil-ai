@@ -145,7 +145,7 @@ const SHOTS: Shot[] = [
 const PREVIEW: Record<string, string> = { "07-result-compare": "compare", "10-final": "final" };
 
 async function waitMap(p: Page) {
-  await p.getByText(/카카오\)|직선으로|불러오지 못했어요/).first().waitFor({ timeout: 20_000 });
+  await p.getByText(/차량 약 \d+분|직선으로|불러오지 못했어요/).first().waitFor({ timeout: 20_000 });
   await p.waitForTimeout(2000); // 지도 타일
 }
 
@@ -243,10 +243,12 @@ async function main() {
   const res = await fetch(BASE).catch(() => null);
   if (!res?.ok) throw new Error(`${BASE}에 개발 서버가 없어요. 먼저 npm run dev`);
   const b = await chromium.launch();
-  const only = process.argv[2]; // 예: share → 공유·인쇄만, 15-map-card → 그 장면 하나만
+  const only = process.argv[2]; // 예: share → 공유·인쇄만, cover → 표지만, 15-map-card → 그 장면 하나만
   const one = SHOTS.find((s) => s.name === only);
   if (one) {
     await capture(b, one);
+  } else if (only === "cover") {
+    await cover(b); // 이미 찍은 01·06·07·10으로 표지만 다시
   } else {
     if (only !== "share") {
       for (const s of SHOTS) await capture(b, s);
