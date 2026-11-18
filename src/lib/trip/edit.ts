@@ -6,6 +6,7 @@ import { timelineOptions } from "../engine/timeline";
 import { estimateLeg } from "../engine/travel";
 import type { PlanDraft } from "../engine/types";
 import { toDayView, type OptionView, type TripView } from "./view";
+import { eun } from "@/lib/text/particle";
 
 export type SwapResult = { ok: true; option: OptionView } | { ok: false; reason: string };
 
@@ -16,7 +17,7 @@ export function swapPlace(trip: TripView, option: OptionView, fromId: string, to
   if (!to) return { ok: false, reason: "이 장소 정보를 찾지 못했어요" };
   const has = (id: string) => option.draft.days.some((d) => d.stops.some((s) => s.placeId === id));
   if (!has(fromId)) return { ok: false, reason: "바꿀 장소를 찾지 못했어요" };
-  if (has(toId)) return { ok: false, reason: `${to.name_ko}는 이미 이 일정에 있어요` };
+  if (has(toId)) return { ok: false, reason: `${eun(to.name_ko)} 이미 이 일정에 있어요` };
 
   // 원래 일정에 있던 곳으로 되돌리면 그때의 체류·이유를 그대로 쓴다
   const originalStop = original.draft.days.flatMap((d) => d.stops).find((s) => s.placeId === toId);

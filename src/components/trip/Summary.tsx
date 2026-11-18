@@ -25,7 +25,7 @@ export function Summary({ trip, bandUsed = false }: { trip: TripView; bandUsed?:
     .join(" · ");
   // 띠 후보 순서: 규칙 일정 안내(AI 실패) → 후보 부족 안내 → 그 밖의 안내
   const notes: Note[] = [
-    ...(!ai ? [{ text: "AI 설계를 불러오지 못해 규칙으로 만든 일정이에요.", tone: "caution" as const }] : []),
+    ...(!ai ? [{ text: "AI 응답을 받지 못해 AI 판단 없이 짠 기본 일정이에요. 꼭 필요한 조건과 시간은 똑같이 검사했어요.", tone: "caution" as const }] : []),
     ...(ai && trip.oneOption ? [{ text: trip.oneOption, tone: "info" as const }] : []),
     ...trip.notes.map((text) => ({ text, tone: "caution" as const })),
   ];

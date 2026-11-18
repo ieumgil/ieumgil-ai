@@ -7,3 +7,11 @@ export function euro(word: string): string {
   // 받침 없음 또는 ㄹ 받침(8)이면 '로'
   return `${word}${jong === 0 || jong === 8 ? "로" : "으로"}`;
 }
+
+/** '은/는': 받침이 있으면 '은', 없으면 '는'. 한글이 아니면 '은(는)' */
+export function eun(word: string): string {
+  const last = word.trim().at(-1) ?? "";
+  const code = last.charCodeAt(0) - 0xac00;
+  if (code < 0 || code > 11171) return `${word}은(는)`;
+  return `${word}${code % 28 === 0 ? "는" : "은"}`;
+}

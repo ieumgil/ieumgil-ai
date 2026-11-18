@@ -110,7 +110,7 @@ export function ruleOption(rule: RulePlan): PlanOption {
     id: "R",
     strategy: "규칙",
     title: "기본 일정",
-    summary: "AI 설계를 불러오지 못해 규칙으로 만든 일정이에요.",
+    summary: "AI 응답을 받지 못해 AI 판단 없이 짠 기본 일정이에요. 꼭 필요한 조건과 시간은 똑같이 검사했어요.",
     draft: rule.draft,
     cautions: [],
     checkBeforeGo: [],
