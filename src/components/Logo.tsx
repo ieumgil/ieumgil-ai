@@ -1,15 +1,10 @@
-// 이음길 로고: 표지판 아이콘 + 글자.
-// 아이콘은 docs/brand/favicon.svg(16~48px용 단순 판)와 같은 그림이다. 큰 원본은 docs/brand/ieumgil-icon.svg.
+// 이음길 로고: 아이콘 + 글자.
+// 아이콘은 브랜드 원본 docs/brand/icon-1024.png(표지판·해·언덕)를 줄인 public/logo-mark.png(256px)이다.
+// 파비콘·앱 아이콘(src/app/icon.png·apple-icon.png·favicon.ico, public/icon-192·512.png)도 같은 원본에서 만든다.
+// 장식이라 대체 글은 비운다(옆에 '이음길' 글자가 있고, 링크 이름은 TopBar가 붙인다).
+/* eslint-disable @next/next/no-img-element -- 미리 줄여 둔 작은 아이콘, 첫 화면 위쪽이라 바로 보여야 한다 */
 export function LogoMark({ size = 30 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" className="shrink-0">
-      <rect width="64" height="64" rx="14" fill="#1E6FD0" />
-      <rect x="29" y="9" width="6" height="49" rx="3" fill="#FFFFFF" />
-      <circle cx="32" cy="9" r="5" fill="#FFFFFF" />
-      <path d="M13 17 H46 L52 23 L46 29 H13 Z" fill="#F5872A" stroke="#FFFFFF" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M51 34 H18 L12 40 L18 46 H51 Z" fill="#7CC6FF" stroke="#FFFFFF" strokeWidth="2.5" strokeLinejoin="round" />
-    </svg>
-  );
+  return <img src="/logo-mark.png" width={size} height={size} alt="" aria-hidden="true" className="shrink-0" decoding="async" />;
 }
 
 export function Logo({ size = "lg" }: { size?: "lg" | "md" }) {
