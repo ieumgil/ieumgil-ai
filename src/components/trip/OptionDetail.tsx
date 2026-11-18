@@ -3,6 +3,7 @@
 // 고른 안의 상세: 안 제목 → 공통 질문(상자 없는 한 줄) → 밑줄형 날짜 탭(지도는 탭 아래) → 하루 요약 줄 → 타임라인(출발 · 이동 · 장소 카드 · 점심·휴식 · 도착).
 // [순서 고치기]를 누르면 그날 장소가 짧은 목록으로 바뀌고 위·아래로 옮기거나 뺄 수 있다(AI 호출 없음, 코드가 다시 계산·검사).
 // 시각은 모두 코드가 계산한 값이다. 이동시간은 열 때 받은 카카오 실제 값이고, 못 받은 구간만 직선거리 추정이라 '추정'을 붙인다.
+import { TimelineLine, TimelineNode } from "./Timeline";
 import { ArrowDown, ArrowUp, ArrowUpDown, Check, Flag, Undo2, X } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { PlaceCard } from "@/components/trip/PlaceCard";
@@ -155,41 +156,41 @@ function DayPanel({
       {editor && editing && <EditList visits={visits} trip={trip} index={index} editor={editor} onDone={() => setEditing(false)} />}
 
       <ol className="relative mt-4 flex flex-col">
-        <span className="absolute top-4 bottom-4 left-[0.9375rem] w-0.5 rounded-full bg-line" aria-hidden="true" />
-        <Node icon={<Flag size={16} />}>
+        <TimelineLine />
+        <TimelineNode icon={<Flag size={16} />}>
           <span className="font-bold">{toHHMM(d.startMin)}</span> {d.startName} 출발
-        </Node>
+        </TimelineNode>
         {d.items.map((it, i) => {
           if (it.kind === "travel") {
             return (
-              <Node key={i} small>
+              <TimelineNode key={i} small>
                 차량 약 {it.minutes}분 · {it.km}km{it.estimated ? " · 추정" : ""}
-              </Node>
+              </TimelineNode>
             );
           }
           if (it.kind === "lunch") {
             return (
-              <Node key={i}>
+              <TimelineNode key={i}>
                 <span className="font-bold">
                   {toHHMM(it.startMin)}~{toHHMM(it.endMin)}
                 </span>
                 {" 점심·휴식 "}
                 <span className="text-sm text-ink-sub">· 음식점은 추천하지 않아요</span>
-              </Node>
+              </TimelineNode>
             );
           }
           if (it.kind === "rest" || it.kind === "wait") {
             return (
-              <Node key={i} small>
+              <TimelineNode key={i} small>
                 {toHHMM(it.startMin)}~{toHHMM(it.endMin)} {it.kind === "rest" ? "쉬는 시간" : "문 열 때까지 기다리기"}
-              </Node>
+              </TimelineNode>
             );
           }
           return <PlaceCard key={it.placeId} it={it} no={numberOf.get(it.placeId)!} o={o} trip={trip} common={common} onSwap={onSwap} onMap={onMap} />;
         })}
-        <Node icon={<Flag size={16} />}>
+        <TimelineNode icon={<Flag size={16} />}>
           <span className="font-bold">약 {toHHMM(arrival)}</span> {d.endName} 도착 <span className="text-sm text-ink-sub">· 마치는 시각 {toHHMM(d.endMin)}</span>
-        </Node>
+        </TimelineNode>
       </ol>
     </div>
   );
@@ -275,20 +276,3 @@ function EditList({
   );
 }
 
-/** 타임라인 한 줄: 출발·도착만 깃발 아이콘, 나머지(이동·점심·쉬는 시간)는 세로선 위의 작은 점 + 글자 */
-function Node({ icon, children, small }: { icon?: ReactNode; children: ReactNode; small?: boolean }) {
-  return (
-    <li className={`relative flex items-center gap-3 py-2 ${small ? "text-sm text-ink-sub" : "text-base"}`}>
-      {icon ? (
-        <span className="z-10 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface text-ink-sub ring-4 ring-white" aria-hidden="true">
-          {icon}
-        </span>
-      ) : (
-        <span className="z-10 flex size-8 shrink-0 items-center justify-center" aria-hidden="true">
-          <span className="size-2 rounded-full bg-line-strong ring-4 ring-white" />
-        </span>
-      )}
-      <span className="min-w-0">{children}</span>
-    </li>
-  );
-}
