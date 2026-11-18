@@ -41,7 +41,7 @@ async function scan(page: Page) {
   }));
 }
 
-for (const path of ["/", "/plan/when", "/plan/who", "/plan/conditions", "/plan/taste", "/places", "/s/NotAReal00"]) {
+for (const path of ["/", "/about", "/about/how", "/plan/when", "/plan/who", "/plan/conditions", "/plan/taste", "/places", "/s/NotAReal00"]) {
   test(`axe ${path}: WCAG A/AA 위반 없음`, async ({ page }) => {
     await block(page);
     await page.goto(path);
