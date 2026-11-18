@@ -6,6 +6,7 @@ import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Intro } from "@/components/Intro";
+import { SiteFooter } from "@/components/SiteFooter";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
 
@@ -26,58 +27,62 @@ const FEATURES: { title: string; body: string }[] = [
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-4 md:max-w-[40rem] md:px-6 lg:max-w-[76rem] lg:px-8">
-      <Intro />
+    <>
+      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-4 md:max-w-[40rem] md:px-6 lg:max-w-[76rem] lg:px-8">
+        <Intro />
 
-      <div className="flex flex-1 flex-col pb-8 lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:grid-rows-[auto_1fr_auto_auto_auto_1fr] lg:gap-x-12 lg:pb-12">
-        {/* 휴대폰·태블릿: 첫 화면(로고 ~ 주 버튼 ~ 안내 문구)이 보이는 높이를 채워 특징 목록이 항상 첫 화면 아래에서 시작한다(svh).
-            남는 높이는 미리보기가 먼저 늘고(28rem까지), 그다음 제목·버튼 묶음 위아래 여백으로 나눈다. 모자라면 미리보기가 먼저 줄어든다.
-            PC(1024px~)는 contents로 풀어 격자 칸에 바로 놓는다. */}
-        <div className="flex min-h-svh flex-col lg:contents">
-          <div className="order-1 pt-4 lg:col-span-2 lg:row-start-1">
-            <TopBar />
-          </div>
-
-          <header className="order-3 mt-auto flex animate-rise flex-col pt-6 lg:col-start-1 lg:row-start-3 lg:mt-0 lg:pt-16">
-            <h1 className="font-heading text-title font-bold text-balance">
-              휠체어, 어르신, 유모차와
-              <br />
-              함께 가는 <span className="text-pine">영동 여행</span>
-            </h1>
-            <p className="mt-2 text-base text-ink-sub text-pretty lg:max-w-[34rem]">
-              강릉·속초·동해 관광지 가운데 우리 조건에 맞는 곳만 골라, 당일부터 2박 3일까지 여행 루트를 짜 드려요.
-            </p>
-          </header>
-
-          <div className="order-4 mt-6 mb-auto flex flex-col gap-2 lg:col-start-1 lg:row-start-4 lg:mb-0">
-            <div className="flex flex-col gap-2 lg:flex-row lg:gap-3">
-              <ButtonLink href="/plan" className="lg:flex-[3]">
-                여행 루트 만들기
-              </ButtonLink>
-              <ButtonLink href="/trip/example" variant="outline" className="lg:flex-[2]">
-                예시 루트 바로 보기
-              </ButtonLink>
+        <div className="flex flex-1 flex-col pb-8 lg:grid lg:grid-cols-[minmax(0,1fr)_32rem] lg:grid-rows-[auto_1fr_auto_auto_auto_1fr] lg:gap-x-12 lg:pb-12">
+          {/* 휴대폰·태블릿: 첫 화면(로고 ~ 주 버튼 ~ 안내 문구)이 보이는 높이를 채워 특징 목록이 항상 첫 화면 아래에서 시작한다(svh).
+              남는 높이는 미리보기가 먼저 늘고(28rem까지), 그다음 제목·버튼 묶음 위아래 여백으로 나눈다. 모자라면 미리보기가 먼저 줄어든다.
+              맨 아래 안내 문구가 화면 끝에 붙지 않게 아래 여백 32px을 둔다(묶음 높이에 포함).
+              PC(1024px~)는 contents로 풀어 격자 칸에 바로 놓는다. */}
+          <div className="flex min-h-svh flex-col pb-8 lg:contents">
+            <div className="order-1 pt-4 lg:col-span-2 lg:row-start-1">
+              <TopBar />
             </div>
-            <Link href="/places" className="mx-auto inline-flex min-h-touch items-center gap-1 px-2 text-base font-bold text-primary underline-offset-4 hover:underline lg:mx-0 lg:px-0">
-              어떤 관광지가 있는지 먼저 보기
-              <ChevronRight size={18} aria-hidden="true" />
-            </Link>
-            <p className="text-center text-sm text-ink-sub lg:text-left">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
+
+            <header className="order-3 mt-auto flex animate-rise flex-col pt-6 lg:col-start-1 lg:row-start-3 lg:mt-0 lg:pt-16">
+              <h1 className="font-heading text-title font-bold text-balance">
+                휠체어, 어르신, 유모차와
+                <br />
+                함께 가는 <span className="text-pine">영동 여행</span>
+              </h1>
+              <p className="mt-2 text-base text-ink-sub text-pretty lg:max-w-[34rem]">
+                강릉·속초·동해 관광지 가운데 우리 조건에 맞는 곳만 골라, 당일부터 2박 3일까지 여행 루트를 짜 드려요.
+              </p>
+            </header>
+
+            <div className="order-4 mt-6 mb-auto flex flex-col gap-2 lg:col-start-1 lg:row-start-4 lg:mb-0">
+              <div className="flex flex-col gap-2 lg:flex-row lg:gap-3">
+                <ButtonLink href="/plan" className="lg:flex-[3]">
+                  여행 루트 만들기
+                </ButtonLink>
+                <ButtonLink href="/trip/example" variant="outline" className="lg:flex-[2]">
+                  예시 루트 바로 보기
+                </ButtonLink>
+              </div>
+              <Link href="/places" className="mx-auto inline-flex min-h-touch items-center gap-1 px-2 text-base font-bold text-primary underline-offset-4 hover:underline lg:mx-0 lg:px-0">
+                어떤 관광지가 있는지 먼저 보기
+                <ChevronRight size={18} aria-hidden="true" />
+              </Link>
+              <p className="text-center text-sm text-ink-sub lg:text-left">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
+            </div>
+
+            <Preview />
           </div>
 
-          <Preview />
+          <ul aria-label="이음길 특징" className="mt-8 border-t border-line lg:col-start-1 lg:row-start-5">
+            {FEATURES.map((f) => (
+              <li key={f.title} className="flex flex-col gap-1 border-b border-line py-4 last:border-b-0">
+                <span className="text-base font-bold">{f.title}</span>
+                <span className="text-base text-ink-sub text-pretty">{f.body}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-
-        <ul aria-label="이음길 특징" className="mt-8 border-t border-line lg:col-start-1 lg:row-start-5">
-          {FEATURES.map((f) => (
-            <li key={f.title} className="flex flex-col gap-1 border-b border-line py-4 last:border-b-0">
-              <span className="text-base font-bold">{f.title}</span>
-              <span className="text-base text-ink-sub text-pretty">{f.body}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </main>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
 
