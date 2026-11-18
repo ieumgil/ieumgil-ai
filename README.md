@@ -4,9 +4,9 @@
 
 # 이음길 AI
 
-**휠체어, 어르신, 유모차와 함께 가는 영동 여행 루트 플래너**<br />
-문장으로만 된 공공 무장애 정보를 AI가 읽고, 우리 가족 기준으로 판단해 성격이 다른 일정 2\~3안으로 짜 줍니다.<br />
-정한 일정은 **링크 하나로 함께 가는 사람과 나누고**, A4 한 장으로 뽑아 여행 당일까지 들고 갑니다.
+**휠체어, 어르신, 유모차와 함께 가는 영동 여행 루트 플래너**
+
+휠체어 이용자, 보행이 불편한 어르신, 유모차를 끄는 가족이 강릉·속초·동해를 여행할 일정을 짜 줍니다. 함께 가는 사람과 꼭 필요한 조건을 고르면, AI가 한국관광공사 무장애 정보를 읽어 장소마다 갈 수 있는지 판단하고 성격이 다른 일정 2\~3개를 제안합니다. 공식 정보가 없는 항목은 숨기지 않고, 출발 전에 전화로 물어볼 질문과 공식 번호를 함께 붙입니다.
 
 [서비스 바로가기](https://ieumgil-ai.vercel.app) · [**예시 루트 바로 보기**](https://ieumgil-ai.vercel.app/trip/example) · [기획 문서](docs/planning.md) · [AI 설계](docs/ai-plan.md) · [구현 계획](docs/impl-plan.md)
 
@@ -21,61 +21,42 @@
 [![행정안전부 공중화장실 표준데이터](https://img.shields.io/badge/%ED%96%89%EC%A0%95%EC%95%88%EC%A0%84%EB%B6%80_%EA%B3%B5%EC%A4%91%ED%99%94%EC%9E%A5%EC%8B%A4_%ED%91%9C%EC%A4%80%EB%8D%B0%EC%9D%B4%ED%84%B0-2E7D32?style=for-the-badge)](https://www.data.go.kr/data/15012892/standard.do)
 [![기상청 단기·중기예보](https://img.shields.io/badge/%EA%B8%B0%EC%83%81%EC%B2%AD_%EB%8B%A8%EA%B8%B0%C2%B7%EC%A4%91%EA%B8%B0%EC%98%88%EB%B3%B4-3A7BD5?style=for-the-badge)](https://www.data.go.kr/data/15084084/openapi.do)
 [![Kakao Map](https://img.shields.io/badge/Kakao_Map_%C2%B7_Mobility-FFCD00?style=for-the-badge&logo=kakao&logoColor=000)](https://apis.map.kakao.com/)
-[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-000?style=for-the-badge&logo=vercel&logoColor=white)](https://ieumgil-ai.vercel.app)
-<br />
-![Next.js](https://img.shields.io/badge/Next.js_16-000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/React_19-149ECA?style=for-the-badge&logo=react&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000?style=for-the-badge&logo=shadcnui&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
-![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge)
-![axe-core](https://img.shields.io/badge/axe--core_WCAG_2.2_AA-663399?style=for-the-badge)
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 
 <img src="docs/readme/cover.png" width="100%" alt="이음길 화면: 시작, AI가 일정을 만드는 중, 일정 2가지 비교, 확정 일정과 지도" />
 
 | 관광지 | 필수 조건 위반 | 근거 없이 채운 값 | AI 읽기 일관성 | 웹 접근성 | 자동 테스트 |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>시나리오 10 + 유형 조합 14</sub> | **0건**<br /><sub>1,520항목</sub> | **96.4%**<br /><sub>두 번 읽어 비교</sub> | **위반 0건**<br /><sub>WCAG 2.2 A·AA</sub> | **CI 통과**<br /><sub>단위 611 · 화면 흐름 397</sub> |
+| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>엔진 테스트 24가지 조건</sub> | **0건**<br /><sub>AI 읽기 1,520항목</sub> | **96.4%**<br /><sub>같은 152곳을 두 번 읽어 비교</sub> | **위반 0건**<br /><sub>axe-core 자동 검사(WCAG 2.2 A·AA)</sub> | **CI 통과**<br /><sub>단위 611 · 화면 흐름 397</sub> |
 
 </div>
 
 > [!TIP]
-> **입력 없이 결과부터 보려면** [예시 루트](https://ieumgil-ai.vercel.app/trip/example)를 여세요. 실제 AI가 미리 만든 일정(휠체어 · 1박 2일 · 안 3개)이 바로 열리고, 장소 바꾸기 → 확정 → 지도·날씨 → 전화 확인 → 공유 링크 · 인쇄까지 눌러 볼 수 있습니다.<br />
-> 직접 만들려면 [서비스](https://ieumgil-ai.vercel.app)에서 조건 4단계를 고르면 됩니다(AI 일정 만들기는 보통 10\~40초).
+> **입력 없이 결과부터 보려면** [예시 루트](https://ieumgil-ai.vercel.app/trip/example)를 여세요. 실제 AI가 미리 만든 일정 3개(휠체어, 1박 2일)가 바로 열립니다. 장소 바꾸기 → 확정 → 지도·날씨 → 전화 확인 → 공유 링크·인쇄까지 눌러 볼 수 있습니다.<br />
+> 직접 만들려면 [서비스](https://ieumgil-ai.vercel.app)에서 조건 4단계를 고르면 됩니다. AI가 일정을 만드는 데 보통 10\~40초 걸립니다.
 
-**목차** · [왜 만들었나요](#왜-만들었나요) · [화면으로 보기](#화면으로-보기) · [계획서 대비 구현 현황](#계획서-대비-구현-현황) · [AI는 어떻게 판단하나요](#ai는-어떻게-판단하나요) · [데이터](#데이터) · [디자인과 접근성](#디자인과-접근성) · [검증](#검증) · [지속 가능성](#지속-가능성) · [기술 스택](#기술-스택) · [실행 방법](#실행-방법) · [한계와 안내](#한계와-안내)
+> [!NOTE]
+> **심사하시는 분**은 [계획서 대비 구현 현황](#계획서-대비-구현-현황)에서 계획 항목마다 구현한 파일과 확인할 곳을 바로 볼 수 있습니다.
+
+**목차** · [왜 만들었나요](#왜-만들었나요) · [화면으로 보기](#화면으로-보기) · [AI는 어떻게 판단하나요](#ai는-어떻게-판단하나요) · [데이터](#데이터) · [디자인과 접근성](#디자인과-접근성) · [검증](#검증) · [계획서 대비 구현 현황](#계획서-대비-구현-현황) · [지속 가능성](#지속-가능성) · [기술 스택](#기술-스택) · [실행 방법](#실행-방법) · [한계와 안내](#한계와-안내) · [라이선스](#라이선스)
 
 ## 왜 만들었나요
 
-강릉은 2022년 문화체육관광부가 선정한 **국내 첫 무장애 관광도시**입니다.<sup>[1](#참고-자료)</sup> 그런데 관광약자와 함께 여행을 준비하는 사람은 지금도 관광지마다 계단, 장애인 화장실, 주차, 걷는 거리를 따로 찾아보고, 이동 시간을 계산해서 직접 일정으로 엮어야 합니다. 공공 무장애 정보는 **"출입구까지 경사로가 설치되어 있음(완만함)" 같은 짧은 문장**으로만 있고, 기존 서비스는 이 문장을 그대로 보여주며 판단을 여행자에게 넘깁니다.
+강릉은 2022년 문화체육관광부가 선정한 **국내 첫 무장애 관광도시**입니다.<sup>[1](#참고-자료)</sup> 그런데 관광약자와 함께 여행을 준비하는 사람은 지금도 관광지마다 계단, 장애인 화장실, 주차, 걷는 거리를 따로 찾아보고 이동 시간을 계산해 일정을 직접 엮습니다. 공공 무장애 정보는 **"출입구까지 경사로가 설치되어 있음(완만함)" 같은 짧은 문장**뿐입니다. 기존 서비스는 이 문장을 그대로 보여 줄 뿐, 갈 수 있는지는 여행자가 판단해야 합니다.
 
 | 지금은 | 이음길에서는 |
 | --- | --- |
 | "경사로 있음" 같은 문장을 직접 해석 | AI가 문장을 읽고 **이 사람 기준으로** 적합 / 주의 / 확인 필요 / 부적합을 판단하고, 근거가 된 원문 항목을 표시 |
-| 갈 수 있는 곳을 골라 직접 순서를 짬 | AI가 성격이 다른 일정 2\~3안을 짜고, 코드가 시각·운영시간을 계산·검사 |
+| 갈 수 있는 곳을 골라 직접 순서를 짬 | AI가 성격이 다른 일정 2\~3개를 짜고, 코드가 시각·운영시간을 계산·검사 |
 | 정보가 없으면 가 봐야 앎 | 모르는 항목은 숨기지 않고 확인할 방법을 줌: 엘리베이터·장애인 화장실·주차·출입구는 **전화로 물어볼 질문 + 공식 전화**, 바닥·경사·쉴 곳은 **가서 보고 확인할 것** |
-| 날씨는 따로 찾아봄 | 확정 일정에 날짜마다 **기상청 예보**, 비·눈 날은 바깥 장소에 미끄럼 주의 |
 | 짠 일정을 캡처·메모로 따로 전달 | **공유 링크 하나**로 함께 가는 사람이 로그인 없이 보고, 여행 당일에도 휴대폰으로 다시 엶 · **A4 한 장** 일정표로 인쇄 |
 
 ## 화면으로 보기
 
-여행 준비의 처음(어디가 있는지 찾아보기)부터 끝(함께 나누고 당일 다시 열기)까지 이어집니다.
-
-| 단계 | 이음길이 돕는 것 |
-| --- | --- |
-| 1. 찾아보기 | 관광지 둘러보기: 지역·분야로 보고, AI 한 줄 소개와 우리 가족 기준 접근성 요약을 보고 담기 |
-| 2. 조건 고르기 | 4단계 선택형(자유 입력 없음). 유형을 고르면 꼭 필요한 조건이 자동으로 켜짐 |
-| 3. 일정 받기 | AI가 장소마다 판단하고 성격이 다른 2\~3안을 짬. 시각·운영시간은 코드가 계산·검사 |
-| 4. 고치기 | 장소 [바꾸기] · [순서 고치기] · 빼기. AI를 다시 부르지 않고 그 자리에서 다시 계산 |
-| 5. 확정·확인 | 카카오 지도와 실제 이동시간, 날짜별 날씨. 전화로 물어볼 것 + 공식 전화, [괜찮대요] / [어렵대요] |
-| 6. 나누기·들고 가기 | 읽기 전용 **공유 링크** · **A4 한 장** 일정표 · 당일에는 링크를 휴대폰으로 열어 다음 장소·지도·전화 |
+관광지를 찾아보는 일부터 함께 가는 사람과 일정을 나누고 여행 당일 다시 여는 일까지, 한 서비스에서 이어집니다.
 
 ### 조건 4단계
 
-한 화면에 질문 하나. 유형을 고르면 꼭 필요한 조건이 자동으로 켜집니다.
+한 화면에 질문을 하나씩 묻고, 자유 입력 칸은 없습니다. 함께 가는 사람의 유형을 고르면 꼭 필요한 조건이 자동으로 켜집니다.
 
 | 시작 | 언제·어디서 | 누구와 | 꼭 필요한 조건 | 좋아하는 곳 |
 | :---: | :---: | :---: | :---: | :---: |
@@ -83,7 +64,7 @@
 
 ### 일정 받기 · 고치기 · 확정
 
-조건은 휠체어 · 택시 · 1박 2일 · 강릉역 도착 · 바다·해변, 역사·문화 · 꼭 가고 싶은 곳 오죽헌입니다. AI 호출 5회 · 15초에 일정 2가지가 나왔습니다(세 번째 안은 다른 안과 장소가 많이 겹쳐 코드가 뺐습니다).
+아래 캡처의 조건은 휠체어, 택시, 1박 2일, 강릉역 도착, 바다·해변과 역사·문화, 꼭 가고 싶은 곳 오죽헌입니다. AI를 5번 불러 15초 만에 일정 2가지가 나왔습니다. 세 번째 일정은 다른 일정과 장소가 많이 겹쳐 코드가 뺐습니다.
 
 | ① 만드는 중 | ② 일정 비교 | ③ 장소 카드 [자세히] |
 | :---: | :---: | :---: |
@@ -96,15 +77,15 @@
 <details>
 <summary>화면마다 자세한 설명</summary>
 
-1. **만드는 중**: 진행률과 단계, AI가 살펴보는 장소, 진행 기록("장소 판단 3/3번째 끝", "B안: 운영시간을 넘는 곳이 있어 고치는 중")을 서버에서 받은 그대로 보여줍니다.
-2. **일정 비교**: 성격이 다른 안을 갈 곳 한 줄 요약, 장소 수, 이동 시간, 전화로 확인할 곳 수로 비교합니다. 2박 3일은 1안을 꼼꼼하게 짭니다.
-3. **장소 카드**: 처음에는 사진, 도착 예상 시각, 판단, 공식 정보가 없는 항목, 한 줄 이유, 전화만 보입니다. [자세히]를 펼치면 AI 판단 이유, 도착하면(장애인 주차 → 출입구 → 화장실), 전화로 물어볼 것, 가서 볼 것, 근거(관광공사 원문 항목)가 나옵니다. 판단과 '전화로 확인할 것 있음'은 접어도 밖에 남습니다.
-4. **장소 바꾸기**: AI가 이미 판단해 둔 근처 장소(최대 3곳)로 바꿉니다. 코드가 시각·운영시간을 다시 검사하고, 걸리면 이유를 보여주고 바꾸지 않습니다. 되돌릴 수 있습니다.
+1. **만드는 중**: 진행률과 단계, AI가 살펴보는 장소를 보여 줍니다. "장소 판단 3/3번째 끝", "B안: 운영시간을 넘는 곳이 있어 고치는 중" 같은 진행 기록은 서버에서 받은 그대로입니다.
+2. **일정 비교**: 일정마다 갈 곳 한 줄 요약, 장소 수, 이동 시간, 전화로 확인할 곳 수를 나란히 보여 줍니다. 2박 3일은 일정 하나를 꼼꼼하게 짭니다.
+3. **장소 카드**: 카드에는 사진·도착 시각·판단·한 줄 이유·전화만 먼저 보이고, 공식 정보가 없는 항목은 따로 표시합니다. [자세히]를 펼치면 AI 판단 이유, 도착한 뒤 동선(장애인 주차 → 출입구 → 화장실), 전화로 물어볼 것, 가서 볼 것, 근거가 된 관광공사 원문 항목이 나옵니다. 판단과 '전화로 확인할 것 있음'은 접어도 보입니다.
+4. **장소 바꾸기**: AI가 이미 판단해 둔 근처 장소 가운데 최대 3곳을 후보로 보여 줍니다. 코드가 시각과 운영시간을 다시 검사하고, 맞지 않으면 이유를 보여 주고 바꾸지 않습니다. 바꾼 뒤에도 되돌릴 수 있습니다.
 5. **확정 일정**: 카카오 지도에 번호 + 장소 이름, 일반 차량 경로선을 그리고 "차량 약 29분 · 약 11.8km"처럼 그날 이동을 보여 줍니다. 경로는 열 때마다 새로 받고 저장하지 않습니다. 날짜마다 그날 가는 시의 기상청 예보(하늘·강수확률·기온)를 보여 주고, 비·눈 예보 날에는 바깥 장소에 '데크·경사로가 미끄러울 수 있어요'를 붙입니다.
-6. **출발 전 전화 확인**: 장소마다 물어볼 것과 공식 전화. [괜찮대요] / [어렵대요]로 진행률이 쌓이고, '어렵대요'면 바로 바꾸기를 권합니다.
+6. **출발 전 전화 확인**: 장소마다 물어볼 것과 공식 전화번호가 있습니다. [괜찮대요] / [어렵대요]를 누르면 진행률이 쌓이고, '어렵대요'를 누르면 다른 곳으로 바꾸기를 권합니다.
 7. **지도 번호 카드**: 번호를 누르면 사진·시각·판단 카드가 뜨고 [일정에서 보기]로 그 장소로 내려갑니다.
 8. **순서 고치기**: 같은 날 안에서 위·아래로 옮기거나 뺍니다. 운영시간·하루 범위를 넘으면 고치지 않고 이유를 보여 줍니다.
-9. **가기 어려운 곳과 대안**: 꼭 가고 싶은 곳·대표 관광지·좋아하는 분야 중 이번 조건으로 빠진 곳을 이유와 함께, 같은 분야의 가까운 대안을 알려 줍니다.
+9. **가기 어려운 곳과 대안**: 꼭 가고 싶은 곳, 대표 관광지, 좋아하는 분야 가운데 이번 조건으로 빠진 곳을 이유와 함께 보여 주고, 같은 분야의 가까운 대안을 알려 줍니다.
 
 </details>
 
@@ -123,8 +104,8 @@
 </tr>
 </table>
 
-- **고른 일정만 저장**: 장소·순서·머무는 시간·이유·물어볼 것. 이름·연락처·카카오 이동시간·경로·날씨는 저장하지 않고 열 때마다 다시 받습니다.
-- **알아서 사라짐**: 여행 마지막 날 + 7일(최대 30일)이 지나면 자동으로 지워지고, 기간이 지난 링크는 그렇다고 안내합니다.
+- **고른 일정만 저장**: 장소, 순서, 머무는 시간, 이유, 물어볼 것만 저장합니다. 이름·연락처는 받지 않고, 카카오 이동시간·경로와 날씨는 열 때마다 다시 받습니다.
+- **알아서 사라짐**: 여행 마지막 날부터 7일(만든 날부터 최대 30일)이 지나면 자동으로 지워집니다. 기간이 지난 링크를 열면 지워졌다고 안내합니다.
 - **받은 사람은 읽기만**: 바꾸기·공유 버튼이 없고 검색 엔진에 올라가지 않습니다. 저장소는 브라우저 키로 접근할 수 없게 막았습니다(Supabase RLS).
 - **종이로도**: 인쇄하면 사진·지도를 뺀 A4 일정표가 나옵니다(1박 2일 기준 1장).
 
@@ -141,7 +122,7 @@
 - 우리 가족 기준 접근성: ✓ 가능 · ! 일부만 · ✕ 어려움 · ? 정보 없음
 - 자세히: 관광공사 소개 원문, 운영시간, 전화, 접근성 10항목
 
-**PC에서는** 창 너비에 따라 배치가 바뀝니다. 휴대폰 한 칸 · 태블릿 넓은 한 칸 · PC 두 칸(왼쪽 지도 + 오른쪽 일정) · 넓은 PC 안 비교 3칸.
+**PC에서는** 창 너비에 따라 배치가 바뀝니다. 휴대폰과 태블릿은 한 칸, PC는 왼쪽 지도와 오른쪽 일정 두 칸, 넓은 PC의 일정 비교는 세 칸입니다.
 
 </td>
 </tr>
@@ -158,58 +139,9 @@
 
 </details>
 
-## 계획서 대비 구현 현황
-
-[기획 문서](docs/planning.md)의 계획은 **모두 동작합니다**. 공고 의무 결과물(핵심 기능 작동 · 실제 데이터로 시연 · 배포 URL과 GitHub 공개)도 모두 갖췄습니다.
-
-| 계획 | 구현 · 확인할 곳 |
-| --- | --- |
-| ① AI 읽기: 관광공사 문장 → 접근성 10항목·운영시간·도착 후 동선 | 152곳 완료 · [`data/ai/read/`](data/ai/read/) · [`read-places.ts`](scripts/ai/read-places.ts) |
-| ② AI 판단: 이 사람에게 적합 / 주의 / 확인 필요 / 부적합(3회) | [`judge.ts`](src/lib/ai/judge.ts) · 안전 하한 [`guards.ts`](src/lib/ai/guards.ts) |
-| ③ AI 계획: 성격이 다른 일정 2\~3안 + 평가자 | [`plan.ts`](src/lib/ai/plan.ts) · [`review.ts`](src/lib/ai/review.ts) · 전체 흐름 [`trip.ts`](src/lib/ai/trip.ts) |
-| ④ 풀어주기: 도착 후 동선·출발 전 확인할 것 | ① 읽기 결과를 카드에, 확인할 것은 [체크리스트](src/components/trip/Checklist.tsx)로 |
-| AI가 실패해도 시연이 멈추지 않음 | 규칙 일정 [`fallback.ts`](src/lib/engine/fallback.ts) · Gemini가 늦으면 OpenAI [`llm.ts`](src/lib/llm.ts) |
-| LLM 답은 JSON 스키마로, 시각은 코드가 계산 | [`schemas.ts`](src/lib/ai/schemas.ts) · [`timeline.ts`](src/lib/engine/timeline.ts) · [`check.ts`](src/lib/engine/check.ts) |
-| '모름'은 숨기지 않고 확인할 방법을 줌 | 빌드 검사 [`validate-places.ts`](scripts/validate-places.ts) · [`questions.ts`](src/lib/trip/questions.ts) |
-| 카카오 결과 저장 안 함 · 키는 서버에만 · 개인정보 없음 | [`api/legs`](src/app/api/legs/route.ts) · [`api/route-line`](src/app/api/route-line/route.ts) · 자유 입력 칸 없음 |
-| 시작 화면 + 예시 루트(심사용) | [`/trip/example`](https://ieumgil-ai.vercel.app/trip/example) |
-| 입력 4단계 · 만드는 중(진행 기록 스트리밍) | [화면으로 보기](#화면으로-보기) · [`api/plan`](src/app/api/plan/route.ts) |
-| 안 비교 → 날짜별 상세 · 여유/빠듯/부족 · 근거 표시 | [`src/components/trip/`](src/components/trip/) |
-| 장소 바꾸기 · 순서 바꾸기·빼기(AI 없이 다시 계산) | [`edit.ts`](src/lib/trip/edit.ts) |
-| 확정 일정 + 카카오 지도·경로선 · 실제 이동시간 | [`final/`](src/app/trip/%5Bid%5D/final/) · [`real-travel.ts`](src/lib/trip/real-travel.ts) |
-| 출발 전 확인할 것(질문 + 전화) | 체크리스트(괜찮대요 / 어렵대요 → 바꾸기) |
-| 어려운 곳 목록과 대안 | 결과 화면 아래 "이번 조건으로 가기 어려운 곳" · [`hard.ts`](src/lib/trip/hard.ts) |
-| 공유 링크(읽기 전용, 기간 지나면 자동 폐기) | `/s/{id}` · [`lib/share/`](src/lib/share/) · [SQL](supabase/migrations/20261114000000_trips.sql) |
-| 인쇄·PDF | A4 한 장 일정표 [`PrintSheet.tsx`](src/components/trip/PrintSheet.tsx) |
-| 관광지 사진(공공누리, 출처 표시) · 모바일·PC 반응형 | [`photos.json`](data/photos.json) · 휴대폰 · 태블릿 · PC · 넓은 PC |
-| 관광지 둘러보기 | [`/places`](src/app/places/PlacesBrowser.tsx) · AI 한 줄 소개 [`summary.json`](data/ai/summary.json) |
-| **더한 것** 장애인 화장실·기저귀 교환대 공공데이터 보충 | [`lib/public/`](src/lib/public/) · [짝짓기 결과](docs/data/public-restrooms.md) |
-| **더한 것** 날짜별 날씨(기상청)와 비·눈 주의 | [`api/weather`](src/app/api/weather/route.ts) · [`lib/weather/`](src/lib/weather/) · [API 정리](docs/data/kma-forecast.md) |
-| **더한 것** 웹 접근성 자동 검사 · 디자인 규칙 감시 | [`axe.spec.ts`](tests/e2e/axe.spec.ts) · [`legacy-classes.test.ts`](tests/design/legacy-classes.test.ts) |
-| 엔진 시나리오 10개 · AI 가드 · 화면 흐름 테스트 · AI 평가 | [검증](#검증) |
-
-<details>
-<summary><b>계획에서 바꾼 결정과 이유</b></summary>
-
-| 처음 계획 | 바꾼 것 | 이유 |
-| --- | --- | --- |
-| 강릉만 | 영동권(강릉·속초·동해) | 관광공사 API로 장소를 충분히 모을 수 있어 범위를 넓힘. 신청서의 '종료 후 영동권 확대 검토'를 기간 안에 앞당김 |
-| 사람이 장소를 조사·판정 | AI가 공공데이터 문장을 읽고, 모르는 항목은 확인할 방법을 안내 | 노면·걷는 거리는 공공데이터에 거의 없어 사람이 152곳을 다 확인할 수 없음. 사람이 확인한 값은 등급 `human`으로 덮어쓸 수 있게 둠 |
-| '모름'은 모두 전화로 물어볼 질문 | 직원이 답할 수 있는 것만 전화, 바닥·경사·쉴 곳은 "가서 보고 확인할 것" | "노면 재질"은 직원도 답하기 어렵고 도착하면 보임. 질문이 쌓이면 아무도 전화하지 않음 |
-| 이동시간 표를 카카오 다중 목적지로 미리 계산 | AI는 직선 추정으로 짜고, 다 짠 안만 카카오로 실제 시간을 받아 다시 검사 | 후보를 전부 짝지으면 호출이 너무 많음. 짠 안의 실제 동선만 재면 날짜마다 1회 |
-| 조건 바꿔 다시 만들기 | 장소 [바꾸기] · [순서 고치기] | 다시 만들면 AI를 처음부터 다시 불러 느림. 고치기는 AI 없이 바로 |
-| 모든 일정에 2\~3안 | 2박 3일은 1안 + 고치기 | 3일치를 나눠 짜면 안끼리 겹쳐 빠짐. 1안을 제대로 짜는 쪽을 택함 |
-| AI 추가 질문 0\~3개 · ④ 풀어주기를 요청할 때 AI로 한 번 더 | 빼고, 미리 읽은 동선 + 체크리스트로 | 입력 4단계로 충분하고 단계가 늘면 어르신에게 부담. 다시 다듬는 호출은 시간만 늘어남 |
-| 공유: 요약 이미지 저장 | 읽기 전용 공유 링크 + A4 인쇄 | 지도 이미지는 캡처가 막힐 수 있고, 이동시간을 이미지에 굳히면 카카오 저장 금지와 맞지 않음 |
-| 어려운 곳의 대안 이유를 LLM이 붙임 | 대안은 코드가 고르고 이유는 ② 판단 이유를 그대로 | 요청할 때 AI 호출을 늘리지 않음. 대안도 이미 판단한 후보라 이유가 있음 |
-| '가 글씨 크게' 버튼 | 휴대폰·브라우저 글자 크기 설정을 따름 | 버튼보다 기기 설정을 쓰는 사람이 많음. 모든 글자를 rem 단위로 |
-| 역할: 강환일 = 백엔드(신청서) | 개발은 공지혁, 강환일은 자료·API 조사, 사용자 테스트, 보고서·대외 활동 | 실제 작업에 맞춤(주간보고에 기록) |
-
-</details>
-
 ## AI는 어떻게 판단하나요
 
-**LLM이 읽고 · 판단하고 · 계획하고 · 평가하고, 코드는 계산과 검사를 강제합니다.** 공공데이터가 문장으로만 있어 코드로는 가능/불가를 가를 수 없기 때문에 판단은 LLM이 맡습니다. 대신 LLM의 답은 전부 **정해진 JSON 형식**으로 받고, 코드가 근거·안전 기준·시간을 검사한 뒤에만 화면에 나갑니다.
+**AI(LLM)는 읽고 판단하고 계획하고 평가합니다. 계산과 검사는 코드가 맡습니다.** 공공데이터가 문장으로만 있어 코드로는 갈 수 있는지 가를 수 없기 때문에, 판단은 AI에게 맡겼습니다. 대신 AI의 답은 모두 **정해진 JSON 형식**으로 받고, 코드가 근거·안전 기준·시간을 검사한 뒤에만 화면에 내보냅니다.
 
 <img src="docs/readme/architecture.png" width="100%" alt="구조도: 사용자 → 웹 서비스(화면, 서버 API) ↔ AI 일정 파이프라인(코드로 후보 20곳 → AI 장소 판단 ×3 → 코드 근거·안전 검사 → AI 일정 2~3안 → 코드 시각 계산·검사 → AI 평가자, 실패 시 규칙 일정) ↔ Gemini → OpenAI · 미리 만든 데이터 · Supabase(공유 링크) · 카카오(지도·이동시간·경로선, 저장 안 함)" />
 
@@ -432,9 +364,58 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 
 </details>
 
+## 계획서 대비 구현 현황
+
+[기획 문서](docs/planning.md)에 적은 계획은 **모두 동작합니다**. 공고가 요구한 결과물(핵심 기능 작동, 실제 데이터로 시연, 배포 주소와 GitHub 공개)도 모두 갖췄습니다.
+
+| 계획 | 구현 · 확인할 곳 |
+| --- | --- |
+| ① AI 읽기: 관광공사 문장 → 접근성 10항목·운영시간·도착 후 동선 | 152곳 완료 · [`data/ai/read/`](data/ai/read/) · [`read-places.ts`](scripts/ai/read-places.ts) |
+| ② AI 판단: 이 사람에게 적합 / 주의 / 확인 필요 / 부적합(3회) | [`judge.ts`](src/lib/ai/judge.ts) · 안전 하한 [`guards.ts`](src/lib/ai/guards.ts) |
+| ③ AI 계획: 성격이 다른 일정 2\~3안 + 평가자 | [`plan.ts`](src/lib/ai/plan.ts) · [`review.ts`](src/lib/ai/review.ts) · 전체 흐름 [`trip.ts`](src/lib/ai/trip.ts) |
+| ④ 풀어주기: 도착 후 동선·출발 전 확인할 것 | ① 읽기 결과를 카드에, 확인할 것은 [체크리스트](src/components/trip/Checklist.tsx)로 |
+| AI가 실패해도 시연이 멈추지 않음 | 규칙 일정 [`fallback.ts`](src/lib/engine/fallback.ts) · Gemini가 늦으면 OpenAI [`llm.ts`](src/lib/llm.ts) |
+| LLM 답은 JSON 스키마로, 시각은 코드가 계산 | [`schemas.ts`](src/lib/ai/schemas.ts) · [`timeline.ts`](src/lib/engine/timeline.ts) · [`check.ts`](src/lib/engine/check.ts) |
+| '모름'은 숨기지 않고 확인할 방법을 줌 | 빌드 검사 [`validate-places.ts`](scripts/validate-places.ts) · [`questions.ts`](src/lib/trip/questions.ts) |
+| 카카오 결과 저장 안 함 · 키는 서버에만 · 개인정보 없음 | [`api/legs`](src/app/api/legs/route.ts) · [`api/route-line`](src/app/api/route-line/route.ts) · 자유 입력 칸 없음 |
+| 시작 화면 + 예시 루트(심사용) | [`/trip/example`](https://ieumgil-ai.vercel.app/trip/example) |
+| 입력 4단계 · 만드는 중(진행 기록 스트리밍) | [화면으로 보기](#화면으로-보기) · [`api/plan`](src/app/api/plan/route.ts) |
+| 안 비교 → 날짜별 상세 · 여유/빠듯/부족 · 근거 표시 | [`src/components/trip/`](src/components/trip/) |
+| 장소 바꾸기 · 순서 바꾸기·빼기(AI 없이 다시 계산) | [`edit.ts`](src/lib/trip/edit.ts) |
+| 확정 일정 + 카카오 지도·경로선 · 실제 이동시간 | [`final/`](src/app/trip/%5Bid%5D/final/) · [`real-travel.ts`](src/lib/trip/real-travel.ts) |
+| 출발 전 확인할 것(질문 + 전화) | 체크리스트(괜찮대요 / 어렵대요 → 바꾸기) |
+| 어려운 곳 목록과 대안 | 결과 화면 아래 "이번 조건으로 가기 어려운 곳" · [`hard.ts`](src/lib/trip/hard.ts) |
+| 공유 링크(읽기 전용, 기간 지나면 자동 폐기) | `/s/{id}` · [`lib/share/`](src/lib/share/) · [SQL](supabase/migrations/20261114000000_trips.sql) |
+| 인쇄·PDF | A4 한 장 일정표 [`PrintSheet.tsx`](src/components/trip/PrintSheet.tsx) |
+| 관광지 사진(공공누리, 출처 표시) · 모바일·PC 반응형 | [`photos.json`](data/photos.json) · 휴대폰 · 태블릿 · PC · 넓은 PC |
+| 관광지 둘러보기 | [`/places`](src/app/places/PlacesBrowser.tsx) · AI 한 줄 소개 [`summary.json`](data/ai/summary.json) |
+| **더한 것** 장애인 화장실·기저귀 교환대 공공데이터 보충 | [`lib/public/`](src/lib/public/) · [짝짓기 결과](docs/data/public-restrooms.md) |
+| **더한 것** 날짜별 날씨(기상청)와 비·눈 주의 | [`api/weather`](src/app/api/weather/route.ts) · [`lib/weather/`](src/lib/weather/) · [API 정리](docs/data/kma-forecast.md) |
+| **더한 것** 웹 접근성 자동 검사 · 디자인 규칙 감시 | [`axe.spec.ts`](tests/e2e/axe.spec.ts) · [`legacy-classes.test.ts`](tests/design/legacy-classes.test.ts) |
+| 엔진 시나리오 10개 · AI 가드 · 화면 흐름 테스트 · AI 평가 | [검증](#검증) |
+
+<details>
+<summary><b>계획에서 바꾼 결정과 이유</b></summary>
+
+| 처음 계획 | 바꾼 것 | 이유 |
+| --- | --- | --- |
+| 강릉만 | 영동권(강릉·속초·동해) | 관광공사 API로 장소를 충분히 모을 수 있어 범위를 넓힘. 신청서의 '종료 후 영동권 확대 검토'를 기간 안에 앞당김 |
+| 사람이 장소를 조사·판정 | AI가 공공데이터 문장을 읽고, 모르는 항목은 확인할 방법을 안내 | 노면·걷는 거리는 공공데이터에 거의 없어 사람이 152곳을 다 확인할 수 없음. 사람이 확인한 값은 등급 `human`으로 덮어쓸 수 있게 둠 |
+| '모름'은 모두 전화로 물어볼 질문 | 직원이 답할 수 있는 것만 전화, 바닥·경사·쉴 곳은 "가서 보고 확인할 것" | "노면 재질"은 직원도 답하기 어렵고 도착하면 보임. 질문이 쌓이면 아무도 전화하지 않음 |
+| 이동시간 표를 카카오 다중 목적지로 미리 계산 | AI는 직선 추정으로 짜고, 다 짠 안만 카카오로 실제 시간을 받아 다시 검사 | 후보를 전부 짝지으면 호출이 너무 많음. 짠 안의 실제 동선만 재면 날짜마다 1회 |
+| 조건 바꿔 다시 만들기 | 장소 [바꾸기] · [순서 고치기] | 다시 만들면 AI를 처음부터 다시 불러 느림. 고치기는 AI 없이 바로 |
+| 모든 일정에 2\~3안 | 2박 3일은 1안 + 고치기 | 3일치를 나눠 짜면 안끼리 겹쳐 빠짐. 1안을 제대로 짜는 쪽을 택함 |
+| AI 추가 질문 0\~3개 · ④ 풀어주기를 요청할 때 AI로 한 번 더 | 빼고, 미리 읽은 동선 + 체크리스트로 | 입력 4단계로 충분하고 단계가 늘면 어르신에게 부담. 다시 다듬는 호출은 시간만 늘어남 |
+| 공유: 요약 이미지 저장 | 읽기 전용 공유 링크 + A4 인쇄 | 지도 이미지는 캡처가 막힐 수 있고, 이동시간을 이미지에 굳히면 카카오 저장 금지와 맞지 않음 |
+| 어려운 곳의 대안 이유를 LLM이 붙임 | 대안은 코드가 고르고 이유는 ② 판단 이유를 그대로 | 요청할 때 AI 호출을 늘리지 않음. 대안도 이미 판단한 후보라 이유가 있음 |
+| '가 글씨 크게' 버튼 | 휴대폰·브라우저 글자 크기 설정을 따름 | 버튼보다 기기 설정을 쓰는 사람이 많음. 모든 글자를 rem 단위로 |
+| 역할: 강환일 = 백엔드(신청서) | 개발은 공지혁, 강환일은 자료·API 조사, 사용자 테스트, 보고서·대외 활동 | 실제 작업에 맞춤(주간보고에 기록) |
+
+</details>
+
 ## 지속 가능성
 
-신청서에서는 "종료 후 속초·동해·삼척 등 영동권으로 확대를 검토"하기로 했는데, **기간 안에 강릉에서 속초·동해까지 넓혔습니다**(강릉 101곳 → 영동권 152곳). 쓰는 공공데이터가 모두 전국 단위라 같은 방법으로 다른 지역에도 옮길 수 있습니다.
+신청서에는 "종료 후 속초·동해·삼척 등 영동권으로 확대를 검토"한다고 적었습니다. 이 확대를 **기간 안에 앞당겨 강릉에서 속초·동해까지 넓혔습니다**(강릉 101곳 → 영동권 152곳). 쓰는 공공데이터가 모두 전국 단위라, 같은 방법으로 다른 지역에도 옮길 수 있습니다.
 
 ### 다른 지역으로 넓히기
 
@@ -474,12 +455,24 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 
 ### 프로젝트가 끝난 뒤
 
-- 저장소는 공개로 두고 코드는 [MIT 라이선스](LICENSE)로 엽니다. 다른 지자체·단체가 가져가 지역만 바꿔 쓸 수 있습니다. 데이터와 사진은 각 출처의 이용 조건(관광공사 사진은 사진마다 공공누리 유형, 공중화장실 이용허락범위 제한 없음, 기상청 저작자표시)을 따릅니다.
+- 저장소는 공개로 두고 코드는 [MIT 라이선스](#라이선스)로 엽니다. 다른 지자체·단체가 가져가 지역만 바꿔 쓸 수 있습니다.
 - 모든 변경은 GitHub Actions가 데이터 검사·테스트·빌드로 확인합니다. 단위 테스트는 가짜 AI로 돌아 키 없이도 누구나 검증할 수 있습니다.
 
 ## 기술 스택
 
-맨 위 뱃지가 쓰인 기술입니다.
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-000?style=for-the-badge&logo=vercel&logoColor=white)](https://ieumgil-ai.vercel.app)
+![Next.js](https://img.shields.io/badge/Next.js_16-000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-149ECA?style=for-the-badge&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000?style=for-the-badge&logo=shadcnui&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge)
+![axe-core](https://img.shields.io/badge/axe--core_WCAG_2.2_AA-663399?style=for-the-badge)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+
+맨 위 데이터·AI 배지와 이 배지들이 쓰인 기술입니다.
 
 <details>
 <summary>기술별로 맡은 일과 지킨 원칙</summary>
@@ -550,6 +543,8 @@ npm run dev                  # http://localhost:3000
 | `npm run readme:capture` | README 화면 캡처(개발 서버를 켠 뒤, AI 호출 없음) |
 | `npm run data:public` → `data:build` → `data:read` → `data:merge` | 장소 데이터 다시 만들기(관광공사 API·AI 키 필요, [scripts/README.md](scripts/README.md)) |
 
+AI 코딩 도구로 이 저장소를 고칠 때 지킬 원칙(키는 서버에만, 카카오 결과 저장 금지, '모름' 숨기지 않기 등)은 [CLAUDE.md](CLAUDE.md)와 [AGENTS.md](AGENTS.md)에 있습니다.
+
 ## 한계와 안내
 
 - 접근성 정보는 한국관광공사 자료를 AI가 정리하고 일부(장애인 화장실·기저귀 교환대)는 공중화장실 공공데이터(기준일 2024\~2025)로 보충한 것이라 현장과 다를 수 있습니다. 특히 노면·경사·걷는 거리는 공공데이터에 거의 없습니다. 출발 전 공식 전화로 확인해 주세요.
@@ -569,6 +564,10 @@ npm run dev                  # http://localhost:3000
 | 강환일<br /><sub>조사 · 테스트 · 대외</sub> | **자료 조사**: 무장애 관광 현황과 쓸 수 있는 공공데이터·API 찾기, 기획 조사표 32곳의 무장애 정보 조사<br />**사용자 테스트**: 실제 이용자 입장에서 화면을 계속 써 보며 불편한 점과 버그를 찾아 알림<br />**보고**: 주간보고, 최종 보고서<br />**대외 활동**: 멘토링, 교수님·운영 기관 연락 등 바깥과 주고받는 일 전담 |
 
 2026 My AI 랩(강릉과학산업진흥원) 과제입니다. 개발 과정은 [커밋 기록](https://github.com/ieumgil/ieumgil-ai/commits/main)과 [구현 계획](docs/impl-plan.md)에서 볼 수 있습니다.
+
+## 라이선스
+
+코드는 [MIT 라이선스](LICENSE)입니다. 데이터와 사진은 각 출처의 이용 조건을 따릅니다. 관광공사 사진은 사진마다 표시한 공공누리 유형, 공중화장실 표준데이터는 이용허락범위 제한 없음, 기상청 예보는 저작자표시입니다.
 
 ## 참고 자료
 
