@@ -139,11 +139,11 @@ export function PlaceCard({
             자세히
             {questions.length > 0 && ` · 물어볼 것 ${questions.length}`}
           </span>
-          <ChevronDown size={18} className={`shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+          <ChevronDown size={18} className={`shrink-0 transition-transform duration-[var(--motion-long)] ease-[var(--ease-state)] ${open ? "rotate-180" : ""}`} aria-hidden="true" />
         </button>
 
         {open && (
-          <div id={detailId} className="mt-4 flex flex-col gap-4 text-base leading-relaxed">
+          <div id={detailId} className="expand-in mt-4 flex flex-col gap-4 text-base leading-relaxed">
             <p className="text-sm font-bold text-pine">
               {p.region} · {p.category}
               {j.confidence && <span className="font-normal text-ink-sub">{` · AI 판단의 확신 ${j.confidence}`}</span>}

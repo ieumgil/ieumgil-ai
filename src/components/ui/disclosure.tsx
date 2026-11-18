@@ -35,7 +35,7 @@ export function Disclosure({
         <ChevronDown
           size={20}
           aria-hidden="true"
-          className="shrink-0 transition-transform duration-200 group-open/disclosure:rotate-180 motion-reduce:transition-none"
+          className="shrink-0 transition-transform duration-[var(--motion-long)] ease-[var(--ease-state)] group-open/disclosure:rotate-180 motion-reduce:transition-none"
         />
       </summary>
       {children}
