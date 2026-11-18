@@ -61,7 +61,7 @@ export function ChoiceButton({
       type="button"
       onClick={onClick}
       {...a11y}
-      className={`relative inline-flex min-h-touch items-center justify-center px-6 text-base font-bold transition-[color,background-color,border-color] duration-150 ${focus} ${
+      className={`relative inline-flex min-h-touch items-center justify-center px-6 text-base font-bold press ${focus} ${
         shape === "pill" ? "rounded-full" : "min-h-12 rounded-xl"
       } ${selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"} ${className}`}
     >
@@ -101,7 +101,7 @@ export function SegmentButton({
       role="radio"
       aria-checked={selected}
       onClick={onClick}
-      className={`relative flex min-h-12 items-center justify-center rounded-xl px-2 text-base font-bold text-balance transition-[color,background-color,border-color] duration-150 ${focus} ${
+      className={`relative flex min-h-12 items-center justify-center rounded-xl px-2 text-base font-bold text-balance press ${focus} ${
         selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"
       } ${className}`}
     >
@@ -140,7 +140,7 @@ export function CheckRow({
 }) {
   return (
     <label
-      className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] bg-white px-4 py-3 transition-[border-color] duration-150 has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${
+      className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] bg-white px-4 py-3 press press-soft has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${
         checked ? "border-primary" : "border-line-control hover:border-primary"
       }`}
     >

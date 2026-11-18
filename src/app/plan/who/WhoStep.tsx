@@ -63,7 +63,7 @@ export function WhoStep() {
               type="button"
               aria-pressed={on}
               onClick={() => toggle(t.id)}
-              className={`flex min-h-20 w-full flex-wrap items-center gap-3 rounded-2xl p-4 text-left transition-[background-color,border-color] duration-150 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+              className={`flex min-h-20 w-full flex-wrap items-center gap-3 rounded-2xl p-4 text-left press press-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                 on ? "border-2 border-primary bg-primary-soft" : "border-[1.5px] border-line-control bg-white hover:border-primary"
               }`}
             >

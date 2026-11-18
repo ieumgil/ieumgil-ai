@@ -79,7 +79,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
               type="button"
               aria-pressed={on}
               onClick={() => toggleCategory(c)}
-              className={`group relative flex min-h-20 flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl p-3 text-left transition-[background-color,border-color] duration-150 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+              className={`group relative flex min-h-20 flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl p-3 text-left press press-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                 on ? "border-2 border-primary bg-primary-soft" : "border-[1.5px] border-line-control bg-white hover:border-primary"
               }`}
             >

@@ -100,6 +100,42 @@
   }
 }
 
+/* 움직임 토큰(11/18, 모션 조사: 토스 TDS·당근 SEED 값을 이음길에 맞춰 짧게).
+ * 시간: 짧음 100ms(누름·색) · 보통 160ms(탭 밑줄·진행 막대·단계 전환) · 김 220ms(시트·펼치기·누름 복귀)
+ * 곡선: state(상태 바뀜) · enter(들어옴) · exit(나감) · spring(누름 복귀: 살짝 넘쳤다 돌아옴)
+ * 기기 '동작 줄이기' 설정이면 아래 미디어 쿼리가 모두 0으로 만든다(이음길 안에 따로 끄는 버튼은 두지 않는다). */
+:root {
+  --motion-short: 100ms;
+  --motion-medium: 160ms;
+  --motion-long: 220ms;
+  --ease-state: cubic-bezier(0.35, 0, 0.35, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.15, 1);
+  --ease-exit: cubic-bezier(0.35, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 누름 반응(토스 버튼처럼): 누르는 순간 작아지고(100ms), 떼면 살짝 튕기며 돌아온다(220ms).
+ * transform이라 둘레 자리·터치 영역은 그대로다. 큰 카드·타일은 press-soft(덜 작아짐).
+ * 동작 줄이기면 크기는 그대로 두고 색만 바뀐다. */
+@utility press {
+  transition-property: transform, color, background-color, border-color, opacity;
+  transition-duration: var(--motion-long), var(--motion-short), var(--motion-short), var(--motion-short), var(--motion-short);
+  transition-timing-function: var(--ease-spring), var(--ease-state), var(--ease-state), var(--ease-state), var(--ease-state);
+  &:active:not(:disabled, [aria-disabled="true"]) {
+    transform: scale(var(--press-scale, 0.97));
+    transition-duration: var(--motion-short);
+    transition-timing-function: var(--ease-enter);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:active:not(:disabled, [aria-disabled="true"]) {
+      transform: none;
+    }
+  }
+}
+@utility press-soft {
+  --press-scale: 0.985;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

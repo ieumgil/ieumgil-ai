@@ -23,7 +23,7 @@ export function TopBar({ backHref, backLabel = "이전 화면으로" }: { backHr
       <Link
         href={backHref}
         aria-label={backLabel}
-        className="flex size-touch shrink-0 items-center justify-center rounded-full bg-surface text-ink transition-[background-color,transform] duration-150 hover:bg-line active:scale-[0.96]"
+        className="flex size-touch shrink-0 items-center justify-center rounded-full bg-surface text-ink press hover:bg-line"
       >
         <ChevronLeftIcon size={20} />
       </Link>

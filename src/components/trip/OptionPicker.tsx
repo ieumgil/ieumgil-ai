@@ -27,7 +27,7 @@ export function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: 
             <ToggleGroupItem
               key={o.id}
               value={o.id}
-              className="h-auto w-full flex-col items-stretch gap-2 rounded-2xl border-[1.5px] border-line-control bg-white p-4 text-left whitespace-normal transition-[border-color,background-color,transform] duration-200 hover:border-primary hover:bg-white active:scale-[0.99] data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary-soft data-[state=on]:hover:bg-primary-soft"
+              className="h-auto w-full flex-col items-stretch gap-2 rounded-2xl border-[1.5px] border-line-control bg-white p-4 text-left whitespace-normal press press-soft hover:border-primary hover:bg-white data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary-soft data-[state=on]:hover:bg-primary-soft"
             >
               <span className="flex items-baseline justify-between gap-2">
                 <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">

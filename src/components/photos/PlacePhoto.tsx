@@ -44,7 +44,7 @@ export function PlacePhoto({ id, name, category, size = "md", className = "" }: 
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`${name} 사진 ${data.photos.length} 장 크게 보기`}
-        className={`${box} group relative transition-transform duration-150 active:scale-[0.97] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary`}
+        className={`${box} group relative press press-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary`}
       >
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element -- 관광공사 원본(3유형)은 고치지 않고 그대로 불러온다
