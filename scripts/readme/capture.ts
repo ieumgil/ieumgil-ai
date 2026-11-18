@@ -3,7 +3,7 @@
 // 확정 일정의 지도는 실제 카카오 지도·경로선이라 개발 서버(localhost:3000, 카카오에 등록한 주소)가 켜져 있어야 한다.
 // 시작 화면 PC 미리보기(public/preview/compare.png, final.png)도 07·10 캡처로 함께 바꾼다.
 // 사용: npm run dev  →  npx tsx scripts/readme/capture.ts
-import { copyFileSync, readFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { chromium, type Browser, type Page } from "@playwright/test";
 
@@ -239,16 +239,64 @@ async function shareShots(b: Browser) {
   await other.close();
 }
 
+/** 휴대폰 틀(검은 테두리 + 위쪽 상태 줄)·PC 브라우저 창 틀을 씌운 사본을 docs/readme/mock/에 만든다.
+ *  원본(docs/readme/*.png)은 그대로 둔다(표지·시작 화면 미리보기가 원본을 쓴다). 바탕은 투명이라 GitHub 밝은·어두운 화면 모두에 맞는다.
+ *  인쇄(21)는 종이라 틀 없이 원본을 쓴다. */
+async function frames(b: Browser) {
+  mkdirSync(`${OUT}/mock`, { recursive: true });
+  const src = (n: string) => `data:image/png;base64,${readFileSync(`${OUT}/${n}.png`).toString("base64")}`;
+  const phones = [...SHOTS.filter((s) => !s.desktop).map((s) => s.name), "19-share", "20-shared"];
+  const desktops = SHOTS.filter((s) => s.desktop).map((s) => s.name);
+
+  // 휴대폰: 화면 390×844(캡처 2배) + 상태 줄 36 · 테두리 12 · 그림자 자리 32
+  const phone = await b.newPage({ viewport: { width: 520, height: 1020 }, deviceScaleFactor: 2 });
+  for (const n of phones) {
+    await phone.setContent(`<!doctype html><html><body style="margin:0;background:transparent">
+      <div id="f" style="display:inline-block;padding:16px 32px 48px">
+        <div style="padding:12px;border-radius:60px;background:#191F28;box-shadow:0 20px 40px rgb(20 80 163/.18),inset 0 0 0 2px #3A414C">
+          <div style="width:390px;border-radius:48px;overflow:hidden;background:#fff">
+            <div style="height:36px;display:flex;justify-content:center;align-items:center"><div style="width:96px;height:26px;border-radius:14px;background:#191F28"></div></div>
+            <img src="${src(n)}" style="display:block;width:390px;height:844px" />
+          </div>
+        </div>
+      </div></body></html>`);
+    await phone.locator("#f").screenshot({ path: `${OUT}/mock/${n}.png`, omitBackground: true });
+  }
+  await phone.close();
+
+  // PC: 1440×900 캡처 + 위쪽 창 막대(점 3개 · 주소)
+  const pc = await b.newPage({ viewport: { width: 1560, height: 1040 }, deviceScaleFactor: 1 });
+  for (const n of desktops) {
+    await pc.setContent(`<!doctype html><html><body style="margin:0;background:transparent;font-family:'Malgun Gothic',sans-serif">
+      <div id="f" style="display:inline-block;padding:16px 40px 56px">
+        <div style="border-radius:16px;overflow:hidden;border:1px solid #D1D6DB;box-shadow:0 24px 48px rgb(20 80 163/.16);background:#fff">
+          <div style="height:44px;background:#F2F4F6;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid #E5E8EB">
+            ${["#FF5F57", "#FEBC2E", "#28C840"].map((c) => `<span style="width:12px;height:12px;border-radius:50%;background:${c}"></span>`).join("")}
+            <div style="margin-left:24px;flex:0 1 480px;height:28px;border-radius:14px;background:#fff;color:#4E5968;font-size:14px;display:flex;align-items:center;padding:0 16px">ieumgil-ai.vercel.app</div>
+          </div>
+          <img src="${src(n)}" style="display:block;width:1440px;height:900px" />
+        </div>
+      </div></body></html>`);
+    await pc.locator("#f").screenshot({ path: `${OUT}/mock/${n}.png`, omitBackground: true });
+  }
+  await pc.close();
+  console.log(`✓ frames(휴대폰 ${phones.length} · PC ${desktops.length})`);
+}
+
 async function main() {
+  const only = process.argv[2]; // 예: share → 공유·인쇄만, cover → 표지만, frames → 틀만, 15-map-card → 그 장면 하나만
+  const b = await chromium.launch();
+  if (only === "cover" || only === "frames") {
+    // 이미 찍은 원본으로 표지·틀만 다시(개발 서버 필요 없음)
+    await (only === "cover" ? cover(b) : frames(b));
+    await b.close();
+    return;
+  }
   const res = await fetch(BASE).catch(() => null);
   if (!res?.ok) throw new Error(`${BASE}에 개발 서버가 없어요. 먼저 npm run dev`);
-  const b = await chromium.launch();
-  const only = process.argv[2]; // 예: share → 공유·인쇄만, cover → 표지만, 15-map-card → 그 장면 하나만
   const one = SHOTS.find((s) => s.name === only);
   if (one) {
     await capture(b, one);
-  } else if (only === "cover") {
-    await cover(b); // 이미 찍은 01·06·07·10으로 표지만 다시
   } else {
     if (only !== "share") {
       for (const s of SHOTS) await capture(b, s);
@@ -256,6 +304,7 @@ async function main() {
     }
     await shareShots(b);
   }
+  await frames(b);
   await b.close();
 }
 

@@ -79,7 +79,7 @@
 
 | 시작 | 언제·어디서 | 누구와 | 꼭 필요한 조건 | 좋아하는 곳 |
 | :---: | :---: | :---: | :---: | :---: |
-| <img src="docs/readme/01-home.png" width="160" alt="시작 화면: 제목, 여행 루트 만들기 버튼, 실제 결과 화면 미리보기" /> | <img src="docs/readme/02-when.png" width="160" alt="1단계: 달력으로 날짜 고르기" /> | <img src="docs/readme/03-who.png" width="160" alt="2단계: 함께 가는 사람 유형 고르기" /> | <img src="docs/readme/04-conditions.png" width="160" alt="3단계: 유형별 필수 조건 확인" /> | <img src="docs/readme/05-taste.png" width="160" alt="4단계: 좋아하는 곳과 일정 밀도" /> |
+| <img src="docs/readme/mock/01-home.png" width="165" alt="시작 화면: 제목, 여행 루트 만들기 버튼, 실제 결과 화면 미리보기" /> | <img src="docs/readme/mock/02-when.png" width="165" alt="1단계: 달력으로 날짜 고르기" /> | <img src="docs/readme/mock/03-who.png" width="165" alt="2단계: 함께 가는 사람 유형 고르기" /> | <img src="docs/readme/mock/04-conditions.png" width="165" alt="3단계: 유형별 필수 조건 확인" /> | <img src="docs/readme/mock/05-taste.png" width="165" alt="4단계: 좋아하는 곳과 일정 밀도" /> |
 
 ### 일정 받기 · 고치기 · 확정
 
@@ -87,11 +87,11 @@
 
 | ① 만드는 중 | ② 일정 비교 | ③ 장소 카드 [자세히] |
 | :---: | :---: | :---: |
-| <img src="docs/readme/06-making.png" width="240" alt="AI가 일정을 만들고 있어요: 진행률, 단계 목록, AI가 살펴보는 장소, 진행 기록" /> | <img src="docs/readme/07-result-compare.png" width="240" alt="일정 2가지를 만들었어요: A안 여유롭게, B안 좋아하는 곳 중심 비교" /> | <img src="docs/readme/08-result-detail.png" width="240" alt="장소 카드: 사진, 시각, 판단 칩, 한 줄 이유, 전화, 바꾸기, 자세히를 펼친 AI 판단 이유·도착하면·가서 볼 것" /> |
+| <img src="docs/readme/mock/06-making.png" width="270" alt="AI가 일정을 만들고 있어요: 진행률, 단계 목록, AI가 살펴보는 장소, 진행 기록" /> | <img src="docs/readme/mock/07-result-compare.png" width="270" alt="일정 2가지를 만들었어요: A안 여유롭게, B안 좋아하는 곳 중심 비교" /> | <img src="docs/readme/mock/08-result-detail.png" width="270" alt="장소 카드: 사진, 시각, 판단 칩, 한 줄 이유, 전화, 바꾸기, 자세히를 펼친 AI 판단 이유·도착하면·가서 볼 것" /> |
 | **④ 장소 바꾸기** | **⑤ 확정 일정 + 지도 + 날씨** | **⑥ 출발 전 전화 확인** |
-| <img src="docs/readme/09-swap.png" width="240" alt="강릉 오죽헌·시립박물관 대신 갈 곳: 근처 후보 3곳과 사진, 판단, 거리, 이유" /> | <img src="docs/readme/10-final.png" width="240" alt="확정한 일정: 날짜 범위, 카카오 지도에 장소 번호와 일반 차량 경로선, 차량 이동시간·거리, 날짜별 날씨, 시간순 목록" /> | <img src="docs/readme/12-checklist.png" width="240" alt="출발 전 전화로 확인할 곳: 물어볼 것과 전화, 어렵대요를 눌러 다른 곳으로 바꾸기 권유" /> |
+| <img src="docs/readme/mock/09-swap.png" width="270" alt="강릉 오죽헌·시립박물관 대신 갈 곳: 근처 후보 3곳과 사진, 판단, 거리, 이유" /> | <img src="docs/readme/mock/10-final.png" width="270" alt="확정한 일정: 날짜 범위, 카카오 지도에 장소 번호와 일반 차량 경로선, 차량 이동시간·거리, 날짜별 날씨, 시간순 목록" /> | <img src="docs/readme/mock/12-checklist.png" width="270" alt="출발 전 전화로 확인할 곳: 물어볼 것과 전화, 어렵대요를 눌러 다른 곳으로 바꾸기 권유" /> |
 | **⑦ 지도 번호 카드** | **⑧ 순서 고치기** | **⑨ 가기 어려운 곳과 대안** |
-| <img src="docs/readme/15-map-card.png" width="240" alt="지도에서 번호를 누르면 뜨는 작은 카드: 사진, 도착 시각, 판단, 일정에서 보기" /> | <img src="docs/readme/18-reorder.png" width="240" alt="순서 고치기: 장소마다 위로, 아래로, 빼기 버튼과 처음 일정으로" /> | <img src="docs/readme/17-hard.png" width="240" alt="이번 조건으로 가기 어려운 곳: 이유와 대신 갈 만한 곳" /> |
+| <img src="docs/readme/mock/15-map-card.png" width="270" alt="지도에서 번호를 누르면 뜨는 작은 카드: 사진, 도착 시각, 판단, 일정에서 보기" /> | <img src="docs/readme/mock/18-reorder.png" width="270" alt="순서 고치기: 장소마다 위로, 아래로, 빼기 버튼과 처음 일정으로" /> | <img src="docs/readme/mock/17-hard.png" width="270" alt="이번 조건으로 가기 어려운 곳: 이유와 대신 갈 만한 곳" /> |
 
 <details>
 <summary>화면마다 자세한 설명</summary>
@@ -117,8 +117,8 @@
 <th>인쇄·PDF(A4 한 장)</th>
 </tr>
 <tr>
-<td align="center"><img src="docs/readme/19-share.png" width="230" alt="일정 공유 링크 창: 공유 주소, 주소 복사, 사라지는 날짜, 이름·연락처는 저장하지 않아요" /></td>
-<td align="center"><img src="docs/readme/20-shared.png" width="230" alt="공유받은 일정 · 읽기 전용: 카카오 지도에 번호·장소 이름, 시간순 일정" /></td>
+<td align="center"><img src="docs/readme/mock/19-share.png" width="250" alt="일정 공유 링크 창: 공유 주소, 주소 복사, 사라지는 날짜, 이름·연락처는 저장하지 않아요" /></td>
+<td align="center"><img src="docs/readme/mock/20-shared.png" width="250" alt="공유받은 일정 · 읽기 전용: 카카오 지도에 번호·장소 이름, 시간순 일정" /></td>
 <td align="center"><img src="docs/readme/21-print.png" width="330" alt="A4 한 장 일정표: 날짜별 시간표(시각·장소·머무는 시간·판단·전화)와 출발 전 전화로 물어볼 것 체크 칸" /></td>
 </tr>
 </table>
@@ -132,7 +132,7 @@
 
 <table>
 <tr>
-<td width="250" valign="top"><img src="docs/readme/16-places.png" width="240" alt="영동 관광지 둘러보기: 지역 탭, 분야, 찾기, 대표 관광지(사진, 한 줄 소개, 휠체어 기준 접근성 요약, 담기)" /></td>
+<td width="280" valign="top"><img src="docs/readme/mock/16-places.png" width="270" alt="영동 관광지 둘러보기: 지역 탭, 분야, 찾기, 대표 관광지(사진, 한 줄 소개, 휠체어 기준 접근성 요약, 담기)" /></td>
 <td valign="top">
 
 **관광지 둘러보기**(`/places`): 이름을 몰라도 강릉 · 속초 · 동해 → 분야 → 이름·볼 거리로 찾고, 마음에 드는 곳을 담아 일정에 넣습니다. 대표 관광지(기획 조사표 38곳)를 먼저 보여 줍니다.
@@ -147,14 +147,14 @@
 </tr>
 </table>
 
-<img src="docs/readme/14-compare-desktop.png" width="100%" alt="PC 일정 비교: 왼쪽 안 고르기, 가운데 고른 안의 시간순 일정, 오른쪽 카카오 지도와 일반 차량 경로선" />
+<img src="docs/readme/mock/14-compare-desktop.png" width="100%" alt="PC 일정 비교: 왼쪽 안 고르기, 가운데 고른 안의 시간순 일정, 오른쪽 카카오 지도와 일반 차량 경로선" />
 
 <details>
 <summary>PC 시작 화면 · 확정 일정</summary>
 
 | 시작(왼쪽 소개 + 실제 결과 화면 미리보기) | 확정 일정(왼쪽 지도 + 오른쪽 일정) |
 | :---: | :---: |
-| <img src="docs/readme/13-home-desktop.png" width="420" alt="PC 시작 화면" /> | <img src="docs/readme/11-final-desktop.png" width="420" alt="PC 확정 일정: 왼쪽 카카오 지도, 오른쪽 날짜별 날씨와 시간순 일정" /> |
+| <img src="docs/readme/mock/13-home-desktop.png" width="420" alt="PC 시작 화면" /> | <img src="docs/readme/mock/11-final-desktop.png" width="420" alt="PC 확정 일정: 왼쪽 카카오 지도, 오른쪽 날짜별 날씨와 시간순 일정" /> |
 
 </details>
 
