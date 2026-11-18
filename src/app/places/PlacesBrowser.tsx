@@ -40,8 +40,8 @@ const MAX_CHIPS = 4;
 function AccessChip({ item }: { item: Pick<GlanceItem, "label" | "value"> }) {
   const s = STATUS[item.value];
   return (
-    <li className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-sm font-bold ${s.cls}`}>
-      <span aria-hidden="true" className="font-bold">
+    <li className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-sm font-medium ${s.cls}`}>
+      <span aria-hidden="true" className="font-medium">
         {s.sym}
       </span>
       <span className="sr-only">{s.sr}: </span>
@@ -90,7 +90,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
         <p className="mt-1 text-base text-ink-sub text-pretty">어떤 곳인지 보고 가고 싶은 곳을 담아 두세요. 조건에 맞으면 일정에 꼭 넣어요.</p>
         {travelers && (
           <p className="mt-1 text-sm text-ink-sub">
-            <strong className="font-bold text-ink">{travelers}</strong> 기준으로 꼭 필요한 조건을 함께 보여 드려요.
+            <strong className="font-medium text-ink">{travelers}</strong> 기준으로 꼭 필요한 조건을 함께 보여 드려요.
           </p>
         )}
         <Disclosure summary="접근성 표시 보는 법">
@@ -166,7 +166,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
           <p className="min-w-0 flex-1 text-base" role="status">
             {picked.length ? (
               <>
-                <span className="font-bold">담은 곳 {picked.length}곳</span>
+                <span className="font-medium">담은 곳 {picked.length}곳</span>
                 <span className="block truncate text-sm text-ink-sub">{picked.map((p) => p.name).join(" · ")}</span>
               </>
             ) : (
@@ -213,7 +213,7 @@ function PickButton({ picked, onClick, name, full = false }: { picked: boolean; 
       aria-pressed={picked}
       // 보이는 글자('담기'·'담았어요')가 이름 안에 그대로 들어가게 한다(label-in-name)
       aria-label={picked ? `${name} 담았어요, 누르면 담기 취소` : `${name} 꼭 가고 싶은 곳에 담기`}
-      className={`inline-flex min-h-touch items-center justify-center gap-2 rounded-xl border-[1.5px] px-4 text-base font-bold transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${full ? "w-full" : ""} ${
+      className={`inline-flex min-h-touch items-center justify-center gap-2 rounded-xl border-[1.5px] px-4 text-base font-medium transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${full ? "w-full" : ""} ${
         picked ? "border-primary bg-primary text-white hover:bg-primary-ink" : "border-primary bg-white text-primary hover:bg-primary-soft hover:text-primary-ink"
       }`}
     >
@@ -232,11 +232,11 @@ function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; pick
           <PlacePhoto id={p.id} name={p.name} category={p.category} />
           {/* min-w-0를 두지 않는다: 이름 낱말이 사진 옆 칸에 안 들어가면 칸이 사진 아래 줄로 내려가 넓게 쓰고, 그래도 안 들어갈 때만 글자 사이에서 끊긴다 */}
           <div className="grow basis-40 [overflow-wrap:break-word]">
-            <h3 className="text-heading leading-snug font-bold">
+            <h3 className="text-heading leading-snug font-medium">
               {p.featured ? `${p.name} ` : p.name}
-              {p.featured && <span className="text-sm font-bold whitespace-nowrap text-ink-sub">대표</span>}
+              {p.featured && <span className="text-sm font-medium whitespace-nowrap text-ink-sub">대표</span>}
             </h3>
-            <p className="text-sm font-bold text-pine">
+            <p className="text-sm font-medium text-pine">
               {p.region} · {p.category}
             </p>
             <p className="mt-1 text-base [overflow-wrap:anywhere]">{p.summary}</p>
@@ -248,7 +248,7 @@ function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; pick
           ))}
           {g.items.length > MAX_CHIPS && (
             // 나머지 항목은 자세히 보기의 10항목에 모두 있다
-            <li className="text-sm font-bold text-ink-sub">
+            <li className="text-sm font-medium text-ink-sub">
               +{g.items.length - MAX_CHIPS}
               <span className="sr-only">개 더 — 자세히 보기에서</span>
             </li>
@@ -263,7 +263,7 @@ function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; pick
           <button
             type="button"
             onClick={() => onOpen(p)}
-            className="inline-flex min-h-touch flex-1 items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-bold text-ink transition-colors hover:bg-line focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            className="inline-flex min-h-touch flex-1 items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-medium text-ink transition-colors hover:bg-line focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             자세히 보기
           </button>
@@ -284,7 +284,7 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
     <>
       <SheetHeader className="px-0 pt-6 pb-0">
         <SheetTitle>{p.name}</SheetTitle>
-        <SheetDescription className="text-sm font-bold text-pine">
+        <SheetDescription className="text-sm font-medium text-pine">
           {p.region} · {p.category}
           {p.featured ? " · 대표 관광지" : ""}
         </SheetDescription>
@@ -292,7 +292,7 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
       <div className="mt-3 flex gap-3">
         <PlacePhoto id={p.id} name={p.name} category={p.category} size="lg" />
         <div className="min-w-0 flex-1">
-          <p className="text-base font-bold">{p.summary}</p>
+          <p className="text-base font-medium">{p.summary}</p>
           {p.summaryBy === "ai" && <p className="mt-1 text-sm text-ink-sub">AI가 관광공사 소개를 정리했어요</p>}
         </div>
       </div>
@@ -307,19 +307,19 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
         </ul>
       )}
 
-      <h3 className="mt-6 text-base font-bold">관광공사 소개</h3>
+      <h3 className="mt-6 text-base font-medium">관광공사 소개</h3>
       <div className="mt-1.5 flex flex-col gap-2 text-base leading-relaxed text-ink-sub">
         {p.overview.map((t, i) => (
           <p key={i}>{t}</p>
         ))}
       </div>
 
-      <h3 className="mt-6 text-base font-bold">운영시간 · 연락처</h3>
+      <h3 className="mt-6 text-base font-medium">운영시간 · 연락처</h3>
       <p className="mt-1.5 text-base">{p.hours}</p>
       {p.address && <p className="text-base text-ink-sub">{p.address}</p>}
       <a
         href={`tel:${p.phone}`}
-        className="mt-2 inline-flex min-h-touch items-center gap-2 rounded-xl border-[1.5px] border-primary px-4 text-base font-bold text-primary hover:bg-primary-soft hover:text-primary-ink focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        className="mt-2 inline-flex min-h-touch items-center gap-2 rounded-xl border-[1.5px] border-primary px-4 text-base font-medium text-primary hover:bg-primary-soft hover:text-primary-ink focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         <Phone size={18} aria-hidden="true" />
         <span>
@@ -327,7 +327,7 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
         </span>
       </a>
 
-      <h3 className="mt-6 text-base font-bold">접근성</h3>
+      <h3 className="mt-6 text-base font-medium">접근성</h3>
       <p className="text-sm text-ink-sub">
         {hasPublic ? "관광공사 무장애 정보를 AI가 정리한 값이고, '공공데이터' 표시는 행정안전부 공중화장실 정보예요." : "관광공사 무장애 정보를 AI가 정리한 값이에요."}{" "}
         {must.size ? "굵은 항목은 고른 분께 꼭 필요한 조건이에요." : ""}
@@ -338,16 +338,16 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
           const s = STATUS[a.value];
           return (
             <li key={k} className="flex items-start gap-3 px-4 py-3 text-base">
-              <span className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-sm font-bold ${s.cls}`} aria-hidden="true">
+              <span className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-sm font-medium ${s.cls}`} aria-hidden="true">
                 {s.sym}
               </span>
               <span className="min-w-0 flex-1">
                 {a.label ? (
                   // 공공데이터 기저귀 교환대: 수유실이 있다는 말로 읽히지 않게 교환대 문장으로 쓴다(✓ 기호 + 글자)
-                  <span className={must.has(k) ? "font-bold" : ""}>{a.label}</span>
+                  <span className={must.has(k) ? "font-medium" : ""}>{a.label}</span>
                 ) : (
                   <>
-                    <span className={must.has(k) ? "font-bold" : ""}>{CONDITION_LABELS[k]}</span>
+                    <span className={must.has(k) ? "font-medium" : ""}>{CONDITION_LABELS[k]}</span>
                     <span className="text-ink-sub"> · {a.value === "모름" ? "공식 정보 없음" : a.value}</span>
                   </>
                 )}
@@ -356,7 +356,7 @@ function PlaceDetail({ p, picked, plan, onToggle }: { p: BrowsePlace; picked: bo
                   <span className="block text-sm text-ink-sub">
                     {a.note}
                     {a.note && a.source ? " · " : ""}
-                    {a.source && <span className="font-bold text-ink">{a.source}</span>}
+                    {a.source && <span className="font-medium text-ink">{a.source}</span>}
                   </span>
                 )}
               </span>

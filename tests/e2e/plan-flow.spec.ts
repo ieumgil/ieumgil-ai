@@ -147,11 +147,11 @@ test("1단계를 건너뛰고 2단계로 바로 들어오면 앞 단계를 먼�
 
 // ---- 03-07: 입력 공통 틀·1·2단계 정리 ----------------------------------------------------
 test.describe("입력 틀·1·2단계 정리", () => {
-  test("h1은 고운바탕 28px이고 개인정보 줄은 보인다 @p0307", async ({ page }) => {
+  test("h1은 제목 글꼴(Noto Sans KR) 28px이고 개인정보 줄은 보인다 @p0307", async ({ page }) => {
     await page.goto("/plan/who");
     const h1 = page.getByRole("heading", { level: 1 });
     const css = await h1.evaluate((el) => ({ family: getComputedStyle(el).fontFamily, size: getComputedStyle(el).fontSize }));
-    expect(css.family.replace(/["']/g, "").startsWith("Gowun Batang")).toBe(true);
+    expect(css.family.replace(/["']/g, "").startsWith("Noto Sans KR")).toBe(true);
     expect(css.size).toBe("28px");
     await expect(page.getByText("이름·연락처는 받지 않아요")).toBeVisible();
   });

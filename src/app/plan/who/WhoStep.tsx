@@ -69,7 +69,7 @@ export function WhoStep() {
             >
               <span className="shrink-0 text-primary">{t.icon}</span>
               <span className="flex min-w-0 grow basis-[10rem] flex-col gap-1">
-                <span className="text-base font-bold text-ink">{t.title}</span>
+                <span className="text-base font-medium text-ink">{t.title}</span>
                 <span className="text-base text-ink-sub">{t.body}</span>
               </span>
               <span className="ml-auto">

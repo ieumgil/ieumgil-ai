@@ -23,7 +23,7 @@ export function PlanSummary({ current }: { current: 1 | 2 | 3 | 4 }) {
           const here = i + 1 === current;
           return (
             <li key={s.href} className={`rounded-2xl px-3 py-2 ${here ? "bg-white ring-2 ring-primary" : ""}`} aria-current={here ? "step" : undefined}>
-              <Link href={s.href} className="flex min-h-touch items-center gap-2 text-base font-bold underline-offset-4 hover:underline">
+              <Link href={s.href} className="flex min-h-touch items-center gap-2 text-base font-medium underline-offset-4 hover:underline">
                 <span
                   className={`flex size-6 shrink-0 items-center justify-center rounded-full text-sm ${done[i] ? "bg-primary text-white" : here ? "bg-primary-soft text-primary-ink" : "bg-white text-ink-sub"}`}
                   aria-hidden="true"

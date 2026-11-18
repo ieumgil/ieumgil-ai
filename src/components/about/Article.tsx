@@ -1,6 +1,6 @@
 // 소개 글 두 편(/about 서비스 소개, /about/how 만든 방법)이 같이 쓰는 틀.
 // 읽는 화면이라 글 폭을 40rem으로 묶고(한 줄 약 38자), 면 규칙 S0(카드·그림자 없이 간격과 구분선)만 쓴다.
-// 제목 글꼴(고운바탕)은 h1·h2에만, 본문은 16px, 구역 사이 32px(PC 48px).
+// 제목은 h1·h2만 700, 본문은 16px, 구역 사이 32px(PC 48px).
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
@@ -31,7 +31,7 @@ export function Article({ title, lead, hero, children, next }: { title: string; 
           </ButtonLink>
         </div>
         <Link href={next.href} className="flex min-h-touch flex-col justify-center gap-1 rounded-2xl border border-line px-4 py-3 hover:bg-surface">
-          <span className="text-base font-bold text-primary">{next.label} →</span>
+          <span className="text-base font-medium text-primary">{next.label} →</span>
           <span className="text-sm text-ink-sub text-pretty">{next.body}</span>
         </Link>
       </footer>
@@ -59,7 +59,7 @@ export function Points({ items }: { items: { head: string; body: ReactNode }[] }
     <ul className="flex flex-col border-t border-line">
       {items.map((it) => (
         <li key={it.head} className="flex flex-col gap-1 border-b border-line py-3">
-          <span className="text-base font-bold">{it.head}</span>
+          <span className="text-base font-medium">{it.head}</span>
           <span className="text-base text-ink-sub text-pretty">{it.body}</span>
         </li>
       ))}
@@ -73,11 +73,11 @@ export function Steps({ items }: { items: { head: string; body: ReactNode }[] })
     <ol className="flex flex-col gap-4">
       {items.map((it, i) => (
         <li key={it.head} className="flex gap-3">
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-soft text-base font-bold text-primary-ink">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-soft text-base font-medium text-primary-ink">
             {i + 1}
           </span>
           <div className="flex min-w-0 flex-col gap-1 pt-1">
-            <span className="text-base font-bold">{it.head}</span>
+            <span className="text-base font-medium">{it.head}</span>
             <span className="text-base text-ink-sub text-pretty">{it.body}</span>
           </div>
         </li>

@@ -12,7 +12,7 @@ export function Logo({ size = "lg" }: { size?: "lg" | "md" }) {
   return (
     <span className="flex items-center gap-2">
       <LogoMark size={lg ? 30 : 24} />
-      <span className={`font-bold text-primary ${lg ? "text-heading" : "text-base"}`}>이음길</span>
+      <span className={`font-medium text-primary ${lg ? "text-heading" : "text-base"}`}>이음길</span>
     </span>
   );
 }

@@ -357,14 +357,14 @@ test.describe("장소 카드", () => {
     expect(s).toEqual({ shadow: "none", top: "1px" });
   });
 
-  test("이름은 20px 700 sans이다 @p0304", async ({ page }) => {
+  test("이름은 20px 500 Noto Sans KR이다(700은 h1·h2 제목만) @p0304", async ({ page }) => {
     const s = await page.locator("article:visible h3").first().evaluate((el) => {
       const c = getComputedStyle(el);
       return { size: c.fontSize, weight: c.fontWeight, family: c.fontFamily };
     });
     expect(s.size).toBe("20px");
-    expect(s.weight).toBe("700");
-    expect(s.family.startsWith("Gowun")).toBe(false);
+    expect(s.weight).toBe("500");
+    expect(s.family.replace(/["']/g, "").startsWith("Noto Sans KR")).toBe(true);
   });
 
   test("펼치면 지역·분류가 솔숲 초록 meta로 맨 위에 온다 @p0304 @p0304-open", async ({ page }) => {
@@ -410,16 +410,16 @@ test.describe("장소 카드", () => {
   });
 });
 
-// ---- 고른 안 상세(03-05): 고운바탕 h2 · 밑줄형 날짜 탭 · 상자 없는 공통 질문·순서 목록 · 깃발만 아이콘인 타임라인 ----
+// ---- 고른 안 상세(03-05): 제목 글꼴 h2 · 밑줄형 날짜 탭 · 상자 없는 공통 질문·순서 목록 · 깃발만 아이콘인 타임라인 ----
 test.describe("고른 안 상세", () => {
-  test("안 제목 h2는 고운바탕 20px이다 @p0305", async ({ page }) => {
+  test("안 제목 h2는 제목 글꼴(Noto Sans KR) 20px이다 @p0305", async ({ page }) => {
     const h2 = page.getByRole("heading", { level: 2, name: view.options[0].title, exact: true });
     await expect(h2).toBeVisible();
     const s = await h2.evaluate((el) => {
       const c = getComputedStyle(el);
       return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
     });
-    expect(s.family.startsWith("Gowun")).toBe(true);
+    expect(s.family.startsWith("Noto Sans KR")).toBe(true);
     expect(s.size).toBe("20px");
   });
 

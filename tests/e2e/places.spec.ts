@@ -213,12 +213,12 @@ test.describe("둘러보기 첫 화면", () => {
     await expect(bar).toHaveCSS("backdrop-filter", "none");
   });
 
-  test("자세히 창 제목은 고운바탕 @p0309 @p0309-detail", async ({ page }) => {
+  test("자세히 창 제목은 제목 글꼴(Noto Sans KR) @p0309 @p0309-detail", async ({ page }) => {
     await gotoPlaces(page);
     await page.locator("article").first().getByRole("button", { name: "자세히 보기" }).click();
     const title = page.getByRole("dialog").getByRole("heading", { level: 2 });
     const family = await title.evaluate((el) => getComputedStyle(el).fontFamily);
-    expect(family.replace(/["']/g, "").startsWith("Gowun Batang")).toBe(true);
+    expect(family.replace(/["']/g, "").startsWith("Noto Sans KR")).toBe(true);
     await expect(title).toHaveCSS("font-size", "20px");
   });
 

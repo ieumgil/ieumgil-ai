@@ -19,7 +19,7 @@ export function HardPlaces({ trip }: { trip: TripView }) {
         className="mt-8 border-y border-line"
         summary={
           <>
-            <span className="font-bold text-blocked-ink" aria-hidden="true">
+            <span className="font-medium text-blocked-ink" aria-hidden="true">
               ✕
             </span>{" "}
             이번 조건으로 가기 어려운 곳 {list.length}곳
@@ -40,8 +40,8 @@ export function HardPlaces({ trip }: { trip: TripView }) {
                 <div className="flex flex-wrap gap-3">
                   <PlacePhoto id={h.placeId} name={p.name} category={p.category} size="sm" />
                   <div className="grow basis-[10rem] [overflow-wrap:break-word]">
-                    <h3 className="text-heading font-bold">{p.name}</h3>
-                    <p className="text-sm font-bold text-pine">
+                    <h3 className="text-heading font-medium">{p.name}</h3>
+                    <p className="text-sm font-medium text-pine">
                       {p.region} · {p.category}
                     </p>
                     {h.mustVisit && <p className="text-sm text-ink-sub">꼭 가고 싶은 곳</p>}
@@ -57,7 +57,7 @@ export function HardPlaces({ trip }: { trip: TripView }) {
                 </ul>
                 {alt && altJ && (
                   <div className="mt-3 text-base leading-relaxed">
-                    <p className="font-bold">
+                    <p className="font-medium">
                       대신 갈 만한 곳: {alt.name}
                       {km !== undefined && <span className="font-normal"> · 약 {km < 1 ? "1km 안" : `${Math.round(km)}km`}</span>}
                     </p>

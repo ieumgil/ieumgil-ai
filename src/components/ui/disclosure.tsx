@@ -27,7 +27,7 @@ export function Disclosure({
     <details id={id} data-slot="disclosure" open={defaultOpen || undefined} className={cn("group/disclosure", className)}>
       <summary
         className={cn(
-          "flex min-h-touch cursor-pointer list-none items-center justify-between gap-2 text-base font-bold text-ink outline-hidden select-none [&::-webkit-details-marker]:hidden focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-primary",
+          "flex min-h-touch cursor-pointer list-none items-center justify-between gap-2 text-base font-medium text-ink outline-hidden select-none [&::-webkit-details-marker]:hidden focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-primary",
           summaryClassName,
         )}
       >

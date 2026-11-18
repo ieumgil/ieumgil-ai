@@ -44,7 +44,7 @@ export function Summary({ trip, bandUsed = false }: { trip: TripView; bandUsed?:
 function Notice({ children, band }: { children: ReactNode; band: boolean }) {
   return (
     <p className={`flex items-start gap-2 text-base text-caution-ink ${band ? "mt-4 rounded-2xl bg-caution-bg px-4 py-3" : "mt-3"}`}>
-      <span className="font-bold" aria-hidden="true">
+      <span className="font-medium" aria-hidden="true">
         !
       </span>
       <span>
@@ -59,7 +59,7 @@ function Notice({ children, band }: { children: ReactNode; band: boolean }) {
 function InfoLine({ children, band }: { children: ReactNode; band: boolean }) {
   return (
     <p className={`flex items-start gap-2 text-base ${band ? "mt-4 rounded-2xl bg-primary-soft px-4 py-3 text-primary-ink" : "mt-3 text-ink-sub"}`}>
-      <span className="font-bold" aria-hidden="true">
+      <span className="font-medium" aria-hidden="true">
         !
       </span>
       <span>{children}</span>

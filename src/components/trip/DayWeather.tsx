@@ -31,7 +31,7 @@ export function DayWeather({ view }: { view: DayWeatherView | null }) {
           >
             {Icon && <Icon size={32} strokeWidth={1.75} aria-hidden="true" className="shrink-0" />}
             <div className="min-w-0 flex-1">
-              <p className="flex flex-wrap items-baseline gap-x-3 font-bold">
+              <p className="flex flex-wrap items-baseline gap-x-3 font-medium">
                 <span>날씨 · {line.region}</span>
                 {line.temp && <span className="text-heading tabular-nums">{line.temp}</span>}
               </p>
@@ -39,7 +39,7 @@ export function DayWeather({ view }: { view: DayWeatherView | null }) {
                 <p className="flex flex-wrap items-baseline gap-x-3">
                   {line.detail && <span>{line.detail}</span>}
                   {line.rain && (
-                    <span className="font-bold">
+                    <span className="font-medium">
                       <span aria-hidden="true">!</span> {line.rain}
                     </span>
                   )}

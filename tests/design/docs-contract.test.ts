@@ -44,18 +44,18 @@ describe("CLAUDE.md 디자인 토큰 절", () => {
     expect(design).toMatch(/상태 칩/);
   });
 
-  it("제목 글꼴 --font-display 고운바탕 700, h1·h2만, @fontsource 자체 호스팅이 적혀 있다", () => {
+  it("글꼴 Noto Sans KR 한 벌, 제목 --font-display 700은 h1·h2만, @fontsource 자체 호스팅이 적혀 있다", () => {
     expect(design).toContain("--font-display");
-    expect(design).toContain("고운바탕");
+    expect(design).toContain("Noto Sans KR");
     expect(design).toContain("700");
     expect(design).toContain("h1·h2");
     expect(design).toContain("@fontsource");
     expect(design).toContain("외부 CDN 없음");
   });
 
-  it("글자 크기 28/20/16/14와 굵기 400/700, 반지름 12/16/24가 적혀 있다", () => {
+  it("글자 크기 28/20/16/14와 굵기 400/500/700, 반지름 12/16/24가 적혀 있다", () => {
     expect(design).toMatch(/28\/20\/16\/14/);
-    expect(design).toMatch(/400\/700/);
+    expect(design).toMatch(/400\/500\/700/);
     expect(design).toMatch(/12·16·24|12\/16\/24/);
   });
 
@@ -78,10 +78,9 @@ describe("README 기술 스택", () => {
   const rows = read("README.md").split("\n");
   const stack = rows.find((l) => l.includes("Tailwind CSS v4"));
 
-  it("Pretendard와 고운바탕(SIL OFL 1.1)이 같은 줄에 있다", () => {
+  it("Noto Sans KR(SIL OFL 1.1)이 같은 줄에 있다", () => {
     expect(stack).toBeTruthy();
-    expect(stack).toContain("Pretendard");
-    expect(stack).toContain("고운바탕");
+    expect(stack).toContain("Noto Sans KR");
     expect(stack).toContain("OFL");
   });
 });
@@ -91,7 +90,7 @@ describe("docs/design·구현 기록", () => {
     const line = read("docs/design/README.md").split("\n").find((l) => l.includes("시안 v2와 달라진 점"));
     expect(line).toBeTruthy();
     expect(line).toContain("보조색");
-    expect(line).toContain("고운바탕");
+    expect(line).toContain("제목 글꼴");
   });
 
   it("docs/impl-plan.md에 11/15 디자인 다듬기 절이 있다", () => {

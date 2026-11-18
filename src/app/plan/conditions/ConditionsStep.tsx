@@ -52,7 +52,7 @@ export function ConditionsStep() {
         <Link
           href="/plan/who"
           aria-label="여행 유형 바꾸기"
-          className="inline-flex min-h-touch items-center text-base font-bold text-primary underline-offset-4 hover:underline"
+          className="inline-flex min-h-touch items-center text-base font-medium text-primary underline-offset-4 hover:underline"
         >
           바꾸기
         </Link>

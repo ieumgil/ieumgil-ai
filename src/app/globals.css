@@ -29,14 +29,17 @@
   --color-blocked-bg: #fbeae7; /* 불가 바탕 */
   --color-blocked-ink: #8a2a1c; /* 불가 글자 */
 
-  /* 제목 글꼴(h1·h2 큰 제목 전용, D-08). 버튼·칩·장소 이름·본문·숫자·인쇄 일정표에는 쓰지 않는다 */
-  --font-display: "Gowun Batang", var(--font-sans);
+  /* 제목 글꼴(h1·h2 큰 제목, font-heading). 11/18부터 본문과 같은 Noto Sans KR 한 벌 — 위계는 크기와 굵기(700)로만 준다.
+     제목에만 다른 글꼴을 쓰려면 이 한 줄만 바꾼다 */
+  --font-display: var(--font-sans);
 
   /* 글자 크기 단계(rem이라 글자 크기 설정과 확대를 그대로 따름): 화면 제목 28 · 구역 제목 20 · 본문 16(text-base) · 보조 14(text-sm) */
   --text-title: 1.75rem;
   --text-title--line-height: 1.3;
   --text-heading: 1.25rem;
   --text-heading--line-height: 1.35;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6; /* 본문 줄 간격(11/18 N2): 한글 본문은 1.6이 덜 빽빽하다 */
 
   /* 터치 영역 최소 44px: min-h-touch / min-w-touch / size-touch */
   --spacing-touch: 2.75rem;
@@ -247,7 +250,7 @@
 
 /* shadcn/ui가 쓰는 이름 → 위 토큰. --color-primary는 우리 토큰이 이미 그 이름이라 여기서 다시 잇지 않는다. */
 @theme inline {
-  --font-sans: var(--font-pretendard), "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-sans: "Noto Sans KR Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-heading: var(--font-display); /* shadcn 대화창·시트 제목도 제목 글꼴을 따라온다 */
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -315,12 +318,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    letter-spacing: -0.02em;
+    letter-spacing: 0; /* 한글 자간은 0이 기본(W3C 한국어 조판 요구사항). 좁히면 어르신에게 글자가 붙어 보인다 */
     word-break: keep-all;
-  }
-  /* 명조 계열 제목은 본문 자간(-0.02em)이 붙으면 글자가 달라붙어 보여 조금 풀어 준다 */
-  .font-heading {
-    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums; /* 시각·전화번호·거리의 숫자 폭을 맞춰 줄이 반듯하게 선다 */
   }
 }
 

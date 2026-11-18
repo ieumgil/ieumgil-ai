@@ -47,7 +47,7 @@ export default function Home() {
                 <br />
                 함께 가는 <span className="text-pine">영동 여행</span>
               </h1>
-              <p className="mt-2 text-base text-ink-sub text-pretty lg:max-w-[34rem]">
+              <p className="mt-2 text-base leading-normal text-ink-sub text-pretty lg:max-w-[34rem]">
                 강릉·속초·동해 관광지 가운데 우리 조건에 맞는 곳만 골라, 당일부터 2박 3일까지 여행 루트를 짜 드려요.
               </p>
             </header>
@@ -61,7 +61,7 @@ export default function Home() {
                   예시 루트 바로 보기
                 </ButtonLink>
               </div>
-              <Link href="/places" className="mx-auto inline-flex min-h-touch items-center gap-1 px-2 text-base font-bold text-primary underline-offset-4 hover:underline lg:mx-0 lg:px-0">
+              <Link href="/places" className="mx-auto inline-flex min-h-touch items-center gap-1 px-2 text-base font-medium text-primary underline-offset-4 hover:underline lg:mx-0 lg:px-0">
                 어떤 관광지가 있는지 먼저 보기
                 <ChevronRight size={18} aria-hidden="true" />
               </Link>
@@ -74,7 +74,7 @@ export default function Home() {
           <ul aria-label="이음길 특징" className="mt-8 border-t border-line lg:col-start-1 lg:row-start-5">
             {FEATURES.map((f) => (
               <li key={f.title} className="flex flex-col gap-1 border-b border-line py-4 last:border-b-0">
-                <span className="text-base font-bold">{f.title}</span>
+                <span className="text-base font-medium">{f.title}</span>
                 <span className="text-base text-ink-sub text-pretty">{f.body}</span>
               </li>
             ))}

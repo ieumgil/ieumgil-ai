@@ -45,7 +45,7 @@ export function Checklist({ o, trip, readOnly = false }: { o: OptionView; trip: 
         <p className="mt-4 flex items-start gap-3 rounded-2xl bg-primary-soft p-4 text-base text-primary-ink">
           <CircleCheck size={22} className="mt-0.5 shrink-0" aria-hidden="true" />
           <span>
-            <span className="font-bold">출발 준비 끝!</span> 전화로 확인할 곳을 모두 확인했어요. 현장 사정은 바뀔 수 있으니 출발 당일에도 안내를 한 번 더 살펴봐 주세요.
+            <span className="font-medium">출발 준비 끝!</span> 전화로 확인할 곳을 모두 확인했어요. 현장 사정은 바뀔 수 있으니 출발 당일에도 안내를 한 번 더 살펴봐 주세요.
           </span>
         </p>
       )}
@@ -57,7 +57,7 @@ export function Checklist({ o, trip, readOnly = false }: { o: OptionView; trip: 
         return (
           <div key={d.date} className="mt-6">
             {o.days.length > 1 && (
-              <h3 className="text-base font-bold text-pine">
+              <h3 className="text-base font-medium text-pine">
                 {di + 1}일째 · {formatDay(d.date)}
               </h3>
             )}
@@ -85,7 +85,7 @@ function CallItem({ trip, id, no, questions, result, readOnly }: { trip: TripVie
       aria-pressed={result === r}
       aria-label={`${p.name} ${label}`}
       onClick={() => choose(r)}
-      className={`inline-flex min-h-touch flex-1 items-center justify-center gap-2 px-3 py-2 text-base font-bold ${divider ? "border-l-[1.5px] border-line-control" : ""} ${result === r ? on : "bg-white text-ink hover:bg-surface"}`}
+      className={`inline-flex min-h-touch flex-1 items-center justify-center gap-2 px-3 py-2 text-base font-medium ${divider ? "border-l-[1.5px] border-line-control" : ""} ${result === r ? on : "bg-white text-ink hover:bg-surface"}`}
     >
       {icon}
       {label}
@@ -93,7 +93,7 @@ function CallItem({ trip, id, no, questions, result, readOnly }: { trip: TripVie
   );
   return (
     <li className="break-inside-avoid border-b border-line py-4">
-      <p className="flex flex-wrap items-center gap-2 text-base font-bold">
+      <p className="flex flex-wrap items-center gap-2 text-base font-medium">
         <span className="flex min-h-7 min-w-7 shrink-0 aspect-square items-center justify-center rounded-full bg-primary text-sm leading-none text-white" aria-hidden="true">
           {no}
         </span>
@@ -108,7 +108,7 @@ function CallItem({ trip, id, no, questions, result, readOnly }: { trip: TripVie
       <a
         href={`tel:${p.phone.replace(/[^\d]/g, "")}`}
         aria-label={`공식 전화 ${p.phone} 걸기`}
-        className="inline-flex min-h-touch items-center gap-2 text-base font-bold text-primary tabular-nums hover:underline print:hidden"
+        className="inline-flex min-h-touch items-center gap-2 text-base font-medium text-primary tabular-nums hover:underline print:hidden"
       >
         <Phone size={18} aria-hidden="true" />
         <span>

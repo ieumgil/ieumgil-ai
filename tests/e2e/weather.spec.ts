@@ -82,7 +82,7 @@ for (const [name, handler] of failures) {
   });
 }
 
-test("날씨 칸: 큰 아이콘(32px, 읽지 않음) · 첫 줄 16px 700 · 기온 20px 700 · 둘째 줄 16px, 가로 스크롤 없음 @p0314", async ({ page }) => {
+test("날씨 칸: 큰 아이콘(32px, 읽지 않음) · 첫 줄 16px 500 · 기온 20px 500 · 둘째 줄 16px, 가로 스크롤 없음 @p0314", async ({ page }) => {
   await setup(page, (r) => r.fulfill({ json: weather }));
   await page.goto("/trip/new/final");
   await expectRow(page);
@@ -97,8 +97,8 @@ test("날씨 칸: 큰 아이콘(32px, 읽지 않음) · 첫 줄 16px 700 · 기�
       const c = getComputedStyle(el);
       return { size: parseFloat(c.fontSize), weight: Number(c.fontWeight) };
     });
-  expect(await style(row.getByText("날씨 · 강릉"))).toEqual({ size: 16, weight: 700 });
-  expect(await style(row.getByText("8~14℃"))).toEqual({ size: 20, weight: 700 });
+  expect(await style(row.getByText("날씨 · 강릉"))).toEqual({ size: 16, weight: 500 });
+  expect(await style(row.getByText("8~14℃"))).toEqual({ size: 20, weight: 500 });
   expect((await style(row.getByText("흐림 · 비 70%"))).size).toBe(16);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 });

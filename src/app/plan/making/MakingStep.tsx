@@ -160,7 +160,7 @@ export function MakingStep() {
                 <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line lg:h-3" role="progressbar" aria-label="전체 진행" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
                   <div className="h-full rounded-full bg-primary transition-[width] duration-[var(--motion-medium)] ease-[var(--ease-state)]" style={{ width: `${pct}%` }} />
                 </div>
-                <span className="w-12 text-right text-base font-bold tabular-nums text-primary-ink">{pct}%</span>
+                <span className="w-12 text-right text-base font-medium tabular-nums text-primary-ink">{pct}%</span>
               </div>
               <p className="mt-1.5 text-sm text-ink-sub lg:mt-2">보통 10~40초 걸려요 · {elapsed}초 지남</p>
               {elapsed >= SLOW_SEC && stage !== "done" && !error && (
@@ -173,7 +173,7 @@ export function MakingStep() {
                     href="/trip/example"
                     target="_blank"
                     rel="noopener"
-                    className="mt-1 inline-flex min-h-touch items-center gap-1 font-bold underline underline-offset-4"
+                    className="mt-1 inline-flex min-h-touch items-center gap-1 font-medium underline underline-offset-4"
                   >
                     기다리는 동안 예시 일정 보기(새 탭)
                   </a>
@@ -197,7 +197,7 @@ export function MakingStep() {
                       {state === "done" ? <Check size={20} strokeWidth={3} /> : state === "now" ? <Loader2 size={20} className="animate-spin" /> : s.icon}
                     </span>
                     <span className="flex min-w-0 flex-col lg:items-center">
-                      <span className={`text-base font-bold ${state === "todo" ? "text-ink-sub" : "text-ink"}`}>
+                      <span className={`text-base font-medium ${state === "todo" ? "text-ink-sub" : "text-ink"}`}>
                         {s.label}
                         <span className="sr-only">{state === "done" ? " (끝남)" : state === "now" ? " (하는 중)" : " (대기)"}</span>
                       </span>
@@ -230,7 +230,7 @@ export function MakingStep() {
                 <ol className="mt-2 flex flex-col gap-1.5">
                   {earlier.slice(-5).map((l) => (
                     <li key={l.id} className="flex items-start gap-2 text-base leading-snug">
-                      <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-sm font-bold ${l.tone === "ok" ? "bg-primary-soft text-primary-ink" : l.tone === "fix" ? "bg-caution-bg text-caution-ink" : "bg-surface text-ink-sub"}`} aria-hidden="true">
+                      <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-sm font-medium ${l.tone === "ok" ? "bg-primary-soft text-primary-ink" : l.tone === "fix" ? "bg-caution-bg text-caution-ink" : "bg-surface text-ink-sub"}`} aria-hidden="true">
                         {l.tone === "ok" ? "✓" : l.tone === "fix" ? "!" : "·"}
                       </span>
                       <span className={l.tone === "fix" ? "text-caution-ink" : "text-ink"}>{l.text}</span>

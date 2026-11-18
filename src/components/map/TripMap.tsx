@@ -339,7 +339,7 @@ export function TripMap({
   if (failed) {
     return (
       <div className={`flex flex-col items-center justify-center gap-1 rounded-2xl bg-surface p-6 text-center text-ink-sub ${className}`} role="note">
-        <p className="text-base font-bold">지도를 불러오지 못했어요</p>
+        <p className="text-base font-medium">지도를 불러오지 못했어요</p>
         <p className="text-sm">일정과 순서는 아래 목록에서 그대로 볼 수 있어요.</p>
       </div>
     );
@@ -349,7 +349,7 @@ export function TripMap({
       <div ref={box} className="min-h-0 flex-1" role="group" aria-label={label} />
       <figcaption className="flex items-center gap-3 border-t border-line px-4 py-3">
         <div className="min-w-0 flex-1">
-          <p className="text-heading leading-snug font-bold text-ink">{caption.head}</p>
+          <p className="text-heading leading-snug font-medium text-ink">{caption.head}</p>
           <p className="mt-0.5 text-base text-ink-sub">{caption.sub}</p>
         </div>
         {action}

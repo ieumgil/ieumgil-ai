@@ -204,7 +204,7 @@ test.describe("확정 화면 정리", () => {
       const c = getComputedStyle(el);
       return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
     });
-    expect(s.family.startsWith("Gowun Batang")).toBe(true);
+    expect(s.family.startsWith("Noto Sans KR")).toBe(true);
     expect(s.size).toBe("28px");
     // 머리 meta는 h1 아래에 있다(위 꼬리표 줄 없음)
     const order = await page.evaluate(() => {
@@ -215,7 +215,7 @@ test.describe("확정 화면 정리", () => {
     expect(order).toBe(true);
   });
 
-  test("h1 아래 첫 줄은 날짜(20px 700, 화살표), 다음 줄은 16px 기간·곳 수·확정 표시다 @p0314", async ({ page }) => {
+  test("h1 아래 첫 줄은 날짜(20px 500, 화살표), 다음 줄은 16px 기간·곳 수·확정 표시다 @p0314", async ({ page }) => {
     await setup(page, view.options[0].id);
     await page.goto("/trip/new/final");
     const tag = page.getByText("확정한 일정", { exact: true });
@@ -224,7 +224,7 @@ test.describe("확정 화면 정리", () => {
     await expect(dates).toBeVisible();
     await expect(dates).toHaveText(/^\d+월 \d+일\([월화수목금토일]\) → (\d+월 )?\d+일\([월화수목금토일]\)$/);
     const ds = await dates.evaluate((el) => ({ size: getComputedStyle(el).fontSize, weight: getComputedStyle(el).fontWeight }));
-    expect(ds).toEqual({ size: "20px", weight: "700" });
+    expect(ds).toEqual({ size: "20px", weight: "500" });
     const ms = await meta.evaluate((el) => getComputedStyle(el).fontSize);
     expect(ms).toBe("16px");
     await expect(meta).toContainText("1박 2일 · 6곳");
@@ -347,14 +347,14 @@ test.describe("체크리스트", () => {
     expect(t.h).toBeGreaterThanOrEqual(44);
   });
 
-  test("제목은 고운바탕 20px이다 @p0306-check", async ({ page }) => {
+  test("제목은 제목 글꼴(Noto Sans KR) 20px이다 @p0306-check", async ({ page }) => {
     await setup(page, view.options[1].id);
     await page.goto("/trip/new/final");
     const s = await page.locator("#checklist-title").evaluate((el) => {
       const c = getComputedStyle(el);
       return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
     });
-    expect(s.family.startsWith("Gowun Batang")).toBe(true);
+    expect(s.family.startsWith("Noto Sans KR")).toBe(true);
     expect(s.size).toBe("20px");
   });
 });

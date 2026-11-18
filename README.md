@@ -478,7 +478,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 | Supabase(Postgres) | 공유 링크 저장 | 고른 일정만 저장, 서버가 스키마로 검사. RLS로 브라우저 키 차단, 기간이 지나면 자동 삭제 |
 | Vercel | 배포(서버 함수에서 AI·카카오·기상청 호출, 진행 단계 스트리밍) | 키는 환경변수에만 |
 | Next.js 16 · React 19 · TypeScript | 화면과 서버 API | TypeScript strict. AI·데이터 규칙은 `src/lib/`에 코드로 |
-| Tailwind CSS v4 · shadcn/ui · Pretendard · 고운바탕(제목, SIL OFL 1.1, 자체 호스팅) | 모바일 우선 화면 | 디자인 값은 `globals.css` 한 곳에. 본문 16px · 터치 44px 이상 · 상태는 색 + 기호 + 글자 · rem 단위 |
+| Tailwind CSS v4 · shadcn/ui · Noto Sans KR(본문·제목 한 벌, SIL OFL 1.1, 자체 호스팅) | 모바일 우선 화면 | 디자인 값은 `globals.css` 한 곳에. 본문 16px · 터치 44px 이상 · 상태는 색 + 기호 + 글자 · rem 단위 |
 | Vitest · Playwright · axe-core · GitHub Actions | 단위 · 화면 흐름 · 웹 접근성 테스트, 푸시마다 자동 검사 | 필수 조건 위반 0건, 근거 없는 판단을 버리는지, 접근성 위반 0건을 테스트로 고정 |
 
 </details>

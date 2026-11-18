@@ -63,7 +63,7 @@ export function OptionDetail({
           className="mt-6 border-y border-line"
           summary={
             <>
-              <span className="font-bold text-caution-ink" aria-hidden="true">
+              <span className="font-medium text-caution-ink" aria-hidden="true">
                 !
               </span>{" "}
               <span className="sr-only">주의: </span>여러 곳에 공통으로 물어볼 것 {common.size}가지
@@ -140,7 +140,7 @@ function DayPanel({
             type="button"
             onClick={() => setEditing(true)}
             aria-label={`${index + 1}일째 순서 고치기`}
-            className="ml-auto inline-flex min-h-touch items-center gap-2 rounded-xl px-3 text-base font-bold text-ink transition-colors hover:bg-surface"
+            className="ml-auto inline-flex min-h-touch items-center gap-2 rounded-xl px-3 text-base font-medium text-ink transition-colors hover:bg-surface"
           >
             <ArrowUpDown size={18} aria-hidden="true" />
             순서 고치기
@@ -158,7 +158,7 @@ function DayPanel({
       <ol className="relative mt-4 flex flex-col">
         <TimelineLine />
         <TimelineNode icon={<Flag size={16} />}>
-          <span className="font-bold">{toHHMM(d.startMin)}</span> {d.startName} 출발
+          <span className="font-medium">{toHHMM(d.startMin)}</span> {d.startName} 출발
         </TimelineNode>
         {d.items.map((it, i) => {
           if (it.kind === "travel") {
@@ -171,7 +171,7 @@ function DayPanel({
           if (it.kind === "lunch") {
             return (
               <TimelineNode key={i}>
-                <span className="font-bold">
+                <span className="font-medium">
                   {toHHMM(it.startMin)}~{toHHMM(it.endMin)}
                 </span>
                 {" 점심·휴식 "}
@@ -189,7 +189,7 @@ function DayPanel({
           return <PlaceCard key={it.placeId} it={it} no={numberOf.get(it.placeId)!} o={o} trip={trip} common={common} onSwap={onSwap} onMap={onMap} />;
         })}
         <TimelineNode icon={<Flag size={16} />}>
-          <span className="font-bold">약 {toHHMM(arrival)}</span> {d.endName} 도착 <span className="text-sm text-ink-sub">· 마치는 시각 {toHHMM(d.endMin)}</span>
+          <span className="font-medium">약 {toHHMM(arrival)}</span> {d.endName} 도착 <span className="text-sm text-ink-sub">· 마치는 시각 {toHHMM(d.endMin)}</span>
         </TimelineNode>
       </ol>
     </div>
@@ -224,10 +224,10 @@ function EditList({
           const name = trip.places[v.placeId].name;
           return (
             <li key={v.placeId} className="flex items-center gap-2 border-b border-line py-2 last:border-b-0">
-              <span className="flex aspect-square min-h-8 min-w-8 shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white" aria-hidden="true">
+              <span className="flex aspect-square min-h-8 min-w-8 shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-medium text-white" aria-hidden="true">
                 {i + 1}
               </span>
-              <span className="min-w-0 flex-1 text-base leading-snug font-bold [overflow-wrap:anywhere]">
+              <span className="min-w-0 flex-1 text-base leading-snug font-medium [overflow-wrap:anywhere]">
                 {name}
                 {must.has(v.placeId) && <span className="block text-sm font-normal text-ink-sub">꼭 가고 싶은 곳</span>}
               </span>
@@ -254,7 +254,7 @@ function EditList({
         {msg && (msg.bad ? `바꾸지 않았어요. ${msg.text}` : msg.text)}
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" onClick={onDone} className="inline-flex min-h-touch grow items-center justify-center gap-2 rounded-xl bg-primary px-4 text-base font-bold text-white transition-colors hover:bg-primary-ink">
+        <button type="button" onClick={onDone} className="inline-flex min-h-touch grow items-center justify-center gap-2 rounded-xl bg-primary px-4 text-base font-medium text-white transition-colors hover:bg-primary-ink">
           <Check size={18} aria-hidden="true" />
           다 고쳤어요
         </button>
@@ -265,7 +265,7 @@ function EditList({
               editor.reset();
               setMsg({ text: "처음 일정으로 되돌렸어요.", bad: false });
             }}
-            className="inline-flex min-h-touch grow items-center justify-center gap-2 rounded-xl bg-surface px-4 text-base font-bold text-ink transition-colors hover:bg-line"
+            className="inline-flex min-h-touch grow items-center justify-center gap-2 rounded-xl bg-surface px-4 text-base font-medium text-ink transition-colors hover:bg-line"
           >
             <Undo2 size={18} aria-hidden="true" />
             처음 일정으로

@@ -33,7 +33,7 @@ export function AccessChart() {
   return (
     <figure className="flex flex-col gap-3">
       <figcaption className="flex flex-col gap-1">
-        <span className="text-base font-bold">항목마다 공식 정보가 있는 곳과 없는 곳 (152곳)</span>
+        <span className="text-base font-medium">항목마다 공식 정보가 있는 곳과 없는 곳 (152곳)</span>
         <span className="text-sm text-ink-sub">
           전체 {all.toLocaleString()}항목 가운데 &lsquo;모름&rsquo; {unknown.toLocaleString()}개({Math.round((unknown / all) * 100)}%) · 모름이 많은 항목부터
         </span>
@@ -50,7 +50,7 @@ export function AccessChart() {
         {data.map((r) => (
           <li key={r.key} className="flex flex-col gap-1">
             <div className="flex items-baseline justify-between gap-2">
-              <span className="text-sm font-bold">{r.label}</span>
+              <span className="text-sm font-medium">{r.label}</span>
               <span className="text-sm text-ink-sub">
                 {VALUES.filter((x) => r.counts[x.v]).map((x) => `${x.v} ${r.counts[x.v]}`).join(" · ")}
               </span>

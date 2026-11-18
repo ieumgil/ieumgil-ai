@@ -59,7 +59,7 @@ export function PlacePhoto({ id, name, category, size = "md", className = "" }: 
         ) : (
           icon
         )}
-        <span className="absolute right-1 bottom-1 inline-flex items-center gap-0.5 rounded-full bg-ink/75 px-2 py-0.5 text-sm font-bold text-white tabular-nums" aria-hidden="true">
+        <span className="absolute right-1 bottom-1 inline-flex items-center gap-0.5 rounded-full bg-ink/75 px-2 py-0.5 text-sm font-medium text-white tabular-nums" aria-hidden="true">
           <ZoomIn size={12} strokeWidth={2.5} />
           {data.photos.length > 1 && data.photos.length}
         </span>
@@ -156,10 +156,10 @@ function PhotoViewer({ open, onOpenChange, name, photos }: { open: boolean; onOp
             <ChevronLeft size={22} aria-hidden="true" />
           </button>
           <p className="min-w-0 flex-1 text-center text-sm text-ink-sub" aria-live="polite">
-            <span className="font-bold text-ink tabular-nums">
+            <span className="font-medium text-ink tabular-nums">
               {i + 1} / {photos.length}
             </span>
-            {p?.kind === "facility" && <span className="ml-2 font-bold">편의시설 사진: {FACILITY_LABEL[p.facility ?? "etc"]}</span>}
+            {p?.kind === "facility" && <span className="ml-2 font-medium">편의시설 사진: {FACILITY_LABEL[p.facility ?? "etc"]}</span>}
             <span className="mt-0.5 block">{p ? photoCredit(p.kogl_type) : ""}</span>
           </p>
           <button type="button" onClick={() => go(i + 1)} disabled={i === photos.length - 1} aria-label="다음 사진" className="flex size-touch items-center justify-center rounded-full bg-surface text-ink transition-colors hover:bg-line disabled:opacity-40">

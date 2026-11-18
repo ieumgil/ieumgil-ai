@@ -99,7 +99,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
       <header className="animate-rise px-4 pt-4">
         <div className={`flex flex-wrap items-center gap-2 print:hidden ${shared ? "justify-end" : "justify-between"}`}>
           {!shared && (
-            <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-2 text-base font-bold text-primary-ink underline-offset-4 hover:underline">
+            <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-2 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
               <ArrowLeft size={18} aria-hidden="true" />
               다른 안 보기
             </Link>
@@ -114,7 +114,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
         </div>
         <h1 className="mt-4 font-heading text-title font-bold text-balance">{o.title}</h1>
         {trip.input.startDate && trip.input.endDate && (
-          <p className="mt-2 text-heading font-bold text-ink tabular-nums">{formatRange(trip.input.startDate, trip.input.endDate, " → ")}</p>
+          <p className="mt-2 text-heading font-medium text-ink tabular-nums">{formatRange(trip.input.startDate, trip.input.endDate, " → ")}</p>
         )}
         <p className="mt-1 text-base text-ink-sub">
           {`${tripLabel(nights)} · ${o.stats.places}곳 · `}

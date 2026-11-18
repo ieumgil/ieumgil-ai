@@ -61,7 +61,7 @@ export function Calendar({
         <MonthButton label="이전 달" disabled={cmp(shown, min) <= 0} onClick={() => setView(shift(shown, -1))}>
           <ChevronLeftIcon size={20} />
         </MonthButton>
-        <span className="text-base font-bold" aria-live="polite">
+        <span className="text-base font-medium" aria-live="polite">
           {shown.y}년 {shown.m}월
         </span>
         <MonthButton label="다음 달" disabled={cmp(shown, max) >= 0} onClick={() => setView(shift(shown, 1))}>
@@ -100,7 +100,7 @@ export function Calendar({
                     onClick={() => pick(day)}
                     className={`aspect-square min-h-touch min-w-touch rounded-full text-base leading-none press focus-visible:outline-3 focus-visible:outline-primary ${
                       isEdge
-                        ? "bg-primary font-bold text-white"
+                        ? "bg-primary font-medium text-white"
                         : past
                           ? "cursor-not-allowed text-past"
                           : "text-ink hover:bg-primary-soft hover:text-primary-ink"
@@ -120,7 +120,7 @@ export function Calendar({
         <span>최대 {MAX_NIGHTS}박 {MAX_NIGHTS + 1}일</span>
       </div>
       {warn && (
-        <p className="mt-2 text-sm font-bold text-caution-ink" role="alert">
+        <p className="mt-2 text-sm font-medium text-caution-ink" role="alert">
           이음길은 {MAX_NIGHTS}박 {MAX_NIGHTS + 1}일까지 계획할 수 있어요.
         </p>
       )}

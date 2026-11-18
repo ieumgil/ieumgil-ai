@@ -68,8 +68,8 @@ export function WhenStep() {
       >
         {plan.startDate && plan.endDate && nights !== null ? (
           <>
-            <span className="text-base font-bold">{formatRange(plan.startDate, plan.endDate)}</span>
-            <span className="shrink-0 text-base font-bold">{tripLabel(nights)}</span>
+            <span className="text-base font-medium">{formatRange(plan.startDate, plan.endDate)}</span>
+            <span className="shrink-0 text-base font-medium">{tripLabel(nights)}</span>
           </>
         ) : (
           <span className="text-base">아직 날짜를 고르지 않았어요</span>
@@ -133,7 +133,7 @@ export function WhenStep() {
             aria-controls="when-times"
             aria-label="시각·떠나는 곳 설정 바꾸기"
             onClick={() => setTimesOpen((v) => !v)}
-            className="min-h-touch px-1 text-base font-bold text-primary underline underline-offset-4 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            className="min-h-touch px-1 text-base font-medium text-primary underline underline-offset-4 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             바꾸기
           </button>
@@ -142,7 +142,7 @@ export function WhenStep() {
           {timesOpen && (
             <div className="mt-4 flex flex-col gap-4">
               <div className="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-3">
-                <label className="flex flex-col gap-2 text-base font-bold">
+                <label className="flex flex-col gap-2 text-base font-medium">
                   {sameDay ? "시작 시각" : "첫날 시작 시각"}
                   <select className={selectClass} value={plan.startTime} onChange={(e) => updatePlan({ startTime: e.target.value })}>
                     {START_TIMES.map((t) => (
@@ -150,7 +150,7 @@ export function WhenStep() {
                     ))}
                   </select>
                 </label>
-                <label className="flex flex-col gap-2 text-base font-bold">
+                <label className="flex flex-col gap-2 text-base font-medium">
                   {sameDay ? "마치는 시각" : "마지막 날 마치는 시각"}
                   <select className={selectClass} value={plan.endTime} onChange={(e) => updatePlan({ endTime: e.target.value })}>
                     {END_TIMES.map((t) => (
@@ -159,7 +159,7 @@ export function WhenStep() {
                   </select>
                 </label>
               </div>
-              <label className="flex flex-col gap-2 text-base font-bold">
+              <label className="flex flex-col gap-2 text-base font-medium">
                 {sameDay ? "어디서 떠나나요?" : "마지막 날 어디서 떠나나요?"}
                 <select
                   className={selectClass}
@@ -181,7 +181,7 @@ export function WhenStep() {
 
       {nights !== null && nights > 0 && (
         <Section id="field-lodging" title="숙소는 어느 쪽인가요?" hint="숙소 추천은 하지 않아요.">
-          {nights > 1 && <h3 className="text-base font-bold text-ink-sub">첫째 밤</h3>}
+          {nights > 1 && <h3 className="text-base font-medium text-ink-sub">첫째 밤</h3>}
           <div className={LODGING_GRID} role="radiogroup" aria-label={nights > 1 ? "첫째 밤 숙소 지역" : "숙소 지역"}>
             {LODGINGS.map((l) => (
               <ChoiceButton
@@ -198,7 +198,7 @@ export function WhenStep() {
           </div>
           {nights > 1 && (
             <div className="flex animate-rise flex-col gap-2 pt-2">
-              <h3 className="text-base font-bold text-ink-sub">둘째 밤</h3>
+              <h3 className="text-base font-medium text-ink-sub">둘째 밤</h3>
               <div className={LODGING_GRID} role="radiogroup" aria-label="둘째 밤 숙소 지역">
                 <ChoiceButton
                   role="radio"

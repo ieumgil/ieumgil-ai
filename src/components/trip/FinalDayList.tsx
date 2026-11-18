@@ -28,7 +28,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
     <>
       {common.length > 0 && (
         <div className="mb-2 border-b border-line pb-4 text-base leading-relaxed text-ink-sub">
-          <p className="font-bold">가서 보고 확인할 것 · 공통</p>
+          <p className="font-medium">가서 보고 확인할 것 · 공통</p>
           <ul className="list-disc pl-6">
             {common.map((c) => (
               <li key={c.text}>
@@ -42,7 +42,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
       <ol className="relative flex flex-col">
         <TimelineLine />
         <TimelineNode icon={<Flag size={16} />}>
-          <span className="font-bold">{toHHMM(d.startMin)}</span> {d.startName} 출발
+          <span className="font-medium">{toHHMM(d.startMin)}</span> {d.startName} 출발
         </TimelineNode>
         {d.items.map((it, i) => {
           if (it.kind === "travel") {
@@ -55,7 +55,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
           if (it.kind === "lunch") {
             return (
               <TimelineNode key={i}>
-                <span className="font-bold">
+                <span className="font-medium">
                   {toHHMM(it.startMin)}~{toHHMM(it.endMin)}
                 </span>
                 {" 점심·휴식"}
@@ -77,7 +77,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
           return (
             <li key={i} id={stopAnchor(it.placeId)} className="relative flex gap-3 py-2">
               <span
-                className="z-10 mt-3 flex min-h-8 min-w-8 aspect-square shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white ring-4 ring-white"
+                className="z-10 mt-3 flex min-h-8 min-w-8 aspect-square shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-medium text-white ring-4 ring-white"
                 aria-hidden="true"
               >
                 {no}
@@ -86,7 +86,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
                 <div className="flex flex-wrap gap-3">
                   <PlacePhoto id={it.placeId} name={p.name} category={p.category} size="card" className="print:hidden" />
                   <div className="grow basis-[10rem] [overflow-wrap:break-word]">
-                    <p className="text-base font-bold text-primary-ink tabular-nums">
+                    <p className="text-base font-medium text-primary-ink tabular-nums">
                       약 {toHHMM(it.arriveMin)}~{toHHMM(it.departMin)}
                     </p>
                     <p className="text-sm text-ink-sub">
@@ -103,7 +103,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
                   <a
                     href={`tel:${p.phone.replace(/[^\d]/g, "")}`}
                     aria-label={`공식 전화 ${p.phone} 걸기`}
-                    className="inline-flex min-h-touch items-center gap-2 text-base font-bold text-primary tabular-nums hover:underline"
+                    className="inline-flex min-h-touch items-center gap-2 text-base font-medium text-primary tabular-nums hover:underline"
                   >
                     <Phone size={16} aria-hidden="true" />
                     <span>
@@ -114,7 +114,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
                 {headline && <p className="mt-2 text-base leading-relaxed text-pretty">{headline}</p>}
                 {cautions?.get(it.placeId) && (
                   <p className="mt-2 flex items-start gap-2 rounded-xl bg-caution-bg px-3 py-2 text-base text-caution-ink">
-                    <span aria-hidden="true" className="font-bold">
+                    <span aria-hidden="true" className="font-medium">
                       !
                     </span>
                     <span className="min-w-0 flex-1">
@@ -125,7 +125,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
                 )}
                 {here.length > 0 && (
                   <div className="mt-2 text-base leading-relaxed text-ink-sub">
-                    <p className="font-bold">가서 보고 확인할 것</p>
+                    <p className="font-medium">가서 보고 확인할 것</p>
                     <ul className="list-disc pl-6">
                       {here.map((t) => (
                         <li key={t}>{t}</li>
@@ -138,7 +138,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
           );
         })}
         <TimelineNode icon={<Flag size={16} />}>
-          <span className="font-bold">약 {toHHMM(arrival)}</span> {d.endName} 도착
+          <span className="font-medium">약 {toHHMM(arrival)}</span> {d.endName} 도착
         </TimelineNode>
       </ol>
     </>

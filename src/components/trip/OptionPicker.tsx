@@ -31,18 +31,18 @@ export function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: 
             >
               <span className="flex items-baseline justify-between gap-2">
                 <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
-                  <span className="text-base font-bold text-ink">{o.id}안</span>{" "}
-                  <span className="text-sm font-bold text-ink-sub">{STRATEGY_LABEL[o.strategy] ?? o.strategy}</span>
+                  <span className="text-base font-medium text-ink">{o.id}안</span>{" "}
+                  <span className="text-sm font-medium text-ink-sub">{STRATEGY_LABEL[o.strategy] ?? o.strategy}</span>
                 </span>
                 {confirmedId === o.id && (
-                  <span className="shrink-0 text-sm font-bold text-primary-ink">
+                  <span className="shrink-0 text-sm font-medium text-primary-ink">
                     <span aria-hidden="true">✓</span> 정했어요
                   </span>
                 )}
               </span>
-              <span className="text-heading leading-snug font-bold text-ink [overflow-wrap:anywhere]">{o.title}</span>
+              <span className="text-heading leading-snug font-medium text-ink [overflow-wrap:anywhere]">{o.title}</span>
               <span className="line-clamp-2 text-base leading-snug font-normal text-ink">{routeSummary(o, trip)}</span>
-              <span className="text-sm font-bold text-ink">
+              <span className="text-sm font-medium text-ink">
                 {o.stats.places}곳 · 이동 약 {o.stats.travelMin}분 ·{" "}
                 {calls > 0 ? (
                   <span className="text-caution-ink">

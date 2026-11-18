@@ -40,7 +40,7 @@ function Annotated() {
       {LINES.map((l, i) => (
         <li key={i} className="flex items-start justify-between gap-3 border-b border-line px-4 py-3 last:border-b-0">
           <span className="min-w-0 text-base text-pretty">{l.text}</span>
-          <span className={`shrink-0 rounded-full px-3 py-1 text-sm font-bold ${l.by === "AI" ? "bg-primary-soft text-primary-ink" : "bg-surface text-ink-sub"}`}>
+          <span className={`shrink-0 rounded-full px-3 py-1 text-sm font-medium ${l.by === "AI" ? "bg-primary-soft text-primary-ink" : "bg-surface text-ink-sub"}`}>
             {l.by === "AI" ? "AI가 씀" : "코드가 계산"}
           </span>
         </li>
@@ -165,7 +165,7 @@ export default function HowPage() {
             <div key={n.label} className="flex flex-col gap-1 border-b border-line py-3">
               <dt className="text-base text-ink-sub text-pretty">{n.label}</dt>
               <dd className="flex flex-col">
-                <span className="text-heading font-bold">{n.value}</span>
+                <span className="text-heading font-medium">{n.value}</span>
                 <span className="text-sm text-ink-sub text-pretty">{n.note}</span>
               </dd>
             </div>
@@ -183,7 +183,7 @@ export default function HowPage() {
             { href: `${REPO}/blob/main/docs/ai-plan.md`, label: "AI 설계 문서" },
           ].map((l) => (
             <li key={l.href}>
-              <a href={l.href} target="_blank" rel="noreferrer" className="inline-flex min-h-touch items-center text-base font-bold text-primary underline-offset-4 hover:underline">
+              <a href={l.href} target="_blank" rel="noreferrer" className="inline-flex min-h-touch items-center text-base font-medium text-primary underline-offset-4 hover:underline">
                 {l.label}
                 <span className="sr-only"> (새 탭)</span>
               </a>

@@ -63,7 +63,7 @@ export function ShareButton({ trip, o }: { trip: TripView; o: OptionView }) {
             {state.kind === "error" && (
               <div className="flex flex-col gap-3">
                 <p className="rounded-xl bg-caution-bg px-4 py-3 text-base text-caution-ink">
-                  <span className="font-bold">! </span>
+                  <span className="font-medium">! </span>
                   {state.text}
                 </p>
                 <Button variant="outline" size="sm" onClick={() => { setState({ kind: "idle" }); void make(); }}>
@@ -74,7 +74,7 @@ export function ShareButton({ trip, o }: { trip: TripView; o: OptionView }) {
             {state.kind === "done" && (
               <div className="flex flex-col gap-3">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-sm font-bold text-ink-sub">공유 주소</span>
+                  <span className="text-sm font-medium text-ink-sub">공유 주소</span>
                   <input
                     readOnly
                     value={state.url}

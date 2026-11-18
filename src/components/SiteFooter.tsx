@@ -20,7 +20,7 @@ export function SiteFooter() {
       <div className="mx-auto flex w-full max-w-[30rem] flex-col gap-4 px-4 py-8 md:max-w-[40rem] md:px-6 lg:max-w-[76rem] lg:px-8">
         <div className="flex items-center gap-2">
           <LogoMark size={24} />
-          <span className="text-base font-bold">이음길 AI</span>
+          <span className="text-base font-medium">이음길 AI</span>
         </div>
         <p className="text-sm text-ink-sub text-pretty">휠체어, 어르신, 유모차와 함께 가는 영동 여행 루트 플래너</p>
 

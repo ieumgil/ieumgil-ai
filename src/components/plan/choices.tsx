@@ -14,7 +14,7 @@ const focus = "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visi
  */
 function Mark({ on }: { on: boolean }) {
   return (
-    <span aria-hidden="true" className={`pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 text-sm leading-none font-bold ${on ? "" : "invisible"}`}>
+    <span aria-hidden="true" className={`pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 text-sm leading-none font-medium ${on ? "" : "invisible"}`}>
       ✓
     </span>
   );
@@ -29,7 +29,7 @@ function InlineLabel({ on, className, children }: { on: boolean; className: stri
   return (
     <span className="flex min-w-0 items-baseline justify-center gap-1">
       {on && (
-        <span aria-hidden="true" className="shrink-0 text-sm leading-none font-bold">
+        <span aria-hidden="true" className="shrink-0 text-sm leading-none font-medium">
           ✓
         </span>
       )}
@@ -61,7 +61,7 @@ export function ChoiceButton({
       type="button"
       onClick={onClick}
       {...a11y}
-      className={`relative inline-flex min-h-touch items-center justify-center px-6 text-base font-bold press ${focus} ${
+      className={`relative inline-flex min-h-touch items-center justify-center px-6 text-base font-medium press ${focus} ${
         shape === "pill" ? "rounded-full" : "min-h-12 rounded-xl"
       } ${selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"} ${className}`}
     >
@@ -101,7 +101,7 @@ export function SegmentButton({
       role="radio"
       aria-checked={selected}
       onClick={onClick}
-      className={`relative flex min-h-12 items-center justify-center rounded-xl px-2 text-base font-bold text-balance press ${focus} ${
+      className={`relative flex min-h-12 items-center justify-center rounded-xl px-2 text-base font-medium text-balance press ${focus} ${
         selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"
       } ${className}`}
     >

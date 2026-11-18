@@ -42,7 +42,7 @@ export function SwapSheet({ placeId, o, trip, onSwap, onClose }: { placeId: stri
                 <div className="flex gap-3">
                   <PlacePhoto id={id} name={p.name} category={p.category} size="sm" />
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-heading font-bold [overflow-wrap:anywhere]">{p.name}</h3>
+                    <h3 className="text-heading font-medium [overflow-wrap:anywhere]">{p.name}</h3>
                     <div className="mt-2 flex flex-wrap items-center gap-2">
                       <StatusChip status={VERDICT_CHIP[j.verdict]}>{verdictText(j.verdict, (trip.unknowns?.[id] ?? []).some((k) => !ON_SITE_KEYS.has(k)) || (trip.asks[id] ?? []).some(isPhoneQuestion))}</StatusChip>
                       <span className="text-sm text-ink-sub">

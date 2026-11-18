@@ -39,13 +39,20 @@ const inScreens = (path: string) => (path.startsWith("src/app/") || path.startsW
 const RULES: Rule[] = [
   {
     id: "R1",
-    label: "글자: 크기 4단계(28/20/16/14)·굵기 2단계(400/700) 밖",
+    label: "글자: 크기 4단계(28/20/16/14)·굵기 3단계(400/500/700, 700은 h1·h2 제목만) 밖",
     applies: () => true,
     find: (path, text) => [
       ...all(new RegExp(`${B}text-(?:xs|lg|xl|2xl|3xl|4xl|5xl|lead|display)(?![\\w-])`, "g"), text),
       // 숫자로 시작하는 대괄호 임의 글자 크기. 인쇄 일정표는 종이 크기(pt)를 쓰므로 이 규칙에서만 뺀다
       ...(path.endsWith("/PrintSheet.tsx") ? [] : all(new RegExp(`${B}text-\\[\\d[^\\]\\s]*\\]`, "g"), text)),
-      ...all(new RegExp(`${B}font-(?:medium|semibold)(?![\\w-])`, "g"), text),
+      ...all(new RegExp(`${B}font-(?:thin|extralight|light|semibold|extrabold|black)(?![\\w-])`, "g"), text),
+      // 700(font-bold)은 큰 제목(font-heading 또는 h1·h2가 같은 줄)에만. 인쇄 일정표는 종이라 굵게 둔다
+      ...(path.endsWith("/PrintSheet.tsx")
+        ? []
+        : text
+            .split("\n")
+            .filter((l) => !l.includes("font-heading") && !/<h[12][\s>]/.test(l))
+            .flatMap((l) => all(new RegExp(`${B}font-bold(?![\\w-])`, "g"), l))),
     ],
   },
   {
@@ -123,9 +130,11 @@ describe("정리 감시: src 전체가 새 규칙을 지킨다", () => {
 describe("규칙이 실제로 잡아낸다(검사 자체의 시험)", () => {
   const hit = (id: string, path: string, text: string) => RULES.find((r) => r.id === id)!.find(path, text);
 
-  it("R1: text-lg · text-[1.1rem] · font-medium을 잡고 text-base · text-title · text-heading은 안 잡는다", () => {
-    expect(hit("R1", "src/x.tsx", `"text-lg text-[1.1rem] font-medium lg:text-xl"`)).toHaveLength(4);
-    expect(hit("R1", "src/x.tsx", `"text-base text-sm text-title text-heading font-bold"`)).toEqual([]);
+  it("R1: text-lg · text-[1.1rem] · font-semibold · 제목 밖 font-bold를 잡고 text-base · font-medium · 제목의 font-bold는 안 잡는다", () => {
+    expect(hit("R1", "src/x.tsx", `"text-lg text-[1.1rem] font-semibold lg:text-xl font-bold"`)).toHaveLength(5);
+    expect(hit("R1", "src/x.tsx", `"text-base text-sm text-title text-heading font-medium"`)).toEqual([]);
+    expect(hit("R1", "src/x.tsx", `<h2 className="font-heading text-heading font-bold">`)).toEqual([]);
+    expect(hit("R1", "src/x.tsx", `<h1 className="text-title font-bold">`)).toEqual([]);
     expect(hit("R1", "src/x.css", "--text-lead: 1rem; --text-display: 2rem;")).toEqual([]); // 변수 정의는 규칙 대상이 아님
   });
 

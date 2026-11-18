@@ -85,7 +85,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
             >
               {/* min-w-0를 두지 않는다: 글자가 커져 낱말이 안 들어가면 사진이 아래 줄로 내려가고, 그래도 넘칠 때만 글자 사이에서 끊긴다 */}
               <span className="flex grow basis-[4.5rem] flex-col gap-1 [overflow-wrap:break-word]">
-                <span className="text-base font-bold text-ink">{c}</span>
+                <span className="text-base font-medium text-ink">{c}</span>
                 <span className="text-sm leading-snug text-ink-sub">{CATEGORY_DESC[c]}</span>
               </span>
               {/* 사진은 또렷하게 오른쪽에(1유형 사진만, 출처는 아래 줄). 고른 표시는 사진 모서리에 걸친다 */}
@@ -107,7 +107,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="pace-title">
           {PACES.map((p) => (
             <SegmentButton key={p.id} selected={plan.pace === p.id} onClick={() => updatePlan({ pace: p.id })} fluid className="min-h-16 grow basis-[6.5rem]">
-              <span className="text-base font-bold">{p.label}</span>
+              <span className="text-base font-medium">{p.label}</span>
               <span className="text-sm font-normal">{p.sub}</span>
             </SegmentButton>
           ))}
@@ -119,7 +119,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
           <div className="flex flex-col gap-3 pt-1 pb-4">
             <Link href="/places?from=plan" className="group flex min-h-touch items-center justify-between gap-3">
               <span className="min-w-0">
-                <span className="block text-base font-bold text-primary group-hover:underline group-hover:underline-offset-4">관광지 둘러보고 고르기</span>
+                <span className="block text-base font-medium text-primary group-hover:underline group-hover:underline-offset-4">관광지 둘러보고 고르기</span>
                 <span className="block text-sm leading-snug text-ink-sub">강릉·속초·동해의 대표 관광지와 어떤 곳인지, 접근성을 먼저 보고 담아요</span>
               </span>
               <ChevronRight size={20} className="shrink-0 text-primary" aria-hidden="true" />

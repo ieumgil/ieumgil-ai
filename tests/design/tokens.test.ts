@@ -59,8 +59,14 @@ describe("토큰 값", () => {
     expect(token(staticTheme, "--text-heading--line-height")).toBe("1.35");
   });
 
-  it("제목 글꼴은 고운바탕이 먼저, 본문 글꼴이 뒤(없으면 대체)", () => {
-    expect(token(staticTheme, "--font-display")).toMatch(/^"Gowun Batang",\s*var\(--font-sans\)$/);
+  it("제목 글꼴은 본문과 같은 글꼴(Noto Sans KR 한 벌, 11/18)", () => {
+    expect(token(staticTheme, "--font-display")).toBe("var(--font-sans)");
+    expect(token(inlineTheme, "--font-sans")).toMatch(/^"Noto Sans KR Variable",/);
+  });
+
+  it("본문 16px · 줄 간격 1.6", () => {
+    expect(token(staticTheme, "--text-base")).toBe("1rem");
+    expect(token(staticTheme, "--text-base--line-height")).toBe("1.6");
   });
 
   it("font-heading(shadcn 대화창·시트 제목)이 제목 글꼴을 가리킨다", () => {

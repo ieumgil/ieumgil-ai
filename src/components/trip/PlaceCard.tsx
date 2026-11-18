@@ -56,12 +56,12 @@ export function PlaceCard({
           title="지도에서 보기"
           className="group/no z-10 -m-1.5 flex min-h-touch min-w-touch shrink-0 items-start justify-center pt-1.5 focus-visible:outline-none"
         >
-          <span className="flex min-h-8 min-w-8 aspect-square self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white ring-4 ring-white transition-transform group-hover/no:scale-110 group-focus-visible/no:outline-3 group-focus-visible/no:outline-offset-2 group-focus-visible/no:outline-primary">
+          <span className="flex min-h-8 min-w-8 aspect-square self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-medium text-white ring-4 ring-white transition-transform group-hover/no:scale-110 group-focus-visible/no:outline-3 group-focus-visible/no:outline-offset-2 group-focus-visible/no:outline-primary">
             {no}
           </span>
         </button>
       ) : (
-        <span className="z-10 mt-3 flex min-h-8 min-w-8 aspect-square shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-bold text-white ring-4 ring-white" aria-hidden="true">
+        <span className="z-10 mt-3 flex min-h-8 min-w-8 aspect-square shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-medium text-white ring-4 ring-white" aria-hidden="true">
           {no}
         </span>
       )}
@@ -70,13 +70,13 @@ export function PlaceCard({
           <PlacePhoto id={it.placeId} name={p.name} category={p.category} size="card" />
           {/* min-w-0를 두지 않는다: 이름 낱말이 사진 옆 칸에 안 들어가면 칸이 사진 아래 줄로 내려가 넓게 쓰고, 그래도 안 들어갈 때만 글자 사이에서 끊긴다 */}
           <div className="grow basis-[10rem] [overflow-wrap:break-word]">
-            <p className="text-base font-bold text-primary-ink tabular-nums">
+            <p className="text-base font-medium text-primary-ink tabular-nums">
               약 {toHHMM(it.arriveMin)}~{toHHMM(it.departMin)}
             </p>
             <p className="text-sm text-ink-sub">
               머무는 {it.stayMin}분{it.extraMin ? ` + 여유 ${it.extraMin}분` : ""}
             </p>
-            <h3 id={nameId} className="mt-1 text-heading font-bold">
+            <h3 id={nameId} className="mt-1 text-heading font-medium">
               <span className="sr-only">{no}번째 장소: </span>
               {p.name}
             </h3>
@@ -92,7 +92,7 @@ export function PlaceCard({
           <div className="mt-2 flex flex-col gap-1 rounded-xl bg-caution-bg px-3 py-2 text-base text-caution-ink">
             {cautions.map((c) => (
               <p key={c} className="flex items-start gap-2">
-                <span aria-hidden="true" className="font-bold">
+                <span aria-hidden="true" className="font-medium">
                   !
                 </span>
                 <span className="min-w-0 flex-1">
@@ -108,7 +108,7 @@ export function PlaceCard({
           <a
             href={`tel:${p.phone.replace(/[^\d]/g, "")}`}
             aria-label={`공식 전화 ${p.phone} 걸기`}
-            className="inline-flex min-h-touch grow basis-[12rem] items-center justify-center gap-2 rounded-xl border-[1.5px] border-primary bg-white px-3 text-base font-bold text-primary transition-colors hover:bg-primary-soft hover:text-primary-ink"
+            className="inline-flex min-h-touch grow basis-[12rem] items-center justify-center gap-2 rounded-xl border-[1.5px] border-primary bg-white px-3 text-base font-medium text-primary transition-colors hover:bg-primary-soft hover:text-primary-ink"
           >
             <Phone size={18} className="shrink-0" aria-hidden="true" />
             <span className="tabular-nums">
@@ -119,7 +119,7 @@ export function PlaceCard({
             type="button"
             onClick={() => onSwap(it.placeId)}
             aria-label={`${p.name} 다른 곳으로 바꾸기`}
-            className="inline-flex min-h-touch items-center gap-2 rounded-xl px-3 text-base font-bold text-ink transition-colors hover:bg-surface"
+            className="inline-flex min-h-touch items-center gap-2 rounded-xl px-3 text-base font-medium text-ink transition-colors hover:bg-surface"
           >
             <ArrowLeftRight size={18} aria-hidden="true" />
             바꾸기
@@ -133,7 +133,7 @@ export function PlaceCard({
           aria-controls={detailId}
           aria-describedby={nameId}
           onClick={() => setOpen((v) => !v)}
-          className={`mt-4 -mx-4 flex min-h-touch w-[calc(100%+2rem)] items-center justify-between gap-2 border-t border-line px-4 text-left text-base font-bold text-ink transition-colors hover:bg-surface focus-visible:-outline-offset-3 focus-visible:outline-3 focus-visible:outline-primary ${open ? "" : "-mb-4 rounded-b-2xl"}`}
+          className={`mt-4 -mx-4 flex min-h-touch w-[calc(100%+2rem)] items-center justify-between gap-2 border-t border-line px-4 text-left text-base font-medium text-ink transition-colors hover:bg-surface focus-visible:-outline-offset-3 focus-visible:outline-3 focus-visible:outline-primary ${open ? "" : "-mb-4 rounded-b-2xl"}`}
         >
           <span>
             자세히
@@ -144,7 +144,7 @@ export function PlaceCard({
 
         {open && (
           <div id={detailId} className="expand-in mt-4 flex flex-col gap-4 text-base leading-relaxed">
-            <p className="text-sm font-bold text-pine">
+            <p className="text-sm font-medium text-pine">
               {p.region} · {p.category}
               {j.confidence && <span className="font-normal text-ink-sub">{` · AI 판단의 확신 ${j.confidence}`}</span>}
             </p>
@@ -181,11 +181,11 @@ export function PlaceCard({
                 <ul className="flex flex-col gap-2">
                   {pub.map((l) => (
                     <li key={l.key} className="flex items-start gap-2">
-                      <span aria-hidden="true" className="font-bold text-primary-ink">
+                      <span aria-hidden="true" className="font-medium text-primary-ink">
                         ✓
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="font-bold">{l.headline}</span>
+                        <span className="font-medium">{l.headline}</span>
                         {l.noNursing && <span className="block text-base text-ink-sub">수유실은 정보 없음</span>}
                         <span className="block text-sm text-ink-sub">
                           {l.note}
@@ -209,7 +209,7 @@ export function PlaceCard({
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <p className="text-base font-bold text-ink">{title}</p>
+      <p className="text-base font-medium text-ink">{title}</p>
       <div className="mt-1">{children}</div>
     </div>
   );
