@@ -85,7 +85,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
       {/* 머리 예산 300px: 제목 · 설명 · (유형 기준 한 줄) · 범례 펼치기 · 지역 분할 · 분야 칩 · 검색칸. 장소 목록이 첫 화면에 바로 보이게 한다 */}
       <header className="animate-rise px-4 pt-4 md:px-6">
         <h1 className="font-heading text-title font-bold text-balance">영동 관광지 둘러보기</h1>
-        <p className="mt-1 text-base text-ink-sub text-pretty">어떤 곳인지 먼저 보고, 가고 싶은 곳을 담아 두세요. 담은 곳은 일정에 꼭 넣어요. 조건에 맞지 않는 곳이면 먼저 알려 드려요.</p>
+        <p className="mt-1 text-base text-ink-sub text-pretty">어떤 곳인지 보고 가고 싶은 곳을 담아 두세요. 조건에 맞으면 일정에 꼭 넣어요.</p>
         {travelers && (
           <p className="mt-1 text-sm text-ink-sub">
             <strong className="font-bold text-ink">{travelers}</strong> 기준으로 꼭 필요한 조건을 함께 보여 드려요.
