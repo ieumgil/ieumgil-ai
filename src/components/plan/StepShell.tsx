@@ -1,12 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
 import { PlanSummary } from "./PlanSummary";
 import { buttonClass } from "@/components/ui/button";
 import { openDetailsAround } from "@/lib/details";
 import { STEPS } from "@/lib/plan/progress";
+
+/**
+ * 단계 이동 방향(움직임 ④). '다음'·'이전'·뒤로 버튼을 누를 때 적어 두고, 새 단계 화면이 붙을 때 한 번 읽는다.
+ * 다음 단계는 질문 묶음이 오른쪽에서, 이전 단계는 왼쪽에서 24px 밀려 들어온다(160ms). 주소창·브라우저 뒤로·새로고침은 움직이지 않는다.
+ * (React <ViewTransition>은 이 앱 구성(cacheComponents)에서 전환을 시작하지 않아 CSS 진입 애니메이션으로 했다. 모든 브라우저에서 같다.)
+ * cacheComponents는 다녀간 단계 화면을 숨겨 두었다가 다시 보여 주므로(Activity), 방향은 화면이 보일 때마다(레이아웃 효과) 읽는다.
+ * 효과가 여러 번 돌 수 있어(개발 모드, 화면 다시 보이기) 방향은 누른 시각과 함께 두고, 누른 뒤 5초 안에 보인 화면만 쓴다
+ * (느린 휴대폰·통신에서 화면이 늦게 와도 움직이게). 누른 링크가 가리키던 화면일 때만 쓰므로 브라우저 뒤로·앞으로는 움직이지 않는다.
+ */
+let pending: { dir: "forward" | "back"; href: string; at: number } | null = null;
+const markStep = (dir: "forward" | "back", href: string) => () => {
+  pending = { dir, href, at: Date.now() };
+};
 
 /**
  * 입력 단계 공통 틀: 상단 바, 진행 막대, 제목, 본문, 아래 고정 버튼.
@@ -27,14 +40,24 @@ export function StepShell({
   children: ReactNode;
   footer: ReactNode;
 }) {
+  const enterRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const el = enterRef.current;
+    const dir = pending && pending.href === location.pathname && Date.now() - pending.at < 5000 ? pending.dir : null;
+    if (el && dir) el.dataset.enter = dir;
+    return () => {
+      if (el) delete el.dataset.enter;
+    };
+  }, []);
   return (
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col md:max-w-[40rem] lg:max-w-[64rem]">
       <div className="px-4 pt-4 pb-2 md:px-6">
-        <TopBar backHref={backHref} backLabel={step === 1 ? "처음 화면으로" : "이전 단계로"} />
+        <TopBar backHref={backHref} backLabel={step === 1 ? "처음 화면으로" : "이전 단계로"} onBack={markStep("back", backHref)} />
       </div>
       <div className="flex flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8 lg:pr-6">
         <div className="flex flex-1 flex-col">
-          <div className="animate-rise px-4 pt-4 md:px-6">
+          {/* 단계 표시·진행 막대는 제자리(막대만 이전 단계에서 차오름). 아래 질문 묶음만 다음 단계로 갈 때 옆으로 살짝 밀리며 바뀐다(움직임 ④). */}
+          <div className="px-4 pt-4 md:px-6">
             <p className="text-sm text-ink-sub">
               {step} / 4 단계 · {STEPS[step - 1].name}
             </p>
@@ -51,10 +74,14 @@ export function StepShell({
                 style={{ width: `${step * 25}%`, "--from": `${(step - 1) * 25}%` } as CSSProperties}
               />
             </div>
-            <h1 className="mt-4 font-heading text-title font-bold text-balance [overflow-wrap:anywhere]">{title}</h1>
-            {description && <p className="mt-2 text-base text-ink-sub text-pretty">{description}</p>}
           </div>
-          <div className="mt-6 flex flex-1 flex-col pb-6">{children}</div>
+          <div ref={enterRef} className="flex flex-1 flex-col data-[enter=back]:animate-step-back data-[enter=forward]:animate-step-forward">
+              <div className="px-4 pt-4 md:px-6">
+                <h1 className="font-heading text-title font-bold text-balance [overflow-wrap:anywhere]">{title}</h1>
+                {description && <p className="mt-2 text-base text-ink-sub text-pretty">{description}</p>}
+              </div>
+              <div className="mt-6 flex flex-1 flex-col pb-6">{children}</div>
+          </div>
           <div
             data-bottom-bar
             className="sticky bottom-0 z-10 max-h-[30dvh] overflow-y-auto bg-white px-4 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgb(25_31_40/0.08)] md:px-6 [@media(max-height:30rem)]:static"
@@ -113,14 +140,14 @@ export function StepFooter({
       {blockedLabel}
     </button>
   ) : (
-    <Link href={nextHref} className={buttonClass("primary", "flex-[2]")}>
+    <Link href={nextHref} onClick={markStep("forward", nextHref)} className={buttonClass("primary", "flex-[2]")}>
       {nextLabel}
     </Link>
   );
   return (
     <div className="flex gap-2">
       {prevHref && (
-        <Link href={prevHref} className={buttonClass("secondary", "flex-1")}>
+        <Link href={prevHref} onClick={markStep("back", prevHref)} className={buttonClass("secondary", "flex-1")}>
           이전
         </Link>
       )}

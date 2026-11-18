@@ -26,6 +26,8 @@ const STAGES: { id: Exclude<StageId, "done">; label: string; sub: string; icon: 
 const subscribeNoop = () => () => {};
 /** 이만큼 지나도 안 끝나면 '늦어요' 안내(서버 전체 한도는 90초) */
 const SLOW_SEC = 40;
+/** 살펴보는 장소 이름은 이만큼만 보이고 나머지는 '외 n곳' */
+const NAMES_SHOWN = 8;
 
 export function MakingStep() {
   const plan = usePlan();
@@ -129,13 +131,13 @@ export function MakingStep() {
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-5 pt-4 pb-7 md:max-w-[40rem] lg:max-w-[52rem]">
       <TopBar backHref="/plan/taste" backLabel="이전 단계로" />
       {missing ? (
-        <div className="mt-8 flex animate-rise flex-col gap-4">
+        <div className="mt-8 flex flex-col gap-4">
           <h1 className="font-heading text-title font-bold text-balance">앞 단계를 먼저 채워 주세요</h1>
           <p className="text-base text-ink-sub">&lsquo;{missing.name}&rsquo;에서 아직 고르지 않은 항목이 있어요.</p>
           <ButtonLink href={missing.href}>채우러 가기</ButtonLink>
         </div>
       ) : error ? (
-        <div className="mt-8 flex animate-rise flex-col gap-4">
+        <div className="mt-8 flex flex-col gap-4">
           <h1 className="font-heading text-title font-bold text-balance">일정을 만들지 못했어요</h1>
           <p className="flex items-start gap-2 rounded-xl bg-blocked-bg px-4 py-3 text-base text-blocked-ink" role="alert">
             <TriangleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
@@ -149,23 +151,20 @@ export function MakingStep() {
         <>
           {/* PC(1024px~)도 한 칸에 시선을 모은다: 세로 가운데, 단계는 가로 한 줄, 장소 이름은 칸 전체 폭 */}
           <div className="flex flex-1 flex-col lg:justify-center lg:pb-6">
-            <section className="mt-6 animate-rise lg:mt-0 lg:text-center" aria-label="진행 상황">
+            <section className="mt-6 lg:mt-0 lg:text-center" aria-label="진행 상황">
               <h1 className="font-heading text-title font-bold text-balance">{stage === "done" ? "일정이 나왔어요" : "AI가 일정을 만들고 있어요"}</h1>
               <p className="mt-1.5 min-h-[1.5rem] text-base text-ink-sub lg:mt-2" aria-live="polite">
                 {latest ?? "조건을 확인하고 있어요"}
-                {stage !== "done" && <span className="ml-1 inline-flex gap-0.5 align-middle" aria-hidden="true"><Dot d={0} /><Dot d={0.2} /><Dot d={0.4} /></span>}
               </p>
               <div className="mt-4 flex items-center gap-3 lg:mt-6">
                 <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line lg:h-3" role="progressbar" aria-label="전체 진행" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
-                  <div className="relative h-full overflow-hidden rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${pct}%` }}>
-                    {stage !== "done" && <span className="absolute inset-y-0 left-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/45 to-transparent" />}
-                  </div>
+                  <div className="h-full rounded-full bg-primary transition-[width] duration-[var(--motion-medium)] ease-[var(--ease-state)]" style={{ width: `${pct}%` }} />
                 </div>
                 <span className="w-12 text-right text-base font-bold tabular-nums text-primary-ink">{pct}%</span>
               </div>
               <p className="mt-1.5 text-sm text-ink-sub lg:mt-2">보통 10~40초 걸려요 · {elapsed}초 지남</p>
               {elapsed >= SLOW_SEC && stage !== "done" && !error && (
-                <div role="status" className="mt-3 animate-rise rounded-2xl bg-caution-bg px-4 py-3 text-left text-base leading-normal text-caution-ink">
+                <div role="status" className="mt-3 rounded-2xl bg-caution-bg px-4 py-3 text-left text-base leading-normal text-caution-ink">
                   <p className="flex items-start gap-2">
                     <TriangleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
                     <span>AI 응답이 평소보다 늦어요. 늦어도 1분 30초 안에는 일정을 보여 드려요.</span>
@@ -188,12 +187,11 @@ export function MakingStep() {
                 return (
                   <li
                     key={s.id}
-                    style={{ animationDelay: `${80 + i * 60}ms` }}
-                    className={`flex animate-rise items-center gap-3 rounded-2xl px-4 py-3 transition-colors duration-300 lg:flex-col lg:justify-start lg:gap-2.5 lg:px-3 lg:py-5 lg:text-center ${state === "now" ? "bg-primary-soft" : state === "done" ? "bg-white ring-1 ring-line" : "bg-surface"}`}
+                    className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-colors duration-[var(--motion-medium)] ease-[var(--ease-state)] lg:flex-col lg:justify-start lg:gap-2.5 lg:px-3 lg:py-5 lg:text-center ${state === "now" ? "bg-primary-soft" : state === "done" ? "bg-white ring-1 ring-line" : "bg-surface"}`}
                     aria-current={state === "now" ? "step" : undefined}
                   >
                     <span
-                      className={`flex size-10 shrink-0 items-center justify-center rounded-full transition-colors duration-300 lg:size-12 ${state === "done" ? "bg-primary text-white" : state === "now" ? "animate-ring bg-white text-primary ring-2 ring-primary" : "bg-white text-ink-sub"}`}
+                      className={`flex size-10 shrink-0 items-center justify-center rounded-full transition-colors duration-[var(--motion-medium)] ease-[var(--ease-state)] lg:size-12 ${state === "done" ? "bg-primary text-white" : state === "now" ? "bg-white text-primary ring-2 ring-primary" : "bg-white text-ink-sub"}`}
                       aria-hidden="true"
                     >
                       {state === "done" ? <Check size={20} strokeWidth={3} /> : state === "now" ? <Loader2 size={20} className="animate-spin" /> : s.icon}
@@ -211,17 +209,17 @@ export function MakingStep() {
             </ol>
 
             {names.length > 0 && (
-              <section className="mt-5 animate-rise lg:mt-8" aria-label="AI가 살펴보는 장소">
+              <section className="mt-5 lg:mt-8" aria-label="AI가 살펴보는 장소">
                 <h2 className="text-sm font-bold text-ink-sub">AI가 살펴보는 장소 {names.length}곳</h2>
-                <div className="relative mt-2 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-                  <ul className={`flex w-max gap-2 ${stage === "judge" ? "animate-marquee" : ""}`}>
-                    {[...names, ...names].map((n, i) => (
-                      <li key={i} aria-hidden={i >= names.length} className="rounded-full bg-surface px-3 py-1.5 text-sm whitespace-nowrap text-ink">
-                        {n}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* 흐르는 띠(무한 반복 움직임)는 뺐다(11/18 모션 정리): 이름을 제자리에 두고 많으면 '외 n곳' */}
+                <ul className="mt-2 flex flex-wrap gap-2">
+                  {names.slice(0, NAMES_SHOWN).map((n) => (
+                    <li key={n} className="rounded-full bg-surface px-3 py-1.5 text-sm whitespace-nowrap text-ink">
+                      {n}
+                    </li>
+                  ))}
+                  {names.length > NAMES_SHOWN && <li className="px-1 py-1.5 text-sm text-ink-sub">외 {names.length - NAMES_SHOWN}곳</li>}
+                </ul>
               </section>
             )}
 
@@ -231,7 +229,7 @@ export function MakingStep() {
                 <h2 className="text-sm font-bold text-ink-sub">진행 기록</h2>
                 <ol className="mt-2 flex flex-col gap-1.5">
                   {earlier.slice(-5).map((l) => (
-                    <li key={l.id} className="flex animate-rise items-start gap-2 text-base leading-snug">
+                    <li key={l.id} className="flex items-start gap-2 text-base leading-snug">
                       <span className={`mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-sm font-bold ${l.tone === "ok" ? "bg-primary-soft text-primary-ink" : l.tone === "fix" ? "bg-caution-bg text-caution-ink" : "bg-surface text-ink-sub"}`} aria-hidden="true">
                         {l.tone === "ok" ? "✓" : l.tone === "fix" ? "!" : "·"}
                       </span>
@@ -250,6 +248,3 @@ export function MakingStep() {
   );
 }
 
-function Dot({ d }: { d: number }) {
-  return <span className="size-1.5 animate-pulse rounded-full bg-ink-sub" style={{ animationDelay: `${d}s` }} />;
-}

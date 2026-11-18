@@ -94,3 +94,35 @@ test("동작 줄이기면 시트가 바로 열리고 바로 닫힌다", async ({
   const sheet = page.locator("[data-slot=sheet-content]");
   expect(parseFloat(await sheet.evaluate((e) => getComputedStyle(e).animationDuration))).toBeLessThan(0.001);
 });
+
+const PLAN = JSON.stringify({ startDate: "2026-12-12", endDate: "2026-12-12", arrival: "gangneung-station", transport: "taxi", travelers: ["wheelchair"], categories: ["바다·해변"], mustVisit: [] });
+const questionBox = (page: Page, title: RegExp) => page.getByRole("heading", { level: 1, name: title }).locator("xpath=../..");
+
+test("입력 단계: '다음'이면 질문이 오른쪽에서, '이전'이면 왼쪽에서 들어오고, 단계 표시와 아래 버튼은 제자리다", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript((p) => sessionStorage.setItem("ieumgil-plan", p), PLAN);
+  await page.goto("/plan/who");
+  await expect(questionBox(page, /누구와/)).not.toHaveAttribute("data-enter"); // 바로 들어온 화면은 움직이지 않는다
+
+  await page.getByRole("link", { name: /다음/ }).click();
+  const cond = questionBox(page, /꼭 필요한 조건/);
+  await expect(cond).toHaveAttribute("data-enter", "forward");
+  await expect(cond).toHaveCSS("animation-name", "step-in-forward");
+  await expect(page.getByText(/3 \/ 4 단계/)).toHaveCSS("animation-name", "none");
+
+  await page.getByRole("link", { name: "이전", exact: true }).click();
+  await expect(questionBox(page, /누구와/)).toHaveAttribute("data-enter", "back"); // 다시 보인 화면도 방향을 따른다
+
+  await page.goBack(); // 브라우저 뒤로가기는 움직이지 않는다(방금 버튼을 눌렀어도)
+  await expect(questionBox(page, /꼭 필요한 조건/)).not.toHaveAttribute("data-enter");
+});
+
+test("동작 줄이기면 입력 단계가 바로 바뀐다", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.addInitScript((p) => sessionStorage.setItem("ieumgil-plan", p), PLAN);
+  await page.goto("/plan/who");
+  await page.getByRole("link", { name: /다음/ }).click();
+  const cond = questionBox(page, /꼭 필요한 조건/);
+  await expect(cond).toHaveAttribute("data-enter", "forward");
+  expect(parseFloat(await cond.evaluate((e) => getComputedStyle(e).animationDuration))).toBeLessThan(0.001);
+});
