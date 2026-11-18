@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
 
-export function Article({ title, lead, children, next }: { title: string; lead: string; children: ReactNode; next: { href: string; label: string; body: string } }) {
+export function Article({ title, lead, hero, children, next }: { title: string; lead: string; hero?: ReactNode; children: ReactNode; next: { href: string; label: string; body: string } }) {
   return (
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-4 pb-12 md:max-w-[40rem] md:px-6 lg:pb-16">
       <div className="pt-4">
@@ -17,6 +17,7 @@ export function Article({ title, lead, children, next }: { title: string; lead: 
         <h1 className="font-heading text-title font-bold text-balance">{title}</h1>
         <p className="text-base text-ink-sub text-pretty">{lead}</p>
       </header>
+      {hero && <div className="mt-6">{hero}</div>}
 
       <div className="mt-8 flex flex-col gap-8 lg:mt-12 lg:gap-12">{children}</div>
 

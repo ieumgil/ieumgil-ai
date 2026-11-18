@@ -2,7 +2,9 @@
 // AI와 코드의 역할, 미리 읽어 둔 데이터, 일정 한 번이 만들어지는 과정, 안전 기준, 멈추지 않게, 저장하지 않는 것, 숫자.
 // 숫자는 README·data/eval(read-v1, judge-v1, cost-v1)과 같은 값. 테스트 개수처럼 자주 바뀌는 값은 쓰지 않는다.
 import type { Metadata } from "next";
+import { AccessChart } from "@/components/about/AccessChart";
 import { Article, P, Points, Section, Steps } from "@/components/about/Article";
+import { Architecture, Phones } from "@/components/about/Figures";
 
 export const metadata: Metadata = {
   title: "이음길은 이렇게 만들었어요 · 이음길 AI",
@@ -19,6 +21,33 @@ const NUMBERS: { label: string; value: string; note: string }[] = [
   { label: "같은 후보를 세 번 판단했을 때 셋 다 같음", value: "85.7%", note: "Gemini 기준(OpenAI 78.3%), 두 모델이 정반대로 판단한 경우 0건" },
   { label: "일정 한 번 만드는 비용", value: "약 50원", note: "AI 5회, 유료 단가로 계산(조건 5가지 실측)" },
 ];
+
+const LINES: { text: string; by: "AI" | "코드" }[] = [
+  { text: "10:00 강릉역 출발 → 차량 약 11분", by: "코드" },
+  { text: "약 10:11~11:36 강릉 오죽헌·시립박물관", by: "코드" },
+  { text: "적합 · 확신 높음", by: "AI" },
+  { text: "경사로와 엘리베이터가 있어 이동하기 편리해서 골랐어요.", by: "AI" },
+  { text: "가서 볼 것: 모래·자갈·흙길이 보이면 포장길이나 데크로만 다니세요.", by: "코드" },
+  { text: "11:36~11:56 쉬는 시간 → 차량 약 5분", by: "코드" },
+  { text: "약 12:01~13:26 강릉자수박물관", by: "코드" },
+  { text: "13:26~14:26 점심·휴식", by: "코드" },
+];
+
+/** 예시 루트 A안 첫째 날을 줄마다 누가 썼는지 표시(README '실제 응답 예'와 같은 값) */
+function Annotated() {
+  return (
+    <ol className="flex flex-col rounded-2xl border border-line">
+      {LINES.map((l, i) => (
+        <li key={i} className="flex items-start justify-between gap-3 border-b border-line px-4 py-3 last:border-b-0">
+          <span className="min-w-0 text-base text-pretty">{l.text}</span>
+          <span className={`shrink-0 rounded-full px-3 py-1 text-sm font-bold ${l.by === "AI" ? "bg-primary-soft text-primary-ink" : "bg-surface text-ink-sub"}`}>
+            {l.by === "AI" ? "AI가 씀" : "코드가 계산"}
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 export default function HowPage() {
   return (
@@ -48,6 +77,7 @@ export default function HowPage() {
           AI의 답은 모두 정해진 JSON 형식으로 받아요. 코드가 형식과 근거를 검사하고, 통과한 답만 화면에 보여 드려요. 넘겨준 원문에 근거가 없는 판단은 버려요. 도착
           시각, 이동 시간, 날씨 문구는 AI가 쓰지 않아요.
         </P>
+        <Architecture />
       </Section>
 
       <Section title="152곳은 미리 읽어 두었어요">
@@ -55,6 +85,7 @@ export default function HowPage() {
           관광공사 API에서 강릉·속초·동해 182곳을 받아, 화장실이나 문화원처럼 관광지가 아닌 곳을 빼고 152곳을 남겼어요. AI가 장소마다 문장을 읽어 접근성 10항목을
           가능 / 부분가능 / 불가 / 모름으로 정리했어요. 값마다 근거가 된 원문 문단을 함께 적어 두었어요.
         </P>
+        <AccessChart />
         <Points
           items={[
             { head: "빈칸은 '모름'으로 둬요", body: "1,520항목 가운데 828개(54%)가 '모름'이에요. 지어내지 않고 물어볼 질문을 붙여요. 질문이나 공식 전화번호가 빠지면 빌드가 멈춰요." },
@@ -78,6 +109,15 @@ export default function HowPage() {
           ]}
         />
         <P>요청 한 번에 AI를 보통 5~8번 부르고, 10~40초쯤 걸려요. 만드는 중 화면에 나오는 진행 기록은 서버가 보낸 그대로예요.</P>
+        <Phones
+          label="만드는 중 화면"
+          shots={[{ src: "/about/making.webp", alt: "AI가 일정을 만들고 있어요: 진행률, 단계 목록, AI가 살펴보는 장소, 진행 기록", caption: "만드는 중 화면의 진행 기록" }]}
+        />
+      </Section>
+
+      <Section title="AI가 쓴 것과 코드가 쓴 것">
+        <P>예시 루트의 첫째 날 일부예요. 이유와 판단은 AI가 썼고, 시각과 이동 시간은 코드와 카카오 길찾기가 채웠어요.</P>
+        <Annotated />
       </Section>
 
       <Section title="안전 기준은 코드가 정해요">

@@ -2,6 +2,7 @@
 // 기획 문서(docs/planning.md)를 바탕으로 이용자가 알아야 할 것만 쉬운 말로 옮겼다. 숫자는 README·data/eval과 같은 값.
 import type { Metadata } from "next";
 import { Article, P, Points, Section, Steps } from "@/components/about/Article";
+import { Phones } from "@/components/about/Figures";
 import { StatusChip, type ChipStatus } from "@/components/ui/StatusChip";
 
 export const metadata: Metadata = {
@@ -21,6 +22,15 @@ export default function AboutPage() {
     <Article
       title="이음길은 이런 서비스예요"
       lead="휠체어를 타는 분, 오래 걷기 힘든 어르신, 유모차를 끄는 가족과 함께 강릉·속초·동해를 여행할 때, 갈 수 있는 곳을 골라 일정으로 엮어 드려요."
+      hero={
+        <Phones
+          label="이음길 결과 화면"
+          shots={[
+            { src: "/about/compare.webp", alt: "일정 비교 화면: 성격이 다른 일정 두 개와 장소 수, 이동 시간, 전화로 확인할 곳 수", caption: "성격이 다른 일정 비교" },
+            { src: "/about/final.webp", alt: "확정한 일정 화면: 카카오 지도에 장소 번호와 일반 차량 경로선, 날짜별 날씨, 시간순 일정", caption: "확정한 일정과 지도" },
+          ]}
+        />
+      }
       next={{ href: "/about/how", label: "이음길은 이렇게 만들었어요", body: "AI가 무엇을 판단하고, 코드가 무엇을 검사하는지 궁금하다면" }}
     >
       <Section title="이런 분을 위해 만들었어요">
@@ -67,6 +77,16 @@ export default function AboutPage() {
             },
           ]}
         />
+        <Phones
+          label="단계별 실제 화면"
+          shots={[
+            { src: "/about/conditions.webp", alt: "꼭 필요한 조건 화면: 휠체어를 고르면 켜지는 필수 조건 목록", caption: "1 · 조건 고르기" },
+            { src: "/about/detail.webp", alt: "장소 카드: 사진, 도착 시각, 판단 칩, 한 줄 이유, 전화, 바꾸기와 자세히", caption: "2 · 장소마다 판단" },
+            { src: "/about/compare.webp", alt: "일정 비교: A안 여유롭게, B안 좋아하는 곳 중심", caption: "3 · 일정 비교" },
+            { src: "/about/swap.webp", alt: "장소 바꾸기: 근처 후보 세 곳과 판단, 거리, 이유", caption: "4 · 장소 바꾸기" },
+            { src: "/about/share.webp", alt: "공유 링크 창: 공유 주소, 주소 복사, 사라지는 날짜, 이름·연락처는 저장하지 않는다는 안내", caption: "5 · 공유 링크" },
+          ]}
+        />
       </Section>
 
       <Section title="판단 표시는 이렇게 읽어요">
@@ -94,6 +114,10 @@ export default function AboutPage() {
             { head: "전화로 물어볼 것", body: "엘리베이터, 장애인 화장실, 장애인 주차, 출입구, 수유실, 걷는 거리. 물어볼 질문과 관광지 공식 전화번호를 함께 드려요." },
             { head: "가서 보고 확인할 것", body: "바닥(모래·자갈·흙길), 경사, 쉴 곳. 도착하면 바로 보이는 것이라 무엇을 보면 되는지 한 줄로 알려 드려요." },
           ]}
+        />
+        <Phones
+          label="출발 전 전화 확인 화면"
+          shots={[{ src: "/about/checklist.webp", alt: "출발 전 전화로 확인할 곳: 장소마다 물어볼 것과 전화번호, 괜찮대요·어렵대요 버튼", caption: "출발 전 전화로 확인할 곳" }]}
         />
         <P>확정한 일정에서 전화한 결과를 [괜찮대요] / [어렵대요]로 남길 수 있어요. 어렵다는 답을 들으면 다른 곳으로 바꾸기를 권해요.</P>
       </Section>
