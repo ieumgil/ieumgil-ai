@@ -13,6 +13,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { DEFAULT_ASK, DEFAULT_HOURS_ASK } from "../../src/lib/places/asks";
+import { classCodeOf, isSingleLevelClass } from "../../src/lib/places/floors";
 import { validatePlaces, type EvidenceIds } from "../../src/lib/places/validate";
 import { mergePublic, type RestroomsFile } from "../../src/lib/public/restrooms";
 import { isPublicEvidenceId } from "../../src/lib/public/source";
@@ -57,6 +58,12 @@ type HumanOverride = Record<
 
 const READ = "data/ai/read";
 const base: Base[] = JSON.parse(readFileSync("data/build/places-base.json", "utf8"));
+// 근거 문단(관광공사 분류 class-1)에서 분류 코드를 읽어 층이 없는 시설인지 본다
+const evidenceAll = JSON.parse(readFileSync("data/evidence.json", "utf8")) as Record<string, { id: string; text: string }[]>;
+const singleLevel = (id: string) => {
+  const code = classCodeOf(evidenceAll[id]?.find((e) => e.id === "class-1")?.text);
+  return code !== null && isSingleLevelClass(code);
+};
 const human: HumanOverride = existsSync("data/eval/human.json") ? JSON.parse(readFileSync("data/eval/human.json", "utf8")) : {};
 const publicFile: RestroomsFile | undefined = existsSync("data/public/restrooms.json")
   ? JSON.parse(readFileSync("data/public/restrooms.json", "utf8"))
@@ -80,6 +87,7 @@ const stats = {
   hoursUnknown: 0,
   human: 0,
   outdoorElevator: 0,
+  singleLevelElevator: 0,
   publicToilet: 0,
   publicDiaper: 0,
   toiletFromUnknown: 0,
@@ -109,9 +117,17 @@ for (const b of base) {
     } else {
       item = { value: r.value, ...(nonBlank(r.note) ? { note: nonBlank(r.note) } : {}), evidence, ...meta };
     }
-    if (key === "elevator" && item.value === "모름" && b._outdoor && allowed.has("class-1")) {
-      item = { value: "가능", note: "층이 없는 야외 시설(관광공사 분류 기준)", evidence: ["class-1"], ...meta };
-      stats.outdoorElevator++;
+    if (key === "elevator" && item.value === "모름" && allowed.has("class-1")) {
+      if (b._outdoor) {
+        item = { value: "가능", note: "층이 없는 야외 시설(관광공사 분류 기준)", evidence: ["class-1"], ...meta };
+        stats.outdoorElevator++;
+      } else if (singleLevel(b.id)) {
+        item = { value: "가능", note: "층이 없는 시설(관광공사 분류 기준)", evidence: ["class-1"], ...meta };
+        stats.singleLevelElevator++;
+      } else {
+        // 층이 있는지부터 모르므로 "엘리베이터가 있나요?" 대신 층과 엘리베이터를 함께 묻는다(단층이면 답이 바로 끝난다)
+        item = { ...item, ask: DEFAULT_ASK.elevator };
+      }
     }
     const merged = mergePublic(item, key, publicFile?.places[b.id]);
     if (merged !== item) {
@@ -181,7 +197,7 @@ const result = validatePlaces(cleaned, evidenceIndex);
 writeFileSync("data/places.json", JSON.stringify(cleaned, null, 2) + "\n");
 const pct = (n: number, d: number) => `${d ? Math.round((n / d) * 100) : 0}%`;
 console.log(
-  `${result.ok ? "✓" : "✕"} data/places.json ${stats.places}곳 · '모름' ${stats.unknown}/${stats.total}(${pct(stats.unknown, stats.total)}) · 근거 없어 모름으로 바꾼 값 ${stats.demoted} · 운영시간 모름 ${stats.hoursUnknown} · 사람 확인 값 ${stats.human} · 야외 시설 엘리베이터 ${stats.outdoorElevator} · 공공데이터 ${stats.publicToilet + stats.publicDiaper}항목(장애인 화장실 ${stats.publicToilet} · 기저귀 교환대 ${stats.publicDiaper}) · 바뀐 값(장애인 화장실 모름→가능 ${stats.toiletFromUnknown} · 불가→가능 ${stats.toiletFromNo} · 기저귀 교환대 모름→가능 ${stats.diaperFromUnknown})`,
+  `${result.ok ? "✓" : "✕"} data/places.json ${stats.places}곳 · '모름' ${stats.unknown}/${stats.total}(${pct(stats.unknown, stats.total)}) · 근거 없어 모름으로 바꾼 값 ${stats.demoted} · 운영시간 모름 ${stats.hoursUnknown} · 사람 확인 값 ${stats.human} · 야외 시설 엘리베이터 ${stats.outdoorElevator} · 층이 없는 시설 엘리베이터 ${stats.singleLevelElevator} · 공공데이터 ${stats.publicToilet + stats.publicDiaper}항목(장애인 화장실 ${stats.publicToilet} · 기저귀 교환대 ${stats.publicDiaper}) · 바뀐 값(장애인 화장실 모름→가능 ${stats.toiletFromUnknown} · 불가→가능 ${stats.toiletFromNo} · 기저귀 교환대 모름→가능 ${stats.diaperFromUnknown})`,
 );
 if (!result.ok) {
   result.issues.slice(0, 20).forEach((i) => console.log(`  - ${i.placeId} ${i.path}: ${i.message}`));

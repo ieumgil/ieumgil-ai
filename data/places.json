@@ -148,7 +148,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -412,8 +412,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -664,8 +667,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -768,8 +774,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -883,8 +892,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -973,8 +985,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -1074,8 +1089,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -1669,8 +1687,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 설치되어 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -2053,7 +2074,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -2196,7 +2217,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -2323,8 +2344,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -2432,7 +2456,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -2856,8 +2880,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -2975,7 +3002,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -3078,7 +3105,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -3371,8 +3398,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -4779,7 +4809,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -5076,8 +5106,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -5445,7 +5478,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -5672,7 +5705,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -6029,7 +6062,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -6148,8 +6181,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -6271,7 +6307,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -7036,7 +7072,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "등명낙가사에 엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -8017,7 +8053,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -8523,8 +8559,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -8619,8 +8658,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -8711,8 +8753,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "보광리석조여래좌상에 엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -8805,7 +8850,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "보현사에 엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -8944,8 +8989,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "봉정연꽃마을에 엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -9051,7 +9099,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "북평성당에 엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -9549,7 +9597,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "삼화사에 엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -9691,8 +9739,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -10625,8 +10676,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -12258,7 +12312,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -12404,8 +12458,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -12734,7 +12791,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -13413,7 +13470,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -14929,7 +14986,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -15158,8 +15215,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -15448,7 +15508,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "정동진역에 엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -15750,7 +15810,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "주문진 등대에 엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -15881,7 +15941,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "주문진관광유람선에 엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -17371,8 +17431,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -18129,7 +18192,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -18273,7 +18336,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -18950,7 +19013,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -19231,8 +19294,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -19361,8 +19427,11 @@
         "verified_at": "2026-11-10"
       },
       "elevator": {
-        "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "value": "가능",
+        "note": "층이 없는 시설(관광공사 분류 기준)",
+        "evidence": [
+          "class-1"
+        ],
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -19508,7 +19577,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
@@ -19655,7 +19724,7 @@
       },
       "elevator": {
         "value": "모름",
-        "ask": "엘리베이터가 있나요?",
+        "ask": "층이 나뉜 곳이 있나요? 있다면 엘리베이터로 오갈 수 있나요?",
         "grade": "ai",
         "method": "관광공사 API",
         "verified_at": "2026-11-10"
