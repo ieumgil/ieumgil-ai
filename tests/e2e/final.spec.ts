@@ -238,20 +238,14 @@ test.describe("확정 화면 정리", () => {
     expect(order).toBe(true);
   });
 
-  test("지도는 작게 시작하고 '지도 크게 보기'로 키운다 @p0306", async ({ page }, testInfo) => {
+  test("지도는 작게(240px) 시작하고, 지도를 못 불러오면 '전체 화면' 버튼도 없다 @p0306", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "mobile", "PC는 왼쪽 고정 지도");
     await setup(page, view.options[0].id);
     await page.goto("/trip/new/final");
     const map = page.getByRole("note").filter({ hasText: "지도를 불러오지 못했어요" });
     await expect(map).toBeVisible();
-    const h = () => map.evaluate((el) => el.getBoundingClientRect().height);
-    expect(Math.abs((await h()) - 240)).toBeLessThanOrEqual(2);
-    const toggle = page.getByRole("button", { name: "지도 크게 보기" });
-    await expect(toggle).toHaveAttribute("aria-expanded", "false");
-    await toggle.click();
-    const small = page.getByRole("button", { name: "지도 작게 보기" });
-    await expect(small).toHaveAttribute("aria-expanded", "true");
-    await expect.poll(async () => Math.abs((await h()) - 320)).toBeLessThanOrEqual(2);
+    expect(Math.abs((await map.evaluate((el) => el.getBoundingClientRect().height)) - 240)).toBeLessThanOrEqual(2);
+    await expect(page.getByRole("button", { name: "전체 화면" })).toHaveCount(0);
   });
 
   test("가서 볼 것은 하루에 한 번, 공통 줄로 보인다 @p0306", async ({ page }) => {

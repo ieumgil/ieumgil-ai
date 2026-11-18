@@ -3,10 +3,10 @@
 // 확정 일정: 정한 안 하나와 지도만(다른 안·비교·설계 과정은 뺀다). 장소를 바꿨으면 바꾼 일정으로 보여준다.
 // 모바일: 위 지도 + 아래 일정, PC: 왼쪽 지도 + 오른쪽 일정. 지도 경로선은 열 때마다 받고 저장하지 않는다.
 // 시각은 모두 코드가 계산한 값(이동시간은 열 때 받은 카카오 실제 값, 못 받으면 직선거리 어림, 저장 안 함)이고, 경로선은 "일반 차량 경로"다.
-import { ArrowLeft, Printer } from "lucide-react";
+import { ArrowLeft, Maximize2, Minimize2, Printer } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ScrollTop } from "@/components/ScrollTop";
 import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
@@ -63,7 +63,19 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
   const weather = useWeather();
   const [dayIndex, setDayIndex] = useState(0);
   // 휴대폰에서는 지도를 작게 시작하고 눌러서 키운다(PC는 왼쪽 고정 지도라 해당 없음)
-  const [bigMap, setBigMap] = useState(false);
+  // 지도 전체 화면(휴대폰·PC 모두): 화면 전체를 지도로 덮고, 닫기·Esc·'일정에서 보기'로 돌아온다. 뒤 화면은 스크롤을 막는다
+  const [fullMap, setFullMap] = useState(false);
+  useEffect(() => {
+    if (!fullMap) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setFullMap(false);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [fullMap]);
   const day = o.days[dayIndex] ?? o.days[0];
   // 날짜·장소가 바뀔 때만 새 배열 → 그때만 지도를 다시 그린다
   const points = useMemo(() => dayMapPoints(trip, o, dayIndex), [trip, o, dayIndex]);
@@ -131,21 +143,30 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
       )}
 
       <div className="mt-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-8 lg:px-6 xl:grid-cols-[minmax(0,1fr)_30rem]">
-        <div className="px-4 lg:sticky lg:top-4 lg:self-start lg:px-0 print:hidden">
-          <div id="final-map">
+        {/* PC 지도 칸은 sticky라 그 안의 전체 화면 층이 오른쪽 일정 아래에 갇힌다 → 전체 화면일 때만 sticky를 푼다 */}
+        <div className={`px-4 lg:self-start lg:px-0 print:hidden ${fullMap ? "" : "lg:sticky lg:top-4"}`}>
+          <div
+            id="final-map"
+            className={fullMap ? "fixed inset-0 z-50 bg-white" : ""}
+            {...(fullMap ? { role: "dialog", "aria-modal": true, "aria-label": "지도 전체 화면" } : {})}
+          >
             <TripMap
               key={dayIndex}
               points={points}
               label={mapLabel}
               details={dayStopDetails(trip, o, dayIndex)}
-              onPick={showStopInList}
-              className={`${bigMap ? "h-80" : "h-60"} lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]`}
+              onPick={(id) => {
+                setFullMap(false);
+                showStopInList(id);
+              }}
+              className={fullMap ? "h-dvh rounded-none pb-[env(safe-area-inset-bottom)]" : "h-60 lg:h-[calc(100dvh-14rem)] lg:min-h-[28rem]"}
+              action={
+                <Button variant="outline" size="sm" className="shrink-0" aria-expanded={fullMap} aria-controls="final-map" onClick={() => setFullMap((v) => !v)}>
+                  {fullMap ? <Minimize2 aria-hidden="true" /> : <Maximize2 aria-hidden="true" />}
+                  {fullMap ? "닫기" : "전체 화면"}
+                </Button>
+              }
             />
-          </div>
-          <div className="flex justify-end lg:hidden">
-            <Button variant="ghost" size="sm" aria-expanded={bigMap} aria-controls="final-map" onClick={() => setBigMap((v) => !v)}>
-              {bigMap ? "지도 작게 보기" : "지도 크게 보기"}
-            </Button>
           </div>
         </div>
 

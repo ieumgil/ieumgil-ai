@@ -7,7 +7,7 @@
 // 경로선은 /api/route-line(카카오 다중 경유지 길찾기)에서 열 때마다 받고 저장하지 않는다(캐싱 금지). "일반 차량 경로"다.
 // 경로를 못 받으면 점선 직선(구간마다 화살표)으로 잇고 그렇다고 알린다. 지도 자체를 못 띄우면 안내 문구만 보여준다(일정은 그대로).
 // 창 크기가 바뀌어 지도 칸 크기가 바뀌면 다시 맞춘다(PC ↔ 휴대폰 배치 전환).
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { photosOf } from "@/lib/places/client-photos";
 import { splitAtMiddle, type LatLngPair } from "@/lib/trip/map-geo";
 import { mapCaption } from "@/lib/trip/map-caption";
@@ -198,10 +198,13 @@ export function TripMap({
   details = {},
   onPick,
   focus,
+  action,
 }: {
   points: MapPoint[];
   label: string;
   className?: string;
+  /** 아래 안내 칸 오른쪽에 둘 버튼(확정 화면의 '전체 화면') */
+  action?: ReactNode;
   details?: Record<string, StopDetail>;
   onPick?: (placeId: string) => void;
   focus?: { id: string; n: number } | null;
@@ -344,9 +347,12 @@ export function TripMap({
   return (
     <figure className={`flex flex-col overflow-hidden rounded-2xl bg-surface ${className}`}>
       <div ref={box} className="min-h-0 flex-1" role="group" aria-label={label} />
-      <figcaption className="border-t border-line px-4 py-3">
-        <p className="text-heading leading-snug font-bold text-ink">{caption.head}</p>
-        <p className="mt-0.5 text-base text-ink-sub">{caption.sub}</p>
+      <figcaption className="flex items-center gap-3 border-t border-line px-4 py-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-heading leading-snug font-bold text-ink">{caption.head}</p>
+          <p className="mt-0.5 text-base text-ink-sub">{caption.sub}</p>
+        </div>
+        {action}
       </figcaption>
     </figure>
   );
