@@ -166,7 +166,7 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
             )}
 
             <p className="text-sm leading-normal text-ink-sub">
-              조건에 맞지 않는 곳을 고르면, 루트에 넣기 전에 어떤 점이 어려운지 먼저 알려드려요.
+              조건에 맞지 않는 곳을 고르면, 루트에 넣기 전에 어떤 점이 어려운지 먼저 알려 드려요.
             </p>
           </div>
         </Disclosure>

@@ -25,7 +25,7 @@ const TYPES: { id: TravelerType; title: string; body: string; icon: ReactNode }[
   {
     id: "stroller",
     title: "유모차 동반",
-    body: "엘리베이터와 수유실·기저귀대를 확인해요",
+    body: "엘리베이터와 수유실·기저귀 교환대를 확인해요",
     icon: <StrollerIcon size={28} />,
   },
 ];

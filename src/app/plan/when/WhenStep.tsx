@@ -76,7 +76,7 @@ export function WhenStep() {
         )}
       </div>
 
-      <Section id="field-arrival" title="영동에 어디로 도착하나요?" hint="서울에서 오는 시간은 빼고, 도착한 곳부터 루트를 짜요.">
+      <Section id="field-arrival" title="영동에 어디로 도착하나요?" hint="영동까지 오는 시간은 빼고, 도착한 곳부터 루트를 짜요.">
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="도착 지점">
           {ARRIVAL_POINTS.map((a) => (
             <ChoiceButton
@@ -114,7 +114,7 @@ export function WhenStep() {
             <CheckRow checked={plan.disabledPermit} onChange={(v) => updatePlan({ disabledPermit: v })}>
               장애인 사용 자동차 표지가 있어요
             </CheckRow>
-            <p className="text-sm text-ink-sub">표지가 있으면 장애인 전용 주차구역이 있는 곳을 우선 확인해요.</p>
+            <p className="text-sm text-ink-sub">표지가 있으면 장애인 전용 주차구역도 꼭 필요한 조건으로 확인해요.</p>
           </>
         )}
         {plan.transport === "taxi" && (
@@ -227,8 +227,8 @@ export function WhenStep() {
           <Disclosure summary="숙소는 이렇게 짜요">
             <p className="pb-2 text-sm text-ink-sub">
               {nights > 1
-                ? "밤마다 고를 수 있어요. 숙소를 옮기면 2일째는 첫째 밤 숙소에서 출발해 둘째 밤 숙소 쪽으로 가며 둘러봐요."
-                : "둘째 날부터 숙소 근처에서 출발해요. 중간 날은 09:30 출발 ~ 18:00 숙소 도착으로 짜고, 결과에서 바꿀 수 있어요."}
+                ? "밤마다 고를 수 있어요. 가운데 날은 09:30에 출발해 18:00에 숙소로 돌아와요. 숙소를 옮기면 2일째는 첫째 밤 숙소에서 출발해 둘째 밤 숙소 쪽으로 가며 둘러봐요."
+                : "둘째 날은 숙소 근처에서 09:30에 출발해, 마치는 시각까지 둘러봐요."}
             </p>
           </Disclosure>
         </Section>

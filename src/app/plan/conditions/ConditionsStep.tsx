@@ -73,7 +73,7 @@ export function ConditionsStep() {
         {/* 주차 안내는 한 곳에서 한 줄(표지가 있으면 켜진 이유, 없으면 1단계로 가는 길) */}
         {hasParking && (
           <p className="text-sm leading-normal text-ink-sub">
-            장애인 전용 주차구역은 1단계에서 &lsquo;장애인 사용 자동차 표지&rsquo;를 골라서 나와요.
+            1단계에서 &lsquo;장애인 사용 자동차 표지가 있어요&rsquo;를 고르셔서 장애인 전용 주차구역도 확인해요.
           </p>
         )}
         {parkingHint && (

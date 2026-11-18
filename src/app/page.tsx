@@ -15,12 +15,12 @@ const FEATURES: { title: string; body: string }[] = [
     body: "계단, 화장실, 걷는 거리처럼 꼭 필요한 조건을 유형별로 확인해요",
   },
   {
-    title: "판정마다 근거를 보여줘요",
-    body: "어디서 확인한 정보인지, 언제 확인했는지 함께 알려드려요",
+    title: "판단마다 근거를 보여 줘요",
+    body: "관광공사 원문 어느 항목을 보고 판단했는지 함께 알려 드려요",
   },
   {
-    title: "AI가 쉬운 말로 정리해요",
-    body: "루트와 주의할 점, 챙길 것을 짧게 브리핑해요",
+    title: "모르는 건 물어볼 것을 알려 줘요",
+    body: "공식 정보가 없는 항목은 숨기지 않고, 출발 전에 전화로 물어볼 질문과 번호를 붙여요",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function Home() {
               함께 가는 <span className="text-pine">영동 여행</span>
             </h1>
             <p className="mt-2 text-base text-ink-sub text-pretty lg:max-w-[34rem]">
-              강릉·속초·동해 유명 관광지 중 우리 조건에 맞는 곳만 골라, 당일부터 2박 3일까지 지도 위 여행 루트로 짜 드려요.
+              강릉·속초·동해 관광지 가운데 우리 조건에 맞는 곳만 골라, 당일부터 2박 3일까지 여행 루트를 짜 드려요.
             </p>
           </header>
 

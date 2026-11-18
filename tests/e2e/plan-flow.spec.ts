@@ -273,7 +273,7 @@ test.describe("입력 틀·1·2단계 정리", () => {
     await expect(page.getByRole("radiogroup", { name: "숙소 지역" })).toBeVisible(); // 숙소는 접지 않는다
     const more = page.locator("summary", { hasText: "숙소는 이렇게 짜요" });
     await expect(more).toBeVisible();
-    const sentence = page.getByText("둘째 날부터 숙소 근처에서 출발해요");
+    const sentence = page.getByText("둘째 날은 숙소 근처에서 09:30에 출발해"); // 1박 2일엔 가운데 날이 없다
     await expect(sentence).not.toBeVisible();
     await more.click();
     await expect(sentence).toBeVisible();
