@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { eun, euro } from "@/lib/text/particle";
+import { eun, euro, iga } from "@/lib/text/particle";
 
 describe("euro(으로/로)", () => {
   it("받침이 있으면 '으로', 없거나 ㄹ이면 '로'", () => {
@@ -24,5 +24,16 @@ describe("eun(은/는)", () => {
   });
   it("한글로 끝나지 않으면 '은(는)'", () => {
     expect(eun("남항진해변(남항진해수욕장)")).toBe("남항진해변(남항진해수욕장)은(는)");
+  });
+});
+
+describe("iga(이/가)", () => {
+  it("받침이 있으면 '이', 없으면 '가'", () => {
+    expect(iga("장애인 화장실")).toBe("장애인 화장실이");
+    expect(iga("엘리베이터")).toBe("엘리베이터가");
+    expect(iga("단차 없는 진입, 엘리베이터")).toBe("단차 없는 진입, 엘리베이터가");
+  });
+  it("한글로 끝나지 않으면 '이(가)'", () => {
+    expect(iga("ABC")).toBe("ABC이(가)");
   });
 });

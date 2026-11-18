@@ -20,6 +20,7 @@ import { photosOf } from "@/lib/places/client-photos";
 import { firstIncompleteStep } from "@/lib/plan/progress";
 import { updatePlan, usePlan } from "@/lib/plan/store";
 import { CATEGORIES, REGIONS, type AccessStatus, type Category, type Region } from "@/lib/types";
+import { iga } from "@/lib/text/particle";
 
 const PANEL =
   "mx-auto max-h-[88dvh] max-w-[36rem] overflow-y-auto rounded-t-3xl px-4 pb-8 md:px-6 lg:w-[36rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
@@ -84,7 +85,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
       {/* 머리 예산 300px: 제목 · 설명 · (유형 기준 한 줄) · 범례 펼치기 · 지역 분할 · 분야 칩 · 검색칸. 장소 목록이 첫 화면에 바로 보이게 한다 */}
       <header className="animate-rise px-4 pt-4 md:px-6">
         <h1 className="font-heading text-title font-bold text-balance">영동 관광지 둘러보기</h1>
-        <p className="mt-1 text-base text-ink-sub text-pretty">어떤 곳인지 먼저 보고, 가고 싶은 곳을 담아 두세요. 담은 곳은 일정에 꼭 넣어요.</p>
+        <p className="mt-1 text-base text-ink-sub text-pretty">어떤 곳인지 먼저 보고, 가고 싶은 곳을 담아 두세요. 담은 곳은 일정에 꼭 넣어요. 조건에 맞지 않는 곳이면 먼저 알려 드려요.</p>
         {travelers && (
           <p className="mt-1 text-sm text-ink-sub">
             <strong className="font-bold text-ink">{travelers}</strong> 기준으로 꼭 필요한 조건을 함께 보여 드려요.
@@ -150,8 +151,8 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
         </Section>
       )}
       <p className="mt-8 px-4 text-sm text-ink-sub md:px-6">
-        소개는 한국관광공사 관광지 소개 글을 AI가 한 줄로 정리했어요(원문에 없는 내용은 쓰지 않게 검사). 접근성은 관광공사 무장애 정보를 AI가 정리한 값(장애인
-        화장실·기저귀 교환대 일부는 행정안전부 공중화장실 공공데이터)이라 현장과 다를 수 있어요. 사진: 한국관광공사 · 공공누리.
+        소개는 한국관광공사 관광지 소개 글을 AI가 한 줄로 정리했고, 원문에 없는 내용은 쓰지 않게 검사했어요. 접근성은 관광공사 무장애 정보를 AI가
+        정리한 값이고, 장애인 화장실·기저귀 교환대 일부는 행정안전부 공중화장실 공공데이터예요. 현장과 다를 수 있어요. 사진: 한국관광공사 · 공공누리.
       </p>
 
       {/* 담은 곳: 불투명 흰 바탕 + 위 그림자(S3). 세로가 아주 짧은 창에서는 따라다니지 않는다 */}
@@ -253,7 +254,7 @@ function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; pick
         </ul>
         {g.blocked.length > 0 && (
           <p className="rounded-xl bg-blocked-bg px-3 py-2 text-base text-blocked-ink">
-            <span className="sr-only">주의: </span>공식 정보상 {g.blocked.map((b) => b.label).join(", ")}이(가) 어려워 일정을 만들 때 빠질 수 있어요.
+            <span className="sr-only">주의: </span>공식 정보상 {iga(g.blocked.map((b) => b.label).join(", "))} 어려워 일정을 만들 때 빠질 수 있어요.
           </p>
         )}
         <div className="mt-auto flex gap-2">

@@ -15,3 +15,11 @@ export function eun(word: string): string {
   if (code < 0 || code > 11171) return `${word}은(는)`;
   return `${word}${code % 28 === 0 ? "는" : "은"}`;
 }
+
+/** '이/가': 받침이 있으면 '이', 없으면 '가'. 한글이 아니면 '이(가)' */
+export function iga(word: string): string {
+  const last = word.trim().at(-1) ?? "";
+  const code = last.charCodeAt(0) - 0xac00;
+  if (code < 0 || code > 11171) return `${word}이(가)`;
+  return `${word}${code % 28 === 0 ? "가" : "이"}`;
+}

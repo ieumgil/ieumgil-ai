@@ -51,7 +51,7 @@ function Final({ trip }: { trip: TripView }) {
   const confirmedId = useConfirmedOption(trip);
   const edited = useEditedOptions(trip);
   const base = trip.options.find((o) => o.id === confirmedId);
-  if (!base) return <Empty text="아직 정한 일정이 없어요" body="일정 비교 화면에서 마음에 드는 안을 골라 '이 일정으로 정하기'를 눌러 주세요." href={tripHref(trip)} back={tripHref(trip)} cta="일정 고르러 가기" />;
+  if (!base) return <Empty text="아직 정한 일정이 없어요" body="일정 비교 화면에서 마음에 드는 일정을 골라 '이 일정으로 정하기'를 눌러 주세요." href={tripHref(trip)} back={tripHref(trip)} cta="일정 고르러 가기" />;
   return <FinalOption trip={trip} o={edited[base.id] ?? base} />;
 }
 
