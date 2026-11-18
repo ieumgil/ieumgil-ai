@@ -168,6 +168,77 @@
   }
 }
 
+/* 시트·대화창(움직임 ③, Radix가 닫힘 애니메이션이 끝날 때까지 기다린다).
+ * 휴대폰 아래 시트: 화면 아래에서 끝까지 올라오고(220ms · enter) 내려간다(160ms · exit). 배경은 같은 시간에 어두워진다.
+ * PC(1024px~)에서 가운데 창으로 뜨는 시트와 대화창: 살짝 커지며 나타난다(scale .96 → 1). 위치는 translate, 움직임은 scale·opacity라 겹치지 않는다.
+ * 닫힘 키프레임은 열림과 이름이 달라야 Radix(Presence)가 끝날 때까지 기다린다.
+ * 내용과 버튼은 처음부터 제자리(창 전체가 함께 움직임). 동작 줄이기면 아래 미디어 쿼리가 0으로 만든다. */
+[data-slot="sheet-overlay"],
+[data-slot="dialog-overlay"] {
+  &[data-state="open"] {
+    animation: overlay-in var(--motion-long) var(--ease-enter) both;
+  }
+  &[data-state="closed"] {
+    animation: overlay-out var(--motion-medium) var(--ease-exit) both;
+  }
+}
+[data-slot="sheet-content"][data-side="bottom"] {
+  &[data-state="open"] {
+    animation: sheet-up var(--motion-long) var(--ease-enter) both;
+  }
+  &[data-state="closed"] {
+    animation: sheet-down var(--motion-medium) var(--ease-exit) both;
+  }
+  @media (min-width: 64rem) {
+    &[data-state="open"] {
+      animation: window-in var(--motion-long) var(--ease-enter) both;
+    }
+    &[data-state="closed"] {
+      animation: window-out var(--motion-medium) var(--ease-exit) both;
+    }
+  }
+}
+[data-slot="dialog-content"] {
+  &[data-state="open"] {
+    animation: window-in var(--motion-long) var(--ease-enter) both;
+  }
+  &[data-state="closed"] {
+    animation: window-out var(--motion-medium) var(--ease-exit) both;
+  }
+}
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes window-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes sheet-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes window-out {
+  to {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

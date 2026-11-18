@@ -10,6 +10,7 @@
 // - PC(1024px~): 왼쪽 요약·안 고르기·확정 버튼(고정) + 오른쪽 고른 안(지도는 날짜 탭 아래)
 // - 넓은 PC(1280px~): 안 고르기 · 고른 안 · 지도 3칸(지도 고정)
 // 지도 경로선은 열 때마다 받고 저장하지 않는다(일반 차량 경로).
+import { useLast } from "@/lib/use-last";
 import { CircleCheck, X } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -69,6 +70,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
   const [selected, setSelected] = useState(confirmedId ?? trip.options[0]?.id);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [swapFor, setSwapFor] = useState<string | null>(swapParam && base.placeData[swapParam] ? swapParam : null);
+  const shownSwap = useLast(swapFor); // 시트가 내려가는 동안에도 내용을 그대로
   // 주소의 ?swap=은 한 번만 쓴다(새로고침해도 창이 다시 열리지 않게)
   useEffect(() => {
     if (swapParam) window.history.replaceState(null, "", window.location.pathname);
@@ -220,7 +222,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
 
       <Sheet open={swapFor !== null} onOpenChange={(v) => !v && setSwapFor(null)}>
         <SheetContent side="bottom" className={PANEL}>
-          {swapFor && <SwapSheet key={swapFor} placeId={swapFor} o={option} trip={trip} onSwap={swap} onClose={() => setSwapFor(null)} />}
+          {shownSwap && <SwapSheet key={shownSwap} placeId={shownSwap} o={option} trip={trip} onSwap={swap} onClose={() => setSwapFor(null)} />}
         </SheetContent>
       </Sheet>
 

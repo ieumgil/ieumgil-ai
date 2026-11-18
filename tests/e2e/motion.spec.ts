@@ -69,3 +69,28 @@ test("장소 카드 '자세히'는 열 때 높이가 늘어나며 열리고, 글
   await expect(det).toHaveCSS("opacity", "1");
   await expect(det.getByText("AI 판단 이유")).toBeVisible();
 });
+
+test("바꾸기 시트는 아래에서 올라오고, 닫을 때 내용을 그대로 둔 채 내려간 뒤 사라진다", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await openTrip(page);
+  await page.getByRole("button", { name: /다른 곳으로 바꾸기/ }).first().click();
+  const sheet = page.locator("[data-slot=sheet-content]");
+  await expect(sheet).toHaveCSS("animation-name", "sheet-up");
+  await expect(sheet).toHaveCSS("animation-duration", "0.22s");
+  await page.waitForTimeout(400);
+  await page.keyboard.press("Escape");
+  await expect(sheet).toHaveAttribute("data-state", "closed");
+  await expect(sheet).toHaveCSS("animation-name", "sheet-down");
+  await expect(sheet.getByText(/대신 갈 곳/)).toBeAttached(); // 내려가는 동안 내용이 남아 있다
+  await expect(sheet).toHaveCount(0);
+});
+
+test("동작 줄이기면 시트가 바로 열리고 바로 닫힌다", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await openTrip(page);
+  await page.getByRole("button", { name: /다른 곳으로 바꾸기/ }).first().click();
+  const sheet = page.locator("[data-slot=sheet-content]");
+  expect(parseFloat(await sheet.evaluate((e) => getComputedStyle(e).animationDuration))).toBeLessThan(0.001);
+});

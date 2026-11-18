@@ -3,6 +3,7 @@
 // 관광지 둘러보기: 지역(강릉·속초·동해) → 분야 → 사진 카드(어떤 곳인지 한 줄 · 볼 거리 · 고른 유형 기준 접근성 요약) → [담기].
 // 카드를 누르면 자세히(사진·관광공사 소개 원문·운영시간·전화·접근성 10항목). 장애인 화장실·기저귀 교환대는 공공데이터 값이면 출처·기준일('공공데이터(YYYY-MM 기준)')을 붙인다. 담은 곳은 입력값의 '꼭 가고 싶은 곳'(mustVisit)이 된다.
 // 4단계에서 왔으면(?from=plan) 아래 버튼이 '고른 곳 가지고 돌아가기', 시작 화면에서 왔으면 '이 곳들로 루트 만들기'.
+import { useLast } from "@/lib/use-last";
 import { Check, ChevronRight, Phone, Plus, Search as SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
@@ -56,6 +57,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
   const [category, setCategory] = useState<Category | null>(null);
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<BrowsePlace | null>(null);
+  const sheetPlace = useLast(open); // 시트가 내려가는 동안에도 내용을 그대로
   const travelers = plan.travelers.map((t) => TRAVELER_LABELS[t]).join(" · ");
 
   const counts = useMemo(() => Object.fromEntries(REGIONS.map((r) => [r, places.filter((p) => p.region === r).length])) as Record<Region, number>, [places]);
@@ -183,7 +185,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
 
       <Sheet open={open !== null} onOpenChange={(v) => !v && setOpen(null)}>
         <SheetContent side="bottom" className={PANEL}>
-          {open && <PlaceDetail p={open} picked={plan.mustVisit.includes(open.id)} plan={plan} onToggle={toggle} />}
+          {sheetPlace && <PlaceDetail p={sheetPlace} picked={plan.mustVisit.includes(sheetPlace.id)} plan={plan} onToggle={toggle} />}
         </SheetContent>
       </Sheet>
     </main>
