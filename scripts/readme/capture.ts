@@ -101,7 +101,7 @@ const SHOTS: Shot[] = [
     act: async (p) => {
       await waitMap(p);
       // 지도는 작게 시작한다(03단계) → 크게 본 뒤 번호를 누른다. 번호가 겹쳐 다른 번호가 가로채면 눌린 것과 같게 직접 누른다
-      await p.getByRole("button", { name: "지도 크게 보기" }).click();
+      await p.getByRole("button", { name: "전체 화면" }).click();
       await p.waitForTimeout(1500);
       const pin = p.getByRole("button", { name: /^2번 .+ 정보 보기$/ }).first();
       await pin.click({ timeout: 4000 }).catch(() => pin.evaluate((el) => (el as HTMLElement).click()));
@@ -181,16 +181,22 @@ async function capture(b: Browser, s: Shot) {
 }
 
 /** 표지: 시작 → 만드는 중 → 일정 비교 → 확정 일정(지도) */
+/** 표지 두 장: cover(흐름 — 시작 · 만드는 중 · 비교 · 확정 지도) · cover-judge(AI 판단과 확인 — 조건 · 장소 카드 · 바꾸기 · 전화 확인) */
 async function cover(b: Browser) {
-  const img = (n: string) => `data:image/png;base64,${readFileSync(`${OUT}/${n}.png`).toString("base64")}`;
-  const names = ["01-home", "06-making", "07-result-compare", "10-final"];
+  await coverOf(b, "cover", ["01-home", "06-making", "07-result-compare", "10-final"]);
+  await coverOf(b, "cover-judge", ["04-conditions", "08-result-detail", "09-swap", "12-checklist"]);
+}
+
+async function coverOf(b: Browser, file: string, names: string[]) {
+  // 휴대폰 틀을 입힌 mock/ 이미지를 쓴다(frames를 먼저 돌려야 한다)
+  const img = (n: string) => `data:image/png;base64,${readFileSync(`${OUT}/mock/${n}.png`).toString("base64")}`;
   const page = await b.newPage({ viewport: { width: 2560, height: 1360 } });
-  await page.setContent(`<!doctype html><html><body style="margin:0;width:2560px;height:1360px;display:flex;align-items:center;justify-content:center;gap:56px;background:linear-gradient(135deg,#EAF2FD,#DCE8FB)">
-    ${names.map((n, i) => `<img src="${img(n)}" style="width:568px;height:1229px;object-fit:cover;object-position:top;border-radius:56px;box-shadow:0 24px 64px rgb(20 80 163/.18);transform:translateY(${i % 2 ? 32 : -32}px)" />`).join("")}
+  await page.setContent(`<!doctype html><html><body style="margin:0;width:2560px;height:1360px;display:flex;align-items:center;justify-content:center;gap:24px;background:linear-gradient(135deg,#EAF2FD,#DCE8FB)">
+    ${names.map((n, i) => `<img src="${img(n)}" style="height:1240px;width:auto;transform:translateY(${i % 2 ? 24 : -24}px)" />`).join("")}
   </body></html>`);
-  await page.screenshot({ path: `${OUT}/cover.png` });
+  await page.screenshot({ path: `${OUT}/${file}.png` });
   await page.close();
-  console.log("✓ cover");
+  console.log(`✓ ${file}`);
 }
 
 /** 공유·인쇄: 공유 창(19) → 받은 사람 화면(20, 실제 Supabase에 저장된 링크) · 인쇄용 일정표(21).
@@ -284,11 +290,12 @@ async function frames(b: Browser) {
 }
 
 async function main() {
-  const only = process.argv[2]; // 예: share → 공유·인쇄만, cover → 표지만, frames → 틀만, 15-map-card → 그 장면 하나만
+  const only = process.argv[2]; // 예: share → 공유·인쇄만, screens → 화면·표지만(공유 링크를 만들지 않음), cover → 표지만, frames → 틀만, 15-map-card → 그 장면 하나만
   const b = await chromium.launch();
   if (only === "cover" || only === "frames") {
     // 이미 찍은 원본으로 표지·틀만 다시(개발 서버 필요 없음)
-    await (only === "cover" ? cover(b) : frames(b));
+    await frames(b);
+    if (only === "cover") await cover(b);
     await b.close();
     return;
   }
@@ -298,13 +305,11 @@ async function main() {
   if (one) {
     await capture(b, one);
   } else {
-    if (only !== "share") {
-      for (const s of SHOTS) await capture(b, s);
-      await cover(b);
-    }
-    await shareShots(b);
+    if (only !== "share") for (const s of SHOTS) await capture(b, s);
+    if (only !== "screens") await shareShots(b);
   }
   await frames(b);
+  if (!one && only !== "share") await cover(b); // 표지는 틀을 입힌 이미지로 만든다
   await b.close();
 }
 
