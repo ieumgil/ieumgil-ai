@@ -30,15 +30,8 @@ export default function Home() {
         <QuickMenu inner={SITE_WIDTH} />
 
         {/* 소개: 제목 · 버튼 · 특징 + 결과 화면 미리보기 */}
-        {/* 소개: 레퍼런스 청양 문화관광 '투어패스' 구역 — 왼쪽 글, 오른쪽 화면 끝까지 찬 연한 면(왼쪽 아래만 둥글게) 위에 미리보기 (globals.css .intro-band) */}
-        <section aria-labelledby="intro-title" className="intro-band mt-16 py-12 lg:mt-24 lg:py-16">
-          <span className="intro-band__mark" aria-hidden="true">
-            IEUMGIL ROUTE
-          </span>
-          <div className={SITE_WIDTH}>
-            <IntroSteps />
-          </div>
-        </section>
+        {/* 소개: 단계 설명 + 휴대폰 화면 전환, 넓은 화면에서는 스크롤 고정으로 1→3단계(components/home/IntroSteps.tsx) */}
+        <IntroSteps inner={SITE_WIDTH} />
 
         <Waves />
         <RouteCards />

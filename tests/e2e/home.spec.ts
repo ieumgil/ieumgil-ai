@@ -137,3 +137,22 @@ test("대표 관광지 8곳은 관광지 둘러보기로 간다", async ({ page 
   await expect(links).toHaveCount(8);
   await expect(links.first()).toHaveAttribute("href", "/places");
 });
+
+// 11/23 스크롤 고정: 넓고 높은 화면에서 소개 구역에 들어오면 한 화면이 고정된 채 스크롤로 1→2→3단계, 끝나면 고정이 풀린다
+test("PC: 소개 구역은 화면이 고정된 채 스크롤로 1→3단계가 바뀌고, 지나간 번호는 클리어, 끝나면 풀린다", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "고정은 넓고 높은 화면에서만");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const box = await page.locator(".intro-scroll").evaluate((el) => ({ top: el.getBoundingClientRect().top + window.scrollY, h: (el as HTMLElement).offsetHeight }));
+  expect(box.h).toBeGreaterThan(900 * 2); // 화면 세 배 길이
+  const tabs = page.getByRole("tablist", { name: "이음길이 고르는 방법" }).getByRole("tab");
+  const pinTop = () => page.locator(".intro-pin").evaluate((el) => Math.round(el.getBoundingClientRect().top));
+  for (const [f, idx] of [[0.1, 0], [0.5, 1], [0.9, 2]] as const) {
+    await page.evaluate(([t, h, f]) => window.scrollTo(0, t + (h - window.innerHeight) * f), [box.top, box.h, f]);
+    await expect(tabs.nth(idx)).toHaveAttribute("aria-selected", "true");
+    expect(await pinTop()).toBe(0); // 고정
+  }
+  await expect(page.locator(".intro-step__no[data-passed]")).toHaveCount(3);
+  await page.evaluate(([t, h]) => window.scrollTo(0, t + h + 200), [box.top, box.h]);
+  expect(await pinTop()).toBeLessThan(0); // 풀림
+});
