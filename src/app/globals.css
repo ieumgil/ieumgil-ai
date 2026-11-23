@@ -43,7 +43,7 @@
   --text-hero--line-height: 1.25;
   --font-hero: var(--font-syongsyong), var(--font-pretendard), sans-serif;
   /* 시작 화면 히어로 바탕(하늘) */
-  --color-sky: #e4f3f8;
+  --color-sky: #e3f3f6; /* 히어로 배경 그림(public/hero/sky-hills.webp)의 하늘색과 같게 */
   /* 루트 카드 세 번째 색: 경로선 주황을 흰 글자 대비 4.5:1 이상으로 진하게 */
   --color-route-deep: #b3541e;
   --text-base: 1rem;
@@ -948,5 +948,38 @@ label:has(input[type="checkbox"]) {
   }
   .intro-pin > div {
     width: 100%;
+  }
+}
+
+/* 시작 화면 히어로 그림 배치(11/23): 강원 지도는 왼쪽 칸, 꽃덤불은 오른쪽 아래 구석. 좁은 화면은 지도만 글 위에 작게 */
+.hero-scene__map {
+  display: block;
+  width: min(100%, 22rem);
+  height: auto;
+  margin-inline: auto;
+}
+.hero-scene__bush {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 9rem;
+  height: auto;
+  pointer-events: none;
+}
+@media (min-width: 1024px) {
+  .hero-scene__map {
+    width: auto;
+    max-width: min(100%, 38rem);
+    max-height: min(36rem, calc(100svh - 22rem)); /* 바로가기 띠가 PC 첫 화면 안에 들도록 */
+    margin-inline: 0;
+  }
+  .hero-scene__bush {
+    width: 26rem;
+  }
+}
+@media (min-width: 1536px) {
+  .hero-scene__bush {
+    width: 28rem;
   }
 }

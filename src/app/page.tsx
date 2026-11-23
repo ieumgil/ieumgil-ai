@@ -43,16 +43,20 @@ export default function Home() {
 }
 
 /**
- * 히어로: 어머니 시안의 그림(지도·나침반·언덕·꽃)을 바탕으로 깔고 오른쪽에 진짜 글자를 올린다.
- * [임시] public/mock/hero.webp는 시안에서 글자를 지우고 잘라 낸 그림이다. 지도 일러스트에 스톡 미리보기 워터마크가 있어
- * 저장소에 올리지 않는다(.gitignore). 정식 그림을 구하면 이 파일만 바꾼다.
+ * 히어로(11/23 어머니 시안): 그림 세 겹 위에 진짜 글자를 올린다(그림은 모두 장식이라 읽지 않는다).
+ *   맨 뒤 하늘·언덕 배경(public/hero/sky-hills.webp) → 왼쪽 강원 지도(gangwon-map.svg) → 오른쪽 아래 꽃덤불(bush-corner.svg) → 오른쪽 숑숑 문구.
+ * 그림은 사용자가 직접 만든 파일이라 저장소에 함께 올린다(예전 시안 잘라 쓰기·스톡 워터마크 문제 없음).
  */
 function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="relative overflow-hidden bg-sky">
-      <Image src="/mock/hero.webp" alt="" fill priority sizes="100vw" className="object-cover object-left-bottom" />
-      <div className={`${SITE_WIDTH} relative z-10 flex min-h-[28rem] items-center justify-end py-12 lg:min-h-[min(41rem,calc(100svh-19rem))] lg:pt-8 lg:pb-24`}>
-        <div className="flex flex-col lg:items-end lg:text-right">
+    <section aria-labelledby="hero-title" className="hero-scene relative overflow-hidden bg-sky">
+      <Image src="/hero/sky-hills.webp" alt="" fill priority sizes="100vw" className="object-cover object-bottom" />
+      {/* eslint-disable-next-line @next/next/no-img-element -- 장식 SVG(크기 조절만, 최적화 불필요) */}
+      <img src="/hero/bush-corner.svg" alt="" aria-hidden="true" className="hero-scene__bush" />
+      <div className={`${SITE_WIDTH} relative z-10 grid items-center gap-6 pt-10 pb-28 lg:min-h-[min(41rem,calc(100svh-19rem))] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:py-8`}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- 장식 SVG */}
+        <img src="/hero/gangwon-map.svg" alt="" aria-hidden="true" className="hero-scene__map" />
+        <div className="relative z-10 flex flex-col lg:items-end lg:pb-24 lg:text-right">
           <p className="text-heading text-ink">휠체어, 어르신, 유모차와 함께 가는 영동</p>
           <h1 id="hero-title" className="mt-4 font-hero text-hero font-normal">
             <span className="block text-primary-ink">지도로 찾아가는</span>{" "}
