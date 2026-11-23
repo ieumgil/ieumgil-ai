@@ -29,8 +29,8 @@ export interface RouteCard {
 
 export const ROUTE_CARDS: RouteCard[] = [
   { id: "wheelchair", who: "휠체어", where: "강릉 · 1박 2일", line: "오죽헌과 경포 바다를 휠체어로", photoPlace: "GN33", trip: single(EXAMPLE_TRIP, "B", "example-route-wheelchair") },
-  { id: "elder", who: "어르신", where: "속초 · 당일", line: "속초 바다와 청초호를 천천히", photoPlace: "SC28", trip: single(elder as unknown as TripView, "A", "example-route-elder") },
-  { id: "stroller", who: "유모차", where: "동해 · 당일", line: "추암 촛대바위에서 묵호항까지", photoPlace: "DH20", trip: single(stroller as unknown as TripView, "B", "example-route-stroller") },
+  { id: "elder", who: "어르신", where: "속초 · 당일", line: "속초 바다와 청초호를 천천히", photoPlace: "SC27", trip: single(elder as unknown as TripView, "A", "example-route-elder") },
+  { id: "stroller", who: "유모차", where: "동해 · 당일", line: "추암 촛대바위에서 도째비골까지", photoPlace: "DH20", trip: single(stroller as unknown as TripView, "B", "example-route-stroller") },
 ];
 
 export const ROUTE_PREFIX = "route-";

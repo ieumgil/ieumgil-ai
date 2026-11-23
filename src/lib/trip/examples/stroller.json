@@ -20,14 +20,14 @@
  },
  "usedFallback": false,
  "calls": 5,
- "ms": 12167,
+ "ms": 10944,
  "notes": [],
  "options": [
   {
    "id": "A",
    "strategy": "여유",
-   "title": "여유로운 동해 바다 산책",
-   "summary": "이동을 최소화하고 여유롭게 즐기는 바다와 자연 일정",
+   "title": "한섬해변과 천곡천연동굴을 둘러보는 여유로운 일정",
+   "summary": "가까운 거리에 있는 바다와 동굴을 여유롭게 둘러보는 하루입니다.",
    "source": "ai",
    "days": [
     {
@@ -37,7 +37,7 @@
      "startMin": 600,
      "endMin": 1020,
      "fit": "여유",
-     "travelMin": 51,
+     "travelMin": 32,
      "estimated": true,
      "items": [
       {
@@ -52,15 +52,15 @@
        "kind": "visit",
        "placeId": "DH21",
        "arriveMin": 612,
-       "departMin": 657,
-       "stayMin": 45,
+       "departMin": 662,
+       "stayMin": 50,
        "extraMin": 0,
-       "why": "출입구에 턱이나 계단이 없어 유모차를 끌고 편하게 바다를 볼 수 있어요."
+       "why": "출입구에 턱이 없어 유모차로 편하게 진입할 수 있어 골랐어요."
       },
       {
        "kind": "rest",
-       "startMin": 657,
-       "endMin": 677
+       "startMin": 662,
+       "endMin": 682
       },
       {
        "kind": "travel",
@@ -68,51 +68,29 @@
        "minutes": 8,
        "km": 1.5,
        "estimated": true,
-       "startMin": 677
+       "startMin": 682
       },
       {
        "kind": "visit",
        "placeId": "DH16",
-       "arriveMin": 685,
-       "departMin": 745,
+       "arriveMin": 690,
+       "departMin": 750,
        "stayMin": 60,
        "extraMin": 0,
-       "why": "목재 데크 탐방로가 잘 되어 있어 유모차로 편안하게 둘러볼 수 있어요."
-      },
-      {
-       "kind": "rest",
-       "startMin": 745,
-       "endMin": 765
+       "why": "출입구에 턱이 없어 유모차 접근이 가능하여 골랐어요."
       },
       {
        "kind": "lunch",
-       "startMin": 765,
-       "endMin": 825
-      },
-      {
-       "kind": "travel",
-       "toName": "가원습지 생태자연공원",
-       "minutes": 18,
-       "km": 6.6,
-       "estimated": true,
-       "startMin": 825
-      },
-      {
-       "kind": "visit",
-       "placeId": "DH01",
-       "arriveMin": 843,
-       "departMin": 903,
-       "stayMin": 60,
-       "extraMin": 0,
-       "why": "출입구에 턱이 없어 유모차로 편하게 접근하기 좋아요."
+       "startMin": 750,
+       "endMin": 810
       },
       {
        "kind": "travel",
        "toName": "동해역",
-       "minutes": 13,
-       "km": 4,
+       "minutes": 12,
+       "km": 3.5,
        "estimated": true,
-       "startMin": 903
+       "startMin": 810
       }
      ]
     }
@@ -123,13 +101,13 @@
     "fatigue": 4,
     "slack": 4,
     "taste": 4,
-    "comment": "유모차가 다니기 좋은 곳들과 바다가 잘 반영된 여유로운 일정이에요."
+    "comment": "바다와 동굴을 무리 없이 둘러볼 수 있는 구성입니다."
    },
    "fixes": 0,
    "fixedViolations": [],
    "stats": {
-    "places": 3,
-    "travelMin": 51,
+    "places": 2,
+    "travelMin": 32,
     "checkNeeded": 0
    },
    "draft": {
@@ -139,21 +117,14 @@
       "stops": [
        {
         "placeId": "DH21",
-        "stayMin": 45,
+        "stayMin": 50,
         "restAfter": true,
-        "why": "출입구에 턱이나 계단이 없어 유모차를 끌고 편하게 바다를 볼 수 있어요."
+        "why": "출입구에 턱이 없어 유모차로 편하게 진입할 수 있어 골랐어요."
        },
        {
         "placeId": "DH16",
         "stayMin": 60,
-        "restAfter": true,
-        "why": "목재 데크 탐방로가 잘 되어 있어 유모차로 편안하게 둘러볼 수 있어요."
-       },
-       {
-        "placeId": "DH01",
-        "stayMin": 60,
-        "restAfter": false,
-        "why": "출입구에 턱이 없어 유모차로 편하게 접근하기 좋아요."
+        "why": "출입구에 턱이 없어 유모차 접근이 가능하여 골랐어요."
        }
       ]
      }
@@ -167,12 +138,7 @@
     ],
     "DH16": [
      "DH03",
-     "DH19",
-     "DH20"
-    ],
-    "DH01": [
-     "DH07",
-     "DH04",
+     "DH01",
      "DH19"
     ]
    }
@@ -180,8 +146,8 @@
   {
    "id": "B",
    "strategy": "취향",
-   "title": "바다와 전망 중심의 알찬 일정",
-   "summary": "바다와 해변, 그리고 멋진 전망을 함께 즐기는 일정",
+   "title": "추암해변과 촛대바위, 도째비골을 잇는 바다 전망 코스",
+   "summary": "푸른 바다와 멋진 전망을 즐기는 여행입니다.",
    "source": "ai",
    "days": [
     {
@@ -209,7 +175,7 @@
        "departMin": 660,
        "stayMin": 45,
        "extraMin": 0,
-       "why": "출입과 이동이 편리하여 유모차와 함께 방문하기 좋아요."
+       "why": "출입구에 턱이 없어 유모차 이동이 원활해 골랐어요."
       },
       {
        "kind": "rest",
@@ -218,66 +184,71 @@
       },
       {
        "kind": "travel",
-       "toName": "도째비골스카이밸리",
-       "minutes": 19,
-       "km": 12.4,
+       "toName": "추암 촛대바위",
+       "minutes": 5,
+       "km": 0,
        "estimated": true,
        "startMin": 680
       },
       {
        "kind": "visit",
-       "placeId": "DH03",
-       "arriveMin": 699,
-       "departMin": 759,
-       "stayMin": 60,
+       "placeId": "DH18",
+       "arriveMin": 685,
+       "departMin": 730,
+       "stayMin": 45,
        "extraMin": 0,
-       "why": "경사로와 엘리베이터가 마련되어 있어 유모차로 전망을 즐기기 편리해요."
+       "why": "장애인 주차구역이 있어 자가용 이용이 편리하여 골랐어요."
       },
       {
        "kind": "rest",
-       "startMin": 759,
-       "endMin": 779
+       "startMin": 730,
+       "endMin": 750
       },
       {
        "kind": "lunch",
-       "startMin": 779,
-       "endMin": 839
+       "startMin": 750,
+       "endMin": 810
       },
       {
        "kind": "travel",
-       "toName": "묵호항",
-       "minutes": 7,
-       "km": 1.1,
+       "toName": "도째비골스카이밸리",
+       "minutes": 19,
+       "km": 12.4,
        "estimated": true,
-       "startMin": 839
+       "startMin": 810
       },
       {
        "kind": "visit",
-       "placeId": "DH09",
-       "arriveMin": 846,
-       "departMin": 891,
-       "stayMin": 45,
+       "placeId": "DH03",
+       "arriveMin": 829,
+       "departMin": 889,
+       "stayMin": 60,
        "extraMin": 0,
-       "why": "턱이 없어 유모차가 다니기 수월한 항구 풍경을 감상할 수 있어요."
+       "why": "출입구까지 경사로가 설치되어 있고 턱이 없어 골랐어요."
       },
       {
        "kind": "travel",
        "toName": "동해역",
-       "minutes": 21,
-       "km": 8.1,
+       "minutes": 23,
+       "km": 8.8,
        "estimated": true,
-       "startMin": 891
+       "startMin": 889
       }
      ]
     }
    ],
    "checkBeforeGo": [],
-   "cautions": [],
+   "cautions": [
+    {
+     "placeId": "DH18",
+     "text": "장애인 주차구역이 있어 자가용 이용이 편리해요."
+    }
+   ],
    "review": {
     "fatigue": 3,
-    "slack": 4,
+    "slack": 3,
     "taste": 5,
-    "comment": "바다와 전망 취향에 꼭 맞지만 추암해변의 장애인 화장실 정보가 없는 점이 아쉬워요."
+    "comment": "멋진 바다 전망을 볼 수 있으나 이동 동선이 다소 깁니다."
    },
    "fixes": 0,
    "fixedViolations": [],
@@ -295,19 +266,18 @@
         "placeId": "DH20",
         "stayMin": 45,
         "restAfter": true,
-        "why": "출입과 이동이 편리하여 유모차와 함께 방문하기 좋아요."
+        "why": "출입구에 턱이 없어 유모차 이동이 원활해 골랐어요."
+       },
+       {
+        "placeId": "DH18",
+        "stayMin": 45,
+        "restAfter": true,
+        "why": "장애인 주차구역이 있어 자가용 이용이 편리하여 골랐어요."
        },
        {
         "placeId": "DH03",
         "stayMin": 60,
-        "restAfter": true,
-        "why": "경사로와 엘리베이터가 마련되어 있어 유모차로 전망을 즐기기 편리해요."
-       },
-       {
-        "placeId": "DH09",
-        "stayMin": 45,
-        "restAfter": false,
-        "why": "턱이 없어 유모차가 다니기 수월한 항구 풍경을 감상할 수 있어요."
+        "why": "출입구까지 경사로가 설치되어 있고 턱이 없어 골랐어요."
        }
       ]
      }
@@ -319,23 +289,23 @@
      "DH01",
      "DH21"
     ],
+    "DH18": [
+     "DH19",
+     "DH16",
+     "DH01"
+    ],
     "DH03": [
      "DH10",
-     "DH15",
-     "DH16"
-    ],
-    "DH09": [
-     "DH10",
-     "DH15",
-     "DH05"
+     "DH09",
+     "DH15"
     ]
    }
   },
   {
    "id": "C",
    "strategy": "확인 적게",
-   "title": "확인 필요 없는 안심 방문 일정",
-   "summary": "사전 확인할 필요 없이 적합 판정받은 곳들로만 구성한 안심 일정",
+   "title": "한섬해변과 무릉별유천지를 만나는 쾌적한 나들이",
+   "summary": "턱이 없어 이동하기 편한 장소들을 중심에 둔 하루입니다.",
    "source": "ai",
    "days": [
     {
@@ -345,7 +315,7 @@
      "startMin": 600,
      "endMin": 1020,
      "fit": "여유",
-     "travelMin": 57,
+     "travelMin": 48,
      "estimated": true,
      "items": [
       {
@@ -363,7 +333,7 @@
        "departMin": 657,
        "stayMin": 45,
        "extraMin": 0,
-       "why": "출입구에 턱이나 계단이 없어 유모차로 안전하게 방문할 수 있어요."
+       "why": "출입구에 턱이나 계단이 없어 유모차로 편하게 진입할 수 있어 골랐어요."
       },
       {
        "kind": "rest",
@@ -372,47 +342,25 @@
       },
       {
        "kind": "travel",
-       "toName": "동해무릉건강숲",
-       "minutes": 20,
-       "km": 13.7,
+       "toName": "무릉별유천지",
+       "minutes": 19,
+       "km": 12.6,
        "estimated": true,
        "startMin": 677
       },
       {
        "kind": "visit",
-       "placeId": "DH04",
-       "arriveMin": 697,
-       "departMin": 757,
+       "placeId": "DH07",
+       "arriveMin": 696,
+       "departMin": 756,
        "stayMin": 60,
        "extraMin": 0,
-       "why": "경사로와 엘리베이터가 있어 편하게 이용할 수 있어요."
-      },
-      {
-       "kind": "rest",
-       "startMin": 757,
-       "endMin": 777
+       "why": "출입구에 턱이 없고 자동문이 있어 유모차 진입이 쉬워 골랐어요."
       },
       {
        "kind": "lunch",
-       "startMin": 777,
-       "endMin": 837
-      },
-      {
-       "kind": "travel",
-       "toName": "무릉별유천지",
-       "minutes": 8,
-       "km": 1.6,
-       "estimated": true,
-       "startMin": 837
-      },
-      {
-       "kind": "visit",
-       "placeId": "DH07",
-       "arriveMin": 845,
-       "departMin": 905,
-       "stayMin": 60,
-       "extraMin": 0,
-       "why": "출입구에 턱이 없고 엘리베이터가 있어 유모차 이동이 편리해요."
+       "startMin": 756,
+       "endMin": 816
       },
       {
        "kind": "travel",
@@ -420,7 +368,7 @@
        "minutes": 17,
        "km": 11.3,
        "estimated": true,
-       "startMin": 905
+       "startMin": 816
       }
      ]
     }
@@ -428,16 +376,16 @@
    "checkBeforeGo": [],
    "cautions": [],
    "review": {
-    "fatigue": 4,
+    "fatigue": 5,
     "slack": 4,
-    "taste": 4,
-    "comment": "모든 장소의 편의시설 정보가 확인되어 안심하고 방문할 수 있어요."
+    "taste": 5,
+    "comment": "이동하기 편한 장소들로 구성되어 유모차 이용에 아주 좋습니다."
    },
    "fixes": 0,
    "fixedViolations": [],
    "stats": {
-    "places": 3,
-    "travelMin": 57,
+    "places": 2,
+    "travelMin": 48,
     "checkNeeded": 0
    },
    "draft": {
@@ -449,19 +397,12 @@
         "placeId": "DH21",
         "stayMin": 45,
         "restAfter": true,
-        "why": "출입구에 턱이나 계단이 없어 유모차로 안전하게 방문할 수 있어요."
-       },
-       {
-        "placeId": "DH04",
-        "stayMin": 60,
-        "restAfter": true,
-        "why": "경사로와 엘리베이터가 있어 편하게 이용할 수 있어요."
+        "why": "출입구에 턱이나 계단이 없어 유모차로 편하게 진입할 수 있어 골랐어요."
        },
        {
         "placeId": "DH07",
         "stayMin": 60,
-        "restAfter": false,
-        "why": "출입구에 턱이 없고 엘리베이터가 있어 유모차 이동이 편리해요."
+        "why": "출입구에 턱이 없고 자동문이 있어 유모차 진입이 쉬워 골랐어요."
        }
       ]
      }
@@ -473,15 +414,10 @@
      "DH15",
      "DH10"
     ],
-    "DH04": [
-     "DH01",
-     "DH19",
-     "DH20"
-    ],
     "DH07": [
+     "DH04",
      "DH01",
-     "DH09",
-     "DH16"
+     "DH09"
     ]
    }
   }
@@ -507,14 +443,6 @@
    "phone": "033-539-3630",
    "address": "강원특별자치도 동해시 동굴로 50 (천곡동)",
    "onSite": "장애인 주차장이 마련되어 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다."
-  },
-  "DH01": {
-   "id": "DH01",
-   "name": "가원습지 생태자연공원",
-   "category": "자연·산책",
-   "region": "동해",
-   "phone": "033-530-2261",
-   "address": "강원특별자치도 동해시 지가동 77-6"
   },
   "DH15": {
    "id": "DH15",
@@ -561,6 +489,14 @@
    },
    "onSite": "도째비골스카이밸리 입구 공영주차장의 장애인 주차장에 주차 후, 출입구까지 설치된 경사로를 지나 주출입구를 통해 휠체어로 접근할 수 있으며 엘리베이터 타워 1층의 장애인 화장실을 이용할 수 있습니다."
   },
+  "DH01": {
+   "id": "DH01",
+   "name": "가원습지 생태자연공원",
+   "category": "자연·산책",
+   "region": "동해",
+   "phone": "033-530-2261",
+   "address": "강원특별자치도 동해시 지가동 77-6"
+  },
   "DH19": {
    "id": "DH19",
    "name": "추암조각공원",
@@ -585,6 +521,18 @@
     "credit": "강원_동해시_추암해변 (6).jpg"
    }
   },
+  "DH18": {
+   "id": "DH18",
+   "name": "추암 촛대바위",
+   "category": "바다·해변",
+   "region": "동해",
+   "phone": "033-530-2801",
+   "address": "강원특별자치도 동해시 추암동 산 69",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/68/4127968_image2_1.jpg",
+    "credit": "강원_동해시_추암 촛대바위 (2).jpg"
+   }
+  },
   "DH07": {
    "id": "DH07",
    "name": "무릉별유천지",
@@ -606,18 +554,6 @@
    "address": "강원특별자치도 동해시 삼화로 455 (삼화동)",
    "onSite": "장애인 주차장에 주차 후 출입구까지 경사로를 통해 이동할 수 있으며 주 출입구에 경사로가 있어 휠체어 접근이 가능하다."
   },
-  "DH05": {
-   "id": "DH05",
-   "name": "망상해변",
-   "category": "바다·해변",
-   "region": "동해",
-   "phone": "033-530-2800",
-   "address": "강원특별자치도 동해시 동해대로 6270-10 (망상동)",
-   "photo": {
-    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/21/3544321_image2_1.jpg",
-    "credit": "망상해변"
-   }
-  },
   "DH17": {
    "id": "DH17",
    "name": "천곡황금박쥐동굴",
@@ -636,8 +572,8 @@
   "DH21": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이나 계단이 없어 유모차를 끌고 들어가기 편해요.",
-    "데크 산책로가 잘 되어 있어 이동하기 수월해요."
+    "출입구에 턱이나 계단이 없어 유모차로 편하게 진입할 수 있어요.",
+    "데크 산책로가 잘 조성되어 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -655,25 +591,8 @@
   "DH16": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없고 목재 데크로 탐방로가 조성되어 유모차로 다니기 좋아요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "exit-1",
-     "label": "무장애·출입통로"
-    }
-   ]
-  },
-  "DH01": {
-   "verdict": "적합",
-   "reasons": [
-    "출입구에 턱이 없어 유모차로 편하게 접근할 수 있어요."
+    "출입구에 턱이 없어 유모차 접근이 가능해요.",
+    "목재 데크 탐방로가 잘 정비되어 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -691,7 +610,8 @@
   "DH15": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없고 자동문과 엘리베이터가 있어 유모차 이용이 편리해요."
+    "출입구에 턱이 없고 자동문이 설치되어 있어요.",
+    "엘리베이터가 있어 층간 이동이 편리해요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -713,11 +633,16 @@
   "DH10": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없어 유모차를 동반하고 편하게 방문할 수 있어요."
+    "출입구에 턱이 없어 유모차 접근이 가능해요.",
+    "장애인 주차구역이 마련되어 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
    "evidence": [
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    },
     {
      "id": "route-1",
      "label": "무장애·접근로"
@@ -725,36 +650,33 @@
     {
      "id": "exit-1",
      "label": "무장애·출입통로"
-    },
-    {
-     "id": "parking-1",
-     "label": "무장애·주차"
     }
    ]
   },
   "DH09": {
    "verdict": "적합",
    "reasons": [
-    "턱이 없어 유모차가 다니기 수월해요."
+    "턱이 없어 유모차를 끌고 접근하기 편해요.",
+    "장애인 전용 주차구역이 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
    "evidence": [
     {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
      "id": "parking-1",
      "label": "무장애·주차"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
     }
    ]
   },
   "DH03": {
    "verdict": "적합",
    "reasons": [
-    "경사로와 엘리베이터가 마련되어 있어 유모차 이동이 편리해요.",
-    "주출입구에 턱이 없어 진입하기 좋아요."
+    "출입구까지 경사로가 설치되어 있고 턱이 없어요.",
+    "엘리베이터가 있어 이동하기 편리해요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -773,10 +695,11 @@
     }
    ]
   },
-  "DH19": {
+  "DH01": {
    "verdict": "적합",
    "reasons": [
-    "출입구와 산책로에 턱이 없어 유모차 이동이 편리해요."
+    "출입구에 턱이 없어 유모차로 쉽게 들어갈 수 있어요.",
+    "야외 평지 위주로 산책하기 좋아요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -788,35 +711,75 @@
     {
      "id": "exit-1",
      "label": "무장애·출입통로"
-    },
+    }
+   ]
+  },
+  "DH19": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없어 유모차 진입이 수월해요.",
+    "장애인 주차구역이 있어 편리해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
     {
      "id": "parking-1",
      "label": "무장애·주차"
+    },
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
     }
    ]
   },
   "DH20": {
    "verdict": "적합",
    "reasons": [
-    "출입과 이동에 불편함이 없어 유모차와 함께 방문하기 좋아요."
+    "출입구에 턱이 없어 유모차 이동이 원활해요.",
+    "장애인 전용 주차구역이 마련되어 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
    "evidence": [
     {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    },
+    {
      "id": "exit-1",
      "label": "무장애·출입통로"
-    },
+    }
+   ]
+  },
+  "DH18": {
+   "verdict": "주의",
+   "reasons": [
+    "장애인 주차구역이 있어 자가용 이용이 편리해요.",
+    "계단과 단차 관련 정보가 부족하니 현장에서 살피며 이동하세요."
+   ],
+   "confidence": "보통",
+   "source": "ai",
+   "evidence": [
     {
      "id": "parking-1",
      "label": "무장애·주차"
+    },
+    {
+     "id": "restroom-1",
+     "label": "무장애·화장실"
     }
    ]
   },
   "DH07": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없고 엘리베이터가 있어 유모차 이동이 편리해요."
+    "출입구에 턱이 없고 자동문이 있어 유모차 진입이 쉬워요.",
+    "엘리베이터가 마련되어 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -838,7 +801,8 @@
   "DH04": {
    "verdict": "적합",
    "reasons": [
-    "경사로와 엘리베이터가 있어 유모차를 동반하고 편하게 이용할 수 있어요."
+    "경사로와 엘리베이터가 모두 설치되어 있어요.",
+    "출입구에 턱이 없어 유모차로 편하게 다닐 수 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -854,32 +818,6 @@
     {
      "id": "elevator-1",
      "label": "무장애·엘리베이터"
-    },
-    {
-     "id": "parking-1",
-     "label": "무장애·주차"
-    }
-   ]
-  },
-  "DH05": {
-   "verdict": "적합",
-   "reasons": [
-    "완만한 경사로가 설치되어 있어 유모차를 끌고 진입하기 수월해요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "exit-1",
-     "label": "무장애·출입통로"
-    },
-    {
-     "id": "parking-1",
-     "label": "무장애·주차"
     }
    ]
   }
@@ -1164,115 +1102,6 @@
      "restroom-1"
     ],
     "grade": "ai"
-   }
-  },
-  "DH01": {
-   "id": "DH01",
-   "tour_content_id": "2714889",
-   "name_ko": "가원습지 생태자연공원",
-   "region": "동해",
-   "category": "자연·산책",
-   "lat": 37.4735985101,
-   "lng": 129.1070265361,
-   "address": "강원특별자치도 동해시 지가동 77-6",
-   "phone": "033-530-2261",
-   "stay_min": 40,
-   "stay_max": 90,
-   "hours": {
-    "grade": "ai",
-    "always_open": true,
-    "evidence": [
-     "intro-usetime-1",
-     "intro-restdate-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "가능",
-     "evidence": [
-      "route-1",
-      "exit-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
-     "evidence": [
-      "class-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "모름",
-     "ask": "경사로가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "노면 재질이 어떻게 되나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "가능",
-     "note": "공중화장실 '가원습지생태자연공원' · 장애인 칸 1",
-     "evidence": [
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2025-06-25",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "diaper_nursing": {
-     "value": "가능",
-     "note": "기저귀 교환대 · 공중화장실 '가원습지생태자연공원' 남녀 화장실 모두 · 수유실 정보 없음",
-     "evidence": [
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2025-06-25",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "disabled_parking": {
-     "value": "모름",
-     "ask": "장애인 전용 주차구역이 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "모름",
-     "ask": "쉼터나 벤치가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "모름",
-     "ask": "휠체어 대여가 가능한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "불가",
-     "evidence": [
-      "intro-chkbabycarriage-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
    }
   },
   "DH15": {
@@ -1844,6 +1673,115 @@
     "grade": "ai"
    }
   },
+  "DH01": {
+   "id": "DH01",
+   "tour_content_id": "2714889",
+   "name_ko": "가원습지 생태자연공원",
+   "region": "동해",
+   "category": "자연·산책",
+   "lat": 37.4735985101,
+   "lng": 129.1070265361,
+   "address": "강원특별자치도 동해시 지가동 77-6",
+   "phone": "033-530-2261",
+   "stay_min": 40,
+   "stay_max": 90,
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 재질이 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "공중화장실 '가원습지생태자연공원' · 장애인 칸 1",
+     "evidence": [
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "기저귀 교환대 · 공중화장실 '가원습지생태자연공원' 남녀 화장실 모두 · 수유실 정보 없음",
+     "evidence": [
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "disabled_parking": {
+     "value": "모름",
+     "ask": "장애인 전용 주차구역이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉼터나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "불가",
+     "evidence": [
+      "intro-chkbabycarriage-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
   "DH19": {
    "id": "DH19",
    "tour_content_id": "2714850",
@@ -2109,6 +2047,141 @@
      "evidence": [
       "wheelchair-1"
      ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH18": {
+   "id": "DH18",
+   "tour_content_id": "129000",
+   "name_ko": "추암 촛대바위",
+   "region": "동해",
+   "category": "바다·해변",
+   "lat": 37.4794,
+   "lng": 129.1601,
+   "address": "강원특별자치도 동해시 추암동 산 69",
+   "phone": "033-530-2801",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/68/4127968_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암 촛대바위 (2).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/70/4127970_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암 촛대바위 (3).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/71/4127971_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암 촛대바위 (4).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/72/4127972_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암 촛대바위 (5).jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "09:00",
+     "close": "18:00",
+     "last_entry": "17:00"
+    },
+    "winter": {
+     "open": "09:00",
+     "close": "17:00",
+     "last_entry": "16:00"
+    },
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "모름",
+     "ask": "추암 촛대바위 입구에 턱이나 계단이 없나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 시설",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "추암 촛대바위 가는 길에 경사나 오르막이 없나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "추암 촛대바위 바닥은 어떤 재질로 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "기저귀 교환대나 수유실이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어를 대여할 수 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
@@ -2413,146 +2486,6 @@
     "grade": "ai"
    }
   },
-  "DH05": {
-   "id": "DH05",
-   "tour_content_id": "125713",
-   "name_ko": "망상해변",
-   "region": "동해",
-   "category": "바다·해변",
-   "lat": 37.5922143704,
-   "lng": 129.0896411696,
-   "address": "강원특별자치도 동해시 동해대로 6270-10 (망상동)",
-   "phone": "033-530-2800",
-   "stay_min": 30,
-   "stay_max": 60,
-   "photos": [
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/21/3544321_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "망상해변"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/22/3544322_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "망상해변"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/23/3544323_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "망상해변"
-    }
-   ],
-   "hours": {
-    "grade": "ai",
-    "always_open": true,
-    "evidence": [
-     "intro-usetime-1",
-     "intro-restdate-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "가능",
-     "note": "출입구까지 완만한 경사로가 설치되어 있음",
-     "evidence": [
-      "route-1",
-      "exit-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
-     "evidence": [
-      "class-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "가능",
-     "note": "출입구까지 완만한 경사로가 설치되어 있음",
-     "evidence": [
-      "route-1",
-      "exit-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "노면 재질은 어떻게 되나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "가능",
-     "note": "공중화장실 '망상해변내 5호' · 장애인 칸 1",
-     "evidence": [
-      "restroom-1",
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2025-06-25",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "diaper_nursing": {
-     "value": "가능",
-     "note": "기저귀 교환대 · 공중화장실 '망상해변내 5호' 여자화장실에만 · 외 2곳 / 관광공사: 장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음",
-     "evidence": [
-      "infantsfamilyetc-1",
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2025-06-25",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "disabled_parking": {
-     "value": "가능",
-     "note": "해변 관광안내소 앞",
-     "evidence": [
-      "parking-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "모름",
-     "ask": "벤치나 쉼터가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "가능",
-     "note": "1대 대여 가능",
-     "evidence": [
-      "wheelchair-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "모름",
-     "ask": "유모차 대여가 가능한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
-   }
-  },
   "DH17": {
    "id": "DH17",
    "tour_content_id": "126666",
@@ -2716,37 +2649,38 @@
  "asks": {
   "DH21": [],
   "DH16": [],
-  "DH01": [],
   "DH15": [],
   "DH10": [],
   "DH09": [],
   "DH03": [],
+  "DH01": [],
   "DH19": [],
   "DH20": [],
+  "DH18": [],
   "DH07": [],
-  "DH04": [],
-  "DH05": []
+  "DH04": []
  },
  "unknowns": {
   "DH21": [],
   "DH16": [],
-  "DH01": [],
   "DH15": [],
   "DH10": [],
   "DH09": [],
   "DH03": [],
+  "DH01": [],
   "DH19": [],
   "DH20": [],
+  "DH18": [],
   "DH07": [],
-  "DH04": [],
-  "DH05": []
+  "DH04": []
  },
  "hard": [
   {
    "placeId": "DH17",
    "kind": "AI 판단",
    "reasons": [
-    "동굴 내 관람로가 좁고 계단으로 이어져 있어 유모차 진입이 불가능해요."
+    "동굴 내부 관람로가 좁고 일부 계단으로 이루어져 있어요.",
+    "유모차 접근이 불가능한 구조예요."
    ],
    "mustVisit": false,
    "altId": "DH10"

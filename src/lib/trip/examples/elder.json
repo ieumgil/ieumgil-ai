@@ -20,14 +20,14 @@
  },
  "usedFallback": false,
  "calls": 5,
- "ms": 43722,
+ "ms": 10179,
  "notes": [],
  "options": [
   {
    "id": "A",
    "strategy": "여유",
-   "title": "이동 부담을 줄인 여유로운 산책과 바다",
-   "summary": "이동 거리를 최소화하고 한적하게 즐기는 일정입니다.",
+   "title": "속초해수욕장과 청초호에서 보내는 여유로운 하루",
+   "summary": "바다와 호수를 천천히 둘러보며 편안하게 휴식하는 일정이에요.",
    "source": "ai",
    "days": [
     {
@@ -37,7 +37,7 @@
      "startMin": 600,
      "endMin": 1020,
      "fit": "여유",
-     "travelMin": 30,
+     "travelMin": 23,
      "estimated": true,
      "items": [
       {
@@ -52,57 +52,40 @@
        "kind": "visit",
        "placeId": "SC18",
        "arriveMin": 605,
-       "departMin": 661,
-       "stayMin": 45,
-       "extraMin": 11,
-       "why": "계단과 턱이 없어 진입하기 편리하여 편안하게 바다를 즐기기 좋아요."
+       "departMin": 680,
+       "stayMin": 60,
+       "extraMin": 15,
+       "why": "계단과 단차 없는 진입로가 있어 편하게 바다를 감상할 수 있어요."
       },
       {
        "kind": "travel",
-       "toName": "청초호 호수공원",
-       "minutes": 10,
-       "km": 2.4,
+       "toName": "청초호",
+       "minutes": 9,
+       "km": 1.8,
        "estimated": true,
-       "startMin": 661
+       "startMin": 680
       },
       {
        "kind": "visit",
-       "placeId": "SC28",
-       "arriveMin": 671,
-       "departMin": 746,
-       "stayMin": 60,
-       "extraMin": 15,
-       "why": "출입구에 턱이 없어 편하게 들어갈 수 있으며 호수 주변을 여유롭게 산책하기 좋아요."
+       "placeId": "SC27",
+       "arriveMin": 689,
+       "departMin": 802,
+       "stayMin": 90,
+       "extraMin": 23,
+       "why": "출입구에 턱이 없어 호수 주변을 여유롭게 산책하기 좋아요."
       },
       {
        "kind": "lunch",
-       "startMin": 746,
-       "endMin": 806
-      },
-      {
-       "kind": "travel",
-       "toName": "속초 엑스포타워",
-       "minutes": 6,
-       "km": 0.6,
-       "estimated": true,
-       "startMin": 806
-      },
-      {
-       "kind": "visit",
-       "placeId": "SC15",
-       "arriveMin": 812,
-       "departMin": 875,
-       "stayMin": 50,
-       "extraMin": 13,
-       "why": "출입구까지 경사로가 설치되어 있어 안전하게 전망을 감상할 수 있어요."
+       "startMin": 802,
+       "endMin": 862
       },
       {
        "kind": "travel",
        "toName": "속초 고속버스터미널",
        "minutes": 9,
-       "km": 2.2,
+       "km": 1.8,
        "estimated": true,
-       "startMin": 875
+       "startMin": 862
       }
      ]
     }
@@ -113,26 +96,22 @@
      "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
     },
     {
-     "placeId": "SC28",
-     "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
-    },
-    {
-     "placeId": "SC15",
+     "placeId": "SC27",
      "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
     }
    ],
    "cautions": [],
    "review": {
-    "fatigue": 4,
-    "slack": 4,
+    "fatigue": 5,
+    "slack": 5,
     "taste": 5,
-    "comment": "이동 거리가 짧고 충분한 휴식 시간이 있어 어르신이 걷기에 무난한 일정입니다."
+    "comment": "바다와 호수를 무리 없이 천천히 산책하기 좋은 편안한 일정이에요."
    },
    "fixes": 0,
    "fixedViolations": [],
    "stats": {
-    "places": 3,
-    "travelMin": 30,
+    "places": 2,
+    "travelMin": 23,
     "checkNeeded": 0
    },
    "draft": {
@@ -142,18 +121,13 @@
       "stops": [
        {
         "placeId": "SC18",
-        "stayMin": 45,
-        "why": "계단과 턱이 없어 진입하기 편리하여 편안하게 바다를 즐기기 좋아요."
-       },
-       {
-        "placeId": "SC28",
         "stayMin": 60,
-        "why": "출입구에 턱이 없어 편하게 들어갈 수 있으며 호수 주변을 여유롭게 산책하기 좋아요."
+        "why": "계단과 단차 없는 진입로가 있어 편하게 바다를 감상할 수 있어요."
        },
        {
-        "placeId": "SC15",
-        "stayMin": 50,
-        "why": "출입구까지 경사로가 설치되어 있어 안전하게 전망을 감상할 수 있어요."
+        "placeId": "SC27",
+        "stayMin": 90,
+        "why": "출입구에 턱이 없어 호수 주변을 여유롭게 산책하기 좋아요."
        }
       ]
      }
@@ -165,23 +139,18 @@
      "SC29",
      "SC21"
     ],
-    "SC28": [
+    "SC27": [
+     "SC28",
      "SC07",
-     "SC27",
-     "SC17"
-    ],
-    "SC15": [
-     "SC23",
-     "SC04",
-     "SC22"
+     "SC15"
     ]
    }
   },
   {
    "id": "B",
    "strategy": "취향",
-   "title": "자연과 바다를 듬뿍 담은 일정",
-   "summary": "자연산책과 바다해변 분야의 장소를 중심으로 구성했습니다.",
+   "title": "청초호수공원과 영금정을 잇는 자연 산책 코스",
+   "summary": "자연과 바다를 골고루 만나는 산책 중심의 일정이에요.",
    "source": "ai",
    "days": [
     {
@@ -196,196 +165,25 @@
      "items": [
       {
        "kind": "travel",
-       "toName": "속초해수욕장",
-       "minutes": 5,
-       "km": 0,
-       "estimated": true,
-       "startMin": 600
-      },
-      {
-       "kind": "visit",
-       "placeId": "SC18",
-       "arriveMin": 605,
-       "departMin": 655,
-       "stayMin": 40,
-       "extraMin": 10,
-       "why": "계단과 턱이 없어 진입하기 편리한 속초해수욕장입니다."
-      },
-      {
-       "kind": "travel",
-       "toName": "청초호",
-       "minutes": 9,
-       "km": 1.8,
-       "estimated": true,
-       "startMin": 655
-      },
-      {
-       "kind": "visit",
-       "placeId": "SC27",
-       "arriveMin": 664,
-       "departMin": 739,
-       "stayMin": 60,
-       "extraMin": 15,
-       "why": "출입구까지 턱이 없어 접근하기 쉬운 청초호 산책을 즐길 수 있어요."
-      },
-      {
-       "kind": "lunch",
-       "startMin": 739,
-       "endMin": 799
-      },
-      {
-       "kind": "travel",
-       "toName": "외옹치해변",
-       "minutes": 11,
-       "km": 3.1,
-       "estimated": true,
-       "startMin": 799
-      },
-      {
-       "kind": "visit",
-       "placeId": "SC26",
-       "arriveMin": 810,
-       "departMin": 866,
-       "stayMin": 45,
-       "extraMin": 11,
-       "why": "해안가까지 경사로가 설치되어 있어 바다를 가까이서 볼 수 있어요."
-      },
-      {
-       "kind": "travel",
-       "toName": "속초 고속버스터미널",
-       "minutes": 8,
-       "km": 1.4,
-       "estimated": true,
-       "startMin": 866
-      }
-     ]
-    }
-   ],
-   "checkBeforeGo": [
-    {
-     "placeId": "SC18",
-     "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
-    },
-    {
-     "placeId": "SC27",
-     "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
-    },
-    {
-     "placeId": "SC26",
-     "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
-    }
-   ],
-   "cautions": [],
-   "review": {
-    "fatigue": 4,
-    "slack": 4,
-    "taste": 5,
-    "comment": "좋아하시는 바다와 산책을 골고루 즐길 수 있으며 여유롭게 구성되었습니다."
-   },
-   "fixes": 0,
-   "fixedViolations": [],
-   "stats": {
-    "places": 3,
-    "travelMin": 33,
-    "checkNeeded": 0
-   },
-   "draft": {
-    "days": [
-     {
-      "date": "2026-12-19",
-      "stops": [
-       {
-        "placeId": "SC18",
-        "stayMin": 40,
-        "why": "계단과 턱이 없어 진입하기 편리한 속초해수욕장입니다."
-       },
-       {
-        "placeId": "SC27",
-        "stayMin": 60,
-        "why": "출입구까지 턱이 없어 접근하기 쉬운 청초호 산책을 즐길 수 있어요."
-       },
-       {
-        "placeId": "SC26",
-        "stayMin": 45,
-        "why": "해안가까지 경사로가 설치되어 있어 바다를 가까이서 볼 수 있어요."
-       }
-      ]
-     }
-    ]
-   },
-   "alternatives": {
-    "SC18": [
-     "SC29",
-     "SC21",
-     "SC15"
-    ],
-    "SC27": [
-     "SC28",
-     "SC07",
-     "SC17"
-    ],
-    "SC26": [
-     "SC12",
-     "SC13",
-     "SC04"
-    ]
-   }
-  },
-  {
-   "id": "C",
-   "strategy": "확인 적게",
-   "title": "사전 확인이 필요 없는 적합 장소 위주",
-   "summary": "판단이 모두 적합인 장소만 골라 준비 없이 편하게 방문하는 일정입니다.",
-   "source": "ai",
-   "days": [
-    {
-     "date": "2026-12-19",
-     "startName": "속초 고속버스터미널",
-     "endName": "속초 고속버스터미널",
-     "startMin": 600,
-     "endMin": 1020,
-     "fit": "여유",
-     "travelMin": 39,
-     "estimated": true,
-     "items": [
-      {
-       "kind": "travel",
-       "toName": "청호해변",
-       "minutes": 8,
-       "km": 1.7,
-       "estimated": true,
-       "startMin": 600
-      },
-      {
-       "kind": "visit",
-       "placeId": "SC29",
-       "arriveMin": 608,
-       "departMin": 664,
-       "stayMin": 45,
-       "extraMin": 11,
-       "why": "출입구에 턱이 없어 편하게 진입할 수 있는 청호해변입니다."
-      },
-      {
-       "kind": "travel",
        "toName": "청초호 호수공원",
-       "minutes": 8,
-       "km": 1.6,
+       "minutes": 10,
+       "km": 2.4,
        "estimated": true,
-       "startMin": 664
+       "startMin": 600
       },
       {
        "kind": "visit",
        "placeId": "SC28",
-       "arriveMin": 672,
-       "departMin": 747,
-       "stayMin": 60,
-       "extraMin": 15,
-       "why": "출입구에 턱이 없어 편하게 들어갈 수 있는 청초호 호수공원입니다."
+       "arriveMin": 610,
+       "departMin": 723,
+       "stayMin": 90,
+       "extraMin": 23,
+       "why": "출입구에 턱이 없어 수월하게 공원 산책을 즐길 수 있어요."
       },
       {
        "kind": "lunch",
-       "startMin": 747,
-       "endMin": 807
+       "startMin": 723,
+       "endMin": 783
       },
       {
        "kind": "travel",
@@ -393,16 +191,16 @@
        "minutes": 12,
        "km": 3.3,
        "estimated": true,
-       "startMin": 807
+       "startMin": 783
       },
       {
        "kind": "visit",
        "placeId": "SC22",
-       "arriveMin": 819,
-       "departMin": 875,
-       "stayMin": 45,
-       "extraMin": 11,
-       "why": "출입구까지 완만한 경사로가 있어 이동하기 편리한 영금정입니다."
+       "arriveMin": 795,
+       "departMin": 870,
+       "stayMin": 60,
+       "extraMin": 15,
+       "why": "완만한 경사로가 설치되어 있어 바다 전망을 편하게 볼 수 있어요."
       },
       {
        "kind": "travel",
@@ -410,16 +208,12 @@
        "minutes": 11,
        "km": 3.2,
        "estimated": true,
-       "startMin": 875
+       "startMin": 870
       }
      ]
     }
    ],
    "checkBeforeGo": [
-    {
-     "placeId": "SC29",
-     "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
-    },
     {
      "placeId": "SC28",
      "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
@@ -431,16 +225,16 @@
    ],
    "cautions": [],
    "review": {
-    "fatigue": 3,
+    "fatigue": 4,
     "slack": 4,
     "taste": 4,
-    "comment": "장애인 화장실 정보가 확실하지 않은 곳이 있어 방문 전 확인이 필요합니다."
+    "comment": "자연을 즐기기 좋으나 일부 장소의 화장실 정보가 없어 조금 아쉬워요."
    },
    "fixes": 0,
    "fixedViolations": [],
    "stats": {
-    "places": 3,
-    "travelMin": 39,
+    "places": 2,
+    "travelMin": 33,
     "checkNeeded": 0
    },
    "draft": {
@@ -449,39 +243,152 @@
       "date": "2026-12-19",
       "stops": [
        {
-        "placeId": "SC29",
-        "stayMin": 45,
-        "why": "출입구에 턱이 없어 편하게 진입할 수 있는 청호해변입니다."
-       },
-       {
         "placeId": "SC28",
-        "stayMin": 60,
-        "why": "출입구에 턱이 없어 편하게 들어갈 수 있는 청초호 호수공원입니다."
+        "stayMin": 90,
+        "why": "출입구에 턱이 없어 수월하게 공원 산책을 즐길 수 있어요."
        },
        {
         "placeId": "SC22",
-        "stayMin": 45,
-        "why": "출입구까지 완만한 경사로가 있어 이동하기 편리한 영금정입니다."
+        "stayMin": 60,
+        "why": "완만한 경사로가 설치되어 있어 바다 전망을 편하게 볼 수 있어요."
        }
       ]
      }
     ]
    },
    "alternatives": {
-    "SC29": [
-     "SC21",
-     "SC27",
-     "SC17"
-    ],
     "SC28": [
      "SC07",
      "SC15",
-     "SC18"
+     "SC27"
     ],
     "SC22": [
      "SC04",
-     "SC23",
-     "SC24"
+     "SC17",
+     "SC21"
+    ]
+   }
+  },
+  {
+   "id": "C",
+   "strategy": "확인 적게",
+   "title": "외옹치해변과 설악산 국립공원의 청정 나들이",
+   "summary": "접근성이 좋은 적합 장소들로 알차게 구성한 하루 코스예요.",
+   "source": "ai",
+   "days": [
+    {
+     "date": "2026-12-19",
+     "startName": "속초 고속버스터미널",
+     "endName": "속초 고속버스터미널",
+     "startMin": 600,
+     "endMin": 1020,
+     "fit": "여유",
+     "travelMin": 42,
+     "estimated": true,
+     "items": [
+      {
+       "kind": "travel",
+       "toName": "외옹치해변",
+       "minutes": 8,
+       "km": 1.4,
+       "estimated": true,
+       "startMin": 600
+      },
+      {
+       "kind": "visit",
+       "placeId": "SC26",
+       "arriveMin": 608,
+       "departMin": 683,
+       "stayMin": 60,
+       "extraMin": 15,
+       "why": "해안가까지 경사로가 설치되어 있어 편하게 바다를 볼 수 있어요."
+      },
+      {
+       "kind": "travel",
+       "toName": "설악산 국립공원(외설악)",
+       "minutes": 17,
+       "km": 11.1,
+       "estimated": true,
+       "startMin": 683
+      },
+      {
+       "kind": "visit",
+       "placeId": "SC08",
+       "arriveMin": 700,
+       "departMin": 813,
+       "stayMin": 90,
+       "extraMin": 23,
+       "why": "출입구에 턱이 없어 자연 속을 편안하게 입장할 수 있어요."
+      },
+      {
+       "kind": "lunch",
+       "startMin": 813,
+       "endMin": 873
+      },
+      {
+       "kind": "travel",
+       "toName": "속초 고속버스터미널",
+       "minutes": 17,
+       "km": 10.6,
+       "estimated": true,
+       "startMin": 873
+      }
+     ]
+    }
+   ],
+   "checkBeforeGo": [
+    {
+     "placeId": "SC26",
+     "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
+    },
+    {
+     "placeId": "SC08",
+     "question": "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
+    }
+   ],
+   "cautions": [],
+   "review": {
+    "fatigue": 3,
+    "slack": 3,
+    "taste": 4,
+    "comment": "설악산 산책로의 이동과 활동량이 어르신에게 다소 부담이 될 수 있어요."
+   },
+   "fixes": 0,
+   "fixedViolations": [],
+   "stats": {
+    "places": 2,
+    "travelMin": 42,
+    "checkNeeded": 0
+   },
+   "draft": {
+    "days": [
+     {
+      "date": "2026-12-19",
+      "stops": [
+       {
+        "placeId": "SC26",
+        "stayMin": 60,
+        "why": "해안가까지 경사로가 설치되어 있어 편하게 바다를 볼 수 있어요."
+       },
+       {
+        "placeId": "SC08",
+        "stayMin": 90,
+        "why": "출입구에 턱이 없어 자연 속을 편안하게 입장할 수 있어요."
+       }
+      ]
+     }
+    ]
+   },
+   "alternatives": {
+    "SC26": [
+     "SC18",
+     "SC12",
+     "SC13"
+    ],
+    "SC08": [
+     "SC01",
+     "SC15",
+     "SC28"
     ]
    }
   }
@@ -500,30 +407,18 @@
    },
    "onSite": "장애인 주차장은 제1공영주차장(13대)과 제2공영주차장(5대)에 있으며, 주출입구 및 출입구까지 턱이 없어 휠체어 접근이 가능하고 장애인 화장실이 마련되어 있습니다."
   },
-  "SC28": {
-   "id": "SC28",
-   "name": "청초호 호수공원",
+  "SC27": {
+   "id": "SC27",
+   "name": "청초호",
    "category": "자연·산책",
    "region": "속초",
-   "phone": "033-639-2690",
-   "address": "강원특별자치도 속초시 엑스포로 140 (교동)",
+   "phone": "033-639-2770",
+   "address": "강원 속초시 청호동",
    "photo": {
-    "url": "https://tong.visitkorea.or.kr/cms/resource/71/4041471_image2_1.jpg",
-    "credit": "강원_속초_청초호 호수공원_외부_7.jpg"
-   }
-  },
-  "SC15": {
-   "id": "SC15",
-   "name": "속초 엑스포타워",
-   "category": "전망·체험",
-   "region": "속초",
-   "phone": "033-637-5083",
-   "address": "강원특별자치도 속초시 엑스포로 72",
-   "photo": {
-    "url": "https://tong.visitkorea.or.kr/cms/resource/15/4131015_image2_1.jpg",
-    "credit": "속초_속초 엑스포타워 (3).jpg"
+    "url": "https://tong.visitkorea.or.kr/cms/resource/27/3566127_image2_1.jpg",
+    "credit": "속초_청초호 (5)"
    },
-   "onSite": "장애인 주차장은 엑스포타워 바로 앞에 있으며, 출입구까지 경사로가 설치되어 있고 타워 1층에 남녀공용 장애인 화장실이 있습니다."
+   "onSite": "장애인 주차장이 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다."
   },
   "SC26": {
    "id": "SC26",
@@ -558,6 +453,18 @@
    },
    "onSite": "장애인 주차장(2대)을 지난 뒤 출입구와 주출입구에 턱이 없어 휠체어 접근이 가능하고 장애인 화장실이 있다."
   },
+  "SC28": {
+   "id": "SC28",
+   "name": "청초호 호수공원",
+   "category": "자연·산책",
+   "region": "속초",
+   "phone": "033-639-2690",
+   "address": "강원특별자치도 속초시 엑스포로 140 (교동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/71/4041471_image2_1.jpg",
+    "credit": "강원_속초_청초호 호수공원_외부_7.jpg"
+   }
+  },
   "SC07": {
    "id": "SC07",
    "name": "석봉도자기미술관",
@@ -566,47 +473,18 @@
    "phone": "033-638-7711",
    "address": "강원특별자치도 속초시 엑스포로 156"
   },
-  "SC27": {
-   "id": "SC27",
-   "name": "청초호",
-   "category": "자연·산책",
+  "SC15": {
+   "id": "SC15",
+   "name": "속초 엑스포타워",
+   "category": "전망·체험",
    "region": "속초",
-   "phone": "033-639-2770",
-   "address": "강원 속초시 청호동",
+   "phone": "033-637-5083",
+   "address": "강원특별자치도 속초시 엑스포로 72",
    "photo": {
-    "url": "https://tong.visitkorea.or.kr/cms/resource/27/3566127_image2_1.jpg",
-    "credit": "속초_청초호 (5)"
+    "url": "https://tong.visitkorea.or.kr/cms/resource/15/4131015_image2_1.jpg",
+    "credit": "속초_속초 엑스포타워 (3).jpg"
    },
-   "onSite": "장애인 주차장이 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다."
-  },
-  "SC17": {
-   "id": "SC17",
-   "name": "속초항",
-   "category": "바다·해변",
-   "region": "속초",
-   "phone": "033-635-2003",
-   "address": "강원특별자치도 속초시 동명동 속초항",
-   "onSite": "장애인 주차장은 설악센트리움 맞은편 공영주차장과 속초시청 건물에 있으며, 출입구까지 완만한 경사로가 설치되어 있고 여객선 터미널과 속초시청 건물에 장애인 전용 화장실이 있습니다."
-  },
-  "SC23": {
-   "id": "SC23",
-   "name": "영랑호",
-   "category": "자연·산책",
-   "region": "속초",
-   "phone": "033-639-2690",
-   "address": "강원특별자치도 속초시 영랑호반길 140",
-   "photo": {
-    "url": "https://tong.visitkorea.or.kr/cms/resource/72/4120672_image2_1.jpg",
-    "credit": "속초시_영랑호 (1).jpg"
-   }
-  },
-  "SC04": {
-   "id": "SC04",
-   "name": "동명항",
-   "category": "바다·해변",
-   "region": "속초",
-   "phone": "033-639-2690",
-   "address": "강원특별자치도 속초시 영금정로 50"
+   "onSite": "장애인 주차장은 엑스포타워 바로 앞에 있으며, 출입구까지 경사로가 설치되어 있고 타워 1층에 남녀공용 장애인 화장실이 있습니다."
   },
   "SC22": {
    "id": "SC22",
@@ -620,6 +498,36 @@
     "credit": "영금정 (5)"
    },
    "onSite": "장애인 주차장에 주차 후 완만한 경사로와 턱 없는 출입통로를 거쳐 주차장입구 앞 장애인 화장실을 이용할 수 있습니다."
+  },
+  "SC04": {
+   "id": "SC04",
+   "name": "동명항",
+   "category": "바다·해변",
+   "region": "속초",
+   "phone": "033-639-2690",
+   "address": "강원특별자치도 속초시 영금정로 50"
+  },
+  "SC17": {
+   "id": "SC17",
+   "name": "속초항",
+   "category": "바다·해변",
+   "region": "속초",
+   "phone": "033-635-2003",
+   "address": "강원특별자치도 속초시 동명동 속초항",
+   "onSite": "장애인 주차장은 설악센트리움 맞은편 공영주차장과 속초시청 건물에 있으며, 출입구까지 완만한 경사로가 설치되어 있고 여객선 터미널과 속초시청 건물에 장애인 전용 화장실이 있습니다."
+  },
+  "SC08": {
+   "id": "SC08",
+   "name": "설악산 국립공원(외설악)",
+   "category": "자연·산책",
+   "region": "속초",
+   "phone": "033-801-0900",
+   "address": "강원특별자치도 속초시 설악산로 833 (설악동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/73/4064173_image2_1.jpg",
+    "credit": "설악산국립공원"
+   },
+   "onSite": "장애인 주차장에 주차 후 장애인 화장실과 턱이 없는 주출입구를 통해 진입할 수 있습니다."
   },
   "SC12": {
    "id": "SC12",
@@ -643,25 +551,26 @@
    "address": "강원특별자치도 속초시 동해대로 3664 (대포동)",
    "onSite": "장애인 주차장에 주차한 뒤 경사로가 설치된 출입구와 턱이 없는 주출입구를 통해 진입하며, 장애인 화장실이 있습니다."
   },
-  "SC24": {
-   "id": "SC24",
-   "name": "영랑호 설화공원",
-   "category": "자연·산책",
+  "SC01": {
+   "id": "SC01",
+   "name": "국립산악박물관",
+   "category": "전시·박물관",
    "region": "속초",
-   "phone": "033-639-2331",
-   "address": "강원특별자치도 속초시 영랑호반길 329-1 (장사동)",
+   "phone": "033-638-4459",
+   "address": "강원특별자치도 속초시 미시령로 3054",
    "photo": {
-    "url": "https://tong.visitkorea.or.kr/cms/resource/12/4068712_image2_1.jpg",
-    "credit": "속초_영랑호 설화공원 (4).jpg"
-   }
+    "url": "https://tong.visitkorea.or.kr/cms/resource/43/3514743_image2_1.jpg",
+    "credit": "속초_국립산악박물관 (2)"
+   },
+   "onSite": "주차장의 장애인 주차장에 주차 후, 경사로가 설치되고 턱이 없는 주출입구를 통해 건물 내부로 진입하여 엘리베이터를 이용할 수 있으며 안내데스크에서 휠체어와 유모차를 대여할 수 있다."
   }
  },
  "judgments": {
   "SC18": {
    "verdict": "적합",
    "reasons": [
-    "계단과 턱이 없어 진입하기 편리해요.",
-    "휠체어로 이동할 수 있는 나무데크길이 있어요."
+    "계단과 단차 없는 진입로가 있어 편하게 이동할 수 있어요.",
+    "휠체어가 다닐 수 있는 나무데크길이 마련되어 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -676,11 +585,11 @@
     }
    ]
   },
-  "SC28": {
+  "SC27": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없어 편하게 들어갈 수 있어요.",
-    "호변 데크길을 따라 산책하기 좋아요."
+    "출입구에 턱이 없어 쉽게 들어갈 수 있어요.",
+    "산책로 주변에 벤치가 있어 쉬어가기 좋아요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -690,27 +599,8 @@
      "label": "무장애·접근로"
     },
     {
-     "id": "overview-1",
+     "id": "overview-2",
      "label": "개요"
-    }
-   ]
-  },
-  "SC15": {
-   "verdict": "적합",
-   "reasons": [
-    "출입구까지 경사로가 설치되어 있어요.",
-    "엘리베이터가 있어 전망대로 쉽게 이동할 수 있어요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "elevator-1",
-     "label": "무장애·엘리베이터"
     }
    ]
   },
@@ -718,7 +608,7 @@
    "verdict": "적합",
    "reasons": [
     "해안가까지 경사로가 설치되어 있어요.",
-    "휠체어가 접근 가능한 데크로드가 마련되어 있어요."
+    "데크로드 탐방로가 있어 편하게 걸을 수 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -736,7 +626,44 @@
   "SC29": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없어 편하게 진입할 수 있어요."
+    "출입구에 턱이 없어 이동하기 편리해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    }
+   ]
+  },
+  "SC21": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없어 마을 안으로 편하게 이동할 수 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    }
+   ]
+  },
+  "SC28": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없어 수월하게 접근할 수 있어요.",
+    "호숫가 테크길을 따라 편안하게 산책할 수 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -751,11 +678,10 @@
     }
    ]
   },
-  "SC21": {
+  "SC07": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없어 편하게 들어갈 수 있어요.",
-    "엘리베이터가 설치되어 있어 이동하기 편리해요."
+    "경사로가 설치되어 있고 엘리베이터가 있어 이동하기 좋아요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -767,48 +693,73 @@
     {
      "id": "elevator-1",
      "label": "무장애·엘리베이터"
+    },
+    {
+     "id": "restroom-1",
+     "label": "무장애·화장실"
+    }
+   ]
+  },
+  "SC15": {
+   "verdict": "적합",
+   "reasons": [
+    "경사로가 설치되어 있어 타워 접근이 편리해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    }
+   ]
+  },
+  "SC22": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구까지 완만한 경사로가 설치되어 있어요.",
+    "엘리베이터가 있어 이동하기 편리해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    }
+   ]
+  },
+  "SC04": {
+   "verdict": "적합",
+   "reasons": [
+    "넓은 항구 주변을 편안하게 둘러볼 수 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "overview-1",
+     "label": "개요"
+    },
+    {
+     "id": "intro-usetime-1",
+     "label": "이용시간"
     },
     {
      "id": "parking-1",
      "label": "무장애·주차"
-    }
-   ]
-  },
-  "SC07": {
-   "verdict": "적합",
-   "reasons": [
-    "출입구까지 경사로가 설치되어 있어 접근하기 쉬워요.",
-    "엘리베이터가 있어 편하게 이동할 수 있어요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
     },
     {
-     "id": "elevator-1",
-     "label": "무장애·엘리베이터"
-    }
-   ]
-  },
-  "SC27": {
-   "verdict": "적합",
-   "reasons": [
-    "출입구까지 턱이 없어 접근하기 쉬워요.",
-    "곳곳에 벤치가 있어 편하게 쉬어가기 좋아요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "overview-2",
-     "label": "개요"
+     "id": "restroom-1",
+     "label": "무장애·화장실"
     }
    ]
   },
@@ -830,10 +781,10 @@
     }
    ]
   },
-  "SC23": {
+  "SC08": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없어 휠체어로 접근하기 쉬워요."
+    "출입구에 턱이 없어 편하게 입장할 수 있어요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -842,20 +793,6 @@
      "id": "route-1",
      "label": "무장애·접근로"
     },
-    {
-     "id": "restroom-1",
-     "label": "무장애·화장실"
-    }
-   ]
-  },
-  "SC04": {
-   "verdict": "적합",
-   "reasons": [
-    "장애인 주차구역과 장애인 화장실이 잘 마련되어 있어요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
     {
      "id": "parking-1",
      "label": "무장애·주차"
@@ -863,37 +800,13 @@
     {
      "id": "restroom-1",
      "label": "무장애·화장실"
-    },
-    {
-     "id": "intro-usetime-1",
-     "label": "이용시간"
-    }
-   ]
-  },
-  "SC22": {
-   "verdict": "적합",
-   "reasons": [
-    "출입구까지 완만한 경사로가 있어 이동하기 편리해요.",
-    "엘리베이터가 설치되어 있어 편하게 이용할 수 있어요."
-   ],
-   "confidence": "높음",
-   "source": "ai",
-   "evidence": [
-    {
-     "id": "route-1",
-     "label": "무장애·접근로"
-    },
-    {
-     "id": "elevator-1",
-     "label": "무장애·엘리베이터"
     }
    ]
   },
   "SC12": {
    "verdict": "적합",
    "reasons": [
-    "경사로가 설치되어 있어 이동하기 편해요.",
-    "전동휠체어를 무료로 대여할 수 있어요."
+    "경사로가 설치되어 있어 이동하기 편리해요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -911,7 +824,7 @@
   "SC13": {
    "verdict": "적합",
    "reasons": [
-    "출입구까지 경사로가 설치되어 있고 턱이 없어요."
+    "출입구까지 경사로가 설치되어 있어 접근하기 편해요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -919,6 +832,10 @@
     {
      "id": "route-1",
      "label": "무장애·접근로"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
     },
     {
      "id": "restroom-1",
@@ -926,10 +843,11 @@
     }
    ]
   },
-  "SC24": {
+  "SC01": {
    "verdict": "적합",
    "reasons": [
-    "출입구에 턱이 없어 편하게 진입할 수 있어요."
+    "경사로가 설치되어 있고 턱이 없어 이동하기 편리해요.",
+    "엘리베이터가 있어 층간 이동이 수월해요."
    ],
    "confidence": "높음",
    "source": "ai",
@@ -939,8 +857,12 @@
      "label": "무장애·접근로"
     },
     {
-     "id": "overview-1",
-     "label": "개요"
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    },
+    {
+     "id": "wheelchair-1",
+     "label": "무장애·휠체어"
     }
    ]
   }
@@ -1125,48 +1047,48 @@
     "grade": "ai"
    }
   },
-  "SC28": {
-   "id": "SC28",
-   "tour_content_id": "2776859",
-   "name_ko": "청초호 호수공원",
+  "SC27": {
+   "id": "SC27",
+   "tour_content_id": "125750",
+   "name_ko": "청초호",
    "region": "속초",
    "category": "자연·산책",
-   "lat": 38.1958,
-   "lng": 128.5825,
-   "address": "강원특별자치도 속초시 엑스포로 140 (교동)",
-   "phone": "033-639-2690",
+   "lat": 38.196,
+   "lng": 128.5887,
+   "address": "강원 속초시 청호동",
+   "phone": "033-639-2770",
    "stay_min": 40,
    "stay_max": 90,
    "photos": [
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/71/4041471_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/27/3566127_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "강원_속초_청초호 호수공원_외부_7.jpg"
+     "credit": "속초_청초호 (5)"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/23/3577523_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/28/3566128_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "서울에서 강원도 속초 당일치기 여행 버스노선 뮤지엄엑스 아바이마을 맛집 수험생 할인_청초호 호수공원_4-3"
+     "credit": "속초_청초호 (6)"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/24/3577524_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/22/3566122_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "서울에서 강원도 속초 당일치기 여행 버스노선 뮤지엄엑스 아바이마을 맛집 수험생 할인_청초호 호수공원_4-2"
+     "credit": "속초_청초호 (4)"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/72/4041472_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/21/3566121_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "강원_속초_청초호 호수공원_외부_8.jpg"
+     "credit": "속초_청초호 (3)"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/73/4041473_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/20/3566120_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "강원_속초_청초호 호수공원_외부_1.jpg"
+     "credit": "속초_청초호 (2)"
     }
    ],
    "hours": {
@@ -1180,7 +1102,6 @@
    "access": {
     "step_free_entrance": {
      "value": "가능",
-     "note": "출입구와 주출입구 턱 없음",
      "evidence": [
       "route-1",
       "exit-1"
@@ -1191,10 +1112,9 @@
     },
     "elevator": {
      "value": "가능",
-     "note": "층이 없는 시설",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
      "evidence": [
-      "class-1",
-      "overview-1"
+      "class-1"
      ],
      "grade": "ai",
      "method": "관광공사 API",
@@ -1208,21 +1128,23 @@
      "verified_at": "2026-11-10"
     },
     "surface": {
-     "value": "가능",
-     "note": "호변 테크길 산책 가능",
-     "evidence": [
-      "overview-1"
-     ],
+     "value": "모름",
+     "ask": "노면 상태가 어떻게 되나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "accessible_toilet": {
-     "value": "모름",
-     "ask": "장애인 화장실이 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
+     "value": "가능",
+     "note": "공중화장실 '청초호유원지(남측)' · 장애인 칸 2 · 외 2곳",
+     "evidence": [
+      "restroom-1",
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2024-05-01",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
     },
     "diaper_nursing": {
      "value": "모름",
@@ -1232,17 +1154,20 @@
      "verified_at": "2026-11-10"
     },
     "disabled_parking": {
-     "value": "모름",
-     "ask": "장애인 전용 주차구역이 있나요?",
+     "value": "가능",
+     "note": "2주차장에 4면, 3주차장에 4면",
+     "evidence": [
+      "parking-1"
+     ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rest_area": {
      "value": "가능",
-     "note": "벤치가 놓여 있는 휴식공간 마련",
+     "note": "곳곳에 벤치 놓여 있음",
      "evidence": [
-      "overview-1"
+      "overview-2"
      ],
      "grade": "ai",
      "method": "관광공사 API",
@@ -1262,151 +1187,13 @@
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     }
-   }
-  },
-  "SC15": {
-   "id": "SC15",
-   "tour_content_id": "128804",
-   "name_ko": "속초 엑스포타워",
-   "region": "속초",
-   "category": "전망·체험",
-   "lat": 38.1916176038,
-   "lng": 128.5831018755,
-   "address": "강원특별자치도 속초시 엑스포로 72",
-   "phone": "033-637-5083",
-   "stay_min": 40,
-   "stay_max": 80,
-   "photos": [
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/15/4131015_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초_속초 엑스포타워 (3).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/14/4131014_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초_속초 엑스포타워 (2).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/17/4131017_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초_속초 엑스포타워 (4).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/18/4131018_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초_속초 엑스포타워 (5).jpg"
-    }
-   ],
-   "hours": {
-    "grade": "ai",
-    "summer": {
-     "open": "09:00",
-     "close": "22:00",
-     "last_entry": "21:30"
-    },
-    "winter": {
-     "open": "09:00",
-     "close": "22:00",
-     "last_entry": "21:30"
-    },
-    "note": "연중무휴",
-    "evidence": [
-     "intro-usetime-1",
-     "intro-restdate-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "가능",
-     "evidence": [
-      "route-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "가능",
-     "evidence": [
-      "elevator-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "모름",
-     "ask": "출입구까지 경사로가 있는데, 경사도가 완만한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "노면 재질이 어떻게 되나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "가능",
-     "note": "타워1층 남녀공용",
-     "evidence": [
-      "restroom-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "diaper_nursing": {
-     "value": "모름",
-     "ask": "수유실이나 기저귀 교환대가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "disabled_parking": {
-     "value": "가능",
-     "note": "엑스포타워 바로 앞",
-     "evidence": [
-      "parking-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "모름",
-     "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "모름",
-     "ask": "휠체어를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "모름",
-     "ask": "유모차를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
    },
    "on_site": {
-    "text": "장애인 주차장은 엑스포타워 바로 앞에 있으며, 출입구까지 경사로가 설치되어 있고 타워 1층에 남녀공용 장애인 화장실이 있습니다.",
+    "text": "장애인 주차장이 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다.",
     "evidence": [
      "parking-1",
      "route-1",
+     "exit-1",
      "restroom-1"
     ],
     "grade": "ai"
@@ -1800,6 +1587,145 @@
     "grade": "ai"
    }
   },
+  "SC28": {
+   "id": "SC28",
+   "tour_content_id": "2776859",
+   "name_ko": "청초호 호수공원",
+   "region": "속초",
+   "category": "자연·산책",
+   "lat": 38.1958,
+   "lng": 128.5825,
+   "address": "강원특별자치도 속초시 엑스포로 140 (교동)",
+   "phone": "033-639-2690",
+   "stay_min": 40,
+   "stay_max": 90,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/71/4041471_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_속초_청초호 호수공원_외부_7.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/23/3577523_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "서울에서 강원도 속초 당일치기 여행 버스노선 뮤지엄엑스 아바이마을 맛집 수험생 할인_청초호 호수공원_4-3"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/24/3577524_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "서울에서 강원도 속초 당일치기 여행 버스노선 뮤지엄엑스 아바이마을 맛집 수험생 할인_청초호 호수공원_4-2"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/72/4041472_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_속초_청초호 호수공원_외부_8.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/73/4041473_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_속초_청초호 호수공원_외부_1.jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "출입구와 주출입구 턱 없음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 시설",
+     "evidence": [
+      "class-1",
+      "overview-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사도가 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "가능",
+     "note": "호변 테크길 산책 가능",
+     "evidence": [
+      "overview-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "모름",
+     "ask": "장애인 화장실이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "모름",
+     "ask": "장애인 전용 주차구역이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "가능",
+     "note": "벤치가 놓여 있는 휴식공간 마련",
+     "evidence": [
+      "overview-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
   "SC07": {
    "id": "SC07",
    "tour_content_id": "130466",
@@ -1919,53 +1845,57 @@
     }
    }
   },
-  "SC27": {
-   "id": "SC27",
-   "tour_content_id": "125750",
-   "name_ko": "청초호",
+  "SC15": {
+   "id": "SC15",
+   "tour_content_id": "128804",
+   "name_ko": "속초 엑스포타워",
    "region": "속초",
-   "category": "자연·산책",
-   "lat": 38.196,
-   "lng": 128.5887,
-   "address": "강원 속초시 청호동",
-   "phone": "033-639-2770",
+   "category": "전망·체험",
+   "lat": 38.1916176038,
+   "lng": 128.5831018755,
+   "address": "강원특별자치도 속초시 엑스포로 72",
+   "phone": "033-637-5083",
    "stay_min": 40,
-   "stay_max": 90,
+   "stay_max": 80,
    "photos": [
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/27/3566127_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/15/4131015_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_청초호 (5)"
+     "credit": "속초_속초 엑스포타워 (3).jpg"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/28/3566128_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/14/4131014_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_청초호 (6)"
+     "credit": "속초_속초 엑스포타워 (2).jpg"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/22/3566122_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/17/4131017_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_청초호 (4)"
+     "credit": "속초_속초 엑스포타워 (4).jpg"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/21/3566121_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/18/4131018_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_청초호 (3)"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/20/3566120_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초_청초호 (2)"
+     "credit": "속초_속초 엑스포타워 (5).jpg"
     }
    ],
    "hours": {
     "grade": "ai",
-    "always_open": true,
+    "summer": {
+     "open": "09:00",
+     "close": "22:00",
+     "last_entry": "21:30"
+    },
+    "winter": {
+     "open": "09:00",
+     "close": "22:00",
+     "last_entry": "21:30"
+    },
+    "note": "연중무휴",
     "evidence": [
      "intro-usetime-1",
      "intro-restdate-1"
@@ -1975,128 +1905,6 @@
     "step_free_entrance": {
      "value": "가능",
      "evidence": [
-      "route-1",
-      "exit-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
-     "evidence": [
-      "class-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "모름",
-     "ask": "경사도가 어떻게 되나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "노면 상태가 어떻게 되나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "가능",
-     "note": "공중화장실 '청초호유원지(남측)' · 장애인 칸 2 · 외 2곳",
-     "evidence": [
-      "restroom-1",
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2024-05-01",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "diaper_nursing": {
-     "value": "모름",
-     "ask": "수유실이나 기저귀 교환대가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "disabled_parking": {
-     "value": "가능",
-     "note": "2주차장에 4면, 3주차장에 4면",
-     "evidence": [
-      "parking-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "가능",
-     "note": "곳곳에 벤치 놓여 있음",
-     "evidence": [
-      "overview-2"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "모름",
-     "ask": "휠체어 대여가 가능한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "모름",
-     "ask": "유모차 대여가 가능한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
-   },
-   "on_site": {
-    "text": "장애인 주차장이 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다.",
-    "evidence": [
-     "parking-1",
-     "route-1",
-     "exit-1",
-     "restroom-1"
-    ],
-    "grade": "ai"
-   }
-  },
-  "SC17": {
-   "id": "SC17",
-   "tour_content_id": "987582",
-   "name_ko": "속초항",
-   "region": "속초",
-   "category": "바다·해변",
-   "lat": 38.2089236252,
-   "lng": 128.5941826553,
-   "address": "강원특별자치도 속초시 동명동 속초항",
-   "phone": "033-635-2003",
-   "stay_min": 30,
-   "stay_max": 60,
-   "hours": {
-    "grade": "ai",
-    "always_open": true,
-    "note": "상시 개방 및 연중 무휴",
-    "evidence": [
-     "intro-usetime-1",
-     "intro-restdate-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "가능",
-     "note": "출입구까지 경사로가 설치되어 있음(완만함)",
-     "evidence": [
       "route-1"
      ],
      "grade": "ai",
@@ -2105,20 +1913,16 @@
     },
     "elevator": {
      "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
      "evidence": [
-      "class-1"
+      "elevator-1"
      ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "slope": {
-     "value": "가능",
-     "note": "출입구까지 경사로가 완만함",
-     "evidence": [
-      "route-1"
-     ],
+     "value": "모름",
+     "ask": "출입구까지 경사로가 있는데, 경사도가 완만한가요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
@@ -2132,7 +1936,7 @@
     },
     "accessible_toilet": {
      "value": "가능",
-     "note": "여객선 터미널, 속초시청 건물",
+     "note": "타워1층 남녀공용",
      "evidence": [
       "restroom-1"
      ],
@@ -2141,18 +1945,15 @@
      "verified_at": "2026-11-10"
     },
     "diaper_nursing": {
-     "value": "가능",
-     "note": "장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음",
-     "evidence": [
-      "infantsfamilyetc-1"
-     ],
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "disabled_parking": {
      "value": "가능",
-     "note": "설악센트리움 맞은편 공영주차장, 시청 건물",
+     "note": "엑스포타워 바로 앞",
      "evidence": [
       "parking-1"
      ],
@@ -2162,276 +1963,34 @@
     },
     "rest_area": {
      "value": "모름",
-     "ask": "휴게 쉼터나 벤치가 있나요?",
+     "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rental_wheelchair": {
      "value": "모름",
-     "ask": "휠체어 대여가 가능한가요?",
+     "ask": "휠체어를 대여할 수 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rental_stroller": {
      "value": "모름",
-     "ask": "유모차 대여가 가능한가요?",
+     "ask": "유모차를 대여할 수 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     }
    },
    "on_site": {
-    "text": "장애인 주차장은 설악센트리움 맞은편 공영주차장과 속초시청 건물에 있으며, 출입구까지 완만한 경사로가 설치되어 있고 여객선 터미널과 속초시청 건물에 장애인 전용 화장실이 있습니다.",
+    "text": "장애인 주차장은 엑스포타워 바로 앞에 있으며, 출입구까지 경사로가 설치되어 있고 타워 1층에 남녀공용 장애인 화장실이 있습니다.",
     "evidence": [
      "parking-1",
      "route-1",
      "restroom-1"
     ],
     "grade": "ai"
-   }
-  },
-  "SC23": {
-   "id": "SC23",
-   "tour_content_id": "127565",
-   "name_ko": "영랑호",
-   "region": "속초",
-   "category": "자연·산책",
-   "lat": 38.2152793682,
-   "lng": 128.581258459,
-   "address": "강원특별자치도 속초시 영랑호반길 140",
-   "phone": "033-639-2690",
-   "stay_min": 40,
-   "stay_max": 90,
-   "photos": [
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/72/4120672_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초시_영랑호 (1).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/75/4120675_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초시_영랑호 (4).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/74/4120674_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초시_영랑호 (3).jpg"
-    },
-    {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/71/4120671_image2_1.jpg",
-     "provider": "한국관광공사",
-     "kogl_type": 1,
-     "credit": "속초시_영랑호 (5).jpg"
-    }
-   ],
-   "hours": {
-    "grade": "ai",
-    "always_open": true,
-    "evidence": [
-     "intro-usetime-1",
-     "intro-restdate-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "가능",
-     "evidence": [
-      "route-1",
-      "exit-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
-     "evidence": [
-      "class-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "모름",
-     "ask": "경사로가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "바닥 노면은 어떻게 되어 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "가능",
-     "note": "공중화장실 '영랑호 범바위' · 장애인 칸 2 · 외 1곳",
-     "evidence": [
-      "restroom-1",
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2024-05-01",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "diaper_nursing": {
-     "value": "가능",
-     "note": "기저귀 교환대 · 공중화장실 '영랑호 범바위' 남녀 화장실 모두 · 수유실 정보 없음",
-     "evidence": [
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2024-05-01",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "disabled_parking": {
-     "value": "모름",
-     "ask": "장애인 전용 주차구역이 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "모름",
-     "ask": "휴게 쉼터나 벤치가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "모름",
-     "ask": "휠체어 대여가 가능한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "모름",
-     "ask": "유모차 대여가 가능한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
-   }
-  },
-  "SC04": {
-   "id": "SC04",
-   "tour_content_id": "129454",
-   "name_ko": "동명항",
-   "region": "속초",
-   "category": "바다·해변",
-   "lat": 38.2114151114,
-   "lng": 128.599818177,
-   "address": "강원특별자치도 속초시 영금정로 50",
-   "phone": "033-639-2690",
-   "stay_min": 30,
-   "stay_max": 60,
-   "hours": {
-    "grade": "ai",
-    "always_open": true,
-    "note": "연중무휴 상시 개방",
-    "evidence": [
-     "intro-usetime-1",
-     "intro-restdate-1"
-    ]
-   },
-   "access": {
-    "step_free_entrance": {
-     "value": "모름",
-     "ask": "동명항은 계단이나 단차 없는 진입이 가능한가요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "elevator": {
-     "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
-     "evidence": [
-      "class-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "slope": {
-     "value": "모름",
-     "ask": "동명항에 경사로가 완만하게 되어 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "surface": {
-     "value": "모름",
-     "ask": "동명항의 노면 재질은 어떻게 되나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "accessible_toilet": {
-     "value": "가능",
-     "note": "공중화장실 '동명항' · 장애인 칸 2 · 외 1곳 / 관광공사: 주차장 입구에 위치",
-     "evidence": [
-      "restroom-1",
-      "public-화장실-2"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2024-05-01",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "diaper_nursing": {
-     "value": "가능",
-     "note": "기저귀 교환대 · 공중화장실 '동명항 관공선 부두' 남녀 화장실 모두 · 수유실 정보 없음",
-     "evidence": [
-      "public-화장실-1"
-     ],
-     "grade": "public",
-     "method": "공공데이터",
-     "verified_at": "2024-05-01",
-     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
-    },
-    "disabled_parking": {
-     "value": "가능",
-     "evidence": [
-      "parking-1"
-     ],
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rest_area": {
-     "value": "모름",
-     "ask": "동명항에 벤치나 쉼터가 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_wheelchair": {
-     "value": "모름",
-     "ask": "동명항에서 휠체어를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    },
-    "rental_stroller": {
-     "value": "모름",
-     "ask": "동명항에서 유모차를 대여할 수 있나요?",
-     "grade": "ai",
-     "method": "관광공사 API",
-     "verified_at": "2026-11-10"
-    }
    }
   },
   "SC22": {
@@ -2577,6 +2136,381 @@
    },
    "on_site": {
     "text": "장애인 주차장에 주차 후 완만한 경사로와 턱 없는 출입통로를 거쳐 주차장입구 앞 장애인 화장실을 이용할 수 있습니다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1",
+     "restroom-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "SC04": {
+   "id": "SC04",
+   "tour_content_id": "129454",
+   "name_ko": "동명항",
+   "region": "속초",
+   "category": "바다·해변",
+   "lat": 38.2114151114,
+   "lng": 128.599818177,
+   "address": "강원특별자치도 속초시 영금정로 50",
+   "phone": "033-639-2690",
+   "stay_min": 30,
+   "stay_max": 60,
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "note": "연중무휴 상시 개방",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "모름",
+     "ask": "동명항은 계단이나 단차 없는 진입이 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "동명항에 경사로가 완만하게 되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "동명항의 노면 재질은 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "공중화장실 '동명항' · 장애인 칸 2 · 외 1곳 / 관광공사: 주차장 입구에 위치",
+     "evidence": [
+      "restroom-1",
+      "public-화장실-2"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2024-05-01",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "기저귀 교환대 · 공중화장실 '동명항 관공선 부두' 남녀 화장실 모두 · 수유실 정보 없음",
+     "evidence": [
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2024-05-01",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "동명항에 벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "동명항에서 휠체어를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "동명항에서 유모차를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "SC17": {
+   "id": "SC17",
+   "tour_content_id": "987582",
+   "name_ko": "속초항",
+   "region": "속초",
+   "category": "바다·해변",
+   "lat": 38.2089236252,
+   "lng": 128.5941826553,
+   "address": "강원특별자치도 속초시 동명동 속초항",
+   "phone": "033-635-2003",
+   "stay_min": 30,
+   "stay_max": 60,
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "note": "상시 개방 및 연중 무휴",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "출입구까지 경사로가 설치되어 있음(완만함)",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구까지 경사로가 완만함",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 재질이 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "여객선 터미널, 속초시청 건물",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음",
+     "evidence": [
+      "infantsfamilyetc-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "설악센트리움 맞은편 공영주차장, 시청 건물",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "휴게 쉼터나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "장애인 주차장은 설악센트리움 맞은편 공영주차장과 속초시청 건물에 있으며, 출입구까지 완만한 경사로가 설치되어 있고 여객선 터미널과 속초시청 건물에 장애인 전용 화장실이 있습니다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "restroom-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "SC08": {
+   "id": "SC08",
+   "tour_content_id": "127586",
+   "name_ko": "설악산 국립공원(외설악)",
+   "region": "속초",
+   "category": "자연·산책",
+   "lat": 38.1675240983,
+   "lng": 128.5168002645,
+   "address": "강원특별자치도 속초시 설악산로 833 (설악동)",
+   "phone": "033-801-0900",
+   "stay_min": 40,
+   "stay_max": 90,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/73/4064173_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "설악산국립공원"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/72/4064172_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "설악산국립공원"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/71/4064171_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "설악산국립공원"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/57/4064157_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "설악산국립공원"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/68/4064168_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "설악산국립공원"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "note": "기상 정보 등에 의해 입산 통제될 수 있음",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "급한 경사가 없나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면은 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉼터나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "장애인 주차장에 주차 후 장애인 화장실과 턱이 없는 주출입구를 통해 진입할 수 있습니다.",
     "evidence": [
      "parking-1",
      "route-1",
@@ -2854,47 +2788,64 @@
     "grade": "ai"
    }
   },
-  "SC24": {
-   "id": "SC24",
-   "tour_content_id": "2788935",
-   "name_ko": "영랑호 설화공원",
+  "SC01": {
+   "id": "SC01",
+   "tour_content_id": "2513889",
+   "name_ko": "국립산악박물관",
    "region": "속초",
-   "category": "자연·산책",
-   "lat": 38.214481217251,
-   "lng": 128.569805225105,
-   "address": "강원특별자치도 속초시 영랑호반길 329-1 (장사동)",
-   "phone": "033-639-2331",
+   "category": "전시·박물관",
+   "lat": 38.2025955406,
+   "lng": 128.5404766211,
+   "address": "강원특별자치도 속초시 미시령로 3054",
+   "phone": "033-638-4459",
    "stay_min": 40,
-   "stay_max": 90,
+   "stay_max": 80,
    "photos": [
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/12/4068712_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/43/3514743_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_영랑호 설화공원 (4).jpg"
+     "credit": "속초_국립산악박물관 (2)"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/11/4068711_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/44/3514744_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_영랑호 설화공원 (3).jpg"
+     "credit": "속초_국립산악박물관 (3)"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/09/4068709_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/45/3514745_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_영랑호 설화공원 (1).jpg"
+     "credit": "속초_국립산악박물관 (4)"
     },
     {
-     "url": "https://tong.visitkorea.or.kr/cms/resource/13/4068713_image2_1.jpg",
+     "url": "https://tong.visitkorea.or.kr/cms/resource/46/3514746_image2_1.jpg",
      "provider": "한국관광공사",
      "kogl_type": 1,
-     "credit": "속초_영랑호 설화공원 (5).jpg"
+     "credit": "속초_국립산악박물관 (5)"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/47/3514747_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "속초_국립산악박물관 (6)"
     }
    ],
    "hours": {
     "grade": "ai",
-    "always_open": true,
+    "summer": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "winter": {
+     "open": "09:00",
+     "close": "18:00"
+    },
+    "closed_weekdays": [
+     "월"
+    ],
+    "note": "월요일이 공휴일인 경우 정상 개관, 1월 1일, 설·추석 연휴 휴무",
     "evidence": [
      "intro-usetime-1",
      "intro-restdate-1"
@@ -2903,6 +2854,7 @@
    "access": {
     "step_free_entrance": {
      "value": "가능",
+     "note": "경사로 설치, 턱 없음",
      "evidence": [
       "route-1",
       "exit-1"
@@ -2913,46 +2865,55 @@
     },
     "elevator": {
      "value": "가능",
-     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
      "evidence": [
-      "class-1"
+      "elevator-1"
      ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "slope": {
-     "value": "모름",
-     "ask": "경사로가 있나요?",
+     "value": "가능",
+     "evidence": [
+      "route-1"
+     ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "surface": {
      "value": "모름",
-     "ask": "바닥 노면은 어떻게 되어 있나요?",
+     "ask": "노면 상태가 어떻게 되나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "accessible_toilet": {
-     "value": "모름",
-     "ask": "장애인 화장실이 있나요?",
+     "value": "가능",
+     "note": "1층 안내데스크 오른쪽 및 주차장 내 야외화장실",
+     "evidence": [
+      "restroom-1"
+     ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "diaper_nursing": {
-     "value": "모름",
-     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "value": "가능",
+     "note": "1층 수유실 및 여자화장실 내 기저귀갈이대 있음",
+     "evidence": [
+      "lactationroom-1",
+      "infantsfamilyetc-1"
+     ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "disabled_parking": {
-     "value": "불가",
+     "value": "가능",
+     "note": "6대, 장애인 표지판",
      "evidence": [
-      "intro-parking-1"
+      "parking-1"
      ],
      "grade": "ai",
      "method": "관광공사 API",
@@ -2960,27 +2921,43 @@
     },
     "rest_area": {
      "value": "모름",
-     "ask": "휴게 쉼터나 벤치가 있나요?",
+     "ask": "벤치나 휴게 쉼터가 있나요?",
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rental_wheelchair": {
-     "value": "모름",
-     "ask": "휠체어 대여가 가능한가요?",
+     "value": "가능",
+     "note": "2대, 안내데스크, 신분증 보관",
+     "evidence": [
+      "wheelchair-1"
+     ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     },
     "rental_stroller": {
-     "value": "불가",
+     "value": "가능",
+     "note": "5대, 안내데스크, 24개월 이하, 신분증 보관",
      "evidence": [
-      "intro-chkbabycarriage-1"
+      "stroller-1"
      ],
      "grade": "ai",
      "method": "관광공사 API",
      "verified_at": "2026-11-10"
     }
+   },
+   "on_site": {
+    "text": "주차장의 장애인 주차장에 주차 후, 경사로가 설치되고 턱이 없는 주출입구를 통해 건물 내부로 진입하여 엘리베이터를 이용할 수 있으며 안내데스크에서 휠체어와 유모차를 대여할 수 있다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1",
+     "elevator-1",
+     "wheelchair-1",
+     "stroller-1"
+    ],
+    "grade": "ai"
    }
   }
  },
@@ -2988,10 +2965,7 @@
   "SC18": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
-  "SC28": [
-   "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
-  ],
-  "SC15": [
+  "SC27": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
   "SC26": [
@@ -3003,22 +2977,25 @@
   "SC21": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
+  "SC28": [
+   "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
+  ],
   "SC07": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
-  "SC27": [
+  "SC15": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
-  "SC17": [
-   "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
-  ],
-  "SC23": [
+  "SC22": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
   "SC04": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
-  "SC22": [
+  "SC17": [
+   "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
+  ],
+  "SC08": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
   "SC12": [
@@ -3027,7 +3004,7 @@
   "SC13": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ],
-  "SC24": [
+  "SC01": [
    "주차장에서 입구까지, 그리고 한 바퀴 둘러보는 길은 걸어서 대략 몇 분(몇 m) 걸리나요?"
   ]
  },
@@ -3035,10 +3012,7 @@
   "SC18": [
    "walk_distance"
   ],
-  "SC28": [
-   "walk_distance"
-  ],
-  "SC15": [
+  "SC27": [
    "walk_distance"
   ],
   "SC26": [
@@ -3050,22 +3024,25 @@
   "SC21": [
    "walk_distance"
   ],
+  "SC28": [
+   "walk_distance"
+  ],
   "SC07": [
    "walk_distance"
   ],
-  "SC27": [
+  "SC15": [
    "walk_distance"
   ],
-  "SC17": [
-   "walk_distance"
-  ],
-  "SC23": [
+  "SC22": [
    "walk_distance"
   ],
   "SC04": [
    "walk_distance"
   ],
-  "SC22": [
+  "SC17": [
+   "walk_distance"
+  ],
+  "SC08": [
    "walk_distance"
   ],
   "SC12": [
@@ -3074,7 +3051,7 @@
   "SC13": [
    "walk_distance"
   ],
-  "SC24": [
+  "SC01": [
    "walk_distance"
   ]
  }
