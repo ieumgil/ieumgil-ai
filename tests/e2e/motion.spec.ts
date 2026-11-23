@@ -127,3 +127,21 @@ test("동작 줄이기면 입력 단계가 바로 바뀐다", async ({ page }) =
   await expect(cond).toHaveAttribute("data-enter", "forward");
   expect(parseFloat(await cond.evaluate((e) => getComputedStyle(e).animationDuration))).toBeLessThan(0.001);
 });
+
+// 11/23 타임라인 스크롤 진행 표시: 작은 원이 출발 깃발부터 세로선을 따라 내려가고, 지나온 선이 채워진다. 인쇄에는 없다.
+test("일정 타임라인: 스크롤하면 진행 원이 세로선을 따라 내려가고, 인쇄에는 나오지 않는다", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openTrip(page);
+  const bar = page.locator("[data-timeline-progress]:visible").first();
+  await expect(bar).toHaveAttribute("aria-hidden", "true");
+  const progress = () => bar.evaluate((el) => Number(getComputedStyle(el).getPropertyValue("--progress")));
+  const dotTop = () => bar.locator("span").nth(1).evaluate((el) => el.getBoundingClientRect().top - el.parentElement!.getBoundingClientRect().top);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect.poll(progress).toBe(0);
+  const before = await dotTop();
+  await bar.evaluate((el) => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.45 + el.getBoundingClientRect().height / 2));
+  await expect.poll(progress).toBeGreaterThan(0.3);
+  expect(await dotTop()).toBeGreaterThan(before);
+  await page.emulateMedia({ media: "print" });
+  await expect(bar).toBeHidden();
+});
