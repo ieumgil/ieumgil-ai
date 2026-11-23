@@ -68,7 +68,7 @@ test("장소 카드 '자세히'는 열 때 높이가 늘어나며 열리고, 글
   const det = page.locator(".expand-in").first();
   await expect(det).toBeVisible();
   await expect(det).toHaveCSS("opacity", "1");
-  await expect(det.getByText("AI 판단 이유")).toBeVisible();
+  await expect(det.getByText("도착하면")).toBeVisible();
 });
 
 test("바꾸기 시트는 아래에서 올라오고, 닫을 때 내용을 그대로 둔 채 내려간 뒤 사라진다", async ({ page }) => {

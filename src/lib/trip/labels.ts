@@ -56,6 +56,14 @@ export function evidenceSourceText(evidence: { id: string; label: string }[]): s
   return `근거: ${parts.join(" / ")}`;
 }
 
+/** 짧은 출처 한 줄(카드 [자세히] 맨 아래, 11/23): 항목 목록 없이 어디서 온 값인지만. 출처 등급(ai·public)은 그대로 보인다 */
+export function shortSourceText(evidence: { id: string; label: string }[]): string {
+  const parts: string[] = [];
+  if (evidence.some((e) => !isPublicEvidenceId(e.id))) parts.push("한국관광공사 무장애 여행정보(AI 정리)");
+  if (evidence.some((e) => isPublicEvidenceId(e.id))) parts.push("행정안전부 공중화장실 공공데이터");
+  return `출처: ${parts.join(" · ")}`;
+}
+
 export interface PublicAccessLine {
   key: AccessKey;
   label: string;

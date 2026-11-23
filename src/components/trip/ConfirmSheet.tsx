@@ -31,14 +31,12 @@ export function ConfirmSheet({ o, trip, onChange }: { o: OptionView; trip: TripV
     <>
       <SheetHeader className="px-0 pt-6">
         <SheetTitle className="pr-12">{quoted} 정했어요</SheetTitle>
-        <SheetDescription>정한 일정은 이 탭에 보관돼요. 지도와 함께 다시 볼 수 있어요.</SheetDescription>
+        <SheetDescription>확정 일정 화면에서 지도와 함께 볼 수 있어요.</SheetDescription>
       </SheetHeader>
       {calls.length > 0 ? (
         <p className="text-base leading-relaxed">
           <span className="font-medium">출발 전 전화로 확인할 곳 {calls.length}곳</span>
           <span className="text-ink-sub"> (물어볼 것 {qCount}개)</span>
-          <br />
-          확정 일정 화면에서 장소마다 전화하고, 확인한 곳을 표시할 수 있어요.
         </p>
       ) : (
         <p className="text-base">따로 전화로 확인할 곳은 없어요.</p>

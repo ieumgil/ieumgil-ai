@@ -56,12 +56,15 @@ test("안을 바꾸면 그 안의 일정이 보인다", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 2, name: second.title })).toBeVisible();
 });
 
-test("장소 카드는 핵심만 보이고, [자세히]를 누르면 판단 이유·확인할 것이 펼쳐진다", async ({ page }) => {
+// 11/23 B안: [자세히]에는 도착하면 · 전화로 물어볼 것 · 공공데이터로 확인한 것 · 짧은 출처만(AI 판단 이유 · 가서 볼 것 · 지역 줄은 뺐다)
+test("장소 카드는 핵심만 보이고, [자세히]를 누르면 도착하면과 출처가 펼쳐진다", async ({ page }) => {
   const more = page.getByRole("button", { name: /자세히/ }).first();
   await expect(more).toHaveAttribute("aria-expanded", "false");
   await more.click();
   await expect(more).toHaveAttribute("aria-expanded", "true");
-  await expect(page.getByText(/근거: 한국관광공사 무장애 여행정보/).first()).toBeVisible();
+  await expect(page.getByText("도착하면").first()).toBeVisible();
+  await expect(page.getByText(/출처: 한국관광공사 무장애 여행정보\(AI 정리\)/).first()).toBeVisible();
+  await expect(page.getByText("AI 판단 이유")).toHaveCount(0);
 });
 
 test("장소 카드를 펼치면 공중화장실 공공데이터 값과 출처가 보이고, 접힌 카드에는 출처 문구가 없다", async ({ page }) => {
@@ -79,7 +82,7 @@ test("장소 카드를 펼치면 공중화장실 공공데이터 값과 출처�
   await expect(card.getByText("공공데이터로 확인한 것")).toBeVisible();
   await expect(card.getByText(/장애인 칸 2/)).toBeVisible();
   await expect(card.getByText("공공데이터(2024-12 기준)")).toBeVisible();
-  await expect(card.getByText("근거: 한국관광공사 무장애 여행정보", { exact: false })).toContainText("행정안전부 공중화장실 정보(공공데이터)");
+  await expect(card.getByText(/^출처: /)).toContainText("행정안전부 공중화장실 공공데이터");
 });
 
 test("'이 일정으로 정하기'를 누르면 확인할 것 모음이 열리고, 정한 상태가 남는다", async ({ page }) => {
@@ -193,14 +196,14 @@ test("장소 번호 표시는 찌그러지지 않은 동그라미다(가로≈�
   expect(bad, JSON.stringify(sizes)).toEqual([]);
 });
 
-test("노면만 모르는 곳은 전화 질문이 아니라 '가서 보고 확인할 것'으로 보여준다", async ({ page }) => {
-  // 첫 장소(GN12)는 노면만 '모름' → 칩은 그냥 '적합', 자세히에 바닥 안내
+// 11/23: 카드의 '가서 보고 확인할 것'은 칩 옆 '공식 정보 없음'과 확정 화면 공통 줄과 겹쳐 뺐다. 뜻(전화 질문으로 만들지 않음)은 그대로 본다
+test("노면만 모르는 곳은 전화 질문으로 만들지 않고 '공식 정보 없음: 노면'으로만 보여준다", async ({ page }) => {
+  // 첫 장소(GN12)는 노면만 '모름' → 칩은 그냥 '적합', 칩 옆에 공식 정보 없음
   const card = page.locator("article").first();
   await expect(card).toContainText("적합");
   await expect(card).not.toContainText("전화로 확인할 것 있음");
+  await expect(card.getByText("공식 정보 없음: 노면")).toBeVisible();
   await card.getByRole("button", { name: /자세히/ }).click();
-  await expect(card.getByText("가서 보고 확인할 것")).toBeVisible();
-  await expect(card.getByText(/^바닥: /)).toBeVisible();
   await expect(card.getByText("전화로 물어볼 것")).toHaveCount(0);
   await expect(page.getByText(/노면 .*재질/)).toHaveCount(0);
 });
@@ -367,14 +370,13 @@ test.describe("장소 카드", () => {
     expect(s.family.replace(/["']/g, "").toLowerCase().startsWith("pretendard")).toBe(true);
   });
 
-  test("펼치면 지역·분류가 솔숲 초록 meta로 맨 위에 온다 @p0304 @p0304-open", async ({ page }) => {
+  // 11/23 B안: 지역·분류 meta 줄은 뺐고 '도착하면'이 맨 위에 온다
+  test("펼치면 '도착하면'이 맨 위에 온다 @p0304 @p0304-open", async ({ page }) => {
     const more = page.locator("article:visible button[aria-controls^='place-']").first();
     await more.click();
     const panel = page.locator(`[id='${await more.getAttribute("aria-controls")}']`);
     await expect(panel).toBeVisible();
-    const first = panel.locator("> *").first();
-    await expect(first).toContainText(" · ");
-    expect(await first.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(42, 106, 80)");
+    await expect(panel.locator("> *").first()).toContainText("도착하면");
   });
 
   test("전화번호는 하이픈 뒤에서만 줄바꿈된다 @p0304", async ({ page }) => {

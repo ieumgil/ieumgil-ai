@@ -26,7 +26,7 @@ export function Checklist({ o, trip, readOnly = false }: { o: OptionView; trip: 
   const status = readOnly
     ? `${all.length}곳에 출발 전 전화로 물어볼 것이 있어요.`
     : left > 0
-      ? `${all.length}곳 중 ${done}곳 확인했어요 · 남은 곳 ${left}곳${hard ? ` · 어렵다고 한 곳 ${hard}곳` : ""}`
+      ? `${all.length}곳 중 ${done}곳 확인했어요${hard ? ` · 어렵다고 한 곳 ${hard}곳` : ""}`
       : hard
         ? `모두 확인했어요. 어렵다고 한 곳 ${hard}곳은 다른 곳으로 바꾸는 게 좋아요.`
         : "모두 괜찮다고 확인했어요.";

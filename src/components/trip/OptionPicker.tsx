@@ -1,6 +1,6 @@
-// 안 고르기: 성격이 다른 2~3안을 아이콘 없는 네 줄 카드로(A안+전략 / 제목 / 갈 곳 한 줄 요약 / 장소 수 · 이동 시간 · 전화 확인 곳 수).
+// 안 고르기: 성격이 다른 2~3안을 아이콘 없는 세 줄 카드로(A안+전략 / 제목 / 장소 수 · 이동 시간 · 전화 확인 곳 수).
+// 11/23 중복 정리: 화면 제목(h1)과 겹치는 구역 제목은 화면 읽기 프로그램에만, 전략 이름이 제목과 같으면 한 번만, 갈 곳 줄은 오른쪽 시간표와 겹쳐 뺐다.
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { routeSummary } from "@/lib/trip/labels";
 import { callPlaces } from "@/lib/trip/questions";
 import type { TripView } from "@/lib/trip/view";
 
@@ -8,8 +8,8 @@ const STRATEGY_LABEL: Record<string, string> = { 여유: "여유롭게", 취향:
 
 export function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripView; selected: string; confirmedId: string | null; onSelect: (id: string) => void }) {
   return (
-    <section className="pt-8" aria-labelledby="compare">
-      <h2 id="compare" className="px-4 font-heading text-heading font-bold text-balance md:px-6 lg:px-0">
+    <section className="pt-6" aria-labelledby="compare">
+      <h2 id="compare" className="sr-only">
         마음에 드는 일정을 골라 보세요
       </h2>
       <ToggleGroup
@@ -32,7 +32,7 @@ export function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: 
               <span className="flex items-baseline justify-between gap-2">
                 <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
                   <span className="text-base font-medium text-ink">{o.id}안</span>{" "}
-                  <span className="text-sm font-medium text-ink-sub">{STRATEGY_LABEL[o.strategy] ?? o.strategy}</span>
+                  {(STRATEGY_LABEL[o.strategy] ?? o.strategy) !== o.title && <span className="text-sm font-medium text-ink-sub">{STRATEGY_LABEL[o.strategy] ?? o.strategy}</span>}
                 </span>
                 {confirmedId === o.id && (
                   <span className="shrink-0 text-sm font-medium text-primary-ink">
@@ -41,7 +41,6 @@ export function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: 
                 )}
               </span>
               <span className="text-heading leading-snug font-medium text-ink [overflow-wrap:anywhere]">{o.title}</span>
-              <span className="line-clamp-2 text-base leading-snug font-normal text-ink">{routeSummary(o, trip)}</span>
               <span className="text-sm font-medium text-ink">
                 {o.stats.places}곳 · 이동 약 {o.stats.travelMin}분 ·{" "}
                 {calls > 0 ? (

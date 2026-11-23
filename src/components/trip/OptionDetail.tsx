@@ -132,8 +132,9 @@ function DayPanel({
     <div aria-label={`${index + 1}일째`}>
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <StatusChip status={FIT_CHIP[d.fit].s}>{FIT_CHIP[d.fit].t}</StatusChip>
+        {/* 이동 시간은 안 카드(합계)와 시간표 구간마다 이미 있어 여기서는 곳 수만(11/23 중복 정리) */}
         <span className="text-sm text-ink-sub">
-          {visits.length}곳 · 이동 약 {d.travelMin}분{d.estimated ? "(추정)" : ""}
+          {visits.length}곳{d.estimated ? " · 이동 시간 추정" : ""}
         </span>
         {editor && !editing && (
           <button

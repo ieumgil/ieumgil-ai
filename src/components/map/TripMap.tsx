@@ -348,9 +348,9 @@ export function TripMap({
     <figure className={`flex flex-col overflow-hidden rounded-2xl bg-surface ${className}`}>
       <div ref={box} className="min-h-0 flex-1" role="group" aria-label={label} />
       <figcaption className="flex items-center gap-3 border-t border-line px-4 py-3">
+        {/* 그날 차량 합계(caption.head)는 날짜 요약·시간표와 겹쳐 뺐다(11/23). '일반 차량 경로' 원칙 문구는 지도 옆에 남긴다 */}
         <div className="min-w-0 flex-1">
-          <p className="text-heading leading-snug font-medium text-ink">{caption.head}</p>
-          <p className="mt-0.5 text-base text-ink-sub">{caption.sub}</p>
+          <p className="text-base text-ink-sub">{caption.sub}</p>
         </div>
         {action}
       </figcaption>

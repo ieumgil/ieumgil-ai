@@ -1,16 +1,18 @@
 "use client";
 
 // 장소 카드(S2 한 겹): 사진 · 도착 예상 시각 · 이름 · 판단 칩 · 공식 정보 없음 · 한 줄 이유 · 전화 · [바꾸기] · 아래 펼침 줄 [자세히].
-// 가독성 원칙: 카드에는 핵심만, AI 판단 이유·도착하면·전화로 물어볼 것·가서 볼 것·공공데이터로 확인한 것·근거는 [자세히]로 펼친다.
+// 가독성 원칙: 카드에는 핵심만. [자세히]에는 도착하면 · 전화로 물어볼 것 · 공공데이터로 확인한 것 · 짧은 출처만(11/23 B안).
+// 뺀 것: 지역·분류·확신 줄, AI 판단 이유(카드 한 줄 이유와 겹침), 가서 볼 것(칩 옆 '공식 정보 없음'과 확정 화면 공통 줄과 겹침).
+// 주의 상자는 이유와 같은 말이면 띄우지 않는다(좋은 점이 '주의'로 보이던 오류).
 import { ArrowLeftRight, ChevronDown, Phone } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { PhoneText } from "@/components/PhoneText";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { toHHMM } from "@/lib/engine/types";
-import { evidenceSourceText, publicAccessLines, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
+import { publicAccessLines, shortSourceText, UNKNOWN_LABEL, VERDICT_CHIP, verdictText } from "@/lib/trip/labels";
 import { stopAnchor } from "@/lib/trip/map-points";
-import { ON_SITE_KEYS, onSiteByPlace, questionsByPlace } from "@/lib/trip/questions";
+import { ON_SITE_KEYS, questionsByPlace } from "@/lib/trip/questions";
 import type { ItemView, OptionView, TripView } from "@/lib/trip/view";
 
 export function PlaceCard({
@@ -35,14 +37,13 @@ export function PlaceCard({
   const p = trip.places[it.placeId];
   const j = trip.judgments[it.placeId];
   const questions = (questionsByPlace(o).get(it.placeId) ?? []).filter((q) => !common.has(q));
-  const onSite = onSiteByPlace(o).get(it.placeId) ?? [];
   const unknownKeys = trip.unknowns?.[it.placeId] ?? [];
   const unknown = unknownKeys.map((k) => UNKNOWN_LABEL[k] ?? k);
   const needsCall = questions.length > 0 || unknownKeys.some((k) => !ON_SITE_KEYS.has(k));
-  const cautions = o.cautions.filter((c) => c.placeId === it.placeId).map((c) => c.text);
   const headline = it.why ?? j.reasons[0];
-  const reasons = j.reasons.filter((r) => r !== headline);
+  const cautions = o.cautions.filter((c) => c.placeId === it.placeId && !sameMeaning(c.text, [headline, ...j.reasons])).map((c) => c.text);
   const pub = publicAccessLines(trip.placeData?.[it.placeId]);
+  const hasDetail = Boolean(p.onSite) || questions.length > 0 || pub.length > 0;
   const detailId = `place-${it.placeId}-${no}`;
   const replacedId = o.swapped?.[it.placeId];
   const nameId = `name-${it.placeId}-${no}`;
@@ -126,8 +127,8 @@ export function PlaceCard({
           </button>
         </div>
 
-        {/* 펼침 줄: 버튼 모양이 아니라 카드 아래 구분선 + 44px 줄 */}
-        <button
+        {/* 펼침 줄: 버튼 모양이 아니라 카드 아래 구분선 + 44px 줄. 펼칠 것(도착하면·물어볼 것)이 없으면 줄도 없다 */}
+        {hasDetail && <button
           type="button"
           aria-expanded={open}
           aria-controls={detailId}
@@ -140,38 +141,16 @@ export function PlaceCard({
             {questions.length > 0 && ` · 물어볼 것 ${questions.length}`}
           </span>
           <ChevronDown size={18} className={`shrink-0 transition-transform duration-[var(--motion-long)] ease-[var(--ease-state)] ${open ? "rotate-180" : ""}`} aria-hidden="true" />
-        </button>
+        </button>}
 
-        {open && (
+        {hasDetail && open && (
           <div id={detailId} className="expand-in mt-4 flex flex-col gap-4 text-base leading-relaxed">
-            <p className="text-sm font-medium text-pine">
-              {p.region} · {p.category}
-              {j.confidence && <span className="font-normal text-ink-sub">{` · AI 판단의 확신 ${j.confidence}`}</span>}
-            </p>
-            {reasons.length > 0 && (
-              <Block title="AI 판단 이유">
-                <ul className="list-disc pl-6">
-                  {reasons.map((r) => (
-                    <li key={r}>{r}</li>
-                  ))}
-                </ul>
-              </Block>
-            )}
             {p.onSite && <Block title="도착하면">{p.onSite}</Block>}
             {questions.length > 0 && (
               <Block title="전화로 물어볼 것">
                 <ul className="list-disc pl-6">
                   {questions.map((q) => (
                     <li key={q}>{q}</li>
-                  ))}
-                </ul>
-              </Block>
-            )}
-            {onSite.length > 0 && (
-              <Block title="가서 보고 확인할 것">
-                <ul className="list-disc pl-6">
-                  {onSite.map((t) => (
-                    <li key={t}>{t}</li>
                   ))}
                 </ul>
               </Block>
@@ -198,12 +177,24 @@ export function PlaceCard({
                 </ul>
               </Block>
             )}
-            {j.evidence.length > 0 && <p className="text-sm leading-normal text-ink-sub">{evidenceSourceText(j.evidence)}</p>}
+            {j.evidence.length > 0 && <p className="text-sm leading-normal text-ink-sub">{shortSourceText(j.evidence)}</p>}
           </div>
         )}
       </article>
     </li>
   );
+}
+
+/** 같은 말인가: 띄어쓰기·문장부호·끝말(…해서 골랐어요/…해요)을 빼고 앞부분이 같으면 같은 말로 본다 */
+function sameMeaning(text: string, others: (string | undefined)[]): boolean {
+  const norm = (t: string) => t.replace(/[\s.,·!?]/g, "").replace(/(해서골랐어요|해서|해요|어요|아요|요)$/, "");
+  const n = norm(text);
+  if (!n) return true;
+  return others.some((o) => {
+    if (!o) return false;
+    const m = norm(o);
+    return m.startsWith(n) || n.startsWith(m);
+  });
 }
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
