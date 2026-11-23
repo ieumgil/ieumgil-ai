@@ -35,8 +35,13 @@ export default function Home() {
         <QuickMenu inner={SITE_WIDTH} />
 
         {/* 소개: 제목 · 버튼 · 특징 + 결과 화면 미리보기 */}
-        <section aria-labelledby="intro-title" className={`${SITE_WIDTH} grid gap-8 pt-16 lg:grid-cols-[minmax(0,1fr)_32rem] lg:gap-x-16 lg:pt-24`}>
-          <div className="flex flex-col lg:max-w-[40rem] lg:justify-center">
+        {/* 소개: 레퍼런스 청양 문화관광 '투어패스' 구역 — 왼쪽 글, 오른쪽 화면 끝까지 찬 연한 면(왼쪽 아래만 둥글게) 위에 미리보기 (globals.css .intro-band) */}
+        <section aria-labelledby="intro-title" className="intro-band mt-16 py-12 lg:mt-24 lg:py-16">
+          <span className="intro-band__mark" aria-hidden="true">
+            IEUMGIL ROUTE
+          </span>
+          <div className={`${SITE_WIDTH} relative z-10 grid items-center gap-12 lg:grid-cols-2`}>
+          <div className="flex flex-col lg:max-w-[36rem]">
             <SectionTitle id="intro-title" kicker="이음길은 이렇게 골라요">
               갈 수 있는 곳만 <span className="text-primary">골라 드려요</span>
             </SectionTitle>
@@ -54,6 +59,7 @@ export default function Home() {
             <p className="mt-2 text-sm text-ink-sub">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
           </div>
           <Preview />
+          </div>
         </section>
 
         <Waves />
@@ -109,15 +115,14 @@ function Waves() {
 /** 결과 화면 캡처 두 장(일정 비교 · 확정 일정 지도). scripts/readme/capture.ts가 다시 만든다. 누르는 곳이 없는 그림 */
 function Preview() {
   const phone =
-    "absolute w-[11.5rem] overflow-hidden rounded-3xl border-[0.375rem] border-ink bg-ink shadow-[0_1rem_2rem_rgb(25_31_40/0.12)] md:w-[12rem] lg:w-[15rem] lg:rounded-[2.25rem] lg:border-[0.5rem]";
+    "absolute w-[11.5rem] overflow-hidden rounded-3xl border-[0.375rem] border-ink bg-ink shadow-[0_1rem_2rem_rgb(25_31_40/0.12)] md:w-[12rem] lg:w-[15rem] xl:w-[17rem] lg:rounded-[2.25rem] lg:border-[0.5rem]";
   return (
-    <figure className="relative mx-auto h-[26rem] w-full max-w-[28rem] lg:h-[38rem] lg:max-w-none" aria-label="결과 화면 미리보기">
-      <div className="absolute inset-x-3 top-8 bottom-6 rounded-3xl bg-pine-soft lg:inset-x-6 lg:inset-y-10 lg:rounded-[3rem]" aria-hidden="true" />
+    <figure className="relative mx-auto h-[26rem] w-full max-w-[28rem] lg:h-[38rem] lg:max-w-[34rem] xl:h-[42rem] xl:max-w-[38rem]" aria-label="결과 화면 미리보기">
       <div className={`${phone} top-0 right-0 lg:right-2`}>
-        <Image src="/preview/final.png" width={780} height={1688} sizes="(min-width: 1024px) 15rem, 12rem" alt="확정한 일정 화면: 카카오 지도에 장소 번호와 일반 차량 경로선, 아래에 시간순 일정" />
+        <Image src="/preview/final.png" width={780} height={1688} sizes="(min-width: 1280px) 17rem, (min-width: 1024px) 15rem, 12rem" alt="확정한 일정 화면: 카카오 지도에 장소 번호와 일반 차량 경로선, 아래에 시간순 일정" />
       </div>
       <div className={`${phone} top-8 left-0 lg:top-12 lg:left-2`}>
-        <Image src="/preview/compare.png" width={780} height={1688} sizes="(min-width: 1024px) 15rem, 12rem" alt="일정 비교 화면: 성격이 다른 일정 안 카드와 장소 수, 이동 시간, 전화로 확인할 곳 수" />
+        <Image src="/preview/compare.png" width={780} height={1688} sizes="(min-width: 1280px) 17rem, (min-width: 1024px) 15rem, 12rem" alt="일정 비교 화면: 성격이 다른 일정 안 카드와 장소 수, 이동 시간, 전화로 확인할 곳 수" />
       </div>
       <figcaption className="absolute inset-x-0 bottom-0 text-center text-sm text-ink-sub">실제 결과 화면 · 일정 비교와 확정 일정 지도</figcaption>
     </figure>

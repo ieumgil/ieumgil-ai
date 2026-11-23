@@ -711,3 +711,49 @@ label:has(input[type="checkbox"]) {
 [data-timeline-progress][data-state="end"] > span:last-child {
   opacity: 0;
 }
+
+/*
+ * 시작 화면 소개 구역(11/23) — 레퍼런스 청양 문화관광(cheongyang.go.kr/tour.do) 투어패스 구역 .section::before 규칙을 옮겨 왔다.
+ * 그대로인 것: 바탕 #F5F8FD, 가운데(50%)부터 오른쪽 화면 끝까지, 높이 구역 전체, 왼쪽 아래만 200px 둥글게, 위에 흐린 큰 영문 장식 글자.
+ * 바꾼 것: 장식 글자(그쪽은 SVG 'TOUR PASS' → 우리는 글자 'IEUMGIL ROUTE', 읽지 않음), 좁은 화면에서는 아래쪽(미리보기 뒤) 면으로.
+ */
+.intro-band {
+  position: relative;
+  overflow: hidden;
+}
+.intro-band::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  z-index: 0;
+  background-color: #f5f8fd;
+  border-radius: 0 0 0 200px;
+}
+.intro-band__mark {
+  position: absolute;
+  top: 1.5rem;
+  right: 3%;
+  z-index: 0;
+  color: #e3eaf6;
+  font-size: clamp(3rem, 7vw, 7.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+@media (max-width: 1023px) {
+  .intro-band::before {
+    top: auto;
+    left: 0;
+    height: 46%;
+    border-radius: 0 0 0 120px;
+  }
+  .intro-band__mark {
+    display: none;
+  }
+}

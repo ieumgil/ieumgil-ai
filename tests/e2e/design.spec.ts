@@ -300,6 +300,7 @@ test.describe("전 화면 글자", () => {
           if (cs.visibility === "hidden" || cs.display === "none" || r.width === 0 || r.height === 0) continue;
           // 제목(h1·h2·h3, 시작 화면 루트 카드 제목), 사이트 머리줄 이름(font-heading), 시작 화면 바로가기 띠(비짓강릉 CSS, 굵은 이름)
           if (el.closest("h1, h2, h3, .font-heading, .quick-band")) continue;
+          if (el.closest("[aria-hidden=true]")) continue; // 읽지 않는 장식 글자(시작 화면 소개 구역의 큰 영문 등)
           out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
         }
         return out;
