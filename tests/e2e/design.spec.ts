@@ -1,5 +1,5 @@
 // 디자인 다듬기(03단계) 시험: 제목 글꼴·새 토큰이 화면까지 실제로 이어지는지 본다.
-// - 글꼴(Noto Sans KR 한 벌, 11/18)은 같은 사이트(/_next/…)에서만 받는다. Google·jsDelivr·unpkg 같은 외부 글꼴 요청은 0건(개인정보 원칙 5).
+// - 글꼴(Pretendard, 11/23 — 히어로 문구만 카페24 숑숑)은 같은 사이트(/_next/…)에서만 받는다. Google·jsDelivr·unpkg 같은 외부 글꼴 요청은 0건(개인정보 원칙 5).
 // - 글꼴이 늦게 와도(기기 글꼴로 먼저 보임) 시작 화면 h1 줄 수가 달라지지 않는다(font-display: swap을 받아들인 조건).
 // - 인쇄용 일정표(PrintSheet)도 화면과 같은 글꼴을 쓴다(서체 불변).
 // 카카오 지도·관광공사 사진·기상청은 막아 두고 우리 화면만 본다.
@@ -52,20 +52,20 @@ test("글꼴은 같은 사이트에서 받고 외부 글꼴 요청이 없다", a
   for (const url of allUrls) {
     expect(EXTERNAL_FONT_HOSTS.includes(new URL(url).hostname), url).toBe(false);
   }
-  const loaded = await page.evaluate(() => [...document.fonts].filter((f) => f.family.replace(/["']/g, "").includes("Noto Sans KR") && f.status === "loaded").length);
+  const loaded = await page.evaluate(() => [...document.fonts].filter((f) => f.family.replace(/["']/g, "").toLowerCase().includes("pretendard") && f.status === "loaded").length);
   expect(loaded).toBeGreaterThanOrEqual(1);
 });
 
-test("시작 화면 h1은 Noto Sans KR 700 · 28px · 자간 0", async ({ page }) => {
+// 11/23: 시작 화면 h1은 히어로 문구(카페24 숑숑, text-hero 40~72px). 다른 화면 h1은 아래 '전 화면 글자'가 Pretendard 28px로 본다
+test("시작 화면 h1은 카페24 숑숑 히어로 문구(40px 이상) · 자간 0", async ({ page }) => {
   await block(page);
   await page.goto("/");
   const css = await page.locator("h1").first().evaluate((el) => {
     const cs = getComputedStyle(el);
-    return { family: cs.fontFamily, weight: cs.fontWeight, size: cs.fontSize, spacing: cs.letterSpacing };
+    return { family: cs.fontFamily, size: parseFloat(cs.fontSize), spacing: cs.letterSpacing };
   });
-  expect(css.family.replace(/["']/g, "").startsWith("Noto Sans KR")).toBe(true);
-  expect(css.weight).toBe("700");
-  expect(css.size).toBe("28px");
+  expect(css.family.replace(/["']/g, "").toLowerCase().startsWith("syongsyong"), css.family).toBe(true);
+  expect(css.size).toBeGreaterThanOrEqual(40);
   expect(["0px", "normal"]).toContain(css.spacing);
 });
 
@@ -80,7 +80,7 @@ test("새 토큰 값", async ({ page }) => {
   expect(v.pine).toBe("#2a6a50");
   expect(v.soft).toBe("#e8f3ec");
   expect(v.control).toBe("#8b95a1");
-  expect(v.display).toContain("Noto Sans KR");
+  expect(v.display.toLowerCase()).toContain("pretendard");
 });
 
 test("글꼴이 늦게 와도 시작 화면 h1 줄 수가 같다", async ({ browser }, info) => {
@@ -124,7 +124,7 @@ test("인쇄 일정표도 화면과 같은 글꼴이다", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
   await page.emulateMedia({ media: "print" });
   const family = await page.locator(".print-sheet h1").evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(family.replace(/["']/g, "").startsWith("Noto Sans KR"), family).toBe(true);
+  expect(family.replace(/["']/g, "").toLowerCase().startsWith("pretendard"), family).toBe(true);
 });
 
 // ---- 공용 부품(03-02): 버튼·판정 칩 ----------------------------------------------------------
@@ -132,8 +132,9 @@ test("인쇄 일정표도 화면과 같은 글꼴이다", async ({ page }) => {
 test.describe("공용 부품", () => {
   test("주 버튼은 16px 500 · 반지름 12px", async ({ page }) => {
     await block(page);
+    // 시작 화면에는 같은 이름의 바로가기 칸도 있어(11/23) 본문 주 버튼(Button)을 집는다
     await page.goto("/");
-    const css = await page.getByRole("link", { name: "여행 루트 만들기" }).evaluate((el) => {
+    const css = await page.locator("section[aria-labelledby=intro-title]").getByRole("link", { name: "여행 루트 만들기" }).evaluate((el) => {
       const cs = getComputedStyle(el);
       return { size: cs.fontSize, weight: cs.fontWeight, radius: cs.borderTopLeftRadius };
     });
@@ -144,7 +145,8 @@ test.describe("공용 부품", () => {
     // 터치 휴대폰은 호버가 없다(Tailwind hover:는 (hover: hover)일 때만 적용). 마우스가 있는 PC 폭에서 본다
     test.skip(info.project.name !== "desktop", "호버는 PC(마우스)에서만 본다");
     await block(page);
-    await page.goto("/");
+    // 시작 화면에서 outline 버튼이 빠져(11/23) 소개 글 맨 아래의 outline 버튼으로 본다
+    await page.goto("/about");
     const link = page.getByRole("link", { name: "예시 루트 바로 보기" });
     await link.hover();
     // 색 바뀜 전환(150ms)이 끝난 뒤 값을 본다
@@ -168,7 +170,7 @@ test.describe("공용 부품", () => {
   });
 });
 
-// ---- 대화창·시트(03-02): 제목은 Noto Sans KR 700, 떠 있는 면은 불투명 · 흐림 없음 ----------------------------
+// ---- 대화창·시트(03-02): 제목은 Pretendard 700, 떠 있는 면은 불투명 · 흐림 없음 ----------------------------
 
 test.describe("대화창·시트", () => {
   async function seed(page: Page) {
@@ -176,7 +178,7 @@ test.describe("대화창·시트", () => {
     await page.addInitScript((t) => sessionStorage.setItem("ieumgil-trip", t), trip);
   }
 
-  test("확정 창 제목은 Noto Sans KR 700, 창은 불투명 흰 바탕이고 뒤 막에 흐림이 없다", async ({ page }) => {
+  test("확정 창 제목은 Pretendard 700, 창은 불투명 흰 바탕이고 뒤 막에 흐림이 없다", async ({ page }) => {
     await seed(page);
     await page.goto("/trip/new");
     await page.getByRole("button", { name: /일정으로 정하기/ }).last().click();
@@ -186,7 +188,7 @@ test.describe("대화창·시트", () => {
       const cs = getComputedStyle(el);
       return { family: cs.fontFamily.replace(/["']/g, ""), weight: cs.fontWeight };
     });
-    expect(title.family.startsWith("Noto Sans KR")).toBe(true);
+    expect(title.family.toLowerCase().startsWith("pretendard")).toBe(true);
     expect(title.weight).toBe("700");
     const box = await dialog.evaluate((el) => {
       const cs = getComputedStyle(el);
@@ -198,7 +200,7 @@ test.describe("대화창·시트", () => {
     expect(overlay).toBe("none"); // 장식 흐림 없이 검은 10% 막만
   });
 
-  test("사진 크게 보기 창 제목도 Noto Sans KR 700이다", async ({ page }) => {
+  test("사진 크게 보기 창 제목도 Pretendard 700이다", async ({ page }) => {
     await seed(page);
     await page.goto("/trip/new");
     await page.locator("article").first().getByRole("button", { name: /사진 \d+ 장 크게 보기/ }).click();
@@ -207,14 +209,14 @@ test.describe("대화창·시트", () => {
       const cs = getComputedStyle(el);
       return { family: cs.fontFamily.replace(/["']/g, ""), weight: cs.fontWeight };
     });
-    expect(title.family.startsWith("Noto Sans KR")).toBe(true);
+    expect(title.family.toLowerCase().startsWith("pretendard")).toBe(true);
     expect(title.weight).toBe("700");
     expect(await page.locator("[data-slot='dialog-overlay']").evaluate((el) => getComputedStyle(el).backdropFilter)).toBe("none");
   });
 });
 
 // ---- 전 화면 글자·제목 글꼴·대비 조합(03-11): 계산값으로 본다 ------------------------------------------
-// 주요 8개 화면에서 14px 이상 · 누르는 것 16px 이상 · Button·summary 500 · h1 Noto Sans KR 28px 700 · 700은 h1·h2 제목에만
+// 주요 8개 화면에서 14px 이상 · 누르는 것 16px 이상 · Button·summary 500 · h1 Pretendard 28px 700(시작 화면은 숑숑 히어로) · 700은 h1·h2·h3 제목에만
 // · primary-soft 바탕 위에 primary 글자 없음(대비 4.39). 예외로 뺀 선택자는 없다.
 
 const SCREENS = ["/", "/plan/when", "/plan/who", "/plan/conditions", "/plan/taste", "/places", "/trip/example", "/trip/example/final"];
@@ -271,15 +273,21 @@ test.describe("전 화면 글자", () => {
       expect(bad, JSON.stringify(bad)).toEqual([]);
     });
 
-    test(`${path}: h1은 Noto Sans KR 28px 700, 700은 제목에만`, async ({ page }) => {
+    test(`${path}: h1은 Pretendard 28px 700, 700은 제목에만`, async ({ page }) => {
       await openScreen(page, path);
       const h1 = await page.locator("h1").first().evaluate((el) => {
         const cs = getComputedStyle(el);
         return { family: cs.fontFamily.replace(/["']/g, ""), size: cs.fontSize, weight: cs.fontWeight };
       });
-      expect(h1.family.startsWith("Noto Sans KR"), h1.family).toBe(true);
-      expect(h1.size).toBe("28px");
-      expect(h1.weight).toBe("700");
+      if (path === "/") {
+        // 시작 화면 h1은 히어로 문구(카페24 숑숑, 40px 이상) — 11/23 어머니 시안
+        expect(h1.family.toLowerCase().startsWith("syongsyong"), h1.family).toBe(true);
+        expect(parseFloat(h1.size)).toBeGreaterThanOrEqual(40);
+      } else {
+        expect(h1.family.toLowerCase().startsWith("pretendard"), h1.family).toBe(true);
+        expect(h1.size).toBe("28px");
+        expect(h1.weight).toBe("700");
+      }
 
       const stray = await page.evaluate(() => {
         const out: { tag: string; text: string }[] = [];
@@ -290,7 +298,8 @@ test.describe("전 화면 글자", () => {
           if (![...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? "").trim() !== "")) continue;
           const r = el.getBoundingClientRect();
           if (cs.visibility === "hidden" || cs.display === "none" || r.width === 0 || r.height === 0) continue;
-          if (el.closest("h1, h2")) continue;
+          // 제목(h1·h2·h3, 시작 화면 루트 카드 제목), 사이트 머리줄 이름(font-heading), 시작 화면 바로가기 띠(비짓강릉 CSS, 굵은 이름)
+          if (el.closest("h1, h2, h3, .font-heading, .quick-band")) continue;
           out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
         }
         return out;

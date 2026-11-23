@@ -204,7 +204,7 @@ test.describe("확정 화면 정리", () => {
       const c = getComputedStyle(el);
       return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
     });
-    expect(s.family.startsWith("Noto Sans KR")).toBe(true);
+    expect(s.family.toLowerCase().startsWith("pretendard")).toBe(true);
     expect(s.size).toBe("28px");
     // 머리 meta는 h1 아래에 있다(위 꼬리표 줄 없음)
     const order = await page.evaluate(() => {
@@ -347,14 +347,14 @@ test.describe("체크리스트", () => {
     expect(t.h).toBeGreaterThanOrEqual(44);
   });
 
-  test("제목은 제목 글꼴(Noto Sans KR) 20px이다 @p0306-check", async ({ page }) => {
+  test("제목은 제목 글꼴(Pretendard) 20px이다 @p0306-check", async ({ page }) => {
     await setup(page, view.options[1].id);
     await page.goto("/trip/new/final");
     const s = await page.locator("#checklist-title").evaluate((el) => {
       const c = getComputedStyle(el);
       return { family: c.fontFamily.replace(/["']/g, ""), size: c.fontSize };
     });
-    expect(s.family.startsWith("Noto Sans KR")).toBe(true);
+    expect(s.family.toLowerCase().startsWith("pretendard")).toBe(true);
     expect(s.size).toBe("20px");
   });
 });

@@ -6,6 +6,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 async function pressedScale(page: Page, selector: string) {
   const el = page.locator(selector).first();
+  await el.scrollIntoViewIfNeeded(); // 시작 화면 주 버튼이 첫 화면 아래로 내려갔다(11/23)
   const box = (await el.boundingBox())!;
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.mouse.down();
@@ -22,7 +23,7 @@ test.beforeEach(async ({ page }) => {
 test("누르면 버튼이 살짝 작아지고, 유형 타일은 덜 작아진다", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  expect(await pressedScale(page, "a[href='/plan']")).toBe("matrix(0.97, 0, 0, 0.97, 0, 0)");
+  expect(await pressedScale(page, "section[aria-labelledby=intro-title] a[href='/plan']")).toBe("matrix(0.97, 0, 0, 0.97, 0, 0)");
   await page.goto("/plan/who");
   expect(await pressedScale(page, "main button[aria-pressed]")).toBe("matrix(0.985, 0, 0, 0.985, 0, 0)");
 });
@@ -30,8 +31,8 @@ test("누르면 버튼이 살짝 작아지고, 유형 타일은 덜 작아진다
 test("동작 줄이기 설정이면 눌러도 크기가 그대로이고 전환 시간이 0이다", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  expect(await pressedScale(page, "a[href='/plan']")).toBe("none");
-  const d = await page.locator("a[href='/plan']").first().evaluate((e) => parseFloat(getComputedStyle(e).transitionDuration));
+  expect(await pressedScale(page, "section[aria-labelledby=intro-title] a[href='/plan']")).toBe("none");
+  const d = await page.locator("section[aria-labelledby=intro-title] a[href='/plan']").first().evaluate((e) => parseFloat(getComputedStyle(e).transitionDuration));
   expect(d).toBeLessThan(0.001);
 });
 

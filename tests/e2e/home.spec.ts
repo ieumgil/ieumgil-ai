@@ -1,75 +1,79 @@
-// 시작 화면(/): 03단계 D-10 배치 — 휴대폰은 로고 → 결과 화면 미리보기 → 제목 → 주 버튼 → 특징 목록 순서(03-15), 주 버튼은 390×844 첫 화면 안, 특징 목록은 첫 화면 아래(03-16).
-// 특징은 카드 없는 목록, '영동 여행'과 미리보기 뒤 면만 솔숲 초록. PC(1024px~)는 왼쪽 소개 + 오른쪽 미리보기 두 칸.
-// 인트로는 sessionStorage로 건너뛴다(인트로 자체는 intro.spec이 본다). 서비스 원칙 문구('일반 차량 경로 기준')와 특징 여섯 문장은 그대로 남아야 한다(원칙 6).
+// 시작 화면(/) — 11/23 어머니 시안 개편(PC 먼저, 휴대폰은 다음 단계 보수).
+// 위에서 아래로: 사이트 머리줄(모든 화면) → 히어로(숑숑 문구) → 바로가기 띠(비짓강릉 CSS) → 소개(특징 + 주 버튼 + 미리보기)
+//   → 물결 → 루트 카드 3장(예당 캠핑장 CSS, 누르면 그 루트 하나만) → 대표 관광지 → 바닥글.
+// 예전 시험의 뜻은 그대로 지킨다: 주 버튼이 있고, 서비스 원칙 문구('일반 차량 경로 기준')가 보이고, 특징 문장이 남아 있고,
+// 미리보기는 누르는 곳이 없고 가로 스크롤을 만들지 않는다. '첫 화면 안에 주 버튼'(03-16)은 히어로가 맨 위로 오면서
+// 바로가기 띠의 '여행 루트 만들기'가 그 역할을 맡는다(PC 첫 화면 안).
 import { expect, test } from "@playwright/test";
 
-const PINE = "rgb(42, 106, 80)";
-const INK = "rgb(25, 31, 40)";
-const PINE_SOFT = "rgb(232, 243, 236)";
-
 const FEATURES = [
-  ["조건을 어기는 곳은 빼요", "계단, 화장실, 걷는 거리처럼 꼭 필요한 조건을 유형별로 확인해요"],
-  ["판단마다 근거를 보여 줘요", "관광공사 원문 어느 항목을 보고 판단했는지 함께 알려 드려요"],
-  ["모르는 건 물어볼 것을 알려 줘요", "공식 정보가 없는 항목은 숨기지 않고, 출발 전에 전화로 물어볼 질문과 번호를 붙여요"],
+  ["조건에 안 맞는 곳은 빼요", "계단·화장실·걷는 거리를 유형별로 확인해요"],
+  ["판단 근거를 함께 보여 줘요", "관광공사 원문의 어느 항목인지 알려 드려요"],
+  ["모르는 건 물어볼 것을 알려 줘요", "출발 전에 전화로 물어볼 질문과 번호를 붙여요"],
 ];
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+  await page.route("**/api/weather", (r) => r.fulfill({ json: { available: false } }));
 });
 
-// 03-15: 휴대폰에서 미리보기가 맨 위로 올라왔다. 예전의 '667px 높이에서도 주 버튼 보임'(≤667)은 같은 뜻(스크롤 없이 주 버튼이 첫 화면 안)을
-// 시안 높이 390×844로 바꿔 지켰다. 03-16: 첫 화면(로고~안내 문구)이 화면 높이를 채워 특징 목록이 어떤 휴대폰 높이에서도
-// 첫 화면 아래에서 시작한다(맨 아래에 첫 줄이 반쯤 걸려 잘려 보이지 않게). 좁은 휴대폰(375×667)에서도 주 버튼은 첫 화면 안, 미리보기가 먼저 줄어든다.
-for (const [width, height] of [
-  [390, 844],
-  [375, 667],
-] as const) {
-  test(`${width}×${height}: 주 버튼은 첫 화면 안에 통째로 보이고 특징 목록은 첫 화면 아래에서 시작한다`, async ({ page }, info) => {
-    test.skip(info.project.name !== "mobile", "휴대폰 화면 예산이라 모바일 프로젝트에서만");
-    await page.setViewportSize({ width, height });
-    await page.goto("/");
-    const main = page.getByRole("link", { name: "여행 루트 만들기" });
-    await expect(main).toBeVisible();
-    const box = await main.boundingBox();
-    expect(box!.y + box!.height).toBeLessThanOrEqual(height);
-    const note = await page.getByText("회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준").boundingBox();
-    expect(note!.y + note!.height).toBeLessThanOrEqual(height + 1); // 안내 문구까지 첫 화면 안
-    const list = await page.getByRole("list", { name: "이음길 특징" }).boundingBox();
-    expect(list!.y).toBeGreaterThanOrEqual(height); // 첫 줄이 반쯤 걸려 잘려 보이지 않는다
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
-  });
-}
-
-test("긴 화면(390×1000)에서도 특징 목록은 첫 화면 아래, 주 버튼은 안", async ({ page }, info) => {
-  test.skip(info.project.name !== "mobile", "휴대폰 화면 예산이라 모바일 프로젝트에서만");
-  await page.setViewportSize({ width: 390, height: 1000 });
+test("히어로 제목은 숑숑 글꼴의 '지도로 찾아가는 즐거운 영동 여행길'이다", async ({ page }) => {
   await page.goto("/");
-  const main = await page.getByRole("link", { name: "여행 루트 만들기" }).boundingBox();
-  const list = await page.getByRole("list", { name: "이음길 특징" }).boundingBox();
-  expect(main!.y + main!.height).toBeLessThanOrEqual(1000);
-  expect(list!.y).toBeGreaterThanOrEqual(1000);
+  const h1 = page.getByRole("heading", { level: 1 });
+  await expect(h1).toHaveText("지도로 찾아가는 즐거운 영동 여행길");
+  const family = await h1.evaluate((el) => getComputedStyle(el).fontFamily.toLowerCase());
+  expect(family.startsWith("syongsyong") || family.includes("syongsyong")).toBe(true);
 });
 
-test("휴대폰 순서: 미리보기 → 제목 → 주 버튼 → 특징 목록", async ({ page }, info) => {
-  test.skip(info.project.name !== "mobile", "휴대폰 순서라 모바일 프로젝트에서만");
+test("사이트 머리줄: 로고는 처음 화면으로, 메뉴는 서비스 소개 · 관광지 둘러보기", async ({ page }, info) => {
+  await page.goto("/places");
+  await expect(page.getByRole("link", { name: "이음길 처음 화면" })).toHaveAttribute("href", "/");
+  if (info.project.name === "desktop") {
+    const nav = page.getByRole("navigation", { name: "주 메뉴" }).first();
+    await expect(nav.getByRole("link", { name: "서비스 소개" })).toHaveAttribute("href", "/about");
+    await expect(nav.getByRole("link", { name: "관광지 둘러보기" })).toHaveAttribute("href", "/places");
+  } else {
+    await page.locator("summary", { hasText: "메뉴 열기" }).click();
+    await expect(page.getByRole("link", { name: "관광지 둘러보기" }).last()).toBeVisible();
+  }
+});
+
+test("바로가기 띠 다섯 칸은 각 화면으로 간다", async ({ page }) => {
   await page.goto("/");
-  const preview = page.getByRole("figure", { name: "결과 화면 미리보기" });
-  await expect(preview).toBeVisible();
-  await expect(preview.getByRole("img")).toHaveCount(2);
-  const logo = await page.getByRole("link", { name: /이음길/ }).first().boundingBox();
-  const fig = await preview.boundingBox();
-  const h1 = await page.getByRole("heading", { level: 1 }).boundingBox();
-  const main = await page.getByRole("link", { name: "여행 루트 만들기" }).boundingBox();
-  const list = await page.getByRole("list", { name: "이음길 특징" }).boundingBox();
-  expect(logo!.y + logo!.height).toBeLessThanOrEqual(fig!.y + 1);
-  expect(fig!.y + fig!.height).toBeLessThanOrEqual(h1!.y + 1); // 미리보기가 제목 위
-  expect(h1!.y).toBeLessThan(main!.y);
-  expect(main!.y).toBeLessThan(list!.y); // 특징 목록이 맨 아래
-  expect(fig!.height).toBeLessThanOrEqual(448); // 28rem까지만 늘어난다(잘린 휴대폰)
+  const nav = page.getByRole("navigation", { name: "주요 바로가기" });
+  const expected: [string, string][] = [
+    ["여행 루트 만들기", "/plan"],
+    ["예시 루트 보기", "/trip/example"],
+    ["관광지 둘러보기", "/places"],
+    ["서비스 소개", "/about"],
+    ["만든 방법", "/about/how"],
+  ];
+  for (const [name, href] of expected) await expect(nav.getByRole("link", { name })).toHaveAttribute("href", href);
+});
+
+test("PC 첫 화면 안에 '여행 루트 만들기'가 보인다", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "PC 첫 화면");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const box = await page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "여행 루트 만들기" }).boundingBox();
+  expect(box!.y + box!.height).toBeLessThanOrEqual(900);
+});
+
+test("특징은 카드 없는 목록이고 문장이 남아 있으며, 주 버튼과 원칙 문구가 보인다", async ({ page }) => {
+  await page.goto("/");
+  const list = page.getByRole("list", { name: "이음길 특징" });
+  await expect(list.getByRole("listitem")).toHaveCount(3);
+  for (const item of await list.getByRole("listitem").all()) await expect(item).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  for (const [title, body] of FEATURES) {
+    await expect(list.getByText(title, { exact: true })).toBeVisible();
+    await expect(list.getByText(body, { exact: true })).toBeVisible();
+  }
+  await expect(page.getByRole("main").getByRole("link", { name: "여행 루트 만들기" }).last()).toHaveAttribute("href", "/plan");
+  await expect(page.getByText("회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준")).toBeVisible();
 });
 
 test("미리보기는 누르거나 초점이 가는 곳이 없고 가로 스크롤을 만들지 않는다", async ({ page }) => {
-  for (const width of [320, 390, 820]) {
+  for (const width of [320, 390, 820, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     const preview = page.getByRole("figure", { name: "결과 화면 미리보기" });
@@ -79,58 +83,47 @@ test("미리보기는 누르거나 초점이 가는 곳이 없고 가로 스크�
   }
 });
 
-test("주 버튼이 특징 목록보다 위에 있다", async ({ page }) => {
+test("PC는 소개 왼쪽 + 미리보기 오른쪽", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "PC 배치");
   await page.goto("/");
-  const main = await page.getByRole("link", { name: "여행 루트 만들기" }).boundingBox();
-  const list = await page.getByRole("list", { name: "이음길 특징" }).boundingBox();
-  expect(main!.y).toBeLessThan(list!.y);
+  const title = await page.getByRole("heading", { name: /갈 수 있는 곳만/ }).boundingBox();
+  const fig = await page.getByRole("figure", { name: "결과 화면 미리보기" }).boundingBox();
+  expect(fig!.x).toBeGreaterThan(title!.x + title!.width / 2);
 });
 
-test("특징은 카드 없는 목록이고 문장은 그대로다", async ({ page }) => {
+test("루트 카드 3장: 함께 가는 사람 × 도시, 누르면 그 루트 하나만 열린다(안 비교 없음)", async ({ page }) => {
   await page.goto("/");
-  const list = page.getByRole("list", { name: "이음길 특징" });
-  const items = list.getByRole("listitem");
-  await expect(items).toHaveCount(3);
-  for (const item of await items.all()) {
-    await expect(item).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  }
-  await expect(list.locator("svg")).toHaveCount(0);
-  for (const [title, body] of FEATURES) {
-    await expect(list.getByText(title, { exact: true })).toBeVisible();
-    await expect(list.getByText(body, { exact: true })).toBeVisible();
-  }
+  const cards = page.locator("a.route-card");
+  await expect(cards).toHaveCount(3);
+  await expect(cards.nth(0)).toHaveAttribute("href", "/trip/route-wheelchair");
+  await expect(cards.nth(1)).toHaveAttribute("href", "/trip/route-elder");
+  await expect(cards.nth(2)).toHaveAttribute("href", "/trip/route-stroller");
+  await expect(cards.nth(1)).toContainText("어르신 · 속초 · 당일");
+  await page.route("https://dapi.kakao.com/**", (r) => r.abort());
+  await page.route("**/api/legs", (r) => r.fulfill({ json: { days: [] } }));
+  await page.route("**/api/route-line", (r) => r.fulfill({ json: { days: [null] } }));
+  await cards.nth(2).click();
+  await expect(page).toHaveURL(/\/trip\/route-stroller$/);
+  await expect(page.getByRole("heading", { level: 1, name: "일정을 만들었어요" })).toBeVisible();
+  await expect(page.getByRole("radio")).toHaveCount(0); // 다른 안 고르기 없음(예시 루트는 안마다 radio가 있다)
+  await expect(page.getByText("추암해변").first()).toBeVisible();
 });
 
-test("'영동 여행'만 솔숲 초록이고 나머지 제목 글자는 본문색이다", async ({ page }) => {
+test("PC에서 루트 카드에 마우스를 올리면 30px 떠오르고 '루트 보기' 딱지가 나타난다", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "마우스는 PC에서");
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
-  const h1 = page.getByRole("heading", { level: 1 });
-  await expect(h1).toContainText("함께 가는 영동 여행");
-  await expect(h1.getByText("영동 여행", { exact: true })).toHaveCSS("color", PINE);
-  await expect(h1).toHaveCSS("color", INK);
-  await expect(h1).toHaveCSS("font-size", "28px");
+  const card = page.locator("a.route-card").first();
+  await card.scrollIntoViewIfNeeded();
+  await card.hover();
+  await expect.poll(() => card.evaluate((el) => getComputedStyle(el).transform)).toBe("matrix(1, 0, 0, 1, 0, -30)");
+  await expect(card.locator(".route-card__badge")).toHaveCSS("opacity", "1");
 });
 
-test("일반 차량 경로 문구가 항상 보인다", async ({ page }) => {
+test("대표 관광지 8곳은 관광지 둘러보기로 간다", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByText("회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준")).toBeVisible();
-});
-
-test("PC 미리보기 뒤 면은 pine-soft다", async ({ page }, info) => {
-  test.skip(info.project.name !== "desktop", "미리보기는 PC에서만 보인다");
-  await page.goto("/");
-  const figure = page.getByRole("figure", { name: "결과 화면 미리보기" });
-  await expect(figure).toBeVisible();
-  await expect(figure.locator(':scope > div[aria-hidden="true"]')).toHaveCSS("background-color", PINE_SOFT);
-});
-
-test("PC는 왼쪽 소개 + 오른쪽 미리보기 두 칸이고 미리보기는 잘리지 않는다", async ({ page }, info) => {
-  test.skip(info.project.name !== "desktop", "PC 배치는 PC 프로젝트에서만");
-  await page.goto("/");
-  const figure = page.getByRole("figure", { name: "결과 화면 미리보기" });
-  const h1 = await page.getByRole("heading", { level: 1 }).boundingBox();
-  const fig = await figure.boundingBox();
-  expect(fig!.x).toBeGreaterThan(h1!.x + h1!.width / 2); // 오른쪽 칸
-  expect(fig!.height).toBeGreaterThanOrEqual(600); // 38rem, 휴대폰 두 대 전체
-  await expect(figure).toHaveCSS("overflow", "visible");
-  await expect(figure.getByText("실제 결과 화면 · 일정 비교와 확정 일정 지도")).toBeVisible();
+  const section = page.getByRole("region", { name: /어디부터/ });
+  const links = section.getByRole("listitem").getByRole("link");
+  await expect(links).toHaveCount(8);
+  await expect(links.first()).toHaveAttribute("href", "/places");
 });

@@ -3,16 +3,11 @@
 // 제목은 h1·h2만 700, 본문은 16px, 구역 사이 32px(PC 48px).
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
 
 export function Article({ title, lead, hero, children, next }: { title: string; lead: string; hero?: ReactNode; children: ReactNode; next: { href: string; label: string; body: string } }) {
   return (
     <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-4 pb-12 md:max-w-[40rem] md:px-6 lg:pb-16">
-      <div className="pt-4">
-        <TopBar />
-      </div>
-
       <header className="flex flex-col gap-2 pt-8 lg:pt-12">
         <h1 className="font-heading text-title font-bold text-balance">{title}</h1>
         <p className="text-base text-ink-sub text-pretty">{lead}</p>

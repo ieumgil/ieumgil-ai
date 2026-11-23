@@ -14,8 +14,8 @@ async function pickDay(page: Page, day: number) {
 
 test("시작 화면에서 1단계로 들어간다", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("함께 가는 영동 여행");
-  await page.getByRole("link", { name: "여행 루트 만들기" }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("즐거운 영동 여행길");
+  await page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "여행 루트 만들기" }).click();
   await expect(page).toHaveURL(/\/plan\/when$/);
   await expect(page.getByRole("heading", { name: "언제 여행하나요?" })).toBeVisible();
 });
@@ -71,10 +71,12 @@ test("숙소: 1박이면 한 줄, 2박이면 '둘째 밤' 줄이 하나 더(기�
   expect([saved.lodging, saved.lodging2]).toEqual(["강릉", "속초"]);
 });
 
-test("1단계 이후 화면에는 가운데 로고가 없고 뒤로 버튼만 있다", async ({ page }) => {
+// 11/11 '가운데 로고 없음'은 11/23 어머니 시안으로 바뀌었다: 로고는 모든 화면의 사이트 머리줄에 한 번만, 본문 줄에는 뒤로 버튼만
+test("1단계 이후 화면: 로고는 사이트 머리줄에 하나뿐이고 본문 맨 위 줄에는 뒤로 버튼만 있다", async ({ page }) => {
   await page.goto("/plan/who");
   await expect(page.getByRole("link", { name: "이전 단계로" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "이음길 처음 화면" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "이음길 처음 화면" })).toHaveCount(1);
+  await expect(page.getByRole("main").getByRole("link", { name: "이음길 처음 화면" })).toHaveCount(0);
 });
 
 test("1박 이상이면 숙소 지역을 골라야 한다", async ({ page }) => {
@@ -147,11 +149,11 @@ test("1단계를 건너뛰고 2단계로 바로 들어오면 앞 단계를 먼�
 
 // ---- 03-07: 입력 공통 틀·1·2단계 정리 ----------------------------------------------------
 test.describe("입력 틀·1·2단계 정리", () => {
-  test("h1은 제목 글꼴(Noto Sans KR) 28px이고 개인정보 줄은 보인다 @p0307", async ({ page }) => {
+  test("h1은 제목 글꼴(Pretendard) 28px이고 개인정보 줄은 보인다 @p0307", async ({ page }) => {
     await page.goto("/plan/who");
     const h1 = page.getByRole("heading", { level: 1 });
     const css = await h1.evaluate((el) => ({ family: getComputedStyle(el).fontFamily, size: getComputedStyle(el).fontSize }));
-    expect(css.family.replace(/["']/g, "").startsWith("Noto Sans KR")).toBe(true);
+    expect(css.family.replace(/["']/g, "").toLowerCase().startsWith("pretendard")).toBe(true);
     expect(css.size).toBe("28px");
     await expect(page.getByText("이름·연락처는 받지 않아요")).toBeVisible();
   });

@@ -84,7 +84,7 @@ test("공공데이터 값이 없는 곳은 안내 문장이 그대로", async ({
 
 test("시작 화면에서도 들어갈 수 있고, 누를 수 있는 것은 44px 이상", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: /어떤 관광지가 있는지 먼저 보기/ }).click();
+  await page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "관광지 둘러보기" }).click();
   await expect(page).toHaveURL(/\/places$/);
   for (const el of await page.locator("main button:visible, main a:visible").all()) {
     const box = await el.boundingBox();
@@ -213,12 +213,12 @@ test.describe("둘러보기 첫 화면", () => {
     await expect(bar).toHaveCSS("backdrop-filter", "none");
   });
 
-  test("자세히 창 제목은 제목 글꼴(Noto Sans KR) @p0309 @p0309-detail", async ({ page }) => {
+  test("자세히 창 제목은 제목 글꼴(Pretendard) @p0309 @p0309-detail", async ({ page }) => {
     await gotoPlaces(page);
     await page.locator("article").first().getByRole("button", { name: "자세히 보기" }).click();
     const title = page.getByRole("dialog").getByRole("heading", { level: 2 });
     const family = await title.evaluate((el) => getComputedStyle(el).fontFamily);
-    expect(family.replace(/["']/g, "").startsWith("Noto Sans KR")).toBe(true);
+    expect(family.replace(/["']/g, "").toLowerCase().startsWith("pretendard")).toBe(true);
     await expect(title).toHaveCSS("font-size", "20px");
   });
 

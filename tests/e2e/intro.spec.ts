@@ -7,7 +7,7 @@ test("처음 접속하면 인트로가 보였다가 자동으로 사라지고, �
   await page.goto("/");
   await expect(intro(page)).toBeVisible();
   await expect(intro(page)).toBeHidden({ timeout: 3000 });
-  await expect(page.getByRole("link", { name: "여행 루트 만들기" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "여행 루트 만들기" })).toBeVisible();
   await page.reload();
   await expect(page.locator("html")).not.toHaveAttribute("data-intro", "on");
   await expect(intro(page)).toBeHidden();

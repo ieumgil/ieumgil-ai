@@ -38,6 +38,14 @@
   --text-title--line-height: 1.3;
   --text-heading: 1.25rem;
   --text-heading--line-height: 1.35;
+  /* 시작 화면 히어로 문구 전용(카페24 숑숑, 11/23): 휴대폰 40px → PC 72px. 다른 곳에는 쓰지 않는다 */
+  --text-hero: clamp(2.5rem, 1.25rem + 3.5vw, 4.5rem);
+  --text-hero--line-height: 1.25;
+  --font-hero: var(--font-syongsyong), var(--font-pretendard), sans-serif;
+  /* 시작 화면 히어로 바탕(하늘) */
+  --color-sky: #e4f3f8;
+  /* 루트 카드 세 번째 색: 경로선 주황을 흰 글자 대비 4.5:1 이상으로 진하게 */
+  --color-route-deep: #b3541e;
   --text-base: 1rem;
   --text-base--line-height: 1.6; /* 본문 줄 간격(11/18 N2): 한글 본문은 1.6이 덜 빽빽하다 */
 
@@ -250,7 +258,7 @@
 
 /* shadcn/ui가 쓰는 이름 → 위 토큰. --color-primary는 우리 토큰이 이미 그 이름이라 여기서 다시 잇지 않는다. */
 @theme inline {
-  --font-sans: "Noto Sans KR Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-sans: var(--font-pretendard), "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-heading: var(--font-display); /* shadcn 대화창·시트 제목도 제목 글꼴을 따라온다 */
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -432,5 +440,231 @@ label:has(input[type="checkbox"]) {
   .print-sheet tr,
   .print-sheet li {
     break-inside: avoid;
+  }
+}
+
+/*
+ * 시작 화면 루트 카드(11/23) — 레퍼런스 예당관광지 캠핑장(camping.yesan.go.kr) .introLink .linkList 규칙을 옮겨 왔다.
+ * 바꾼 것: 글꼴(GmarketSans → Pretendard, 글꼴 2개 규칙), 글 상자 색(우리 색), 줄 배치(float → grid), 큰 화면 기준 1450px → 1024px(우리 카드는 3장).
+ * 그대로인 것: 모서리 10px, 사진 높이 394px, 글 상자 여백 37/40/40px, 제목 24px·줄 간격 1.4, 마우스·키보드 초점에 30px 떠오름(0.3초),
+ *   오른쪽 위 검은 딱지(171×52px, 왼쪽 아래만 둥글게), 좁은 화면에서는 사진 왼쪽 + 글 오른쪽 가로 카드.
+ */
+@layer components {
+  .route-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+  }
+  .route-card {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: 0.3s;
+    color: #fff;
+  }
+  .route-card:hover,
+  .route-card:focus-visible {
+    transform: translateY(-30px);
+  }
+  .route-card__badge {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 171px;
+    height: 52px;
+    border-radius: 0 0 0 10px;
+    background-color: #222;
+    font-size: 1rem;
+    line-height: 1.4;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
+  }
+  .route-card__badge::after {
+    content: "";
+    width: 16px;
+    height: 14px;
+    background: url("data:image/svg+xml,%3Csvg width='16' height='14' viewBox='0 0 16 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.5 5.83984H12.3164L7.64844 1.17188L8.82031 0L15.5 6.66016L8.83984 13.3398L7.64844 12.1484L12.3164 7.5H0.5V5.83984Z' fill='white'/%3E%3C/svg%3E") no-repeat center;
+  }
+  .route-card:hover .route-card__badge,
+  .route-card:focus-visible .route-card__badge {
+    visibility: visible;
+    opacity: 1;
+  }
+  .route-card__thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 394px;
+    overflow: hidden;
+  }
+  .route-card__info {
+    display: block;
+    padding: 37px 40px 40px;
+  }
+  .route-card__sub {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .route-card__title {
+    display: block;
+    margin-top: 5px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  @media (max-width: 1540px) {
+    .route-card__info {
+      padding: 30px;
+    }
+    .route-card__title {
+      font-size: 1.375rem;
+    }
+  }
+  /* 3장이 나란히 서기 좁으면: 떠오름 없이 한 줄에 하나, 사진 왼쪽 + 글 오른쪽(레퍼런스 690px 이하 배치) */
+  @media (max-width: 1023px) {
+    .route-cards {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 15px;
+    }
+    .route-card:hover,
+    .route-card:focus-visible {
+      transform: none;
+    }
+    .route-card {
+      min-height: 180px;
+    }
+    .route-card__badge {
+      visibility: visible;
+      opacity: 1;
+      width: 151px;
+      height: 42px;
+      top: auto;
+      bottom: 0;
+      border-radius: 0;
+    }
+    .route-card__thumb {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 190px;
+      height: 100%;
+    }
+    .route-card__info {
+      height: 100%;
+      min-height: 180px;
+      padding: 25px 20px 56px 210px;
+    }
+    .route-card__title {
+      font-size: 1.25rem;
+    }
+  }
+  @media (max-width: 590px) {
+    .route-card__badge {
+      display: none;
+    }
+    .route-card__thumb {
+      width: 140px;
+    }
+    .route-card__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 15px 20px 20px 159px;
+    }
+  }
+}
+
+/*
+ * 시작 화면 바로가기 띠(11/23) — 레퍼런스 비짓강릉(visitgangneung.net) .IconlinkFrame 규칙을 옮겨 왔다.
+ * 바꾼 것: 색 줄무늬 네 색(분홍·파랑·연두·주황 → 우리 파랑·솔숲 초록·하늘·주황), 띠 테두리 색(우리 기본 파랑), 아이콘(이미지 → 아이콘 자리).
+ * 그대로인 것: 연한 바탕 #F5F6FF, 위아래 5px 테두리, 0.65rem 색 줄무늬 8칸, 아이콘 5rem, 굵은 이름, 마우스를 올리면 파란 테두리 + 눌린 듯한 안쪽 그림자(0.3초).
+ */
+@layer components {
+  .quick-band {
+    background-color: #f5f6ff;
+    border-bottom: 5px solid var(--color-primary);
+  }
+  .quick-band__stripe {
+    display: flex;
+    width: 100%;
+    height: 0.65rem;
+  }
+  .quick-band__stripe > span {
+    flex: 1;
+  }
+  .quick-band__stripe > span:nth-child(4n + 1) {
+    background-color: var(--color-primary);
+  }
+  .quick-band__stripe > span:nth-child(4n + 2) {
+    background-color: var(--color-pine);
+  }
+  .quick-band__stripe > span:nth-child(4n + 3) {
+    background-color: #5fb6d6;
+  }
+  .quick-band__stripe > span:nth-child(4n + 4) {
+    background-color: var(--color-route);
+  }
+  .quick-band__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .quick-band__list > li {
+    padding: 1rem;
+    width: 20%;
+  }
+  .quick-band__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    color: #51566c;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    transition: 0.3s;
+  }
+  .quick-band__link:hover,
+  .quick-band__link:focus-visible {
+    border-color: var(--color-primary);
+    background: linear-gradient(145deg, #f2f4f9 0%, #f2f4f9 20%, #fff 100%);
+    box-shadow: inset 0.5rem 0.6rem 0.9rem #cad2e3;
+  }
+  .quick-band__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    color: var(--color-primary-ink);
+  }
+  .quick-band__label {
+    padding-top: 1rem;
+  }
+  @media (max-width: 767px) {
+    .quick-band__list > li {
+      width: 33.333%;
+      padding: 0.25rem;
+    }
+    .quick-band__link {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+    }
+    .quick-band__icon {
+      height: 3.5rem;
+    }
   }
 }

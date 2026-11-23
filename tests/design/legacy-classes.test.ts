@@ -1,5 +1,5 @@
 // 정리 감시 테스트(03단계 디자인 다듬기): 'AI 티' 나는 옛 클래스·효과가 새로 들어오거나 되살아나지 않게 src 아래 파일을 훑는다.
-// 규칙은 03-UI-SPEC.md의 글자(크기 4단계·굵기 2단계) · 면(유리 효과·떠오름·카드 그림자·반지름 3단계) · 간격(금지 값) · 움직임(단계 지연)이다.
+// 규칙은 03-UI-SPEC.md의 글자(크기 4단계·굵기 2단계) · 면(유리 효과·카드 그림자·반지름 3단계) · 간격(금지 값) · 움직임(단계 지연)이다.
 // src 전체가 규칙을 지켜야 통과한다(건너뛰는 파일 목록 없음, 11번 계획에서 목록을 없앴다).
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
@@ -39,7 +39,7 @@ const inScreens = (path: string) => (path.startsWith("src/app/") || path.startsW
 const RULES: Rule[] = [
   {
     id: "R1",
-    label: "글자: 크기 4단계(28/20/16/14)·굵기 3단계(400/500/700, 700은 h1·h2 제목만) 밖",
+    label: "글자: 크기 4단계(28/20/16/14)·굵기 3단계(400/500/700, 700은 제목만: h1·h2, 시작 화면 루트 카드 h3) 밖",
     applies: () => true,
     find: (path, text) => [
       ...all(new RegExp(`${B}text-(?:xs|lg|xl|2xl|3xl|4xl|5xl|lead|display)(?![\\w-])`, "g"), text),
@@ -51,18 +51,17 @@ const RULES: Rule[] = [
         ? []
         : text
             .split("\n")
-            .filter((l) => !l.includes("font-heading") && !/<h[12][\s>]/.test(l))
+            .filter((l) => !l.includes("font-heading") && !/<h[123][\s>]/.test(l))
             .flatMap((l) => all(new RegExp(`${B}font-bold(?![\\w-])`, "g"), l))),
     ],
   },
   {
     id: "R2",
-    label: "효과: 유리(반투명 흰 바탕+흐림)·호버 떠오름·정지 상태 카드 그림자",
+    // 호버 떠오름은 11/23에 풀었다(어머니 시안: 시작 화면 루트 카드가 레퍼런스처럼 마우스를 올리면 떠오른다)
+    label: "효과: 유리(반투명 흰 바탕+흐림)·정지 상태 카드 그림자",
     applies: () => true,
     find: (_path, text) => [
       ...all(/bg-white\/\d+[^"'`]*backdrop-blur|backdrop-blur[^"'`]*bg-white\/\d+/g, text),
-      ...all(new RegExp(`${B}(?:[a-z-]+:)*hover:-translate-y-[\\w./]+`, "g"), text),
-      ...all(/(?<![\w-])LIFT(?![\w-])/g, text),
       ...all(/shadow-\[0_1px_3px[^\]]*\]/g, text),
     ],
   },
@@ -142,9 +141,9 @@ describe("규칙이 실제로 잡아낸다(검사 자체의 시험)", () => {
     expect(hit("R1", "src/components/trip/PrintSheet.tsx", `"text-[10.5pt]"`)).toEqual([]);
   });
 
-  it("R2: 유리 효과 · 호버 떠오름 · 카드 그림자를 잡는다(가운데 맞춤 translate는 아님)", () => {
+  it("R2: 유리 효과 · 카드 그림자를 잡는다(가운데 맞춤 translate · 호버 떠오름은 아님)", () => {
     expect(hit("R2", "src/x.tsx", `"bg-white/95 px-5 backdrop-blur"`)).toHaveLength(1);
-    expect(hit("R2", "src/x.tsx", `"motion-safe:hover:-translate-y-0.5"`)).toHaveLength(1);
+    expect(hit("R2", "src/x.tsx", `"motion-safe:group-hover:-translate-y-[1.875rem]"`)).toEqual([]);
     expect(hit("R2", "src/x.tsx", `"shadow-[0_1px_3px_rgb(25_31_40/0.08),0_4px_16px_rgb(25_31_40/0.06)]"`)).toHaveLength(1);
     expect(hit("R2", "src/x.tsx", `"lg:-translate-y-1/2 bg-black/10 backdrop-blur-xs"`)).toEqual([]);
   });

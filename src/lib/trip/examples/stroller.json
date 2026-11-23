@@ -1,0 +1,2755 @@
+{
+ "version": 2,
+ "createdAt": "example-route-stroller",
+ "input": {
+  "startDate": "2026-12-19",
+  "endDate": "2026-12-19",
+  "travelers": [
+   "stroller"
+  ],
+  "transport": "car",
+  "disabledPermit": false,
+  "categories": [
+   "바다·해변",
+   "전망·체험"
+  ],
+  "pace": "normal",
+  "lodging": null,
+  "lodging2": "same",
+  "mustVisit": []
+ },
+ "usedFallback": false,
+ "calls": 5,
+ "ms": 12167,
+ "notes": [],
+ "options": [
+  {
+   "id": "A",
+   "strategy": "여유",
+   "title": "여유로운 동해 바다 산책",
+   "summary": "이동을 최소화하고 여유롭게 즐기는 바다와 자연 일정",
+   "source": "ai",
+   "days": [
+    {
+     "date": "2026-12-19",
+     "startName": "동해역",
+     "endName": "동해역",
+     "startMin": 600,
+     "endMin": 1020,
+     "fit": "여유",
+     "travelMin": 51,
+     "estimated": true,
+     "items": [
+      {
+       "kind": "travel",
+       "toName": "한섬해변&한섬감성바닷길",
+       "minutes": 12,
+       "km": 3.7,
+       "estimated": true,
+       "startMin": 600
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH21",
+       "arriveMin": 612,
+       "departMin": 657,
+       "stayMin": 45,
+       "extraMin": 0,
+       "why": "출입구에 턱이나 계단이 없어 유모차를 끌고 편하게 바다를 볼 수 있어요."
+      },
+      {
+       "kind": "rest",
+       "startMin": 657,
+       "endMin": 677
+      },
+      {
+       "kind": "travel",
+       "toName": "천곡천연동굴 자연학습체험공원",
+       "minutes": 8,
+       "km": 1.5,
+       "estimated": true,
+       "startMin": 677
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH16",
+       "arriveMin": 685,
+       "departMin": 745,
+       "stayMin": 60,
+       "extraMin": 0,
+       "why": "목재 데크 탐방로가 잘 되어 있어 유모차로 편안하게 둘러볼 수 있어요."
+      },
+      {
+       "kind": "rest",
+       "startMin": 745,
+       "endMin": 765
+      },
+      {
+       "kind": "lunch",
+       "startMin": 765,
+       "endMin": 825
+      },
+      {
+       "kind": "travel",
+       "toName": "가원습지 생태자연공원",
+       "minutes": 18,
+       "km": 6.6,
+       "estimated": true,
+       "startMin": 825
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH01",
+       "arriveMin": 843,
+       "departMin": 903,
+       "stayMin": 60,
+       "extraMin": 0,
+       "why": "출입구에 턱이 없어 유모차로 편하게 접근하기 좋아요."
+      },
+      {
+       "kind": "travel",
+       "toName": "동해역",
+       "minutes": 13,
+       "km": 4,
+       "estimated": true,
+       "startMin": 903
+      }
+     ]
+    }
+   ],
+   "checkBeforeGo": [],
+   "cautions": [],
+   "review": {
+    "fatigue": 4,
+    "slack": 4,
+    "taste": 4,
+    "comment": "유모차가 다니기 좋은 곳들과 바다가 잘 반영된 여유로운 일정이에요."
+   },
+   "fixes": 0,
+   "fixedViolations": [],
+   "stats": {
+    "places": 3,
+    "travelMin": 51,
+    "checkNeeded": 0
+   },
+   "draft": {
+    "days": [
+     {
+      "date": "2026-12-19",
+      "stops": [
+       {
+        "placeId": "DH21",
+        "stayMin": 45,
+        "restAfter": true,
+        "why": "출입구에 턱이나 계단이 없어 유모차를 끌고 편하게 바다를 볼 수 있어요."
+       },
+       {
+        "placeId": "DH16",
+        "stayMin": 60,
+        "restAfter": true,
+        "why": "목재 데크 탐방로가 잘 되어 있어 유모차로 편안하게 둘러볼 수 있어요."
+       },
+       {
+        "placeId": "DH01",
+        "stayMin": 60,
+        "restAfter": false,
+        "why": "출입구에 턱이 없어 유모차로 편하게 접근하기 좋아요."
+       }
+      ]
+     }
+    ]
+   },
+   "alternatives": {
+    "DH21": [
+     "DH15",
+     "DH10",
+     "DH09"
+    ],
+    "DH16": [
+     "DH03",
+     "DH19",
+     "DH20"
+    ],
+    "DH01": [
+     "DH07",
+     "DH04",
+     "DH19"
+    ]
+   }
+  },
+  {
+   "id": "B",
+   "strategy": "취향",
+   "title": "바다와 전망 중심의 알찬 일정",
+   "summary": "바다와 해변, 그리고 멋진 전망을 함께 즐기는 일정",
+   "source": "ai",
+   "days": [
+    {
+     "date": "2026-12-19",
+     "startName": "동해역",
+     "endName": "동해역",
+     "startMin": 600,
+     "endMin": 1020,
+     "fit": "여유",
+     "travelMin": 62,
+     "estimated": true,
+     "items": [
+      {
+       "kind": "travel",
+       "toName": "추암해변",
+       "minutes": 15,
+       "km": 5,
+       "estimated": true,
+       "startMin": 600
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH20",
+       "arriveMin": 615,
+       "departMin": 660,
+       "stayMin": 45,
+       "extraMin": 0,
+       "why": "출입과 이동이 편리하여 유모차와 함께 방문하기 좋아요."
+      },
+      {
+       "kind": "rest",
+       "startMin": 660,
+       "endMin": 680
+      },
+      {
+       "kind": "travel",
+       "toName": "도째비골스카이밸리",
+       "minutes": 19,
+       "km": 12.4,
+       "estimated": true,
+       "startMin": 680
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH03",
+       "arriveMin": 699,
+       "departMin": 759,
+       "stayMin": 60,
+       "extraMin": 0,
+       "why": "경사로와 엘리베이터가 마련되어 있어 유모차로 전망을 즐기기 편리해요."
+      },
+      {
+       "kind": "rest",
+       "startMin": 759,
+       "endMin": 779
+      },
+      {
+       "kind": "lunch",
+       "startMin": 779,
+       "endMin": 839
+      },
+      {
+       "kind": "travel",
+       "toName": "묵호항",
+       "minutes": 7,
+       "km": 1.1,
+       "estimated": true,
+       "startMin": 839
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH09",
+       "arriveMin": 846,
+       "departMin": 891,
+       "stayMin": 45,
+       "extraMin": 0,
+       "why": "턱이 없어 유모차가 다니기 수월한 항구 풍경을 감상할 수 있어요."
+      },
+      {
+       "kind": "travel",
+       "toName": "동해역",
+       "minutes": 21,
+       "km": 8.1,
+       "estimated": true,
+       "startMin": 891
+      }
+     ]
+    }
+   ],
+   "checkBeforeGo": [],
+   "cautions": [],
+   "review": {
+    "fatigue": 3,
+    "slack": 4,
+    "taste": 5,
+    "comment": "바다와 전망 취향에 꼭 맞지만 추암해변의 장애인 화장실 정보가 없는 점이 아쉬워요."
+   },
+   "fixes": 0,
+   "fixedViolations": [],
+   "stats": {
+    "places": 3,
+    "travelMin": 62,
+    "checkNeeded": 0
+   },
+   "draft": {
+    "days": [
+     {
+      "date": "2026-12-19",
+      "stops": [
+       {
+        "placeId": "DH20",
+        "stayMin": 45,
+        "restAfter": true,
+        "why": "출입과 이동이 편리하여 유모차와 함께 방문하기 좋아요."
+       },
+       {
+        "placeId": "DH03",
+        "stayMin": 60,
+        "restAfter": true,
+        "why": "경사로와 엘리베이터가 마련되어 있어 유모차로 전망을 즐기기 편리해요."
+       },
+       {
+        "placeId": "DH09",
+        "stayMin": 45,
+        "restAfter": false,
+        "why": "턱이 없어 유모차가 다니기 수월한 항구 풍경을 감상할 수 있어요."
+       }
+      ]
+     }
+    ]
+   },
+   "alternatives": {
+    "DH20": [
+     "DH19",
+     "DH01",
+     "DH21"
+    ],
+    "DH03": [
+     "DH10",
+     "DH15",
+     "DH16"
+    ],
+    "DH09": [
+     "DH10",
+     "DH15",
+     "DH05"
+    ]
+   }
+  },
+  {
+   "id": "C",
+   "strategy": "확인 적게",
+   "title": "확인 필요 없는 안심 방문 일정",
+   "summary": "사전 확인할 필요 없이 적합 판정받은 곳들로만 구성한 안심 일정",
+   "source": "ai",
+   "days": [
+    {
+     "date": "2026-12-19",
+     "startName": "동해역",
+     "endName": "동해역",
+     "startMin": 600,
+     "endMin": 1020,
+     "fit": "여유",
+     "travelMin": 57,
+     "estimated": true,
+     "items": [
+      {
+       "kind": "travel",
+       "toName": "한섬해변&한섬감성바닷길",
+       "minutes": 12,
+       "km": 3.7,
+       "estimated": true,
+       "startMin": 600
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH21",
+       "arriveMin": 612,
+       "departMin": 657,
+       "stayMin": 45,
+       "extraMin": 0,
+       "why": "출입구에 턱이나 계단이 없어 유모차로 안전하게 방문할 수 있어요."
+      },
+      {
+       "kind": "rest",
+       "startMin": 657,
+       "endMin": 677
+      },
+      {
+       "kind": "travel",
+       "toName": "동해무릉건강숲",
+       "minutes": 20,
+       "km": 13.7,
+       "estimated": true,
+       "startMin": 677
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH04",
+       "arriveMin": 697,
+       "departMin": 757,
+       "stayMin": 60,
+       "extraMin": 0,
+       "why": "경사로와 엘리베이터가 있어 편하게 이용할 수 있어요."
+      },
+      {
+       "kind": "rest",
+       "startMin": 757,
+       "endMin": 777
+      },
+      {
+       "kind": "lunch",
+       "startMin": 777,
+       "endMin": 837
+      },
+      {
+       "kind": "travel",
+       "toName": "무릉별유천지",
+       "minutes": 8,
+       "km": 1.6,
+       "estimated": true,
+       "startMin": 837
+      },
+      {
+       "kind": "visit",
+       "placeId": "DH07",
+       "arriveMin": 845,
+       "departMin": 905,
+       "stayMin": 60,
+       "extraMin": 0,
+       "why": "출입구에 턱이 없고 엘리베이터가 있어 유모차 이동이 편리해요."
+      },
+      {
+       "kind": "travel",
+       "toName": "동해역",
+       "minutes": 17,
+       "km": 11.3,
+       "estimated": true,
+       "startMin": 905
+      }
+     ]
+    }
+   ],
+   "checkBeforeGo": [],
+   "cautions": [],
+   "review": {
+    "fatigue": 4,
+    "slack": 4,
+    "taste": 4,
+    "comment": "모든 장소의 편의시설 정보가 확인되어 안심하고 방문할 수 있어요."
+   },
+   "fixes": 0,
+   "fixedViolations": [],
+   "stats": {
+    "places": 3,
+    "travelMin": 57,
+    "checkNeeded": 0
+   },
+   "draft": {
+    "days": [
+     {
+      "date": "2026-12-19",
+      "stops": [
+       {
+        "placeId": "DH21",
+        "stayMin": 45,
+        "restAfter": true,
+        "why": "출입구에 턱이나 계단이 없어 유모차로 안전하게 방문할 수 있어요."
+       },
+       {
+        "placeId": "DH04",
+        "stayMin": 60,
+        "restAfter": true,
+        "why": "경사로와 엘리베이터가 있어 편하게 이용할 수 있어요."
+       },
+       {
+        "placeId": "DH07",
+        "stayMin": 60,
+        "restAfter": false,
+        "why": "출입구에 턱이 없고 엘리베이터가 있어 유모차 이동이 편리해요."
+       }
+      ]
+     }
+    ]
+   },
+   "alternatives": {
+    "DH21": [
+     "DH16",
+     "DH15",
+     "DH10"
+    ],
+    "DH04": [
+     "DH01",
+     "DH19",
+     "DH20"
+    ],
+    "DH07": [
+     "DH01",
+     "DH09",
+     "DH16"
+    ]
+   }
+  }
+ ],
+ "places": {
+  "DH21": {
+   "id": "DH21",
+   "name": "한섬해변&한섬감성바닷길",
+   "category": "바다·해변",
+   "region": "동해",
+   "phone": "033-530-2447",
+   "address": "강원특별자치도 동해시 한섬해안길 9 (천곡동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/21/3389221_image2_1.jpg",
+    "credit": "한섬해수욕장"
+   }
+  },
+  "DH16": {
+   "id": "DH16",
+   "name": "천곡천연동굴 자연학습체험공원",
+   "category": "자연·산책",
+   "region": "동해",
+   "phone": "033-539-3630",
+   "address": "강원특별자치도 동해시 동굴로 50 (천곡동)",
+   "onSite": "장애인 주차장이 마련되어 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다."
+  },
+  "DH01": {
+   "id": "DH01",
+   "name": "가원습지 생태자연공원",
+   "category": "자연·산책",
+   "region": "동해",
+   "phone": "033-530-2261",
+   "address": "강원특별자치도 동해시 지가동 77-6"
+  },
+  "DH15": {
+   "id": "DH15",
+   "name": "연필뮤지엄",
+   "category": "전시·박물관",
+   "region": "동해",
+   "phone": "033-532-1010",
+   "address": "강원특별자치도 동해시 발한로 183-6 (발한동)"
+  },
+  "DH10": {
+   "id": "DH10",
+   "name": "묵호항수변공원",
+   "category": "자연·산책",
+   "region": "동해",
+   "phone": "033-534-8899",
+   "address": "강원특별자치도 동해시 일출로 92-11 (묵호진동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/20/4127920_image2_1.jpg",
+    "credit": "강원_동해시_묵호항수변공원 (5).jpg"
+   }
+  },
+  "DH09": {
+   "id": "DH09",
+   "name": "묵호항",
+   "category": "바다·해변",
+   "region": "동해",
+   "phone": "033-534-8899",
+   "address": "강원특별자치도 동해시 일출로 22 (발한동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/18/3544318_image2_1.jpg",
+    "credit": "묵호항 수변공원"
+   }
+  },
+  "DH03": {
+   "id": "DH03",
+   "name": "도째비골스카이밸리",
+   "category": "전망·체험",
+   "region": "동해",
+   "phone": "070-7799-6955",
+   "address": "강원 동해시 묵호진동 2-109",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/20/4120620_image2_1.jpg",
+    "credit": "높은 곳에서 내려다본 가을, 전국 전망대 추천_강원_묵호_도째비골 스카이밸리_7.jpg"
+   },
+   "onSite": "도째비골스카이밸리 입구 공영주차장의 장애인 주차장에 주차 후, 출입구까지 설치된 경사로를 지나 주출입구를 통해 휠체어로 접근할 수 있으며 엘리베이터 타워 1층의 장애인 화장실을 이용할 수 있습니다."
+  },
+  "DH19": {
+   "id": "DH19",
+   "name": "추암조각공원",
+   "category": "자연·산책",
+   "region": "동해",
+   "phone": "033-530-2801",
+   "address": "강원특별자치도 동해시 촛대바위길 17-1 (추암동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/74/4127974_image2_1.jpg",
+    "credit": "강원_동해시_추암조각공원 (2).jpg"
+   }
+  },
+  "DH20": {
+   "id": "DH20",
+   "name": "추암해변",
+   "category": "바다·해변",
+   "region": "동해",
+   "phone": "033-530-2801",
+   "address": "강원특별자치도 동해시 촛대바위길 26",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/88/4127988_image2_1.jpg",
+    "credit": "강원_동해시_추암해변 (6).jpg"
+   }
+  },
+  "DH07": {
+   "id": "DH07",
+   "name": "무릉별유천지",
+   "category": "전망·체험",
+   "region": "동해",
+   "phone": "033-531-2233",
+   "address": "강원특별자치도 동해시 이기로 97 (삼화동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/48/3389048_image2_1.jpg",
+    "credit": "무릉별유천지"
+   }
+  },
+  "DH04": {
+   "id": "DH04",
+   "name": "동해무릉건강숲",
+   "category": "전망·체험",
+   "region": "동해",
+   "phone": "033-530-2391",
+   "address": "강원특별자치도 동해시 삼화로 455 (삼화동)",
+   "onSite": "장애인 주차장에 주차 후 출입구까지 경사로를 통해 이동할 수 있으며 주 출입구에 경사로가 있어 휠체어 접근이 가능하다."
+  },
+  "DH05": {
+   "id": "DH05",
+   "name": "망상해변",
+   "category": "바다·해변",
+   "region": "동해",
+   "phone": "033-530-2800",
+   "address": "강원특별자치도 동해시 동해대로 6270-10 (망상동)",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource_photo/21/3544321_image2_1.jpg",
+    "credit": "망상해변"
+   }
+  },
+  "DH17": {
+   "id": "DH17",
+   "name": "천곡황금박쥐동굴",
+   "category": "자연·산책",
+   "region": "동해",
+   "phone": "033-539-3630",
+   "address": "강원특별자치도 동해시 동굴로 50",
+   "photo": {
+    "url": "https://tong.visitkorea.or.kr/cms/resource/61/4127961_image2_1.jpg",
+    "credit": "강원_동해시_천곡황금박쥐동굴 (7).jpg"
+   },
+   "onSite": "장애인 전용 주차구역이 있으며 장애인 화장실과 수유실이 마련되어 있다."
+  }
+ },
+ "judgments": {
+  "DH21": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이나 계단이 없어 유모차를 끌고 들어가기 편해요.",
+    "데크 산책로가 잘 되어 있어 이동하기 수월해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    }
+   ]
+  },
+  "DH16": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없고 목재 데크로 탐방로가 조성되어 유모차로 다니기 좋아요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    }
+   ]
+  },
+  "DH01": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없어 유모차로 편하게 접근할 수 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    }
+   ]
+  },
+  "DH15": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없고 자동문과 엘리베이터가 있어 유모차 이용이 편리해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    }
+   ]
+  },
+  "DH10": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없어 유모차를 동반하고 편하게 방문할 수 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    }
+   ]
+  },
+  "DH09": {
+   "verdict": "적합",
+   "reasons": [
+    "턱이 없어 유모차가 다니기 수월해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    }
+   ]
+  },
+  "DH03": {
+   "verdict": "적합",
+   "reasons": [
+    "경사로와 엘리베이터가 마련되어 있어 유모차 이동이 편리해요.",
+    "주출입구에 턱이 없어 진입하기 좋아요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    }
+   ]
+  },
+  "DH19": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구와 산책로에 턱이 없어 유모차 이동이 편리해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    }
+   ]
+  },
+  "DH20": {
+   "verdict": "적합",
+   "reasons": [
+    "출입과 이동에 불편함이 없어 유모차와 함께 방문하기 좋아요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    }
+   ]
+  },
+  "DH07": {
+   "verdict": "적합",
+   "reasons": [
+    "출입구에 턱이 없고 엘리베이터가 있어 유모차 이동이 편리해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    }
+   ]
+  },
+  "DH04": {
+   "verdict": "적합",
+   "reasons": [
+    "경사로와 엘리베이터가 있어 유모차를 동반하고 편하게 이용할 수 있어요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "elevator-1",
+     "label": "무장애·엘리베이터"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    }
+   ]
+  },
+  "DH05": {
+   "verdict": "적합",
+   "reasons": [
+    "완만한 경사로가 설치되어 있어 유모차를 끌고 진입하기 수월해요."
+   ],
+   "confidence": "높음",
+   "source": "ai",
+   "evidence": [
+    {
+     "id": "route-1",
+     "label": "무장애·접근로"
+    },
+    {
+     "id": "exit-1",
+     "label": "무장애·출입통로"
+    },
+    {
+     "id": "parking-1",
+     "label": "무장애·주차"
+    }
+   ]
+  }
+ },
+ "frames": [
+  {
+   "date": "2026-12-19",
+   "startMin": 600,
+   "endMin": 1020,
+   "start": {
+    "id": "donghae-station",
+    "name": "동해역",
+    "lat": 37.4969,
+    "lng": 129.124
+   },
+   "end": {
+    "id": "donghae-station",
+    "name": "동해역",
+    "lat": 37.4969,
+    "lng": 129.124
+   }
+  }
+ ],
+ "placeData": {
+  "DH21": {
+   "id": "DH21",
+   "tour_content_id": "2710184",
+   "name_ko": "한섬해변&한섬감성바닷길",
+   "region": "동해",
+   "category": "바다·해변",
+   "lat": 37.521156939,
+   "lng": 129.1217403068,
+   "address": "강원특별자치도 동해시 한섬해안길 9 (천곡동)",
+   "phone": "033-530-2447",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/21/3389221_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "한섬해수욕장"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/15/3389215_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "한섬해수욕장"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/17/3389217_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "한섬해수욕장"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/05/3389205_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "한섬해수욕장"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/13/3389213_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "한섬해수욕장"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "note": "상시 개방, 연중무휴",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구까지 경사로 설치",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "가능",
+     "note": "데크 설치",
+     "evidence": [
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "모름",
+     "ask": "장애인 전용 주차구역이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "벤치나 휴게 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "불가",
+     "evidence": [
+      "intro-chkbabycarriage-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH16": {
+   "id": "DH16",
+   "tour_content_id": "2364047",
+   "name_ko": "천곡천연동굴 자연학습체험공원",
+   "region": "동해",
+   "category": "자연·산책",
+   "lat": 37.5173683358,
+   "lng": 129.1101,
+   "address": "강원특별자치도 동해시 동굴로 50 (천곡동)",
+   "phone": "033-539-3630",
+   "stay_min": 40,
+   "stay_max": 90,
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사도가 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "가능",
+     "note": "목재 데크로 조성된 탐방로",
+     "evidence": [
+      "overview-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "가능",
+     "note": "쉼터와 벤치 마련",
+     "evidence": [
+      "overview-1",
+      "overview-2"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "장애인 주차장이 마련되어 있으며, 출입구까지 턱이 없어 접근할 수 있고 장애인 화장실이 있다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1",
+     "restroom-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "DH01": {
+   "id": "DH01",
+   "tour_content_id": "2714889",
+   "name_ko": "가원습지 생태자연공원",
+   "region": "동해",
+   "category": "자연·산책",
+   "lat": 37.4735985101,
+   "lng": 129.1070265361,
+   "address": "강원특별자치도 동해시 지가동 77-6",
+   "phone": "033-530-2261",
+   "stay_min": 40,
+   "stay_max": 90,
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 재질이 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "공중화장실 '가원습지생태자연공원' · 장애인 칸 1",
+     "evidence": [
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "기저귀 교환대 · 공중화장실 '가원습지생태자연공원' 남녀 화장실 모두 · 수유실 정보 없음",
+     "evidence": [
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "disabled_parking": {
+     "value": "모름",
+     "ask": "장애인 전용 주차구역이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉼터나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "불가",
+     "evidence": [
+      "intro-chkbabycarriage-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH15": {
+   "id": "DH15",
+   "tour_content_id": "3497939",
+   "name_ko": "연필뮤지엄",
+   "region": "동해",
+   "category": "전시·박물관",
+   "lat": 37.54749268957238,
+   "lng": 129.10629595925664,
+   "address": "강원특별자치도 동해시 발한로 183-6 (발한동)",
+   "phone": "033-532-1010",
+   "stay_min": 40,
+   "stay_max": 80,
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "10:00",
+     "close": "18:00",
+     "last_entry": "17:30"
+    },
+    "winter": {
+     "open": "10:00",
+     "close": "18:00",
+     "last_entry": "17:30"
+    },
+    "closed_weekdays": [
+     "화",
+     "수"
+    ],
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "출입구 턱 없음, 자동문",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "evidence": [
+      "elevator-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로가 완만하게 설치되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면이 평탄하고 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "수유실 및 기저귀 교환대 있음",
+     "evidence": [
+      "lactationroom-1",
+      "infantsfamilyetc-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "임산부 주차장 있음 (장애인 전용 주차 여부는 별도 문의 필요)",
+     "evidence": [
+      "infantsfamilyetc-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "가능",
+     "note": "4층 카페",
+     "evidence": [
+      "overview-2"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH10": {
+   "id": "DH10",
+   "tour_content_id": "2774728",
+   "name_ko": "묵호항수변공원",
+   "region": "동해",
+   "category": "자연·산책",
+   "lat": 37.5509454368,
+   "lng": 129.1173892451,
+   "address": "강원특별자치도 동해시 일출로 92-11 (묵호진동)",
+   "phone": "033-534-8899",
+   "stay_min": 40,
+   "stay_max": 90,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/20/4127920_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_묵호항수변공원 (5).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/21/4127921_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_묵호항수변공원 (6).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/19/4127919_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_묵호항수변공원 (4).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/18/4127918_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_묵호항수변공원 (3).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/17/4127917_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_묵호항수변공원 (2).jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "note": "연중무휴 상시 개방",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로가 완만하거나 급하지 않나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면은 휠체어가 다니기 편한 포장 상태인가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "모름",
+     "ask": "장애인 화장실이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉴 수 있는 벤치나 휴게 공간이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH09": {
+   "id": "DH09",
+   "tour_content_id": "129588",
+   "name_ko": "묵호항",
+   "region": "동해",
+   "category": "바다·해변",
+   "lat": 37.5503337811,
+   "lng": 129.1124791735,
+   "address": "강원특별자치도 동해시 일출로 22 (발한동)",
+   "phone": "033-534-8899",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/18/3544318_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "묵호항 수변공원"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/47/3544347_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "묵호항"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/34/3544334_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "묵호항"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/48/3544348_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "묵호항"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/58/3423358_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "묵호항"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "note": "연중무휴, 상시 개방",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "턱이 없어 휠체어 접근 가능함",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로나 오르막길이 완만한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면은 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "공중화장실 '묵호항 북방파제' · 장애인 칸 2 · 외 1곳 / 관광공사: 주차장 입구",
+     "evidence": [
+      "restroom-1",
+      "public-화장실-2"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "기저귀 교환대 · 공중화장실 '묵호항매립지(묵호수변공원)' 남녀 화장실 모두 · 외 1곳 · 수유실 정보 없음",
+     "evidence": [
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "여객선터미널 앞, 화장실 앞",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "불가",
+     "evidence": [
+      "intro-chkbabycarriage-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH03": {
+   "id": "DH03",
+   "tour_content_id": "2711035",
+   "name_ko": "도째비골스카이밸리",
+   "region": "동해",
+   "category": "전망·체험",
+   "lat": 37.5552499845,
+   "lng": 129.1191200483,
+   "address": "강원 동해시 묵호진동 2-109",
+   "phone": "070-7799-6955",
+   "stay_min": 40,
+   "stay_max": 80,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/20/4120620_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "높은 곳에서 내려다본 가을, 전국 전망대 추천_강원_묵호_도째비골 스카이밸리_7.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/21/4120621_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "높은 곳에서 내려다본 가을, 전국 전망대 추천_강원_묵호_도째비골 스카이밸리_8.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/15/4120615_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "높은 곳에서 내려다본 가을, 전국 전망대 추천_강원_묵호_도째비골 스카이밸리_3.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/13/4120613_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "높은 곳에서 내려다본 가을, 전국 전망대 추천_강원_묵호_도째비골 스카이밸리_2.jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/19/4120619_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "높은 곳에서 내려다본 가을, 전국 전망대 추천_강원_묵호_도째비골 스카이밸리_6.jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "10:00",
+     "close": "18:00",
+     "last_entry": "17:30"
+    },
+    "winter": {
+     "open": "10:00",
+     "close": "17:00",
+     "last_entry": "16:30"
+    },
+    "closed_weekdays": [
+     "월"
+    ],
+    "note": "월요일이 공휴일인 경우 그 다음 평일 휴장",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "evidence": [
+      "elevator-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구까지 경사로가 설치되어 있음",
+     "evidence": [
+      "route-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면이 평탄하게 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "공중화장실 '도째비골 스카이밸리 화장실' · 장애인 칸 2 / 관광공사: 엘리베이터 타워 1층",
+     "evidence": [
+      "restroom-1",
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "도째비골스카이밸리 입구 공영주차장 1대",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "휴게 쉼터나 벤치가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "도째비골스카이밸리 입구 공영주차장의 장애인 주차장에 주차 후, 출입구까지 설치된 경사로를 지나 주출입구를 통해 휠체어로 접근할 수 있으며 엘리베이터 타워 1층의 장애인 화장실을 이용할 수 있습니다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1",
+     "elevator-1",
+     "restroom-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "DH19": {
+   "id": "DH19",
+   "tour_content_id": "2714850",
+   "name_ko": "추암조각공원",
+   "region": "동해",
+   "category": "자연·산책",
+   "lat": 37.4795,
+   "lng": 129.1574,
+   "address": "강원특별자치도 동해시 촛대바위길 17-1 (추암동)",
+   "phone": "033-530-2801",
+   "stay_min": 40,
+   "stay_max": 90,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/74/4127974_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암조각공원 (2).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/80/4127980_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암조각공원 (6).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/79/4127979_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암조각공원 (5).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/77/4127977_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암조각공원 (3).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/78/4127978_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암조각공원 (4).jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 시설",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로가 완만하게 설치되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "산책로 바닥은 어떤 재질로 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "모름",
+     "ask": "장애인 화장실이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "가능",
+     "evidence": [
+      "overview-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH20": {
+   "id": "DH20",
+   "tour_content_id": "127713",
+   "name_ko": "추암해변",
+   "region": "동해",
+   "category": "바다·해변",
+   "lat": 37.4794099719,
+   "lng": 129.1602073619,
+   "address": "강원특별자치도 동해시 촛대바위길 26",
+   "phone": "033-530-2801",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/88/4127988_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암해변 (6).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/87/4127987_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암해변 (5).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/86/4127986_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암해변 (4).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/83/4127983_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암해변 (2).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/81/4127981_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_추암해변 (1).jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "09:00",
+     "close": "20:00"
+    },
+    "winter": {
+     "open": "09:00",
+     "close": "20:00"
+    },
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 시설",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사 구간이 없거나 완만하게 되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "해변이나 산책로 바닥은 어떤 재질로 되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "모름",
+     "ask": "장애인 화장실이 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "모름",
+     "ask": "수유실이나 기저귀 교환대가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "2대",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉼터나 벤치가 마련되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "가능",
+     "note": "관광안내소에 휠체어 1개 보유",
+     "evidence": [
+      "wheelchair-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH07": {
+   "id": "DH07",
+   "tour_content_id": "2820546",
+   "name_ko": "무릉별유천지",
+   "region": "동해",
+   "category": "전망·체험",
+   "lat": 37.4759555345,
+   "lng": 129.0330428105,
+   "address": "강원특별자치도 동해시 이기로 97 (삼화동)",
+   "phone": "033-531-2233",
+   "stay_min": 40,
+   "stay_max": 80,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/48/3389048_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "무릉별유천지"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/52/3389152_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "무릉별유천지"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/55/3389155_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "무릉별유천지"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/46/3389146_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "무릉별유천지"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/68/3389068_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "무릉별유천지"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "09:30",
+     "close": "17:30",
+     "last_entry": "16:30"
+    },
+    "winter": {
+     "open": "09:30",
+     "close": "17:30",
+     "last_entry": "16:30"
+    },
+    "closed_weekdays": [
+     "월"
+    ],
+    "note": "매주 월요일 휴관 (단, 공휴일이 월요일일 경우 다음날 휴관)",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "출입구에 턱이 없음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "evidence": [
+      "elevator-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사로나 오르막길이 완만한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면은 포장되어 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "evidence": [
+      "lactationroom-1",
+      "infantsfamilyetc-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "제1주차장(방문자센터), 제2주차장(쇄석장) / 총 11대",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "가능",
+     "note": "쇄석장내 사무실에서 수동 휠체어 4대",
+     "evidence": [
+      "wheelchair-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH04": {
+   "id": "DH04",
+   "tour_content_id": "2364045",
+   "name_ko": "동해무릉건강숲",
+   "region": "동해",
+   "category": "전망·체험",
+   "lat": 37.4650591568271,
+   "lng": 129.03123685625,
+   "address": "강원특별자치도 동해시 삼화로 455 (삼화동)",
+   "phone": "033-530-2391",
+   "stay_min": 40,
+   "stay_max": 80,
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "07:00",
+     "close": "22:00"
+    },
+    "winter": {
+     "open": "07:00",
+     "close": "22:00"
+    },
+    "closed_weekdays": [
+     "월"
+    ],
+    "note": "테마체험실 매주 월요일 휴무",
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "evidence": [
+      "elevator-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구까지 경사로가 설치되어 있음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "동해무릉건강숲의 노면 재질은 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "공중화장실 '동해무릉건강숲' · 장애인 칸 1",
+     "evidence": [
+      "restroom-1",
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "기저귀 교환대 · 공중화장실 '동해무릉건강숲' 여자화장실에만 · 수유실 정보 없음",
+     "evidence": [
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "약 43대 주차 가능 중 장애인 주차장 있음",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "동해무릉건강숲에 벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "가능",
+     "evidence": [
+      "wheelchair-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "동해무릉건강숲에서 유모차를 대여할 수 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "장애인 주차장에 주차 후 출입구까지 경사로를 통해 이동할 수 있으며 주 출입구에 경사로가 있어 휠체어 접근이 가능하다.",
+    "evidence": [
+     "parking-1",
+     "route-1",
+     "exit-1"
+    ],
+    "grade": "ai"
+   }
+  },
+  "DH05": {
+   "id": "DH05",
+   "tour_content_id": "125713",
+   "name_ko": "망상해변",
+   "region": "동해",
+   "category": "바다·해변",
+   "lat": 37.5922143704,
+   "lng": 129.0896411696,
+   "address": "강원특별자치도 동해시 동해대로 6270-10 (망상동)",
+   "phone": "033-530-2800",
+   "stay_min": 30,
+   "stay_max": 60,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/21/3544321_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "망상해변"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/22/3544322_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "망상해변"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource_photo/23/3544323_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "망상해변"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "always_open": true,
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "가능",
+     "note": "출입구까지 완만한 경사로가 설치되어 있음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "가능",
+     "note": "출입구까지 완만한 경사로가 설치되어 있음",
+     "evidence": [
+      "route-1",
+      "exit-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 재질은 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "note": "공중화장실 '망상해변내 5호' · 장애인 칸 1",
+     "evidence": [
+      "restroom-1",
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "note": "기저귀 교환대 · 공중화장실 '망상해변내 5호' 여자화장실에만 · 외 2곳 / 관광공사: 장애인 화장실 내 유아용 보호의자, 기저귀 교환대 있음",
+     "evidence": [
+      "infantsfamilyetc-1",
+      "public-화장실-1"
+     ],
+     "grade": "public",
+     "method": "공공데이터",
+     "verified_at": "2025-06-25",
+     "source_url": "https://www.data.go.kr/data/15012892/standard.do"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "해변 관광안내소 앞",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "벤치나 쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "가능",
+     "note": "1대 대여 가능",
+     "evidence": [
+      "wheelchair-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "모름",
+     "ask": "유모차 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   }
+  },
+  "DH17": {
+   "id": "DH17",
+   "tour_content_id": "126666",
+   "name_ko": "천곡황금박쥐동굴",
+   "region": "동해",
+   "category": "자연·산책",
+   "lat": 37.517348829,
+   "lng": 129.1097637982,
+   "address": "강원특별자치도 동해시 동굴로 50",
+   "phone": "033-539-3630",
+   "stay_min": 40,
+   "stay_max": 90,
+   "photos": [
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/61/4127961_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_천곡황금박쥐동굴 (7).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/60/4127960_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_천곡황금박쥐동굴 (6).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/59/4127959_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_천곡황금박쥐동굴 (5).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/56/4127956_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_천곡황금박쥐동굴 (3).jpg"
+    },
+    {
+     "url": "https://tong.visitkorea.or.kr/cms/resource/57/4127957_image2_1.jpg",
+     "provider": "한국관광공사",
+     "kogl_type": 1,
+     "credit": "강원_동해시_천곡황금박쥐동굴 (4).jpg"
+    }
+   ],
+   "hours": {
+    "grade": "ai",
+    "summer": {
+     "open": "08:30",
+     "close": "19:30",
+     "last_entry": "19:00"
+    },
+    "winter": {
+     "open": "08:30",
+     "close": "18:00",
+     "last_entry": "17:30"
+    },
+    "evidence": [
+     "intro-usetime-1",
+     "intro-restdate-1"
+    ]
+   },
+   "access": {
+    "step_free_entrance": {
+     "value": "불가",
+     "note": "동굴 내 관람로는 좁고 일부 계단으로 이어짐",
+     "evidence": [
+      "handicapetc-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "elevator": {
+     "value": "가능",
+     "note": "층이 없는 야외 시설(관광공사 분류 기준)",
+     "evidence": [
+      "class-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "slope": {
+     "value": "모름",
+     "ask": "경사도가 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "surface": {
+     "value": "모름",
+     "ask": "노면 상태가 어떻게 되나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "accessible_toilet": {
+     "value": "가능",
+     "evidence": [
+      "restroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "diaper_nursing": {
+     "value": "가능",
+     "evidence": [
+      "lactationroom-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "disabled_parking": {
+     "value": "가능",
+     "note": "2개",
+     "evidence": [
+      "parking-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rest_area": {
+     "value": "모름",
+     "ask": "쉼터가 있나요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_wheelchair": {
+     "value": "모름",
+     "ask": "휠체어 대여가 가능한가요?",
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    },
+    "rental_stroller": {
+     "value": "불가",
+     "note": "유모차 접근 불가",
+     "evidence": [
+      "handicapetc-1"
+     ],
+     "grade": "ai",
+     "method": "관광공사 API",
+     "verified_at": "2026-11-10"
+    }
+   },
+   "on_site": {
+    "text": "장애인 전용 주차구역이 있으며 장애인 화장실과 수유실이 마련되어 있다.",
+    "evidence": [
+     "parking-1",
+     "restroom-1",
+     "lactationroom-1"
+    ],
+    "grade": "ai"
+   }
+  }
+ },
+ "asks": {
+  "DH21": [],
+  "DH16": [],
+  "DH01": [],
+  "DH15": [],
+  "DH10": [],
+  "DH09": [],
+  "DH03": [],
+  "DH19": [],
+  "DH20": [],
+  "DH07": [],
+  "DH04": [],
+  "DH05": []
+ },
+ "unknowns": {
+  "DH21": [],
+  "DH16": [],
+  "DH01": [],
+  "DH15": [],
+  "DH10": [],
+  "DH09": [],
+  "DH03": [],
+  "DH19": [],
+  "DH20": [],
+  "DH07": [],
+  "DH04": [],
+  "DH05": []
+ },
+ "hard": [
+  {
+   "placeId": "DH17",
+   "kind": "AI 판단",
+   "reasons": [
+    "동굴 내 관람로가 좁고 계단으로 이어져 있어 유모차 진입이 불가능해요."
+   ],
+   "mustVisit": false,
+   "altId": "DH10"
+  }
+ ]
+}

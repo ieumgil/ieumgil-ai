@@ -3,6 +3,7 @@
 // 글자 14·16px, 링크는 터치 44px. 인쇄할 때는 숨긴다.
 import Link from "next/link";
 import { LogoMark } from "./Logo";
+import { SITE_WIDTH } from "./SiteHeader";
 
 const LINKS: { href: string; label: string; external?: boolean }[] = [
   { href: "/about", label: "서비스 소개" },
@@ -17,7 +18,7 @@ const SOURCES = "한국관광공사 무장애 여행정보 · 행정안전부 �
 export function SiteFooter() {
   return (
     <footer className="mt-auto border-t border-line bg-surface print:hidden" aria-label="사이트 정보">
-      <div className="mx-auto flex w-full max-w-[30rem] flex-col gap-4 px-4 py-8 md:max-w-[40rem] md:px-6 lg:max-w-[76rem] lg:px-8">
+      <div className={`${SITE_WIDTH} flex flex-col gap-4 py-8`}>
         <div className="flex items-center gap-2">
           <LogoMark size={24} />
           <span className="text-base font-medium">이음길 AI</span>
@@ -44,6 +45,7 @@ export function SiteFooter() {
         </nav>
 
         <p className="text-sm text-ink-sub text-pretty">데이터: {SOURCES}</p>
+        <p className="text-sm text-ink-sub">글꼴: Pretendard · 카페24 숑숑(카페24(주) 제공, SIL OFL 1.1)</p>
         <p className="text-sm text-ink-sub">© 2026 팀 이음길 · 2026 My AI 랩(강릉과학산업진흥원) 과제</p>
       </div>
     </footer>

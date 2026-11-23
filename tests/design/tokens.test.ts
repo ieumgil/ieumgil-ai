@@ -59,9 +59,10 @@ describe("토큰 값", () => {
     expect(token(staticTheme, "--text-heading--line-height")).toBe("1.35");
   });
 
-  it("제목 글꼴은 본문과 같은 글꼴(Noto Sans KR 한 벌, 11/18)", () => {
+  it("글꼴 2개만(11/23): 제목·본문은 Pretendard, 히어로 문구만 카페24 숑숑", () => {
     expect(token(staticTheme, "--font-display")).toBe("var(--font-sans)");
-    expect(token(inlineTheme, "--font-sans")).toMatch(/^"Noto Sans KR Variable",/);
+    expect(token(inlineTheme, "--font-sans")).toMatch(/^var\(--font-pretendard\),/);
+    expect(token(staticTheme, "--font-hero")).toMatch(/^var\(--font-syongsyong\),/);
   });
 
   it("본문 16px · 줄 간격 1.6", () => {

@@ -1,10 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import { SiteHeader } from "@/components/SiteHeader";
 import { INTRO_SCRIPT } from "@/lib/intro";
-// 글꼴 Noto Sans KR(가변 100~900, SIL OFL 1.1) 한 벌 — 본문·제목·숫자 모두(11/18 시안 N2 '차분하게').
-// next/font/local은 파일 하나씩만 받아 unicode-range 조각을 못 쓴다. 패키지 CSS를 그대로 불러오면 브라우저가 화면에 쓴 글자가 든 조각만 받는다.
-// 같은 사이트에서만 받고(외부 CDN·Google 요청 없음) 버전은 package.json에 고정.
-import "@fontsource-variable/noto-sans-kr";
 import "./globals.css";
+
+// 글꼴 2개만(11/23 어머니 시안): 본문·제목·숫자·버튼 전부 Pretendard, 시작 화면 히어로 문구만 카페24 숑숑. 구분은 크기·굵기로만.
+// 둘 다 SIL OFL 1.1, 같은 사이트에서만 받는다(외부 CDN·Google 요청 없음).
+const pretendard = localFont({
+  src: "../../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
+  variable: "--font-pretendard",
+  weight: "45 920",
+  display: "swap",
+});
+// 히어로 문구 글자만 남겨 줄인 파일(약 3.5KB, src/app/fonts/README.md)
+const syongsyong = localFont({
+  src: "./fonts/cafe24-syongsyong-hero.woff",
+  variable: "--font-syongsyong",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "이음길 AI",
@@ -17,12 +30,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" className="h-full antialiased" suppressHydrationWarning>
+    <html lang="ko" className={`${pretendard.variable} ${syongsyong.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         {/* 첫 접속 인트로를 보여줄지 첫 화면을 그리기 전에 정한다(깜빡임 방지) */}
         <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
       </head>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }

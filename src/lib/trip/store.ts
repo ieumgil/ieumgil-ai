@@ -43,7 +43,9 @@ function read(): TripView | null {
 
 const slots = new Map<string, { raw: string | null }>();
 const slotListeners = new Map<string, Set<() => void>>();
-const keyFor = (base: string, trip: Pick<TripView, "createdAt">) => (isExampleTrip(trip) ? `${base}:example` : base);
+// 예시 루트는 ":example", 시작 화면 루트 카드는 카드마다 ":example-route-…" 칸
+const keyFor = (base: string, trip: Pick<TripView, "createdAt">) =>
+  trip.createdAt.startsWith("example-route-") ? `${base}:${trip.createdAt}` : isExampleTrip(trip) ? `${base}:example` : base;
 
 function readRaw(key: string): string | null {
   let s = slots.get(key);

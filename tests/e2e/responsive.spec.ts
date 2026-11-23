@@ -38,21 +38,21 @@ async function noSideScroll(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 }
 
-// 03-15: 휴대폰·태블릿에서도 미리보기가 나온다(맨 위, 작게). 달라지는 것은 자리다 — 좁으면 제목 위, 1024px부터 오른쪽 칸.
-test("시작 화면: 미리보기는 좁으면 제목 위에, PC에서는 옆에 나온다", async ({ page }) => {
+// 11/23 개편: 미리보기는 소개 구역 안에 있다 — 좁으면 소개 글 아래, 1024px부터 오른쪽 칸. 어느 폭에서도 가로 스크롤 없음.
+test("시작 화면: 미리보기는 좁으면 소개 아래에, PC에서는 옆에 나온다", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   const preview = page.getByRole("figure", { name: "결과 화면 미리보기" });
   await expect(preview).toBeVisible();
-  const narrowTitle = await page.getByRole("heading", { level: 1 }).boundingBox();
+  const narrowTitle = await page.getByRole("heading", { name: /갈 수 있는 곳만/ }).boundingBox();
   const narrowBox = await preview.boundingBox();
-  expect(narrowBox!.y + narrowBox!.height).toBeLessThanOrEqual(narrowTitle!.y + 1); // 제목 위
+  expect(narrowBox!.y).toBeGreaterThan(narrowTitle!.y); // 소개 글 아래
   await noSideScroll(page);
 
   await page.setViewportSize({ width: 1280, height: 900 });
   await expect(preview).toBeVisible();
   await expect(preview.getByRole("img")).toHaveCount(2);
-  const title = await page.getByRole("heading", { level: 1 }).boundingBox();
+  const title = await page.getByRole("heading", { name: /갈 수 있는 곳만/ }).boundingBox();
   const box = await preview.boundingBox();
   expect(box!.x).toBeGreaterThan(title!.x + title!.width / 2); // 오른쪽 칸
   await noSideScroll(page);

@@ -158,7 +158,8 @@ function TripResult({ trip: base }: { trip: TripView }) {
 
   return (
     <main className="mx-auto w-full max-w-[34rem] flex-1 pb-28 md:max-w-[48rem] lg:max-w-[72rem] lg:pb-12 xl:max-w-[96rem]">
-      <div className="px-4 pt-4 md:px-6">
+      {/* 사이트 머리줄(11/23) 아래라 위 여백을 줄였다 */}
+      <div className="px-4 pt-2 md:px-6">
         <TopBar backHref={example ? "/" : "/plan/taste"} backLabel={example ? "처음 화면으로" : "조건 화면으로"} />
       </div>
       {example && <ExampleBanner />}

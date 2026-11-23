@@ -23,10 +23,10 @@ async function setup(page: Page) {
   return () => planCalled;
 }
 
-test("시작 화면의 '예시 루트 바로 보기'를 누르면 AI를 부르지 않고 예시 일정이 바로 열린다", async ({ page }) => {
+test("시작 화면 바로가기의 '예시 루트 보기'를 누르면 AI를 부르지 않고 예시 일정이 바로 열린다", async ({ page }) => {
   const planCalled = await setup(page);
   await page.goto("/");
-  await page.getByRole("link", { name: "예시 루트 바로 보기" }).click();
+  await page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "예시 루트 보기" }).click();
   await expect(page).toHaveURL(/\/trip\/example$/);
   await expect(page.getByText("예시 일정이에요.")).toBeVisible();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/일정 \d가지를 만들었어요/);
