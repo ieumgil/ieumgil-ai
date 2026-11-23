@@ -757,3 +757,138 @@ label:has(input[type="checkbox"]) {
     display: none;
   }
 }
+
+/*
+ * 시작 화면 소개 단계 + 휴대폰 화면 전환(11/23, src/components/home/IntroSteps.tsx).
+ * 레퍼런스: 강진 문화관광재단 'MOBILITY'(설명 글을 본문보다 크게: 굵은 24~26px) · 울진 문화관광 '유튜브속 울진'(가운데 기기 틀 하나, 고르면 속 화면이 바뀜).
+ */
+.intro-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-pine);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.intro-kicker::before {
+  content: "";
+  width: 1.5rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: currentColor;
+}
+.intro-headline {
+  margin-top: 0.75rem;
+  font-size: clamp(2rem, 1.25rem + 2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.intro-step {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  text-align: left;
+  transition:
+    background-color var(--motion-medium) var(--ease-state),
+    border-color var(--motion-medium) var(--ease-state);
+}
+.intro-step:hover {
+  background-color: rgb(255 255 255 / 0.7);
+}
+.intro-step[aria-selected="true"] {
+  border-color: var(--color-primary);
+  background-color: #fff;
+}
+.intro-step__no {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-ink);
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition:
+    background-color var(--motion-medium) var(--ease-state),
+    color var(--motion-medium) var(--ease-state);
+}
+.intro-step[aria-selected="true"] .intro-step__no {
+  background: var(--color-primary);
+  color: #fff;
+}
+.intro-step__title {
+  color: var(--color-ink);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.intro-step__body {
+  color: var(--color-ink-sub);
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+.intro-cta {
+  min-height: 4rem;
+  padding-inline: 3rem;
+  font-size: 1.25rem;
+}
+.intro-phone {
+  width: 15rem;
+  overflow: hidden;
+  border: 0.5rem solid var(--color-ink);
+  border-radius: 2.25rem;
+  background: var(--color-ink);
+  box-shadow: 0 1.5rem 3rem rgb(25 31 40 / 0.16);
+}
+.intro-phone__screen {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: intro-screen-in var(--motion-long) var(--ease-enter);
+}
+@keyframes intro-screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (min-width: 1024px) {
+  .intro-phone {
+    width: 17rem;
+    border-width: 0.625rem;
+    border-radius: 2.75rem;
+  }
+}
+@media (min-width: 1280px) {
+  .intro-phone {
+    width: 20rem;
+  }
+}
+@media (max-width: 767px) {
+  .intro-step {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .intro-step__title {
+    font-size: 1.25rem;
+  }
+  .intro-step__body {
+    font-size: 1rem;
+  }
+  .intro-cta {
+    width: 100%;
+  }
+}

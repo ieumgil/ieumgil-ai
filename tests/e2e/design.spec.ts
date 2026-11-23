@@ -132,9 +132,9 @@ test("인쇄 일정표도 화면과 같은 글꼴이다", async ({ page }) => {
 test.describe("공용 부품", () => {
   test("주 버튼은 16px 500 · 반지름 12px", async ({ page }) => {
     await block(page);
-    // 시작 화면에는 같은 이름의 바로가기 칸도 있어(11/23) 본문 주 버튼(Button)을 집는다
-    await page.goto("/");
-    const css = await page.locator("section[aria-labelledby=intro-title]").getByRole("link", { name: "여행 루트 만들기" }).evaluate((el) => {
+    // 시작 화면의 주 버튼은 11/23부터 레퍼런스(강진)대로 크게 키운 것이라, 공용 주 버튼 모양은 소개 글 맨 아래 버튼으로 본다
+    await page.goto("/about");
+    const css = await page.getByRole("main").getByRole("link", { name: "여행 루트 만들기" }).evaluate((el) => {
       const cs = getComputedStyle(el);
       return { size: cs.fontSize, weight: cs.fontWeight, radius: cs.borderTopLeftRadius };
     });
@@ -299,7 +299,8 @@ test.describe("전 화면 글자", () => {
           const r = el.getBoundingClientRect();
           if (cs.visibility === "hidden" || cs.display === "none" || r.width === 0 || r.height === 0) continue;
           // 제목(h1·h2·h3, 시작 화면 루트 카드 제목), 사이트 머리줄 이름(font-heading), 시작 화면 바로가기 띠(비짓강릉 CSS, 굵은 이름)
-          if (el.closest("h1, h2, h3, .font-heading, .quick-band")) continue;
+          // 제목(h1·h2·h3), 사이트 머리줄 이름(font-heading), 시작 화면 바로가기 띠(비짓강릉 CSS)·소개 단계(강진 CSS, 굵은 큰 설명)
+          if (el.closest("h1, h2, h3, .font-heading, .quick-band, .intro-step")) continue;
           if (el.closest("[aria-hidden=true]")) continue; // 읽지 않는 장식 글자(시작 화면 소개 구역의 큰 영문 등)
           out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
         }

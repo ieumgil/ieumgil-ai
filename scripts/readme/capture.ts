@@ -142,7 +142,7 @@ const SHOTS: Shot[] = [
 ];
 
 /** 시작 화면 미리보기에 쓰는 캡처 */
-const PREVIEW: Record<string, string> = { "07-result-compare": "compare", "10-final": "final" };
+const PREVIEW: Record<string, string> = { "07-result-compare": "compare", "10-final": "final", "04-conditions": "step-conditions", "08-result-detail": "step-card", "12-checklist": "step-call" };
 
 async function waitMap(p: Page) {
   await p.getByText(/차량 약 \d+분|직선으로|불러오지 못했어요/).first().waitFor({ timeout: 20_000 });

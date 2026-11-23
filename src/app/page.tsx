@@ -8,20 +8,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Intro } from "@/components/Intro";
 import { FeaturedPlaces } from "@/components/home/FeaturedPlaces";
+import { IntroSteps } from "@/components/home/IntroSteps";
 import { QuickMenu } from "@/components/home/QuickMenu";
 import { SectionTitle } from "@/components/home/SectionTitle";
 import { TodayWeather } from "@/components/home/TodayWeather";
 import { SITE_WIDTH } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { ButtonLink } from "@/components/ui/button";
 import { ROUTE_CARDS, type RouteCardId } from "@/lib/trip/route-cards";
 
-// 히어로·바로가기와 겹치는 말(누구와 가는 영동 여행 · 루트를 짜 드림 · 예시 루트 · 관광지 둘러보기)은 뺐다(11/23)
-const FEATURES: { title: string; body: string }[] = [
-  { title: "조건에 안 맞는 곳은 빼요", body: "계단·화장실·걷는 거리를 유형별로 확인해요" },
-  { title: "판단 근거를 함께 보여 줘요", body: "관광공사 원문의 어느 항목인지 알려 드려요" },
-  { title: "모르는 건 물어볼 것을 알려 줘요", body: "출발 전에 전화로 물어볼 질문과 번호를 붙여요" },
-];
+
 
 // 카드 글 상자 색(흰 글자 대비 4.5:1 이상): 파랑 · 솔숲 초록 · 진한 주황
 const CARD_BG: Record<RouteCardId, string> = { wheelchair: "bg-primary", elder: "bg-pine", stroller: "bg-route-deep" };
@@ -40,25 +35,8 @@ export default function Home() {
           <span className="intro-band__mark" aria-hidden="true">
             IEUMGIL ROUTE
           </span>
-          <div className={`${SITE_WIDTH} relative z-10 grid items-center gap-12 lg:grid-cols-2`}>
-          <div className="flex flex-col lg:max-w-[36rem]">
-            <SectionTitle id="intro-title" kicker="이음길은 이렇게 골라요">
-              갈 수 있는 곳만 <span className="text-primary">골라 드려요</span>
-            </SectionTitle>
-            <ul aria-label="이음길 특징" className="mt-6 border-t border-line">
-              {FEATURES.map((f) => (
-                <li key={f.title} className="flex flex-col gap-1 border-b border-line py-4 last:border-b-0">
-                  <span className="text-base font-medium">{f.title}</span>
-                  <span className="text-base text-ink-sub text-pretty">{f.body}</span>
-                </li>
-              ))}
-            </ul>
-            <ButtonLink href="/plan" className="mt-6 lg:self-start lg:px-12">
-              여행 루트 만들기
-            </ButtonLink>
-            <p className="mt-2 text-sm text-ink-sub">회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준</p>
-          </div>
-          <Preview />
+          <div className={SITE_WIDTH}>
+            <IntroSteps />
           </div>
         </section>
 
@@ -109,23 +87,6 @@ function Waves() {
         <path d="M0 150 C200 160 320 110 520 100 C720 90 820 140 1020 132 C1240 122 1380 60 1600 40 C1720 30 1800 20 1920 30 L1920 58 C1800 50 1720 62 1600 74 C1380 96 1240 160 1020 170 C820 178 720 128 520 138 C320 148 200 196 0 186 Z" fill="#f4b8c8" opacity="0.4" />
       </svg>
     </div>
-  );
-}
-
-/** 결과 화면 캡처 두 장(일정 비교 · 확정 일정 지도). scripts/readme/capture.ts가 다시 만든다. 누르는 곳이 없는 그림 */
-function Preview() {
-  const phone =
-    "absolute w-[11.5rem] overflow-hidden rounded-3xl border-[0.375rem] border-ink bg-ink shadow-[0_1rem_2rem_rgb(25_31_40/0.12)] md:w-[12rem] lg:w-[15rem] xl:w-[17rem] lg:rounded-[2.25rem] lg:border-[0.5rem]";
-  return (
-    <figure className="relative mx-auto h-[26rem] w-full max-w-[28rem] lg:h-[38rem] lg:max-w-[34rem] xl:h-[42rem] xl:max-w-[38rem]" aria-label="결과 화면 미리보기">
-      <div className={`${phone} top-0 right-0 lg:right-2`}>
-        <Image src="/preview/final.png" width={780} height={1688} sizes="(min-width: 1280px) 17rem, (min-width: 1024px) 15rem, 12rem" alt="확정한 일정 화면: 카카오 지도에 장소 번호와 일반 차량 경로선, 아래에 시간순 일정" />
-      </div>
-      <div className={`${phone} top-8 left-0 lg:top-12 lg:left-2`}>
-        <Image src="/preview/compare.png" width={780} height={1688} sizes="(min-width: 1280px) 17rem, (min-width: 1024px) 15rem, 12rem" alt="일정 비교 화면: 성격이 다른 일정 안 카드와 장소 수, 이동 시간, 전화로 확인할 곳 수" />
-      </div>
-      <figcaption className="absolute inset-x-0 bottom-0 text-center text-sm text-ink-sub">실제 결과 화면 · 일정 비교와 확정 일정 지도</figcaption>
-    </figure>
   );
 }
 

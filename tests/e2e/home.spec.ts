@@ -6,10 +6,11 @@
 // 바로가기 띠의 '여행 루트 만들기'가 그 역할을 맡는다(PC 첫 화면 안).
 import { expect, test } from "@playwright/test";
 
+// 11/23 소개 구역: 특징 목록 → 단계 탭 3개 + 휴대폰 화면 전환(강진 MOBILITY · 울진 유튜브속 울진 레퍼런스)
 const FEATURES = [
-  ["조건에 안 맞는 곳은 빼요", "계단·화장실·걷는 거리를 유형별로 확인해요"],
-  ["판단 근거를 함께 보여 줘요", "관광공사 원문의 어느 항목인지 알려 드려요"],
-  ["모르는 건 물어볼 것을 알려 줘요", "출발 전에 전화로 물어볼 질문과 번호를 붙여요"],
+  ["조건에 안 맞는 곳은 빼요", "계단·화장실·걷는 거리를 함께 가는 사람 기준으로 확인해요"],
+  ["왜 골랐는지와 출처를 보여 줘요", "장소마다 판단과 한 줄 이유, 관광공사 출처를 붙여요"],
+  ["모르는 건 물어볼 것을 알려 줘요", "출발 전에 전화로 물어볼 질문과 공식 번호를 붙여요"],
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -59,16 +60,25 @@ test("PC 첫 화면 안에 '여행 루트 만들기'가 보인다", async ({ pag
   expect(box!.y + box!.height).toBeLessThanOrEqual(900);
 });
 
-test("특징은 카드 없는 목록이고 문장이 남아 있으며, 주 버튼과 원칙 문구가 보인다", async ({ page }) => {
+test("소개 단계 3개는 탭이고 문장이 남아 있으며, 고르면 휴대폰 속 화면이 바뀐다 · 주 버튼과 원칙 문구가 보인다", async ({ page }) => {
   await page.goto("/");
-  const list = page.getByRole("list", { name: "이음길 특징" });
-  await expect(list.getByRole("listitem")).toHaveCount(3);
-  for (const item of await list.getByRole("listitem").all()) await expect(item).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  for (const [title, body] of FEATURES) {
-    await expect(list.getByText(title, { exact: true })).toBeVisible();
-    await expect(list.getByText(body, { exact: true })).toBeVisible();
+  const tabs = page.getByRole("tablist", { name: "이음길이 고르는 방법" }).getByRole("tab");
+  await expect(tabs).toHaveCount(3);
+  for (const [i, [title, body]] of FEATURES.entries()) {
+    await expect(tabs.nth(i)).toContainText(title);
+    await expect(tabs.nth(i)).toContainText(body);
   }
-  await expect(page.getByRole("main").getByRole("link", { name: "여행 루트 만들기" }).last()).toHaveAttribute("href", "/plan");
+  await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
+  const screen = page.getByRole("tabpanel").getByRole("img");
+  await expect(screen).toHaveAttribute("alt", /꼭 필요한 조건 화면/);
+  await tabs.nth(2).click();
+  await expect(tabs.nth(2)).toHaveAttribute("aria-selected", "true");
+  await expect(screen).toHaveAttribute("alt", /전화로 확인할 곳/);
+  // 키보드: 위 화살표로 이전 단계
+  await page.keyboard.press("ArrowUp");
+  await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+  await expect(tabs.nth(1)).toBeFocused();
+  await expect(page.locator("section[aria-labelledby=intro-title]").getByRole("link", { name: "여행 루트 만들기" })).toHaveAttribute("href", "/plan");
   await expect(page.getByText("회원가입 없이 쓸 수 있어요 · 일반 차량 경로 기준")).toBeVisible();
 });
 

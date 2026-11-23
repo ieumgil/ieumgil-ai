@@ -51,7 +51,7 @@ test("시작 화면: 미리보기는 좁으면 소개 아래에, PC에서는 옆
 
   await page.setViewportSize({ width: 1280, height: 900 });
   await expect(preview).toBeVisible();
-  await expect(preview.getByRole("img")).toHaveCount(2);
+  await expect(preview.getByRole("img")).toHaveCount(1); // 11/23: 단계를 고르면 속 화면이 바뀌는 휴대폰 한 대
   const title = await page.getByRole("heading", { name: /갈 수 있는 곳만/ }).boundingBox();
   const box = await preview.boundingBox();
   expect(box!.x).toBeGreaterThan(title!.x + title!.width / 2); // 오른쪽 칸
