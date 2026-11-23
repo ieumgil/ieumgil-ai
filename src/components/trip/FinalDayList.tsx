@@ -77,6 +77,7 @@ export function DayList({ d, trip, calls, onSite = NO_ON_SITE, cautions }: { d: 
           return (
             <li key={i} id={stopAnchor(it.placeId)} className="relative flex gap-3 py-2">
               <span
+                data-timeline-marker="number"
                 className="z-10 mt-3 flex min-h-8 min-w-8 aspect-square shrink-0 self-start items-center justify-center rounded-full bg-primary px-1 text-base leading-none font-medium text-white ring-4 ring-white"
                 aria-hidden="true"
               >

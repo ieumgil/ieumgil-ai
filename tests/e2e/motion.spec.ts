@@ -142,6 +142,12 @@ test("일정 타임라인: 스크롤하면 진행 원이 세로선을 따라 내
   await bar.evaluate((el) => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.45 + el.getBoundingClientRect().height / 2));
   await expect.poll(progress).toBeGreaterThan(0.3);
   expect(await dotTop()).toBeGreaterThan(before);
+  // 지나간 번호 동그라미는 '클리어' 표시(data-passed)
+  await expect(page.locator("[data-timeline-marker=number][data-passed]:visible").first()).toBeVisible();
+  // 페이지 맨 끝까지 내리면 마지막 '도착'까지 채워진다(기준점이 화면 아래로 내려감)
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(progress).toBe(1);
+  await expect(page.locator("[data-timeline-marker=flag]:visible").last()).toHaveAttribute("data-passed", "");
   await page.emulateMedia({ media: "print" });
   await expect(bar).toBeHidden();
 });

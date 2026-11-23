@@ -18,12 +18,12 @@ export function TimelineNode({ icon, children, small }: { icon?: ReactNode; chil
   return (
     <li className={`relative flex items-center gap-3 py-2 ${small ? "text-sm text-ink-sub" : "text-base"}`}>
       {icon ? (
-        <span className="z-10 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface text-ink-sub ring-4 ring-white" aria-hidden="true">
+        <span data-timeline-marker="flag" className="z-10 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface text-ink-sub ring-4 ring-white" aria-hidden="true">
           {icon}
         </span>
       ) : (
         <span className="z-10 flex size-8 shrink-0 items-center justify-center" aria-hidden="true">
-          <span className="size-2 rounded-full bg-line-strong ring-4 ring-white" />
+          <span data-timeline-marker="dot" className="size-2 rounded-full bg-line-strong ring-4 ring-white" />
         </span>
       )}
       <span className="min-w-0">{children}</span>

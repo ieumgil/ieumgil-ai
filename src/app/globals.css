@@ -668,3 +668,46 @@ label:has(input[type="checkbox"]) {
     }
   }
 }
+
+/*
+ * 타임라인 '클리어' 표시(11/23, TimelineProgress가 data-passed를 붙인다): 스크롤 진행 원이 지나간 깃발·점·번호 동그라미.
+ * 깃발과 점은 파랑으로 채우고, 번호 동그라미는 한 번 살짝 커졌다 돌아오며 연한 파랑 빛 테두리를 남긴다.
+ * 동작 줄이기 설정이면 전역 규칙이 시간을 0으로 만들어 색만 바뀐다. 인쇄 일정표에는 영향 없음(인쇄는 PrintSheet).
+ */
+[data-timeline-marker] {
+  transition:
+    background-color var(--motion-long) var(--ease-state),
+    color var(--motion-long) var(--ease-state),
+    box-shadow var(--motion-long) var(--ease-state);
+}
+[data-timeline-marker="flag"][data-passed] {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+[data-timeline-marker="dot"][data-passed] {
+  background-color: var(--color-primary);
+}
+[data-timeline-marker="number"][data-passed] {
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 8px var(--color-primary-soft);
+  animation: marker-clear var(--motion-long) var(--ease-spring);
+}
+@keyframes marker-clear {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* 끝까지 내려가면 진행 원은 숨기고 도착 깃발의 '클리어'만 남긴다(원이 깃발 아래로 삐져나오지 않게) */
+[data-timeline-progress] > span:last-child {
+  transition: opacity var(--motion-medium) var(--ease-state);
+}
+[data-timeline-progress][data-state="end"] > span:last-child {
+  opacity: 0;
+}
