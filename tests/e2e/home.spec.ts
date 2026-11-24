@@ -170,6 +170,67 @@ test("PC: 소개 구역은 화면이 고정된 채 스크롤로 1→3단계가 �
   expect(await pinTop()).toBeLessThan(0); // 풀림
 });
 
+// 고칠 목록 2(11/24): 휴대폰은 스크롤해도 단계 목록이 화면 위로 지나가 버려 의미가 없다 → 휴대폰 화면이 보이는 동안 3초마다 자동으로 다음 단계.
+// 움직이는 내용이라 멈추기 버튼이 있고(WCAG 2.2.2), 단계를 직접 누르면 자동 넘김이 멈춘다. PC(화면 고정 스크롤)에는 없다.
+test("휴대폰: 소개 단계가 3초마다 자동으로 넘어가고, 멈추기·직접 고르기로 멈춘다", async ({ page }, info) => {
+  test.skip(info.project.name !== "mobile", "자동 넘김은 좁은 화면에서만");
+  await page.clock.install();
+  await page.goto("/");
+  const tabs = page.getByRole("tablist", { name: "이음길이 고르는 방법" }).getByRole("tab");
+  const phone = page.locator("#intro-panel");
+  await phone.scrollIntoViewIfNeeded();
+  await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
+  await page.clock.runFor(3100);
+  await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+  await page.clock.runFor(3100);
+  await expect(tabs.nth(2)).toHaveAttribute("aria-selected", "true");
+  await page.clock.runFor(3100);
+  await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true"); // 다시 처음으로
+
+  const stop = page.getByRole("button", { name: "자동 넘김 멈추기" });
+  expect((await stop.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await stop.click();
+  await page.clock.runFor(11000);
+  await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
+
+  await page.getByRole("button", { name: "자동으로 넘기기" }).click();
+  await page.clock.runFor(3100);
+  await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+
+  await tabs.nth(2).click(); // 직접 고르면 멈춘다
+  await page.clock.runFor(11000);
+  await expect(tabs.nth(2)).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("button", { name: "자동으로 넘기기" })).toBeVisible();
+});
+
+test("휴대폰: 휴대폰 화면이 안 보이는 동안에는 넘어가지 않는다 · PC에는 자동 넘김 버튼이 없다", async ({ page }, info) => {
+  await page.clock.install();
+  await page.goto("/");
+  const tabs = page.getByRole("tablist", { name: "이음길이 고르는 방법" }).getByRole("tab");
+  if (info.project.name === "desktop") {
+    await expect(page.getByRole("button", { name: /자동 넘김 멈추기|자동으로 넘기기/ })).toHaveCount(0);
+    return;
+  }
+  await page.evaluate(() => window.scrollTo(0, 0)); // 첫 화면(히어로)에서는 소개 구역이 안 보인다
+  await page.clock.runFor(11000);
+  await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
+});
+
+test("동작 줄이기 설정이면 휴대폰 소개 단계는 멈춘 채로 시작한다", async ({ browser }, info) => {
+  test.skip(info.project.name !== "mobile", "자동 넘김은 좁은 화면에서만");
+  const ctx = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 390, height: 844 }, hasTouch: true });
+  await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+  const page = await ctx.newPage();
+  await page.route("**/api/weather", (r) => r.fulfill({ json: { available: false } }));
+  await page.clock.install();
+  await page.goto("/");
+  await page.locator("#intro-panel").scrollIntoViewIfNeeded();
+  await expect(page.getByRole("button", { name: "자동으로 넘기기" })).toBeVisible();
+  await page.clock.runFor(11000);
+  await expect(page.getByRole("tablist", { name: "이음길이 고르는 방법" }).getByRole("tab").nth(0)).toHaveAttribute("aria-selected", "true");
+  await ctx.close();
+});
+
 // 11/24 고칠 목록 11번: 첫 화면(히어로)에서 바로 누르는 주 버튼 — 설명 아래 · 날씨 위, 첫 화면 안에 보인다
 test("히어로에 '여행 루트 만들기' 주 버튼과 '예시 루트 먼저 보기'가 첫 화면 안에 있다", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));

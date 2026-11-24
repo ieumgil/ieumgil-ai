@@ -861,19 +861,55 @@ label:has(input[type="checkbox"]) {
   box-shadow: 0 1.5rem 3rem rgb(25 31 40 / 0.16);
 }
 /* 휴대폰 위쪽 상태 줄(가운데 카메라 자리) — 세 화면 모두 실제 휴대폰처럼 보이게(11/24). README 휴대폰 틀(capture.ts frames)과 같은 모양 */
-.intro-phone::before {
+/* 11/24 고침: 예전엔 원형 그라데이션이라 카메라 자리가 납작한 타원으로 보였다 → 양 끝이 둥근 알약(README 틀 96×26, 상태 줄 36 : 화면 390과 같은 비율).
+   상태 줄(.intro-phone__status)에는 실제 휴대폰처럼 시계·신호·배터리(장식) — 빈 흰 띠가 잘린 것처럼 보였다 */
+.intro-phone__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 1.75rem;
+  padding-inline: 1.5rem 1.25rem;
+  background: #fff;
+  color: var(--color-ink);
+  font-size: 0.875rem; /* 화면 글자 14px 하한(디자인 규칙)을 지킨다 — 장식이어도 보이는 글자 */
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.intro-phone__icons {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+.intro-phone__icons svg {
+  height: 0.75em;
+  width: auto;
+}
+.intro-phone::after {
   content: "";
-  display: block;
-  height: 1.25rem;
-  background:
-    radial-gradient(closest-side, var(--color-ink) 92%, transparent) center / 3.5rem 0.75rem no-repeat,
-    #fff;
+  position: absolute;
+  top: 0.375rem;
+  left: 50%;
+  width: 3.75rem;
+  height: 1rem;
+  border-radius: 9999px;
+  background: var(--color-ink);
+  transform: translateX(-50%);
 }
 .intro-phone__screen {
   display: block;
   width: 100%;
   height: auto;
-  animation: intro-screen-in var(--motion-long) var(--ease-enter);
+  /* 제자리에서 흐리게만(11/24) — 위로 올라오면 가만히 있는 상태 줄 밑으로 사진이 들어가 잘려 보였다 */
+  animation: intro-screen-fade var(--motion-long) var(--ease-enter);
+}
+@keyframes intro-screen-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes intro-screen-in {
   from {
@@ -891,10 +927,27 @@ label:has(input[type="checkbox"]) {
     border-width: 0.625rem;
     border-radius: 2.75rem;
   }
+  .intro-phone__status {
+    height: 1.875rem;
+    padding-inline: 1.75rem 1.5rem;
+  }
+  .intro-phone::after {
+    width: 4.25rem;
+    height: 1.125rem;
+  }
 }
 @media (min-width: 1280px) {
   .intro-phone {
     width: 20rem;
+  }
+  .intro-phone__status {
+    height: 2rem;
+    padding-inline: 2rem 1.75rem;
+  }
+  .intro-phone::after {
+    top: 0.34375rem;
+    width: 5rem;
+    height: 1.3125rem;
   }
 }
 @media (max-width: 767px) {
@@ -910,6 +963,94 @@ label:has(input[type="checkbox"]) {
   }
   .intro-cta {
     width: 100%;
+  }
+}
+
+/* 좁은 화면 소개 자동 넘김 진행 막대(고칠 목록 2, 11/24) — 단계마다 한 칸, 지금 칸이 3초(IntroSteps AUTO_MS) 동안 차오른다.
+   멈추면 지금 칸은 꽉 찬 채로. 동작 줄이기면 자동 넘김이 멈춘 채로 시작하고, 사용자가 켜도 차오르는 움직임 없이 꽉 찬 칸만 보인다 */
+.intro-progress {
+  display: flex;
+  gap: 0.375rem;
+  width: 15rem;
+}
+.intro-progress__seg {
+  position: relative;
+  flex: 1;
+  height: 0.25rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--color-line);
+}
+.intro-progress__seg[data-done] {
+  background: var(--color-primary);
+}
+.intro-progress__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary);
+  transform-origin: left;
+}
+.intro-progress[data-running] .intro-progress__fill {
+  animation: intro-progress-fill 3000ms linear;
+}
+@keyframes intro-progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+/* 한 칸 화면: 막대 칸이 곧 단계 탭(누르면 그 단계). 막대는 얇아도 누르는 자리는 44px */
+.intro-progress--tabs {
+  gap: 0.375rem;
+}
+.intro-progress__tab {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 2.75rem;
+  border-radius: 0.75rem;
+}
+.intro-progress__tab > .intro-progress__seg {
+  height: 0.375rem;
+}
+/* 지금 단계 카드: 넓은 화면의 고른 단계(.intro-step[aria-selected])와 같은 모양, 바뀔 때 휴대폰 화면처럼 살짝 올라오며 나타남 */
+.intro-mstep {
+  max-width: 30rem;
+  margin-top: 0.5rem;
+  border-color: var(--color-primary);
+  background-color: #fff;
+  animation: intro-screen-in var(--motion-long) var(--ease-enter);
+}
+.intro-mstep:hover {
+  background-color: #fff;
+}
+.intro-mstep .intro-step__no {
+  background: var(--color-primary);
+  color: #fff;
+}
+/* 한 칸 화면(1024px 미만)에서는 왼쪽 단계 목록·장식 막대를 숨기고 휴대폰 아래 막대 탭 + 단계 카드만. 이 CSS가 Tailwind 유틸리티보다 앞서서 max-lg:hidden 대신 여기서 숨긴다 */
+@media (max-width: 1023.98px) {
+  .intro-steps.intro-steps--wide,
+  .intro-progress.intro-progress--wide {
+    display: none;
+  }
+}
+/* 휴대폰 틀(.intro-phone)과 같은 폭 — 넓지만 낮은 화면(고정 안 함)에서도 맞게 */
+@media (min-width: 1024px) {
+  .intro-progress {
+    width: 17rem;
+  }
+}
+@media (min-width: 1280px) {
+  .intro-progress {
+    width: 20rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-progress[data-running] .intro-progress__fill {
+    animation: none;
   }
 }
 
