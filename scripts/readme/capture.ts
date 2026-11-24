@@ -67,8 +67,9 @@ const SHOTS: Shot[] = [
     act: async (p) => {
       const more = p.getByRole("button", { name: /자세히/ }).first();
       await more.click();
+      const h = await pinHeader(p);
       await p.locator("article").first().evaluate((el) => el.scrollIntoView({ block: "start" }));
-      await p.evaluate(() => window.scrollBy(0, -12));
+      await p.evaluate((y) => window.scrollBy(0, -y), h + 12);
     },
   },
   {
@@ -91,8 +92,9 @@ const SHOTS: Shot[] = [
       // 확인할 곳이 둘 이상이면 하나는 괜찮대요, 하나는 어렵대요(바꾸기 권유가 보이게). 하나뿐이면 어렵대요
       if ((await g.count()) > 1) await g.nth(0).getByRole("button", { name: "괜찮대요" }).click();
       await g.last().getByRole("button", { name: "어렵대요" }).click();
+      const h = await pinHeader(p);
       await p.locator("#checklist-title").evaluate((el) => el.scrollIntoView({ block: "start" }));
-      await p.evaluate(() => window.scrollBy(0, -16));
+      await p.evaluate((y) => window.scrollBy(0, -y), h + 16);
       await p.waitForTimeout(300);
     },
   },
@@ -147,6 +149,16 @@ const SHOTS: Shot[] = [
 
 /** 시작 화면 미리보기에 쓰는 캡처 */
 const PREVIEW: Record<string, string> = { "04-conditions": "step-conditions", "08-result-detail": "step-card", "12-checklist": "step-call" };
+
+/** 페이지 중간을 찍을 때도 사이트 머리줄(로고 · 메뉴)이 위에 보이게 화면 위에 붙인다 → 머리줄 높이를 돌려준다.
+ *  시작 화면 단계 소개의 휴대폰 화면(08·12)이 '확대해서 잘라 낸 그림'처럼 보이지 않게(11/24). 실제 머리줄은 따라오지 않는다 */
+async function pinHeader(p: Page) {
+  return p.evaluate(() => {
+    const h = document.querySelector("header")!;
+    Object.assign(h.style, { position: "fixed", top: "0", left: "0", right: "0" });
+    return h.getBoundingClientRect().height;
+  });
+}
 
 async function waitMap(p: Page) {
   await p.getByText(/차량 약 \d+분|직선으로|불러오지 못했어요/).first().waitFor({ timeout: 20_000 });

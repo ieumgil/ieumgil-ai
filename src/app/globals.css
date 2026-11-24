@@ -852,12 +852,22 @@ label:has(input[type="checkbox"]) {
   opacity: 0.9;
 }
 .intro-phone {
+  position: relative;
   width: 15rem;
   overflow: hidden;
   border: 0.5rem solid var(--color-ink);
   border-radius: 2.25rem;
   background: var(--color-ink);
   box-shadow: 0 1.5rem 3rem rgb(25 31 40 / 0.16);
+}
+/* 휴대폰 위쪽 상태 줄(가운데 카메라 자리) — 세 화면 모두 실제 휴대폰처럼 보이게(11/24). README 휴대폰 틀(capture.ts frames)과 같은 모양 */
+.intro-phone::before {
+  content: "";
+  display: block;
+  height: 1.25rem;
+  background:
+    radial-gradient(closest-side, var(--color-ink) 92%, transparent) center / 3.5rem 0.75rem no-repeat,
+    #fff;
 }
 .intro-phone__screen {
   display: block;
