@@ -35,7 +35,7 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 다중 목적지/다중 경유지 길찾기(이동시간·경로선) · Gemini(기본 `gemini-3.5-flash-lite`, 먼저) + OpenAI(`gpt-6-luna`, 503·429·30초 넘게 늦으면 같은 요청을 보내 먼저 온 답, 11/14) — 읽기·판단·계획·풀어주기, JSON 응답
 · 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · 행정안전부 전국공중화장실표준데이터(CSV, 스크립트 전용, 원본 커밋 안 함) · 기상청 단기·중기예보(공공데이터포털 15084084·15059468, 서버 전용 `/api/weather`, 11/15) · Vercel.
 공유 링크는 Supabase(`trips`, 서버 키로 REST, RLS, 11/14 구현) · 인쇄는 A4 한 장 일정표(`components/trip/PrintSheet.tsx`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
-글꼴 2개만(11/23 어머니 시안): Pretendard(본문·제목·숫자 전부) + 카페24 숑숑(시작 화면 히어로 문구만). 둘 다 SIL OFL 1.1, 자체 호스팅.
+글꼴 2개만(11/23 디자인 시안): Pretendard(본문·제목·숫자 전부) + 카페24 숑숑(시작 화면 히어로 문구만). 둘 다 SIL OFL 1.1, 자체 호스팅.
 
 ## 폴더 구조 (지금 · 11/24 정리)
 ```
@@ -102,14 +102,14 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
   - 보조색 솔숲 초록 `--color-pine` #2A6A50 · 연한 면 `--color-pine-soft` #E8F3EC — **장소·지역·일차 정체성에만**(시작 화면 `영동 여행` 강조, `강릉 · 역사·문화` 같은 지역·분류 글자, 날짜 탭 활성 밑줄·일차 제목).
     버튼·링크·선택 상태·상태 칩·경고·지도에는 쓰지 않는다(상태 칩은 계속 파랑 ✓ ! ✕). 입력 4단계에서는 쓰지 않는다. 초록이 혼자 뜻을 나르지 않는다(항상 글자와 함께).
   - 선택 컨트롤 테두리 `--color-line-control` #8B95A1 — **흰 바탕 위**의 안 고른 타일·select·검색칸 테두리(대비 3:1). 회색 면 위에는 쓰지 않는다.
-  - 글꼴 **2개만**(11/23 어머니 시안 — 11/18 Noto Sans KR에서 바꿈): 본문·제목·숫자·버튼 전부 **Pretendard**(`next/font/local`, 패키지 `pretendard`),
+  - 글꼴 **2개만**(11/23 시작 화면 개편 — 11/18 Noto Sans KR에서 바꿈): 본문·제목·숫자·버튼 전부 **Pretendard**(`next/font/local`, 패키지 `pretendard`),
     시작 화면 히어로 문구 '지도로 찾아가는 즐거운 영동 여행길'만 **카페24 숑숑**(`src/app/fonts/`, 문구 글자만 남긴 3.5KB, `--font-hero`·`text-hero`). 둘 다 SIL OFL 1.1, 외부 CDN 없음.
     구분은 크기·굵기로만. 제목 글꼴 `--font-display`는 `var(--font-sans)`. 본문 자간 0 · 줄 간격 1.6 · 숫자 폭 고정(`tabular-nums`).
   - 글자 크기 4단계 28/20/16/14px(화면 제목·구역 제목·본문·보조, rem) + 히어로 문구 전용 `text-hero`. 굵기 3단계 400/500/700만 쓴다: 본문 400, 장소 이름·버튼·칩·강조 500(`font-medium`), 700(`font-bold`)은 제목만(h1·h2·h3, 인쇄 일정표는 예외). 그 밖의 크기·굵기 클래스는 정리 감시 테스트(`tests/design/legacy-classes.test.ts`)가 막는다.
   - 사이트 머리줄(`SiteHeader`, 로고 · '이음길' · '즐거운 영동 여행길' · 메뉴)은 **모든 화면** 맨 위(11/23). 내용 폭은 `SITE_WIDTH`(내용 1360px) — 머리줄·시작 화면·바닥글이 같은 좌우 끝.
   - 시작 화면 히어로 그림은 사용자가 만든 파일 세 겹(`public/hero/`: sky-hills.webp 하늘·언덕 · gangwon-map.svg 강원 지도 · bush-corner.svg 꽃덤불, 모두 장식이라 읽지 않음).
   - 시작 화면 레퍼런스(웹쟁이 '관광' 검색): 히어로·물결 = 소곳소곳 김포, 루트 카드 = 예당 캠핑장 CSS(`.route-card`, 마우스·초점에 30px 떠오름 — 11/23부터 허용), 바로가기 띠 = 비짓강릉 CSS(`.quick-band`). 옮긴 CSS는 `globals.css`에 출처와 바꾼 점을 주석으로 남긴다.
-  - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 디자이너 지정). 흰 글자 대비가 4.5:1 미만이라 `tests/e2e/axe.spec.ts`의 `CONTRAST_EXEMPT`(`.route-card__info`·`.intro-cta`)에서 글자 대비만 뺀다. 이 색을 다른 곳에 쓰지 않는다.
+  - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 정한 색). 흰 글자 대비가 4.5:1 미만이라 `tests/e2e/axe.spec.ts`의 `CONTRAST_EXEMPT`(`.route-card__info`·`.intro-cta`)에서 글자 대비만 뺀다. 이 색을 다른 곳에 쓰지 않는다.
   - 간격은 4px 배수. 카드 안 묶음 사이만 12px(compact), 카드·목록 항목 사이 16px, 구역 사이 32px(PC 48px). 모바일 좌우 여백 16px.
   - 반지름 3단계 12·16·24px: 컨트롤 12 · 카드·타일 16 · 시트 24(알약은 `rounded-full`).
   - 면 규칙: S0 평면(구역 대부분, 카드·그림자 없이 간격과 구분선) · S1 선택 타일(흰 바탕 + `line-control` 테두리, 고르면 파란 테두리 + 연한 파랑 + ✓ 기호도) · S2 개별 항목(1px 테두리, 그림자 없음, 안에 면 최대 1개) · S3 떠 있는 면(시트·대화상자·아래 고정 바, 불투명 + 위쪽 그림자 — **그림자는 여기만**). 카드 안에 카드를 넣지 않는다. 첫 화면 색 띠는 1개.

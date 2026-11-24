@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { INTRO_SCRIPT } from "@/lib/intro";
 import "./globals.css";
 
-// 글꼴 2개만(11/23 어머니 시안): 본문·제목·숫자·버튼 전부 Pretendard, 시작 화면 히어로 문구만 카페24 숑숑. 구분은 크기·굵기로만.
+// 글꼴 2개만(11/23 디자인 시안): 본문·제목·숫자·버튼 전부 Pretendard, 시작 화면 히어로 문구만 카페24 숑숑. 구분은 크기·굵기로만.
 // 둘 다 SIL OFL 1.1, 같은 사이트에서만 받는다(외부 CDN·Google 요청 없음).
 const pretendard = localFont({
   src: "../../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",

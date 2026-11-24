@@ -280,7 +280,7 @@ test.describe("전 화면 글자", () => {
         return { family: cs.fontFamily.replace(/["']/g, ""), size: cs.fontSize, weight: cs.fontWeight };
       });
       if (path === "/") {
-        // 시작 화면 h1은 히어로 문구(카페24 숑숑, 40px 이상) — 11/23 어머니 시안
+        // 시작 화면 h1은 히어로 문구(카페24 숑숑, 40px 이상) — 11/23 시작 화면 개편
         expect(h1.family.toLowerCase().startsWith("syongsyong"), h1.family).toBe(true);
         expect(parseFloat(h1.size)).toBeGreaterThanOrEqual(40);
       } else {
