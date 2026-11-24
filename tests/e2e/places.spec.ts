@@ -20,11 +20,11 @@ test("4단계에서 '관광지 둘러보고 고르기'로 들어가 담으면, �
   await openDisclosure(page.locator("summary", { hasText: "꼭 가고 싶은 곳" }));
   await page.getByRole("link", { name: /관광지 둘러보고 고르기/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "영동 관광지 둘러보기" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "대표 관광지" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /^대표 관광지/ })).toBeVisible(); // 구역 제목(카드 제목의 ', 대표'와 구분)
   // 고른 유형(휠체어) 기준 접근성 요약이 카드에 있다
   await expect(page.getByText(/휠체어/).first()).toBeVisible();
   const first = page.locator("article").first();
-  const name = (await first.getByRole("heading").textContent())!.replace("대표", "").trim();
+  const name = (await first.getByRole("heading").textContent())!.replace(/,?\s*대표$/, "").trim();
   await first.getByRole("button", { name: /담기$/ }).click();
   await expect(first.getByRole("button", { name: /담기 취소/ })).toBeVisible();
   await expect(page.getByText("담은 곳 1곳")).toBeVisible();
@@ -276,4 +276,62 @@ test("스크롤 등장: 지역을 바꿔도 끝까지 내리면 숨은 카드가
     await page.waitForTimeout(60);
   }
   await expect(waiting).toHaveCount(0);
+});
+
+// 고칠 목록 4(11/24): 사진이 작고 글이 많아 알아보기 어려웠다 → 큰 대표 사진 카드, 한 줄 소개는 자세히 안에만, 접근성 태그는 카드에 그대로
+test("카드: 큰 대표 사진이 카드 폭만큼, 한 줄 소개는 카드에 없고 자세히에 있다, 접근성 태그는 카드에 남는다", async ({ page }, info) => {
+  await gotoPlaces(page);
+  const card = page.locator("li#place-GN03 article"); // 강릉 경포대(대표, 1유형 사진)
+  await expect(card).toBeVisible();
+  const img = card.locator("img").first();
+  const [cardBox, imgBox] = [(await card.boundingBox())!, (await img.boundingBox())!];
+  expect(imgBox.width).toBeGreaterThanOrEqual(cardBox.width - 4); // 카드 폭 그대로
+  expect(Math.abs(imgBox.width / imgBox.height - 4 / 3)).toBeLessThan(0.05); // 4:3
+  if (info.project.name === "mobile") expect(imgBox.width).toBeGreaterThan(300);
+  // 1유형 사진은 큰 카드에 맞게 800px 너비로 저장해 둔다(흐리지 않게)
+  expect(await img.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThanOrEqual(800);
+  await expect(card).not.toContainText("명승지"); // AI 한 줄 소개는 카드에서 뺐다
+  await expect(card.getByRole("list", { name: "꼭 필요한 조건" }).getByRole("listitem").first()).toBeVisible();
+  await expect(card.getByRole("heading", { level: 3 })).toHaveAccessibleName(/강릉 경포대\s?, 대표/);
+  await card.getByRole("button", { name: "자세히 보기" }).click();
+  await expect(page.getByRole("dialog")).toContainText("명승지"); // 자세히 보기 안에는 있다
+});
+
+test("카드 사진을 눌러도 자세히 보기가 열린다", async ({ page }) => {
+  await gotoPlaces(page);
+  await page.locator("li#place-GN03 article img").first().click();
+  await expect(page.getByRole("dialog").getByRole("heading", { name: "강릉 경포대" })).toBeVisible();
+});
+
+// 시설로 거르기: 고른 시설이 모두 가능·일부만인 곳만(공식 정보 없음은 빠진다고 알림), 다시 누르면 풀린다
+test("시설로 거르기: 휠체어 진입 + 장애인 화장실을 고르면 둘 다 ✓·! 인 곳만, 다시 누르면 풀린다", async ({ page }) => {
+  await page.addInitScript(() =>
+    sessionStorage.setItem(
+      "ieumgil-plan",
+      JSON.stringify({ startDate: "2026-12-12", endDate: "2026-12-12", arrival: "gangneung-station", transport: "taxi", travelers: [], categories: [], mustVisit: [] }),
+    ),
+  );
+  await page.goto("/places");
+  const cards = page.locator("article");
+  await expect(cards.first()).toBeVisible();
+  const all = await cards.count();
+  const group = page.getByRole("group", { name: "시설로 거르기" });
+  const entry = group.getByRole("button", { name: "휠체어 진입", exact: true });
+  const toilet = group.getByRole("button", { name: "장애인 화장실", exact: true });
+  expect((await entry.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await entry.click();
+  await toilet.click();
+  await expect(entry).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("status").filter({ hasText: "공식 정보가 없는 곳(?)은 빠져요" })).toContainText("휠체어 진입 · 장애인 화장실");
+  await expect.poll(() => cards.count()).toBeLessThan(all);
+  // 유형을 안 고른 기본 칩(단차 없는 진입 · 장애인 화장실 · …)에서 두 항목이 모두 ✓ 또는 !
+  for (const chips of await page.getByRole("list", { name: "접근성(기본 항목)" }).evaluateAll((uls) => uls.map((ul) => [...ul.querySelectorAll("li")].map((li) => li.textContent ?? "")))) {
+    for (const label of ["단차 없는 진입", "장애인 화장실"]) {
+      const chip = chips.find((t) => t.includes(label))!;
+      expect(chip, label).toMatch(/^[✓!]/);
+    }
+  }
+  await entry.click();
+  await toilet.click();
+  await expect.poll(() => cards.count()).toBe(all);
 });

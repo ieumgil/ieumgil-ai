@@ -1,7 +1,7 @@
 {
  "source": "한국관광공사 무장애 여행정보 API(detailImage2)",
  "labeledBy": "Claude Code(사진 모음을 보고 분류) + 사람 확인",
- "generatedAt": "2026-11-11",
+ "generatedAt": "2026-11-24",
  "places": {
   "DH01": {
    "photos": [

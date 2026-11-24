@@ -1,6 +1,8 @@
 "use client";
 
-// 관광지 둘러보기: 지역(강릉·속초·동해) → 분야 → 사진 카드(어떤 곳인지 한 줄 · 볼 거리 · 고른 유형 기준 접근성 요약) → [담기].
+// 관광지 둘러보기: 지역(강릉·속초·동해) → 분야 → 시설로 거르기 → 사진 카드(큰 대표 사진 · 지역·분야 · 이름 · 고른 유형 기준 접근성 태그) → [담기].
+// 11/24 고칠 목록 4: 사진이 작고 글이 많아 무엇인지 알아보기 어려웠다 → 카드는 큰 사진(4:3) 위주로, 한 줄 소개 문장은 자세히 보기 안에만.
+//   시설로 거르기(휠체어 진입·장애인 화장실·장애인 주차·엘리베이터·수유실·기저귀): 고른 시설이 모두 가능·일부만인 곳만(공식 정보 없음은 빠진다고 알림).
 // 카드를 누르면 자세히(사진·관광공사 소개 원문·운영시간·전화·접근성 10항목). 장애인 화장실·기저귀 교환대는 공공데이터 값이면 출처·기준일('공공데이터(YYYY-MM 기준)')을 붙인다. 담은 곳은 입력값의 '꼭 가고 싶은 곳'(mustVisit)이 된다.
 // 시작 화면 대표 관광지에서 왔으면(?place=ID) 그 지역 탭을 고른 채 그 관광지 자세히를 바로 열고, 닫으면 목록의 그 카드가 보인다.
 // 4단계에서 왔으면(?from=plan) 아래 버튼이 '고른 곳 가지고 돌아가기', 시작 화면에서 왔으면 '이 곳들로 루트 만들기'.
@@ -8,7 +10,7 @@ import { useLast } from "@/lib/use-last";
 import { Check, ChevronRight, Phone, Plus, Search as SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
-import { PlacePhoto } from "@/components/photos/PlacePhoto";
+import { CATEGORY_ICON, PlacePhoto } from "@/components/photos/PlacePhoto";
 import { RevealOnScroll } from "@/components/Motion";
 import { PhoneText } from "@/components/PhoneText";
 import { ScrollTop } from "@/components/ScrollTop";
@@ -18,11 +20,11 @@ import { ButtonLink } from "@/components/ui/button";
 import { Disclosure } from "@/components/ui/disclosure";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { CONDITION_LABELS, TRAVELER_LABELS } from "@/lib/engine/conditions";
-import { glance, matches, sortPlaces, type BrowsePlace, type GlanceItem } from "@/lib/places/browse";
+import { FACILITY_FILTERS, glance, hasFacilities, matches, sortPlaces, type BrowsePlace, type GlanceItem } from "@/lib/places/browse";
 import { photosOf } from "@/lib/places/client-photos";
 import { firstIncompleteStep } from "@/lib/plan/progress";
 import { updatePlan, usePlan } from "@/lib/plan/store";
-import { CATEGORIES, REGIONS, type AccessStatus, type Category, type Region } from "@/lib/types";
+import { CATEGORIES, REGIONS, type AccessKey, type AccessStatus, type Category, type Region } from "@/lib/types";
 import { iga } from "@/lib/text/particle";
 
 const PANEL =
@@ -60,6 +62,8 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
   const [region, setRegion] = useState<Region>(target?.region ?? "강릉");
   const [category, setCategory] = useState<Category | null>(null);
   const [query, setQuery] = useState("");
+  const [facilities, setFacilities] = useState<AccessKey[]>([]);
+  const toggleFacility = (k: AccessKey) => setFacilities((cur) => (cur.includes(k) ? cur.filter((x) => x !== k) : [...cur, k]));
   const [open, setOpen] = useState<BrowsePlace | null>(target);
 
   // 대표 관광지에서 왔으면 목록에서도 그 카드 위치로(자세히 창 뒤에서 미리 내려 두어, 닫으면 바로 보인다)
@@ -73,10 +77,10 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
   const shown = useMemo(
     () =>
       sortPlaces(
-        places.filter((p) => p.region === region && (!category || p.category === category) && matches(p, query)),
+        places.filter((p) => p.region === region && (!category || p.category === category) && hasFacilities(p, facilities) && matches(p, query)),
         (id) => !!photosOf(id)?.cover,
       ),
-    [places, region, category, query],
+    [places, region, category, facilities, query],
   );
   const featured = shown.filter((p) => p.featured);
   const others = shown.filter((p) => !p.featured);
@@ -146,9 +150,27 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
         </label>
       </div>
 
+      {/* 시설로 거르기(11/24): 여러 개 고르면 모두 있는 곳만 */}
+      <div className="mt-2 flex items-center gap-2 overflow-x-auto px-4 py-1 md:px-6 [scrollbar-width:none]" role="group" aria-label="시설로 거르기">
+        <span className="shrink-0 text-sm font-medium text-ink-sub">있는 곳만</span>
+        {FACILITY_FILTERS.map((f) => (
+          <ChoiceButton key={f.key} selected={facilities.includes(f.key)} onClick={() => toggleFacility(f.key)} className="shrink-0 px-4">
+            {f.label}
+          </ChoiceButton>
+        ))}
+      </div>
+      {facilities.length > 0 && (
+        <p className="mt-1 px-4 text-sm text-ink-sub md:px-6" role="status">
+          {FACILITY_FILTERS.filter((f) => facilities.includes(f.key))
+            .map((f) => f.label)
+            .join(" · ")}
+          : ✓ 가능이나 ! 일부만인 곳 {shown.length}곳이에요. 공식 정보가 없는 곳(?)은 빠져요.
+        </p>
+      )}
+
       {/* 스크롤 등장(11/24, 고칠 목록 9): 지역·분야를 바꾸면 새로 그린 카드만 다시 살핀다(찾는 말을 칠 때마다 움직이지는 않는다) */}
-      <RevealOnScroll watch={`${region}|${category ?? ""}`} />
-      {shown.length === 0 && <p className="px-4 pt-8 text-center text-base text-ink-sub md:px-6">조건에 맞는 곳이 없어요. 분야나 찾는 말을 바꿔 보세요.</p>}
+      <RevealOnScroll watch={`${region}|${category ?? ""}|${facilities.join(",")}`} />
+      {shown.length === 0 && <p className="px-4 pt-8 text-center text-base text-ink-sub md:px-6">조건에 맞는 곳이 없어요. 분야·시설이나 찾는 말을 바꿔 보세요.</p>}
       {featured.length > 0 && (
         <Section title="대표 관광지" sub={`${region}에서 많이 찾는 곳 ${featured.length}곳`}>
           {featured.map((p, i) => (
@@ -209,7 +231,7 @@ function Section({ title, sub, children }: { title: string; sub: string; childre
       <h2 className="flex flex-wrap items-baseline gap-x-2 font-heading text-heading font-bold" data-reveal="">
         {title} <span className="font-sans text-sm font-normal text-ink-sub">{sub}</span>
       </h2>
-      <ul className="mt-3 grid gap-4 lg:grid-cols-2">{children}</ul>
+      <ul className="mt-3 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{children}</ul>
     </section>
   );
 }
@@ -234,52 +256,82 @@ function PickButton({ picked, onClick, name, full = false }: { picked: boolean; 
   );
 }
 
+/** 카드 위 큰 대표 사진(4:3). 1유형은 줄여 둔 사진(800×600)을 꽉 채우고, 3유형(변경 금지)은 원본을 자르지 않고 통째로. 사진이 없으면 분야 아이콘 */
+function CardPhoto({ p, onOpen }: { p: BrowsePlace; onOpen: () => void }) {
+  const cover = photosOf(p.id)?.cover;
+  const [failed, setFailed] = useState(false);
+  return (
+    // 사진을 눌러도 자세히가 열린다(키보드·화면 읽기는 아래 [자세히 보기] 버튼). 그림은 장식 — 이름이 바로 아래에 있다
+    <div onClick={onOpen} className="group relative aspect-[4/3] cursor-pointer overflow-hidden bg-surface">
+      {cover && !failed ? (
+        // eslint-disable-next-line @next/next/no-img-element -- 3유형 원본은 관광공사 주소 그대로(고치지 않음)
+        <img
+          src={cover.thumb ?? cover.url}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+          className={`size-full transition-transform duration-300 motion-safe:group-hover:scale-105 ${cover.thumb ? "object-cover" : "object-contain"}`}
+        />
+      ) : (
+        <span className="flex size-full items-center justify-center text-ink-sub" aria-hidden="true">
+          {CATEGORY_ICON[p.category]?.(48)}
+        </span>
+      )}
+      {p.featured && (
+        <span className="absolute top-3 left-3 rounded-full bg-white px-3 py-0.5 text-sm font-medium text-ink" aria-hidden="true">
+          대표
+        </span>
+      )}
+    </div>
+  );
+}
+
 function PlaceTile({ i, p, picked, plan, onToggle, onOpen }: { i: number; p: BrowsePlace; picked: boolean; plan: PlanLike; onToggle: (id: string) => void; onOpen: (p: BrowsePlace) => void }) {
   const g = glance(p, plan);
   return (
-    // PC 두 칸: 같은 줄의 오른쪽 카드가 조금 늦게 나타난다
-    <li id={`place-${p.id}`} className="scroll-mt-24" data-reveal="" style={{ "--reveal-i": i % 2 } as CSSProperties}>
-      <article className={`flex h-full flex-col gap-3 rounded-2xl bg-white p-4 ${picked ? "border-2 border-primary" : "border border-line"}`}>
-        <div className="flex flex-wrap gap-3">
-          <PlacePhoto id={p.id} name={p.name} category={p.category} />
-          {/* min-w-0를 두지 않는다: 이름 낱말이 사진 옆 칸에 안 들어가면 칸이 사진 아래 줄로 내려가 넓게 쓰고, 그래도 안 들어갈 때만 글자 사이에서 끊긴다 */}
-          <div className="grow basis-40 [overflow-wrap:break-word]">
-            <h3 className="text-heading leading-snug font-medium">
-              {p.featured ? `${p.name} ` : p.name}
-              {p.featured && <span className="text-sm font-medium whitespace-nowrap text-ink-sub">대표</span>}
-            </h3>
+    // PC 세 칸: 같은 줄의 오른쪽 카드가 조금씩 늦게 나타난다
+    <li id={`place-${p.id}`} className="scroll-mt-24" data-reveal="" style={{ "--reveal-i": i % 3 } as CSSProperties}>
+      <article className={`flex h-full flex-col overflow-hidden rounded-2xl bg-white ${picked ? "border-2 border-primary" : "border border-line"}`}>
+        <CardPhoto p={p} onOpen={() => onOpen(p)} />
+        <div className="flex flex-1 flex-col gap-3 p-4">
+          <div className="[overflow-wrap:break-word]">
             <p className="text-sm font-medium text-pine">
               {p.region} · {p.category}
             </p>
-            <p className="mt-1 text-base [overflow-wrap:anywhere]">{p.summary}</p>
+            <h3 className="text-heading leading-snug font-medium">
+              {p.name}
+              {p.featured && <span className="sr-only">, 대표</span>}
+            </h3>
           </div>
-        </div>
-        <ul className="flex flex-wrap items-center gap-2" aria-label={g.byTraveler ? "꼭 필요한 조건" : "접근성(기본 항목)"}>
-          {g.items.slice(0, MAX_CHIPS).map((i) => (
-            <AccessChip key={i.key} item={i} />
-          ))}
-          {g.items.length > MAX_CHIPS && (
-            // 나머지 항목은 자세히 보기의 10항목에 모두 있다
-            <li className="text-sm font-medium text-ink-sub">
-              +{g.items.length - MAX_CHIPS}
-              <span className="sr-only">개 더 — 자세히 보기에서</span>
-            </li>
+          {/* 접근성 태그: 이 서비스의 목적이라 카드에서 늘 보인다(고른 유형의 꼭 필요한 조건, 안 골랐으면 기본 4개) */}
+          <ul className="flex flex-wrap items-center gap-2" aria-label={g.byTraveler ? "꼭 필요한 조건" : "접근성(기본 항목)"}>
+            {g.items.slice(0, MAX_CHIPS).map((i) => (
+              <AccessChip key={i.key} item={i} />
+            ))}
+            {g.items.length > MAX_CHIPS && (
+              // 나머지 항목은 자세히 보기의 10항목에 모두 있다
+              <li className="text-sm font-medium text-ink-sub">
+                +{g.items.length - MAX_CHIPS}
+                <span className="sr-only">개 더 — 자세히 보기에서</span>
+              </li>
+            )}
+          </ul>
+          {g.blocked.length > 0 && (
+            <p className="rounded-xl bg-blocked-bg px-3 py-2 text-base text-blocked-ink">
+              <span className="sr-only">주의: </span>공식 정보상 {iga(g.blocked.map((b) => b.label).join(", "))} 어려워 일정을 만들 때 빠질 수 있어요.
+            </p>
           )}
-        </ul>
-        {g.blocked.length > 0 && (
-          <p className="rounded-xl bg-blocked-bg px-3 py-2 text-base text-blocked-ink">
-            <span className="sr-only">주의: </span>공식 정보상 {iga(g.blocked.map((b) => b.label).join(", "))} 어려워 일정을 만들 때 빠질 수 있어요.
-          </p>
-        )}
-        <div className="mt-auto flex gap-2">
-          <button
-            type="button"
-            onClick={() => onOpen(p)}
-            className="inline-flex min-h-touch flex-1 items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-medium text-ink transition-colors hover:bg-line focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          >
-            자세히 보기
-          </button>
-          <PickButton picked={picked} onClick={() => onToggle(p.id)} name={p.name} />
+          <div className="mt-auto flex gap-2">
+            <button
+              type="button"
+              onClick={() => onOpen(p)}
+              className="inline-flex min-h-touch flex-1 items-center justify-center gap-1 rounded-xl bg-surface px-3 text-base font-medium text-ink transition-colors hover:bg-line focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              자세히 보기
+            </button>
+            <PickButton picked={picked} onClick={() => onToggle(p.id)} name={p.name} />
+          </div>
         </div>
       </article>
     </li>

@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { photosOf } from "@/lib/places/client-photos";
 import { FACILITY_LABEL, photoCredit, type LabeledPhoto } from "@/lib/places/photos";
 
-const CATEGORY_ICON: Record<string, (size: number) => ReactNode> = {
+export const CATEGORY_ICON: Record<string, (size: number) => ReactNode> = {
   "바다·해변": (s) => <Waves size={s} />,
   "자연·산책": (s) => <Trees size={s} />,
   "역사·문화": (s) => <Landmark size={s} />,

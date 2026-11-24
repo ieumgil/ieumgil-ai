@@ -132,8 +132,8 @@ async function build() {
     const entry: PlacePhotos = { photos };
     if (cover?.kogl_type === 1) {
       const thumb = `/photos/${p.id}.webp`;
-      // 1유형만 줄여서 저장(자르기·크기 조절 허용). 4:3 가운데 자르기
-      await sharp(await download(cover.url)).resize(360, 270, { fit: "cover" }).webp({ quality: 68 }).toFile(`public${thumb}`);
+      // 1유형만 줄여서 저장(자르기·크기 조절 허용). 4:3 가운데 자르기. 800×600(11/24 — 둘러보기 카드가 사진을 화면 폭만큼 크게 보여 줘서 360×270은 흐렸다)
+      await sharp(await download(cover.url)).resize(800, 600, { fit: "cover" }).webp({ quality: 72 }).toFile(`public${thumb}`);
       entry.cover = { url: cover.url, kogl_type: 1, thumb };
       covers++;
     } else if (cover) {

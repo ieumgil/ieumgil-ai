@@ -128,3 +128,20 @@ export function matches(p: BrowsePlace, query: string): boolean {
   if (!q) return true;
   return [p.name, p.summary, ...p.highlights, p.category].some((t) => t.replace(/\s/g, "").includes(q));
 }
+
+/**
+ * 시설로 거르기(11/24 고칠 목록 4): 휠체어·어르신·유모차가 실제로 찾는 시설 다섯 가지.
+ * 고른 시설이 모두 '가능'이나 '부분가능'인 곳만 남긴다 — 완전히 맞는 곳만 남기면 너무 좁고(휠체어 필수 5개 모두 가능은 3곳),
+ * '불가'만 빼면 거의 그대로라서. '모름'(공식 정보 없음)은 빠지므로 화면에서 그렇다고 알린다.
+ */
+export const FACILITY_FILTERS: { key: AccessKey; label: string }[] = [
+  { key: "step_free_entrance", label: "휠체어 진입" },
+  { key: "accessible_toilet", label: "장애인 화장실" },
+  { key: "disabled_parking", label: "장애인 주차" },
+  { key: "elevator", label: "엘리베이터" },
+  { key: "diaper_nursing", label: "수유실·기저귀" },
+];
+
+export function hasFacilities(p: Pick<BrowsePlace, "access">, keys: AccessKey[]): boolean {
+  return keys.every((k) => p.access[k].value === "가능" || p.access[k].value === "부분가능");
+}

@@ -1,6 +1,6 @@
 // 관광지 둘러보기 값: 소개(AI 없으면 원문 첫 문장), 운영시간 한 줄, 고른 유형 기준 접근성 요약, 정렬·찾기
 import { describe, expect, it } from "vitest";
-import { glance, hoursText, matches, sortPlaces, toBrowsePlace } from "@/lib/places/browse";
+import { FACILITY_FILTERS, glance, hasFacilities, hoursText, matches, sortPlaces, toBrowsePlace } from "@/lib/places/browse";
 import { EMPTY_PLAN } from "@/lib/plan/types";
 import { makePlace } from "../engine/fixture";
 
@@ -86,5 +86,20 @@ describe("관광지 둘러보기 값", () => {
     expect(sortPlaces(list, (id) => id === "GN81").map((p) => p.id)).toEqual(["GN82", "GN81", "GN83"]);
     expect(matches(list[0], "해 돋이")).toBe(true);
     expect(matches(list[0], "케이블카")).toBe(false);
+  });
+  // 고칠 목록 4(11/24): 둘러보기 시설 거르기 — 고른 시설이 모두 '가능'이나 '부분가능'인 곳만(완전히 맞는 곳만이 아니다). '모름'·'불가'는 빠진다
+  it("시설 거르기: 고른 시설이 모두 가능·부분가능인 곳만, 아무것도 안 고르면 전부", () => {
+    const p = toBrowsePlace(
+      makePlace("GN93", { set: { step_free_entrance: { value: "부분가능", note: "일부 계단" }, accessible_toilet: { value: "가능" }, disabled_parking: { value: "모름", ask: "주차?" }, elevator: { value: "불가" } } }),
+      undefined,
+      false,
+      paragraphs,
+    );
+    expect(hasFacilities(p, [])).toBe(true);
+    expect(hasFacilities(p, ["step_free_entrance"])).toBe(true); // 일부 가능도 통과
+    expect(hasFacilities(p, ["step_free_entrance", "accessible_toilet"])).toBe(true);
+    expect(hasFacilities(p, ["step_free_entrance", "disabled_parking"])).toBe(false); // 공식 정보 없음은 빠짐
+    expect(hasFacilities(p, ["elevator"])).toBe(false); // 불가는 빠짐
+    expect(FACILITY_FILTERS.map((f) => f.key)).toEqual(["step_free_entrance", "accessible_toilet", "disabled_parking", "elevator", "diaper_nursing"]);
   });
 });
