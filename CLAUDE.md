@@ -109,7 +109,7 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
   - 사이트 머리줄(`SiteHeader`, 로고 · '이음길' · '즐거운 영동 여행길' · 메뉴)은 **모든 화면** 맨 위(11/23). 내용 폭은 `SITE_WIDTH`(내용 1360px) — 머리줄·시작 화면·바닥글이 같은 좌우 끝.
   - 시작 화면 히어로 그림은 사용자가 만든 파일 세 겹(`public/hero/`: sky-hills.webp 하늘·언덕 · gangwon-map.svg 강원 지도 · bush-corner.svg 꽃덤불, 모두 장식이라 읽지 않음).
   - 시작 화면 레퍼런스(웹쟁이 '관광' 검색): 히어로·물결 = 소곳소곳 김포, 루트 카드 = 예당 캠핑장 CSS(`.route-card`, 마우스·초점에 30px 떠오름 — 11/23부터 허용), 바로가기 띠 = 비짓강릉 CSS(`.quick-band`). 옮긴 CSS는 `globals.css`에 출처와 바꾼 점을 주석으로 남긴다.
-  - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 정한 색). 흰 글자 대비가 4.5:1 미만이라 `tests/e2e/axe.spec.ts`의 `CONTRAST_EXEMPT`(`.route-card__info`·`.intro-cta`)에서 글자 대비만 뺀다. 이 색을 다른 곳에 쓰지 않는다.
+  - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 팀이 직접 정함). 흰 글자 대비가 4.5:1 미만이라 `tests/e2e/axe.spec.ts`의 `CONTRAST_EXEMPT`(`.route-card__info`·`.intro-cta`)에서 글자 대비만 뺀다. 이 색을 다른 곳에 쓰지 않는다.
   - 간격은 4px 배수. 카드 안 묶음 사이만 12px(compact), 카드·목록 항목 사이 16px, 구역 사이 32px(PC 48px). 모바일 좌우 여백 16px.
   - 반지름 3단계 12·16·24px: 컨트롤 12 · 카드·타일 16 · 시트 24(알약은 `rounded-full`).
   - 면 규칙: S0 평면(구역 대부분, 카드·그림자 없이 간격과 구분선) · S1 선택 타일(흰 바탕 + `line-control` 테두리, 고르면 파란 테두리 + 연한 파랑 + ✓ 기호도) · S2 개별 항목(1px 테두리, 그림자 없음, 안에 면 최대 1개) · S3 떠 있는 면(시트·대화상자·아래 고정 바, 불투명 + 위쪽 그림자 — **그림자는 여기만**). 카드 안에 카드를 넣지 않는다. 첫 화면 색 띠는 1개.
