@@ -26,17 +26,51 @@ test("히어로 제목은 숑숑 글꼴의 '지도로 찾아가는 즐거운 영
   expect(family.startsWith("syongsyong") || family.includes("syongsyong")).toBe(true);
 });
 
-test("사이트 머리줄: 로고는 처음 화면으로, 메뉴는 서비스 소개 · 관광지 둘러보기", async ({ page }, info) => {
+// 고칠 목록 5(11/25): 상단바는 모든 화면의 길잡이 — 글자 메뉴 3개(예시 루트 · 관광지 둘러보기 · 서비스 소개) + 오른쪽 끝 [여행 루트 만들기] 버튼.
+// 시작 화면 아이콘 띠(큰 그림 5개)와 모양·개수를 달리해 겹쳐 보이지 않게. 지금 보는 화면의 메뉴는 aria-current로 표시. '만든 방법'은 휴대폰 ☰ 안에.
+test("사이트 머리줄: 로고는 처음 화면으로, 메뉴는 예시 루트 · 관광지 둘러보기 · 서비스 소개 + 루트 만들기 버튼", async ({ page }, info) => {
   await page.goto("/places");
   await expect(page.getByRole("link", { name: "이음길 처음 화면" })).toHaveAttribute("href", "/");
+  const header = page.getByRole("banner");
+  const cta = header.getByRole("link", { name: /루트 만들기$/ });
+  await expect(cta).toHaveAttribute("href", "/plan");
+  await expect(cta).toBeVisible();
+  expect((await cta.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   if (info.project.name === "desktop") {
-    const nav = page.getByRole("navigation", { name: "주 메뉴" }).first();
-    await expect(nav.getByRole("link", { name: "서비스 소개" })).toHaveAttribute("href", "/about");
-    await expect(nav.getByRole("link", { name: "관광지 둘러보기" })).toHaveAttribute("href", "/places");
+    await expect(cta).toHaveAccessibleName("여행 루트 만들기");
+    const nav = header.getByRole("navigation", { name: "주 메뉴" }).first();
+    const expected: [string, string][] = [
+      ["예시 루트", "/trip/example"],
+      ["관광지 둘러보기", "/places"],
+      ["서비스 소개", "/about"],
+    ];
+    await expect(nav.getByRole("link")).toHaveCount(expected.length);
+    for (const [name, href] of expected) await expect(nav.getByRole("link", { name })).toHaveAttribute("href", href);
+    await expect(nav.getByRole("link", { name: "관광지 둘러보기" })).toHaveAttribute("aria-current", "page"); // 지금 보는 화면
+    await expect(nav.getByRole("link", { name: "서비스 소개" })).not.toHaveAttribute("aria-current", "page");
   } else {
     await page.locator("summary", { hasText: "메뉴 열기" }).click();
-    await expect(page.getByRole("link", { name: "관광지 둘러보기" }).last()).toBeVisible();
+    const menu = page.locator("details[open] nav");
+    for (const name of ["예시 루트", "관광지 둘러보기", "서비스 소개", "만든 방법"]) await expect(menu.getByRole("link", { name })).toBeVisible();
+    await expect(menu.getByRole("link", { name: "관광지 둘러보기" })).toHaveAttribute("aria-current", "page");
   }
+});
+
+// 같은 버튼이 여러 번 보이지 않게: 시작 화면은 히어로 버튼·아이콘 띠가, 입력 화면은 4단계 [루트 만들기](이름이 같고 하는 일이 다름)가 있어 머리줄 버튼을 숨긴다
+test("시작 화면·입력 화면에서는 머리줄 [루트 만들기]를 숨긴다", async ({ page }) => {
+  for (const path of ["/", "/plan/when"]) {
+    await page.goto(path);
+    await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
+    await expect(page.getByRole("banner").getByRole("link", { name: /루트 만들기$/ }), path).toHaveCount(0);
+  }
+});
+
+test("사이트 머리줄은 가장 좁은 휴대폰(320px)에서도 가로로 넘치지 않는다", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto("/places");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+  const header = await page.getByRole("banner").boundingBox();
+  expect(header!.height).toBeLessThanOrEqual(72);
 });
 
 test("바로가기 띠 다섯 칸은 각 화면으로 간다", async ({ page }) => {

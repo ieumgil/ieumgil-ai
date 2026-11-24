@@ -25,7 +25,7 @@ test("시작 화면 하단바 → 서비스 소개 → 만든 방법 → 다시 
 
 test("소개 글 끝에서 바로 일정 만들기로 간다", async ({ page }) => {
   await page.goto("/about/how");
-  await page.getByRole("link", { name: "여행 루트 만들기" }).click();
+  await page.getByRole("main").getByRole("link", { name: "여행 루트 만들기" }).click(); // 글 끝의 버튼(머리줄 버튼과 구분)
   await expect(page).toHaveURL(/\/plan/);
 });
 

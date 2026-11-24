@@ -106,7 +106,7 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
     시작 화면 히어로 문구 '지도로 찾아가는 즐거운 영동 여행길'만 **카페24 숑숑**(`src/app/fonts/`, 문구 글자만 남긴 3.5KB, `--font-hero`·`text-hero`). 둘 다 SIL OFL 1.1, 외부 CDN 없음.
     구분은 크기·굵기로만. 제목 글꼴 `--font-display`는 `var(--font-sans)`. 본문 자간 0 · 줄 간격 1.6 · 숫자 폭 고정(`tabular-nums`).
   - 글자 크기 4단계 28/20/16/14px(화면 제목·구역 제목·본문·보조, rem) + 히어로 문구 전용 `text-hero`. 굵기 3단계 400/500/700만 쓴다: 본문 400, 장소 이름·버튼·칩·강조 500(`font-medium`), 700(`font-bold`)은 제목만(h1·h2·h3, 인쇄 일정표는 예외). 그 밖의 크기·굵기 클래스는 정리 감시 테스트(`tests/design/legacy-classes.test.ts`)가 막는다.
-  - 사이트 머리줄(`SiteHeader`, 로고 · '이음길' · '즐거운 영동 여행길' · 메뉴)은 **모든 화면** 맨 위(11/23). 내용 폭은 `SITE_WIDTH`(내용 1360px) — 머리줄·시작 화면·바닥글이 같은 좌우 끝.
+  - 사이트 머리줄(`SiteHeader`, 로고 · '이음길' · '즐거운 영동 여행길' · 글자 메뉴 3개 + [여행 루트 만들기] 버튼 — 버튼은 시작 화면·입력 화면에서 숨김, 메뉴·버튼은 `SiteNav.tsx`, 11/25)은 **모든 화면** 맨 위(11/23). 내용 폭은 `SITE_WIDTH`(내용 1360px) — 머리줄·시작 화면·바닥글이 같은 좌우 끝.
   - 시작 화면 히어로 그림은 사용자가 만든 파일 세 겹(`public/hero/`: sky-hills.webp 하늘·언덕 · gangwon-map.svg 강원 지도 · bush-corner.svg 꽃덤불, 모두 장식이라 읽지 않음).
   - 시작 화면 레퍼런스(웹쟁이 '관광' 검색): 히어로·물결 = 소곳소곳 김포, 루트 카드 = 예당 캠핑장 CSS(`.route-card`, 마우스·초점에 30px 떠오름 — 11/23부터 허용), 바로가기 띠 = 비짓강릉 CSS(`.quick-band`). 옮긴 CSS는 `globals.css`에 출처와 바꾼 점을 주석으로 남긴다.
   - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 팀이 직접 정함). **글자 대비(axe color-contrast)는 검사하지 않는다**(11/24 팀 결정 — 파랑 3.99·초록 2.90:1이지만 실제로 잘 보인다고 판단). 다른 접근성 규칙은 그대로 검사한다.
