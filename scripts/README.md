@@ -29,13 +29,13 @@
 | `npm run example:make` | 시작 화면 '예시 루트'용 결과를 실제 AI로 한 번 만들기(안 3개가 나올 때까지 최대 3번) | `src/lib/trip/example-trip.json` |
 | `npx tsx scripts/ai/human-check.ts template` → (사람이 채움) → `score` | ① AI 읽기 정확도: 대표 관광지 20곳 × 4항목(진입·엘리베이터·장애인 화장실·장애인 주차)을 사람이 열린관광·전화로 확인해 AI 값과 비교(AI 값은 양식에 넣지 않음) | `data/eval/human-check.csv` → `human-check.md` |
 | `npx tsx scripts/ai/eval-judge.ts` | ② AI 판단 평가: 6개 장면 × 3회 판단으로 일치율·확신도·안전 하한·근거 버림, Gemini vs OpenAI(`--report`는 AI 없이 표만) | `data/eval/judge-v1.md`, `judge-v1.json` |
-| `npx tsx scripts/ai/save-trip-view.ts` | 화면 흐름 테스트(E2E)·README 캡처용 결과 만들기 | `tests/e2e/fixtures/trip-view.json` |
+| `npx tsx scripts/ai/save-trip-view.ts [파일]` | 결과 화면 데이터 만들기(실제 AI). 기본은 화면 흐름 테스트용, README 캡처용은 파일을 `scripts/readme/trip-view.json`으로 | `tests/e2e/fixtures/trip-view.json`(테스트, 11/21) · `scripts/readme/trip-view.json`(캡처, 11/24) |
 
 ## 3. README 그림
 
 | 명령 | 하는 일 | 결과 |
 |---|---|---|
-| `npm run readme:capture` | 화면 캡처 15장(개발 서버 `npm run dev`가 켜져 있어야 함). 시작 화면 미리보기도 함께 갱신 | `docs/readme/*.png`, `public/preview/` |
+| `npm run readme:capture` | 화면 캡처 23장(휴대폰 18 · PC 5) + 휴대폰·PC 틀을 입힌 그림 + 표지 2장(개발 서버 `npm run dev`가 켜져 있어야 함). 시작 화면 단계 소개의 휴대폰 화면(`step-*.png`)도 함께 갱신. 뒤에 `screens`(공유 링크 없이 화면·표지만) · `share`(공유·인쇄만) · `frames`(틀만) · `cover`(표지만) · 장면 이름(예: `01-home`)을 붙이면 그것만 | `docs/readme/*.png`, `docs/readme/mock/`, `public/preview/` |
 | `npm run readme:architecture` | 구조도(글을 고치고 다시 실행) | `docs/readme/architecture.png` |
 
 ## 4. 확인·시험용 (`scripts/dev/`)

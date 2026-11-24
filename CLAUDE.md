@@ -37,17 +37,18 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 공유 링크는 Supabase(`trips`, 서버 키로 REST, RLS, 11/14 구현) · 인쇄는 A4 한 장 일정표(`components/trip/PrintSheet.tsx`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
 글꼴 2개만(11/23 어머니 시안): Pretendard(본문·제목·숫자 전부) + 카페24 숑숑(시작 화면 히어로 문구만). 둘 다 SIL OFL 1.1, 자체 호스팅.
 
-## 폴더 구조 (지금 · 11/14 정리)
+## 폴더 구조 (지금 · 11/24 정리)
 ```
-src/app/            page.tsx(시작) · places/(관광지 둘러보기: 지역·분야·AI 한 줄 소개·접근성 요약 → 꼭 가고 싶은 곳에 담기) · plan/(입력 4단계 · making/(만드는 중))
-                    · trip/[id]/(안 비교 → 상세, id = new | example) · trip/[id]/final(확정 일정 + 지도)
+src/app/            page.tsx(시작: 히어로 · 바로가기 띠 · 단계 소개 · 루트 카드 3장 · 대표 관광지) · about/(서비스 소개 · how 만든 방법) · fonts/(숑숑 부분 글꼴) · places/(관광지 둘러보기: 지역·분야·AI 한 줄 소개·접근성 요약 → 꼭 가고 싶은 곳에 담기) · plan/(입력 4단계 · making/(만드는 중))
+                    · trip/[id]/(안 비교 → 상세, id = new | example | route-wheelchair·elder·stroller = 루트 카드, 안 하나만) · trip/[id]/final(확정 일정 + 지도)
                     · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · api/legs · api/trips(공유 링크 저장, 11/14) · api/weather(기상청 예보, 저장 안 함, 11/15) · s/[id](공유 읽기 전용, 서버가 Supabase에서 읽음)
 src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 · DayWeather 날짜별 날씨 …)
-                    · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · TopBar · Logo · Intro · icons
+                    · trip/TimelineProgress(시간표 스크롤 진행 원·클리어) · home/(시작 화면: IntroSteps 단계 소개·화면 고정 스크롤 · QuickMenu · FeaturedPlaces · TodayWeather · icons)
+                    · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · SiteHeader(모든 화면 머리줄) · SiteFooter · TopBar · Logo · Intro · icons
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④)
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(날짜별 틀) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
-src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
+src/lib/trip/       view.ts(화면 값) · store.ts(탭 보관, 예시 칸 분리) · example.ts(예시 루트) · route-cards.ts(시작 화면 루트 카드 3장) · edit.ts(바꾸기) · alternatives.ts · questions.ts · labels.ts · map-points.ts
 src/lib/share/      doc.ts(공유할 값·검사·사라지는 날) · supabase.ts(서버 전용 REST, 서비스 키) · view.ts(열 때 화면 값으로)   ·   supabase/migrations/(trips 테이블·RLS·pg_cron SQL)
 src/lib/plan/       입력값 types · store · progress · dates · summary   ·   src/lib/places/ 사진·검사·질문   ·   src/lib/public/(공중화장실 공공데이터 짝짓기·합치기·출처 표시)
 src/lib/weather/    kma.ts(기상청 호출, 서버 전용) · service.ts(캐시) · kst·summary·mid(날짜·하루 값) · day-view·caution·labels(화면 값·주의·문구) · use-weather
@@ -108,6 +109,7 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
   - 사이트 머리줄(`SiteHeader`, 로고 · '이음길' · '즐거운 영동 여행길' · 메뉴)은 **모든 화면** 맨 위(11/23). 내용 폭은 `SITE_WIDTH`(내용 1360px) — 머리줄·시작 화면·바닥글이 같은 좌우 끝.
   - 시작 화면 히어로 그림은 사용자가 만든 파일 세 겹(`public/hero/`: sky-hills.webp 하늘·언덕 · gangwon-map.svg 강원 지도 · bush-corner.svg 꽃덤불, 모두 장식이라 읽지 않음).
   - 시작 화면 레퍼런스(웹쟁이 '관광' 검색): 히어로·물결 = 소곳소곳 김포, 루트 카드 = 예당 캠핑장 CSS(`.route-card`, 마우스·초점에 30px 떠오름 — 11/23부터 허용), 바로가기 띠 = 비짓강릉 CSS(`.quick-band`). 옮긴 CSS는 `globals.css`에 출처와 바꾼 점을 주석으로 남긴다.
+  - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 디자이너 지정). 흰 글자 대비가 4.5:1 미만이라 `tests/e2e/axe.spec.ts`의 `CONTRAST_EXEMPT`(`.route-card__info`·`.intro-cta`)에서 글자 대비만 뺀다. 이 색을 다른 곳에 쓰지 않는다.
   - 간격은 4px 배수. 카드 안 묶음 사이만 12px(compact), 카드·목록 항목 사이 16px, 구역 사이 32px(PC 48px). 모바일 좌우 여백 16px.
   - 반지름 3단계 12·16·24px: 컨트롤 12 · 카드·타일 16 · 시트 24(알약은 `rounded-full`).
   - 면 규칙: S0 평면(구역 대부분, 카드·그림자 없이 간격과 구분선) · S1 선택 타일(흰 바탕 + `line-control` 테두리, 고르면 파란 테두리 + 연한 파랑 + ✓ 기호도) · S2 개별 항목(1px 테두리, 그림자 없음, 안에 면 최대 1개) · S3 떠 있는 면(시트·대화상자·아래 고정 바, 불투명 + 위쪽 그림자 — **그림자는 여기만**). 카드 안에 카드를 넣지 않는다. 첫 화면 색 띠는 1개.

@@ -1,7 +1,9 @@
 // README 화면 캡처(docs/readme/*.png)를 다시 만든다. AI를 부르지 않는다:
-// 결과 화면은 저장해 둔 실제 AI 결과(tests/e2e/fixtures/trip-view.json), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
+// 결과 화면은 저장해 둔 실제 AI 결과(scripts/readme/trip-view.json — 11/24 제목 규칙 뒤 다시 만든 것, B안에 전화 확인 1곳), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
+// 화면 흐름 테스트는 따로 tests/e2e/fixtures/trip-view.json(11/21 결과, 공통 엘리베이터 질문 등 경우가 많음)을 쓴다.
+// 캡처용 결과 다시 만들기: npx tsx scripts/ai/save-trip-view.ts scripts/readme/trip-view.json
 // 확정 일정의 지도는 실제 카카오 지도·경로선이라 개발 서버(localhost:3000, 카카오에 등록한 주소)가 켜져 있어야 한다.
-// 시작 화면 PC 미리보기(public/preview/compare.png, final.png)도 07·10 캡처로 함께 바꾼다.
+// 시작 화면 단계 소개의 휴대폰 화면(public/preview/step-*.png)도 04·08·12 캡처로 함께 바꾼다.
 // 사용: npm run dev  →  npx tsx scripts/readme/capture.ts
 import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -9,7 +11,7 @@ import { chromium, type Browser, type Page } from "@playwright/test";
 
 const BASE = "http://localhost:3000";
 const OUT = resolve("docs/readme");
-const trip = readFileSync(resolve("tests/e2e/fixtures/trip-view.json"), "utf8");
+const trip = readFileSync(resolve("scripts/readme/trip-view.json"), "utf8");
 const view = JSON.parse(trip) as { createdAt: string; options: { id: string }[] };
 const confirmed = `${view.createdAt}|${(view.options[1] ?? view.options[0]).id}`;
 // 결과 데이터와 같은 조건(휠체어 · 택시 · 1박 2일 · 강릉)
@@ -38,7 +40,7 @@ const events = [
   { stage: "log", text: "적합 10 · 주의 2 · 확인 필요 7 · 부적합 2", tone: "ok" },
   { stage: "plan" },
   { stage: "log", text: "A·B·C안을 짜고 있어요", tone: "info" },
-  { stage: "log", text: 'A안 "여유로운 일정" 검사 통과 · 4곳', tone: "ok" },
+  { stage: "log", text: 'A안 "오죽헌과 경포해변을 잇는 여유로운 하루" 검사 통과 · 4곳', tone: "ok" },
   { stage: "log", text: "B안: 운영시간을 넘는 곳이 있어 고치는 중", tone: "fix" },
 ];
 
@@ -136,13 +138,15 @@ const SHOTS: Shot[] = [
       await p.waitForTimeout(400);
     },
   },
-  // PC: 시작(왼쪽 소개 + 오른쪽 미리보기), 안 비교(안 고르기 · 상세 · 지도 3칸)
+  // PC(README에서 휴대폰 화면과 나란히): 시작 · 안 비교(안 고르기 · 상세 · 지도 3칸) · 조건 단계(오른쪽 고른 조건 요약) · 관광지 둘러보기
   { name: "13-home-desktop", path: "/", desktop: true },
   { name: "14-compare-desktop", path: "/trip/new", desktop: true, act: waitMap },
+  { name: "22-conditions-desktop", path: "/plan/conditions", desktop: true },
+  { name: "23-places-desktop", path: "/places", desktop: true },
 ];
 
 /** 시작 화면 미리보기에 쓰는 캡처 */
-const PREVIEW: Record<string, string> = { "07-result-compare": "compare", "10-final": "final", "04-conditions": "step-conditions", "08-result-detail": "step-card", "12-checklist": "step-call" };
+const PREVIEW: Record<string, string> = { "04-conditions": "step-conditions", "08-result-detail": "step-card", "12-checklist": "step-call" };
 
 async function waitMap(p: Page) {
   await p.getByText(/차량 약 \d+분|직선으로|불러오지 못했어요/).first().waitFor({ timeout: 20_000 });

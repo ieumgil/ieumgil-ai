@@ -26,7 +26,7 @@ export default function AboutPage() {
         <Phones
           label="이음길 결과 화면"
           shots={[
-            { src: "/about/compare.webp", alt: "일정 비교 화면: 성격이 다른 일정 두 개와 장소 수, 이동 시간, 전화로 확인할 곳 수", caption: "성격이 다른 일정 비교" },
+            { src: "/about/compare.webp", alt: "일정 비교 화면: 성격이 다른 일정 세 가지와 장소 수, 이동 시간, 전화로 확인할 곳 수", caption: "성격이 다른 일정 비교" },
             { src: "/about/final.webp", alt: "확정한 일정 화면: 카카오 지도에 장소 번호와 일반 차량 경로선, 날짜별 날씨, 시간순 일정", caption: "확정한 일정과 지도" },
           ]}
         />
@@ -82,7 +82,7 @@ export default function AboutPage() {
           shots={[
             { src: "/about/conditions.webp", alt: "꼭 필요한 조건 화면: 휠체어를 고르면 켜지는 필수 조건 목록", caption: "1 · 조건 고르기" },
             { src: "/about/detail.webp", alt: "장소 카드: 사진, 도착 시각, 판단 칩, 한 줄 이유, 전화, 바꾸기와 자세히", caption: "2 · 장소마다 판단" },
-            { src: "/about/compare.webp", alt: "일정 비교: A안 여유롭게, B안 좋아하는 곳 중심", caption: "3 · 일정 비교" },
+            { src: "/about/compare.webp", alt: "일정 비교: 실제 장소가 드러나는 제목의 일정 세 가지", caption: "3 · 일정 비교" },
             { src: "/about/swap.webp", alt: "장소 바꾸기: 근처 후보 세 곳과 판단, 거리, 이유", caption: "4 · 장소 바꾸기" },
             { src: "/about/share.webp", alt: "공유 링크 창: 공유 주소, 주소 복사, 사라지는 날짜, 이름·연락처는 저장하지 않는다는 안내", caption: "5 · 공유 링크" },
           ]}
