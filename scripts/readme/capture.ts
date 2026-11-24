@@ -1,5 +1,5 @@
 // README 화면 캡처(docs/readme/*.png)를 다시 만든다. AI를 부르지 않는다:
-// 결과 화면은 저장해 둔 실제 AI 결과(scripts/readme/trip-view.json — 11/24 제목 규칙 뒤 다시 만든 것, B안에 전화 확인 1곳), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
+// 결과 화면은 저장해 둔 실제 AI 결과(scripts/readme/trip-view.json — 11/24 '하루' 제목 규칙 뒤 다시 만든 것, B안에 전화 확인 3곳), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
 // 화면 흐름 테스트는 따로 tests/e2e/fixtures/trip-view.json(11/21 결과, 공통 엘리베이터 질문 등 경우가 많음)을 쓴다.
 // 캡처용 결과 다시 만들기: npx tsx scripts/ai/save-trip-view.ts scripts/readme/trip-view.json
 // 확정 일정의 지도는 실제 카카오 지도·경로선이라 개발 서버(localhost:3000, 카카오에 등록한 주소)가 켜져 있어야 한다.
@@ -40,7 +40,7 @@ const events = [
   { stage: "log", text: "적합 10 · 주의 2 · 확인 필요 7 · 부적합 2", tone: "ok" },
   { stage: "plan" },
   { stage: "log", text: "A·B·C안을 짜고 있어요", tone: "info" },
-  { stage: "log", text: 'A안 "오죽헌과 경포해변을 잇는 여유로운 하루" 검사 통과 · 4곳', tone: "ok" },
+  { stage: "log", text: 'A안 "오죽헌과 솔숲을 잇는 여유로운 역사 나들이" 검사 통과 · 4곳', tone: "ok" },
   { stage: "log", text: "B안: 운영시간을 넘는 곳이 있어 고치는 중", tone: "fix" },
 ];
 

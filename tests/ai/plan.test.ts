@@ -1,7 +1,7 @@
 // ③ 계획: 가짜 LLM으로 "검사를 통과한 안만 나간다", "걸린 안만 다시 요청", "시각은 코드 값"을 확인한다.
 import { describe, expect, it } from "vitest";
 import { ruleJudgment, type Judgment } from "@/lib/ai/guards";
-import { planOptions, type PlanArgs } from "@/lib/ai/plan";
+import { fitTitle, PLAN_SYSTEM, planOptions, type PlanArgs } from "@/lib/ai/plan";
 import { llmCandidateMax, makeTrip } from "@/lib/ai/trip";
 import { filterCandidates } from "@/lib/engine/filter";
 import { buildFrames } from "@/lib/engine/frames";
@@ -218,5 +218,20 @@ describe("꼭 가고 싶은 곳", () => {
     const r = await planOptions(llm, { ...args, input: mustInp, candidates: f2.candidates, judgments: j2 }, ["여유"]);
     expect(r.options).toHaveLength(0);
     expect(r.dropped[0].violations.join(" ")).toContain("꼭 가고 싶은 곳");
+  });
+});
+
+// 고칠 목록 12(11/24): 1박 2일 안 제목이 '…여유로운 하루'로 끝나 하루짜리 여행처럼 보였다
+describe("안 제목과 여행 길이", () => {
+  it("이틀 이상이면 제목 끝의 '하루'를 '여행'으로 바꾸고, 당일이면 그대로 둔다", () => {
+    expect(fitTitle("오죽헌과 박물관을 잇는 여유로운 하루", 2)).toBe("오죽헌과 박물관을 잇는 여유로운 여행");
+    expect(fitTitle("바다를 보는 하루.", 3)).toBe("바다를 보는 여행");
+    expect(fitTitle("속초해수욕장에서 보내는 여유로운 하루", 1)).toBe("속초해수욕장에서 보내는 여유로운 하루");
+    expect(fitTitle("하루 종일 바다 곁에서", 2)).toBe("하루 종일 바다 곁에서"); // 끝이 아니면 건드리지 않는다
+  });
+
+  it("지시문이 여러 날 여행에는 '하루'를 쓰지 말라고 알린다", () => {
+    expect(PLAN_SYSTEM).toMatch(/이틀 이상.*'하루'/);
+    expect(PLAN_SYSTEM).not.toContain("천천히 걷는 하루'");
   });
 });

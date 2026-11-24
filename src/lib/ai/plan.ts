@@ -112,8 +112,14 @@ export const PLAN_SYSTEM = `너는 관광약자 여행 일정을 짜는 도우�
 6. why는 이 여행자 기준으로 왜 골랐는지 쉬운 존댓말 한 문장. 판단 이유와 정리된 값에 없는 시설을 지어내지 않는다.
 7. 안마다 정해 준 방향(전략)을 따르고, 안끼리 장소가 절반 넘게 겹치지 않게 한다(꼭 가고 싶은 곳은 빼고 센다).
 8. '꼭 가고 싶은 곳'은 어떤 전략이든 모든 안에 반드시 넣는다(전략보다 우선). 넣을 자리가 모자라면 다른 장소를 뺀다.
-9. title은 이 안에 실제로 넣은 장소 이름이나 풍경(바다·호수·숲·한옥·박물관 등)이 드러나게 20자 안팎으로 쓴다. 전략 이름 낱말(여유롭게, 좋아하는 곳 중심, 비 와도 괜찮게, 실내 위주, 확인할 것이 적게)을 제목에 그대로 쓰지 않고, '일정'·'코스' 같은 빈 낱말로 끝내지 않는다. 안끼리 제목이 비슷하지 않게 한다. 형식 예시(장소는 후보에서 고른 것만): '오죽헌과 솔숲 사이를 천천히 걷는 하루', '박물관 세 곳을 잇는 실내 나들이'.
-10. summary는 title을 되풀이하지 않고, 이 안이 하루를 어떻게 보내는지 쉬운 해요체 한 문장으로 쓴다. 시설·시간·거리를 지어내지 않는다.`;
+9. title은 이 안에 실제로 넣은 장소 이름이나 풍경(바다·호수·숲·한옥·박물관 등)이 드러나게 20자 안팎으로 쓴다. 전략 이름 낱말(여유롭게, 좋아하는 곳 중심, 비 와도 괜찮게, 실내 위주, 확인할 것이 적게)을 제목에 그대로 쓰지 않고, '일정'·'코스' 같은 빈 낱말로 끝내지 않는다. 안끼리 제목이 비슷하지 않게 한다. 여행이 이틀 이상이면 제목에 '하루'를 쓰지 않는다(하루짜리 여행처럼 보인다). 형식 예시(장소는 후보에서 고른 것만): '오죽헌과 솔숲 사이를 천천히 걷는 여행', '박물관 세 곳을 잇는 실내 나들이'.
+10. summary는 title을 되풀이하지 않고, 이 안으로 여행을 어떻게 보내는지 쉬운 해요체 한 문장으로 쓴다. 시설·시간·거리를 지어내지 않는다.`;
+
+/** 안 제목 다듬기: 'A안:' 머리를 떼고, 이틀 이상 여행인데 '…하루'로 끝나면 '…여행'으로 바꾼다(지시문 규칙 9를 코드가 한 번 더 지킨다, 11/24) */
+export function fitTitle(title: string, dayCount: number): string {
+  const t = title.replace(/^[A-Z]안\s*[:：.]\s*/, "").trim();
+  return dayCount > 1 ? t.replace(/하루[.!]?$/, "여행") : t;
+}
 
 function candidateLines(candidates: Candidate[], judgments: Map<string, Judgment>, frames: DayFrame[], travel: TravelFn): string {
   return candidates
@@ -292,7 +298,7 @@ export async function planOptions(
         log(round === maxFixes ? `${want.id}안은 끝까지 ${why} 뺐어요` : `${want.id}안: ${why} 고치는 중`, "fix");
       } else {
         const n = draft.days.reduce((a, d) => a + d.stops.length, 0);
-        log(`${want.id}안 "${raw.title.replace(/^[A-Z]안\s*[:：.]\s*/, "")}" 검사 통과 · ${n}곳`, "ok");
+        log(`${want.id}안 "${fitTitle(raw.title, args.frames.length)}" 검사 통과 · ${n}곳`, "ok");
       }
       if (check.ok) {
         // 안에 실제로 들어간 장소의 주의·질문만 남기고, ② 판단의 '모름' 질문을 더한다
@@ -304,7 +310,7 @@ export async function planOptions(
         final.push({
           id: want.id,
           strategy: want.strategy,
-          title: raw.title.replace(/^[A-Z]안\s*[:：.]\s*/, ""),
+          title: fitTitle(raw.title, args.frames.length),
           summary: raw.summary,
           draft,
           cautions: raw.cautions.filter((c) => inPlan.has(c.placeId)),
