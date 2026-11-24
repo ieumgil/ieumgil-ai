@@ -18,8 +18,8 @@ import { ROUTE_CARDS, type RouteCardId } from "@/lib/trip/route-cards";
 
 
 
-// 카드 글 상자 색(흰 글자 대비 4.5:1 이상): 파랑 · 솔숲 초록 · 진한 주황
-const CARD_BG: Record<RouteCardId, string> = { wheelchair: "bg-primary", elder: "bg-pine", stroller: "bg-route-deep" };
+// 카드 글 상자 색(11/24 사용자 지정): 파랑 #3580db · 초록 #3daa7e · 갈색 #d5875a
+const CARD_BG: Record<RouteCardId, string> = { wheelchair: "bg-card-blue", elder: "bg-card-green", stroller: "bg-card-brown" };
 
 export default function Home() {
   return (

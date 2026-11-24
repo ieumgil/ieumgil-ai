@@ -46,6 +46,11 @@
   --color-sky: #e3f3f6; /* 히어로 배경 그림(public/hero/sky-hills.webp)의 하늘색과 같게 */
   /* 루트 카드 세 번째 색: 경로선 주황을 흰 글자 대비 4.5:1 이상으로 진하게 */
   --color-route-deep: #b3541e;
+  /* 시작 화면 루트 카드 3색 · 주 버튼 초록(11/24 사용자 지정) */
+  --color-card-blue: #3580db;
+  --color-card-green: #3daa7e;
+  --color-card-brown: #d5875a;
+  --color-cta-green: #3daa7e;
   --text-base: 1rem;
   --text-base--line-height: 1.6; /* 본문 줄 간격(11/18 N2): 한글 본문은 1.6이 덜 빽빽하다 */
 
@@ -840,6 +845,10 @@ label:has(input[type="checkbox"]) {
   min-height: 4rem;
   padding-inline: 3rem;
   font-size: 1.25rem;
+  background-color: var(--color-cta-green);
+}
+.intro-cta:hover {
+  background-color: #34966e;
 }
 .intro-phone {
   width: 15rem;

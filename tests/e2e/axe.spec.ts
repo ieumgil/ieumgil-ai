@@ -28,11 +28,24 @@ async function seedTrip(page: Page, confirmed: boolean) {
   );
 }
 
+// 글자 대비 예외(11/24 사용자 결정): 시작 화면 루트 카드 3색(#3580db·#3daa7e·#d5875a)과 '여행 루트 만들기' 버튼 초록(#3daa7e)은
+// 디자이너가 정한 색이라 흰 글자 대비가 4.5:1에 못 미친다(3.99·2.90·2.82). 이 두 곳의 color-contrast만 빼고, 다른 규칙은 그대로 검사한다.
+// README '접근성'에 예외로 적어 두었다. 예외를 넓히려면 여기 선택자를 늘려야 한다.
+const CONTRAST_EXEMPT = [".route-card__info", ".intro-cta"];
+
 async function scan(page: Page) {
   // 나타나는 애니메이션(animate-rise 등) 도중엔 글자가 반투명이라 대비가 낮게 잡힌다 → 끝난 뒤 검사
   await page.waitForTimeout(1200);
+  await page.evaluate((sel) => {
+    for (const el of document.querySelectorAll(sel.join(","))) {
+      for (const n of [el, ...el.querySelectorAll("*")]) n.setAttribute("data-contrast-exempt", "");
+    }
+  }, CONTRAST_EXEMPT);
   const r = await new AxeBuilder({ page }).withTags(TAGS).analyze();
-  return r.violations.map((v) => ({
+  const violations = r.violations
+    .map((v) => (v.id === "color-contrast" ? { ...v, nodes: v.nodes.filter((n) => !n.html.includes("data-contrast-exempt")) } : v))
+    .filter((v) => v.nodes.length > 0);
+  return violations.map((v) => ({
     id: v.id,
     impact: v.impact,
     help: v.help,
