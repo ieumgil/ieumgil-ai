@@ -198,7 +198,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
           </div>
           <OptionDetail o={shown} trip={trip} onSwap={setSwapFor} onMap={showOnMap} day={day} onDay={setDayIndex} map={wide ? null : map} editor={editor} />
           <HardPlaces trip={trip} />
-          <Footnotes trip={trip} estimated={shown.days.some((d) => d.estimated)} />
+          <Footnotes trip={trip} />
         </section>
 
         {/* 넓은 PC: 오른쪽 지도 칸(스크롤해도 고정) */}

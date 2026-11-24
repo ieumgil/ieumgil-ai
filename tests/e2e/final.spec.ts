@@ -36,7 +36,8 @@ test("결과 화면에서 정하면 확정 일정 페이지로 가고, 다른 �
   // 지도가 막혀도 일정은 보인다(앞 화면은 숨긴 채 남아 있을 수 있어 보이는 것만 센다)
   await expect(page.getByText("지도를 불러오지 못했어요").filter({ visible: true })).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: /번째 장소/ }).first()).toBeVisible();
-  await expect(page.getByText("지도의 선은 일반 차량 경로예요")).toBeVisible();
+  // 지도를 못 불러오면 경로선이 없다. 맨 아래 보관 안내는 그대로 보인다(이동 시간·경로 문장은 11/24 뺐다)
+  await expect(page.getByText("이 일정은 이 탭에만 보관돼요.")).toBeVisible();
 
   await page.getByRole("link", { name: "다른 안 보기" }).click();
   await expect(page).toHaveURL(/\/trip\/new$/);
@@ -283,11 +284,14 @@ test.describe("확정 화면 정리", () => {
     expect(color).toBe("rgb(61, 170, 126)");
   });
 
-  test("맨 아래 세 문장은 접지 않고 늘 보인다 @p0306", async ({ page }) => {
+  // 11/24: 이동 시간·경로 문장은 뺐다(지도 아래 '일반 차량 경로 · …'가 원칙 6을 맡는다). 출처와 보관 안내는 접지 않고 늘 보인다
+  test("맨 아래 안내(보관 안내)는 접지 않고 늘 보이고, 뺀 이동 시간 문장은 없다 @p0306", async ({ page }) => {
     await setup(page, view.options[0].id);
     await page.goto("/trip/new/final");
-    await expect(page.getByText("지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.")).toBeVisible();
-    await expect(page.getByText(/일정의 이동 시간은 카카오 차량 길찾기 값/)).toBeVisible();
+    await expect(page.getByText("이 일정은 이 탭에만 보관돼요.")).toBeVisible();
+    // 인쇄용 일정표(화면에서는 숨김)에는 종이라 출처 문장이 남는다 → 화면에 보이는 것만 센다
+    await expect(page.getByText(/휠체어 안전 경로를 뜻하지 않아요/).filter({ visible: true })).toHaveCount(0);
+    await expect(page.getByText(/일정의 이동 시간은 카카오 차량 길찾기 값/).filter({ visible: true })).toHaveCount(0);
   });
 });
 

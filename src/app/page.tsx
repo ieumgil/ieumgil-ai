@@ -14,6 +14,7 @@ import { SectionTitle } from "@/components/home/SectionTitle";
 import { TodayWeather } from "@/components/home/TodayWeather";
 import { SITE_WIDTH } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ButtonLink } from "@/components/ui/button";
 import { ROUTE_CARDS, type RouteCardId } from "@/lib/trip/route-cards";
 
 
@@ -63,6 +64,15 @@ function Hero() {
             <span className="block text-pine">즐거운 영동 여행길</span>
           </h1>
           <p className="mt-6 text-heading text-ink-sub text-pretty lg:max-w-[30rem]">강릉·속초·동해 관광지 가운데 우리 조건에 맞는 곳만 골라 당일부터 2박 3일까지 여행 루트를 짜 드려요.</p>
+          {/* 첫 화면에서 바로 누르는 주 버튼(11/24, 고칠 목록 11번): 설명 바로 아래 · 날씨 위. 소개 구역의 큰 초록 버튼(.intro-cta)과 같은 모양 */}
+          <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center lg:justify-end">
+            <ButtonLink href="/plan" className="intro-cta press">
+              여행 루트 만들기
+            </ButtonLink>
+            <Link href="/trip/example" className="inline-flex min-h-touch items-center justify-center px-2 text-base font-medium text-primary underline-offset-4 hover:underline">
+              예시 루트 먼저 보기 →
+            </Link>
+          </div>
           <div className="mt-6">
             <TodayWeather />
           </div>

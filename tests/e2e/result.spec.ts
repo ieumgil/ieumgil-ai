@@ -165,7 +165,7 @@ test("열면 카카오 실제 이동시간을 받아 시각을 다시 계산하�
   const detail = page.locator("section[aria-label$='일정']").first();
   await expect(detail.getByText("차량 약 7분 · 2.5km").first()).toBeVisible();
   await expect(detail.getByText(/· 추정$/)).toHaveCount(0);
-  await expect(page.getByText("열 때마다 새로 받아요")).toBeVisible();
+  await expect(page.getByText("열 때마다 새로 받아요")).toHaveCount(0); // 11/24 각주 문장은 뺐다 — 실제 값인지는 위의 '추정' 없음으로 본다
   expect(asked.length).toBeGreaterThan(0);
   const stored = await page.evaluate(() => JSON.stringify(sessionStorage));
   expect(stored).not.toContain('"km":2.5');
@@ -489,9 +489,11 @@ test("AI 설계 과정 보기는 44px 펼치기 줄이고, 누르면 과정이 �
   await summary.scrollIntoViewIfNeeded();
   await expect(summary).toBeVisible();
   expect((await summary.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-  // 원칙 6: 일반 차량 경로 안내는 접힌 상태에서도 보인다
-  await expect(page.getByText("휠체어 안전 경로를 뜻하지 않아요")).toBeVisible();
-  await expect(page.getByText(/이동 시간은 카카오 일반 차량 길찾기 값/)).toBeVisible(); // 실제 이동시간을 못 받은 상태(추정 안내)
+  // 접힌 상태에서도 보이는 안내: AI가 정리한 정보라는 것. 실제 이동시간을 못 받은 구간은 이동 줄에 '추정'이 붙는다
+  // (이동 시간·경로 각주 문장은 11/24 뺐다 — 원칙 6 '일반 차량 경로'는 지도 아래 설명이 맡는다, map-caption 단위 테스트)
+  await expect(page.getByText(/접근성 정보는 한국관광공사 무장애 여행정보를 AI가 읽고 정리한 것/)).toBeVisible();
+  await expect(page.getByText(/· 추정$/).first()).toBeAttached();
+  await expect(page.getByText("휠체어 안전 경로를 뜻하지 않아요")).toHaveCount(0);
   const calls = page.getByText(/AI 호출 \d+회/);
   await expect(calls).toBeHidden();
   await summary.click();

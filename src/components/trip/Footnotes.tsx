@@ -1,19 +1,12 @@
-// 결과 화면 맨 아래 안내: 일반 차량 경로 · 추정 이동시간 · 출처 등.
-// 안전 안내 문장(일반 차량 경로, AI가 정리한 정보)은 항상 보이고, 'AI 설계 과정'만 펼치기 안에 둔다.
+// 결과 화면 맨 아래 안내: AI가 정리한 정보라는 것 + 'AI 설계 과정'(펼치기).
+// 이동 시간·경로 문장은 11/24 뺐다(지도 아래 '일반 차량 경로 · …' 설명이 원칙 6을 맡고, 추정 구간은 이동 줄에 '추정'으로 붙는다).
 import { Disclosure } from "@/components/ui/disclosure";
 import type { TripView } from "@/lib/trip/view";
 
-/** estimated: 지금 보이는 일정에 직선거리 추정 구간이 있는지 */
-export function Footnotes({ trip, estimated = true }: { trip: TripView; estimated?: boolean }) {
+export function Footnotes({ trip }: { trip: TripView }) {
   return (
     <div className="mt-8 border-t border-line px-4 lg:px-0">
       <section className="mt-6 flex flex-col gap-2 text-sm leading-normal text-ink-sub">
-        <p>
-          {estimated
-            ? "이동 시간은 카카오 일반 차량 길찾기 값이고, 받지 못한 구간은 직선거리로 어림한 추정치예요."
-            : "이동 시간은 카카오 일반 차량 길찾기 값이에요(열 때마다 새로 받아요)."}{" "}
-          경로는 일반 차량 기준이며 휠체어 안전 경로를 뜻하지 않아요.
-        </p>
         <p>접근성 정보는 한국관광공사 무장애 여행정보를 AI가 읽고 정리한 것이라 현장과 다를 수 있어요.</p>
       </section>
       <Disclosure summary="AI 설계 과정 보기" className="mt-4">

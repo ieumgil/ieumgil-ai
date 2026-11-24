@@ -45,7 +45,6 @@ export function SiteFooter() {
         </nav>
 
         <p className="text-sm text-ink-sub text-pretty">데이터: {SOURCES}</p>
-        <p className="text-sm text-ink-sub">글꼴: Pretendard · 카페24 숑숑(카페24(주) 제공, SIL OFL 1.1)</p>
         <p className="text-sm text-ink-sub">© 2026 팀 이음길 · 2026 My AI 랩(강릉과학산업진흥원) 과제</p>
       </div>
     </footer>

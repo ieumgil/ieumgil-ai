@@ -185,11 +185,8 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
           <Checklist o={o} trip={trip} readOnly={!!shared} />
           <section className="mt-8 flex flex-col gap-2 text-sm leading-normal text-ink-sub">
             {source && <p>{source}</p>}
-            <p>지도의 선은 일반 차량 경로예요. 휠체어 안전 경로를 뜻하지 않아요.</p>
-            <p>
-              {o.days.some((d) => d.estimated) ? "일정의 이동 시간은 카카오 차량 길찾기 값이고, 받지 못한 구간은 직선거리 추정치예요." : "일정의 이동 시간은 카카오 차량 길찾기 값이에요(열 때마다 새로 받아요)."} 이
-              {shared ? `공유 링크는 ${shared.until}까지 열려요.` : "일정은 이 탭에만 보관돼요."}
-            </p>
+            {/* 이동 시간·경로 문장은 11/24 뺐다: 지도 아래 '일반 차량 경로 · …'(원칙 6)와 이동 줄의 '추정' 표시가 맡는다 */}
+            <p>{shared ? `이 공유 링크는 ${shared.until}까지 열려요.` : "이 일정은 이 탭에만 보관돼요."}</p>
           </section>
         </div>
       </div>

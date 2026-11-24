@@ -74,7 +74,7 @@ for (const [name, handler] of failures) {
     await setup(page, handler);
     await page.goto("/trip/new/final");
     await expect(page.getByRole("heading", { level: 2, name: /번째 장소/ }).first()).toBeVisible();
-    await expect(page.getByText("지도의 선은 일반 차량 경로예요")).toBeVisible();
+    await expect(page.getByText("이 일정은 이 탭에만 보관돼요.")).toBeVisible(); // 화면 맨 아래까지 그려졌다(11/24 이동 시간·경로 문장은 뺐다)
     await page.waitForLoadState("networkidle");
     await expect(page.getByText("날씨 · 강릉")).toHaveCount(0);
     await expect(page.getByText("날씨: 기상청")).toHaveCount(0);

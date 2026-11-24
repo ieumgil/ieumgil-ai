@@ -2,11 +2,12 @@
 
 // 관광지 둘러보기: 지역(강릉·속초·동해) → 분야 → 사진 카드(어떤 곳인지 한 줄 · 볼 거리 · 고른 유형 기준 접근성 요약) → [담기].
 // 카드를 누르면 자세히(사진·관광공사 소개 원문·운영시간·전화·접근성 10항목). 장애인 화장실·기저귀 교환대는 공공데이터 값이면 출처·기준일('공공데이터(YYYY-MM 기준)')을 붙인다. 담은 곳은 입력값의 '꼭 가고 싶은 곳'(mustVisit)이 된다.
+// 시작 화면 대표 관광지에서 왔으면(?place=ID) 그 지역 탭을 고른 채 그 관광지 자세히를 바로 열고, 닫으면 목록의 그 카드가 보인다.
 // 4단계에서 왔으면(?from=plan) 아래 버튼이 '고른 곳 가지고 돌아가기', 시작 화면에서 왔으면 '이 곳들로 루트 만들기'.
 import { useLast } from "@/lib/use-last";
 import { Check, ChevronRight, Phone, Plus, Search as SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
 import { PhoneText } from "@/components/PhoneText";
 import { ScrollTop } from "@/components/ScrollTop";
@@ -52,11 +53,18 @@ function AccessChip({ item }: { item: Pick<GlanceItem, "label" | "value"> }) {
 
 export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
   const plan = usePlan();
-  const fromPlan = useSearchParams().get("from") === "plan";
-  const [region, setRegion] = useState<Region>("강릉");
+  const params = useSearchParams();
+  const fromPlan = params.get("from") === "plan";
+  const target = places.find((p) => p.id === params.get("place")) ?? null;
+  const [region, setRegion] = useState<Region>(target?.region ?? "강릉");
   const [category, setCategory] = useState<Category | null>(null);
   const [query, setQuery] = useState("");
-  const [open, setOpen] = useState<BrowsePlace | null>(null);
+  const [open, setOpen] = useState<BrowsePlace | null>(target);
+
+  // 대표 관광지에서 왔으면 목록에서도 그 카드 위치로(자세히 창 뒤에서 미리 내려 두어, 닫으면 바로 보인다)
+  useEffect(() => {
+    if (target) document.getElementById(`place-${target.id}`)?.scrollIntoView({ block: "center" });
+  }, [target]);
   const sheetPlace = useLast(open); // 시트가 내려가는 동안에도 내용을 그대로
   const travelers = plan.travelers.map((t) => TRAVELER_LABELS[t]).join(" · ");
 
@@ -226,7 +234,7 @@ function PickButton({ picked, onClick, name, full = false }: { picked: boolean; 
 function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; picked: boolean; plan: PlanLike; onToggle: (id: string) => void; onOpen: (p: BrowsePlace) => void }) {
   const g = glance(p, plan);
   return (
-    <li>
+    <li id={`place-${p.id}`} className="scroll-mt-24">
       <article className={`flex h-full flex-col gap-3 rounded-2xl bg-white p-4 ${picked ? "border-2 border-primary" : "border border-line"}`}>
         <div className="flex flex-wrap gap-3">
           <PlacePhoto id={p.id} name={p.name} category={p.category} />

@@ -130,12 +130,25 @@ test("PC에서 루트 카드에 마우스를 올리면 30px 떠오르고 '루트
   await expect(card.locator(".route-card__badge")).toHaveCSS("opacity", "1");
 });
 
-test("대표 관광지 8곳은 관광지 둘러보기로 간다", async ({ page }) => {
+test("대표 관광지 8곳은 누르면 관광지 둘러보기에서 그 관광지가 바로 열린다", async ({ page }) => {
   await page.goto("/");
   const section = page.getByRole("region", { name: /어디부터/ });
   const links = section.getByRole("listitem").getByRole("link");
   await expect(links).toHaveCount(8);
-  await expect(links.first()).toHaveAttribute("href", "/places");
+  for (const l of await links.all()) await expect(l).toHaveAttribute("href", /^\/places\?place=[A-Z]{2}\d+$/);
+  // 속초 관광지(지역 탭이 강릉이 아닌 곳)를 눌러도 그 지역 탭이 골라지고 자세히 창이 열린다
+  const sokcho = section.getByRole("link", { name: /속초/ }).first();
+  const name = (await sokcho.locator("span.font-medium").textContent())!.trim();
+  await sokcho.click();
+  await expect(page).toHaveURL(/\/places\?place=SC/);
+  const sheet = page.getByRole("dialog");
+  await expect(sheet).toBeVisible();
+  await expect(sheet.getByRole("heading", { name })).toBeVisible();
+  // 닫으면 속초 탭이 골라져 있고, 목록에서 그 관광지 카드가 화면에 보인다(창이 열린 동안 뒤 화면은 보조기기에서 가려진다)
+  await page.keyboard.press("Escape");
+  await expect(sheet).toBeHidden();
+  await expect(page.getByRole("radiogroup", { name: "지역" }).getByRole("radio", { checked: true })).toContainText("속초");
+  await expect(page.locator("li[id^='place-SC']").filter({ hasText: name }).first()).toBeInViewport();
 });
 
 // 11/23 스크롤 고정: 넓고 높은 화면에서 소개 구역에 들어오면 한 화면이 고정된 채 스크롤로 1→2→3단계, 끝나면 고정이 풀린다
@@ -155,4 +168,17 @@ test("PC: 소개 구역은 화면이 고정된 채 스크롤로 1→3단계가 �
   await expect(page.locator(".intro-step__no[data-passed]")).toHaveCount(3);
   await page.evaluate(([t, h]) => window.scrollTo(0, t + h + 200), [box.top, box.h]);
   expect(await pinTop()).toBeLessThan(0); // 풀림
+});
+
+// 11/24 고칠 목록 11번: 첫 화면(히어로)에서 바로 누르는 주 버튼 — 설명 아래 · 날씨 위, 첫 화면 안에 보인다
+test("히어로에 '여행 루트 만들기' 주 버튼과 '예시 루트 먼저 보기'가 첫 화면 안에 있다", async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+  await page.goto("/");
+  const hero = page.locator("section[aria-labelledby='hero-title']");
+  const cta = hero.getByRole("link", { name: "여행 루트 만들기" });
+  await expect(cta).toHaveAttribute("href", "/plan");
+  await expect(cta).toBeInViewport();
+  expect((await cta.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await expect(cta).toHaveCSS("background-color", "rgb(61, 170, 126)");
+  await expect(hero.getByRole("link", { name: /예시 루트 먼저 보기/ })).toHaveAttribute("href", "/trip/example");
 });
