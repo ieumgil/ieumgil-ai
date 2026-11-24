@@ -7,8 +7,9 @@
 import { useLast } from "@/lib/use-last";
 import { Check, ChevronRight, Phone, Plus, Search as SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { PlacePhoto } from "@/components/photos/PlacePhoto";
+import { RevealOnScroll } from "@/components/Motion";
 import { PhoneText } from "@/components/PhoneText";
 import { ScrollTop } from "@/components/ScrollTop";
 import { ChoiceButton, SegmentButton } from "@/components/plan/choices";
@@ -145,18 +146,20 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
         </label>
       </div>
 
+      {/* 스크롤 등장(11/24, 고칠 목록 9): 지역·분야를 바꾸면 새로 그린 카드만 다시 살핀다(찾는 말을 칠 때마다 움직이지는 않는다) */}
+      <RevealOnScroll watch={`${region}|${category ?? ""}`} />
       {shown.length === 0 && <p className="px-4 pt-8 text-center text-base text-ink-sub md:px-6">조건에 맞는 곳이 없어요. 분야나 찾는 말을 바꿔 보세요.</p>}
       {featured.length > 0 && (
         <Section title="대표 관광지" sub={`${region}에서 많이 찾는 곳 ${featured.length}곳`}>
-          {featured.map((p) => (
-            <PlaceTile key={p.id} p={p} picked={plan.mustVisit.includes(p.id)} plan={plan} onToggle={toggle} onOpen={setOpen} />
+          {featured.map((p, i) => (
+            <PlaceTile key={p.id} i={i} p={p} picked={plan.mustVisit.includes(p.id)} plan={plan} onToggle={toggle} onOpen={setOpen} />
           ))}
         </Section>
       )}
       {others.length > 0 && (
         <Section title={featured.length ? "그 밖의 곳" : "관광지"} sub={`${others.length}곳`}>
-          {others.map((p) => (
-            <PlaceTile key={p.id} p={p} picked={plan.mustVisit.includes(p.id)} plan={plan} onToggle={toggle} onOpen={setOpen} />
+          {others.map((p, i) => (
+            <PlaceTile key={p.id} i={i} p={p} picked={plan.mustVisit.includes(p.id)} plan={plan} onToggle={toggle} onOpen={setOpen} />
           ))}
         </Section>
       )}
@@ -203,7 +206,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
 function Section({ title, sub, children }: { title: string; sub: string; children: ReactNode }) {
   return (
     <section className="mt-8 px-4 md:px-6">
-      <h2 className="flex flex-wrap items-baseline gap-x-2 font-heading text-heading font-bold">
+      <h2 className="flex flex-wrap items-baseline gap-x-2 font-heading text-heading font-bold" data-reveal="">
         {title} <span className="font-sans text-sm font-normal text-ink-sub">{sub}</span>
       </h2>
       <ul className="mt-3 grid gap-4 lg:grid-cols-2">{children}</ul>
@@ -231,10 +234,11 @@ function PickButton({ picked, onClick, name, full = false }: { picked: boolean; 
   );
 }
 
-function PlaceTile({ p, picked, plan, onToggle, onOpen }: { p: BrowsePlace; picked: boolean; plan: PlanLike; onToggle: (id: string) => void; onOpen: (p: BrowsePlace) => void }) {
+function PlaceTile({ i, p, picked, plan, onToggle, onOpen }: { i: number; p: BrowsePlace; picked: boolean; plan: PlanLike; onToggle: (id: string) => void; onOpen: (p: BrowsePlace) => void }) {
   const g = glance(p, plan);
   return (
-    <li id={`place-${p.id}`} className="scroll-mt-24">
+    // PC 두 칸: 같은 줄의 오른쪽 카드가 조금 늦게 나타난다
+    <li id={`place-${p.id}`} className="scroll-mt-24" data-reveal="" style={{ "--reveal-i": i % 2 } as CSSProperties}>
       <article className={`flex h-full flex-col gap-3 rounded-2xl bg-white p-4 ${picked ? "border-2 border-primary" : "border border-line"}`}>
         <div className="flex flex-wrap gap-3">
           <PlacePhoto id={p.id} name={p.name} category={p.category} />

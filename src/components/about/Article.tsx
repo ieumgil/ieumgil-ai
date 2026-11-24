@@ -5,7 +5,7 @@
 // 구역·그림·숫자는 스크롤해서 화면에 들어올 때 나타난다([data-reveal], Motion.tsx).
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { CountUp, RevealOnScroll } from "@/components/about/Motion";
+import { CountUp, RevealOnScroll } from "@/components/Motion";
 import { Toc, type TocItem } from "@/components/about/Toc";
 import { SITE_WIDTH } from "@/components/SiteHeader";
 import { ButtonLink } from "@/components/ui/button";

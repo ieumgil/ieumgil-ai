@@ -262,3 +262,18 @@ test.describe("둘러보기 첫 화면", () => {
     await expect(exhibit).toHaveAccessibleName("전시·박물관");
   });
 });
+
+// 고칠 목록 9(11/24): 카드가 스크롤에 맞춰 나타나고, 지역을 바꾸면 새 카드도 다시 그렇게 나타난다(숨은 채 남지 않는다)
+test("스크롤 등장: 지역을 바꿔도 끝까지 내리면 숨은 카드가 남지 않는다", async ({ page }) => {
+  await page.goto("/places");
+  const waiting = page.locator('main [data-reveal="wait"]');
+  await expect.poll(() => waiting.count()).toBeGreaterThan(0);
+  await page.getByRole("radio", { name: /속초/ }).click();
+  await expect.poll(() => waiting.count()).toBeGreaterThan(0);
+  const h = await page.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y <= h; y += 300) {
+    await page.evaluate((v) => window.scrollTo(0, v), y);
+    await page.waitForTimeout(60);
+  }
+  await expect(waiting).toHaveCount(0);
+});

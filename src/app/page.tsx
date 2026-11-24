@@ -7,6 +7,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Intro } from "@/components/Intro";
+import { RevealOnScroll } from "@/components/Motion";
 import { FeaturedPlaces } from "@/components/home/FeaturedPlaces";
 import { IntroSteps } from "@/components/home/IntroSteps";
 import { QuickMenu } from "@/components/home/QuickMenu";
@@ -15,6 +16,7 @@ import { TodayWeather } from "@/components/home/TodayWeather";
 import { SITE_WIDTH } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ButtonLink } from "@/components/ui/button";
+import type { CSSProperties } from "react";
 import { ROUTE_CARDS, type RouteCardId } from "@/lib/trip/route-cards";
 
 
@@ -27,6 +29,8 @@ export default function Home() {
     <>
       <main className="flex w-full flex-1 flex-col">
         <Intro />
+        {/* 스크롤 등장(11/24, 고칠 목록 9): 바로가기 · 물결 · 루트 카드 · 대표 관광지. 화면 고정 스크롤인 단계 소개는 빼고 */}
+        <RevealOnScroll />
         <Hero />
         <QuickMenu inner={SITE_WIDTH} />
 
@@ -88,7 +92,7 @@ function Hero() {
  */
 function Waves() {
   return (
-    <div className="pointer-events-none my-8 h-32 w-full lg:my-12 lg:h-44" aria-hidden="true">
+    <div className="pointer-events-none my-8 h-32 w-full lg:my-12 lg:h-44" aria-hidden="true" data-reveal="">
       <svg viewBox="0 0 1920 220" preserveAspectRatio="none" className="h-full w-full">
         <path d="M0 70 C160 60 220 110 380 95 C560 78 640 40 820 48 C1000 56 1120 110 1320 100 C1520 90 1640 40 1920 60 L1920 92 C1640 76 1520 128 1320 136 C1120 144 1000 92 820 84 C640 76 560 112 380 130 C220 146 160 96 0 104 Z" fill="#9ed2e6" opacity="0.45" />
         <path d="M0 150 C200 160 320 110 520 100 C720 90 820 140 1020 132 C1240 122 1380 60 1600 40 C1720 30 1800 20 1920 30 L1920 58 C1800 50 1720 62 1600 74 C1380 96 1240 160 1020 170 C820 178 720 128 520 138 C320 148 200 196 0 186 Z" fill="#f4b8c8" opacity="0.4" />
@@ -105,13 +109,16 @@ function Waves() {
 function RouteCards() {
   return (
     <section aria-labelledby="routes-title" className={`${SITE_WIDTH} pb-16 lg:pb-24`}>
-      <SectionTitle id="routes-title" kicker="함께 가는 사람별 예시 루트">
-        누구와 <span className="text-primary">가세요?</span>
-      </SectionTitle>
+      <div data-reveal="">
+        <SectionTitle id="routes-title" kicker="함께 가는 사람별 예시 루트">
+          누구와 <span className="text-primary">가세요?</span>
+        </SectionTitle>
+      </div>
       {/* 떠오른 카드가 제목에 닿지 않게 위 여백을 둔다. 카드 모양은 globals.css .route-card(레퍼런스 예당 캠핑장 CSS) */}
       <ul className="route-cards mt-6 pt-8">
-        {ROUTE_CARDS.map((c) => (
-          <li key={c.id}>
+        {ROUTE_CARDS.map((c, i) => (
+          // 등장 움직임은 li에, 마우스를 올렸을 때 떠오르는 움직임은 안쪽 카드(.route-card)에 — 둘이 섞이지 않게
+          <li key={c.id} data-reveal="" style={{ "--reveal-i": i + 1 } as CSSProperties}>
             <Link href={`/trip/route-${c.id}`} className="route-card">
               <span className="route-card__badge" aria-hidden="true">
                 루트 보기

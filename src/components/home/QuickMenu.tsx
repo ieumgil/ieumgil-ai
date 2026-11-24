@@ -2,6 +2,7 @@
 // 위쪽 색 줄무늬 8칸 · 연한 바탕 · 아래 5px 파란 테두리 · 아이콘 + 굵은 이름 · 마우스를 올리면 눌린 듯한 안쪽 그림자.
 // 아이콘은 임시(home/icons.tsx 한 파일만 바꾸면 된다). 누르는 칸 44px 이상, 글자 17px.
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { HomeIcon, type HomeIconName } from "./icons";
 
 const ITEMS: { href: string; label: string; icon: HomeIconName }[] = [
@@ -22,8 +23,8 @@ export function QuickMenu({ inner }: { inner: string }) {
       </div>
       <div className={inner}>
         <ul className="quick-band__list">
-          {ITEMS.map((it) => (
-            <li key={it.href}>
+          {ITEMS.map((it, i) => (
+            <li key={it.href} data-reveal="" style={{ "--reveal-i": i } as CSSProperties}>
               <Link href={it.href} className="quick-band__link">
                 <span className="quick-band__icon">
                   <HomeIcon name={it.icon} size={56} />

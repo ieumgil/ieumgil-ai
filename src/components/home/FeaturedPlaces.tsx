@@ -3,6 +3,7 @@
 // 사진: 한국관광공사 공공누리 제1유형(public/photos). 고화질 사진을 구하면 그 파일만 바꾼다.
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import places from "../../../data/places.json";
 import { SectionTitle } from "./SectionTitle";
 
@@ -18,7 +19,7 @@ export function FeaturedPlaces({ className = "" }: { className?: string }) {
   });
   return (
     <section aria-labelledby="featured-title" className={className}>
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="flex flex-wrap items-end justify-between gap-4" data-reveal="">
         <SectionTitle id="featured-title" kicker="영동 대표 관광지">
           강릉·속초·동해, <span className="text-primary">어디부터</span> 가 볼까요?
         </SectionTitle>
@@ -27,8 +28,9 @@ export function FeaturedPlaces({ className = "" }: { className?: string }) {
         </Link>
       </div>
       <ul className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {list.map((p) => (
-          <li key={p.id}>
+        {list.map((p, i) => (
+          // 스크롤 등장: 한 줄(PC 4장) 안에서 왼쪽부터 차례로
+          <li key={p.id} data-reveal="" style={{ "--reveal-i": (i % 4) + 1 } as CSSProperties}>
             <Link href={`/places?place=${p.id}`} className="group flex flex-col gap-3">
               <span className="relative block aspect-[4/3] overflow-hidden rounded-2xl bg-surface">
                 <Image src={`/photos/${p.id}.webp`} alt="" fill sizes="(min-width: 1024px) 22vw, 45vw" className="object-cover transition-transform duration-300 group-hover:scale-105" />

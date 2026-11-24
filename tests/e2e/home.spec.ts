@@ -182,3 +182,28 @@ test("히어로에 '여행 루트 만들기' 주 버튼과 '예시 루트 먼저
   await expect(cta).toHaveCSS("background-color", "rgb(61, 170, 126)");
   await expect(hero.getByRole("link", { name: /예시 루트 먼저 보기/ })).toHaveAttribute("href", "/trip/example");
 });
+
+// 고칠 목록 9(11/24): 스크롤하면 루트 카드·대표 관광지가 차례로 나타난다. 끝까지 내리면 숨은 것이 남지 않는다
+test("스크롤 등장: 아래쪽 카드는 기다렸다가 내려가면 모두 나타나고, 단계 소개(화면 고정)에는 쓰지 않는다", async ({ page }) => {
+  await page.goto("/");
+  const waiting = page.locator('main [data-reveal="wait"]');
+  await expect.poll(() => waiting.count()).toBeGreaterThan(0);
+  await expect(page.locator("section[aria-labelledby=intro-title] [data-reveal]")).toHaveCount(0);
+  const h = await page.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y <= h; y += 300) {
+    await page.evaluate((v) => window.scrollTo(0, v), y);
+    await page.waitForTimeout(60);
+  }
+  await expect(waiting).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /강릉 오죽헌/ }).first()).toBeVisible();
+});
+
+test("동작 줄이기 설정이면 시작 화면은 처음부터 모두 보인다", async ({ browser }) => {
+  const ctx = await browser.newContext({ reducedMotion: "reduce" });
+  await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+  const page = await ctx.newPage();
+  await page.goto("/");
+  await page.waitForTimeout(500);
+  await expect(page.locator('[data-reveal="wait"]')).toHaveCount(0);
+  await ctx.close();
+});
