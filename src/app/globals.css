@@ -7,10 +7,11 @@
 /* 디자인 토큰 (시안 v2, CLAUDE.md 기준) — 값은 여기서만 정한다. shadcn 변수는 아래 :root에서 이 토큰을 가리킨다.
  * static: 화면에서 직접 안 써도 변수로 항상 내보낸다(shadcn 변수가 var(--color-…)로 참조하기 때문) */
 @theme static {
-  --color-primary: #1e6fd0; /* 기본 */
-  --color-primary-soft: #eaf2fd; /* 연한 기본 */
-  --color-primary-ink: #1450a3; /* 기본(연한 바탕) 위 글자 */
-  --color-primary-band: #dce8fb; /* 달력에서 고른 기간 띠 */
+  /* 색은 파랑 #3580db · 초록 #3daa7e 두 가지만(11/24 팀 결정). 연한 면은 같은 색을 흰 바탕에 옅게 섞은 것이다 */
+  --color-primary: #3580db; /* 기본 */
+  --color-primary-soft: #ebf3fc; /* 연한 기본(#3580db 10%) */
+  --color-primary-ink: #3580db; /* 기본(연한 바탕) 위 글자 — 기본과 같은 색 */
+  --color-primary-band: #d7e6f8; /* 달력에서 고른 기간 띠(#3580db 20%) */
   --color-sunday: #a23b2a; /* 달력 일요일 */
   --color-past: #a8b3b9; /* 달력 지난 날 */
   --color-surface: #f2f4f6; /* 면 */
@@ -21,8 +22,8 @@
   --color-line-control: #8b95a1; /* 흰 바탕 위 선택 컨트롤의 안 고른 테두리(3:1). 회색 면 위에는 쓰지 않는다 */
   /* 솔숲 초록: 장소·지역·일차 정체성 전용(지역·분류 라벨, 일차 머리, 시작 화면 h1 강조 구절, PC 미리보기 뒤 면).
    * 버튼·링크·선택·상태 칩·경고·지도 요소에는 쓰지 않는다(파랑 = 행동, 주황·빨강 = 주의) */
-  --color-pine: #2a6a50;
-  --color-pine-soft: #e8f3ec;
+  --color-pine: #3daa7e;
+  --color-pine-soft: #ecf7f2; /* #3daa7e 10% */
   --color-route: #e8743b; /* 경로선 */
   --color-caution-bg: #fff4e5; /* 주의 바탕 */
   --color-caution-ink: #7a4a00; /* 주의 글자 */
@@ -848,7 +849,7 @@ label:has(input[type="checkbox"]) {
   background-color: var(--color-cta-green);
 }
 .intro-cta:hover {
-  background-color: #34966e;
+  opacity: 0.9;
 }
 .intro-phone {
   width: 15rem;

@@ -177,8 +177,8 @@ test.describe("입력 틀·1·2단계 정리", () => {
     await expect(station.locator('span[aria-hidden="true"]', { hasText: "✓" })).not.toBeVisible();
 
     await station.click();
-    await expect(station).toHaveCSS("border-top-color", "rgb(30, 111, 208)");
-    await expect(station).toHaveCSS("background-color", "rgb(234, 242, 253)");
+    await expect(station).toHaveCSS("border-top-color", "rgb(53, 128, 219)");
+    await expect(station).toHaveCSS("background-color", "rgb(235, 243, 252)");
     await expect(station).toHaveCSS("border-top-width", "2px");
     await expect(station.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
     await expect(other.locator('span[aria-hidden="true"]', { hasText: "✓" })).not.toBeVisible();
@@ -188,7 +188,7 @@ test.describe("입력 틀·1·2단계 정리", () => {
     await expect(taxi).toHaveCSS("border-top-color", "rgb(139, 149, 161)");
     await expect(taxi).toHaveCSS("background-color", "rgb(255, 255, 255)");
     await taxi.click();
-    await expect(taxi).toHaveCSS("border-top-color", "rgb(30, 111, 208)");
+    await expect(taxi).toHaveCSS("border-top-color", "rgb(53, 128, 219)");
     await expect(taxi).toHaveCSS("border-top-width", "2px");
     await expect(taxi.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
   });

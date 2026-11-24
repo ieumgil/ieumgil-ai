@@ -12,7 +12,7 @@
 
 [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml)
 [![Deploy](https://img.shields.io/badge/deploy-Vercel-000?logo=vercel)](https://ieumgil-ai.vercel.app)
-[![Last commit](https://img.shields.io/github/last-commit/ieumgil/ieumgil-ai?color=1E6FD0)](https://github.com/ieumgil/ieumgil-ai/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/ieumgil/ieumgil-ai?color=3580db)](https://github.com/ieumgil/ieumgil-ai/commits/main)
 ![2026 My AI 랩](https://img.shields.io/badge/2026-My%20AI%20%EB%9E%A9-F5872A)
 
 [![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
@@ -179,7 +179,7 @@
 - 글꼴은 두 가지만 씁니다: 본문·숫자 전부 Pretendard, 시작 화면 문구 한 줄만 카페24 숑숑. 구분은 크기와 굵기로 합니다.
 - 움직임은 스크롤한 만큼만 따라오거나 짧게(버튼·창 0.1\~0.2초, 소개 글의 구역·숫자·막대 등장 0.5\~1초) 끝나고, 기기의 '동작 줄이기' 설정을 켜면 멈춥니다.
 - 판단은 색만으로 나타내지 않고 ✓ 적합 · ! 주의 · ✕ 부적합처럼 기호와 글자를 함께 씁니다.
-- 웹 접근성은 [axe-core](https://github.com/dequelabs/axe-core-npm) 자동 검사로 주요 화면을 휴대폰·PC에서 확인합니다([`axe.spec.ts`](tests/e2e/axe.spec.ts)). 예외는 한 가지입니다. 시작 화면 루트 카드 3장과 '여행 루트 만들기' 버튼은 팀이 직접 정한 색이라 흰 글자 대비가 4.5:1에 못 미치므로, 이 두 곳만 글자 대비 검사에서 뺐습니다(다른 규칙은 그대로 검사합니다).
+- 웹 접근성은 [axe-core](https://github.com/dequelabs/axe-core-npm) 자동 검사로 주요 화면을 휴대폰·PC에서 확인합니다([`axe.spec.ts`](tests/e2e/axe.spec.ts)). 색은 파랑 #3580db와 초록 #3daa7e 두 가지로 통일했고, 이 색의 글자 대비는 기준(4.5:1)보다 낮지만 실제 화면에서 잘 보인다고 판단해 글자 대비 규칙만 검사에서 뺐습니다. 다른 규칙은 그대로 검사합니다.
 
 ## AI는 어떻게 판단하나요
 
@@ -278,7 +278,7 @@ flowchart TB
     S7 -->|검증된 일정| C2
     SF -->|대체 일정| C2
 
-    classDef ai fill:#EAF2FD,stroke:#1E6FD0,stroke-width:1.5px,color:#191F28
+    classDef ai fill:#EBF3FC,stroke:#3580db,stroke-width:1.5px,color:#191F28
     classDef code fill:#F2F4F6,stroke:#4E5968,stroke-width:1.5px,color:#191F28
     classDef data fill:#FFFFFF,stroke:#191F28,stroke-width:3px,color:#191F28
     classDef fallback fill:#FFF4E5,stroke:#7A4A00,stroke-width:1.5px,color:#191F28
@@ -368,7 +368,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 | 카카오 | 길찾기 결과 저장 0건 · 키는 서버에서만 · 영동권 밖 좌표 거부 | **모두 통과** |
 | 날씨 | 저장 0건 · 키는 서버에서만 · 실패하면 날씨 칸만 숨김 · 문구는 코드 고정 | **모두 통과** · 실제 기상청 응답으로 확인 |
 | 공유 링크 | 저장 값에 이동시간·개인정보 0건 · 정해진 칸 밖 거절 · 받은 사람 화면이 만든 사람과 같은 장소·순서·시각 | **모두 통과** · 실제 Supabase로 확인 |
-| 웹 접근성 | WCAG 2.2 A·AA 위반 0건(모바일·PC) | **0건**(시작 화면 루트 카드·버튼의 글자 대비는 예외) |
+| 웹 접근성 | WCAG 2.2 A·AA 위반 0건(모바일·PC) | **0건**(글자 대비 규칙은 팀 결정으로 제외) |
 
 <details>
 <summary>엔진 시나리오 10개 (<a href="tests/engine/scenarios.test.ts">tests/engine/scenarios.test.ts</a>)</summary>

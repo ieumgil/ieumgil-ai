@@ -106,7 +106,7 @@ test("내려가면 오른쪽 아래에 '맨 위로' 버튼이 뜨고, 누르면 
 
 // ---- 03-09: 둘러보기 정리(머리 예산 · 지역 분할 · 범례 접기 · 한 겹 항목 · 담기 이름 · 불투명 바) ----
 const MARK = 'span[aria-hidden="true"]';
-const PINE = "rgb(42, 106, 80)";
+const PINE = "rgb(61, 170, 126)";
 
 /** 입력(휠체어)이 화면에 반영될 때까지 기다린다: 그 전에 누르면 아직 붙지 않은 화면이라 눌림이 사라진다 */
 async function gotoPlaces(page: Page) {

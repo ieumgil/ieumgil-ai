@@ -281,7 +281,7 @@ test.describe("안 비교 첫 화면", () => {
       });
     const on = page.locator("[role=radio][aria-checked=true]");
     const off = page.locator("[role=radio][aria-checked=false]").first();
-    expect(await css(on)).toEqual({ w: "2px", c: "rgb(30, 111, 208)", bg: "rgb(234, 242, 253)" });
+    expect(await css(on)).toEqual({ w: "2px", c: "rgb(53, 128, 219)", bg: "rgb(235, 243, 252)" });
     // 1.5px로 그리지만 화면 배율 1배에서는 브라우저가 1px로 맞춘다 → 고른 안(2px)보다 얇은 윤곽이면 된다
     const offStyle = await css(off);
     expect(parseFloat(offStyle.w)).toBeGreaterThanOrEqual(1);
@@ -429,7 +429,7 @@ test.describe("고른 안 상세", () => {
     const list = page.getByRole("tablist");
     await expect(list).toHaveAttribute("data-variant", "line");
     const selected = list.getByRole("tab", { selected: true });
-    expect(await selected.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(42, 106, 80)");
+    expect(await selected.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(61, 170, 126)");
     for (const tab of await list.getByRole("tab").all()) expect((await tab.boundingBox())!.height).toBeGreaterThanOrEqual(56);
   });
 

@@ -280,7 +280,7 @@ test.describe("확정 화면 정리", () => {
     await page.goto("/trip/new/final");
     await expect(page.getByRole("tablist")).toHaveAttribute("data-variant", "line");
     const color = await page.getByRole("tab", { selected: true }).evaluate((el) => getComputedStyle(el).color);
-    expect(color).toBe("rgb(42, 106, 80)");
+    expect(color).toBe("rgb(61, 170, 126)");
   });
 
   test("맨 아래 세 문장은 접지 않고 늘 보인다 @p0306", async ({ page }) => {
@@ -331,7 +331,7 @@ test.describe("체크리스트", () => {
     await expect(hard).toContainText("어렵대요");
     await ok.click();
     await expect(ok).toHaveAttribute("aria-pressed", "true");
-    expect(await ok.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(234, 242, 253)");
+    expect(await ok.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(235, 243, 252)");
     await hard.click();
     await expect(hard).toHaveAttribute("aria-pressed", "true");
     expect(await hard.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe("rgb(255, 244, 229)");

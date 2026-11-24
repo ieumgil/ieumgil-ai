@@ -46,9 +46,14 @@ function contrast(fg: string, bg: string): number {
 const WHITE = "#ffffff";
 
 describe("토큰 값", () => {
-  it("솔숲 초록·연한 면·선택 컨트롤 테두리", () => {
-    expect(color("pine")).toBe("#2a6a50");
-    expect(color("pine-soft")).toBe("#e8f3ec");
+  it("색은 파랑 #3580db · 초록 #3daa7e 두 가지(11/24 팀 결정) + 같은 색의 연한 면 · 선택 컨트롤 테두리", () => {
+    expect(color("primary")).toBe("#3580db");
+    expect(color("primary-ink")).toBe("#3580db");
+    expect(color("pine")).toBe("#3daa7e");
+    expect(color("pine-soft")).toBe("#ecf7f2");
+    expect(color("card-blue")).toBe("#3580db");
+    expect(color("card-green")).toBe("#3daa7e");
+    expect(color("cta-green")).toBe("#3daa7e");
     expect(color("line-control")).toBe("#8b95a1");
   });
 
@@ -93,16 +98,16 @@ describe("WCAG 대비(상대 휘도 공식)", () => {
   const pineSoft = color("pine-soft");
   const primarySoft = color("primary-soft");
 
+  // 파랑·초록 글자의 대비는 11/24 팀 결정으로 검사하지 않는다(#3580db 3.99 · #3daa7e 2.90 : 흰 바탕). 본문·보조 글자와 주의·불가 상태는 그대로 4.5:1
+  void pine;
+  void surface;
   const aa: [string, string, string][] = [
-    ["pine / 흰", pine, WHITE],
-    ["pine / surface", pine, surface],
-    ["pine / pine-soft", pine, pineSoft],
-    ["pine / primary-soft", pine, primarySoft],
-    ["primary-ink / primary-soft", color("primary-ink"), primarySoft],
+    ["ink / 흰", color("ink"), WHITE],
+    ["ink-sub / 흰", color("ink-sub"), WHITE],
+    ["ink-sub / primary-soft", color("ink-sub"), primarySoft],
     ["ink-sub / pine-soft", color("ink-sub"), pineSoft],
     ["caution-ink / caution-bg", color("caution-ink"), color("caution-bg")],
     ["blocked-ink / blocked-bg", color("blocked-ink"), color("blocked-bg")],
-    ["primary / 흰", color("primary"), WHITE],
   ];
 
   it.each(aa)("글자 %s 는 4.5:1 이상", (_name, fg, bg) => {
@@ -113,9 +118,8 @@ describe("WCAG 대비(상대 휘도 공식)", () => {
     expect(contrast(color("line-control"), WHITE)).toBeGreaterThanOrEqual(3);
   });
 
-  it("primary 글자를 primary-soft 위에 쓰지 않는다는 규칙의 근거: 4.5 미만", () => {
-    const c = contrast(color("primary"), primarySoft);
-    expect(c).toBeLessThan(4.5);
-    expect(c).toBeGreaterThan(4.3); // UI-SPEC 대비 표 4.39
+  it("파랑·초록은 흰 바탕 3.99:1 · 2.90:1 — 대비 기준 밖이라는 것을 숫자로 남긴다(팀 결정)", () => {
+    expect(contrast(color("primary"), WHITE)).toBeCloseTo(3.99, 1);
+    expect(contrast(color("pine"), WHITE)).toBeCloseTo(2.9, 1);
   });
 });

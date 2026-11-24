@@ -77,8 +77,8 @@ test("새 토큰 값", async ({ page }) => {
     const get = (n: string) => cs.getPropertyValue(n).trim();
     return { pine: get("--color-pine"), soft: get("--color-pine-soft"), control: get("--color-line-control"), display: get("--font-display") };
   });
-  expect(v.pine).toBe("#2a6a50");
-  expect(v.soft).toBe("#e8f3ec");
+  expect(v.pine).toBe("#3daa7e");
+  expect(v.soft).toBe("#ecf7f2");
   expect(v.control).toBe("#8b95a1");
   expect(v.display.toLowerCase()).toContain("pretendard");
 });
@@ -150,7 +150,7 @@ test.describe("공용 부품", () => {
     const link = page.getByRole("link", { name: "예시 루트 바로 보기" });
     await link.hover();
     // 색 바뀜 전환(150ms)이 끝난 뒤 값을 본다
-    await expect.poll(() => link.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(20, 80, 163)");
+    await expect.poll(() => link.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(53, 128, 219)");
   });
 
   test("판정 칩은 기호 숨김 + 상태 글자 + 굵기 500", async ({ page }) => {
@@ -309,18 +309,20 @@ test.describe("전 화면 글자", () => {
       expect(stray, JSON.stringify(stray)).toEqual([]);
     });
 
-    test(`${path}: primary-soft 바탕 위에 primary 글자가 없다`, async ({ page }) => {
+    // 11/24 팀 결정: 색은 파랑 #3580db · 초록 #3daa7e 두 가지(글자 대비 검사는 끔). 연한 파랑 바탕 위 글자도 이 색과 본문·보조·주의·불가 글자색만 쓴다
+    test(`${path}: 연한 파랑 바탕 위 글자는 정해 둔 색(파랑·초록·본문·보조·주의·불가)뿐이다`, async ({ page }) => {
       await openScreen(page, path);
       const bad = await page.evaluate(() => {
-        const SOFT = "rgb(234, 242, 253)";
-        const PRIMARY = "rgb(30, 111, 208)";
+        const SOFT = "rgb(235, 243, 252)";
+        // 파랑 · 초록 · 본문 · 보조 · 흰 글자 + 뜻을 나르는 주의·불가 글자색
+        const ALLOWED = ["rgb(53, 128, 219)", "rgb(61, 170, 126)", "rgb(25, 31, 40)", "rgb(78, 89, 104)", "rgb(255, 255, 255)", "rgb(122, 74, 0)", "rgb(138, 42, 28)"];
         const out: { tag: string; text: string }[] = [];
         for (const soft of document.body.querySelectorAll("*")) {
           const scs = getComputedStyle(soft);
           if (scs.backgroundColor !== SOFT || scs.visibility === "hidden" || scs.display === "none") continue;
           for (const el of [soft, ...soft.querySelectorAll("*")]) {
             const own = [...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? "").trim() !== "");
-            if (own && getComputedStyle(el).color === PRIMARY) out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
+            if (own && !ALLOWED.includes(getComputedStyle(el).color)) out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
           }
         }
         return out;

@@ -29,7 +29,7 @@ describe("CLAUDE.md 디자인 토큰 절", () => {
 
   it("보조색 pine·pine-soft·line-control이 이름과 값으로 적혀 있다", () => {
     const lower = design.toLowerCase();
-    for (const word of ["pine-soft", "line-control", "#2a6a50", "#e8f3ec", "#8b95a1"]) expect(lower).toContain(word);
+    for (const word of ["pine-soft", "line-control", "#3daa7e", "#ecf7f2", "#8b95a1"]) expect(lower).toContain(word);
   });
 
   it("문서의 pine·pine-soft·line-control 값이 globals.css @theme static 값과 같다", () => {

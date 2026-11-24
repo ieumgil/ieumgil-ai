@@ -77,10 +77,10 @@ function useRouteLine(points: MapPoint[]): Line | undefined {
   return state?.key === key ? state.line : undefined;
 }
 
-const COLOR = { primary: "#1E6FD0", ink: "#191F28", sub: "#4E5968", route: "#E8743B", line: "#E5E8EB" };
+const COLOR = { primary: "#3580db", ink: "#191F28", sub: "#4E5968", route: "#E8743B", line: "#E5E8EB" };
 const SHADOW = "0 1px 4px rgb(0 0 0/.3)";
 const VERDICT_STYLE: Record<StopDetail["verdict"], { sym: string; bg: string; fg: string }> = {
-  적합: { sym: "✓", bg: "#EAF2FD", fg: "#1450A3" },
+  적합: { sym: "✓", bg: "#ebf3fc", fg: "#3580db" },
   주의: { sym: "!", bg: "#FFF4E5", fg: "#7A4A00" },
   "확인 필요": { sym: "!", bg: "#FFF4E5", fg: "#7A4A00" },
   부적합: { sym: "✕", bg: "#FBEAE7", fg: "#8A2A1C" },
@@ -174,7 +174,7 @@ function stopCard(id: string, d: StopDetail, onPick: (() => void) | undefined, o
   row.append(text, close);
   card.append(row);
   if (onPick) {
-    const go = el("button", `display:flex;align-items:center;justify-content:center;width:100%;min-height:2.75rem;margin-top:0.5rem;border:0;border-radius:0.75rem;background:#EAF2FD;color:#1450A3;font-weight:700;font-size:1rem;cursor:pointer`, "일정에서 보기");
+    const go = el("button", `display:flex;align-items:center;justify-content:center;width:100%;min-height:2.75rem;margin-top:0.5rem;border:0;border-radius:0.75rem;background:#ebf3fc;color:#3580db;font-weight:700;font-size:1rem;cursor:pointer`, "일정에서 보기");
     go.type = "button";
     go.addEventListener("click", (e) => {
       e.stopPropagation();
