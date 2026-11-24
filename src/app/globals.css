@@ -992,3 +992,34 @@ label:has(input[type="checkbox"]) {
     width: 28rem;
   }
 }
+
+/* 소개 글 등장(11/24, 고칠 목록 9번): 스크롤해서 화면에 들어오면 아래에서 살짝 올라오며 나타난다(Motion.tsx가 data-reveal을 wait → in으로 바꾼다).
+ * 처음부터 보이는 곳과 자바스크립트 없는 화면은 그대로 보인다. 한 묶음 안에서는 --reveal-i만큼 80ms씩 늦게.
+ * 막대(.reveal-bar)는 부모가 들어올 때 왼쪽부터 줄마다(--bar-i) 60ms씩 늦게 차오른다. 동작 줄이기·인쇄에서는 움직이지 않는다. */
+[data-reveal] {
+  transition:
+    opacity 480ms var(--ease-enter),
+    transform 480ms var(--ease-enter);
+  transition-delay: calc(var(--reveal-i, 0) * 80ms);
+}
+[data-reveal="wait"] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+.reveal-bar {
+  transform-origin: left center;
+  transition: transform 720ms var(--ease-enter);
+  transition-delay: calc(var(--bar-i, 0) * 60ms + 160ms);
+}
+[data-reveal="wait"] .reveal-bar {
+  transform: scaleX(0);
+}
+@media (prefers-reduced-motion: reduce), print {
+  [data-reveal="wait"] {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal="wait"] .reveal-bar {
+    transform: none;
+  }
+}

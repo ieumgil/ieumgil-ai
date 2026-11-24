@@ -1,7 +1,8 @@
 // 서비스 소개 글(이용자용): 누구를 위한 서비스인지, 무엇을 해 주는지, 판단 표시를 어떻게 읽는지, 알아 둘 것.
 // 기획 문서(docs/planning.md)를 바탕으로 이용자가 알아야 할 것만 쉬운 말로 옮겼다. 숫자는 README·data/eval과 같은 값.
 import type { Metadata } from "next";
-import { Article, P, Points, Section, Steps } from "@/components/about/Article";
+import type { CSSProperties } from "react";
+import { Article, P, Points, Section, Steps, tocOf } from "@/components/about/Article";
 import { Phones } from "@/components/about/Figures";
 import { StatusChip, type ChipStatus } from "@/components/ui/StatusChip";
 
@@ -17,11 +18,22 @@ const VERDICTS: { status: ChipStatus; label: string; body: string }[] = [
   { status: "blocked", label: "부적합", body: "꼭 필요한 조건에 맞지 않아 일정에 넣지 않아요." },
 ];
 
+const T = {
+  who: "이런 분을 위해 만들었어요",
+  why: "여행 준비가 왜 어려울까요",
+  what: "이음길이 해 드리는 일",
+  verdict: "판단 표시는 이렇게 읽어요",
+  unknown: "모르는 건 숨기지 않아요",
+  source: "정보는 어디서 오나요",
+  notes: "알아 두실 것",
+};
+
 export default function AboutPage() {
   return (
     <Article
       title="이음길은 이런 서비스예요"
       lead="휠체어를 타는 분, 오래 걷기 힘든 어르신, 유모차를 끄는 가족과 함께 강릉·속초·동해를 여행할 때, 갈 수 있는 곳을 골라 일정으로 엮어 드려요."
+      toc={tocOf(T)}
       hero={
         <Phones
           label="이음길 결과 화면"
@@ -33,7 +45,7 @@ export default function AboutPage() {
       }
       next={{ href: "/about/how", label: "이음길은 이렇게 만들었어요", body: "AI가 무엇을 판단하고, 코드가 무엇을 검사하는지 궁금하다면" }}
     >
-      <Section title="이런 분을 위해 만들었어요">
+      <Section id="who" title={T.who}>
         <Points
           items={[
             { head: "휠체어를 타는 분과 함께 가는 가족·친구", body: "계단 없이 들어갈 수 있는지, 장애인 화장실과 주차장이 있는지 봐요." },
@@ -44,7 +56,7 @@ export default function AboutPage() {
         <P>여러 유형을 함께 고를 수 있어요. 어르신과 유모차를 함께 고르면 걷는 거리와 수유실을 모두 봐요.</P>
       </Section>
 
-      <Section title="여행 준비가 왜 어려울까요">
+      <Section id="why" title={T.why}>
         <P>
           관광지마다 계단이 있는지, 장애인 화장실이 있는지, 주차장에서 얼마나 걸어야 하는지 따로 찾아봐야 해요. 공식 정보도 &ldquo;출입구까지 경사로가 설치되어
           있음&rdquo; 같은 짧은 문장이라, 우리 가족이 갈 수 있는지는 직접 판단해야 해요.
@@ -52,7 +64,7 @@ export default function AboutPage() {
         <P>갈 곳을 고른 뒤에도 일이 남아요. 이동 시간과 운영시간을 맞춰 순서를 짜야 하고, 짠 일정을 함께 가는 사람에게 따로 전해야 해요.</P>
       </Section>
 
-      <Section title="이음길이 해 드리는 일">
+      <Section id="what" title={T.what}>
         <Steps
           items={[
             {
@@ -65,7 +77,7 @@ export default function AboutPage() {
             },
             {
               head: "성격이 다른 일정을 2~3개 보여 드려요",
-              body: "'여유롭게', '좋아하는 곳 중심'처럼 방향이 다른 일정을 나란히 비교해요. 도착 시각과 이동 시간은 계산해서 '약'을 붙여요. 2박 3일은 일정 하나를 꼼꼼하게 짜요.",
+              body: "여유롭게 둘러보는 일정, 좋아하는 곳 위주의 일정처럼 방향이 다른 일정을 나란히 비교해요. 제목에는 실제로 들르는 곳을 적어요(예: '역사 문화와 바다를 두루 만나는 나들이 코스'). 도착 시각과 이동 시간은 계산해서 '약'을 붙여요. 2박 3일은 일정 하나를 꼼꼼하게 짜요.",
             },
             {
               head: "마음에 들게 고쳐요",
@@ -87,13 +99,17 @@ export default function AboutPage() {
             { src: "/about/share.webp", alt: "공유 링크 창: 공유 주소, 주소 복사, 사라지는 날짜, 이름·연락처는 저장하지 않는다는 안내", caption: "5 · 공유 링크" },
           ]}
         />
+        <P>
+          먼저 결과부터 보고 싶다면 시작 화면의 &lsquo;누구와 가세요?&rsquo; 카드를 눌러 보세요. 휠체어·강릉 1박 2일, 어르신·속초 당일, 유모차·동해 당일 일정을 AI가
+          미리 만들어 두어 입력 없이 바로 열려요.
+        </P>
       </Section>
 
-      <Section title="판단 표시는 이렇게 읽어요">
+      <Section id="verdict" title={T.verdict}>
         <P>장소마다 판단을 하나 붙여요. 색만 보지 않아도 되도록 기호와 글자를 함께 써요.</P>
-        <dl className="flex flex-col border-t border-line">
-          {VERDICTS.map((v) => (
-            <div key={v.label} className="flex flex-col gap-2 border-b border-line py-3">
+        <dl className="flex flex-col border-t border-line lg:grid lg:grid-cols-2 lg:gap-x-8 lg:border-t-0">
+          {VERDICTS.map((v, i) => (
+            <div key={v.label} className="flex flex-col gap-2 border-b border-line py-3 lg:border-t lg:border-b-0 lg:py-4" data-reveal="" style={{ "--reveal-i": i % 2 } as CSSProperties}>
               <dt>
                 <StatusChip status={v.status}>{v.label}</StatusChip>
               </dt>
@@ -104,7 +120,16 @@ export default function AboutPage() {
         <P>적합이나 주의라도 전화로 물어볼 것이 남아 있으면 &lsquo;적합 · 전화로 확인할 것 있음&rsquo;처럼 함께 적어요.</P>
       </Section>
 
-      <Section title="모르는 건 숨기지 않아요">
+      <Section
+        id="unknown"
+        title={T.unknown}
+        aside={
+          <Phones
+            label="출발 전 전화 확인 화면"
+            shots={[{ src: "/about/checklist.webp", alt: "출발 전 전화로 확인할 곳: 장소마다 물어볼 것과 전화번호, 괜찮대요·어렵대요 버튼", caption: "출발 전 전화로 확인할 곳" }]}
+          />
+        }
+      >
         <P>
           공식 정보에는 빈칸이 많아요. 152곳의 접근성 항목 가운데 절반쯤이 비어 있어요. 이음길은 빈칸을 &lsquo;괜찮을 거예요&rsquo;로 채우지 않고, 확인할 방법을
           붙여요.
@@ -115,14 +140,10 @@ export default function AboutPage() {
             { head: "가서 보고 확인할 것", body: "바닥(모래·자갈·흙길), 경사, 쉴 곳. 도착하면 바로 보이는 것이라 무엇을 보면 되는지 한 줄로 알려 드려요." },
           ]}
         />
-        <Phones
-          label="출발 전 전화 확인 화면"
-          shots={[{ src: "/about/checklist.webp", alt: "출발 전 전화로 확인할 곳: 장소마다 물어볼 것과 전화번호, 괜찮대요·어렵대요 버튼", caption: "출발 전 전화로 확인할 곳" }]}
-        />
         <P>확정한 일정에서 전화한 결과를 [괜찮대요] / [어렵대요]로 남길 수 있어요. 어렵다는 답을 들으면 다른 곳으로 바꾸기를 권해요.</P>
       </Section>
 
-      <Section title="정보는 어디서 오나요">
+      <Section id="source" title={T.source}>
         <Points
           items={[
             { head: "한국관광공사 무장애 여행정보", body: "강릉·속초·동해 관광지 152곳의 무장애 정보, 운영시간, 전화번호, 사진" },
@@ -134,7 +155,7 @@ export default function AboutPage() {
         <P>장소 카드에는 정보마다 출처를 적어요. AI가 관광공사 문장을 정리한 값인지, 공공데이터를 그대로 옮긴 값인지 구분해서 보여 드려요.</P>
       </Section>
 
-      <Section title="알아 두실 것">
+      <Section id="notes" title={T.notes}>
         <Points
           items={[
             {

@@ -43,7 +43,7 @@ src/app/            page.tsx(시작: 히어로 · 바로가기 띠 · 단계 소
                     · trip/[id]/(안 비교 → 상세, id = new | example | route-wheelchair·elder·stroller = 루트 카드, 안 하나만) · trip/[id]/final(확정 일정 + 지도)
                     · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · api/legs · api/trips(공유 링크 저장, 11/14) · api/weather(기상청 예보, 저장 안 함, 11/15) · s/[id](공유 읽기 전용, 서버가 Supabase에서 읽음)
 src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 · DayWeather 날짜별 날씨 …)
-                    · trip/TimelineProgress(시간표 스크롤 진행 원·클리어) · home/(시작 화면: IntroSteps 단계 소개·화면 고정 스크롤 · QuickMenu · FeaturedPlaces · TodayWeather · icons)
+                    · trip/TimelineProgress(시간표 스크롤 진행 원·클리어) · home/(시작 화면: IntroSteps 단계 소개·화면 고정 스크롤 · QuickMenu · FeaturedPlaces · TodayWeather · icons) · about/(소개 글 틀 Article · PC 차례 Toc · 스크롤 등장·숫자 올라가기 Motion · Figures · AccessChart)
                     · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · SiteHeader(모든 화면 머리줄) · SiteFooter · TopBar · Logo · Intro · icons
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④)

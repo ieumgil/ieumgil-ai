@@ -1,6 +1,8 @@
 // 접근성 10항목 값 분포(data/places.json 152곳을 빌드할 때 센다): 항목마다 가로 100% 막대 + 숫자 글.
 // 색: 가능 = 기본 파랑, 부분가능 = 주황, 불가 = 빨강, 모름 = 회색(범주가 아니라 '값 없음'이라 중립색).
 // 색만으로 읽지 않게 행마다 숫자를 글로 적고, 막대는 장식(aria-hidden). 조각 사이 2px 흰 틈.
+// 스크롤해서 그래프가 화면에 들어오면 막대가 왼쪽부터 한 줄씩 차오른다(.reveal-bar, globals.css '소개 글 등장').
+import type { CSSProperties } from "react";
 import places from "../../../data/places.json";
 import { UNKNOWN_LABEL } from "@/lib/trip/labels";
 import { ACCESS_KEYS } from "@/lib/types";
@@ -31,7 +33,7 @@ export function AccessChart() {
   const unknown = data.reduce((s, r) => s + (r.counts["모름"] ?? 0), 0);
   const all = data.reduce((s, r) => s + r.total, 0);
   return (
-    <figure className="flex flex-col gap-3">
+    <figure className="flex flex-col gap-3" data-reveal="">
       <figcaption className="flex flex-col gap-1">
         <span className="text-base font-medium">항목마다 공식 정보가 있는 곳과 없는 곳 (152곳)</span>
         <span className="text-sm text-ink-sub">
@@ -47,15 +49,15 @@ export function AccessChart() {
         ))}
       </ul>
       <ul className="flex flex-col gap-3">
-        {data.map((r) => (
-          <li key={r.key} className="flex flex-col gap-1">
+        {data.map((r, i) => (
+          <li key={r.key} className="flex flex-col gap-1" style={{ "--bar-i": i } as CSSProperties}>
             <div className="flex items-baseline justify-between gap-2">
               <span className="text-sm font-medium">{r.label}</span>
               <span className="text-sm text-ink-sub">
                 {VALUES.filter((x) => r.counts[x.v]).map((x) => `${x.v} ${r.counts[x.v]}`).join(" · ")}
               </span>
             </div>
-            <div aria-hidden="true" className="flex h-3 w-full gap-0.5 overflow-hidden rounded-full">
+            <div aria-hidden="true" className="reveal-bar flex h-3 w-full gap-0.5 overflow-hidden rounded-full">
               {VALUES.filter((x) => r.counts[x.v]).map((x) => (
                 <span key={x.v} className={`h-full ${x.color}`} style={{ width: `${(r.counts[x.v] / r.total) * 100}%` }} />
               ))}

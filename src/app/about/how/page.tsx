@@ -3,7 +3,7 @@
 // 숫자는 README·data/eval(read-v1, judge-v1, cost-v1)과 같은 값. 테스트 개수처럼 자주 바뀌는 값은 쓰지 않는다.
 import type { Metadata } from "next";
 import { AccessChart } from "@/components/about/AccessChart";
-import { Article, P, Points, Section, Steps } from "@/components/about/Article";
+import { Article, Numbers, P, Points, Section, Steps, tocOf } from "@/components/about/Article";
 import { Architecture, Phones } from "@/components/about/Figures";
 
 export const metadata: Metadata = {
@@ -49,14 +49,29 @@ function Annotated() {
   );
 }
 
+const T = {
+  start: "출발점은 문장으로 된 공공데이터였어요",
+  roles: "AI와 코드가 나눠 맡아요",
+  read: "152곳은 미리 읽어 두었어요",
+  flow: "일정 한 번은 이렇게 만들어져요",
+  lines: "AI가 쓴 것과 코드가 쓴 것",
+  safety: "안전 기준은 코드가 정해요",
+  fallback: "멈추지 않게 대비했어요",
+  nostore: "저장하지 않는 것",
+  a11y: "누구나 쓰기 쉽게",
+  numbers: "숫자로 보면",
+  more: "더 자세히 보기",
+};
+
 export default function HowPage() {
   return (
     <Article
       title="이음길은 이렇게 만들었어요"
+      toc={tocOf(T)}
       lead="AI는 공공 무장애 정보를 읽고 판단하고 일정을 짜요. 시각 계산과 안전 검사는 코드가 맡아요. 역할을 이렇게 나눈 이유와 방법을 정리했어요."
       next={{ href: "/about", label: "이음길은 이런 서비스예요", body: "누구를 위한 서비스인지, 판단 표시를 어떻게 읽는지 먼저 보고 싶다면" }}
     >
-      <Section title="출발점은 문장으로 된 공공데이터였어요">
+      <Section id="start" title={T.start}>
         <P>
           한국관광공사 무장애 여행정보는 항목마다 &ldquo;출입구까지 경사로가 설치되어 있음(완만함)&rdquo; 같은 짧은 문장으로 되어 있어요. 이 문장만으로는 코드가
           &lsquo;갈 수 있다&rsquo;와 &lsquo;갈 수 없다&rsquo;를 가를 수 없어요. 기존 서비스도 문장을 그대로 보여 주고, 판단은 여행자에게 맡겨요.
@@ -66,7 +81,7 @@ export default function HowPage() {
         </P>
       </Section>
 
-      <Section title="AI와 코드가 나눠 맡아요">
+      <Section id="roles" title={T.roles}>
         <Points
           items={[
             { head: "AI가 하는 일", body: "관광공사 문장 읽기, 이 사람에게 맞는지 판단하기, 성격이 다른 일정 짜기, 짠 일정 평가하기" },
@@ -80,7 +95,7 @@ export default function HowPage() {
         <Architecture />
       </Section>
 
-      <Section title="152곳은 미리 읽어 두었어요">
+      <Section id="read" title={T.read}>
         <P>
           관광공사 API에서 강릉·속초·동해 182곳을 받아, 화장실이나 문화원처럼 관광지가 아닌 곳을 빼고 152곳을 남겼어요. AI가 장소마다 문장을 읽어 접근성 10항목을
           가능 / 부분가능 / 불가 / 모름으로 정리했어요. 값마다 근거가 된 원문 문단을 함께 적어 두었어요.
@@ -95,12 +110,21 @@ export default function HowPage() {
         />
       </Section>
 
-      <Section title="일정 한 번은 이렇게 만들어져요">
+      <Section
+        id="flow"
+        title={T.flow}
+        aside={
+          <Phones
+            label="만드는 중 화면"
+            shots={[{ src: "/about/making.webp", alt: "AI가 일정을 만들고 있어요: 진행률, 단계 목록, AI가 살펴보는 장소, 진행 기록", caption: "만드는 중 화면의 진행 기록" }]}
+          />
+        }
+      >
         <Steps
           items={[
             { head: "후보 거르기(코드)", body: "지역 밖, 그날 쉬는 곳, 꼭 필요한 조건이 '불가'인 곳을 빼고 최대 20곳을 골라요. 2박 3일은 30곳이에요." },
             { head: "장소 판단(AI 3번)", body: "후보를 한꺼번에 세 번 판단해요. 세 번의 답이 얼마나 같은지로 확신도를 정하고, 코드가 안전 기준을 덧씌워요." },
-            { head: "일정 짜기(AI 1번)", body: "방향이 다른 일정 2~3개를 한 번에 받아요. 장소, 순서, 머무는 시간, 이유만 받고 시각은 받지 않아요." },
+            { head: "일정 짜기(AI 1번)", body: "방향이 다른 일정 2~3개를 한 번에 받아요. 장소, 순서, 머무는 시간, 이유만 받고 시각은 받지 않아요. 제목은 실제로 넣은 장소가 드러나게 쓰게 했어요." },
             {
               head: "시각 계산과 검사(코드)",
               body: "이동 시간, 머무는 시간, 휠체어·어르신 여유 25%, 승하차 여유, 12~14시 점심 60분을 더해 시각을 계산해요. 다 짠 일정은 카카오 길찾기로 실제 이동 시간을 받아 한 번 더 검사해요.",
@@ -109,18 +133,14 @@ export default function HowPage() {
           ]}
         />
         <P>요청 한 번에 AI를 보통 5~8번 부르고, 10~40초쯤 걸려요. 만드는 중 화면에 나오는 진행 기록은 서버가 보낸 그대로예요.</P>
-        <Phones
-          label="만드는 중 화면"
-          shots={[{ src: "/about/making.webp", alt: "AI가 일정을 만들고 있어요: 진행률, 단계 목록, AI가 살펴보는 장소, 진행 기록", caption: "만드는 중 화면의 진행 기록" }]}
-        />
       </Section>
 
-      <Section title="AI가 쓴 것과 코드가 쓴 것">
+      <Section id="lines" title={T.lines}>
         <P>예시 루트의 첫째 날 일부예요. 이유와 판단은 AI가 썼고, 시각과 이동 시간은 코드와 카카오 길찾기가 채웠어요.</P>
         <Annotated />
       </Section>
 
-      <Section title="안전 기준은 코드가 정해요">
+      <Section id="safety" title={T.safety}>
         <Points
           items={[
             { head: "꼭 필요한 조건이 '불가'면 부적합", body: "'부분가능'이면 적어도 주의예요. 걷는 거리를 알고 있는데 입력한 거리를 넘어도 부적합이에요." },
@@ -130,7 +150,7 @@ export default function HowPage() {
         />
       </Section>
 
-      <Section title="멈추지 않게 대비했어요">
+      <Section id="fallback" title={T.fallback}>
         <Points
           items={[
             { head: "AI가 늦으면 다른 AI에도 물어요", body: "Gemini를 먼저 쓰고, 붐비거나 30초 넘게 답이 없으면 같은 요청을 OpenAI에도 보내 먼저 온 답을 써요." },
@@ -140,7 +160,7 @@ export default function HowPage() {
         />
       </Section>
 
-      <Section title="저장하지 않는 것">
+      <Section id="nostore" title={T.nostore}>
         <Points
           items={[
             { head: "이름·연락처·IP", body: "받지도 저장하지도 않아요. 글을 쓰는 칸이 없어서 들어올 길도 없어요. AI에는 고른 조건과 장소 정보만 보내요." },
@@ -151,30 +171,20 @@ export default function HowPage() {
         />
       </Section>
 
-      <Section title="누구나 쓰기 쉽게">
+      <Section id="a11y" title={T.a11y}>
         <P>
           본문 글자는 16px 이상, 누르는 곳은 44px 이상이에요. 글자 크기는 휴대폰과 브라우저의 글자 크기 설정을 그대로 따라요. 판단은 색과 기호와 글자로 함께
-          나타내요. 웹 접근성 자동 검사(WCAG 2.2 A·AA)를 주요 화면마다 돌려 위반 0건을 지켜요. 팀원이 실제 이용자 입장에서 화면을 계속 써 보며 불편한 점을 찾아
-          고쳤어요.
+          나타내요. 웹 접근성 자동 검사(WCAG 2.2 A·AA)를 주요 화면마다 돌려 위반 0건을 지켜요. 시작 화면 루트 카드와 &lsquo;여행 루트 만들기&rsquo; 버튼은 디자이너가 정한 색이라 글자 대비만 예외로 두었어요. 팀원이 실제 이용자 입장에서 화면을 계속 써 보며 불편한 점을 찾아
+          고쳤어요. 시작 화면은 웹디자이너의 시안과 지자체 관광 사이트들을 참고해 다시 만들었어요.
         </P>
       </Section>
 
-      <Section title="숫자로 보면">
-        <dl className="flex flex-col border-t border-line">
-          {NUMBERS.map((n) => (
-            <div key={n.label} className="flex flex-col gap-1 border-b border-line py-3">
-              <dt className="text-base text-ink-sub text-pretty">{n.label}</dt>
-              <dd className="flex flex-col">
-                <span className="text-heading font-medium">{n.value}</span>
-                <span className="text-sm text-ink-sub text-pretty">{n.note}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
+      <Section id="numbers" title={T.numbers}>
+        <Numbers items={NUMBERS} />
         <P>AI 숫자는 정답과 맞춰 본 정확도가 아니에요. 같은 일을 여러 번 시켰을 때 얼마나 같은 답을 내는지 본 일관성이에요.</P>
       </Section>
 
-      <Section title="더 자세히 보기">
+      <Section id="more" title={T.more}>
         <P>코드와 데이터, 테스트를 모두 공개했어요. 장소마다 근거가 된 관광공사 원문과 AI가 읽은 결과도 저장소에서 볼 수 있어요.</P>
         <ul className="flex flex-col">
           {[
