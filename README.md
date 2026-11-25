@@ -8,6 +8,8 @@
 
 휠체어 이용자, 보행이 불편한 어르신, 유모차를 끄는 가족이 강릉·속초·동해를 여행할 일정을 짜 줍니다. 함께 가는 사람과 꼭 필요한 조건을 고르면, AI가 한국관광공사 무장애 정보를 읽어 장소마다 갈 수 있는지 판단하고 성격이 다른 일정 2\~3개를 제안합니다. 공식 정보가 없는 항목은 숨기지 않고, 출발 전에 전화로 물어볼 질문과 공식 번호를 함께 붙입니다.
 
+<img src="docs/readme/hero.gif" width="100%" alt="이음길 시작 화면: 표지판에서 시작한 흰 길을 따라 파란 점선이 속초 설악산, 강릉 정자, 동해 촛대바위로 이어지고, 구름과 갈매기가 움직입니다." />
+
 [서비스 바로가기](https://ieumgil-ai.vercel.app) · [**예시 루트 바로 보기**](https://ieumgil-ai.vercel.app/trip/example) · [기획 문서](docs/planning.md) · [AI 설계](docs/ai-plan.md) · [구현 계획](docs/impl-plan.md)
 
 [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml)
@@ -15,23 +17,19 @@
 [![Last commit](https://img.shields.io/github/last-commit/ieumgil/ieumgil-ai?color=3580db)](https://github.com/ieumgil/ieumgil-ai/commits/main)
 ![2026 My AI 랩](https://img.shields.io/badge/2026-My%20AI%20%EB%9E%A9-F5872A)
 
-[![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
-[![OpenAI](https://img.shields.io/badge/OpenAI_GPT--6_Luna-412991?style=for-the-badge)](https://platform.openai.com/)
-[![한국관광공사 무장애 여행정보 API](https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EA%B4%80%EA%B4%91%EA%B3%B5%EC%82%AC_%EB%AC%B4%EC%9E%A5%EC%95%A0_%EC%97%AC%ED%96%89%EC%A0%95%EB%B3%B4_API-0B5FA5?style=for-the-badge)](https://www.data.go.kr/data/15101897/openapi.do)
-[![행정안전부 공중화장실 표준데이터](https://img.shields.io/badge/%ED%96%89%EC%A0%95%EC%95%88%EC%A0%84%EB%B6%80_%EA%B3%B5%EC%A4%91%ED%99%94%EC%9E%A5%EC%8B%A4_%ED%91%9C%EC%A4%80%EB%8D%B0%EC%9D%B4%ED%84%B0-2E7D32?style=for-the-badge)](https://www.data.go.kr/data/15012892/standard.do)
-[![기상청 단기·중기예보](https://img.shields.io/badge/%EA%B8%B0%EC%83%81%EC%B2%AD_%EB%8B%A8%EA%B8%B0%C2%B7%EC%A4%91%EA%B8%B0%EC%98%88%EB%B3%B4-3A7BD5?style=for-the-badge)](https://www.data.go.kr/data/15084084/openapi.do)
-[![Kakao Map](https://img.shields.io/badge/Kakao_Map_%C2%B7_Mobility-FFCD00?style=for-the-badge&logo=kakao&logoColor=000)](https://apis.map.kakao.com/)
-
 <img src="docs/readme/cover.png" width="100%" alt="이음길 화면: 시작, AI가 일정을 만드는 중, 일정 2가지 비교, 확정 일정과 지도" />
+
+<sub>쓰는 AI · 공공데이터</sub><br />
+[![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/) [![OpenAI](https://img.shields.io/badge/OpenAI_GPT--6_Luna-412991?style=for-the-badge)](https://platform.openai.com/) [![한국관광공사 무장애 여행정보 API](https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EA%B4%80%EA%B4%91%EA%B3%B5%EC%82%AC_%EB%AC%B4%EC%9E%A5%EC%95%A0_%EC%97%AC%ED%96%89%EC%A0%95%EB%B3%B4_API-0B5FA5?style=for-the-badge)](https://www.data.go.kr/data/15101897/openapi.do) [![행정안전부 공중화장실 표준데이터](https://img.shields.io/badge/%ED%96%89%EC%A0%95%EC%95%88%EC%A0%84%EB%B6%80_%EA%B3%B5%EC%A4%91%ED%99%94%EC%9E%A5%EC%8B%A4_%ED%91%9C%EC%A4%80%EB%8D%B0%EC%9D%B4%ED%84%B0-2E7D32?style=for-the-badge)](https://www.data.go.kr/data/15012892/standard.do) [![기상청 단기·중기예보](https://img.shields.io/badge/%EA%B8%B0%EC%83%81%EC%B2%AD_%EB%8B%A8%EA%B8%B0%C2%B7%EC%A4%91%EA%B8%B0%EC%98%88%EB%B3%B4-3A7BD5?style=for-the-badge)](https://www.data.go.kr/data/15084084/openapi.do) [![Kakao Map](https://img.shields.io/badge/Kakao_Map_%C2%B7_Mobility-FFCD00?style=for-the-badge&logo=kakao&logoColor=000)](https://apis.map.kakao.com/)
 
 | 관광지 | 필수 조건 위반 | 근거 없이 채운 값 | AI 읽기 일관성 | 웹 접근성 | 자동 테스트 |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>엔진 테스트 24가지 조건</sub> | **0건**<br /><sub>AI 읽기 1,520항목</sub> | **96.4%**<br /><sub>같은 152곳을 두 번 읽어 비교</sub> | **위반 0건**<br /><sub>axe-core 자동 검사(WCAG 2.2 A·AA)</sub> | **CI 통과**<br /><sub>단위 626 · 화면 흐름 498</sub> |
+| **152곳**<br /><sub>강릉·속초·동해</sub> | **0건**<br /><sub>엔진 테스트 24가지 조건</sub> | **0건**<br /><sub>AI 읽기 1,520항목</sub> | **96.4%**<br /><sub>같은 152곳을 두 번 읽어 비교</sub> | **위반 0건**<br /><sub>axe-core 자동 검사(WCAG 2.2 A·AA)</sub> | **CI 통과**<br /><sub>단위 628 · 화면 흐름 498</sub> |
 
 </div>
 
 > [!TIP]
-> **입력 없이 결과부터 보려면** [예시 루트](https://ieumgil-ai.vercel.app/trip/example)를 여세요. 실제 AI가 미리 만든 일정 3개(휠체어, 1박 2일)가 바로 열립니다. 장소 바꾸기 → 확정 → 지도·날씨 → 전화 확인 → 공유 링크·인쇄까지 눌러 볼 수 있습니다. 시작 화면의 **'누구와 가세요?' 카드 3장**(휠체어·강릉 / 어르신·속초 / 유모차·동해)은 미리 만든 루트 하나씩을 바로 엽니다.<br />
+> **입력 없이 결과부터 보려면** [예시 루트](https://ieumgil-ai.vercel.app/trip/example)를 여세요. 실제 AI가 미리 만든 일정 3개(휠체어, 1박 2일)가 바로 열립니다. 장소 바꾸기 → 확정 → 지도·날씨 → 전화 확인 → 공유 링크·인쇄까지 눌러 볼 수 있습니다. 시작 화면의 **'누구와 함께 가세요?' 카드 3장**(휠체어·강릉 / 어르신·속초 / 유모차·동해)은 미리 만든 루트 하나씩을 바로 엽니다.<br />
 > 직접 만들려면 [서비스](https://ieumgil-ai.vercel.app)에서 조건 4단계를 고르면 됩니다. AI가 일정을 만드는 데 보통 10\~40초 걸립니다.
 
 > [!NOTE]
@@ -61,14 +59,15 @@
 <table>
 <tr><th width="34%">휴대폰</th><th>PC</th></tr>
 <tr>
-<td align="center" valign="top"><img src="docs/readme/mock/01-home.png" width="240" alt="휴대폰 시작 화면: 강원 지도 그림, 지도로 찾아가는 즐거운 영동 여행길 문구, 오늘 영동 날씨" /></td>
-<td align="center" valign="top"><img src="docs/readme/mock/13-home-desktop.png" width="100%" alt="PC 시작 화면: 강원 지도 그림과 '지도로 찾아가는 즐거운 영동 여행길' 문구, 오늘 영동 날씨, 바로가기 아이콘 띠" /></td>
+<td align="center" valign="top"><img src="docs/readme/mock/01-home.png" width="240" alt="휴대폰 시작 화면: 머리줄 로고와 오늘 영동 날씨, 지도로 찾아가는 즐거운 영동 여행길 문구와 여행 루트 만들기 버튼, 그 아래 표지판에서 시작한 흰 길 위 파란 점선과 구름·갈매기가 있는 영동 풍경" /></td>
+<td align="center" valign="top"><img src="docs/readme/mock/13-home-desktop.png" width="100%" alt="PC 시작 화면: 왼쪽 아래 표지판에서 시작한 흰 길이 설악산 바위, 호숫가 정자, 촛대바위로 이어지고 그 위로 파란 점선, 구름, 갈매기, 배가 있는 영동 풍경. 오른쪽에 '지도로 찾아가는 즐거운 영동 여행길' 문구와 여행 루트 만들기 버튼, 아래에 그림 아이콘 바로가기 띠" /></td>
 </tr>
 </table>
 
-디자인 시안과 지자체 관광 사이트 레퍼런스(웹쟁이 '관광' 갤러리의 강진·청양·울진·예산·소곳소곳 김포·비짓강릉)를 바탕으로 만들었습니다. 가져온 CSS에는 출처와 바꾼 점을 주석으로 달았습니다([`globals.css`](src/app/globals.css)).
+디자인 시안과 지자체 관광 사이트 레퍼런스(웹쟁이 '관광' 갤러리의 강진·청양·울진·예산·소곳소곳 김포·비짓강릉)를 바탕으로 만들었습니다. 가져온 CSS에는 출처와 바꾼 점을 주석으로 달았습니다([`globals.css`](src/app/globals.css)). 히어로 장면과 바로가기 아이콘 그림은 팀이 직접 만든 것입니다([디자인 이야기](#디자인-이야기)).
 
-- **첫 화면**: 표지판·설악산 바위·정자·바다·촛대바위가 그려진 영동 풍경 위에 '지도로 찾아가는 즐거운 영동 여행길'(카페24 숑숑)을 보여 줍니다. 화면을 열면 흰 길을 따라 파란 점선이 촛대바위까지 하나씩 찍히고, 구름·갈매기·배가 천천히 움직입니다(기기의 '동작 줄이기'면 멈춤). 설명 바로 아래 초록 '여행 루트 만들기' 버튼과 '예시 루트 먼저 보기'로 첫 화면에서 바로 시작합니다. 아래 아이콘 띠(표지판 · 지도 · 정자 · 등대 · 설계도 그림, 마우스를 올리면 살짝 움직임)에서 루트 만들기 · 예시 루트 · 관광지 둘러보기 · 서비스 소개 · 만든 방법으로 갑니다.
+- **첫 화면**: 왼쪽 아래 표지판에서 시작한 흰 길이 속초(설악산 울산바위) → 강릉(호숫가 정자) → 동해(촛대바위)로 실제 해안 순서대로 이어지는 그림 위에 '지도로 찾아가는 즐거운 영동 여행길'(카페24 숑숑)을 보여 줍니다. 화면을 열면 길을 따라 파란 점선이 앞쪽부터 하나씩 찍히며 이어지고(처음 한 번, 약 5초), 구름·갈매기·배가 천천히 움직입니다. 점선은 원근에 맞춰 멀어질수록 작아집니다. 설명 바로 아래 초록 '여행 루트 만들기' 버튼과 '예시 루트 먼저 보기'로 첫 화면에서 바로 시작합니다.
+- **바로가기 띠**: 표지판(여행 루트 만들기) · 점선 지도(예시 루트) · 정자와 핀(관광지 둘러보기) · 등대(서비스 소개) · 설계도와 연필(만든 방법) 그림 아이콘입니다. 마우스를 올리거나 키보드로 고르면 표지판이 흔들리고, 점선이 다시 그려지고, 핀이 튀고, 불빛이 깜빡이고, 연필이 움직입니다.
 - **이렇게 골라요**: 단계 3개(조건에 안 맞는 곳은 빼요 → 왜 골랐는지와 출처 → 모르는 건 물어볼 것)를 고르면 휴대폰 속 화면이 그 단계의 실제 화면으로 바뀝니다. PC에서는 화면을 고정한 채 스크롤로 1→3단계가 넘어가고, 휴대폰에서는 휴대폰 화면 바로 아래 단계 카드와 함께 3초마다 저절로 넘어갑니다([멈추기] 버튼, 동작 줄이기 설정이면 멈춘 채로).
 - **누구와 함께 가세요?**: 휠체어·강릉 1박 2일 / 어르신·속초 당일 / 유모차·동해 당일 루트 카드 3장입니다. 실제 AI가 미리 만든 루트라 누르면 바로 열립니다. 카드 사진은 한국관광공사 사진과 공공누리 제1유형 고화질 사진(유모차·동해, [`route-photos.json`](data/route-photos.json))이고 카드 아래에 출처를 적었습니다.
 - **영동 대표 관광지**: 조사표의 대표 관광지 8곳을 고화질 사진으로 보여 주고, 누르면 관광지 둘러보기에서 그 관광지의 자세히 창이 바로 열립니다. 사진은 저작권 걱정이 없는 원본(CC0 · CC BY · 공공누리 제1유형)만 쓰고, 구역 아래 '사진 출처'에 작가 · 라이선스 · 원본 링크 · 바꾼 점을 적었습니다([`featured-photos.json`](data/featured-photos.json)).
@@ -173,13 +172,23 @@
 - **받은 사람은 읽기만**: 바꾸기·공유 버튼이 없고 검색 엔진에 올라가지 않습니다. 저장소는 브라우저 키로 접근할 수 없게 막았습니다(Supabase RLS).
 - **종이로도**: 인쇄하면 사진·지도를 뺀 A4 일정표가 나옵니다(1박 2일 기준 1장).
 
+### 디자인 이야기
+
+<img src="docs/readme/design-icons.png" width="100%" alt="앱 아이콘(남색 바탕에 흰 표지판 기둥, 파랑 오른쪽 화살표, 초록 왼쪽 화살표, 초록 언덕, 흰 길, 파도)과 바로가기 아이콘 5개(표지판, 점선 지도, 정자와 핀, 등대, 설계도와 연필), 색 세 가지(파랑 #3580DB, 초록 #3DAA7E, 그림에만 쓰는 남색 #092B47)" />
+
+- 이름 '이음길'(잇는 길)에서 출발했습니다. 모든 그림이 **끊기지 않고 이어지는 길** 하나로 묶입니다. 계단 없이 완만하게 이어지는 길이 곧 무장애입니다.
+- **앱 아이콘**: 남색 바탕에 표지판(파랑 화살표 · 초록 화살표)과 언덕 · 흰 길 · 파도를 넣었습니다. 작게 줄여도(32px) 알아보도록 굵은 모양으로 그렸습니다.
+- **색**: 히어로 문구 색인 파랑 #3580DB와 초록 #3DAA7E 두 가지에, 그림에만 남색 #092B47을 포인트로 씁니다. 글자 색 규칙은 그대로입니다.
+- 히어로와 바로가기 아이콘이 같은 세계(표지판, 점선, 정자, 등대, 파도)라 첫 화면부터 한 이야기로 이어집니다.
+- **만든 방법**: 그림은 생성형 AI(Gemini, ChatGPT)로 시안을 여러 번 만들고, 팀이 고르고 다듬었습니다. 색을 브랜드 값으로 맞추고, 32·16px로 줄여 확인하고, 투명 바탕으로 정리했습니다.
+
 ### 누구나 쓰기 쉽게
 
 - 본문 글자는 16px 이상, 버튼과 선택 칸은 44px 이상입니다. 글자 크기는 휴대폰·브라우저의 글자 크기 설정을 그대로 따릅니다.
 - 글꼴은 두 가지만 씁니다: 본문·숫자 전부 Pretendard, 시작 화면 문구 한 줄만 카페24 숑숑. 구분은 크기와 굵기로 합니다.
-- 움직임은 스크롤한 만큼만 따라오거나 짧게(버튼·창 0.1\~0.2초, 소개 글의 구역·숫자·막대 등장 0.5\~1초) 끝나고, 기기의 '동작 줄이기' 설정을 켜면 멈춥니다.
+- 움직임은 스크롤한 만큼만 따라오거나 짧게(버튼·창 0.1\~0.2초, 소개 글의 구역·숫자·막대 등장 0.5\~1초) 끝나고, 기기의 '동작 줄이기' 설정을 켜면 멈춥니다. 시작 화면 점선은 처음 한 번만 그려지고, 바로가기 아이콘은 마우스를 올리거나 키보드로 골랐을 때만 움직입니다. '동작 줄이기'를 켜면 점선은 처음부터 다 그려진 상태로 보이고 구름·갈매기·배도 멈춥니다.
 - 판단은 색만으로 나타내지 않고 ✓ 적합 · ! 주의 · ✕ 부적합처럼 기호와 글자를 함께 씁니다.
-- 웹 접근성은 [axe-core](https://github.com/dequelabs/axe-core-npm) 자동 검사로 주요 화면을 휴대폰·PC에서 확인합니다([`axe.spec.ts`](tests/e2e/axe.spec.ts)). 색은 파랑 #3580db와 초록 #3daa7e 두 가지로 통일했고, 이 색의 글자 대비는 기준(4.5:1)보다 낮지만 실제 화면에서 잘 보인다고 판단해 글자 대비 규칙만 검사에서 뺐습니다. 다른 규칙은 그대로 검사합니다.
+- 웹 접근성은 [axe-core](https://github.com/dequelabs/axe-core-npm) 자동 검사로 주요 화면을 휴대폰·PC에서 확인합니다([`axe.spec.ts`](tests/e2e/axe.spec.ts)). 색은 파랑 #3580db와 초록 #3daa7e 두 가지로 통일했고(그림에만 남색 #092B47을 포인트로 씀), 이 색의 글자 대비는 기준(4.5:1)보다 낮지만 실제 화면에서 잘 보인다고 판단해 글자 대비 규칙만 검사에서 뺐습니다. 다른 규칙은 그대로 검사합니다.
 
 ## AI는 어떻게 판단하나요
 
@@ -359,7 +368,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 
 | 항목 | 목표 | 현재 |
 | --- | --- | --- |
-| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 626개 · 화면 흐름 498개(모바일·PC) |
+| 자동 테스트 | 모두 통과 | [![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 628개 · 화면 흐름 498개(모바일·PC) |
 | 엔진 시나리오 10개 + 유형 조합 14개 | 필수 조건 위반 0건 | **0건** |
 | AI 가드(가짜 LLM 테스트 78개) | 근거 없는 판단 사용 0건 · 안전 하한보다 낙관 0건 · 검사 안 된 안 노출 0건 · 실패 시 규칙 일정 | **모두 통과** |
 | AI 읽기 | 원문에 없는 근거로 채운 값 0건 · 두 번 읽었을 때 항목 일치율 | **0건** · **96.4%** ([`data/eval/`](data/eval/)) |
@@ -417,7 +426,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 | 관광지 둘러보기 | [`/places`](src/app/places/PlacesBrowser.tsx) · AI 한 줄 소개 [`summary.json`](data/ai/summary.json) |
 | **더한 것** 장애인 화장실·기저귀 교환대 공공데이터 보충 | [`lib/public/`](src/lib/public/) · [짝짓기 결과](docs/data/public-restrooms.md) |
 | **더한 것** 날짜별 날씨(기상청)와 비·눈 주의 | [`api/weather`](src/app/api/weather/route.ts) · [`lib/weather/`](src/lib/weather/) · [API 정리](docs/data/kma-forecast.md) |
-| **더한 것** 시작 화면 개편(디자인 시안 · 지자체 관광 사이트 레퍼런스 CSS) | [`page.tsx`](src/app/page.tsx) · [`components/home/`](src/components/home/) · [`public/hero/`](public/hero/) |
+| **더한 것** 시작 화면 개편(디자인 시안 · 지자체 관광 사이트 레퍼런스 CSS) | [`page.tsx`](src/app/page.tsx)의 `Hero()` · [`HeroScene.tsx`](src/components/home/HeroScene.tsx) · [`QuickMenu.tsx`](src/components/home/QuickMenu.tsx) · [`globals.css`](src/app/globals.css) · 그림 [`public/hero/`](public/hero/) · [`public/home/`](public/home/) |
 | **더한 것** 웹 접근성 자동 검사 · 디자인 규칙 감시 | [`axe.spec.ts`](tests/e2e/axe.spec.ts) · [`legacy-classes.test.ts`](tests/design/legacy-classes.test.ts) |
 | 엔진 시나리오 10개 · AI 가드 · 화면 흐름 테스트 · AI 평가 | [검증](#검증) |
 
@@ -436,7 +445,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 | 공유: 요약 이미지 저장 | 읽기 전용 공유 링크 + A4 인쇄 | 지도 이미지는 캡처가 막힐 수 있고, 이동시간을 이미지에 굳히면 카카오 저장 금지와 맞지 않음 |
 | 어려운 곳의 대안 이유를 LLM이 붙임 | 대안은 코드가 고르고 이유는 ② 판단 이유를 그대로 | 요청할 때 AI 호출을 늘리지 않음. 대안도 이미 판단한 후보라 이유가 있음 |
 | '가 글씨 크게' 버튼 | 휴대폰·브라우저 글자 크기 설정을 따름 | 버튼보다 기기 설정을 쓰는 사람이 많음. 모든 글자를 rem 단위로 |
-| 시작 화면: 소개 글 + 버튼 | 지도 그림 히어로 · 바로가기 띠 · 단계 소개(스크롤 고정) · 사람별 루트 카드 · 대표 관광지 | 점검 피드백("텍스트가 많고 AI가 만든 티가 난다")과 지자체 관광 사이트 레퍼런스. 서비스가 무엇을 하는지 첫 화면에서 그림과 실제 루트로 보여 줌 |
+| 시작 화면: 소개 글 + 버튼 | 영동 풍경 히어로(흰 길 위 점선) · 바로가기 띠 · 단계 소개(스크롤 고정) · 사람별 루트 카드 · 대표 관광지 | 점검 피드백("텍스트가 많고 AI가 만든 티가 난다")과 지자체 관광 사이트 레퍼런스. 서비스가 무엇을 하는지 첫 화면에서 그림과 실제 루트로 보여 줌 |
 | 장소 카드 [자세히]에 AI 판단 이유·가서 볼 것·근거 항목 목록 | 도착하면 · 전화로 물어볼 것 · 출처 한 줄 | 한 카드에 같은 이유가 세 번 나와 읽기 어려움. 출처 등급은 그대로 보임 |
 | 역할: 강환일 = 백엔드(신청서) | 개발은 공지혁, 강환일은 자료·API 조사, 사용자 테스트, 보고서·대외 활동 | 실제 작업에 맞춤(주간보고에 기록) |
 
@@ -502,6 +511,8 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 
 맨 위 데이터·AI 배지와 이 배지들이 쓰인 기술입니다.
+
+디자인: 그림 시안은 Gemini · ChatGPT로 만들어 다듬었고, 히어로·아이콘 움직임은 CSS(transform · opacity만), 점선은 SVG입니다.
 
 <details>
 <summary>기술별로 맡은 일과 지킨 원칙</summary>
