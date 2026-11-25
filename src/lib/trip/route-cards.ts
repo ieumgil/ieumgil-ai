@@ -22,15 +22,15 @@ export interface RouteCard {
   where: string;
   /** 카드 제목: 사실만(시설이 있다고 단정하지 않는다) */
   line: string;
-  /** 대표 사진 장소(public/photos/<id>.webp, 한국관광공사 공공누리 1유형) */
-  photoPlace: string;
+  /** 카드 사진: 한국관광공사 사진(public/photos/<장소 id>.webp, 공공누리 제1유형) 또는 11/25 고화질(public/photos/route/<id>.webp, 출처는 data/route-photos.json) */
+  photo: string;
   trip: TripView;
 }
 
 export const ROUTE_CARDS: RouteCard[] = [
-  { id: "wheelchair", who: "휠체어", where: "강릉 · 1박 2일", line: "오죽헌과 경포 바다를 휠체어로", photoPlace: "GN33", trip: single(EXAMPLE_TRIP, "B", "example-route-wheelchair") },
-  { id: "elder", who: "어르신", where: "속초 · 당일", line: "속초 바다와 청초호를 천천히", photoPlace: "SC27", trip: single(elder as unknown as TripView, "A", "example-route-elder") },
-  { id: "stroller", who: "유모차", where: "동해 · 당일", line: "추암 촛대바위에서 도째비골까지", photoPlace: "DH20", trip: single(stroller as unknown as TripView, "B", "example-route-stroller") },
+  { id: "wheelchair", who: "휠체어", where: "강릉 · 1박 2일", line: "오죽헌과 경포 바다를 휠체어로", photo: "/photos/GN33.webp", trip: single(EXAMPLE_TRIP, "B", "example-route-wheelchair") },
+  { id: "elder", who: "어르신", where: "속초 · 당일", line: "속초 바다와 청초호를 천천히", photo: "/photos/SC27.webp", trip: single(elder as unknown as TripView, "A", "example-route-elder") },
+  { id: "stroller", who: "유모차", where: "동해 · 당일", line: "추암 촛대바위에서 도째비골까지", photo: "/photos/route/stroller.webp", trip: single(stroller as unknown as TripView, "B", "example-route-stroller") },
 ];
 
 export const ROUTE_PREFIX = "route-";

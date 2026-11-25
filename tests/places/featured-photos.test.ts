@@ -3,6 +3,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import featured from "../../data/featured.json";
 import credits from "../../data/featured-photos.json";
+import routePhotos from "../../data/route-photos.json";
+import { ROUTE_CARDS } from "@/lib/trip/route-cards";
 
 const ALLOWED = ["CC0 1.0", "CC BY 3.0", "CC BY 4.0", "공공누리 제1유형"];
 
@@ -35,5 +37,24 @@ describe("대표 관광지 고화질 사진 출처(data/featured-photos.json)", 
     const ids = credits.photos.map((p) => p.id);
     expect(new Set(ids).size).toBe(ids.length);
     expect(readFileSync("data/featured-photos.json", "utf8")).not.toContain("?utm");
+  });
+});
+
+// 루트 카드 3장 사진(11/25): 같은 기준(CC0 · 공공누리 제1유형), 카드마다 하나씩, 파일이 있다
+
+describe("루트 카드 사진 출처(data/route-photos.json)", () => {
+  it("고화질로 바꾼 카드(public/photos/route/)마다 출처가 있고, 라이선스는 CC0 · 공공누리 제1유형만, 원본 페이지 주소가 있다", () => {
+    const replaced = ROUTE_CARDS.filter((c) => c.photo.startsWith("/photos/route/")).map((c) => c.id);
+    expect(routePhotos.photos.map((p) => p.id).sort()).toEqual(replaced.sort());
+    for (const p of routePhotos.photos) {
+      expect(["CC0", "공공누리 제1유형"], p.id).toContain(p.license);
+      expect(p.page, p.id).toMatch(/^https:\/\//);
+      expect(p.licenseUrl, p.id).toMatch(/^https:\/\//);
+      if (p.license === "공공누리 제1유형") expect(p.author.trim(), p.id).not.toBe(""); // 출처 표시 필수
+    }
+  });
+
+  it("카드가 쓰는 사진 파일이 모두 있다", () => {
+    for (const c of ROUTE_CARDS) expect(existsSync(`public${c.photo}`), c.id).toBe(true);
   });
 });

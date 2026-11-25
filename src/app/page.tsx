@@ -18,6 +18,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ButtonLink } from "@/components/ui/button";
 import type { CSSProperties } from "react";
 import { ROUTE_CARDS, type RouteCardId } from "@/lib/trip/route-cards";
+import routePhotos from "../../data/route-photos.json";
 
 
 
@@ -123,7 +124,7 @@ function RouteCards() {
                 루트 보기
               </span>
               <span className="route-card__thumb">
-                <Image src={`/photos/${c.photoPlace}.webp`} alt="" fill sizes="(min-width: 1024px) 30vw, 190px" className="object-cover" />
+                <Image src={c.photo} alt="" fill sizes="(min-width: 1024px) 30vw, 190px" className="object-cover" />
               </span>
               <span className={`route-card__info ${CARD_BG[c.id]}`}>
                 <span className="route-card__sub">
@@ -135,7 +136,11 @@ function RouteCards() {
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-sm text-ink-sub">실제 AI가 미리 만든 예시 루트예요 · 사진: 한국관광공사(공공누리 제1유형)</p>
+      {/* 사진 출처: 경포해수욕장·청초호는 한국관광공사, 유모차 카드는 고화질 사진(data/route-photos.json). 공공누리 제1유형은 출처 표시 필수 */}
+      <p className="mt-4 text-sm text-ink-sub">
+        실제 AI가 미리 만든 예시 루트예요 · 사진: 경포해수욕장 · 청초호 한국관광공사(공공누리 제1유형) ·{" "}
+        {routePhotos.photos.map((p) => `${p.place} ${p.author}(${p.license}, ${routePhotos.changes})`).join(" · ")}
+      </p>
     </section>
   );
 }
