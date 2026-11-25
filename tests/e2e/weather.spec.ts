@@ -196,13 +196,13 @@ test("1일 일정에도 날씨 줄이 보인다(날짜 탭 없음)", async ({ pa
   await expect(page.getByRole("tab", { name: /일째/ })).toHaveCount(0);
 });
 
-// D-07: 안 비교·상세 화면은 날씨를 부르지 않는다(확정·공유 화면에서만)
-test("안 비교 화면(/trip/new)은 날씨를 부르지 않는다", async ({ page }) => {
-  const urls: string[] = [];
-  page.on("request", (req) => urls.push(req.url()));
+// D-07: 날짜별 날씨 줄은 확정·공유 화면에만 — 안 비교·상세 화면에는 없다.
+// (11/25부터 머리줄에 '오늘 영동 날씨' 칸이 모든 화면에 있어 /api/weather 자체는 불린다 — 사용자 결정. 본문에는 날씨 줄이 없다는 뜻은 그대로)
+test("안 비교 화면(/trip/new) 본문에는 날짜별 날씨 줄이 없다", async ({ page }) => {
   await setup(page, (r) => r.fulfill({ json: weather }));
   await page.goto("/trip/new");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await page.waitForLoadState("networkidle");
-  expect(urls.filter((u) => u.includes("/api/weather"))).toEqual([]);
+  await expect(page.getByRole("main")).not.toContainText("℃");
+  await expect(page.getByRole("main")).not.toContainText("기상청");
 });

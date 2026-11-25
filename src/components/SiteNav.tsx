@@ -59,11 +59,11 @@ function CtaLink() {
   return (
     <Link
       href="/plan"
-      className={`press hidden min-h-touch shrink-0 items-center rounded-full bg-primary px-4 text-base font-medium whitespace-nowrap text-white transition-opacity hover:opacity-90 min-[22.5rem]:inline-flex lg:px-6 ${FOCUS}`}
+      className={`press hidden min-h-touch shrink-0 items-center rounded-full bg-primary px-4 text-base font-medium whitespace-nowrap text-white transition-opacity hover:opacity-90 lg:inline-flex xl:px-6 ${FOCUS}`}
     >
       {/* 한 덩어리로 감싼다: 버튼이 flex라 안쪽 글자 끝 공백이 지워져 '여행루트'로 붙었다 */}
       <span>
-        <span className="hidden lg:inline">{"여행 "}</span>루트 만들기
+        <span className="hidden xl:inline">{"여행 "}</span>루트 만들기
       </span>
     </Link>
   );
@@ -76,7 +76,7 @@ function CtaByPath() {
   return <CtaLink />;
 }
 
-/** 머리줄 강조 버튼 [여행 루트 만들기](휴대폰 '루트 만들기'). 둘러보기·결과·확정·공유·소개 화면에서만 보인다 */
+/** 머리줄 강조 버튼 [여행 루트 만들기](PC만, 1024~1279px는 '루트 만들기'. 휴대폰·태블릿은 ☰ 맨 위). 둘러보기·결과·확정·공유·소개 화면에서만 보인다 */
 export function SiteCta() {
   return (
     <Suspense fallback={<CtaLink />}>

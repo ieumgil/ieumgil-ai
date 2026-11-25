@@ -961,6 +961,22 @@ label:has(input[type="checkbox"]) {
   }
 }
 
+/* 머리줄 오늘 날씨(11/25, components/WeatherTicker.tsx): 다음 도시가 아래에서 올라온다(함안군청 인기검색어처럼). 동작 줄이기면 굴리지 않는다 */
+.weather-roll {
+  display: inline-flex;
+  animation: weather-roll-in var(--motion-long) var(--ease-enter);
+}
+@keyframes weather-roll-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* 좁은 화면 소개 자동 넘김 진행 막대(고칠 목록 2, 11/24) — 단계마다 한 칸, 지금 칸이 3초(IntroSteps AUTO_MS) 동안 차오른다.
    멈추면 지금 칸은 꽉 찬 채로. 동작 줄이기면 자동 넘김이 멈춘 채로 시작하고, 사용자가 켜도 차오르는 움직임 없이 꽉 찬 칸만 보인다 */
 .intro-progress {

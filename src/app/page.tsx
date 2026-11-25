@@ -12,7 +12,6 @@ import { FeaturedPlaces } from "@/components/home/FeaturedPlaces";
 import { IntroSteps } from "@/components/home/IntroSteps";
 import { QuickMenu } from "@/components/home/QuickMenu";
 import { SectionTitle } from "@/components/home/SectionTitle";
-import { TodayWeather } from "@/components/home/TodayWeather";
 import { SITE_WIDTH } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ButtonLink } from "@/components/ui/button";
@@ -58,17 +57,17 @@ function Hero() {
       <Image src="/hero/sky-hills.webp" alt="" fill priority sizes="100vw" className="object-cover object-bottom" />
       {/* eslint-disable-next-line @next/next/no-img-element -- 장식 SVG(크기 조절만, 최적화 불필요) */}
       <img src="/hero/bush-corner.svg" alt="" aria-hidden="true" className="hero-scene__bush" />
-      <div className={`${SITE_WIDTH} relative z-10 grid items-center gap-6 pt-10 pb-28 lg:min-h-[min(41rem,calc(100svh-19rem))] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:py-8`}>
+      <div className={`${SITE_WIDTH} relative z-10 grid items-center gap-6 pt-10 pb-28 lg:min-h-[min(41rem,calc(100svh-19rem))] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:pt-6 lg:pb-8`}>
         {/* eslint-disable-next-line @next/next/no-img-element -- 장식 SVG */}
         <img src="/hero/gangwon-map.svg" alt="" aria-hidden="true" className="hero-scene__map" />
-        <div className="relative z-10 flex flex-col lg:items-end lg:pb-24 lg:text-right">
+        <div className="relative z-10 flex flex-col lg:items-end lg:pb-44 lg:text-right">
           <p className="text-heading text-ink">휠체어, 어르신, 유모차와 함께 가는 영동</p>
           <h1 id="hero-title" className="mt-4 font-hero text-hero font-normal">
             <span className="block text-primary-ink">지도로 찾아가는</span>{" "}
             <span className="block text-pine">즐거운 영동 여행길</span>
           </h1>
           <p className="mt-6 text-heading text-ink-sub text-pretty lg:max-w-[30rem]">강릉·속초·동해 관광지 가운데 우리 조건에 맞는 곳만 골라 당일부터 2박 3일까지 여행 루트를 짜 드려요.</p>
-          {/* 첫 화면에서 바로 누르는 주 버튼(11/24, 고칠 목록 11번): 설명 바로 아래 · 날씨 위. 소개 구역의 큰 초록 버튼(.intro-cta)과 같은 모양 */}
+          {/* 첫 화면에서 바로 누르는 주 버튼(11/24, 고칠 목록 11번): 설명 바로 아래(오늘 날씨는 11/25 상단 띠로 옮김). 소개 구역의 큰 초록 버튼(.intro-cta)과 같은 모양 */}
           <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center lg:justify-end">
             <ButtonLink href="/plan" className="intro-cta press">
               여행 루트 만들기
@@ -76,9 +75,6 @@ function Hero() {
             <Link href="/trip/example" className="inline-flex min-h-touch items-center justify-center px-2 text-base font-medium text-primary underline-offset-4 hover:underline">
               예시 루트 먼저 보기 →
             </Link>
-          </div>
-          <div className="mt-6">
-            <TodayWeather />
           </div>
         </div>
       </div>

@@ -32,12 +32,12 @@ test("사이트 머리줄: 로고는 처음 화면으로, 메뉴는 예시 루�
   await page.goto("/places");
   await expect(page.getByRole("link", { name: "이음길 처음 화면" })).toHaveAttribute("href", "/");
   const header = page.getByRole("banner");
-  const cta = header.getByRole("link", { name: /루트 만들기$/ });
-  await expect(cta).toHaveAttribute("href", "/plan");
-  await expect(cta).toBeVisible();
-  expect((await cta.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   if (info.project.name === "desktop") {
-    await expect(cta).toHaveAccessibleName("여행 루트 만들기");
+    // PC: 머리줄 오른쪽 끝 알약 버튼
+    const cta = header.getByRole("link", { name: "여행 루트 만들기" });
+    await expect(cta).toHaveAttribute("href", "/plan");
+    await expect(cta).toBeVisible();
+    expect((await cta.boundingBox())!.height).toBeGreaterThanOrEqual(44);
     const nav = header.getByRole("navigation", { name: "주 메뉴" }).first();
     const expected: [string, string][] = [
       ["예시 루트", "/trip/example"],
@@ -50,7 +50,10 @@ test("사이트 머리줄: 로고는 처음 화면으로, 메뉴는 예시 루�
     await expect(nav.getByRole("link", { name: "서비스 소개" })).not.toHaveAttribute("aria-current", "page");
   } else {
     await page.locator("summary", { hasText: "메뉴 열기" }).click();
+    // 휴대폰·태블릿: 머리줄에는 버튼 자리가 없어(오늘 날씨 칸) ☰ 맨 위에 '여행 루트 만들기'(11/25)
     const menu = page.locator("details[open] nav");
+    await expect(menu.getByRole("link").first()).toHaveAccessibleName("여행 루트 만들기");
+    await expect(menu.getByRole("link", { name: "여행 루트 만들기" })).toHaveAttribute("href", "/plan");
     for (const name of ["예시 루트", "관광지 둘러보기", "서비스 소개", "만든 방법"]) await expect(menu.getByRole("link", { name })).toBeVisible();
     await expect(menu.getByRole("link", { name: "관광지 둘러보기" })).toHaveAttribute("aria-current", "page");
   }
