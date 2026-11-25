@@ -14,9 +14,9 @@ test("시작 화면 하단바 → 서비스 소개 → 작동 원리 → 다시 
   await expect(page.getByText("지도의 경로는 일반 차량 경로예요")).toBeVisible();
   await expect(page.getByText("이름과 연락처를 받지 않아요")).toBeVisible();
 
-  await page.getByRole("link", { name: /이음길은 이렇게 만들었어요/ }).click();
+  await page.getByRole("link", { name: /이음길은 이렇게 작동해요/ }).click();
   await expect(page).toHaveURL(/\/about\/how$/);
-  await expect(page.getByRole("heading", { level: 1, name: "이음길은 이렇게 만들었어요" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "이음길은 이렇게 작동해요" })).toBeVisible();
   await expect(page.getByText("시각 계산과 검사(코드)")).toBeVisible();
 
   await page.getByRole("link", { name: /이음길은 이런 서비스예요/ }).click();
