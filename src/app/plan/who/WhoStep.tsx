@@ -3,7 +3,7 @@
 // 2단계 누구와 (시안 Who.dc.html)
 import type { ReactNode } from "react";
 import { ElderIcon, LockIcon, StrollerIcon, WheelchairIcon } from "@/components/icons";
-import { CheckDot } from "@/components/plan/choices";
+import { CheckBox } from "@/components/plan/choices";
 import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
 import { updatePlan, usePlan } from "@/lib/plan/store";
@@ -54,7 +54,9 @@ export function WhoStep() {
       }
     >
       <IncompleteNotice plan={plan} step={2} />
-      <div id="field-travelers" className="flex flex-col gap-3 px-4 md:px-6">
+      <div id="field-travelers" className="flex flex-col px-4 md:px-6">
+        {/* 상자 없는 목록(11/25, 두루누비·롯데렌터카 폼): 행마다 구분선, 왼쪽 네모 체크, 고른 행은 이름이 진해진다 */}
+        <div className="mb-3 border-t border-line">
         {TYPES.map((t) => {
           const on = plan.travelers.includes(t.id);
           return (
@@ -63,21 +65,22 @@ export function WhoStep() {
               type="button"
               aria-pressed={on}
               onClick={() => toggle(t.id)}
-              className={`flex min-h-20 w-full flex-wrap items-center gap-3 rounded-2xl p-4 text-left press press-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                on ? "border-2 border-primary bg-primary-soft" : "border-[1.5px] border-line-control bg-white hover:border-primary"
-              }`}
+              className="group flex min-h-20 w-full items-start gap-3 border-b border-line py-4 text-left press press-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
-              <span className="shrink-0 text-primary">{t.icon}</span>
-              <span className="flex min-w-0 grow basis-[10rem] flex-col gap-1">
-                <span className="text-base font-medium text-ink">{t.title}</span>
-                <span className="text-base text-ink-sub">{t.body}</span>
+              <span className="mt-0.5">
+                <CheckBox on={on} />
               </span>
-              <span className="ml-auto">
-                <CheckDot on={on} />
+              <span className="flex min-w-0 grow flex-col gap-1">
+                <span className={`flex items-center gap-2 text-base ${on ? "font-medium text-ink" : "text-ink group-hover:text-primary-ink"}`}>
+                  <span className="shrink-0 text-primary">{t.icon}</span>
+                  {t.title}
+                </span>
+                <span className="text-base text-ink-sub">{t.body}</span>
               </span>
             </button>
           );
         })}
+        </div>
         <p className="text-sm text-ink-sub">여러 개를 함께 고를 수 있어요 · 예: 휠체어를 쓰는 할머니와 유모차를 탄 아이가 함께 가는 여행</p>
         <p className="flex items-start gap-2 text-sm text-ink-sub">
           <LockIcon size={16} className="mt-0.5 shrink-0" />

@@ -1,14 +1,18 @@
 "use client";
 
-// 입력 단계의 선택 버튼들(시안 When·Who·Conditions·Taste).
+// 입력 단계의 선택 요소(11/25 다시 그림 — 웹쟁이 레퍼런스: .planning/research/selection-controls-2026-11-25.md).
+// 전에는 모든 선택이 '흰 상자 + 회색 테두리 → 파란 테두리 + 연한 파랑 면 + 파란 원 ✓'로 같아 AI 기본 디자인처럼 보였다.
+// 실제 사이트처럼 요소 종류마다 한 가지 변화만 쓴다(✓는 색만으로 구분하지 않으려고 모두 남긴다, D-05):
+//   · 하나 고르는 분할 칸(SegmentButton) = 삼성생명 다이렉트 성별 칸: 흰 칸 + 1px 선 → 2px 파랑 테두리 + 파랑 글자 500 + ✓ (면 없음)
+//   · 알약·타일(ChoiceButton) = SK렌터카 상품 알약: 연회색 면(테두리 없음) → 파랑 면 + 흰 글자 500 + ✓
+//   · 목록(CheckRow·CheckBox) = 두루누비·롯데렌터카 폼: 상자 없는 행 + 구분선, 왼쪽 24px 네모 → 파랑 채움 + 흰 ✓, 글자가 진해짐
 import type { ReactNode } from "react";
 import { CheckIcon } from "@/components/icons";
 
 const focus = "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary";
 
 /**
- * 고르면 나타나는 ✓ 기호. 색만으로 구분하지 않으려고 쓴다(D-05).
- * 글자 폭만큼만 차지하는 알약 칩 전용: 버튼 왼쪽 안쪽 여백에 띄워(absolute) 두어, 안 고른 상태에서도 글자가 가운데에 오고
+ * 고르면 나타나는 ✓ 기호. 글자 폭만큼만 차지하는 알약 칩 전용: 버튼 왼쪽 안쪽 여백에 띄워(absolute) 두어, 안 고른 상태에서도 글자가 가운데에 오고
  * 고를 때 폭·글자 자리가 흔들리지 않는다. 알약은 좌우 같은 여백(px-6)이라 ✓와 글자가 겹치지 않는다.
  * 칸 폭이 정해진 분할·타일 버튼은 InlineLabel(✓를 글자 바로 앞에)을 쓴다.
  */
@@ -38,7 +42,7 @@ function InlineLabel({ on, className, children }: { on: boolean; className: stri
   );
 }
 
-/** 하나 또는 여러 개 고르는 알약/네모 버튼(S1). 안 고르면 흰 바탕 + 회색 윤곽, 고르면 2px 파란 테두리 + 연한 파랑 + ✓. */
+/** 알약·타일 버튼(하나 또는 여러 개). 안 고르면 연회색 면(테두리 없음), 고르면 파랑 면 + 흰 글자 + ✓(SK렌터카 알약). */
 export function ChoiceButton({
   selected,
   onClick,
@@ -61,9 +65,9 @@ export function ChoiceButton({
       type="button"
       onClick={onClick}
       {...a11y}
-      className={`relative inline-flex min-h-touch items-center justify-center px-6 text-base font-medium press ${focus} ${
+      className={`relative inline-flex min-h-touch items-center justify-center px-6 text-base press ${focus} ${
         shape === "pill" ? "rounded-full" : "min-h-12 rounded-xl"
-      } ${selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"} ${className}`}
+      } ${selected ? "bg-primary font-medium text-white" : "bg-surface text-ink hover:bg-line"} ${className}`}
     >
       {shape === "tile" ? (
         // 타일은 격자 칸(폭 고정)이라 ✓를 글자 앞에 붙인다. 알약은 글자 폭만큼이라 왼쪽 여백에 띄운다.
@@ -80,7 +84,7 @@ export function ChoiceButton({
   );
 }
 
-/** 한 개 선택(걷는 거리, 일정 밀도, 지역). ChoiceButton과 같은 S1 상태이고 줄바꿈을 허용한다. */
+/** 한 개 선택 분할 칸(걷는 거리, 일정 밀도, 지역). 흰 칸 + 1px 선, 고르면 2px 파랑 테두리 + 파랑 글자 + ✓(삼성생명 다이렉트 성별 칸). 줄바꿈 허용. */
 export function SegmentButton({
   selected,
   onClick,
@@ -101,8 +105,8 @@ export function SegmentButton({
       role="radio"
       aria-checked={selected}
       onClick={onClick}
-      className={`relative flex min-h-12 items-center justify-center rounded-xl px-2 text-base font-medium text-balance press ${focus} ${
-        selected ? "border-2 border-primary bg-primary-soft text-primary-ink" : "border-[1.5px] border-line-control bg-white text-ink hover:border-primary"
+      className={`relative flex min-h-12 items-center justify-center rounded-xl bg-white px-2 text-base text-balance press ${focus} ${
+        selected ? "border-2 border-primary font-medium text-primary-ink" : "border border-line-control text-ink-sub hover:border-primary hover:text-ink"
       } ${className}`}
     >
       <InlineLabel on={selected} className={`flex flex-col items-center gap-0.5 ${fluid ? "[overflow-wrap:break-word]" : "min-w-0 [overflow-wrap:anywhere]"}`}>
@@ -112,21 +116,21 @@ export function SegmentButton({
   );
 }
 
-/** 둥근 체크 표시(큰 카드 오른쪽) */
-export function CheckDot({ on, size = "md" }: { on: boolean; size?: "md" | "sm" }) {
+/** 24px 네모 체크 표시(목록 행 왼쪽): 안 고르면 흰 칸 + 회색 선, 고르면 파랑 채움 + 흰 ✓. 장식이라 읽지 않는다(상태는 버튼·체크박스가 알린다).
+ *  반지름은 6px — 24px 칸에 컨트롤 반지름 12px를 쓰면 동그라미가 되어 라디오처럼 보인다(테마의 중간 반지름은 11px라 칸에 직접 6px를 준다) */
+export function CheckBox({ on }: { on: boolean }) {
   return (
     <span
       aria-hidden="true"
-      className={`flex shrink-0 items-center justify-center rounded-full border-2 ${
-        size === "md" ? "size-7" : "size-6"
-      } ${on ? "animate-pop border-primary bg-primary text-white" : "border-line-control bg-white text-transparent group-hover:border-primary"}`}
+      style={{ borderRadius: "0.375rem" }}
+      className={`flex size-6 shrink-0 items-center justify-center border-[1.5px] transition-colors ${on ? "border-primary bg-primary text-white" : "border-line-control bg-white text-transparent"}`}
     >
-      <CheckIcon size={size === "md" ? 16 : 14} strokeWidth={2.6} />
+      <CheckIcon size={16} strokeWidth={2.6} />
     </span>
   );
 }
 
-/** 체크박스 줄(조건 목록, 장애인 표지). S1 행: 흰 바탕 + 회색 윤곽, 체크하면 파란 테두리. 태그는 상자 없이 글자만. */
+/** 체크박스 줄(조건 목록, 장애인 표지): 상자 없는 행 + 아래 구분선, 왼쪽 24px 네모, 고르면 글자가 진해진다. 태그는 오른쪽 보조 글자. */
 export function CheckRow({
   checked,
   onChange,
@@ -139,18 +143,13 @@ export function CheckRow({
   tag?: string;
 }) {
   return (
-    <label
-      className={`flex min-h-13 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] bg-white px-4 py-3 press press-soft has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${
-        checked ? "border-primary" : "border-line-control hover:border-primary"
-      }`}
-    >
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="size-5.5 shrink-0 accent-primary"
-      />
-      <span className="flex-1 text-base">{children}</span>
+    <label className="flex min-h-13 cursor-pointer items-center gap-3 border-b border-line py-3 has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary">
+      {/* 진짜 체크박스는 네모 위에 투명하게 겹쳐 둔다(누르기·키보드·화면 읽기는 그대로, 보이는 모양은 CheckBox) */}
+      <span className="relative flex shrink-0">
+        <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="absolute inset-0 m-0 size-6 cursor-pointer opacity-0" />
+        <CheckBox on={checked} />
+      </span>
+      <span className={`flex-1 text-base ${checked ? "font-medium text-ink" : "text-ink-sub"}`}>{children}</span>
       {tag && <span className="shrink-0 text-sm text-ink-sub">{tag}</span>}
     </label>
   );

@@ -168,29 +168,56 @@ test.describe("입력 틀·1·2단계 정리", () => {
     expect(shadow).not.toBe("none");
   });
 
-  test("선택지는 흰 바탕 + 회색 윤곽이고 고르면 파란 테두리 + ✓ 기호가 보인다 @p0307", async ({ page }) => {
+  // 11/25 선택 요소 다시 그림(웹쟁이 레퍼런스 — SK렌터카 알약): 알약·타일은 연회색 면(테두리 없음) → 고르면 파랑 면 + 흰 글자 + ✓. 색만이 아니라 ✓와 굵기도 바뀐다
+  test("알약·타일은 연회색 면이고 고르면 파랑 면 + 흰 글자 + ✓ 기호가 보인다 @p0307", async ({ page }) => {
     await page.goto("/plan/when");
     const station = page.getByRole("radio", { name: "강릉역" });
     const other = page.getByRole("radio", { name: "동해역" });
-    await expect(station).toHaveCSS("background-color", "rgb(255, 255, 255)");
-    await expect(station).toHaveCSS("border-top-color", "rgb(139, 149, 161)");
+    await expect(station).toHaveCSS("background-color", "rgb(242, 244, 246)");
+    await expect(station).toHaveCSS("font-weight", "400");
     await expect(station.locator('span[aria-hidden="true"]', { hasText: "✓" })).not.toBeVisible();
 
     await station.click();
-    await expect(station).toHaveCSS("border-top-color", "rgb(53, 128, 219)");
-    await expect(station).toHaveCSS("background-color", "rgb(235, 243, 252)");
-    await expect(station).toHaveCSS("border-top-width", "2px");
+    await expect(station).toHaveCSS("background-color", "rgb(53, 128, 219)");
+    await expect(station).toHaveCSS("color", "rgb(255, 255, 255)");
+    await expect(station).toHaveCSS("font-weight", "500");
     await expect(station.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
     await expect(other.locator('span[aria-hidden="true"]', { hasText: "✓" })).not.toBeVisible();
 
     // 타일 모양(이동수단)도 같은 규칙이다
     const taxi = page.getByRole("radio", { name: "택시" });
-    await expect(taxi).toHaveCSS("border-top-color", "rgb(139, 149, 161)");
-    await expect(taxi).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(taxi).toHaveCSS("background-color", "rgb(242, 244, 246)");
     await taxi.click();
-    await expect(taxi).toHaveCSS("border-top-color", "rgb(53, 128, 219)");
-    await expect(taxi).toHaveCSS("border-top-width", "2px");
+    await expect(taxi).toHaveCSS("background-color", "rgb(53, 128, 219)");
+    await expect(taxi).toHaveCSS("color", "rgb(255, 255, 255)");
     await expect(taxi.locator('span[aria-hidden="true"]', { hasText: "✓" })).toBeVisible();
+  });
+
+  // 하나 고르는 분할 칸(삼성생명 다이렉트 성별 칸): 흰 칸 + 1px 선 → 2px 파랑 테두리 + 파랑 글자 500 + ✓, 연한 파랑 면은 쓰지 않는다
+  test("분할 칸은 고르면 2px 파랑 테두리 + 파랑 글자 + ✓, 면은 흰색 그대로", async ({ page }) => {
+    await page.goto("/plan/taste");
+    const group = page.getByRole("radiogroup").last();
+    const normal = group.getByRole("radio", { name: /^보통/ });
+    const relaxed = group.getByRole("radio", { name: /^여유롭게/ });
+    await relaxed.click();
+    await expect(relaxed).toHaveCSS("border-top-width", "2px");
+    await expect(relaxed).toHaveCSS("border-top-color", "rgb(53, 128, 219)");
+    await expect(relaxed).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(normal).toHaveCSS("border-top-width", "1px");
+    await expect(normal).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  });
+
+  // 목록(누구와·꼭 필요한 조건): 상자 없는 행 + 왼쪽 네모 체크(두루누비·롯데렌터카 폼). 고르면 네모가 파랑으로 채워지고 이름이 굵어진다
+  test("누구와 목록은 상자 없는 행이고, 고르면 왼쪽 네모가 파랑으로 채워진다", async ({ page }) => {
+    await page.goto("/plan/who");
+    const row = page.getByRole("button", { name: /유모차 동반/ });
+    await expect(row).toHaveCSS("border-top-width", "0px");
+    await expect(row).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    const box = row.locator("span[aria-hidden=true]").first();
+    await expect(box).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await row.click();
+    await expect(row).toHaveAttribute("aria-pressed", "true");
+    await expect(box).toHaveCSS("background-color", "rgb(53, 128, 219)");
   });
 
   test("선택 버튼의 글자는 고르기 전·후 모두 버튼 가운데에 있다(알약은 ✓가 글자를 밀지 않는다) @p0314", async ({ page }) => {

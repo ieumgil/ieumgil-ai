@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { CloseIcon, SearchIcon } from "@/components/icons";
-import { CheckDot, SegmentButton } from "@/components/plan/choices";
+import { SegmentButton } from "@/components/plan/choices";
 import { INCOMPLETE_ID, IncompleteNotice, incompleteLabel } from "@/components/plan/IncompleteNotice";
 import { StepFooter, StepShell } from "@/components/plan/StepShell";
 import { Disclosure } from "@/components/ui/disclosure";
@@ -80,20 +80,24 @@ export function TasteStep({ places }: { places: PlaceOption[] }) {
               aria-pressed={on}
               onClick={() => toggleCategory(c)}
               className={`group relative flex min-h-20 flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl p-3 text-left press press-soft focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary ${
-                on ? "border-2 border-primary bg-primary-soft" : "border-[1.5px] border-line-control bg-white hover:border-primary"
+                on ? "bg-primary/15 text-ink" : "bg-surface text-ink hover:bg-line"
               }`}
             >
               {/* min-w-0를 두지 않는다: 글자가 커져 낱말이 안 들어가면 사진이 아래 줄로 내려가고, 그래도 넘칠 때만 글자 사이에서 끊긴다 */}
               <span className="flex grow basis-[4.5rem] flex-col gap-1 [overflow-wrap:break-word]">
-                <span className="text-base font-medium text-ink">{c}</span>
+                <span className="flex items-baseline gap-1 text-base font-medium">
+                  {on && (
+                    <span aria-hidden="true" className="text-sm leading-none text-primary-ink">
+                      ✓
+                    </span>
+                  )}
+                  {c}
+                </span>
                 <span className="text-sm leading-snug text-ink-sub">{CATEGORY_DESC[c]}</span>
               </span>
-              {/* 사진은 또렷하게 오른쪽에(1유형 사진만, 출처는 아래 줄). 고른 표시는 사진 모서리에 걸친다 */}
+              {/* 사진은 또렷하게 오른쪽에(1유형 사진만, 출처는 아래 줄) */}
               {/* eslint-disable-next-line @next/next/no-img-element -- 미리 줄여 둔 작은 사진 */}
               <img src={categoryThumb(c)} alt="" aria-hidden="true" className="size-14 shrink-0 rounded-xl object-cover" />
-              <span className="absolute top-1 right-1">
-                <CheckDot on={on} size="sm" />
-              </span>
             </button>
           );
         })}

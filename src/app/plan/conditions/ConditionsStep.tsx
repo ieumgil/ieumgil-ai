@@ -63,11 +63,14 @@ export function ConditionsStep() {
         {rows.must.length > 0 && (
           <>
             <h2 className="text-base font-bold">꼭 필요해요 · 하나라도 안 맞으면 루트에서 빼요</h2>
+            {/* 상자 없는 목록(11/25): 행마다 아래 구분선, 목록 위에도 선 하나 */}
+            <div className="flex flex-col border-t border-line">
             {rows.must.map((r) => (
               <CheckRow key={r.key} checked={r.on} onChange={(v) => setOn(r.key, v)} tag={r.who}>
                 {r.label}
               </CheckRow>
             ))}
+            </div>
           </>
         )}
         {/* 주차 안내는 한 곳에서 한 줄(표지가 있으면 켜진 이유, 없으면 1단계로 가는 길) */}
@@ -104,8 +107,8 @@ export function ConditionsStep() {
 
         {rows.prefer.length > 0 && (
           <Disclosure className="mt-6 border-y border-line" summary={`있으면 좋아요 · ${preferOn}개 켜짐`}>
-            <div className="flex flex-col gap-2 pt-1 pb-4">
-              <p className="text-sm leading-normal text-ink-sub">추천 순위에만 반영해요</p>
+            <div className="flex flex-col pt-1 pb-4">
+              <p className="pb-2 text-sm leading-normal text-ink-sub">추천 순위에만 반영해요</p>
               {rows.prefer.map((r) => (
                 <CheckRow key={r.key} checked={r.on} onChange={(v) => setOn(r.key, v)} tag={r.who}>
                   {r.label}
