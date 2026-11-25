@@ -89,12 +89,17 @@ test("바로가기 띠 다섯 칸은 각 화면으로 간다", async ({ page }) 
   for (const [name, href] of expected) await expect(nav.getByRole("link", { name })).toHaveAttribute("href", href);
 });
 
-test("PC 첫 화면 안에 '여행 루트 만들기'가 보인다", async ({ page }, info) => {
+// 첫 화면 안에 아이콘 띠 5칸이 모두 보인다(PC 1440×900) — 11/25 히어로를 키울 때도 지키는 조건(사용자)
+test("PC 첫 화면 안에 바로가기 아이콘 5개가 모두 보인다", async ({ page }, info) => {
   test.skip(info.project.name !== "desktop", "PC 첫 화면");
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
-  const box = await page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "여행 루트 만들기" }).boundingBox();
-  expect(box!.y + box!.height).toBeLessThanOrEqual(900);
+  const links = page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link");
+  await expect(links).toHaveCount(5);
+  for (const l of await links.all()) {
+    const box = (await l.boundingBox())!;
+    expect(box.y + box.height, (await l.textContent()) ?? "").toBeLessThanOrEqual(900);
+  }
 });
 
 test("소개 단계 3개는 탭이고 문장이 남아 있으며, 고르면 휴대폰 속 화면이 바뀐다 · 주 버튼과 원칙 문구가 보인다", async ({ page }) => {
@@ -186,6 +191,20 @@ test("대표 관광지 8곳은 누르면 관광지 둘러보기에서 그 관광
   await expect(sheet).toBeHidden();
   await expect(page.getByRole("radiogroup", { name: "지역" }).getByRole("radio", { checked: true })).toContainText("속초");
   await expect(page.locator("li[id^='place-SC']").filter({ hasText: name }).first()).toBeInViewport();
+});
+
+// 11/25: 대표 관광지 사진을 고화질(CC0 · CC BY · 공공누리 제1유형, 1200×900)로. 출처는 구역 아래 '사진 출처'에 작가·라이선스·원본 링크와 바꾼 점까지
+test("대표 관광지 고화질 사진과 사진 출처(작가 · 라이선스 · 원본 · 바꾼 점)", async ({ page }) => {
+  await page.goto("/");
+  const section = page.getByRole("region", { name: /어디부터/ });
+  const ojuk = section.getByRole("link", { name: /오죽헌/ }).locator("img");
+  await expect(ojuk).toHaveAttribute("src", /photos%2Ffeatured%2FGN12\.webp|photos\/featured\/GN12\.webp/);
+  const credits = section.locator("details", { hasText: "사진 출처" });
+  await expect(credits.locator("summary")).toContainText("CC0 · CC BY · 공공누리 제1유형"); // 접혀 있어도 라이선스 종류는 보인다
+  await credits.locator("summary").click();
+  for (const t of ["DogilRobot", "Ha Sung Kyu", "채지형", "강원특별자치도 동해시", "4:3으로 자르고 1200×900으로 줄임", "한국관광공사"]) await expect(credits).toContainText(t);
+  await expect(credits.getByRole("link", { name: "CC BY 3.0" })).toHaveAttribute("href", "https://creativecommons.org/licenses/by/3.0/");
+  await expect(credits.getByRole("link", { name: /영금정/ })).toHaveAttribute("href", /commons\.wikimedia\.org/);
 });
 
 // 11/23 스크롤 고정: 넓고 높은 화면에서 소개 구역에 들어오면 한 화면이 고정된 채 스크롤로 1→2→3단계, 끝나면 고정이 풀린다
@@ -303,5 +322,45 @@ test("동작 줄이기 설정이면 시작 화면은 처음부터 모두 보인�
   await page.goto("/");
   await page.waitForTimeout(500);
   await expect(page.locator('[data-reveal="wait"]')).toHaveCount(0);
+  await ctx.close();
+});
+
+// 11/25 새 히어로 장면(팀이 만든 시안): 배경 한 장 + 흰 길 위 점선 43개 + 구름·갈매기·배. 전부 장식, 배경은 좌우를 자르지 않는다.
+test("히어로 장면: 장식(화면 읽기에서 숨김) · 점선 43개 · 배경과 점선 SVG가 같은 크기로 겹침 · 가로 스크롤 없음", async ({ page }, info) => {
+  await page.goto("/");
+  const scene = page.locator(".hero-scene__scene");
+  await expect(scene).toHaveAttribute("aria-hidden", "true");
+  await expect(scene.locator(".hero-scene__route line")).toHaveCount(43);
+  const [img, svg, sec] = await Promise.all([
+    scene.locator("img.hero-scene__bg").boundingBox(),
+    scene.locator("svg.hero-scene__bg").boundingBox(),
+    page.locator("section[aria-labelledby='hero-title']").boundingBox(),
+  ]);
+  expect(Math.abs(img!.width - svg!.width)).toBeLessThanOrEqual(2);
+  expect(Math.abs(img!.y + img!.height - (svg!.y + svg!.height))).toBeLessThanOrEqual(2); // 아래 끝이 같다
+  expect(img!.x).toBeLessThanOrEqual(sec!.x + 1); // 왼쪽 기준(표지판이 보인다)
+  if (info.project.name === "desktop") {
+    expect(Math.abs(img!.width - sec!.width)).toBeLessThanOrEqual(2); // PC: 폭 100%, 좌우를 자르지 않는다
+    await expect(scene.locator(".hero-sp--boat")).toBeVisible();
+  } else {
+    // 휴대폰: 글자 아래에 장면(그림 250px + 위 하늘 50px — 구름이 산에 닿지 않게), 배는 숨김
+    const h1 = (await page.getByRole("heading", { level: 1 }).boundingBox())!;
+    const sc = (await scene.boundingBox())!;
+    expect(sc.y).toBeGreaterThan(h1.y + h1.height);
+    expect(Math.round(sc.height)).toBe(300);
+    expect(Math.round(img!.height)).toBe(250);
+    await expect(scene.locator(".hero-sp--boat")).toBeHidden();
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+});
+
+test("동작 줄이기면 히어로 점선은 처음부터 다 보이고 구름·갈매기·배는 움직이지 않는다", async ({ browser }) => {
+  const ctx = await browser.newContext({ reducedMotion: "reduce" });
+  await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+  const page = await ctx.newPage();
+  await page.goto("/");
+  const first = page.locator(".hero-scene__route line").first();
+  await expect(first).toHaveCSS("opacity", "1");
+  for (const sel of [".hero-sp--c1", ".hero-sp--g1", ".hero-sp--boat"]) await expect(page.locator(sel)).toHaveCSS("animation-name", "none");
   await ctx.close();
 });

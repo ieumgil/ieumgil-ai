@@ -44,7 +44,7 @@
   --text-hero--line-height: 1.25;
   --font-hero: var(--font-syongsyong), var(--font-pretendard), sans-serif;
   /* 시작 화면 히어로 바탕(하늘) */
-  --color-sky: #e3f3f6; /* 히어로 배경 그림(public/hero/sky-hills.webp)의 하늘색과 같게 */
+  --color-sky: #e3f3f3; /* 히어로 배경 그림(public/hero/sky-hills.webp, 11/25 새 장면)의 하늘색과 같게 */
   /* 루트 카드 세 번째 색: 경로선 주황을 흰 글자 대비 4.5:1 이상으로 진하게 */
   --color-route-deep: #b3541e;
   /* 시작 화면 루트 카드 3색 · 주 버튼 초록(11/24 사용자 지정) */
@@ -961,6 +961,29 @@ label:has(input[type="checkbox"]) {
   }
 }
 
+/* 세로가 짧은 PC(1024px 이상 · 높이 820px 이하, 예: 1536×730 노트북): 히어로 위아래 여백과 바로가기 띠 여백을 줄여
+ * 아이콘 5개가 첫 화면에 다 보이게(11/25, 사용자) */
+@media (min-width: 64rem) and (max-height: 51.25rem) {
+  .hero-scene__copy {
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+  }
+  .quick-band__list > li {
+    padding: 0.25rem 1rem;
+  }
+  .quick-band__link {
+    margin: 0.25rem 0;
+    padding: 0.5rem 1rem;
+  }
+  .quick-band__icon {
+    height: 4rem;
+  }
+  /* 히어로가 낮아 배가 '여행 루트 만들기' 버튼 뒤로 들어가므로 숨긴다(아래쪽 히어로 규칙보다 앞에 있어 선택자를 한 겹 더) */
+  .hero-scene .hero-sp--boat {
+    display: none;
+  }
+}
+
 /* 머리줄 오늘 날씨(11/25, components/WeatherTicker.tsx): 다음 도시가 아래에서 올라온다(함안군청 인기검색어처럼). 동작 줄이기면 굴리지 않는다 */
 .weather-roll {
   display: inline-flex;
@@ -1124,35 +1147,248 @@ label:has(input[type="checkbox"]) {
 }
 
 /* 시작 화면 히어로 그림 배치(11/23): 강원 지도는 왼쪽 칸, 꽃덤불은 오른쪽 아래 구석. 좁은 화면은 지도만 글 위에 작게 */
-.hero-scene__map {
-  display: block;
-  width: min(100%, 22rem);
-  height: auto;
-  margin-inline: auto;
-}
-.hero-scene__bush {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  width: 9rem;
-  height: auto;
+/* 히어로 장면(11/25, components/home/HeroScene.tsx) — 팀이 만든 시안 미리보기(reference/hero-preview)의 배치·움직임을 그대로 옮겼다.
+ * 배경과 점선 SVG는 같은 크기 규칙(좌우를 자르지 않음): 휴대폰은 장면 높이를 채우는 폭 · 왼쪽 아래 기준(표지판·바위·정자가 보이게), PC는 폭 100% · 높이 자동 · 아래 기준.
+ * 조각 위치·크기는 장면 폭 기준(cqw, container-type). 움직임은 transform·opacity만. 동작 줄이기면 점선은 다 보이고 조각은 멈춘다 */
+.hero-scene__scene {
+  position: relative;
+  /* 휴대폰·태블릿: 그림 비율 + 하늘 50px, 최소 300px — 그림(높이 250px 기준)은 아래에 붙고 위 50px은 하늘색(구름이 산에 닿지 않게, 11/25) */
+  min-height: max(18.75rem, calc(100vw * 716 / 2168 + 3.125rem));
+  margin-top: 1.5rem;
+  overflow: hidden;
+  container-type: inline-size;
   pointer-events: none;
 }
-@media (min-width: 1024px) {
-  .hero-scene__map {
-    width: auto;
-    max-width: min(100%, 38rem);
-    max-height: min(36rem, calc(100svh - 22rem)); /* 바로가기 띠가 PC 첫 화면 안에 들도록 */
-    margin-inline: 0;
+/* 휴대폰·태블릿: 높이 250px가 되는 폭(250 × 2168/716 ≈ 757px)과 화면 폭 중 큰 쪽(오른쪽에 빈 하늘이 생기지 않게).
+ * 그림과 점선 SVG가 같은 규칙이라 점선이 흰 길 위에서 어긋나지 않는다 */
+.hero-scene__bg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: max(100%, calc(15.625rem * 2168 / 716));
+  max-width: none;
+  height: auto;
+}
+.hero-scene__fx {
+  position: absolute;
+  inset: 0;
+  animation: hero-fadein 1.6s ease 1.8s both;
+}
+/* 점선: 앞쪽부터 하나씩 찍힌다(각 .35s, 0.6s 뒤 시작, 0.1s 간격, 처음 한 번) */
+.hero-scene__route line {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-dash 0.35s ease-out both;
+  animation-delay: calc(0.6s + var(--i) * 0.1s);
+}
+@keyframes hero-dash {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
   }
-  .hero-scene__bush {
-    width: 26rem;
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
-@media (min-width: 1536px) {
-  .hero-scene__bush {
-    width: 28rem;
+@keyframes hero-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.hero-sp {
+  position: absolute;
+  left: 0;
+  will-change: transform;
+}
+.hero-sp img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* 구름: 왼쪽 → 오른쪽으로 흘러감(80~140초, 음수 delay로 처음부터 흩어져 있게) */
+.hero-sp--cloud {
+  z-index: 1;
+  animation: hero-drift linear infinite;
+}
+@keyframes hero-drift {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(105cqw);
+  }
+}
+.hero-sp--c1 {
+  top: 4%;
+  width: 44cqw;
+  animation-duration: 110s;
+  animation-delay: -30s;
+}
+.hero-sp--c2 {
+  top: 17%;
+  width: 22cqw;
+  opacity: 0.95;
+  animation-duration: 80s;
+  animation-delay: -62s;
+}
+.hero-sp--c3 {
+  top: 20%;
+  width: 44cqw;
+  opacity: 0.9;
+  animation-duration: 140s;
+  animation-delay: -20s;
+}
+.hero-sp--c4 {
+  top: 12%;
+  width: 22cqw;
+  animation-duration: 95s;
+  animation-delay: -8s;
+}
+/* 갈매기: 옆으로 활공 + 살짝 오르내리며 기울기 */
+.hero-sp--gull {
+  z-index: 3;
+  animation: hero-glide linear infinite;
+}
+.hero-sp--gull img {
+  animation: hero-bob 5s ease-in-out infinite alternate;
+}
+/* 오른쪽 끝 밖(105cqw)까지 날아간 뒤 다시 왼쪽에서(11/25 — 70cqw에서 멈춰 화면 안에서 사라져 보였다). 시간은 시안 속도에 맞춰 늘림 */
+@keyframes hero-glide {
+  from {
+    transform: translateX(-12cqw);
+  }
+  to {
+    transform: translateX(105cqw);
+  }
+}
+@keyframes hero-bob {
+  from {
+    transform: translateY(-10px) rotate(-3deg);
+  }
+  to {
+    transform: translateY(12px) rotate(4deg);
+  }
+}
+.hero-sp--g1 {
+  top: 8%;
+  width: 12cqw;
+  animation-duration: 54s;
+  animation-delay: -17s;
+}
+.hero-sp--g2 {
+  top: 18%;
+  width: 9cqw;
+  animation-duration: 66s;
+  animation-delay: -43s;
+}
+.hero-sp--g2 img {
+  animation-duration: 6.5s;
+  animation-delay: -2s;
+}
+/* 배: 위아래 흔들림 + 좌우로 조금 떠다님. 휴대폰·태블릿은 장면이 좁아 숨긴다 */
+.hero-sp--boat {
+  display: none;
+  left: auto;
+  right: 27%;
+  bottom: 6.3cqw; /* 그림 기준 자리(배경 높이의 19% — 시안 1440×700의 bottom 13%와 같은 지점). 히어로 높이가 달라도 늘 같은 바다 위 */
+  z-index: 2;
+  width: 9cqw;
+  animation: hero-sway 22s ease-in-out infinite alternate;
+}
+.hero-sp--boat img {
+  transform-origin: 50% 90%;
+  animation: hero-rock 3.6s ease-in-out infinite alternate;
+}
+@keyframes hero-sway {
+  from {
+    transform: translateX(-3cqw);
+  }
+  to {
+    transform: translateX(3cqw);
+  }
+}
+@keyframes hero-rock {
+  from {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+  to {
+    transform: translateY(4px) rotate(2deg);
+  }
+}
+/* 768px부터는 장면에 그림 전체가 보여서 조각 크기·자리를 PC와 같게, 배도 보인다 */
+@media (min-width: 768px) {
+  /* 구름은 시안보다 위쪽(산과 닿지 않게 — 히어로 높이가 첫 화면 아이콘 띠 때문에 시안보다 낮다, 11/25) */
+  .hero-sp--c1 {
+    top: 3%;
+    width: 22cqw;
+  }
+  .hero-sp--c2 {
+    top: 9%;
+    width: 11cqw;
+  }
+  .hero-sp--c3 {
+    top: 13%;
+    width: 19cqw;
+  }
+  .hero-sp--c4 {
+    top: 5%;
+    width: 9cqw;
+  }
+  .hero-sp--g1 {
+    top: 24%;
+    width: 6.5cqw;
+  }
+  .hero-sp--g2 {
+    top: 33%;
+    width: 3.4cqw;
+  }
+  .hero-sp--boat {
+    display: block;
+  }
+}
+@media (min-width: 1024px) {
+  /* PC: 장면이 히어로 전체에 깔리고 글자가 그 위(z-10) */
+  .hero-scene__scene {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    margin-top: 0;
+  }
+  .hero-scene__bg {
+    width: 100%;
+  }
+}
+/* 동작 줄이기: 점선은 처음부터 다 보이고, 조각은 움직이지 않고 미리보기 장면과 비슷한 자리에 그대로 둔다
+ * (사이트 전체 규칙이 움직임 시간을 0으로 줄이므로 '멈춤'만 걸면 끝 상태·처음 자리로 튀어 버린다 → 움직임을 끄고 자리를 직접 준다) */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scene__route line,
+  .hero-scene__fx,
+  .hero-sp,
+  .hero-sp img {
+    animation: none !important;
+  }
+  .hero-sp--c1 {
+    transform: translateX(20cqw);
+  }
+  .hero-sp--c2 {
+    transform: translateX(62cqw);
+  }
+  .hero-sp--c3 {
+    transform: translateX(3cqw);
+  }
+  .hero-sp--c4 {
+    transform: translateX(9cqw);
+  }
+  .hero-sp--g1 {
+    transform: translateX(29cqw);
+  }
+  .hero-sp--g2 {
+    transform: translateX(54cqw);
   }
 }
 

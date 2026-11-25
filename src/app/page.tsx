@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Intro } from "@/components/Intro";
 import { RevealOnScroll } from "@/components/Motion";
 import { FeaturedPlaces } from "@/components/home/FeaturedPlaces";
+import { HeroScene } from "@/components/home/HeroScene";
 import { IntroSteps } from "@/components/home/IntroSteps";
 import { QuickMenu } from "@/components/home/QuickMenu";
 import { SectionTitle } from "@/components/home/SectionTitle";
@@ -47,20 +48,20 @@ export default function Home() {
 }
 
 /**
- * 히어로(11/23 디자인 시안): 그림 세 겹 위에 진짜 글자를 올린다(그림은 모두 장식이라 읽지 않는다).
- *   맨 뒤 하늘·언덕 배경(public/hero/sky-hills.webp) → 왼쪽 강원 지도(gangwon-map.svg) → 오른쪽 아래 꽃덤불(bush-corner.svg) → 오른쪽 숑숑 문구.
- * 그림은 사용자가 직접 만든 파일이라 저장소에 함께 올린다(예전 시안 잘라 쓰기·스톡 워터마크 문제 없음).
+ * 히어로(11/23 디자인 시안 → 11/25 새 장면): 그림 장면(HeroScene — 배경 한 장 + 흰 길 위 점선 + 구름·갈매기·배) 위에 진짜 글자를 올린다.
+ *   PC(1024px~): 장면이 히어로 전체에 깔리고(배경은 아래 기준·폭 100%, 위는 하늘색 bg-sky), 글자는 오른쪽 위.
+ *   높이는 시안 비율(폭의 48.6%)을 넘지 않되, PC 첫 화면에 아래 바로가기 아이콘 5개가 다 보이게 '화면 높이 − 17.5rem'까지(1440×900에서 620px).
+ *   최소 높이는 두지 않는다 — 세로가 짧은 노트북에서는 문구가 들어가는 높이까지 줄고(구름이 문구와 겹쳐도 됨, 사용자), 그림 위쪽 하늘이 잘린다.
+ *   세로 820px 이하 PC는 위아래 여백과 아이콘 띠 여백도 줄인다(globals.css .hero-scene__copy · .quick-band).
+ *   하늘 여백은 구름을 위쪽에 두어 확보한다(globals.css .hero-sp--c1~c4, 11/25).
+ *   휴대폰·태블릿: 글자 → 장면(그림 250px + 위 하늘 50px, 왼쪽 표지판·바위·정자가 보이게) 순서로 쌓는다.
+ * 그림은 팀이 직접 만든 파일이라 저장소에 함께 올린다(public/hero). 모두 장식이라 읽지 않는다.
  */
 function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="hero-scene relative overflow-hidden bg-sky">
-      <Image src="/hero/sky-hills.webp" alt="" fill priority sizes="100vw" className="object-cover object-bottom" />
-      {/* eslint-disable-next-line @next/next/no-img-element -- 장식 SVG(크기 조절만, 최적화 불필요) */}
-      <img src="/hero/bush-corner.svg" alt="" aria-hidden="true" className="hero-scene__bush" />
-      <div className={`${SITE_WIDTH} relative z-10 grid items-center gap-6 pt-10 pb-28 lg:min-h-[min(41rem,calc(100svh-19rem))] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:pt-6 lg:pb-8`}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- 장식 SVG */}
-        <img src="/hero/gangwon-map.svg" alt="" aria-hidden="true" className="hero-scene__map" />
-        <div className="relative z-10 flex flex-col lg:items-end lg:pb-44 lg:text-right">
+    <section aria-labelledby="hero-title" className="hero-scene relative flex flex-col overflow-hidden bg-sky">
+      <div className={`${SITE_WIDTH} relative z-10 grid gap-6 pt-10 lg:min-h-[min(48.6vw,calc(100svh-17.5rem))] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:pt-12 lg:pb-8 hero-scene__copy`}>
+        <div className="relative z-10 flex flex-col lg:col-start-2 lg:items-end lg:text-right">
           <p className="text-heading text-ink">휠체어, 어르신, 유모차와 함께 가는 영동</p>
           <h1 id="hero-title" className="mt-4 font-hero text-hero font-normal">
             <span className="block text-primary-ink">지도로 찾아가는</span>{" "}
@@ -78,6 +79,7 @@ function Hero() {
           </div>
         </div>
       </div>
+      <HeroScene />
     </section>
   );
 }
