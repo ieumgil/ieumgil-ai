@@ -228,24 +228,8 @@ export function IntroSteps({ inner }: { inner: string }) {
               {/* 미리보기(figure) 안에는 누르는 곳을 두지 않는다 — 단계 막대 탭·자동 넘김 버튼은 그 바로 아래 */}
               <figure aria-label="결과 화면 미리보기" className="mx-auto flex w-full flex-col items-center">
                 <div id="intro-panel" role="tabpanel" aria-labelledby={`intro-tab-${active}`} className="intro-phone">
-                  {/* 상태 줄(장식): 시계 · 신호 · 배터리. 가운데 카메라 알약은 CSS(::after) */}
-                  <div className="intro-phone__status" aria-hidden="true">
-                    <span>9:41</span>
-                    <span className="intro-phone__icons">
-                      <svg viewBox="0 0 17 11" fill="currentColor">
-                        <rect x="0" y="7" width="3" height="4" rx="0.8" />
-                        <rect x="4.5" y="5" width="3" height="6" rx="0.8" />
-                        <rect x="9" y="2.5" width="3" height="8.5" rx="0.8" />
-                        <rect x="13.5" y="0" width="3" height="11" rx="0.8" />
-                      </svg>
-                      <svg viewBox="0 0 25 12" fill="none">
-                        <rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="currentColor" opacity="0.4" />
-                        <rect x="2" y="2" width="18" height="8" rx="1.8" fill="currentColor" />
-                        <rect x="23" y="4" width="1.6" height="4" rx="0.8" fill="currentColor" opacity="0.4" />
-                      </svg>
-                    </span>
-                  </div>
-                  <Image key={step.img} src={step.img} width={780} height={1688} sizes="(min-width: 1280px) 20rem, (min-width: 1024px) 17rem, 15rem" alt={step.alt} className="intro-phone__screen" />
+                  {/* 상태 줄(9:41 · 신호 · 배터리)은 그림 안에 함께 있다(11/25, capture.ts withStatusBar) — 화면이 바뀔 때 함께 흐려져 분리돼 보이지 않게. 가운데 카메라 알약은 CSS(::after) */}
+                  <Image key={step.img} src={step.img} width={780} height={1760} sizes="(min-width: 1280px) 20rem, (min-width: 1024px) 17rem, 15rem" alt={step.alt} className="intro-phone__screen" />
                 </div>
                 {!pinned && (
                   // 넓지만 낮은 화면(두 칸, 고정 안 함): 진행 막대는 장식 — 단계는 왼쪽 목록에서 고른다

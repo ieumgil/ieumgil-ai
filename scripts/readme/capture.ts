@@ -7,7 +7,7 @@
 // README '디자인 이야기' 그림(docs/readme/design-icons.png)은 `… capture.ts design` — 앱 아이콘 · 바로가기 아이콘 5개(움직이는 층까지 겹친 모습) · 색 세 가지를 한 줄로(서버 불필요).
 // README 맨 위 움직이는 그림(docs/readme/hero.gif)은 `… capture.ts hero` — 시작 화면 히어로의 CSS 움직임을 멈춰 두고 시각을 하나씩 정해 찍은 뒤 sharp로 GIF를 만든다(실시간 녹화가 아니라 끊김 없음).
 // 사용: npm run dev  →  npx tsx scripts/readme/capture.ts
-import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { chromium, type Browser, type Page } from "@playwright/test";
 import sharp from "sharp";
@@ -153,6 +153,18 @@ const SHOTS: Shot[] = [
 /** 시작 화면 미리보기에 쓰는 캡처 */
 const PREVIEW: Record<string, string> = { "04-conditions": "step-conditions", "08-result-detail": "step-card", "12-checklist": "step-call" };
 
+/** 시작 화면 휴대폰 미리보기: 캡처(780px 폭) 위에 상태 줄(9:41 · 신호 · 배터리, 흰 바탕 72px = 390 기준 36px)을 붙여 한 장으로.
+ *  예전엔 상태 줄을 CSS 띠로 따로 그려서, 화면이 바뀔 때 그림만 흐려지고 띠는 가만히 있어 둘이 분리돼 보였다(11/25). 가운데 카메라 알약은 CSS(::after) */
+async function withStatusBar(src: string, dst: string) {
+  const W = 780;
+  const H = 72;
+  const bar = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="#fff"/>
+    <text x="64" y="46" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="30" font-weight="600" fill="#191F28">9:41</text>
+    <g transform="translate(632 26)" fill="#191F28"><rect x="0" y="14" width="6" height="8" rx="1.6"/><rect x="9" y="10" width="6" height="12" rx="1.6"/><rect x="18" y="5" width="6" height="17" rx="1.6"/><rect x="27" y="0" width="6" height="22" rx="1.6"/></g>
+    <g transform="translate(676 26)"><rect x="1" y="1" width="42" height="21" rx="6" fill="none" stroke="#191F28" stroke-opacity=".4" stroke-width="2"/><rect x="4" y="4" width="36" height="15" rx="3.5" fill="#191F28"/><rect x="46" y="8" width="3" height="7" rx="1.5" fill="#191F28" fill-opacity=".4"/></g></svg>`);
+  await sharp(src).extend({ top: H, background: "#ffffff" }).composite([{ input: bar, top: 0, left: 0 }]).png().toFile(dst);
+}
+
 /** 페이지 중간을 찍을 때도 사이트 머리줄(로고 · 메뉴)이 위에 보이게 화면 위에 붙인다 → 머리줄 높이를 돌려준다.
  *  시작 화면 단계 소개의 휴대폰 화면(08·12)이 '확대해서 잘라 낸 그림'처럼 보이지 않게(11/24). 실제 머리줄은 따라오지 않는다 */
 async function pinHeader(p: Page) {
@@ -194,7 +206,7 @@ async function capture(b: Browser, s: Shot) {
   await page.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 15_000 }).catch(() => {});
   await page.waitForTimeout(300);
   await page.screenshot({ path: `${OUT}/${s.name}.png` });
-  if (PREVIEW[s.name]) copyFileSync(`${OUT}/${s.name}.png`, resolve(`public/preview/${PREVIEW[s.name]}.png`));
+  if (PREVIEW[s.name]) await withStatusBar(`${OUT}/${s.name}.png`, resolve(`public/preview/${PREVIEW[s.name]}.png`));
   await ctx.close();
   console.log(`✓ ${s.name}`);
 }

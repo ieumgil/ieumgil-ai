@@ -974,29 +974,8 @@ label:has(input[type="checkbox"]) {
 }
 /* 휴대폰 위쪽 상태 줄(가운데 카메라 자리) — 세 화면 모두 실제 휴대폰처럼 보이게(11/24). README 휴대폰 틀(capture.ts frames)과 같은 모양 */
 /* 11/24 고침: 예전엔 원형 그라데이션이라 카메라 자리가 납작한 타원으로 보였다 → 양 끝이 둥근 알약(README 틀 96×26, 상태 줄 36 : 화면 390과 같은 비율).
-   상태 줄(.intro-phone__status)에는 실제 휴대폰처럼 시계·신호·배터리(장식) — 빈 흰 띠가 잘린 것처럼 보였다 */
-.intro-phone__status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 1.75rem;
-  padding-inline: 1.5rem 1.25rem;
-  background: #fff;
-  color: var(--color-ink);
-  font-size: 0.875rem; /* 화면 글자 14px 하한(디자인 규칙)을 지킨다 — 장식이어도 보이는 글자 */
-  font-weight: 500;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-.intro-phone__icons {
-  display: flex;
-  align-items: center;
-  gap: 0.3em;
-}
-.intro-phone__icons svg {
-  height: 0.75em;
-  width: auto;
-}
+   상태 줄(시계·신호·배터리)은 11/25부터 미리보기 그림 안에 있다 */
+/* 11/25: 상태 줄(시계·신호·배터리)은 미리보기 그림 안으로 옮겼다(capture.ts withStatusBar) — CSS 띠는 가만히 있고 그림만 바뀌어 분리돼 보였다 */
 .intro-phone::after {
   content: "";
   position: absolute;
@@ -1012,7 +991,7 @@ label:has(input[type="checkbox"]) {
   display: block;
   width: 100%;
   height: auto;
-  /* 제자리에서 흐리게만(11/24) — 위로 올라오면 가만히 있는 상태 줄 밑으로 사진이 들어가 잘려 보였다 */
+  /* 제자리에서 흐리게만(11/24). 상태 줄도 그림 안에 있어 함께 흐려진다(11/25) */
   animation: intro-screen-fade var(--motion-long) var(--ease-enter);
 }
 @keyframes intro-screen-fade {
@@ -1039,10 +1018,6 @@ label:has(input[type="checkbox"]) {
     border-width: 0.625rem;
     border-radius: 2.75rem;
   }
-  .intro-phone__status {
-    height: 1.875rem;
-    padding-inline: 1.75rem 1.5rem;
-  }
   .intro-phone::after {
     width: 4.25rem;
     height: 1.125rem;
@@ -1051,10 +1026,6 @@ label:has(input[type="checkbox"]) {
 @media (min-width: 1280px) {
   .intro-phone {
     width: 20rem;
-  }
-  .intro-phone__status {
-    height: 2rem;
-    padding-inline: 2rem 1.75rem;
   }
   .intro-phone::after {
     top: 0.34375rem;
