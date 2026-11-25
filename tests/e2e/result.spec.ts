@@ -17,16 +17,19 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/trip/new");
 });
 
-test("장소 카드에 사진이 있고, 누르면 크게 보기에 출처(공공누리)가 나온다", async ({ page }) => {
+// 11/25 고화질 대표 사진: 첫 장소(오죽헌)는 대표가 고화질 사진이라 첫 장 출처가 작가 · 원본 · 라이선스, 다음 장부터 관광공사(공공누리)
+test("장소 카드에 사진이 있고, 누르면 크게 보기에 사진마다 출처가 나온다(고화질은 작가·원본·라이선스, 관광공사 사진은 공공누리)", async ({ page }) => {
   const photo = page.locator("article").first().getByRole("button", { name: /사진 \d+ 장 크게 보기/ });
   await expect(photo).toBeVisible();
-  await expect(photo.locator("img")).toHaveAttribute("src", /^\/photos\/.+\.webp$/); // 1유형은 미리 줄여 둔 작은 사진
+  await expect(photo.locator("img")).toHaveAttribute("src", /^\/photos\/.+\.webp$/); // 미리 줄여 둔 사진(고화질 또는 1유형)
   await photo.click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByRole("heading", { name: /사진$/ })).toBeVisible();
-  await expect(dialog.getByText(/사진: 한국관광공사 · 공공누리 제[13]유형/)).toBeVisible();
+  await expect(dialog.getByRole("link", { name: /원본/ })).toBeVisible();
+  await expect(dialog.getByRole("link", { name: /CC|공공누리/ })).toBeVisible();
   await dialog.getByRole("button", { name: "다음 사진" }).click();
   await expect(dialog.getByText(/^2 \/ \d+$/)).toBeVisible();
+  await expect(dialog.getByText(/사진: 한국관광공사 · 공공누리 제[13]유형/)).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(dialog).toHaveCount(0);
 });

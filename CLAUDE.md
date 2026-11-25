@@ -126,6 +126,7 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
 - 1차 출처: 한국관광공사 무장애 여행정보 API. 강릉·속초·동해 182곳 → 관광지 152곳(`build-places.ts`가 관광지 아닌 곳·전화 없는 곳 제외).
   수집은 `scripts/tour/`, 필드 조사는 `docs/data/tour-api-fields.md`. 열린관광 사이트(access.visitkorea.or.kr)는 사람 검수 때 보는 출처로만 쓴다(자동 수집 안 함).
 - `data/photos.json`: 관광지 사진 분류(풍경/편의시설/기타, 공공누리 유형). 대표는 풍경만, 1유형은 `public/photos/`에 줄여 저장, 3유형은 원본 통째로(변경 금지). `scripts/tour/classify-photos.ts --build-only`로 다시 만든다.
+- `data/hires-photos.json`(11/25): 관광지 40곳 고화질 대표 사진(위키미디어 공용·공유마당·pxhere, CC0 · CC BY · CC BY-SA · 공공누리 1유형만). `scripts/tour/featured-photos.ts --data data/hires-photos.json --out public/photos/hires`로 4:3 1200×900 WebP. 화면(`lib/places/client-photos.ts`)은 이 사진(과 시작 화면 6곳 `featured-photos.json`)을 대표·크게 보기 첫 장으로 쓰고 작가·원본·라이선스를 표시. 출처 목록 `docs/data/photo-credits.md`. 라이선스·출처 누락은 `tests/places/hires-photos.test.ts`가 막는다.
 - `data/places.json`: API 기본 정보 + ① 읽기 결과(등급 `ai`) + 공중화장실 공공데이터(등급 `public`) + (선택) 사람 확인 값(등급 `human`). 만드는 순서: `scripts/public/build-restrooms.ts` → `scripts/tour/build-places.ts` → `scripts/ai/read-places.ts` → `scripts/ai/merge-places.ts`.
 - 공중화장실 원본은 `data/raw/public/`(cp949, 커밋 안 함). 짝 규칙: 화장실명에 관광지 이름이 들어 있고 같은 시일 때만, 주유소 제외, 주소만 같다고 짝짓지 않음. 결과는 `data/public/restrooms.json`·`docs/data/public-restrooms.md`, 근거 문단 id는 `public-화장실-N`.
 - 휠체어·어르신은 노면·경사·거리 '모름'이 많아 대부분 '확인 필요' → 일정에 넣되 질문 + 전화번호로 표시한다(11/10 결정). 사람 판정은 하지 않는다. 조사표 32곳은 '유명한 곳' 판단 기준으로 쓴다.

@@ -7,7 +7,7 @@
 // - 대표로 쓸 사진이 없거나 못 불러오면 분류 아이콘(누르면 편의시설 사진 등은 볼 수 있다)
 // - 누를 수 있다는 걸 알 수 있게 오른쪽 아래에 돋보기 + 장수 표시
 // 누르면 크게 보기: 손가락으로 밀기 · 마우스 휠 · 마우스로 끌기 · 화살표 버튼 · 키보드 ←→로 넘긴다.
-// 편의시설 사진은 "편의시설 사진: 화장실"처럼 표시, 사진마다 출처.
+// 편의시설 사진은 "편의시설 사진: 화장실"처럼 표시, 사진마다 출처(고화질 사진은 작가 · 원본 · 라이선스 · 바꾼 점, 11/25).
 import { Binoculars, ChevronLeft, ChevronRight, Frame, Images, Landmark, Store, Trees, Waves, ZoomIn } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -160,7 +160,23 @@ function PhotoViewer({ open, onOpenChange, name, photos }: { open: boolean; onOp
               {i + 1} / {photos.length}
             </span>
             {p?.kind === "facility" && <span className="ml-2 font-medium">편의시설 사진: {FACILITY_LABEL[p.facility ?? "etc"]}</span>}
-            <span className="mt-0.5 block">{p ? photoCredit(p.kogl_type) : ""}</span>
+            {p?.credit ? (
+              // 고화질 사진(CC0 · CC BY · CC BY-SA · 공공누리 1유형): 작가 · 원본 · 라이선스 · 바꾼 점(CC BY 조건)
+              <span className="mt-0.5 block">
+                사진: {p.credit.author} ·{" "}
+                <a href={p.credit.page} target="_blank" rel="noreferrer" className="inline-flex min-h-touch items-center underline underline-offset-2">
+                  원본<span className="sr-only"> (새 탭)</span>
+                </a>{" "}
+                ·{" "}
+                <a href={p.credit.licenseUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-touch items-center underline underline-offset-2">
+                  {p.credit.license}
+                  <span className="sr-only"> (새 탭)</span>
+                </a>{" "}
+                · {p.credit.changes}
+              </span>
+            ) : (
+              <span className="mt-0.5 block">{p ? photoCredit(p.kogl_type) : ""}</span>
+            )}
           </p>
           <button type="button" onClick={() => go(i + 1)} disabled={i === photos.length - 1} aria-label="다음 사진" className="flex size-touch items-center justify-center rounded-full bg-surface text-ink transition-colors hover:bg-line disabled:opacity-40">
             <ChevronRight size={22} aria-hidden="true" />

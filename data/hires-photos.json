@@ -1,0 +1,406 @@
+{
+  "_note": "관광지 고화질 대표 사진(11/25). 공개 저장소에 둘 수 있는 원본만: CC0 · CC BY · CC BY-SA · 공공누리 제1유형. 라이선스는 원본 페이지(위키미디어 공용·공유마당·pxhere)에서 확인했다. scripts/tour/featured-photos.ts --data data/hires-photos.json --out public/photos/hires 가 original을 받아 4:3으로 자르고 1200×900 WebP로 줄인다(= changes). CC BY-SA 사진의 이 WebP 파일들은 같은 CC BY-SA로 공개한다. 화면(src/lib/places/client-photos.ts)은 여기 있는 곳의 대표 사진을 이 사진으로 바꾸고, 크게 보기에 작가·원본·라이선스를 표시한다. 시작 화면 대표 관광지 6곳은 data/featured-photos.json.",
+  "changes": "4:3으로 자르고 1200×900으로 줄임",
+  "photos": [
+    {
+      "id": "GN03",
+      "place": "강릉 경포대",
+      "title": "Gyeongpodae Pavilion Gangneung.JPG",
+      "author": "Scroozle",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Gyeongpodae_Pavilion_Gangneung.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Gyeongpodae_Pavilion_Gangneung.JPG"
+    },
+    {
+      "id": "GN09",
+      "place": "강릉 선교장",
+      "title": "선교장 1",
+      "author": "채지형",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?menuNo=200018&wrtSn=13247693",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=13247693&fileSn=1"
+    },
+    {
+      "id": "GN10",
+      "place": "강릉 솔향수목원",
+      "title": "2016년 5월 22일 강원도 강릉시 솔향수목원 DSC00649.jpg",
+      "author": "최광모 (Choe Kwangmo)",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:2016%EB%85%84_5%EC%9B%94_22%EC%9D%BC_%EA%B0%95%EC%9B%90%EB%8F%84_%EA%B0%95%EB%A6%89%EC%8B%9C_%EC%86%94%ED%96%A5%EC%88%98%EB%AA%A9%EC%9B%90_DSC00649.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/b/b4/2016%EB%85%84_5%EC%9B%94_22%EC%9D%BC_%EA%B0%95%EC%9B%90%EB%8F%84_%EA%B0%95%EB%A6%89%EC%8B%9C_%EC%86%94%ED%96%A5%EC%88%98%EB%AA%A9%EC%9B%90_DSC00649.jpg"
+    },
+    {
+      "id": "GN13",
+      "place": "강릉 월화거리",
+      "title": "Old railway on Wolhwa Street in Gangneung.jpg",
+      "author": "Christophe95",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Old_railway_on_Wolhwa_Street_in_Gangneung.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Old_railway_on_Wolhwa_Street_in_Gangneung.jpg"
+    },
+    {
+      "id": "GN22",
+      "place": "강릉커피거리",
+      "title": "Gangneung coffee street.jpg",
+      "author": "User:Altostratus",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Gangneung_coffee_street.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Gangneung_coffee_street.jpg"
+    },
+    {
+      "id": "GN25",
+      "place": "강릉항",
+      "title": "20151003최광모RX10DSC03056.JPG",
+      "author": "최광모",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:20151003%EC%B5%9C%EA%B4%91%EB%AA%A8RX10DSC03056.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/c9/20151003%EC%B5%9C%EA%B4%91%EB%AA%A8RX10DSC03056.JPG"
+    },
+    {
+      "id": "GN26",
+      "place": "강문솟대다리",
+      "title": "Gangmun Sotdae Bridge 20220502 011.jpg",
+      "author": "Mobius6",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Gangmun_Sotdae_Bridge_20220502_011.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Gangmun_Sotdae_Bridge_20220502_011.jpg"
+    },
+    {
+      "id": "GN27",
+      "place": "강문해변",
+      "title": "Gangmun Beach.jpg",
+      "author": "Christophe95",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Gangmun_Beach.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Gangmun_Beach.jpg"
+    },
+    {
+      "id": "GN31",
+      "place": "경포생태저류지",
+      "title": "Gyeongpo Ecological Reservoir 2.jpg",
+      "author": "Christophe95",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Gyeongpo_Ecological_Reservoir_2.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Gyeongpo_Ecological_Reservoir_2.jpg"
+    },
+    {
+      "id": "GN33",
+      "place": "경포해수욕장",
+      "title": "Beach of Kyungpo (pxhere 1616112)",
+      "author": "Jong Myung Lim",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://pxhere.com/en/photo/1616112",
+      "original": "https://get.pxhere.com/photo/korea-east-sea-Beach-of-Kyungpo-wave-beach-body-of-water-coast-shore-sea-sand-sky-ocean-natural-environment-coastal-and-oceanic-landforms-horizon-vacation-summer-tourism-bay-wind-wave-calm-city-tropics-tide-1616112.jpg"
+    },
+    {
+      "id": "GN34",
+      "place": "경포호(철새도래지)",
+      "title": "Gyeongpo Lake 20220502 001.jpg",
+      "author": "Mobius6",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Gyeongpo_Lake_20220502_001.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/88/Gyeongpo_Lake_20220502_001.jpg"
+    },
+    {
+      "id": "GN38",
+      "place": "굴산사지당간지주",
+      "title": "굴산사지 당간지주 정면.jpg",
+      "author": "Kwkhh",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:%EA%B5%B4%EC%82%B0%EC%82%AC%EC%A7%80_%EB%8B%B9%EA%B0%84%EC%A7%80%EC%A3%BC_%EC%A0%95%EB%A9%B4.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/c4/%EA%B5%B4%EC%82%B0%EC%82%AC%EC%A7%80_%EB%8B%B9%EA%B0%84%EC%A7%80%EC%A3%BC_%EC%A0%95%EB%A9%B4.jpg"
+    },
+    {
+      "id": "GN42",
+      "place": "남항진해변(남항진해수욕장)",
+      "title": "강릉시 남항진해변 2016-10-09 12.12.16.jpg",
+      "author": "최광모 (Choe Kwangmo)",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:%EA%B0%95%EB%A6%89%EC%8B%9C_%EB%82%A8%ED%95%AD%EC%A7%84%ED%95%B4%EB%B3%80_2016-10-09_12.12.16.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/9f/%EA%B0%95%EB%A6%89%EC%8B%9C_%EB%82%A8%ED%95%AD%EC%A7%84%ED%95%B4%EB%B3%80_2016-10-09_12.12.16.jpg"
+    },
+    {
+      "id": "SC03",
+      "place": "대포항 전망대",
+      "title": "Daepo Port (Sokcho) 20221210 027.jpg",
+      "author": "Mobius6",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/deed.ko",
+      "page": "https://commons.wikimedia.org/wiki/File:Daepo_Port_(Sokcho)_20221210_027.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Daepo_Port_%28Sokcho%29_20221210_027.jpg"
+    },
+    {
+      "id": "DH05",
+      "place": "망상해변",
+      "title": "망상해수욕장(AMJ).jpg",
+      "author": "칼빈500",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:%EB%A7%9D%EC%83%81%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5(AMJ).jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/99/%EB%A7%9D%EC%83%81%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5%28AMJ%29.jpg"
+    },
+    {
+      "id": "GN51",
+      "place": "모래시계공원",
+      "title": "20151015 최광모 SONY DSC-RX10 DSC04334 20151024.JPG",
+      "author": "최광모",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04334_20151024.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/0/08/20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04334_20151024.JPG"
+    },
+    {
+      "id": "DH09",
+      "place": "묵호항",
+      "title": "Mukhohang Port.jpg",
+      "author": "Cho Yungkwon",
+      "license": "공공누리 제1유형",
+      "licenseUrl": "https://www.kogl.or.kr/info/licenseType1.do",
+      "page": "https://commons.wikimedia.org/wiki/File:Mukhohang_Port.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Mukhohang_Port.jpg"
+    },
+    {
+      "id": "GN56",
+      "place": "사근진해변(사근진해수욕장)",
+      "title": "2016년 5월 28일 강원도 강릉시 사근진해변 DSC01264.jpg",
+      "author": "최광모 (Choe Kwangmo)",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:2016%EB%85%84_5%EC%9B%94_28%EC%9D%BC_%EA%B0%95%EC%9B%90%EB%8F%84_%EA%B0%95%EB%A6%89%EC%8B%9C_%EC%82%AC%EA%B7%BC%EC%A7%84%ED%95%B4%EB%B3%80_DSC01264.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/97/2016%EB%85%84_5%EC%9B%94_28%EC%9D%BC_%EA%B0%95%EC%9B%90%EB%8F%84_%EA%B0%95%EB%A6%89%EC%8B%9C_%EC%82%AC%EA%B7%BC%EC%A7%84%ED%95%B4%EB%B3%80_DSC01264.jpg"
+    },
+    {
+      "id": "DH13",
+      "place": "삼화사",
+      "title": "Samhwasa and murung velley.jpg",
+      "author": "eimoberg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Samhwasa_and_murung_velley.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/59/Samhwasa_and_murung_velley.jpg"
+    },
+    {
+      "id": "SC08",
+      "place": "설악산 국립공원(외설악)",
+      "title": "Seoraksan Cable Car 06.jpg",
+      "author": "Bernard Gagnon",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Seoraksan_Cable_Car_06.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Seoraksan_Cable_Car_06.jpg"
+    },
+    {
+      "id": "SC15",
+      "place": "속초 엑스포타워",
+      "title": "속초 엑스포타워",
+      "author": "이상화",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=11056401&menuNo=200018",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=11056401&fileSn=1"
+    },
+    {
+      "id": "SC18",
+      "place": "속초해수욕장",
+      "title": "Sokcho Beach 20221210 001.jpg",
+      "author": "Mobius6",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Sokcho_Beach_20221210_001.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/55/Sokcho_Beach_20221210_001.jpg"
+    },
+    {
+      "id": "GN62",
+      "place": "송정해변",
+      "title": "Songjeong Beach 20220430 001.jpg",
+      "author": "Mobius6",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Songjeong_Beach_20220430_001.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Songjeong_Beach_20220430_001.jpg"
+    },
+    {
+      "id": "SC19",
+      "place": "신흥사(설악산)",
+      "title": "Sinheungsa, Seoraksan 2018-09-02-09.jpg",
+      "author": "De-Shao Liu (Terry850324)",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Sinheungsa,_Seoraksan_2018-09-02-09.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Sinheungsa%2C_Seoraksan_2018-09-02-09.jpg"
+    },
+    {
+      "id": "GN66",
+      "place": "썬크루즈 테마공원",
+      "title": "20151015 최광모 SONY DSC-RX10 DSC04343 20151024.JPG",
+      "author": "최광모",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04343_20151024.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/5f/20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04343_20151024.JPG"
+    },
+    {
+      "id": "SC21",
+      "place": "아바이마을",
+      "title": "Abai Village.jpg",
+      "author": "Marie",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Abai_Village.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/82/Abai_Village.jpg"
+    },
+    {
+      "id": "GN68",
+      "place": "안목해변",
+      "title": "20151003최광모RX10DSC03047.JPG",
+      "author": "최광모",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:20151003%EC%B5%9C%EA%B4%91%EB%AA%A8RX10DSC03047.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/9d/20151003%EC%B5%9C%EA%B4%91%EB%AA%A8RX10DSC03047.JPG"
+    },
+    {
+      "id": "SC23",
+      "place": "영랑호",
+      "title": "강원_속초 74",
+      "author": "채지형",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13245740&menuNo=200018",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=13245740&fileSn=1"
+    },
+    {
+      "id": "GN76",
+      "place": "임당동 성당",
+      "title": "Imdang-dong Catholic Church, Gangneung.jpg",
+      "author": "Trainholic",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Imdang-dong_Catholic_Church,_Gangneung.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/1/13/Imdang-dong_Catholic_Church%2C_Gangneung.jpg"
+    },
+    {
+      "id": "GN78",
+      "place": "정동진",
+      "title": "20151015 최광모 SONY DSC-RX10 DSC04336 20151024.JPG",
+      "author": "최광모",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04336_20151024.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/4/49/20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04336_20151024.JPG"
+    },
+    {
+      "id": "GN80",
+      "place": "정동진역",
+      "title": "Jeongdongjin Station 1.jpg",
+      "author": "최광모",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Jeongdongjin_Station_1.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/9/97/Jeongdongjin_Station_1.jpg"
+    },
+    {
+      "id": "GN84",
+      "place": "주문진항",
+      "title": "주문진항_0030",
+      "author": "박종진",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=11131065&menuNo=200018",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=11131065&fileSn=1"
+    },
+    {
+      "id": "GN87",
+      "place": "참소리에디슨손성목영화박물관",
+      "title": "참소리박물관 23",
+      "author": "채지형",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?menuNo=200018&wrtSn=13247742",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=13247742&fileSn=1"
+    },
+    {
+      "id": "DH17",
+      "place": "천곡황금박쥐동굴",
+      "title": "CGC-CEp6.jpg",
+      "author": "Dittwjfsdgkvkdjg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:CGC-CEp6.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/d/da/CGC-CEp6.jpg"
+    },
+    {
+      "id": "SC27",
+      "place": "청초호",
+      "title": "Sokcho, Cheongchoho Lake (Joyang-dong).jpg",
+      "author": "Dr. Thomas Liptak",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Sokcho,_Cheongchoho_Lake_(Joyang-dong).jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Sokcho%2C_Cheongchoho_Lake_%28Joyang-dong%29.jpg"
+    },
+    {
+      "id": "SC28",
+      "place": "청초호 호수공원",
+      "title": "풍경_메가이미지_1618",
+      "author": "이상화",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=11056391&menuNo=200018",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=11056391&fileSn=1"
+    },
+    {
+      "id": "SC29",
+      "place": "청호해변",
+      "title": "Lighthouses in Sokcho.jpg",
+      "author": "Bernard Gagnon",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Lighthouses_in_Sokcho.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Lighthouses_in_Sokcho.jpg"
+    },
+    {
+      "id": "DH19",
+      "place": "추암조각공원",
+      "title": "추암해변 36",
+      "author": "채지형",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13247579&menuNo=200018",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=13247579&fileSn=1"
+    },
+    {
+      "id": "DH20",
+      "place": "추암해변",
+      "title": "추암해변 22",
+      "author": "채지형",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13247565&menuNo=200018",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=13247565&fileSn=1"
+    },
+    {
+      "id": "GN98",
+      "place": "허난설헌 생가터",
+      "title": "허균허난설헌생가터9257",
+      "author": "김순식",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=11011345&menuNo=200018",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?wrtSn=11011345&fileSn=1"
+    }
+  ]
+}

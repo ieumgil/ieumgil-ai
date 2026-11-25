@@ -9,8 +9,19 @@
 export type PhotoKind = "scenery" | "facility" | "other";
 export type FacilityKind = "toilet" | "elevator" | "parking" | "ramp" | "entrance" | "etc";
 
+/** 관광공사 사진이 아닌 고화질 사진(11/25, data/hires-photos.json)의 출처: 작가 · 원본 페이지 · 라이선스 · 바꾼 점 */
+export interface PhotoCredit {
+  author: string;
+  license: string;
+  licenseUrl: string;
+  page: string;
+  changes: string;
+}
+
 export interface LabeledPhoto {
   url: string;
+  /** 있으면 관광공사 사진이 아니라 이 출처로 표시한다 */
+  credit?: PhotoCredit;
   kogl_type: 1 | 3;
   kind: PhotoKind;
   facility?: FacilityKind;
@@ -20,7 +31,7 @@ export interface LabeledPhoto {
 
 export interface PlacePhotos {
   /** 대표 사진. thumb는 1유형만(미리 줄여 둔 public/photos/{id}.webp), 3유형은 원본을 통째로 보여 준다 */
-  cover?: { url: string; kogl_type: 1 | 3; thumb?: string };
+  cover?: { url: string; kogl_type: 1 | 3; thumb?: string; credit?: PhotoCredit };
   /** 크게 보기에 보여 줄 사진(기타는 뺌): 풍경 → 편의시설 순 */
   photos: LabeledPhoto[];
 }
