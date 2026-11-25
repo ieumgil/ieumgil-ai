@@ -1,0 +1,72 @@
+{
+  "_note": "시작 화면 '영동 대표 관광지' 카드의 고화질 사진(11/25). 원본은 저작권 걱정이 없는 것만: CC0 · CC BY · 공공누리 제1유형. 라이선스는 원본 페이지(위키미디어 공용·공유마당)에서 직접 확인했다. scripts/tour/featured-photos.ts가 original을 받아 4:3으로 자르고 1200×900 WebP로 줄여 public/photos/featured/{id}.webp에 저장한다(= changes). 여기 없는 대표 관광지(경포대·아바이마을)는 둘러보기와 같은 한국관광공사 사진(공공누리 제1유형, public/photos/{id}.webp)을 쓴다. 화면 출처 줄은 components/home/FeaturedPlaces.tsx가 이 파일로 그린다.",
+  "changes": "4:3으로 자르고 1200×900으로 줄임",
+  "photos": [
+    {
+      "id": "GN12",
+      "place": "강릉 오죽헌·시립박물관",
+      "title": "Dogilrobot ojukheon.jpg",
+      "author": "DogilRobot",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Dogilrobot_ojukheon.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Dogilrobot_ojukheon.jpg",
+      "size": [4000, 2252]
+    },
+    {
+      "id": "GN81",
+      "place": "정동진해변",
+      "title": "20151015 최광모 SONY DSC-RX10 DSC04343 20151024.JPG",
+      "author": "최광모",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04343_20151024.JPG",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/5/5f/20151015_%EC%B5%9C%EA%B4%91%EB%AA%A8_SONY_DSC-RX10_DSC04343_20151024.JPG",
+      "size": [5472, 3648]
+    },
+    {
+      "id": "SC11",
+      "place": "설악산 케이블카",
+      "title": "Seoraksan Cable Car 04.jpg",
+      "author": "Bernard Gagnon",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:Seoraksan_Cable_Car_04.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Seoraksan_Cable_Car_04.jpg",
+      "size": [4488, 2992]
+    },
+    {
+      "id": "SC22",
+      "place": "영금정",
+      "title": "영금정 (163539159).jpeg",
+      "author": "Ha Sung Kyu",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "page": "https://commons.wikimedia.org/wiki/File:%EC%98%81%EA%B8%88%EC%A0%95_(163539159).jpeg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/8/8d/%EC%98%81%EA%B8%88%EC%A0%95_%28163539159%29.jpeg",
+      "size": [2048, 1154]
+    },
+    {
+      "id": "DH18",
+      "place": "추암 촛대바위",
+      "title": "추암촛대바위 2.jpg",
+      "author": "강원특별자치도 동해시",
+      "license": "공공누리 제1유형",
+      "licenseUrl": "https://www.kogl.or.kr/info/licenseType1.do",
+      "page": "https://commons.wikimedia.org/wiki/File:%EC%B6%94%EC%95%94%EC%B4%9B%EB%8C%80%EB%B0%94%EC%9C%84_2.jpg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/e8/%EC%B6%94%EC%95%94%EC%B4%9B%EB%8C%80%EB%B0%94%EC%9C%84_2.jpg",
+      "size": [2000, 1333]
+    },
+    {
+      "id": "DH06",
+      "place": "무릉계곡",
+      "title": "무릉계곡 10",
+      "author": "채지형",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/deed.ko",
+      "page": "https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?menuNo=200018&wrtSn=13247476",
+      "original": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileDownload.do?fileSn=1&wrtSn=13247476",
+      "size": [5760, 3840]
+    }
+  ]
+}
