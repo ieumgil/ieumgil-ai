@@ -364,3 +364,34 @@ test("동작 줄이기면 히어로 점선은 처음부터 다 보이고 구름�
   for (const sel of [".hero-sp--c1", ".hero-sp--g1", ".hero-sp--boat"]) await expect(page.locator(sel)).toHaveCSS("animation-name", "none");
   await ctx.close();
 });
+
+// 11/25 바로가기 띠 그림 아이콘(팀이 만든 시안): 장식 그림 층 + 마우스·키보드 초점에 움직임(동작 줄이기면 없음), 링크 이름은 글자
+test("바로가기 아이콘: 그림은 장식, 링크 이름은 글자 · 마우스를 올리면 떠오르고 움직이는 층이 움직인다", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "마우스는 PC에서");
+  await page.goto("/");
+  const nav = page.getByRole("navigation", { name: "주요 바로가기" });
+  const route = nav.getByRole("link", { name: "여행 루트 만들기" });
+  await expect(route).toHaveAccessibleName("여행 루트 만들기");
+  await expect(route.locator(".quick-band__icon")).toHaveAttribute("aria-hidden", "true");
+  await expect(route.locator("img")).toHaveCount(2);
+  for (const img of await nav.locator("img").all()) await expect(img).toHaveAttribute("alt", "");
+  await route.hover();
+  await expect(route.locator(".quick-ic__sign")).toHaveCSS("animation-name", "quick-sway");
+  await expect(route.locator(".quick-ic")).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, -3)");
+  // 키보드 초점에서도
+  await nav.getByRole("link", { name: "관광지 둘러보기" }).focus();
+  await expect(nav.locator(".quick-ic__pin")).toHaveCSS("animation-name", "quick-hop");
+});
+
+test("동작 줄이기면 바로가기 아이콘은 움직이지 않는다", async ({ browser }, info) => {
+  test.skip(info.project.name !== "desktop", "마우스는 PC에서");
+  const ctx = await browser.newContext({ reducedMotion: "reduce" });
+  await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+  const page = await ctx.newPage();
+  await page.goto("/");
+  const route = page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "여행 루트 만들기" });
+  await route.hover();
+  await expect(route.locator(".quick-ic__sign")).toHaveCSS("animation-name", "none");
+  await expect(route.locator(".quick-ic")).toHaveCSS("transform", "none");
+  await ctx.close();
+});

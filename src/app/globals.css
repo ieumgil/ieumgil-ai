@@ -670,6 +670,123 @@ label:has(input[type="checkbox"]) {
   }
 }
 
+/* 바로가기 띠 그림 아이콘(11/25, 팀이 만든 시안 — components/home/QuickMenu.tsx). 같은 크기 투명 그림 층을 겹치고,
+ * 마우스를 올리거나 키보드 초점이 가면 칸이 3px 떠오르며 움직이는 층만 움직인다(시안 미리보기 .ic · @keyframes sway/draw/hop/blink/scribble을 옮김 —
+ * 이름은 히어로의 배 흔들림과 겹치지 않게 quick-을 붙였다). 표시 72px(띠 칸 높이에 맞춰 휴대폰 56px · 세로가 짧은 PC 64px).
+ * 움직임은 동작 줄이기가 아닐 때만. 휴대폰은 마우스가 없어 자연히 움직이지 않는다 */
+.quick-ic {
+  position: relative;
+  display: block;
+  height: min(100%, 4.5rem);
+  aspect-ratio: 1 / 1;
+  transition: transform 0.25s ease;
+}
+.quick-ic img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.quick-ic__sign {
+  transform-origin: 50.2% 81.3%; /* 기둥 아래가 축 */
+}
+@media (prefers-reduced-motion: no-preference) {
+  .quick-band__link:hover .quick-ic,
+  .quick-band__link:focus-visible .quick-ic {
+    transform: translateY(-3px);
+  }
+  .quick-band__link:hover .quick-ic__sign,
+  .quick-band__link:focus-visible .quick-ic__sign {
+    animation: quick-sway 0.9s ease-in-out;
+  }
+  .quick-band__link:hover .quick-ic__dash,
+  .quick-band__link:focus-visible .quick-ic__dash {
+    animation: quick-draw 0.9s ease-out both;
+  }
+  .quick-band__link:hover .quick-ic__pin,
+  .quick-band__link:focus-visible .quick-ic__pin {
+    animation: quick-hop 0.7s ease-out;
+  }
+  .quick-band__link:hover .quick-ic__light,
+  .quick-band__link:focus-visible .quick-ic__light {
+    animation: quick-blink 1.2s ease-in-out;
+  }
+  .quick-band__link:hover .quick-ic__whole,
+  .quick-band__link:focus-visible .quick-ic__whole {
+    animation: quick-scribble 0.8s ease-in-out;
+  }
+}
+@keyframes quick-sway {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-6deg);
+  }
+  55% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-2deg);
+  }
+}
+@keyframes quick-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes quick-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-14%);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  78% {
+    transform: translateY(-5%);
+  }
+}
+@keyframes quick-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  60% {
+    opacity: 0.2;
+  }
+  40%,
+  80% {
+    opacity: 1;
+  }
+}
+@keyframes quick-scribble {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px) rotate(-3deg);
+  }
+  40% {
+    transform: translate(2px, -1px) rotate(2deg);
+  }
+  60% {
+    transform: translate(-1px, 1px) rotate(-2deg);
+  }
+  80% {
+    transform: translate(1px, 0) rotate(1deg);
+  }
+}
+
 /*
  * 타임라인 '클리어' 표시(11/23, TimelineProgress가 data-passed를 붙인다): 스크롤 진행 원이 지나간 깃발·점·번호 동그라미.
  * 깃발과 점은 파랑으로 채우고, 번호 동그라미는 한 번 살짝 커졌다 돌아오며 연한 파랑 빛 테두리를 남긴다.
