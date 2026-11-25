@@ -213,7 +213,7 @@ test("PC: 소개 구역은 화면이 고정된 채 스크롤로 1→3단계가 �
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   const box = await page.locator(".intro-scroll").evaluate((el) => ({ top: el.getBoundingClientRect().top + window.scrollY, h: (el as HTMLElement).offsetHeight }));
-  expect(box.h).toBeGreaterThan(900 * 2); // 화면 세 배 길이
+  expect(box.h).toBeGreaterThan(900 * 4); // 화면 다섯 배 길이(11/25 — 세 배는 단계가 너무 빨리 넘어갔다)
   const tabs = page.getByRole("tablist", { name: "이음길이 고르는 방법" }).getByRole("tab");
   const pinTop = () => page.locator(".intro-pin").evaluate((el) => Math.round(el.getBoundingClientRect().top));
   for (const [f, idx] of [[0.1, 0], [0.5, 1], [0.9, 2]] as const) {
