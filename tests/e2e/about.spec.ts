@@ -1,7 +1,7 @@
-// 소개 글 두 편(/about 서비스 소개, /about/how 만든 방법): 시작 화면 하단바에서 열리고, 서로 이어지고, 시작 버튼이 있다.
+// 소개 글 두 편(/about 서비스 소개, /about/how 작동 원리): 시작 화면 하단바에서 열리고, 서로 이어지고, 시작 버튼이 있다.
 import { expect, test } from "@playwright/test";
 
-test("시작 화면 하단바 → 서비스 소개 → 만든 방법 → 다시 소개", async ({ page }) => {
+test("시작 화면 하단바 → 서비스 소개 → 작동 원리 → 다시 소개", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
   await page.goto("/");
   const footer = page.getByRole("contentinfo", { name: "사이트 정보" });

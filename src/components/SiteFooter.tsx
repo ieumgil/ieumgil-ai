@@ -7,7 +7,7 @@ import { SITE_WIDTH } from "./SiteHeader";
 
 const LINKS: { href: string; label: string; external?: boolean }[] = [
   { href: "/about", label: "서비스 소개" },
-  { href: "/about/how", label: "만든 방법" },
+  { href: "/about/how", label: "작동 원리" },
   { href: "/trip/example", label: "예시 루트" },
   { href: "/places", label: "관광지 둘러보기" },
   { href: "https://github.com/ieumgil/ieumgil-ai", label: "GitHub", external: true },

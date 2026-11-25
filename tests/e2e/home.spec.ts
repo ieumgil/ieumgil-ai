@@ -27,7 +27,7 @@ test("히어로 제목은 숑숑 글꼴의 '지도로 찾아가는 즐거운 영
 });
 
 // 고칠 목록 5(11/25): 상단바는 모든 화면의 길잡이 — 글자 메뉴 3개(예시 루트 · 관광지 둘러보기 · 서비스 소개) + 오른쪽 끝 [여행 루트 만들기] 버튼.
-// 시작 화면 아이콘 띠(큰 그림 5개)와 모양·개수를 달리해 겹쳐 보이지 않게. 지금 보는 화면의 메뉴는 aria-current로 표시. '만든 방법'은 휴대폰 ☰ 안에.
+// 시작 화면 아이콘 띠(큰 그림 5개)와 모양·개수를 달리해 겹쳐 보이지 않게. 지금 보는 화면의 메뉴는 aria-current로 표시. '작동 원리'은 휴대폰 ☰ 안에.
 test("사이트 머리줄: 로고는 처음 화면으로, 메뉴는 예시 루트 · 관광지 둘러보기 · 서비스 소개 + 루트 만들기 버튼", async ({ page }, info) => {
   await page.goto("/places");
   await expect(page.getByRole("link", { name: "이음길 처음 화면" })).toHaveAttribute("href", "/");
@@ -54,7 +54,7 @@ test("사이트 머리줄: 로고는 처음 화면으로, 메뉴는 예시 루�
     const menu = page.locator("details[open] nav");
     await expect(menu.getByRole("link").first()).toHaveAccessibleName("여행 루트 만들기");
     await expect(menu.getByRole("link", { name: "여행 루트 만들기" })).toHaveAttribute("href", "/plan");
-    for (const name of ["예시 루트", "관광지 둘러보기", "서비스 소개", "만든 방법"]) await expect(menu.getByRole("link", { name })).toBeVisible();
+    for (const name of ["예시 루트", "관광지 둘러보기", "서비스 소개", "작동 원리"]) await expect(menu.getByRole("link", { name })).toBeVisible();
     await expect(menu.getByRole("link", { name: "관광지 둘러보기" })).toHaveAttribute("aria-current", "page");
   }
 });
@@ -84,7 +84,7 @@ test("바로가기 띠 다섯 칸은 각 화면으로 간다", async ({ page }) 
     ["예시 루트 보기", "/trip/example"],
     ["관광지 둘러보기", "/places"],
     ["서비스 소개", "/about"],
-    ["만든 방법", "/about/how"],
+    ["작동 원리", "/about/how"],
   ];
   for (const [name, href] of expected) await expect(nav.getByRole("link", { name })).toHaveAttribute("href", href);
 });

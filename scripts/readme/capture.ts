@@ -318,7 +318,7 @@ async function designStrip(b: Browser) {
     ["예시 루트 보기", ["quick-example", "quick-example-route"]],
     ["관광지 둘러보기", ["quick-places", "quick-places-pin"]],
     ["서비스 소개", ["quick-about", "quick-about-light"]],
-    ["만든 방법", ["quick-how"]],
+    ["작동 원리", ["quick-how"]],
   ];
   const colors: [string, string][] = [["파랑", "#3580DB"], ["초록", "#3DAA7E"], ["남색(그림만)", "#092B47"]];
   const cell = (label: string, inner: string) => `<div class="c"><div class="i">${inner}</div><div class="l">${label}</div></div>`;

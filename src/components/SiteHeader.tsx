@@ -18,8 +18,8 @@ const MENU: NavItem[] = [
   { href: "/places", label: "관광지 둘러보기" },
   { href: "/about", label: "서비스 소개" },
 ];
-/** 휴대폰·태블릿 ☰ 안: 맨 위 '여행 루트 만들기'(머리줄에 버튼 자리가 없어서) + 상단 메뉴 + '만든 방법'(PC에서는 서비스 소개 글 안에서 이어진다) */
-const MOBILE_MENU: NavItem[] = [{ href: "/plan", label: "여행 루트 만들기" }, ...MENU, { href: "/about/how", label: "만든 방법" }];
+/** 휴대폰·태블릿 ☰ 안: 맨 위 '여행 루트 만들기'(머리줄에 버튼 자리가 없어서) + 상단 메뉴 + '작동 원리'(PC에서는 서비스 소개 글 안에서 이어진다) */
+const MOBILE_MENU: NavItem[] = [{ href: "/plan", label: "여행 루트 만들기" }, ...MENU, { href: "/about/how", label: "작동 원리" }];
 
 /** 사이트 내용 폭(머리줄·시작 화면·바닥글이 같은 좌우 끝을 쓴다): 최대 1424px − 좌우 여백 32px = 내용 1360px */
 export const SITE_WIDTH = "mx-auto w-full max-w-[89rem] px-4 md:px-6 lg:px-8";

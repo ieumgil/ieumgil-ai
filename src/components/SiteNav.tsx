@@ -27,7 +27,7 @@ function NavList({ items, variant, pathname }: { items: NavItem[]; variant: Vari
   return (
     <ul className={variant === "bar" ? "flex items-center gap-1 lg:gap-4" : "flex flex-col"}>
       {items.map((m) => {
-        // 휴대폰 메뉴에는 '서비스 소개'(/about)와 '만든 방법'(/about/how)이 같이 있어 정확히 맞을 때만 표시
+        // 휴대폰 메뉴에는 '서비스 소개'(/about)와 '작동 원리'(/about/how)가 같이 있어 정확히 맞을 때만 표시
         const current = pathname !== null && isCurrent(pathname, m.href, variant === "menu" && m.href === "/about");
         return (
           <li key={m.href}>

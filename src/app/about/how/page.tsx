@@ -1,4 +1,4 @@
-// 만든 방법 글: README·docs/ai-plan.md 내용을 이용자도 읽을 수 있게 풀었다.
+// 작동 원리 글: README·docs/ai-plan.md 내용을 이용자도 읽을 수 있게 풀었다.
 // AI와 코드의 역할, 미리 읽어 둔 데이터, 일정 한 번이 만들어지는 과정, 안전 기준, 멈추지 않게, 저장하지 않는 것, 숫자.
 // 숫자는 README·data/eval(read-v1, judge-v1, cost-v1)과 같은 값. 테스트 개수처럼 자주 바뀌는 값은 쓰지 않는다.
 import type { Metadata } from "next";
@@ -8,7 +8,7 @@ import { Architecture, Phones } from "@/components/about/Figures";
 
 export const metadata: Metadata = {
   title: "이음길은 이렇게 만들었어요 · 이음길 AI",
-  description: "AI가 공공 무장애 정보를 읽고 판단하면, 코드가 시각을 계산하고 안전 기준을 검사해요. 이음길을 만든 방법을 소개해요.",
+  description: "AI가 공공 무장애 정보를 읽고 판단하면, 코드가 시각을 계산하고 안전 기준을 검사해요. 이음길의 작동 원리를 소개해요.",
 };
 
 const REPO = "https://github.com/ieumgil/ieumgil-ai";
