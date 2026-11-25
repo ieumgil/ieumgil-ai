@@ -3,11 +3,13 @@
 // 공유 링크 화면(읽기 전용): 확정 일정 화면을 그대로 쓰되 다른 안 보기·공유·전화 결과 기록은 뺀다.
 import { useSyncExternalStore } from "react";
 import { FinalOption } from "@/app/trip/[id]/final/FinalScreen";
+import { PageHeader } from "@/components/PageHeader";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
 import type { TripView } from "@/lib/trip/view";
 
 const noop = () => () => {};
+const INNER = "mx-auto w-full max-w-[30rem] px-4";
 
 export function SharedScreen({ trip, until }: { trip: TripView; until: string }) {
   // 인쇄한 종이에 이 링크 주소를 적는다(서버에서는 모름 → 화면에서만)
@@ -24,11 +26,12 @@ const TEXT = {
 export function SharedMissing({ reason }: { reason: keyof typeof TEXT }) {
   const t = TEXT[reason];
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-4 pt-4 pb-7">
-      <TopBar backHref="/" backLabel="이음길 처음 화면으로" />
-      <h1 className="mt-8 font-heading text-title font-bold text-balance">{t.title}</h1>
-      <p className="text-base text-ink-sub">{t.body}</p>
-      <ButtonLink href="/">이음길에서 내 일정 만들기</ButtonLink>
+    <main className="flex w-full flex-1 flex-col">
+      <PageHeader inner={INNER} top={<TopBar backHref="/" backLabel="이음길 처음 화면으로" />} title={t.title} />
+      <div className={`${INNER} flex flex-col gap-4 pb-7`}>
+        <p className="text-base text-ink-sub">{t.body}</p>
+        <ButtonLink href="/">이음길에서 내 일정 만들기</ButtonLink>
+      </div>
     </main>
   );
 }

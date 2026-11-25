@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { ScrollTop } from "@/components/ScrollTop";
+import { PageHeader } from "@/components/PageHeader";
 import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { Checklist } from "@/components/trip/Checklist";
@@ -28,6 +29,10 @@ import { dayCautions, dayWeatherView, hasShownWeather } from "@/lib/weather/day-
 import { sourceLine } from "@/lib/weather/labels";
 import { useWeather } from "@/lib/weather/use-weather";
 
+/** 머리 띠 안쪽 = 본문과 같은 폭·여백 */
+const INNER = "mx-auto w-full max-w-[34rem] px-4 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem]";
+const EMPTY_INNER = "mx-auto w-full max-w-[30rem] px-4";
+
 export function FinalScreen() {
   const { id } = useParams<{ id: string }>();
   const trip = useTripFor(id);
@@ -38,11 +43,12 @@ export function FinalScreen() {
 
 function Empty({ text, body, href, cta, back = "/trip/new" }: { text: string; body: string; href: string; cta: string; back?: string }) {
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-4 pt-4 pb-7">
-      <TopBar backHref={back} backLabel="일정 비교 화면으로" />
-      <h1 className="mt-8 font-heading text-title font-bold text-balance">{text}</h1>
-      <p className="text-base text-ink-sub">{body}</p>
-      <ButtonLink href={href}>{cta}</ButtonLink>
+    <main className="flex w-full flex-1 flex-col">
+      <PageHeader inner={EMPTY_INNER} top={<TopBar backHref={back} backLabel="일정 비교 화면으로" />} title={text} />
+      <div className={`${EMPTY_INNER} flex flex-col gap-4 pb-7`}>
+        <p className="text-base text-ink-sub">{body}</p>
+        <ButtonLink href={href}>{cta}</ButtonLink>
+      </div>
     </main>
   );
 }
@@ -91,43 +97,51 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
     <>
     {/* 인쇄·PDF: 화면 배치 대신 A4 1~2장짜리 일정표만 */}
     <PrintSheet trip={trip} o={o} link={shared?.link} />
-    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-10 md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem] print:hidden">
-      <div className="px-4 pt-4 print:hidden">
-        {shared ? <TopBar backHref="/" backLabel="이음길 처음 화면으로" /> : <TopBar backHref={tripHref(trip)} backLabel="일정 비교 화면으로" />}
-      </div>
-
-      <header className="animate-rise px-4 pt-4">
-        <div className={`flex flex-wrap items-center gap-2 print:hidden ${shared ? "justify-end" : "justify-between"}`}>
-          {!shared && (
-            <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-2 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
-              <ArrowLeft size={18} aria-hidden="true" />
-              다른 안 보기
-            </Link>
-          )}
-          <div className="flex flex-wrap gap-1">
-            {!shared && <ShareButton trip={trip} o={kept} />}
-            <Button variant="ghost" size="sm" onClick={() => window.print()}>
-              <Printer aria-hidden="true" />
-              인쇄·PDF로 저장
-            </Button>
-          </div>
-        </div>
-        <h1 className="mt-4 font-heading text-title font-bold text-balance">{o.title}</h1>
-        {trip.input.startDate && trip.input.endDate && (
-          <p className="mt-2 text-heading font-medium text-ink tabular-nums">{formatRange(trip.input.startDate, trip.input.endDate, " → ")}</p>
-        )}
-        <p className="mt-1 text-base text-ink-sub">
-          {`${tripLabel(nights)} · ${o.stats.places}곳 · `}
-          {shared ? (
-            "공유받은 일정 · 읽기 전용"
-          ) : (
-            <>
-              <span aria-hidden="true">✓ </span>
-              <span>확정한 일정</span>
-            </>
-          )}
-        </p>
-      </header>
+    <main className="flex w-full flex-1 flex-col pb-10 print:hidden">
+      {/* 머리 띠(11/25, 단계 4): 뒤로 · 다른 안 보기·공유·인쇄 · 안 제목 · 날짜 · meta. PC는 띠(전체 폭) 아래에 지도 | 루트 두 칸 */}
+      <PageHeader
+        inner={INNER}
+        top={
+          <>
+            {shared ? <TopBar backHref="/" backLabel="이음길 처음 화면으로" /> : <TopBar backHref={tripHref(trip)} backLabel="일정 비교 화면으로" />}
+            <div className={`mt-2 flex flex-wrap items-center gap-2 ${shared ? "justify-end" : "justify-between"}`}>
+              {!shared && (
+                <Link href={tripHref(trip)} className="inline-flex min-h-touch items-center gap-2 text-base font-medium text-primary-ink underline-offset-4 hover:underline">
+                  <ArrowLeft size={18} aria-hidden="true" />
+                  다른 안 보기
+                </Link>
+              )}
+              <div className="flex flex-wrap gap-1">
+                {!shared && <ShareButton trip={trip} o={kept} />}
+                <Button variant="ghost" size="sm" onClick={() => window.print()}>
+                  <Printer aria-hidden="true" />
+                  인쇄·PDF로 저장
+                </Button>
+              </div>
+            </div>
+          </>
+        }
+        title={o.title}
+        description={
+          <>
+            {trip.input.startDate && trip.input.endDate && (
+              <p className="text-heading font-medium text-ink tabular-nums">{formatRange(trip.input.startDate, trip.input.endDate, " → ")}</p>
+            )}
+            <p className="mt-1">
+              {`${tripLabel(nights)} · ${o.stats.places}곳 · `}
+              {shared ? (
+                "공유받은 일정 · 읽기 전용"
+              ) : (
+                <>
+                  <span aria-hidden="true">✓ </span>
+                  <span>확정한 일정</span>
+                </>
+              )}
+            </p>
+          </>
+        }
+      />
+      <div className="mx-auto w-full max-w-[34rem] md:max-w-[48rem] lg:max-w-[76rem] xl:max-w-[88rem]">
 
       {o.days.length > 1 && (
         <Tabs value={day.date} onValueChange={(v) => setDayIndex(Math.max(0, o.days.findIndex((d) => d.date === v)))} className="mt-4 px-4 print:hidden">
@@ -191,6 +205,7 @@ export function FinalOption({ trip, o: kept, shared }: { trip: TripView; o: Opti
         </div>
       </div>
       <ScrollTop />
+      </div>
     </main>
     </>
   );

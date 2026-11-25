@@ -15,6 +15,7 @@ import { RevealOnScroll } from "@/components/Motion";
 import { PhoneText } from "@/components/PhoneText";
 import { ScrollTop } from "@/components/ScrollTop";
 import { ChoiceButton, SegmentButton } from "@/components/plan/choices";
+import { PageHeader } from "@/components/PageHeader";
 import { TopBar } from "@/components/TopBar";
 import { ButtonLink } from "@/components/ui/button";
 import { Disclosure } from "@/components/ui/disclosure";
@@ -40,6 +41,8 @@ const STATUS: Record<AccessStatus, { sym: string; cls: string; sr: string }> = {
 
 /** 장소 항목에 보이는 접근성 칩 개수. 나머지는 '+N'으로 알리고 10항목 전체는 자세히 보기에 있다 */
 const MAX_CHIPS = 4;
+/** 머리 띠 안쪽 = 본문과 같은 폭·여백 */
+const INNER = "mx-auto w-full max-w-[34rem] px-4 md:max-w-[48rem] md:px-6 lg:max-w-[72rem]";
 
 function AccessChip({ item }: { item: Pick<GlanceItem, "label" | "value"> }) {
   const s = STATUS[item.value];
@@ -92,17 +95,20 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
   const next = fromPlan ? "/plan/taste" : (firstIncompleteStep(plan, 4)?.href ?? "/plan/taste");
 
   return (
-    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-32 md:max-w-[48rem] lg:max-w-[72rem]">
-      <div className="px-4 pt-4 md:px-6">
-        <TopBar backHref={fromPlan ? "/plan/taste" : "/"} backLabel={fromPlan ? "좋아하는 곳 고르기로" : "처음 화면으로"} />
-      </div>
-
-      {/* 머리 예산 300px: 제목 · 설명 · (유형 기준 한 줄) · 범례 펼치기 · 지역 분할 · 분야 칩 · 검색칸. 장소 목록이 첫 화면에 바로 보이게 한다 */}
-      <header className="animate-rise px-4 pt-4 md:px-6">
-        <h1 className="font-heading text-title font-bold text-balance">영동 관광지 둘러보기</h1>
-        <p className="mt-1 text-base text-ink-sub text-pretty">어떤 곳인지 보고 가고 싶은 곳을 담아 두세요. 조건에 맞으면 일정에 꼭 넣어요.</p>
+    <main className="flex w-full flex-1 flex-col pb-32">
+      {/* 머리 띠(11/25, 단계 4): 뒤로 · 제목 · 설명. 목록이 첫 화면에 바로 보이게 compact. 유형 기준·범례·지역·분야·검색은 띠 아래 */}
+      <PageHeader
+        inner={INNER}
+        density="compact"
+        top={<TopBar backHref={fromPlan ? "/plan/taste" : "/"} backLabel={fromPlan ? "좋아하는 곳 고르기로" : "처음 화면으로"} />}
+        title="영동 관광지 둘러보기"
+        description="어떤 곳인지 보고 가고 싶은 곳을 담아 두세요. 조건에 맞으면 일정에 꼭 넣어요."
+      />
+      <div className="mx-auto w-full max-w-[34rem] md:max-w-[48rem] lg:max-w-[72rem]">
+      {/* 머리 예산 300px: (유형 기준 한 줄) · 범례 펼치기 · 지역 분할 · 분야 칩 · 검색칸. 장소 목록이 첫 화면에 바로 보이게 한다 */}
+      <div className="px-4 md:px-6">
         {travelers && (
-          <p className="mt-1 text-sm text-ink-sub">
+          <p className="text-sm text-ink-sub">
             <strong className="font-medium text-ink">{travelers}</strong> 기준으로 꼭 필요한 조건을 함께 보여 드려요.
           </p>
         )}
@@ -114,7 +120,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
             </p>
           )}
         </Disclosure>
-      </header>
+      </div>
 
       {/* 지역: 한 줄 분할 */}
       <div className="mt-2 flex flex-wrap gap-2 px-4 md:px-6" role="radiogroup" aria-label="지역">
@@ -221,6 +227,7 @@ export function PlacesBrowser({ places }: { places: BrowsePlace[] }) {
           {sheetPlace && <PlaceDetail p={sheetPlace} picked={plan.mustVisit.includes(sheetPlace.id)} plan={plan} onToggle={toggle} />}
         </SheetContent>
       </Sheet>
+      </div>
     </main>
   );
 }

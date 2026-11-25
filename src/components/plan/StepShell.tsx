@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { TopBar } from "@/components/TopBar";
 import { PlanSummary } from "./PlanSummary";
 import { buttonClass } from "@/components/ui/button";
 import { openDetailsAround } from "@/lib/details";
-import { STEPS } from "@/lib/plan/progress";
+import { PageHeader } from "@/components/PageHeader";
+import { StepTrail } from "./StepTrail";
+
+const INNER = "mx-auto w-full max-w-[30rem] px-4 md:max-w-[40rem] md:px-6 lg:max-w-[64rem]";
 
 /**
  * 단계 이동 방향(움직임 ④). '다음'·'이전'·뒤로 버튼을 누를 때 적어 두고, 새 단계 화면이 붙을 때 한 번 읽는다.
@@ -22,7 +25,7 @@ const markStep = (dir: "forward" | "back", href: string) => () => {
 };
 
 /**
- * 입력 단계 공통 틀: 상단 바, 진행 막대, 제목, 본문, 아래 고정 버튼.
+ * 입력 단계 공통 틀: 머리 띠(뒤로 · 점선 진행 표시 · 제목 · 설명), 본문, 아래 고정 버튼.
  * 휴대폰은 한 칸, 태블릿은 넓은 한 칸, PC(1024px~)는 가운데 질문 + 오른쪽 '고른 조건' 요약(스크롤해도 고정).
  */
 export function StepShell({
@@ -50,37 +53,19 @@ export function StepShell({
     };
   }, []);
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col md:max-w-[40rem] lg:max-w-[64rem]">
-      <div className="px-4 pt-4 pb-2 md:px-6">
-        <TopBar backHref={backHref} backLabel={step === 1 ? "처음 화면으로" : "이전 단계로"} onBack={markStep("back", backHref)} />
-      </div>
-      <div className="flex flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8 lg:pr-6">
+    <main className="flex w-full flex-1 flex-col">
+      {/* 머리 띠(11/25, 단계 4): 뒤로 · 단계 표시 · 제목 · 설명은 제자리. 아래 질문 묶음만 다음 단계로 갈 때 옆으로 살짝 밀리며 바뀐다(움직임 ④). */}
+      <PageHeader
+        inner={INNER}
+        top={<TopBar backHref={backHref} backLabel={step === 1 ? "처음 화면으로" : "이전 단계로"} onBack={markStep("back", backHref)} />}
+        trail={<StepTrail step={step} />}
+        title={title}
+        description={description}
+      />
+      <div className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col md:max-w-[40rem] lg:grid lg:max-w-[64rem] lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8 lg:pr-6">
         <div className="flex flex-1 flex-col">
-          {/* 단계 표시·진행 막대는 제자리(막대만 이전 단계에서 차오름). 아래 질문 묶음만 다음 단계로 갈 때 옆으로 살짝 밀리며 바뀐다(움직임 ④). */}
-          <div className="px-4 pt-4 md:px-6">
-            <p className="text-sm text-ink-sub">
-              {step} / 4 단계 · {STEPS[step - 1].name}
-            </p>
-            <div
-              className="mt-2 h-1 rounded-full bg-line"
-              role="progressbar"
-              aria-label="입력 진행"
-              aria-valuemin={1}
-              aria-valuemax={4}
-              aria-valuenow={step}
-            >
-              <div
-                className="h-1 animate-fill rounded-full bg-primary"
-                style={{ width: `${step * 25}%`, "--from": `${(step - 1) * 25}%` } as CSSProperties}
-              />
-            </div>
-          </div>
-          <div ref={enterRef} className="flex flex-1 flex-col data-[enter=back]:animate-step-back data-[enter=forward]:animate-step-forward">
-              <div className="px-4 pt-4 md:px-6">
-                <h1 className="font-heading text-title font-bold text-balance [overflow-wrap:anywhere]">{title}</h1>
-                {description && <p className="mt-2 text-base text-ink-sub text-pretty">{description}</p>}
-              </div>
-              <div className="mt-6 flex flex-1 flex-col pb-6">{children}</div>
+          <div ref={enterRef} data-step-body="" className="flex flex-1 flex-col data-[enter=back]:animate-step-back data-[enter=forward]:animate-step-forward">
+            <div className="flex flex-1 flex-col pt-2 pb-6">{children}</div>
           </div>
           <div
             data-bottom-bar

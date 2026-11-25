@@ -57,8 +57,9 @@ export function TimelineProgress() {
   }, []);
 
   return (
-    <span ref={ref} data-timeline-progress aria-hidden="true" className="pointer-events-none absolute top-4 bottom-4 left-[0.9375rem] z-[1] w-0.5 print:hidden" style={{ "--progress": 0 } as React.CSSProperties}>
-      <span className="absolute inset-x-0 top-0 rounded-full bg-primary" style={{ height: "calc(var(--progress) * 100%)" }} />
+    <span ref={ref} data-timeline-progress aria-hidden="true" className="pointer-events-none absolute top-4 bottom-4 left-[calc(1rem-0.5px)] z-[1] w-px print:hidden" style={{ "--progress": 0 } as React.CSSProperties}>
+      {/* 지나온 선: 바탕 점선(.timeline-rail)과 같은 위치·같은 무늬를 파랑으로 — 점이 정확히 겹친다 */}
+      <span className="timeline-rail absolute inset-x-0 top-0" style={{ height: "calc(var(--progress) * 100%)", "--rail": "var(--color-primary)" } as React.CSSProperties} />
       <span
         className="absolute left-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary ring-4 ring-primary-soft"
         style={{ top: "calc(var(--progress) * 100%)" }}

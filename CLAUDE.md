@@ -44,7 +44,7 @@ src/app/            page.tsx(시작: 히어로 · 바로가기 띠 · 단계 소
                     · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · api/legs · api/trips(공유 링크 저장, 11/14) · api/weather(기상청 예보, 저장 안 함, 11/15) · s/[id](공유 읽기 전용, 서버가 Supabase에서 읽음)
 src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 · DayWeather 날짜별 날씨 …)
                     · trip/TimelineProgress(시간표 스크롤 진행 원·클리어) · home/(시작 화면: IntroSteps 단계 소개·화면 고정 스크롤 · QuickMenu(그림 아이콘 public/home, 마우스 올림 움직임) · FeaturedPlaces · HeroScene) · about/(소개 글 틀 Article · PC 차례 Toc · Figures · AccessChart) · Motion(스크롤 등장·숫자 올라가기 — 소개 글 · 시작 화면 · 관광지 둘러보기, 화면 고정 스크롤에는 안 씀)
-                    · WeatherTicker(머리줄 오늘 날씨, 11/25) · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · SiteHeader(모든 화면 머리줄) · SiteFooter · TopBar · Logo · Intro · icons
+                    · WeatherTicker(머리줄 오늘 날씨, 11/25) · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · SiteHeader(모든 화면 머리줄) · PageHeader(내부 화면 공용 머리 띠: 하늘색이 아래로 흐려짐, 11/25) · plan/StepTrail(입력 점선 진행 표시) · plan/MakingScene(만드는 중 점 찍힘) · SiteFooter · TopBar · Logo · Intro · icons
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④)
 src/lib/engine/     conditions.ts · filter.ts(후보 거르기) · frames.ts(날짜별 틀) · timeline.ts(시각 계산) · check.ts(일정 검사) · fallback.ts(규칙 일정) · travel.ts
@@ -100,7 +100,7 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
 · 결과 '안 비교' 화면은 시안에 없다 → 새로 그린다(`docs/ai-plan.md` 화면 표)
 · **11/15 다듬기(03단계, 'AI가 만든 티' 줄이기)** — 값은 모두 `globals.css` `@theme static`:
   - 보조색 초록 `--color-pine` #3daa7e · 연한 면 `--color-pine-soft` #ecf7f2(11/24부터, 이전 솔숲 #2A6A50) — **장소·지역·일차 정체성에만**(시작 화면 히어로 둘째 줄 '즐거운 영동 여행길', `강릉 · 역사·문화` 같은 지역·분류 글자, 날짜 탭 활성 밑줄·일차 제목).
-    버튼·링크·선택 상태·상태 칩·경고·지도에는 쓰지 않는다(상태 칩은 계속 파랑 ✓ ! ✕). 입력 4단계에서는 쓰지 않는다. 초록이 혼자 뜻을 나르지 않는다(항상 글자와 함께).
+    버튼·링크·선택 상태·상태 칩·경고·지도에는 쓰지 않는다(상태 칩은 계속 파랑 ✓ ! ✕). 예외 하나: 결과 '안 비교' 카드 위쪽 4px 장식 띠(안 정체성, 파랑·초록 번갈아, 11/25). 입력 4단계에서는 쓰지 않는다. 초록이 혼자 뜻을 나르지 않는다(항상 글자와 함께).
   - 선택 컨트롤 테두리 `--color-line-control` #8B95A1 — **흰 바탕 위**의 안 고른 타일·select·검색칸 테두리(대비 3:1). 회색 면 위에는 쓰지 않는다.
   - 글꼴 **2개만**(11/23 시작 화면 개편 — 11/18 Noto Sans KR에서 바꿈): 본문·제목·숫자·버튼 전부 **Pretendard**(`next/font/local`, 패키지 `pretendard`),
     시작 화면 히어로 문구 '지도로 찾아가는 즐거운 영동 여행길'만 **카페24 숑숑**(`src/app/fonts/`, 문구 글자만 남긴 3.5KB, `--font-hero`·`text-hero`). 둘 다 SIL OFL 1.1, 외부 CDN 없음.
@@ -108,11 +108,12 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
   - 글자 크기 4단계 28/20/16/14px(화면 제목·구역 제목·본문·보조, rem) + 히어로 문구 전용 `text-hero`. 굵기 3단계 400/500/700만 쓴다: 본문 400, 장소 이름·버튼·칩·강조 500(`font-medium`), 700(`font-bold`)은 제목만(h1·h2·h3, 인쇄 일정표는 예외). 그 밖의 크기·굵기 클래스는 정리 감시 테스트(`tests/design/legacy-classes.test.ts`)가 막는다.
   - 사이트 머리줄(`SiteHeader`, 로고 · '이음길' · '즐거운 영동 여행길' · 글자 메뉴 3개 + [여행 루트 만들기] 버튼 — 버튼은 시작 화면·입력 화면에서 숨김, 메뉴·버튼은 `SiteNav.tsx`, 11/25)은 **모든 화면** 맨 위(11/23). 내용 폭은 `SITE_WIDTH`(내용 1360px) — 머리줄·시작 화면·바닥글이 같은 좌우 끝.
   - 시작 화면 히어로는 팀이 만든 장면(11/25, `components/home/HeroScene.tsx` · `public/hero/`): 배경 sky-hills.webp 한 장(좌우를 자르지 않음 — PC 폭 100%·아래 기준, 휴대폰 왼쪽 기준) + 흰 길 위 점선 43개(route-dashes.svg 좌표, 하나씩 찍힘) + 구름·갈매기·배(transform·opacity만, 동작 줄이기면 멈춤). 모두 장식이라 읽지 않음. 하늘색 `--color-sky` #e3f3f3.
+  - **내부 화면 머리 띠(11/25, 단계 4)**: 입력 4단계·만드는 중·결과·확정·공유·둘러보기·소개 글 맨 위는 공용 `PageHeader`(`.page-band`) — 하늘색 `--color-sky`가 아래로 흐려져 흰 바탕에 녹고(강진군문화관광재단 하위 화면 기법), 팀이 그린 점선 길·언덕 선 무늬(`public/hero/band-motif.svg`)를 옅게. 곡선으로 자르지 않고 제목 옆 그림 없음, 제목은 본문 왼쪽 끝. 시간표 세로선은 1px 점선(`.timeline-rail`, 예산 문화관광 코스 기법), 장소 번호 동그라미는 그대로. 입력 단계 진행은 점 4개 + 점선(파랑만). 움직임은 만드는 중 점 찍힘 하나뿐.
   - 시작 화면 레퍼런스(웹쟁이 '관광' 검색): 히어로·물결 = 소곳소곳 김포, 루트 카드 = 예당 캠핑장 CSS(`.route-card`, 마우스·초점에 30px 떠오름 — 11/23부터 허용), 바로가기 띠 = 비짓강릉 CSS(`.quick-band`). 옮긴 CSS는 `globals.css`에 출처와 바꾼 점을 주석으로 남긴다.
   - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 팀이 직접 정함). **글자 대비(axe color-contrast)는 검사하지 않는다**(11/24 팀 결정 — 파랑 3.99·초록 2.90:1이지만 실제로 잘 보인다고 판단). 다른 접근성 규칙은 그대로 검사한다.
   - 간격은 4px 배수. 카드 안 묶음 사이만 12px(compact), 카드·목록 항목 사이 16px, 구역 사이 32px(PC 48px). 모바일 좌우 여백 16px.
   - 반지름 3단계 12·16·24px: 컨트롤 12 · 카드·타일 16 · 시트 24(알약은 `rounded-full`).
-  - 면 규칙: S0 평면(구역 대부분, 카드·그림자 없이 간격과 구분선) · S1 선택 타일(흰 바탕 + `line-control` 테두리, 고르면 파란 테두리 + 연한 파랑 + ✓ 기호도) · S2 개별 항목(1px 테두리, 그림자 없음, 안에 면 최대 1개) · S3 떠 있는 면(시트·대화상자·아래 고정 바, 불투명 + 위쪽 그림자 — **그림자는 여기만**). 카드 안에 카드를 넣지 않는다. 첫 화면 색 띠는 1개.
+  - 면 규칙: S0 평면(구역 대부분, 카드·그림자 없이 간격과 구분선) · S1 선택 타일(흰 바탕 + `line-control` 테두리, 고르면 파란 테두리 + 연한 파랑 + ✓ 기호도) · S2 개별 항목(1px 테두리, 그림자 없음, 안에 면 최대 1개) · S3 떠 있는 면(시트·대화상자·아래 고정 바, 불투명 + 위쪽 그림자 — **그림자는 여기만**). 카드 안에 카드를 넣지 않는다. 첫 화면 색 띠는 1개(내부 화면 하늘색 머리 띠 `.page-band`는 화면 배경으로 보고 세지 않는다).
   - 펼치기는 `Disclosure`(`src/components/ui/disclosure.tsx`, 네이티브 `<details>`). 접힌 상태에서도 판정 칩·'전화로 확인할 것 있음'·'공식 정보 없음'·'일반 차량 경로' 문구·개인정보 문구는 밖에 둔다(접어서 숨기지 않는다).
 · **shadcn/ui**(Radix, `components.json`): `src/components/ui/`에 button·card·dialog·tabs·sheet·toggle-group·toggle.
   shadcn 변수(--primary, --background, --border…)는 `globals.css` `:root`에서 우리 토큰을 가리킨다 — 토큰 값은 `@theme static`에서만 고친다.

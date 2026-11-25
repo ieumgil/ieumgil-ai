@@ -165,3 +165,13 @@ describe("규칙이 실제로 잡아낸다(검사 자체의 시험)", () => {
     expect(hit("R5", "src/x.tsx", `"[animation-delay:340ms]"`)).toHaveLength(1);
   });
 });
+
+// 입력 4단계(11/25, 단계 4): 점선 진행 표시를 더했어도 입력 화면에는 초록(pine)을 쓰지 않는다(CLAUDE.md 보조색 규칙)
+describe("입력 단계 초록 금지", () => {
+  it("src/app/plan · src/components/plan 에 pine 색 클래스가 없다", () => {
+    const hits = files
+      .filter((f) => f.path.startsWith("src/app/plan/") || f.path.startsWith("src/components/plan/"))
+      .flatMap((f) => all(new RegExp(`${B}(?:text|bg|border|ring|fill|stroke)-pine(?:-soft)?(?![\w-])`, "g"), f.text).map((m) => `${f.path}: ${m}`));
+    expect(hits).toEqual([]);
+  });
+});

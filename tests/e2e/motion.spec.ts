@@ -97,7 +97,8 @@ test("동작 줄이기면 시트가 바로 열리고 바로 닫힌다", async ({
 });
 
 const PLAN = JSON.stringify({ startDate: "2026-12-12", endDate: "2026-12-12", arrival: "gangneung-station", transport: "taxi", travelers: ["wheelchair"], categories: ["바다·해변"], mustVisit: [] });
-const questionBox = (page: Page, title: RegExp) => page.getByRole("heading", { level: 1, name: title }).locator("xpath=../..");
+// 11/25 단계 4: 제목은 머리 띠(제자리)로 옮겨 갔다 → 그 제목이 있는 화면(main)의 질문 묶음(data-step-body)이 밀려 들어오는 부분이다
+const questionBox = (page: Page, title: RegExp) => page.locator("main", { has: page.getByRole("heading", { level: 1, name: title }) }).locator("[data-step-body]");
 
 test("입력 단계: '다음'이면 질문이 오른쪽에서, '이전'이면 왼쪽에서 들어오고, 단계 표시와 아래 버튼은 제자리다", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });

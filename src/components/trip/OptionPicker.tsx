@@ -8,7 +8,7 @@ const STRATEGY_LABEL: Record<string, string> = { 여유: "여유롭게", 취향:
 
 export function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: TripView; selected: string; confirmedId: string | null; onSelect: (id: string) => void }) {
   return (
-    <section className="pt-6" aria-labelledby="compare">
+    <section className="pt-1" aria-labelledby="compare">
       <h2 id="compare" className="sr-only">
         마음에 드는 일정을 골라 보세요
       </h2>
@@ -21,14 +21,16 @@ export function OptionPicker({ trip, selected, confirmedId, onSelect }: { trip: 
         spacing={4}
         className="mt-3 flex w-full flex-col items-stretch gap-4 px-4 md:px-6 lg:px-0"
       >
-        {trip.options.map((o) => {
+        {trip.options.map((o, i) => {
           const calls = callPlaces(o).length;
           return (
             <ToggleGroupItem
               key={o.id}
               value={o.id}
-              className="h-auto w-full flex-col items-stretch gap-2 rounded-2xl border-[1.5px] border-line-control bg-white p-4 text-left whitespace-normal press press-soft hover:border-primary hover:bg-white data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary-soft data-[state=on]:hover:bg-primary-soft"
+              className="relative h-auto w-full flex-col items-stretch gap-2 overflow-hidden rounded-2xl border-[1.5px] border-line-control bg-white p-4 text-left whitespace-normal press press-soft hover:border-primary hover:bg-white data-[state=on]:border-2 data-[state=on]:border-primary data-[state=on]:bg-primary-soft data-[state=on]:hover:bg-primary-soft"
             >
+              {/* 위쪽 얇은 색 띠(11/25, 단계 4): 안 정체성 장식, 파랑·초록 번갈아. 안 구분은 글자, 선택은 테두리·면·✓가 맡는다 */}
+              <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1 ${i % 2 === 0 ? "bg-primary" : "bg-pine"}`} />
               <span className="flex items-baseline justify-between gap-2">
                 <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
                   <span className="text-base font-medium text-ink">{o.id}안</span>{" "}

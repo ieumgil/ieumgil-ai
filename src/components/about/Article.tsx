@@ -32,7 +32,9 @@ export function Article({
 }) {
   return (
     <main className="flex w-full flex-1 flex-col pb-12 lg:pb-16">
-      <header className={`${SITE_WIDTH} pt-8 lg:pt-12`}>
+      {/* 머리 띠(11/25, 단계 4): 내부 화면 공용 .page-band(하늘색이 아래로 흐려짐). 오른쪽 그림이 있으면 무늬는 끈다(data-aside) */}
+      <header className="page-band w-full print:hidden" data-aside={hero ? "" : undefined}>
+        <div className={`${SITE_WIDTH} pt-8 pb-6 lg:pt-12 lg:pb-8`}>
         <div className={`mx-auto flex max-w-[30rem] flex-col gap-6 md:max-w-[40rem] lg:mx-0 lg:max-w-none lg:grid lg:items-center lg:gap-16 ${hero ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)]" : ""}`}>
           <div className="flex flex-col gap-2 lg:max-w-[42rem]">
             <h1 className="font-heading text-title font-bold text-balance">{title}</h1>
@@ -40,9 +42,10 @@ export function Article({
           </div>
           {hero}
         </div>
+        </div>
       </header>
 
-      <div className={`${SITE_WIDTH} mt-8 lg:mt-12 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16`}>
+      <div className={`${SITE_WIDTH} mt-2 lg:mt-4 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16`}>
         <Toc items={toc} />
         <div className="mx-auto flex w-full min-w-0 max-w-[30rem] flex-col md:max-w-[40rem] lg:mx-0 lg:max-w-[62rem]">
           <div className="flex flex-col gap-8 lg:gap-12">{children}</div>

@@ -1539,3 +1539,90 @@ label:has(input[type="checkbox"]) {
     transform: none;
   }
 }
+
+/*
+ * 내부 화면 머리 띠(11/25, 단계 4 · PageHeader): 하늘색이 위에서 아래로 흐려져 흰 바탕에 녹아들고, 그 위에 옅은 점선 길·언덕 선 무늬.
+ * 레퍼런스: 강진군문화관광재단(gangjin.or.kr) 하위 화면 .title_wrap::before — 위→아래로 흐려지는 하늘빛 그라데이션 + 연한 무늬.
+ * 옮긴 것: 그라데이션으로 녹이는 기법(끝은 투명). 바꾼 것: 무늬는 팀이 그린 점선 길·언덕 선(public/hero/band-motif.svg, 그쪽 이미지 파일은 쓰지 않음),
+ * 색은 --color-sky, 높이는 내용에 따름(고정 높이 없음 — 글자 200%에서도 잘리지 않게), 제목은 가운데가 아니라 왼쪽 정렬, 곡선으로 자르지 않음.
+ * 화면 배경으로 보고 '첫 화면 색 띠 1개'에 세지 않는다(CLAUDE.md). 움직이지 않는다. 인쇄에는 나오지 않는다.
+ */
+.page-band {
+  position: relative;
+  isolation: isolate;
+}
+.page-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--color-sky) 0%, rgb(227 243 243 / 0) 100%);
+}
+.page-band::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url("/hero/band-motif.svg") right top / auto 100% no-repeat;
+  opacity: 0.1;
+  /* 휴대폰은 오른쪽 위에만 — 제목·설명 글자 뒤로 선이 지나가지 않게 왼쪽·아래를 비운다 */
+  mask-image: linear-gradient(to right, transparent 0%, #000 55%), linear-gradient(to bottom, #000 0%, transparent 70%);
+  mask-composite: intersect;
+}
+@media (min-width: 64rem) {
+  .page-band::after {
+    width: 60%;
+    opacity: 0.16;
+    background-position: right bottom;
+    mask-image: linear-gradient(to right, transparent 0%, #000 45%); /* 제목 쪽은 비운다 */
+    mask-composite: add;
+  }
+}
+.page-band[data-aside]::after {
+  display: none;
+}
+@media print {
+  .page-band {
+    display: none;
+  }
+}
+
+/*
+ * 시간표 세로 연결선(11/25, 단계 4): 1px 점선(4px 선 · 4px 빈칸). 레퍼런스: 예산 문화관광 1박2일 코스 .course_item::before{border-left:1px dashed}.
+ * 바꾼 것: border dashed 대신 반복 그라데이션 — 브라우저 dashed는 길이에 맞춰 점 길이를 늘이고 줄여서 바탕 선과 파랑 진행 선(TimelineProgress)의 점이 어긋난다.
+ * 그라데이션은 두 선이 같은 위에서 시작하면 정확히 겹친다. 색은 --rail(기본 line-control, 진행 선은 primary). 장소 번호 동그라미 모양은 그대로.
+ */
+.timeline-rail {
+  width: 1px;
+  background-image: repeating-linear-gradient(to bottom, var(--rail, var(--color-line-control)) 0 4px, transparent 4px 8px);
+}
+
+/*
+ * 만드는 중 장면(11/25, 단계 4 · MakingScene): 진행값만큼 호 위에 점이 하나씩 찍힌다(시작 화면 .hero-dash와 같은 방식, transform·opacity만).
+ * 자체 타이머 없이 진행값을 따라간다. 동작 줄이기면 처음부터 12개 점과 도착 고리가 모두 켜진 정지 그림.
+ */
+.making-dot {
+  opacity: 0;
+  transform: scale(0.2);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.35s ease-out,
+    transform 0.35s ease-out;
+}
+.making-dot[data-on] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .making-dot {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

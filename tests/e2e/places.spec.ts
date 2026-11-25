@@ -116,7 +116,7 @@ async function gotoPlaces(page: Page) {
 }
 
 test.describe("둘러보기 첫 화면", () => {
-  test("머리 영역은 300px 안, 첫 장소가 첫 화면에 @p0309", async ({ page }, testInfo) => {
+  test("머리 영역은 324px 안(띠 포함), 첫 장소가 첫 화면에 @p0309", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "mobile", "머리 예산은 휴대폰 폭(390px)에서만 본다");
     // 둘째 화면 로드부터는 유형을 고르지 않은 입력으로 바꾼다(첫 로드는 beforeEach의 휠체어 입력)
     await page.addInitScript(() => {
@@ -139,11 +139,12 @@ test.describe("둘러보기 첫 화면", () => {
     await firstAboveBar();
 
     await page.evaluate(() => sessionStorage.setItem("p0309-no-type", "1"));
-    await page.reload(); // 유형을 안 고른 기본 상태: 머리는 300px 안
+    await page.reload(); // 유형을 안 고른 기본 상태: 머리는 324px 안
     await expect(page.locator("article").first()).toBeVisible();
     const h1 = (await page.getByRole("heading", { level: 1, name: "영동 관광지 둘러보기" }).boundingBox())!;
     const search = (await page.getByRole("searchbox", { name: "관광지 찾기" }).locator("xpath=ancestor::label").boundingBox())!;
-    expect(search.y + search.height - h1.y).toBeLessThanOrEqual(300);
+    // 11/25 단계 4: 하늘색 머리 띠(뒤로·제목·설명)가 생긴 만큼 예산 300px에 최대 24px를 더 허용한다(04-UI-SPEC §2)
+    expect(search.y + search.height - h1.y).toBeLessThanOrEqual(324);
     await firstAboveBar();
   });
 

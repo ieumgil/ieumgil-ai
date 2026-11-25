@@ -15,6 +15,7 @@ import { CircleCheck, X } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ScrollTop } from "@/components/ScrollTop";
+import { PageHeader } from "@/components/PageHeader";
 import { TopBar } from "@/components/TopBar";
 import { TripMap } from "@/components/map/TripMap";
 import { ConfirmButton, ConfirmSheet } from "@/components/trip/ConfirmSheet";
@@ -23,7 +24,7 @@ import { Footnotes } from "@/components/trip/Footnotes";
 import { HardPlaces } from "@/components/trip/HardPlaces";
 import { OptionDetail } from "@/components/trip/OptionDetail";
 import { OptionPicker } from "@/components/trip/OptionPicker";
-import { Summary } from "@/components/trip/Summary";
+import { Summary, summaryHead } from "@/components/trip/Summary";
 import { SwapSheet } from "@/components/trip/SwapSheet";
 import { ButtonLink } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -37,6 +38,9 @@ import type { TripView } from "@/lib/trip/view";
 import { useMedia, WIDE } from "@/lib/use-media";
 
 // 창(바꾸기·확정): 휴대폰은 아래에서 올라오고, PC는 가운데 대화창
+/** 머리 띠 안쪽 = 본문과 같은 폭·여백(제목이 본문 왼쪽 끝과 맞는다) */
+const INNER = "mx-auto w-full max-w-[34rem] px-4 md:max-w-[48rem] md:px-6 lg:max-w-[72rem] xl:max-w-[96rem]";
+const EMPTY_INNER = "mx-auto w-full max-w-[30rem] px-4";
 const PANEL =
   "mx-auto max-h-[85dvh] max-w-[34rem] overflow-y-auto rounded-t-3xl px-4 pb-8 lg:w-[34rem] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:rounded-3xl lg:pb-6 lg:data-[side=bottom]:top-1/2 lg:data-[side=bottom]:right-auto lg:data-[side=bottom]:bottom-auto lg:data-[side=bottom]:left-1/2 lg:data-[side=bottom]:border-t-0";
 
@@ -46,14 +50,15 @@ export function TripScreen() {
   if (trip === undefined) return null;
   if (trip === null) {
     return (
-      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-4 px-4 pt-4 pb-7">
-        <TopBar backHref="/" backLabel="처음 화면으로" />
-        <h1 className="mt-8 font-heading text-title font-bold text-balance">만든 일정이 없어요</h1>
-        <p className="text-base text-ink-sub">일정은 이 탭에서만 보관해요. 조건을 고르고 다시 만들어 주세요.</p>
-        <ButtonLink href="/plan/when">일정 만들기</ButtonLink>
-        <ButtonLink href="/trip/example" variant="outline">
-          예시 루트 먼저 보기
-        </ButtonLink>
+      <main className="flex w-full flex-1 flex-col">
+        <PageHeader inner={EMPTY_INNER} top={<TopBar backHref="/" backLabel="처음 화면으로" />} title="만든 일정이 없어요" />
+        <div className={`${EMPTY_INNER} flex flex-col gap-4 pb-7`}>
+          <p className="text-base text-ink-sub">일정은 이 탭에서만 보관해요. 조건을 고르고 다시 만들어 주세요.</p>
+          <ButtonLink href="/plan/when">일정 만들기</ButtonLink>
+          <ButtonLink href="/trip/example" variant="outline">
+            예시 루트 먼저 보기
+          </ButtonLink>
+        </div>
       </main>
     );
   }
@@ -151,17 +156,23 @@ function TripResult({ trip: base }: { trip: TripView }) {
     }
   };
 
+  const head = summaryHead(trip);
   const confirm = () => {
     confirmOption(trip, option.id);
     setSheetOpen(true);
   };
 
   return (
-    <main className="mx-auto w-full max-w-[34rem] flex-1 pb-28 md:max-w-[48rem] lg:max-w-[72rem] lg:pb-12 xl:max-w-[96rem]">
-      {/* 사이트 머리줄(11/23) 아래라 위 여백을 줄였다 */}
-      <div className="px-4 pt-2 md:px-6">
-        <TopBar backHref={example ? "/" : "/plan/taste"} backLabel={example ? "처음 화면으로" : "조건 화면으로"} />
-      </div>
+    <main className="flex w-full flex-1 flex-col pb-28 lg:pb-12">
+      {/* 머리 띠(11/25, 단계 4): 뒤로 · 제목(몇 가지 만들었는지) · 조건 한 줄. 목록이 먼저 보여야 해서 compact */}
+      <PageHeader
+        inner={INNER}
+        density="compact"
+        top={<TopBar backHref={example ? "/" : "/plan/taste"} backLabel={example ? "처음 화면으로" : "조건 화면으로"} />}
+        title={head.title}
+        description={<p className="text-sm">{head.meta}</p>}
+      />
+      <div className="mx-auto w-full max-w-[34rem] md:max-w-[48rem] lg:max-w-[72rem] xl:max-w-[96rem]">
       {example && <ExampleBanner />}
       <p role="status" className="sr-only">
         {announce}
@@ -232,6 +243,7 @@ function TripResult({ trip: base }: { trip: TripView }) {
           <ConfirmSheet o={option} trip={trip} onChange={() => setSheetOpen(false)} />
         </SheetContent>
       </Sheet>
+      </div>
     </main>
   );
 }

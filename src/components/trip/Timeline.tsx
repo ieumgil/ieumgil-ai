@@ -1,5 +1,5 @@
 // 일정 타임라인 공통 부품(결과 화면 OptionDetail · 확정·공유 화면 DayList가 함께 쓴다):
-// 왼쪽 세로 연결선 위에 출발·도착 깃발, 이동·점심·쉬는 시간은 작은 점, 장소는 번호 동그라미 + 카드.
+// 왼쪽 세로 1px 점선(11/25, globals.css .timeline-rail) 위에 출발·도착 깃발, 이동·점심·쉬는 시간은 작은 점, 장소는 번호 동그라미 + 카드.
 import type { ReactNode } from "react";
 import { TimelineProgress } from "./TimelineProgress";
 
@@ -7,7 +7,7 @@ import { TimelineProgress } from "./TimelineProgress";
 export function TimelineLine() {
   return (
     <>
-      <span className="absolute top-4 bottom-4 left-[0.9375rem] w-0.5 rounded-full bg-line" aria-hidden="true" />
+      <span className="timeline-rail absolute top-4 bottom-4 left-[calc(1rem-0.5px)]" aria-hidden="true" />
       <TimelineProgress />
     </>
   );

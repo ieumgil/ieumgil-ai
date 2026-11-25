@@ -5,7 +5,9 @@
 import { CalendarRange, Check, ClipboardCheck, Loader2, ScanSearch, Sparkles, TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { PageHeader } from "@/components/PageHeader";
 import { TopBar } from "@/components/TopBar";
+import { MakingScene } from "@/components/plan/MakingScene";
 import { ButtonLink, buttonClass } from "@/components/ui/button";
 import { firstIncompleteStep } from "@/lib/plan/progress";
 import { usePlan } from "@/lib/plan/store";
@@ -22,6 +24,9 @@ const STAGES: { id: Exclude<StageId, "done">; label: string; sub: string; icon: 
   { id: "plan", label: "AI가 일정 2~3가지 짜기", sub: "시간은 프로그램이 계산하고, 안 맞으면 AI가 고쳐요", icon: <CalendarRange size={20} />, from: 50, to: 84 },
   { id: "review", label: "일정 점검하기", sub: "피로도·시간 여유·취향을 점검해요", icon: <ClipboardCheck size={20} />, from: 84, to: 97 },
 ];
+
+/** 본문과 머리 띠 안쪽이 같은 폭·여백 — 제목이 본문 왼쪽 끝과 맞는다 */
+const INNER = "mx-auto w-full max-w-[30rem] px-5 md:max-w-[40rem] lg:max-w-[52rem]";
 
 const subscribeNoop = () => () => {};
 /** 이만큼 지나도 안 끝나면 '늦어요' 안내(서버 전체 한도는 90초) */
@@ -128,17 +133,28 @@ export function MakingStep() {
   const earlier = stage === "done" ? logs : logs.slice(0, -1);
 
   return (
-    <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col px-5 pt-4 pb-7 md:max-w-[40rem] lg:max-w-[52rem]">
-      <TopBar backHref="/plan/taste" backLabel="이전 단계로" />
+    <main className="flex w-full flex-1 flex-col">
+      {/* 머리 띠(11/25, 단계 4): 제목과 '지금 하는 일' 한 줄(aria-live)은 띠 안. 진행 막대·단계·기록은 아래 본문 */}
+      <PageHeader
+        inner={INNER}
+        top={<TopBar backHref="/plan/taste" backLabel="이전 단계로" />}
+        title={missing ? "앞 단계를 먼저 채워 주세요" : error ? "일정을 만들지 못했어요" : stage === "done" ? "일정이 나왔어요" : "AI가 일정을 만들고 있어요"}
+        description={
+          !missing && !error ? (
+            <p className="min-h-[1.5rem]" aria-live="polite">
+              {latest ?? "조건을 확인하고 있어요"}
+            </p>
+          ) : undefined
+        }
+      />
+      <div className={`${INNER} flex flex-1 flex-col pb-7`}>
       {missing ? (
-        <div className="mt-8 flex flex-col gap-4">
-          <h1 className="font-heading text-title font-bold text-balance">앞 단계를 먼저 채워 주세요</h1>
+        <div className="flex flex-col gap-4">
           <p className="text-base text-ink-sub">&lsquo;{missing.name}&rsquo;에서 아직 고르지 않은 항목이 있어요.</p>
           <ButtonLink href={missing.href}>채우러 가기</ButtonLink>
         </div>
       ) : error ? (
-        <div className="mt-8 flex flex-col gap-4">
-          <h1 className="font-heading text-title font-bold text-balance">일정을 만들지 못했어요</h1>
+        <div className="flex flex-col gap-4">
           <p className="flex items-start gap-2 rounded-xl bg-blocked-bg px-4 py-3 text-base text-blocked-ink" role="alert">
             <TriangleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
             {error}
@@ -149,14 +165,11 @@ export function MakingStep() {
         </div>
       ) : (
         <>
-          {/* PC(1024px~)도 한 칸에 시선을 모은다: 세로 가운데, 단계는 가로 한 줄, 장소 이름은 칸 전체 폭 */}
-          <div className="flex flex-1 flex-col lg:justify-center lg:pb-6">
-            <section className="mt-6 lg:mt-0 lg:text-center" aria-label="진행 상황">
-              <h1 className="font-heading text-title font-bold text-balance">{stage === "done" ? "일정이 나왔어요" : "AI가 일정을 만들고 있어요"}</h1>
-              <p className="mt-1.5 min-h-[1.5rem] text-base text-ink-sub lg:mt-2" aria-live="polite">
-                {latest ?? "조건을 확인하고 있어요"}
-              </p>
-              <div className="mt-4 flex items-center gap-3 lg:mt-6">
+          {/* PC도 위에서부터 흐른다(띠 제목이 왼쪽 정렬이라 본문도 왼쪽). 단계는 PC에서 가로 한 줄 그대로 */}
+          <div className="flex flex-1 flex-col lg:pb-6">
+            <section aria-label="진행 상황">
+              <MakingScene pct={pct} done={stage === "done"} />
+              <div className="mt-4 flex items-center gap-3">
                 <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line lg:h-3" role="progressbar" aria-label="전체 진행" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
                   <div className="h-full rounded-full bg-primary transition-[width] duration-[var(--motion-medium)] ease-[var(--ease-state)]" style={{ width: `${pct}%` }} />
                 </div>
@@ -244,6 +257,7 @@ export function MakingStep() {
           </div>
         </>
       )}
+      </div>
     </main>
   );
 }
