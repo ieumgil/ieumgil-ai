@@ -109,7 +109,8 @@ function RouteCards() {
     <section aria-labelledby="routes-title" className={`${SITE_WIDTH} pb-16 lg:pb-24`}>
       <div data-reveal="">
         <SectionTitle id="routes-title" kicker="함께 가는 사람별 예시 루트">
-          누구와 <span className="text-primary">가세요?</span>
+          누구와 함께 가세요? <br className="sm:hidden" />
+          <span className="whitespace-nowrap text-primary">꼭 맞는 루트</span>를 바로 열어 보세요
         </SectionTitle>
       </div>
       {/* 떠오른 카드가 제목에 닿지 않게 위 여백을 둔다. 카드 모양은 globals.css .route-card(레퍼런스 예당 캠핑장 CSS) */}
