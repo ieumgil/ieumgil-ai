@@ -20,10 +20,13 @@ describe("README", () => {
     expect(badge).toContain("style=for-the-badge");
   });
 
-  it("기상청 배지가 행정안전부 공중화장실 배지 바로 다음 줄이다", () => {
-    const i = rows.findIndex((l) => l.startsWith("[![행정안전부 공중화장실"));
-    expect(i).toBeGreaterThan(-1);
-    expect(rows[i + 1]).toContain("[![기상청");
+  // 11/25 README 개편으로 기술·데이터 배지가 한 줄('쓰는 AI · 공공데이터')이 됐다 → '다음 줄'이 아니라 '바로 다음 배지'로 순서를 고정한다
+  it("기상청 배지가 행정안전부 공중화장실 배지 바로 다음 배지다", () => {
+    const row = rows.find((l) => l.includes("[![행정안전부 공중화장실"));
+    expect(row).toBeTruthy();
+    const badges = [...row!.matchAll(/\[!\[([^\]]+)\]/g)].map((m) => m[1]);
+    const i = badges.findIndex((b) => b.startsWith("행정안전부 공중화장실"));
+    expect(badges[i + 1]).toMatch(/^기상청/);
   });
 
   it("중기예보 번호와 환경변수, 참고 자료 두 항목이 있다", () => {
