@@ -860,11 +860,13 @@ label:has(input[type="checkbox"]) {
   .home-hero__canvas {
     padding: 0;
   }
+  /* 휴대폰은 민트 바탕을 빼고 글자만(11/27 사용자). PC·태블릿은 반투명 상자 그대로 */
   .home-hero__box {
     width: auto;
-    margin: 0 1rem 28px;
-    padding: 36px 16px 34px;
-    border-radius: 24px;
+    margin: 0 1rem 8px;
+    padding: 24px 0 8px;
+    border-radius: 0;
+    background: transparent;
   }
   .home-hero__title {
     font-size: 30px;

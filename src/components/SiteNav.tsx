@@ -31,7 +31,13 @@ function NavList({ items, variant, pathname }: { items: NavItem[]; variant: Vari
         const current = pathname !== null && isCurrent(pathname, m.href, variant === "menu" && m.href === "/about");
         return (
           <li key={m.href}>
-            <Link href={m.href} aria-current={current ? "page" : undefined} className={LINK_CLASS[variant]}>
+            <Link
+              href={m.href}
+              aria-current={current ? "page" : undefined}
+              className={LINK_CLASS[variant]}
+              // 휴대폰 ☰ 메뉴(<details>)는 화면이 바뀌어도 머리줄이 그대로 남아 열린 채였다 → 고르면 닫는다(11/27)
+              onClick={variant === "menu" ? (e) => e.currentTarget.closest("details")?.removeAttribute("open") : undefined}
+            >
               {m.label}
             </Link>
           </li>

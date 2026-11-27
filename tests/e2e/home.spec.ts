@@ -68,6 +68,19 @@ test("시작 화면·입력 화면에서는 머리줄 [루트 만들기]를 숨�
   }
 });
 
+// 11/27 사용자: 휴대폰 ☰ 메뉴에서 화면을 고르면 그 화면으로 가면서 메뉴가 저절로 닫힌다(머리줄은 화면이 바뀌어도 그대로 남아 열린 채였다)
+test("휴대폰 메뉴: 메뉴에서 화면을 고르면 이동하고 메뉴가 닫힌다", async ({ page }, info) => {
+  test.skip(info.project.name === "desktop", "휴대폰·태블릿 메뉴");
+  await page.goto("/");
+  const menu = page.locator("header details");
+  await page.locator("summary", { hasText: "메뉴 열기" }).click();
+  await expect(menu).toHaveAttribute("open", "");
+  await menu.getByRole("link", { name: "관광지 둘러보기" }).click();
+  await expect(page).toHaveURL(/\/places$/);
+  await expect(menu).not.toHaveAttribute("open", "");
+  await expect(menu.getByRole("link", { name: "관광지 둘러보기" })).toBeHidden();
+});
+
 test("사이트 머리줄은 가장 좁은 휴대폰(320px)에서도 가로로 넘치지 않는다", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await page.goto("/places");
@@ -324,14 +337,15 @@ test("동작 줄이기 설정이면 시작 화면은 처음부터 모두 보인�
 
 // 11/27 새 히어로(팀이 만든 시안): 영동 사진 카드 4장(대체 글 있음) + 옅은 점선 길(장식) + 문구 상자.
 // 사진에 마우스를 올리면 카드만 떠오르고 사진은 확대하지 않는다 · 문구 상자 바탕은 반투명 0.5(11/27 사용자)
-test("히어로: 사진 4장은 대체 글이 있고 점선 길은 장식 · 문구 상자는 반투명 0.5 · 가로 스크롤 없음", async ({ page }) => {
+// 11/27 사용자: 휴대폰(767px 이하)에서는 문구 상자의 민트 바탕을 빼고 글자만, PC는 반투명 0.5 그대로
+test("히어로: 사진 4장은 대체 글이 있고 점선 길은 장식 · 문구 상자는 PC 반투명 0.5, 휴대폰은 바탕 없음 · 가로 스크롤 없음", async ({ page }, info) => {
   await page.goto("/");
   const hero = page.locator("section[aria-labelledby='hero-title']");
   const photos = hero.locator(".home-hero__card img");
   await expect(photos).toHaveCount(4);
   for (const img of await photos.all()) expect((await img.getAttribute("alt"))!.length).toBeGreaterThan(5);
   await expect(hero.locator(".home-hero__route")).toHaveAttribute("aria-hidden", "true");
-  await expect(hero.locator(".home-hero__box")).toHaveCSS("background-color", "rgba(224, 236, 230, 0.5)");
+  await expect(hero.locator(".home-hero__box")).toHaveCSS("background-color", info.project.name === "desktop" ? "rgba(224, 236, 230, 0.5)" : "rgba(0, 0, 0, 0)");
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 });
 
