@@ -24,11 +24,6 @@ function loadWeather(): Promise<WeatherPayload | null> {
   return pending;
 }
 
-/** 시험용: 메모리 비우기 */
-export function clearWeather() {
-  pending = null;
-}
-
 export function useWeather(): WeatherPayload | null {
   const [weather, setWeather] = useState<WeatherPayload | null>(null);
   useEffect(() => {

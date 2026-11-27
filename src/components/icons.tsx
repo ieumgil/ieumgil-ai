@@ -28,21 +28,6 @@ export const CheckIcon = (p: IconProps) => (
   </Line>
 );
 
-export const DocumentIcon = (p: IconProps) => (
-  <Line {...p}>
-    <path d="M7 3h7l5 5v13H7z" />
-    <path d="M14 3v5h5" />
-    <path d="M10 13h6M10 17h6" />
-  </Line>
-);
-
-export const ChatIcon = (p: IconProps) => (
-  <Line {...p}>
-    <path d="M4 5h16v11H9l-5 4z" />
-    <path d="M8 9h8M8 12h5" />
-  </Line>
-);
-
 export const ChevronLeftIcon = (p: IconProps) => (
   <Line {...p}>
     <path d="M15 5l-7 7 7 7" />

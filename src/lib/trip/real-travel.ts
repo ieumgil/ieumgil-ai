@@ -18,11 +18,6 @@ import { toDayView, type OptionView, type TripView } from "./view";
 const memory = new Map<string, RealLeg[] | null>();
 const seqKey = (pts: Point[]) => pts.map((p) => `${p.lat.toFixed(5)},${p.lng.toFixed(5)}`).join("|");
 
-/** 시험용: 메모리 비우기 */
-export function clearRealLegs() {
-  memory.clear();
-}
-
 /** 안들의 날짜를 실제 이동시간으로 다시 계산한 안(못 받았으면 받은 안 그대로) */
 export function useRealTravel(trip: TripView, options: OptionView[]): OptionView[] {
   const placesById = useMemo(() => new Map(Object.entries(trip.placeData)), [trip.placeData]);

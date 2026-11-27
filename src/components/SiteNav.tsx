@@ -1,6 +1,6 @@
 "use client";
 
-// 사이트 머리줄 메뉴 링크(고칠 목록 5, 11/25). 지금 보는 화면의 메뉴에 aria-current="page" + 밑줄을 단다(주소를 알아야 해서 이 부분만 클라이언트).
+// 사이트 머리줄 메뉴 링크(11/25). 지금 보는 화면의 메뉴에 aria-current="page" + 밑줄을 단다(주소를 알아야 해서 이 부분만 클라이언트).
 // Cache Components(Next.js 16): usePathname은 주소 일부가 요청 때 정해지는 화면(/trip/[id] · /s/[id])에서 미리 그릴 때 값을 몰라 멈춘다.
 //   Suspense로 감싸지 않으면 빌드가 실패한다(node_modules/next/dist/docs/01-app/03-api-reference/04-functions/use-pathname.md 'Cache Components').
 //   → 바깥에 Suspense를 두고, 미리 그리는 동안의 대신 화면(fallback)은 같은 모양으로 그린다: 메뉴는 '지금 화면' 표시만 없이, 버튼은 그대로 보이게
