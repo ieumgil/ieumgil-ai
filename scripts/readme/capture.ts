@@ -4,8 +4,9 @@
 // 캡처용 결과 다시 만들기: npx tsx scripts/ai/save-trip-view.ts scripts/readme/trip-view.json
 // 확정 일정의 지도는 실제 카카오 지도·경로선이라 개발 서버(localhost:3000, 카카오에 등록한 주소)가 켜져 있어야 한다.
 // 시작 화면 단계 소개의 휴대폰 화면(public/preview/step-*.png)도 04·08·12 캡처로 함께 바꾼다.
-// README '디자인 이야기' 그림(docs/readme/design-icons.png)은 `… capture.ts design` — 앱 아이콘 · 바로가기 아이콘 5개(움직이는 층까지 겹친 모습) · 색 세 가지를 한 줄로(서버 불필요).
-// README 맨 위 움직이는 그림(docs/readme/hero.gif)은 `… capture.ts hero` — 시작 화면 히어로의 CSS 움직임을 멈춰 두고 시각을 하나씩 정해 찍은 뒤 sharp로 GIF를 만든다(실시간 녹화가 아니라 끊김 없음).
+// README '디자인 이야기' 그림(docs/readme/design-icons.png)은 `… capture.ts design` — 앱 아이콘 · 바로가기 그림 5개 · 색을 한 줄로(서버 불필요).
+// README 맨 위 움직이는 그림(docs/readme/hero.gif)은 `… capture.ts hero` — 시작 화면 히어로의 CSS 움직임(사진 카드가 차례로 올라오고 문구 상자가 나타남)을
+//   멈춰 두고 시각을 하나씩 정해 찍은 뒤 sharp로 GIF를 만든다(실시간 녹화가 아니라 끊김 없음).
 // 사용: npm run dev  →  npx tsx scripts/readme/capture.ts
 import { mkdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -211,11 +212,9 @@ async function capture(b: Browser, s: Shot) {
   console.log(`✓ ${s.name}`);
 }
 
-/** 표지: 시작 → 만드는 중 → 일정 비교 → 확정 일정(지도) */
-/** 표지 두 장: cover(흐름 — 시작 · 만드는 중 · 비교 · 확정 지도) · cover-judge(AI 판단과 확인 — 조건 · 장소 카드 · 바꾸기 · 전화 확인) */
+/** 표지(cover.png): 시작 → 만드는 중 → 일정 비교 → 확정 일정(지도) */
 async function cover(b: Browser) {
   await coverOf(b, "cover", ["01-home", "06-making", "07-result-compare", "10-final"]);
-  await coverOf(b, "cover-judge", ["04-conditions", "08-result-detail", "09-swap", "12-checklist"]);
 }
 
 async function coverOf(b: Browser, file: string, names: string[]) {
@@ -320,38 +319,39 @@ async function frames(b: Browser) {
   console.log(`✓ frames(휴대폰 ${phones.length} · PC ${desktops.length})`);
 }
 
-/** README '디자인 이야기' 그림: 앱 아이콘 + 바로가기 아이콘 5개 + 색 세 가지. 아이콘은 화면과 같은 순서로 층을 겹친다(QuickMenu ITEMS).
- *  연한 판 위에 올려 GitHub 어두운 화면에서도 남색 그림이 묻히지 않게 하고, 판 밖은 투명. 글자는 Pretendard(패키지 파일을 그대로 씀). */
+/** README '디자인 이야기' 그림: 앱 아이콘 + 시작 화면 바로가기 그림 5개(QuickMenu ITEMS와 같은 순서·이름) + 색.
+ *  연한 판 위에 올려 GitHub 어두운 화면에서도 그림이 묻히지 않게 하고, 판 밖은 투명. 글자는 Pretendard(패키지 파일을 그대로 씀). */
 async function designStrip(b: Browser) {
   const img = (path: string) => `data:image/${path.endsWith(".png") ? "png" : "webp"};base64,${readFileSync(resolve(path)).toString("base64")}`;
   const font = readFileSync(resolve("node_modules/pretendard/dist/web/static/woff2/Pretendard-Medium.woff2")).toString("base64");
-  const quick: [string, string[]][] = [
-    ["여행 루트 만들기", ["quick-route-sign", "quick-route"]],
-    ["예시 루트 보기", ["quick-example", "quick-example-route"]],
-    ["관광지 둘러보기", ["quick-places", "quick-places-pin"]],
-    ["서비스 소개", ["quick-about", "quick-about-light"]],
-    ["작동 원리", ["quick-how"]],
+  const quick: [string, string][] = [
+    ["여행 루트 만들기", "icon-route"],
+    ["예시 루트 보기", "icon-map"],
+    ["관광지 둘러보기", "icon-car"],
+    ["서비스 소개", "icon-tube"],
+    ["작동 원리", "icon-bag"],
   ];
-  const colors: [string, string][] = [["파랑", "#3580DB"], ["초록", "#3DAA7E"], ["남색(그림만)", "#092B47"]];
+  // 시작 화면(히어로·바로가기) 색 세 가지 + 다른 화면의 파랑·초록
+  const colors: [string, string][] = [["시작 화면 파랑", "#1553A3"], ["시작 화면 초록", "#2F993B"], ["시작 화면 주황", "#ED7049"], ["화면 파랑", "#3580DB"], ["화면 초록", "#3DAA7E"]];
   const cell = (label: string, inner: string) => `<div class="c"><div class="i">${inner}</div><div class="l">${label}</div></div>`;
-  const stack = (layers: string[]) => layers.map((n) => `<img src="${img(`public/home/${n}.webp`)}" />`).join("");
+  const icon = (n: string) => `<img src="${img(`public/home/quick/${n}.png`)}" />`;
   const page = await b.newPage({ viewport: { width: 1400, height: 400 }, deviceScaleFactor: 2 });
   await page.setContent(`<!doctype html><html><head><style>
     @font-face{font-family:P;src:url(data:font/woff2;base64,${font}) format("woff2")}
     body{margin:0;background:transparent;font-family:P,sans-serif;color:#191F28}
     #f{display:inline-flex;align-items:center;gap:40px;padding:32px 40px;border-radius:24px;background:#F5F8FC}
     .c{display:flex;flex-direction:column;align-items:center;gap:12px;width:132px}
-    .i{position:relative;width:96px;height:96px}.i img{position:absolute;inset:0;width:100%;height:100%}
-    .app .i{width:112px;height:112px}.app .i img{border-radius:24px}
+    .i{display:flex;align-items:flex-end;justify-content:center;width:96px;height:96px}.i img{max-width:96px;max-height:84px}
+    .app .i{width:112px;height:112px}.app .i img{max-width:none;max-height:none;width:112px;height:112px;border-radius:24px}
     .l{font-size:17px;white-space:nowrap}
     .bar{width:1px;align-self:stretch;background:#D1D6DB}
-    .sw{display:flex;flex-direction:column;gap:10px}
-    .s{display:flex;align-items:center;gap:10px;font-size:16px}.s i{display:block;width:28px;height:28px;border-radius:8px}
+    .sw{display:grid;grid-template-columns:auto auto;gap:10px 24px}
+    .s{display:flex;align-items:center;gap:10px;font-size:16px;white-space:nowrap}.s i{display:block;width:28px;height:28px;border-radius:8px}
     .s b{font-weight:500;font-variant-numeric:tabular-nums;color:#4E5968}
   </style></head><body><div id="f">
     <div class="app">${cell("앱 아이콘", `<img src="${img("docs/brand/icon-1024.png")}" />`)}</div>
     <div class="bar"></div>
-    ${quick.map(([l, layers]) => cell(l, stack(layers))).join("")}
+    ${quick.map(([l, n]) => cell(l, icon(n))).join("")}
     <div class="bar"></div>
     <div class="sw">${colors.map(([n, c]) => `<div class="s"><i style="background:${c}"></i>${n} <b>${c}</b></div>`).join("")}</div>
   </div></body></html>`);
@@ -360,12 +360,12 @@ async function designStrip(b: Browser) {
   console.log("✓ design-icons");
 }
 
-/** README 맨 위 움직이는 그림: PC 시작 화면 히어로(머리줄 아래 ~ 히어로 끝)를 0~6초, 초당 15장.
- *  CSS 움직임(점선 43개 · 구름 · 갈매기 · 배)을 모두 멈추고 currentTime을 시각마다 맞춰 찍는다 → 실제 화면과 같은 움직임이 끊김 없이 담긴다.
- *  마지막 장면(점선이 다 이어지고 구름·갈매기가 보이는 상태)은 2초 머문 뒤 처음부터 다시. GIF는 3MB 이하가 목표(넘으면 가로를 줄인다). */
+/** README 맨 위 움직이는 그림: PC 시작 화면 히어로를 0~2초, 초당 15장.
+ *  CSS 움직임(사진 카드 4장이 차례로 올라오고 문구 상자가 나타남)을 모두 멈추고 currentTime을 시각마다 맞춰 찍는다 → 실제 화면과 같은 움직임이 끊김 없이 담긴다.
+ *  마지막 장면은 3초 머문 뒤 처음부터 다시. GIF는 3MB 이하가 목표(넘으면 가로를 줄인다). */
 async function heroGif(b: Browser) {
   const FPS = 15;
-  const SECONDS = 6;
+  const SECONDS = 2;
   const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 }, deviceScaleFactor: 1, locale: "ko-KR", timezoneId: "Asia/Seoul" });
   await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
   const page = await ctx.newPage();
@@ -374,14 +374,14 @@ async function heroGif(b: Browser) {
   await page.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 15_000 }).catch(() => {});
   // 히어로 안의 움직임만 멈춰 둔다(머리줄 날씨 띠 등 다른 움직임은 찍히지 않는다)
   await page.evaluate(() => {
-    const hero = document.querySelector("section.hero-scene")!;
+    const hero = document.querySelector("section.home-hero")!;
     (window as unknown as { __heroAnims: Animation[] }).__heroAnims = document.getAnimations().filter((a) => {
       const t = (a.effect as KeyframeEffect | null)?.target;
       return t instanceof Element && hero.contains(t);
     });
     for (const a of (window as unknown as { __heroAnims: Animation[] }).__heroAnims) a.pause();
   });
-  const box = (await page.locator("section.hero-scene").boundingBox())!;
+  const box = (await page.locator("section.home-hero").boundingBox())!;
   const clip = { x: 0, y: box.y, width: 1280, height: Math.round(box.height) };
   const frames: Buffer[] = [];
   for (let f = 0; f <= SECONDS * FPS; f++) {
@@ -393,7 +393,7 @@ async function heroGif(b: Browser) {
     frames.push(await page.screenshot({ clip }));
   }
   await ctx.close();
-  const delay = frames.map((_, i) => (i === frames.length - 1 ? 2000 : Math.round(1000 / FPS)));
+  const delay = frames.map((_, i) => (i === frames.length - 1 ? 3000 : Math.round(1000 / FPS)));
   for (const width of [1280, 1000]) {
     // 줄이기는 장마다 먼저 한다(합친 뒤 줄이면 sharp가 움직임을 한 장으로 합쳐 버린다)
     const sized = width === 1280 ? frames : await Promise.all(frames.map((f) => sharp(f).resize({ width }).png().toBuffer()));
