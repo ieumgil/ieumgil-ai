@@ -37,7 +37,7 @@ const events = [
   { stage: "log", text: "B안: 운영시간을 넘는 곳이 있어 고치는 중", tone: "fix" },
 ];
 
-type Shot = { name: string; path: string; desktop?: boolean; act?: (p: Page) => Promise<void> };
+type Shot = { name: string; path: string; desktop?: boolean; height?: number; act?: (p: Page) => Promise<void> };
 
 const SHOTS: Shot[] = [
   { name: "01-home", path: "/" },
@@ -75,7 +75,8 @@ const SHOTS: Shot[] = [
     },
   },
   { name: "10-final", path: "/trip/example/final", act: waitMap },
-  { name: "11-final-desktop", path: "/trip/example/final", desktop: true, act: waitMap },
+  // PC 확정 일정은 첫 장소 카드가 잘리지 않게 세로를 늘려 찍는다
+  { name: "11-final-desktop", path: "/trip/example/final", desktop: true, height: 1005, act: waitMap },
   {
     name: "12-checklist",
     path: "/trip/example/final",
@@ -172,7 +173,7 @@ async function waitMap(p: Page) {
 
 async function capture(b: Browser, s: Shot) {
   const ctx = await b.newContext({
-    viewport: s.desktop ? { width: 1440, height: 900 } : { width: 390, height: 844 },
+    viewport: s.desktop ? { width: 1440, height: s.height ?? 900 } : { width: 390, height: 844 },
     deviceScaleFactor: s.desktop ? 1 : 2,
     locale: "ko-KR",
     timezoneId: "Asia/Seoul",
@@ -290,7 +291,7 @@ async function frames(b: Browser) {
   await phone.close();
 
   // PC: 1440×900 캡처 + 위쪽 창 막대(점 3개 · 주소)
-  const pc = await b.newPage({ viewport: { width: 1560, height: 1040 }, deviceScaleFactor: 1 });
+  const pc = await b.newPage({ viewport: { width: 1560, height: 1400 }, deviceScaleFactor: 1 });
   for (const n of desktops) {
     await pc.setContent(`<!doctype html><html><body style="margin:0;background:transparent;font-family:'Malgun Gothic',sans-serif">
       <div id="f" style="display:inline-block;padding:16px 40px 56px">
@@ -299,7 +300,7 @@ async function frames(b: Browser) {
             ${["#FF5F57", "#FEBC2E", "#28C840"].map((c) => `<span style="width:12px;height:12px;border-radius:50%;background:${c}"></span>`).join("")}
             <div style="margin-left:24px;flex:0 1 480px;height:28px;border-radius:14px;background:#fff;color:#4E5968;font-size:14px;display:flex;align-items:center;padding:0 16px">ieumgil-ai.vercel.app</div>
           </div>
-          <img src="${src(n)}" style="display:block;width:1440px;height:900px" />
+          <img src="${src(n)}" style="display:block;width:1440px;height:auto" />
         </div>
       </div></body></html>`);
     await pc.locator("#f").screenshot({ path: `${OUT}/mock/${n}.png`, omitBackground: true });
