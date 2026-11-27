@@ -1,12 +1,11 @@
 // README 화면 캡처(docs/readme/*.png)를 다시 만든다. AI를 부르지 않는다:
-// 결과 화면은 저장해 둔 실제 AI 결과(scripts/readme/trip-view.json — 11/24 '하루' 제목 규칙 뒤 다시 만든 것, B안에 전화 확인 3곳), 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
+// 결과 화면은 심사위원이 여는 예시 일정(/trip/example, src/lib/trip/example-trip.json — 실제 AI가 미리 만든 결과)을 그대로 찍는다.
+//   그래서 README 그림과 예시 일정 화면이 같다. 확정 화면은 B안을 확정한 상태(예시 칸 ':example'에 넣음). 만드는 중 화면은 진행 기록 예시를 흘려 넣는다.
 // 화면 흐름 테스트는 따로 tests/e2e/fixtures/trip-view.json(11/21 결과, 공통 엘리베이터 질문 등 경우가 많음)을 쓴다.
-// 캡처용 결과 다시 만들기: npx tsx scripts/ai/save-trip-view.ts scripts/readme/trip-view.json
+// 예시 일정 다시 만들기: npx tsx scripts/ai/make-example.ts
 // 확정 일정의 지도는 실제 카카오 지도·경로선이라 개발 서버(localhost:3000, 카카오에 등록한 주소)가 켜져 있어야 한다.
 // 시작 화면 단계 소개의 휴대폰 화면(public/preview/step-*.png)도 04·08·12 캡처로 함께 바꾼다.
 // README '디자인 이야기' 그림(docs/readme/design-icons.png)은 `… capture.ts design` — 앱 아이콘 · 바로가기 그림 5개 · 색을 한 줄로(서버 불필요).
-// README 맨 위 움직이는 그림(docs/readme/hero.gif)은 `… capture.ts hero` — 시작 화면 히어로의 CSS 움직임(사진 카드가 차례로 올라오고 문구 상자가 나타남)을
-//   멈춰 두고 시각을 하나씩 정해 찍은 뒤 sharp로 GIF를 만든다(실시간 녹화가 아니라 끊김 없음).
 // 사용: npm run dev  →  npx tsx scripts/readme/capture.ts
 import { mkdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -15,21 +14,11 @@ import sharp from "sharp";
 
 const BASE = "http://localhost:3000";
 const OUT = resolve("docs/readme");
-const trip = readFileSync(resolve("scripts/readme/trip-view.json"), "utf8");
+const trip = readFileSync(resolve("src/lib/trip/example-trip.json"), "utf8");
 const view = JSON.parse(trip) as { createdAt: string; options: { id: string }[] };
 const confirmed = `${view.createdAt}|${(view.options[1] ?? view.options[0]).id}`;
-// 결과 데이터와 같은 조건(휠체어 · 택시 · 1박 2일 · 강릉)
-const plan = JSON.stringify({
-  startDate: "2026-11-21",
-  endDate: "2026-11-22",
-  arrival: "gangneung-station",
-  transport: "taxi",
-  travelers: ["wheelchair"],
-  lodging: "강릉",
-  categories: ["바다·해변", "역사·문화"],
-  pace: "normal",
-  mustVisit: ["GN12"],
-});
+// 예시 일정과 같은 조건(휠체어 · 자가용 + 장애인 표지 · 강릉 1박 2일 · 꼭 가고 싶은 곳 오죽헌)
+const plan = JSON.stringify({ ...(JSON.parse(trip) as { input: object }).input, arrival: "gangneung-station" });
 
 // 만드는 중 화면: 일정 짜기 단계까지 흘려 넣는다(끝 신호 없음 → 진행 중 모습)
 const events = [
@@ -44,7 +33,7 @@ const events = [
   { stage: "log", text: "적합 10 · 주의 2 · 확인 필요 7 · 부적합 2", tone: "ok" },
   { stage: "plan" },
   { stage: "log", text: "A·B·C안을 짜고 있어요", tone: "info" },
-  { stage: "log", text: 'A안 "오죽헌과 솔숲을 잇는 여유로운 역사 나들이" 검사 통과 · 4곳', tone: "ok" },
+  { stage: "log", text: 'A안 "오죽헌과 솔숲 사이를 천천히 거니는 여행" 검사 통과 · 4곳', tone: "ok" },
   { stage: "log", text: "B안: 운영시간을 넘는 곳이 있어 고치는 중", tone: "fix" },
 ];
 
@@ -64,10 +53,10 @@ const SHOTS: Shot[] = [
       await p.waitForTimeout(1200);
     },
   },
-  { name: "07-result-compare", path: "/trip/new" },
+  { name: "07-result-compare", path: "/trip/example" },
   {
     name: "08-result-detail",
-    path: "/trip/new",
+    path: "/trip/example",
     act: async (p) => {
       const more = p.getByRole("button", { name: /자세히/ }).first();
       await more.click();
@@ -78,18 +67,18 @@ const SHOTS: Shot[] = [
   },
   {
     name: "09-swap",
-    path: "/trip/new",
+    path: "/trip/example",
     act: async (p) => {
       await p.getByRole("button", { name: /다른 곳으로 바꾸기/ }).first().click();
       await p.getByRole("dialog").getByRole("button", { name: "이곳으로 바꾸기" }).first().waitFor();
       await p.waitForTimeout(500);
     },
   },
-  { name: "10-final", path: "/trip/new/final", act: waitMap },
-  { name: "11-final-desktop", path: "/trip/new/final", desktop: true, act: waitMap },
+  { name: "10-final", path: "/trip/example/final", act: waitMap },
+  { name: "11-final-desktop", path: "/trip/example/final", desktop: true, act: waitMap },
   {
     name: "12-checklist",
-    path: "/trip/new/final",
+    path: "/trip/example/final",
     act: async (p) => {
       await waitMap(p);
       const g = p.getByRole("group", { name: /전화 결과/ });
@@ -105,7 +94,7 @@ const SHOTS: Shot[] = [
   // 지도 번호를 누르면 작은 카드(사진 · 시각 · 판단 · 일정에서 보기)
   {
     name: "15-map-card",
-    path: "/trip/new/final",
+    path: "/trip/example/final",
     act: async (p) => {
       await waitMap(p);
       // 지도는 작게 시작한다(03단계) → 크게 본 뒤 번호를 누른다. 번호가 겹쳐 다른 번호가 가로채면 눌린 것과 같게 직접 누른다
@@ -122,7 +111,7 @@ const SHOTS: Shot[] = [
   // 이번 조건으로 가기 어려운 곳과 대안(펼친 모습)
   {
     name: "17-hard",
-    path: "/trip/new",
+    path: "/trip/example",
     act: async (p) => {
       const s = p.getByText(/이번 조건으로 가기 어려운 곳/);
       await s.click();
@@ -134,7 +123,7 @@ const SHOTS: Shot[] = [
   // 순서 고치기: 위·아래로 옮기기 · 빼기 · 처음 일정으로
   {
     name: "18-reorder",
-    path: "/trip/new",
+    path: "/trip/example",
     act: async (p) => {
       await p.getByRole("button", { name: "순서 고치기" }).first().click();
       const panel = p.getByRole("region", { name: /순서 고치기/ });
@@ -146,7 +135,7 @@ const SHOTS: Shot[] = [
   },
   // PC(README에서 휴대폰 화면과 나란히): 시작 · 안 비교(안 고르기 · 상세 · 지도 3칸) · 조건 단계(오른쪽 고른 조건 요약) · 관광지 둘러보기
   { name: "13-home-desktop", path: "/", desktop: true },
-  { name: "14-compare-desktop", path: "/trip/new", desktop: true, act: waitMap },
+  { name: "14-compare-desktop", path: "/trip/example", desktop: true, act: waitMap },
   { name: "22-conditions-desktop", path: "/plan/conditions", desktop: true },
   { name: "23-places-desktop", path: "/places", desktop: true },
 ];
@@ -193,7 +182,7 @@ async function capture(b: Browser, s: Shot) {
     ([t, pl, c]) => {
       sessionStorage.setItem("ieumgil-trip", t);
       sessionStorage.setItem("ieumgil-plan", pl);
-      sessionStorage.setItem("ieumgil-trip-confirmed", c);
+      sessionStorage.setItem("ieumgil-trip-confirmed:example", c);
     },
     [trip, plan, confirmed],
   );
@@ -233,9 +222,9 @@ async function coverOf(b: Browser, file: string, names: string[]) {
  *  공유 링크는 .env.local에 SUPABASE_URL·SUPABASE_SERVICE_ROLE_KEY가 있어야 만들어진다(없으면 19·20은 건너뜀). */
 async function shareShots(b: Browser) {
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, locale: "ko-KR", timezoneId: "Asia/Seoul", reducedMotion: "reduce" });
-  await ctx.addInitScript(([t, c]) => { sessionStorage.setItem("ieumgil-trip", t); sessionStorage.setItem("ieumgil-trip-confirmed", c); }, [trip, confirmed]);
+  await ctx.addInitScript(([t, c]) => { sessionStorage.setItem("ieumgil-trip", t); sessionStorage.setItem("ieumgil-trip-confirmed:example", c); }, [trip, confirmed]);
   const page = await ctx.newPage();
-  await page.goto(BASE + "/trip/new/final", { waitUntil: "networkidle" });
+  await page.goto(BASE + "/trip/example/final", { waitUntil: "networkidle" });
   await page.addStyleTag({ content: 'nextjs-portal,button[aria-label="맨 위로"]{display:none!important}' });
   await waitMap(page);
 
@@ -360,61 +349,11 @@ async function designStrip(b: Browser) {
   console.log("✓ design-icons");
 }
 
-/** README 맨 위 움직이는 그림: PC 시작 화면 히어로를 0~2초, 초당 15장.
- *  CSS 움직임(사진 카드 4장이 차례로 올라오고 문구 상자가 나타남)을 모두 멈추고 currentTime을 시각마다 맞춰 찍는다 → 실제 화면과 같은 움직임이 끊김 없이 담긴다.
- *  마지막 장면은 3초 머문 뒤 처음부터 다시. GIF는 3MB 이하가 목표(넘으면 가로를 줄인다). */
-async function heroGif(b: Browser) {
-  const FPS = 15;
-  const SECONDS = 2;
-  const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 }, deviceScaleFactor: 1, locale: "ko-KR", timezoneId: "Asia/Seoul" });
-  await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
-  const page = await ctx.newPage();
-  await page.goto(BASE + "/", { waitUntil: "networkidle" });
-  await page.addStyleTag({ content: "nextjs-portal{display:none!important}" });
-  await page.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 15_000 }).catch(() => {});
-  // 히어로 안의 움직임만 멈춰 둔다(머리줄 날씨 띠 등 다른 움직임은 찍히지 않는다)
-  await page.evaluate(() => {
-    const hero = document.querySelector("section.home-hero")!;
-    (window as unknown as { __heroAnims: Animation[] }).__heroAnims = document.getAnimations().filter((a) => {
-      const t = (a.effect as KeyframeEffect | null)?.target;
-      return t instanceof Element && hero.contains(t);
-    });
-    for (const a of (window as unknown as { __heroAnims: Animation[] }).__heroAnims) a.pause();
-  });
-  const box = (await page.locator("section.home-hero").boundingBox())!;
-  const clip = { x: 0, y: box.y, width: 1280, height: Math.round(box.height) };
-  const frames: Buffer[] = [];
-  for (let f = 0; f <= SECONDS * FPS; f++) {
-    const ms = (f * 1000) / FPS;
-    await page.evaluate(async (t) => {
-      for (const a of (window as unknown as { __heroAnims: Animation[] }).__heroAnims) a.currentTime = t;
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-    }, ms);
-    frames.push(await page.screenshot({ clip }));
-  }
-  await ctx.close();
-  const delay = frames.map((_, i) => (i === frames.length - 1 ? 3000 : Math.round(1000 / FPS)));
-  for (const width of [1280, 1000]) {
-    // 줄이기는 장마다 먼저 한다(합친 뒤 줄이면 sharp가 움직임을 한 장으로 합쳐 버린다)
-    const sized = width === 1280 ? frames : await Promise.all(frames.map((f) => sharp(f).resize({ width }).png().toBuffer()));
-    const info = await sharp(sized, { join: { animated: true } })
-      .gif({ delay, loop: 0, effort: 10, colours: 128, interFrameMaxError: 8 })
-      .toFile(`${OUT}/hero.gif`);
-    console.log(`✓ hero.gif ${width}px · ${frames.length}장 · ${(info.size / 1024 / 1024).toFixed(2)}MB`);
-    if (info.size <= 3 * 1024 * 1024) break;
-  }
-}
-
 async function main() {
-  const only = process.argv[2]; // 예: share → 공유·인쇄만, screens → 화면·표지만(공유 링크를 만들지 않음), cover → 표지만, frames → 틀만, hero → 맨 위 움직이는 그림만, design → 디자인 이야기 그림만, 15-map-card → 그 장면 하나만
+  const only = process.argv[2]; // 예: share → 공유·인쇄만, screens → 화면·표지만(공유 링크를 만들지 않음), cover → 표지만, frames → 틀만, design → 디자인 이야기 그림만, 15-map-card → 그 장면 하나만
   const b = await chromium.launch();
   if (only === "design") {
     await designStrip(b);
-    await b.close();
-    return;
-  }
-  if (only === "hero") {
-    await heroGif(b);
     await b.close();
     return;
   }
