@@ -1,5 +1,5 @@
 // 디자인 다듬기(03단계) 시험: 제목 글꼴·새 토큰이 화면까지 실제로 이어지는지 본다.
-// - 글꼴(Pretendard, 11/23 — 히어로 문구만 카페24 숑숑)은 같은 사이트(/_next/…)에서만 받는다. Google·jsDelivr·unpkg 같은 외부 글꼴 요청은 0건(개인정보 원칙 5).
+// - 글꼴(Pretendard, 11/27 — 시작 화면 히어로 문구·바로가기 이름만 여기어때 잘난체 고딕)은 같은 사이트(/_next/…)에서만 받는다. Google·jsDelivr·unpkg 같은 외부 글꼴 요청은 0건(개인정보 원칙 5).
 // - 글꼴이 늦게 와도(기기 글꼴로 먼저 보임) 시작 화면 h1 줄 수가 달라지지 않는다(font-display: swap을 받아들인 조건).
 // - 인쇄용 일정표(PrintSheet)도 화면과 같은 글꼴을 쓴다(서체 불변).
 // 카카오 지도·관광공사 사진·기상청은 막아 두고 우리 화면만 본다.
@@ -56,17 +56,16 @@ test("글꼴은 같은 사이트에서 받고 외부 글꼴 요청이 없다", a
   expect(loaded).toBeGreaterThanOrEqual(1);
 });
 
-// 11/23: 시작 화면 h1은 히어로 문구(카페24 숑숑, text-hero 40~72px). 다른 화면 h1은 아래 '전 화면 글자'가 Pretendard 28px로 본다
-test("시작 화면 h1은 카페24 숑숑 히어로 문구(40px 이상) · 자간 0", async ({ page }) => {
+// 11/27: 시작 화면 h1은 히어로 문구(여기어때 잘난체 고딕, PC 1440px에서 37.5px — 시안 1920px 기준 50px). 다른 화면 h1은 아래 '전 화면 글자'가 Pretendard 28px로 본다
+test("시작 화면 h1은 잘난체 고딕 히어로 문구(28px 이상)", async ({ page }) => {
   await block(page);
   await page.goto("/");
   const css = await page.locator("h1").first().evaluate((el) => {
     const cs = getComputedStyle(el);
     return { family: cs.fontFamily, size: parseFloat(cs.fontSize), spacing: cs.letterSpacing };
   });
-  expect(css.family.replace(/["']/g, "").toLowerCase().startsWith("syongsyong"), css.family).toBe(true);
-  expect(css.size).toBeGreaterThanOrEqual(40);
-  expect(["0px", "normal"]).toContain(css.spacing);
+  expect(css.family.replace(/["']/g, "").toLowerCase().startsWith("jalnan"), css.family).toBe(true);
+  expect(css.size).toBeGreaterThanOrEqual(28);
 });
 
 test("새 토큰 값", async ({ page }) => {
@@ -216,7 +215,7 @@ test.describe("대화창·시트", () => {
 });
 
 // ---- 전 화면 글자·제목 글꼴·대비 조합(03-11): 계산값으로 본다 ------------------------------------------
-// 주요 8개 화면에서 14px 이상 · 누르는 것 16px 이상 · Button·summary 500 · h1 Pretendard 28px 700(시작 화면은 숑숑 히어로) · 700은 h1·h2·h3 제목에만
+// 주요 8개 화면에서 14px 이상 · 누르는 것 16px 이상 · Button·summary 500 · h1 Pretendard 28px 700(시작 화면은 잘난체 고딕 히어로) · 700은 h1·h2·h3 제목에만
 // · primary-soft 바탕 위에 primary 글자 없음(대비 4.39). 예외로 뺀 선택자는 없다.
 
 const SCREENS = ["/", "/plan/when", "/plan/who", "/plan/conditions", "/plan/taste", "/places", "/trip/example", "/trip/example/final"];
@@ -280,9 +279,9 @@ test.describe("전 화면 글자", () => {
         return { family: cs.fontFamily.replace(/["']/g, ""), size: cs.fontSize, weight: cs.fontWeight };
       });
       if (path === "/") {
-        // 시작 화면 h1은 히어로 문구(카페24 숑숑, 40px 이상) — 11/23 시작 화면 개편
-        expect(h1.family.toLowerCase().startsWith("syongsyong"), h1.family).toBe(true);
-        expect(parseFloat(h1.size)).toBeGreaterThanOrEqual(40);
+        // 시작 화면 h1은 히어로 문구(잘난체 고딕, 28px 이상) — 11/27 시작 화면 새 시안
+        expect(h1.family.toLowerCase().startsWith("jalnan"), h1.family).toBe(true);
+        expect(parseFloat(h1.size)).toBeGreaterThanOrEqual(28);
       } else {
         expect(h1.family.toLowerCase().startsWith("pretendard"), h1.family).toBe(true);
         expect(h1.size).toBe("28px");
@@ -298,9 +297,8 @@ test.describe("전 화면 글자", () => {
           if (![...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? "").trim() !== "")) continue;
           const r = el.getBoundingClientRect();
           if (cs.visibility === "hidden" || cs.display === "none" || r.width === 0 || r.height === 0) continue;
-          // 제목(h1·h2·h3, 시작 화면 루트 카드 제목), 사이트 머리줄 이름(font-heading), 시작 화면 바로가기 띠(비짓강릉 CSS, 굵은 이름)
-          // 제목(h1·h2·h3), 사이트 머리줄 이름(font-heading), 시작 화면 바로가기 띠(비짓강릉 CSS)·소개 단계(강진 CSS, 굵은 큰 설명)
-          if (el.closest("h1, h2, h3, .font-heading, .quick-band, .intro-step")) continue;
+          // 제목(h1·h2·h3), 사이트 머리줄 이름(font-heading), 소개 단계(강진 CSS, 굵은 큰 설명)
+          if (el.closest("h1, h2, h3, .font-heading, .intro-step")) continue;
           if (el.closest("[aria-hidden=true]")) continue; // 읽지 않는 장식 글자(시작 화면 소개 구역의 큰 영문 등)
           out.push({ tag: el.tagName, text: (el.textContent ?? "").trim().slice(0, 20) });
         }

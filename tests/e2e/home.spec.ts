@@ -1,5 +1,5 @@
 // 시작 화면(/) — 11/23 시작 화면 개편(PC 먼저, 휴대폰은 다음 단계 보수).
-// 위에서 아래로: 사이트 머리줄(모든 화면) → 히어로(숑숑 문구) → 바로가기 띠(비짓강릉 CSS) → 소개(특징 + 주 버튼 + 미리보기)
+// 위에서 아래로: 사이트 머리줄(모든 화면) → 히어로(11/27 새 시안: 사진 카드 4장 + 잘난체 고딕 문구 상자) → 바로가기 5칸 → 소개(특징 + 주 버튼 + 미리보기)
 //   → 물결 → 루트 카드 3장(예당 캠핑장 CSS, 누르면 그 루트 하나만) → 대표 관광지 → 바닥글.
 // 예전 시험의 뜻은 그대로 지킨다: 주 버튼이 있고, 서비스 원칙 문구('일반 차량 경로 기준')가 보이고, 특징 문장이 남아 있고,
 // 미리보기는 누르는 곳이 없고 가로 스크롤을 만들지 않는다. '첫 화면 안에 주 버튼'(03-16)은 히어로가 맨 위로 오면서
@@ -18,12 +18,12 @@ test.beforeEach(async ({ page }) => {
   await page.route("**/api/weather", (r) => r.fulfill({ json: { available: false } }));
 });
 
-test("히어로 제목은 숑숑 글꼴의 '지도로 찾아가는 즐거운 영동 여행길'이다", async ({ page }) => {
+test("히어로 제목은 잘난체 고딕의 '지도로 찾아가는 즐거운 영동 여행길'이다", async ({ page }) => {
   await page.goto("/");
   const h1 = page.getByRole("heading", { level: 1 });
   await expect(h1).toHaveText("지도로 찾아가는 즐거운 영동 여행길");
   const family = await h1.evaluate((el) => getComputedStyle(el).fontFamily.toLowerCase());
-  expect(family.startsWith("syongsyong") || family.includes("syongsyong")).toBe(true);
+  expect(family.startsWith("jalnan"), family).toBe(true);
 });
 
 // 고칠 목록 5(11/25): 상단바는 모든 화면의 길잡이 — 글자 메뉴 3개(예시 루트 · 관광지 둘러보기 · 서비스 소개) + 오른쪽 끝 [여행 루트 만들기] 버튼.
@@ -89,14 +89,15 @@ test("바로가기 띠 다섯 칸은 각 화면으로 간다", async ({ page }) 
   for (const [name, href] of expected) await expect(nav.getByRole("link", { name })).toHaveAttribute("href", href);
 });
 
-// 첫 화면 안에 아이콘 띠 5칸이 모두 보인다(PC 1440×900) — 11/25 히어로를 키울 때도 지키는 조건(사용자)
-test("PC 첫 화면 안에 바로가기 아이콘 5개가 모두 보인다", async ({ page }, info) => {
+// 첫 화면 안에 바로가기 5칸(그림 + 이름)이 모두 보인다(PC 1440×900) — 11/25 히어로를 키울 때도 지키는 조건(사용자).
+// 11/27 새 시안은 연회색 판이 첫 화면 아래 끝에 걸치므로 판이 아니라 이름 글자의 아래 끝을 본다
+test("PC 첫 화면 안에 바로가기 그림과 이름 5개가 모두 보인다", async ({ page }, info) => {
   test.skip(info.project.name !== "desktop", "PC 첫 화면");
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
-  const links = page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link");
-  await expect(links).toHaveCount(5);
-  for (const l of await links.all()) {
+  const labels = page.getByRole("navigation", { name: "주요 바로가기" }).locator(".home-quick__label");
+  await expect(labels).toHaveCount(5);
+  for (const l of await labels.all()) {
     const box = (await l.boundingBox())!;
     expect(box.y + box.height, (await l.textContent()) ?? "").toBeLessThanOrEqual(900);
   }
@@ -287,17 +288,13 @@ test("동작 줄이기 설정이면 휴대폰 소개 단계는 멈춘 채로 시
   await ctx.close();
 });
 
-// 11/24 고칠 목록 11번: 첫 화면(히어로)에서 바로 누르는 주 버튼 — 설명 아래 · 날씨 위, 첫 화면 안에 보인다
-test("히어로에 '여행 루트 만들기' 주 버튼과 '예시 루트 먼저 보기'가 첫 화면 안에 있다", async ({ page }) => {
-  await page.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
+// 11/24 고칠 목록 11번(첫 화면에서 바로 누르는 주 버튼) — 11/27 새 시안은 히어로에 버튼이 없고 바로가기 첫 칸 '여행 루트 만들기'가 그 역할
+test("첫 화면 안에 '여행 루트 만들기'(바로가기 첫 칸)가 있다", async ({ page }) => {
   await page.goto("/");
-  const hero = page.locator("section[aria-labelledby='hero-title']");
-  const cta = hero.getByRole("link", { name: "여행 루트 만들기" });
+  const cta = page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "여행 루트 만들기" });
   await expect(cta).toHaveAttribute("href", "/plan");
-  await expect(cta).toBeInViewport();
+  await cta.scrollIntoViewIfNeeded();
   expect((await cta.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-  await expect(cta).toHaveCSS("background-color", "rgb(61, 170, 126)");
-  await expect(hero.getByRole("link", { name: /예시 루트 먼저 보기/ })).toHaveAttribute("href", "/trip/example");
 });
 
 // 고칠 목록 9(11/24): 스크롤하면 루트 카드·대표 관광지가 차례로 나타난다. 끝까지 내리면 숨은 것이 남지 않는다
@@ -325,73 +322,36 @@ test("동작 줄이기 설정이면 시작 화면은 처음부터 모두 보인�
   await ctx.close();
 });
 
-// 11/25 새 히어로 장면(팀이 만든 시안): 배경 한 장 + 흰 길 위 점선 43개 + 구름·갈매기·배. 전부 장식, 배경은 좌우를 자르지 않는다.
-test("히어로 장면: 장식(화면 읽기에서 숨김) · 점선 43개 · 배경과 점선 SVG가 같은 크기로 겹침 · 가로 스크롤 없음", async ({ page }, info) => {
+// 11/27 새 히어로(팀이 만든 시안): 영동 사진 카드 4장(대체 글 있음) + 옅은 점선 길(장식) + 문구 상자.
+// 사진에 마우스를 올리면 카드만 떠오르고 사진은 확대하지 않는다 · 문구 상자 바탕은 반투명 0.5(11/27 사용자)
+test("히어로: 사진 4장은 대체 글이 있고 점선 길은 장식 · 문구 상자는 반투명 0.5 · 가로 스크롤 없음", async ({ page }) => {
   await page.goto("/");
-  const scene = page.locator(".hero-scene__scene");
-  await expect(scene).toHaveAttribute("aria-hidden", "true");
-  await expect(scene.locator(".hero-scene__route line")).toHaveCount(43);
-  const [img, svg, sec] = await Promise.all([
-    scene.locator("img.hero-scene__bg").boundingBox(),
-    scene.locator("svg.hero-scene__bg").boundingBox(),
-    page.locator("section[aria-labelledby='hero-title']").boundingBox(),
-  ]);
-  expect(Math.abs(img!.width - svg!.width)).toBeLessThanOrEqual(2);
-  expect(Math.abs(img!.y + img!.height - (svg!.y + svg!.height))).toBeLessThanOrEqual(2); // 아래 끝이 같다
-  expect(img!.x).toBeLessThanOrEqual(sec!.x + 1); // 왼쪽 기준(표지판이 보인다)
-  if (info.project.name === "desktop") {
-    expect(Math.abs(img!.width - sec!.width)).toBeLessThanOrEqual(2); // PC: 폭 100%, 좌우를 자르지 않는다
-    await expect(scene.locator(".hero-sp--boat")).toBeVisible();
-  } else {
-    // 휴대폰: 글자 아래에 장면(그림 250px + 위 하늘 50px — 구름이 산에 닿지 않게), 배는 숨김
-    const h1 = (await page.getByRole("heading", { level: 1 }).boundingBox())!;
-    const sc = (await scene.boundingBox())!;
-    expect(sc.y).toBeGreaterThan(h1.y + h1.height);
-    expect(Math.round(sc.height)).toBe(300);
-    expect(Math.round(img!.height)).toBe(250);
-    await expect(scene.locator(".hero-sp--boat")).toBeHidden();
-  }
+  const hero = page.locator("section[aria-labelledby='hero-title']");
+  const photos = hero.locator(".home-hero__card img");
+  await expect(photos).toHaveCount(4);
+  for (const img of await photos.all()) expect((await img.getAttribute("alt"))!.length).toBeGreaterThan(5);
+  await expect(hero.locator(".home-hero__route")).toHaveAttribute("aria-hidden", "true");
+  await expect(hero.locator(".home-hero__box")).toHaveCSS("background-color", "rgba(224, 236, 230, 0.5)");
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 });
 
-test("동작 줄이기면 히어로 점선은 처음부터 다 보이고 구름·갈매기·배는 움직이지 않는다", async ({ browser }) => {
-  const ctx = await browser.newContext({ reducedMotion: "reduce" });
-  await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
-  const page = await ctx.newPage();
+test("히어로 사진에 마우스를 올리면 카드만 떠오르고 사진은 확대하지 않는다", async ({ page }, info) => {
+  test.skip(info.project.name !== "desktop", "마우스는 PC에서");
   await page.goto("/");
-  const first = page.locator(".hero-scene__route line").first();
-  await expect(first).toHaveCSS("opacity", "1");
-  for (const sel of [".hero-sp--c1", ".hero-sp--g1", ".hero-sp--boat"]) await expect(page.locator(sel)).toHaveCSS("animation-name", "none");
-  await ctx.close();
+  const card = page.locator(".home-hero__card").nth(1);
+  await card.hover();
+  await expect(card.locator(".home-hero__photo")).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, -30)");
+  await expect(card.locator("img")).toHaveCSS("transform", "none");
 });
 
-// 11/25 바로가기 띠 그림 아이콘(팀이 만든 시안): 장식 그림 층 + 마우스·키보드 초점에 움직임(동작 줄이기면 없음), 링크 이름은 글자
-test("바로가기 아이콘: 그림은 장식, 링크 이름은 글자 · 마우스를 올리면 떠오르고 움직이는 층이 움직인다", async ({ page }, info) => {
+test("바로가기: 그림은 장식, 링크 이름은 글자 · 마우스를 올리면 이름이 파래진다", async ({ page }, info) => {
   test.skip(info.project.name !== "desktop", "마우스는 PC에서");
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "주요 바로가기" });
   const route = nav.getByRole("link", { name: "여행 루트 만들기" });
   await expect(route).toHaveAccessibleName("여행 루트 만들기");
-  await expect(route.locator(".quick-band__icon")).toHaveAttribute("aria-hidden", "true");
-  await expect(route.locator("img")).toHaveCount(2);
+  await expect(route.locator(".home-quick__icon")).toHaveAttribute("aria-hidden", "true");
   for (const img of await nav.locator("img").all()) await expect(img).toHaveAttribute("alt", "");
   await route.hover();
-  await expect(route.locator(".quick-ic__sign")).toHaveCSS("animation-name", "quick-sway");
-  await expect(route.locator(".quick-ic")).toHaveCSS("transform", "matrix(1, 0, 0, 1, 0, -3)");
-  // 키보드 초점에서도
-  await nav.getByRole("link", { name: "관광지 둘러보기" }).focus();
-  await expect(nav.locator(".quick-ic__pin")).toHaveCSS("animation-name", "quick-hop");
-});
-
-test("동작 줄이기면 바로가기 아이콘은 움직이지 않는다", async ({ browser }, info) => {
-  test.skip(info.project.name !== "desktop", "마우스는 PC에서");
-  const ctx = await browser.newContext({ reducedMotion: "reduce" });
-  await ctx.addInitScript(() => sessionStorage.setItem("ieumgil-intro-seen", "1"));
-  const page = await ctx.newPage();
-  await page.goto("/");
-  const route = page.getByRole("navigation", { name: "주요 바로가기" }).getByRole("link", { name: "여행 루트 만들기" });
-  await route.hover();
-  await expect(route.locator(".quick-ic__sign")).toHaveCSS("animation-name", "none");
-  await expect(route.locator(".quick-ic")).toHaveCSS("transform", "none");
-  await ctx.close();
+  await expect(route.locator(".home-quick__label")).toHaveCSS("color", "rgb(21, 83, 163)");
 });

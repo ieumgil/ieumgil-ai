@@ -63,3 +63,14 @@
 | SC22 | 영금정 | Ha Sung Kyu | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) | [원본](https://commons.wikimedia.org/wiki/File:%EC%98%81%EA%B8%88%EC%A0%95_(163539159).jpeg) | `public/photos/featured/SC22.webp` |
 | DH18 | 추암 촛대바위 | 강원특별자치도 동해시 | [공공누리 제1유형](https://www.kogl.or.kr/info/licenseType1.do) | [원본](https://commons.wikimedia.org/wiki/File:%EC%B6%94%EC%95%94%EC%B4%9B%EB%8C%80%EB%B0%94%EC%9C%84_2.jpg) | `public/photos/featured/DH18.webp` |
 | DH06 | 무릉계곡 | 채지형 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ko) | [원본](https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?menuNo=200018&wrtSn=13247476) | `public/photos/featured/DH06.webp` |
+
+## 시작 화면 히어로 사진 (4장, 11/27 새 시안)
+
+팀이 만든 시작 화면 시안(PSD)에 들어 있던 사진입니다. 출처는 강릉시(지자체) 관광 자료이고, 시안 크기(300×600)로 잘라 썼습니다.
+
+| 사진 | 출처 | 파일 |
+|---|---|---|
+| 기암괴석 능선과 노란 들꽃이 핀 초록 산 | 강릉시(지자체) | `public/home/hero/card-mountain.jpg` |
+| 단풍 든 산자락 아래 전통 사찰과 장독대 | 강릉시(지자체) | `public/home/hero/card-temple.jpg` |
+| 바다 위로 솟은 촛대 모양 바위 | 강릉시(지자체) | `public/home/hero/card-rock.jpg` |
+| 아르떼뮤지엄 밸리 건물 | 강릉시(지자체) | `public/home/hero/card-museum.jpg` |

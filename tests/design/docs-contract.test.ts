@@ -44,10 +44,10 @@ describe("CLAUDE.md 디자인 토큰 절", () => {
     expect(design).toMatch(/상태 칩/);
   });
 
-  it("글꼴 2개(Pretendard + 카페24 숑숑), 제목 --font-display, 자체 호스팅이 적혀 있다", () => {
+  it("글꼴 2개(Pretendard + 여기어때 잘난체 고딕), 제목 --font-display, 자체 호스팅이 적혀 있다", () => {
     expect(design).toContain("--font-display");
     expect(design).toContain("Pretendard");
-    expect(design).toContain("카페24 숑숑");
+    expect(design).toContain("여기어때 잘난체 고딕");
     expect(design).toContain("700");
     expect(design).toContain("h1·h2");
     expect(design).toContain("외부 CDN 없음");
@@ -78,10 +78,10 @@ describe("README 기술 스택", () => {
   const rows = read("README.md").split("\n");
   const stack = rows.find((l) => l.includes("Tailwind CSS v4"));
 
-  it("Pretendard와 카페24 숑숑(SIL OFL 1.1)이 같은 줄에 있다", () => {
+  it("Pretendard(SIL OFL 1.1)와 잘난체 고딕이 같은 줄에 있다", () => {
     expect(stack).toBeTruthy();
     expect(stack).toContain("Pretendard");
-    expect(stack).toContain("숑숑");
+    expect(stack).toContain("잘난체 고딕");
     expect(stack).toContain("OFL");
   });
 });

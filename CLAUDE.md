@@ -35,15 +35,15 @@ Next.js(App Router) + TypeScript(strict) + Tailwind CSS · 카카오맵 JS SDK(�
 다중 경유지 길찾기(실제 이동시간·경로선, 날짜마다 1회 — 다중 목적지는 출발점 10km 밖을 못 재서 안 씀) · Gemini(기본 `gemini-3.5-flash-lite`, 먼저) + OpenAI(`gpt-6-luna`, 503·429·30초 넘게 늦으면 같은 요청을 보내 먼저 온 답, 11/14) — 읽기·판단·계획·풀어주기, JSON 응답
 · 한국관광공사 무장애 여행정보 API(KorWithService2, 스크립트 전용) · 행정안전부 전국공중화장실표준데이터(CSV, 스크립트 전용, 원본 커밋 안 함) · 기상청 단기·중기예보(공공데이터포털 15084084·15059468, 서버 전용 `/api/weather`, 11/15) · Vercel.
 공유 링크는 Supabase(`trips`, 서버 키로 REST, RLS, 11/14 구현) · 인쇄는 A4 한 장 일정표(`components/trip/PrintSheet.tsx`). Gemini SDK는 `@google/genai`(`client.interactions.create` + `response_format`), OpenAI는 패키지 없이 fetch로 Responses API(엄격 JSON 스키마, `reasoning.effort: none`).
-글꼴 2개만(11/23 디자인 시안): Pretendard(본문·제목·숫자 전부) + 카페24 숑숑(시작 화면 히어로 문구만). 둘 다 SIL OFL 1.1, 자체 호스팅.
+글꼴 2개만(11/27 시작 화면 새 시안): Pretendard(본문·제목·숫자 전부, SIL OFL 1.1) + 여기어때 잘난체 고딕(시작 화면 히어로 문구·바로가기 이름만, GC COMPANY 무료 글꼴 — 수정·재배포 허용). 둘 다 자체 호스팅.
 
 ## 폴더 구조 (지금 · 11/24 정리)
 ```
-src/app/            page.tsx(시작: 히어로 · 바로가기 띠 · 단계 소개 · 루트 카드 3장 · 대표 관광지) · about/(서비스 소개 · how 만든 방법) · fonts/(숑숑 부분 글꼴) · places/(관광지 둘러보기: 지역·분야·AI 한 줄 소개·접근성 요약 → 꼭 가고 싶은 곳에 담기) · plan/(입력 4단계 · making/(만드는 중))
+src/app/            page.tsx(시작: 히어로 · 바로가기 5칸 · 단계 소개 · 루트 카드 3장 · 대표 관광지) · about/(서비스 소개 · how 만든 방법) · fonts/(잘난체 고딕 부분 글꼴) · places/(관광지 둘러보기: 지역·분야·AI 한 줄 소개·접근성 요약 → 꼭 가고 싶은 곳에 담기) · plan/(입력 4단계 · making/(만드는 중))
                     · trip/[id]/(안 비교 → 상세, id = new | example | route-wheelchair·elder·stroller = 루트 카드, 안 하나만) · trip/[id]/final(확정 일정 + 지도)
                     · api/plan(전체 흐름 + 스트리밍) · api/route-line(카카오 경로선, 저장 안 함) · api/legs · api/trips(공유 링크 저장, 11/14) · api/weather(기상청 예보, 저장 안 함, 11/15) · s/[id](공유 읽기 전용, 서버가 Supabase에서 읽음)
 src/components/     ui/(shadcn, 44px·16px로 고친 것) · plan/(입력 단계 부품) · trip/(결과·확정 화면 부품: 장소 카드·안 고르기·바꾸기 창·체크리스트 · DayWeather 날짜별 날씨 …)
-                    · trip/TimelineProgress(시간표 스크롤 진행 원·클리어) · home/(시작 화면: IntroSteps 단계 소개·화면 고정 스크롤 · QuickMenu(그림 아이콘 public/home, 마우스 올림 움직임) · FeaturedPlaces · HeroScene) · about/(소개 글 틀 Article · PC 차례 Toc · Figures · AccessChart) · Motion(스크롤 등장·숫자 올라가기 — 소개 글 · 시작 화면 · 관광지 둘러보기, 화면 고정 스크롤에는 안 씀)
+                    · trip/TimelineProgress(시간표 스크롤 진행 원·클리어) · home/(시작 화면: IntroSteps 단계 소개·화면 고정 스크롤 · HomeHero(사진 카드 4장 + 문구 상자, public/home/hero) · QuickMenu(바로가기 5칸, public/home/quick) · FeaturedPlaces) · about/(소개 글 틀 Article · PC 차례 Toc · Figures · AccessChart) · Motion(스크롤 등장·숫자 올라가기 — 소개 글 · 시작 화면 · 관광지 둘러보기, 화면 고정 스크롤에는 안 씀)
                     · WeatherTicker(머리줄 오늘 날씨, 11/25) · map/TripMap.tsx(카카오 지도) · photos/PlacePhoto.tsx(사진·크게 보기) · SiteHeader(모든 화면 머리줄) · PageHeader(내부 화면 공용 머리 띠: 하늘색이 아래로 흐려짐, 11/25) · plan/StepTrail(입력 점선 진행 표시) · plan/MakingScene(만드는 중 점 찍힘) · SiteFooter · TopBar · Logo · Intro · icons
 src/lib/ai/         schemas.ts(LLM 출력 JSON 스키마) · guards.ts(근거·안전 하한) · judge.ts(② + 자기 일관성)
                     · plan.ts(③ 여러 안 + 수정) · review.ts(평가자) · trip.ts(요청 하나의 전체 흐름) · (예정) explain.ts(④)
@@ -92,24 +92,24 @@ tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) �
 - 시간만 조금 넘친 안은 코드가 맞춘다(`engine/repair.ts`: 체류를 권장 최소로 → 뒤쪽 장소 빼기 최대 2곳, 꼭 가고 싶은 곳은 남김). 휠체어·어르신 '많이'는 하루 4곳까지.
 
 ## 디자인 토큰 (시안 v2 + 11/15 다듬기)
-**색은 파랑 #3580db · 초록 #3daa7e 두 가지만(11/24 팀 결정, 다른 강조색을 새로 쓰지 않는다)** · 기본 #3580db · 연한 기본 #EBF3FC · 기본 위 글자 #3580db · 면 #F2F4F6 · 글자 #191F28 · 보조 글자 #4E5968
+**색은 파랑 #3580db · 초록 #3daa7e 두 가지만(11/24 팀 결정, 다른 강조색을 새로 쓰지 않는다)** — 예외: 시작 화면 히어로·바로가기는 11/27 새 시안 색(파랑 #1553a3 · 초록 #2f993b · 주황 #ed7049, `--color-home-*`, 그 두 구역에만) · 기본 #3580db · 연한 기본 #EBF3FC · 기본 위 글자 #3580db · 면 #F2F4F6 · 글자 #191F28 · 보조 글자 #4E5968
 · 경로선 #E8743B · 주의 #FFF4E5/#7A4A00 · 불가 #FBEAE7/#8A2A1C · 본문 16px 이상 · 터치 영역 44px 이상
 · 상태는 색만이 아니라 기호(✓ ! ✕)와 글자로 함께 표시 · 모바일 우선(시안 390px), PC는 왼쪽 지도 + 오른쪽 루트(시안 1440px)
 · 글자 크기는 rem 단위 → 휴대폰·브라우저의 글자 크기 설정과 확대를 그대로 따른다("가 글씨 크게" 버튼은 11/11 실사용 피드백으로 뺐다)
 · Tailwind v4라 토큰은 `src/app/globals.css`의 `@theme`에 있다(`bg-primary`, `text-ink-sub`, `bg-caution-bg`, `min-h-touch` 등)
 · 결과 '안 비교' 화면은 시안에 없다 → 새로 그린다(`docs/ai-plan.md` 화면 표)
 · **11/15 다듬기(03단계, 'AI가 만든 티' 줄이기)** — 값은 모두 `globals.css` `@theme static`:
-  - 보조색 초록 `--color-pine` #3daa7e · 연한 면 `--color-pine-soft` #ecf7f2(11/24부터, 이전 솔숲 #2A6A50) — **장소·지역·일차 정체성에만**(시작 화면 히어로 둘째 줄 '즐거운 영동 여행길', `강릉 · 역사·문화` 같은 지역·분류 글자, 날짜 탭 활성 밑줄·일차 제목).
+  - 보조색 초록 `--color-pine` #3daa7e · 연한 면 `--color-pine-soft` #ecf7f2(11/24부터, 이전 솔숲 #2A6A50) — **장소·지역·일차 정체성에만**(`강릉 · 역사·문화` 같은 지역·분류 글자, 날짜 탭 활성 밑줄·일차 제목).
     버튼·링크·선택 상태·상태 칩·경고·지도에는 쓰지 않는다(상태 칩은 계속 파랑 ✓ ! ✕). 예외 하나: 결과 '안 비교' 카드 위쪽 4px 장식 띠(안 정체성, 파랑·초록 번갈아, 11/25). 입력 4단계에서는 쓰지 않는다. 초록이 혼자 뜻을 나르지 않는다(항상 글자와 함께).
   - 선택 컨트롤 테두리 `--color-line-control` #8B95A1 — **흰 바탕 위**의 안 고른 타일·select·검색칸 테두리(대비 3:1). 회색 면 위에는 쓰지 않는다.
-  - 글꼴 **2개만**(11/23 시작 화면 개편 — 11/18 Noto Sans KR에서 바꿈): 본문·제목·숫자·버튼 전부 **Pretendard**(`next/font/local`, 패키지 `pretendard`),
-    시작 화면 히어로 문구 '지도로 찾아가는 즐거운 영동 여행길'만 **카페24 숑숑**(`src/app/fonts/`, 문구 글자만 남긴 3.5KB, `--font-hero`·`text-hero`). 둘 다 SIL OFL 1.1, 외부 CDN 없음.
+  - 글꼴 **2개만**(11/23 시작 화면 개편 — 11/18 Noto Sans KR에서 바꿈, 11/27 숑숑 → 잘난체 고딕): 본문·제목·숫자·버튼 전부 **Pretendard**(`next/font/local`, 패키지 `pretendard`),
+    시작 화면 히어로 문구 '지도로 찾아가는 즐거운 영동 여행길'과 바로가기 이름 5개만 **여기어때 잘난체 고딕**(`src/app/fonts/`, 쓰는 글자만 남긴 4KB, `--font-point`). Pretendard는 SIL OFL 1.1, 잘난체 고딕은 GC COMPANY 무료 글꼴. 외부 CDN 없음.
     구분은 크기·굵기로만. 제목 글꼴 `--font-display`는 `var(--font-sans)`. 본문 자간 0 · 줄 간격 1.6 · 숫자 폭 고정(`tabular-nums`).
-  - 글자 크기 4단계 28/20/16/14px(화면 제목·구역 제목·본문·보조, rem) + 히어로 문구 전용 `text-hero`. 굵기 3단계 400/500/700만 쓴다: 본문 400, 장소 이름·버튼·칩·강조 500(`font-medium`), 700(`font-bold`)은 제목만(h1·h2·h3, 인쇄 일정표는 예외). 그 밖의 크기·굵기 클래스는 정리 감시 테스트(`tests/design/legacy-classes.test.ts`)가 막는다.
+  - 글자 크기 4단계 28/20/16/14px(화면 제목·구역 제목·본문·보조, rem). 시작 화면 히어로·바로가기는 시안 크기를 그대로 쓴다(`.home-hero`·`.home-quick`, 바로가기 이름은 휴대폰에서도 16px 이상). 굵기 3단계 400/500/700만 쓴다: 본문 400, 장소 이름·버튼·칩·강조 500(`font-medium`), 700(`font-bold`)은 제목만(h1·h2·h3, 인쇄 일정표는 예외). 그 밖의 크기·굵기 클래스는 정리 감시 테스트(`tests/design/legacy-classes.test.ts`)가 막는다.
   - 사이트 머리줄(`SiteHeader`, 로고 · '이음길' · '즐거운 영동 여행길' · 글자 메뉴 3개 + [여행 루트 만들기] 버튼 — 버튼은 시작 화면·입력 화면에서 숨김, 메뉴·버튼은 `SiteNav.tsx`, 11/25)은 **모든 화면** 맨 위(11/23). 내용 폭은 `SITE_WIDTH`(내용 1360px) — 머리줄·시작 화면·바닥글이 같은 좌우 끝.
-  - 시작 화면 히어로는 팀이 만든 장면(11/25, `components/home/HeroScene.tsx` · `public/hero/`): 배경 sky-hills.webp 한 장(좌우를 자르지 않음 — PC 폭 100%·아래 기준, 휴대폰 왼쪽 기준) + 흰 길 위 점선 43개(route-dashes.svg 좌표, 하나씩 찍힘) + 구름·갈매기·배(transform·opacity만, 동작 줄이기면 멈춤). 모두 장식이라 읽지 않음. 하늘색 `--color-sky` #e3f3f3.
+  - 시작 화면 히어로·바로가기는 팀이 만든 새 시안(11/27, PSD → `components/home/HomeHero.tsx` · `QuickMenu.tsx` · `public/home/hero` · `public/home/quick`): 영동 사진 카드 4장(대체 글 있음) + 옅은 점선 길(장식) + 반투명 0.5 민트 문구 상자, 그 아래 연회색 판 위 바로가기 5칸. 자리는 시안 1920px 기준(`--u`), 1200px 미만은 문구 → 사진 순서로 쌓고 휴대폰은 사진을 옆으로 넘긴다. 사진에 마우스를 올리면 카드만 30px 떠오르고 사진은 확대하지 않는다(루트 카드와 같은 움직임). 히어로에는 버튼이 없고 바로가기 첫 칸 '여행 루트 만들기'가 주 버튼 역할. 하늘색 `--color-sky` #e3f3f3은 내부 화면 머리 띠에만.
   - **내부 화면 머리 띠(11/25, 단계 4)**: 입력 4단계·만드는 중·결과·확정·공유·둘러보기·소개 글 맨 위는 공용 `PageHeader`(`.page-band`) — 하늘색 `--color-sky`가 아래로 흐려져 흰 바탕에 녹고(강진군문화관광재단 하위 화면 기법), 팀이 그린 점선 길·언덕 선 무늬(`public/hero/band-motif.svg`)를 옅게. 곡선으로 자르지 않고 제목 옆 그림 없음, 제목은 본문 왼쪽 끝. 시간표 세로선은 1px 점선(`.timeline-rail`, 예산 문화관광 코스 기법), 장소 번호 동그라미는 그대로. 입력 단계 진행은 점 4개 + 점선(파랑만). 움직임은 만드는 중 점 찍힘 하나뿐.
-  - 시작 화면 레퍼런스(웹쟁이 '관광' 검색): 히어로·물결 = 소곳소곳 김포, 루트 카드 = 예당 캠핑장 CSS(`.route-card`, 마우스·초점에 30px 떠오름 — 11/23부터 허용), 바로가기 띠 = 비짓강릉 CSS(`.quick-band`). 옮긴 CSS는 `globals.css`에 출처와 바꾼 점을 주석으로 남긴다.
+  - 시작 화면 레퍼런스(웹쟁이 '관광' 검색): 물결 = 소곳소곳 김포, 루트 카드 = 예당 캠핑장 CSS(`.route-card`, 마우스·초점에 30px 떠오름 — 11/23부터 허용). 옮긴 CSS는 `globals.css`에 출처와 바꾼 점을 주석으로 남긴다.
   - 시작 화면 루트 카드 3색 `--color-card-blue` #3580db · `--color-card-green` #3daa7e · `--color-card-brown` #d5875a, '여행 루트 만들기' 버튼 `--color-cta-green` #3daa7e(11/24 팀이 직접 정함). **글자 대비(axe color-contrast)는 검사하지 않는다**(11/24 팀 결정 — 파랑 3.99·초록 2.90:1이지만 실제로 잘 보인다고 판단). 다른 접근성 규칙은 그대로 검사한다.
   - 간격은 4px 배수. 카드 안 묶음 사이만 12px(compact), 카드·목록 항목 사이 16px, 구역 사이 32px(PC 48px). 모바일 좌우 여백 16px.
   - 반지름 3단계 12·16·24px: 컨트롤 12 · 카드·타일 16 · 시트 24(알약은 `rounded-full`).

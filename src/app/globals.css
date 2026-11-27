@@ -30,7 +30,7 @@
   --color-blocked-bg: #fbeae7; /* 불가 바탕 */
   --color-blocked-ink: #8a2a1c; /* 불가 글자 */
 
-  /* 제목 글꼴(h1·h2 큰 제목, font-heading). 11/18부터 본문과 같은 Noto Sans KR 한 벌 — 위계는 크기와 굵기(700)로만 준다.
+  /* 제목 글꼴(h1·h2 큰 제목, font-heading). 본문과 같은 Pretendard 한 벌 — 위계는 크기와 굵기(700)로만 준다.
      제목에만 다른 글꼴을 쓰려면 이 한 줄만 바꾼다 */
   --font-display: var(--font-sans);
 
@@ -39,12 +39,16 @@
   --text-title--line-height: 1.3;
   --text-heading: 1.25rem;
   --text-heading--line-height: 1.35;
-  /* 시작 화면 히어로 문구 전용(카페24 숑숑, 11/23): 휴대폰 40px → PC 72px. 다른 곳에는 쓰지 않는다 */
-  --text-hero: clamp(2.5rem, 1.25rem + 3.5vw, 4.5rem);
-  --text-hero--line-height: 1.25;
-  --font-hero: var(--font-syongsyong), var(--font-pretendard), sans-serif;
-  /* 시작 화면 히어로 바탕(하늘) */
-  --color-sky: #e3f3f3; /* 히어로 배경 그림(public/hero/sky-hills.webp, 11/25 새 장면)의 하늘색과 같게 */
+  /* 시작 화면 히어로·바로가기 전용(11/27 새 시안, 팀이 직접 정한 값). 다른 화면은 위 파랑·초록 그대로 쓴다 */
+  --font-point: var(--font-jalnan), var(--font-pretendard), sans-serif; /* 여기어때 잘난체 고딕: 히어로 문구·바로가기 이름만 */
+  --color-home-blue: #1553a3;
+  --color-home-green: #2f993b;
+  --color-home-orange: #ed7049;
+  --color-home-mint: rgb(224 236 230 / 0.5); /* 히어로 글 상자 — 반투명 0.5(11/27) */
+  --color-home-panel: #f6f6f6; /* 바로가기 판 */
+  --color-home-label: #5b5b5b; /* 바로가기 이름 */
+  /* 내부 화면 머리 띠(.page-band) 하늘색 */
+  --color-sky: #e3f3f3;
   /* 루트 카드 세 번째 색: 경로선 주황을 흰 글자 대비 4.5:1 이상으로 진하게 */
   --color-route-deep: #b3541e;
   /* 시작 화면 루트 카드 3색 · 주 버튼 초록(11/24 사용자 지정) */
@@ -589,201 +593,334 @@ label:has(input[type="checkbox"]) {
 }
 
 /*
- * 시작 화면 바로가기 띠(11/23) — 레퍼런스 비짓강릉(visitgangneung.net) .IconlinkFrame 규칙을 옮겨 왔다.
- * 바꾼 것: 색 줄무늬(분홍·파랑·연두·주황 → 우리 파랑·초록 번갈아 — 11/25 색 두 가지 규칙, 예전 하늘·주황 뺌), 띠 테두리 색(우리 기본 파랑), 아이콘(이미지 → 아이콘 자리),
- *   이름 글자색(#51566C → 우리 보조 글자 #4E5968, 11/25 글자 색 맞춤).
- * 그대로인 것: 연한 바탕 #F5F6FF, 위아래 5px 테두리, 0.65rem 색 줄무늬 8칸, 아이콘 5rem, 굵은 이름, 마우스를 올리면 파란 테두리 + 눌린 듯한 안쪽 그림자(0.3초).
+ * 시작 화면 히어로(11/27 새 시안 — components/home/HomeHero.tsx). 시안(1920px 화면)의 자리를 그대로 옮겼다:
+ *   --u = 화면 폭 / 1920(최대 1px)이라 넓은 PC에서는 시안 크기, 좁아지면 같은 비율로 줄어든다. 1200px 미만은 글 상자 → 사진 4장 순서로 쌓는다.
+ * 시안과 바꾼 것(11/27 사용자): ① 사진에 마우스를 올리면 카드만 떠오르고 사진은 확대하지 않는다(루트 카드 .route-card처럼 30px · 0.3초)
+ *   ② 글 상자 바탕은 반투명 0.5(--color-home-mint). 움직임은 transform·opacity만, 동작 줄이기면 전역 규칙이 시간을 없앤다.
  */
-@layer components {
-  .quick-band {
-    background-color: #f5f6ff;
-    border-bottom: 5px solid var(--color-primary);
+.home-hero {
+  container-type: inline-size;
+  overflow: hidden;
+}
+.home-hero__canvas {
+  --u: min(1px, 100cqw / 1920);
+  position: relative;
+  width: calc(1920 * var(--u));
+  height: calc(847 * var(--u));
+  margin: 0 auto;
+}
+.home-hero__route {
+  position: absolute;
+  left: calc(124 * var(--u));
+  top: calc(520 * var(--u));
+  width: calc(1720 * var(--u));
+  max-width: none;
+  height: calc(207 * var(--u));
+  opacity: 0.12;
+}
+/* 등장(처음 한 번): li가 아래에서 올라오며 나타나고, 떠오르는 움직임은 안쪽 사진 틀(.home-hero__photo)에 — 둘이 섞이지 않게 */
+.home-hero__card {
+  position: absolute;
+  width: calc(300 * var(--u));
+  height: calc(600 * var(--u));
+  animation: home-card-in 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 0.1s);
+}
+.home-hero__card:nth-child(1) {
+  left: 0;
+  top: calc(133 * var(--u));
+}
+.home-hero__card:nth-child(2) {
+  left: calc(351 * var(--u));
+  top: calc(73 * var(--u));
+}
+.home-hero__card:nth-child(3) {
+  left: calc(701 * var(--u));
+  top: calc(133 * var(--u));
+}
+.home-hero__card:nth-child(4) {
+  left: calc(1619 * var(--u));
+  top: calc(83 * var(--u));
+}
+.home-hero__photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(20 * var(--u));
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.52);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+.home-hero__card:hover .home-hero__photo {
+  transform: translateY(-30px);
+  box-shadow: 0 18px 30px rgb(0 0 0 / 0.4);
+}
+@keyframes home-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
   }
-  .quick-band__stripe {
+}
+.home-hero__box {
+  position: absolute;
+  left: calc(1062 * var(--u));
+  top: calc(166 * var(--u));
+  width: calc(500 * var(--u));
+  height: calc(500 * var(--u));
+  padding-top: calc(102 * var(--u));
+  border-radius: calc(30 * var(--u));
+  background: var(--color-home-mint);
+  text-align: center;
+  animation: home-fade-in 1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.2s both;
+}
+@keyframes home-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.home-hero__title {
+  font-family: var(--font-point);
+  font-weight: 400;
+  font-size: calc(50 * var(--u));
+  line-height: calc(80 * var(--u));
+  letter-spacing: -0.01em;
+  color: var(--color-home-blue);
+}
+.home-hero__title > span {
+  display: block;
+}
+.home-hero__title > span:last-child {
+  padding-left: calc(16 * var(--u));
+}
+.home-hero__desc {
+  margin-top: calc(43 * var(--u));
+  font-size: calc(27 * var(--u));
+  font-weight: 500;
+  line-height: 1.3;
+  color: #000;
+}
+.home-hero .is-green {
+  color: var(--color-home-green);
+}
+.home-hero .is-orange {
+  color: var(--color-home-orange);
+}
+
+/* 시작 화면 바로가기 5칸(11/27 새 시안 — components/home/QuickMenu.tsx): 연회색 판 위 그림 + 이름(잘난체 고딕).
+ * 마우스를 올리거나 키보드 초점이 가면 그림이 조금 떠오르고 이름이 파래진다. 그림은 장식이라 읽지 않는다(링크 이름은 글자) */
+.home-quick {
+  padding-bottom: 63px;
+}
+.home-quick__list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 216px;
+  padding: 0 19px 0 22px;
+  border-radius: 26px;
+  background: var(--color-home-panel);
+}
+.home-quick__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding-top: 39px;
+}
+.home-quick__icon {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 84px;
+}
+.home-quick__icon img {
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.home-quick__list > li:nth-child(1) .home-quick__icon img {
+  left: 4px;
+}
+.home-quick__list > li:nth-child(2) .home-quick__icon img {
+  left: 14px;
+}
+.home-quick__list > li:nth-child(3) .home-quick__icon img {
+  left: 5px;
+}
+.home-quick__list > li:nth-child(4) .home-quick__icon img {
+  left: 3px;
+}
+.home-quick__list > li:nth-child(5) .home-quick__icon img {
+  left: -9px;
+}
+.home-quick__label {
+  margin-top: 33px;
+  font-family: var(--font-point);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--color-home-label);
+  transition: color 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.home-quick__link:hover .home-quick__icon img,
+.home-quick__link:focus-visible .home-quick__icon img {
+  transform: translateY(-8px) scale(1.06);
+}
+.home-quick__link:hover .home-quick__label,
+.home-quick__link:focus-visible .home-quick__label {
+  color: var(--color-home-blue);
+}
+
+/* 태블릿(1199px 이하): 글 상자를 위에, 사진 4장은 한 줄 격자(2·4번째가 30px 높게) */
+@media (max-width: 1199px) {
+  .home-hero {
+    padding: 24px 0 72px;
+  }
+  .home-hero__canvas {
+    --u: 1px;
     display: flex;
+    flex-direction: column-reverse;
+    width: auto;
+    height: auto;
+    max-width: 89rem;
+    padding: 0 1.5rem;
+  }
+  .home-hero__route {
+    display: none;
+  }
+  .home-hero__box {
+    position: static;
     width: 100%;
-    height: 0.65rem;
+    max-width: 560px;
+    height: auto;
+    margin: 0 auto 64px;
+    padding: 56px 24px 52px;
   }
-  .quick-band__stripe > span {
-    flex: 1;
+  .home-hero__title {
+    font-size: 44px;
+    line-height: 70px;
   }
-  .quick-band__stripe > span:nth-child(odd) {
-    background-color: var(--color-primary);
+  .home-hero__title > span:last-child {
+    padding-left: 0;
   }
-  .quick-band__stripe > span:nth-child(even) {
-    background-color: var(--color-pine);
+  .home-hero__desc {
+    margin-top: 36px;
+    font-size: 24px;
   }
-  .quick-band__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
+  .home-hero__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding-top: 30px;
   }
-  .quick-band__list > li {
-    padding: 1rem;
-    width: 20%;
+  .home-hero__card {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 2;
   }
-  .quick-band__link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin: 1rem 0;
-    padding: 1rem;
-    border: 1px solid transparent;
-    border-radius: 1rem;
-    color: var(--color-ink-sub);
+  .home-hero__card:nth-child(2n) {
+    top: -30px !important;
+  }
+  .home-hero__photo {
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
+  }
+  .home-quick__list {
+    height: auto;
+    padding: 32px 8px;
+  }
+  .home-quick__link {
+    padding-top: 0;
+  }
+  .home-quick__icon {
+    height: 72px;
+  }
+  .home-quick__icon img {
+    left: 0 !important;
+    max-height: 72px;
+    width: auto;
+  }
+  .home-quick__label {
+    margin-top: 20px;
     font-size: 1.0625rem;
-    font-weight: 700;
-    line-height: 1.3;
     text-align: center;
-    transition: 0.3s;
-  }
-  .quick-band__link:hover,
-  .quick-band__link:focus-visible {
-    border-color: var(--color-primary);
-    background: linear-gradient(145deg, #f2f4f9 0%, #f2f4f9 20%, #fff 100%);
-    box-shadow: inset 0.5rem 0.6rem 0.9rem #cad2e3;
-  }
-  .quick-band__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 5rem;
-    color: var(--color-primary-ink);
-  }
-  .quick-band__label {
-    padding-top: 1rem;
-  }
-  @media (max-width: 767px) {
-    .quick-band__list > li {
-      width: 33.333%;
-      padding: 0.25rem;
-    }
-    .quick-band__link {
-      margin: 0.5rem 0;
-      padding: 0.5rem;
-    }
-    .quick-band__icon {
-      height: 3.5rem;
-    }
+    word-break: keep-all;
   }
 }
 
-/* 바로가기 띠 그림 아이콘(11/25, 팀이 만든 시안 — components/home/QuickMenu.tsx). 같은 크기 투명 그림 층을 겹치고,
- * 마우스를 올리거나 키보드 초점이 가면 칸이 3px 떠오르며 움직이는 층만 움직인다(시안 미리보기 .ic · @keyframes sway/draw/hop/blink/scribble을 옮김 —
- * 이름은 히어로의 배 흔들림과 겹치지 않게 quick-을 붙였다). 표시 72px(띠 칸 높이에 맞춰 휴대폰 56px · 세로가 짧은 PC 64px).
- * 움직임은 동작 줄이기가 아닐 때만. 휴대폰은 마우스가 없어 자연히 움직이지 않는다 */
-.quick-ic {
-  position: relative;
-  display: block;
-  height: min(100%, 4.5rem);
-  aspect-ratio: 1 / 1;
-  transition: transform 0.25s ease;
-}
-.quick-ic img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.quick-ic__sign {
-  transform-origin: 50.2% 81.3%; /* 기둥 아래가 축 */
-}
-@media (prefers-reduced-motion: no-preference) {
-  .quick-band__link:hover .quick-ic,
-  .quick-band__link:focus-visible .quick-ic {
-    transform: translateY(-3px);
+/* 휴대폰(767px 이하): 사진은 옆으로 넘겨 보는 줄, 바로가기는 3 + 2칸.
+ * 시안과 바꾼 것: 바로가기 이름 13px → 16px(본문 16px 이상 규칙) */
+@media (max-width: 767px) {
+  .home-hero {
+    padding: 8px 0 40px;
   }
-  .quick-band__link:hover .quick-ic__sign,
-  .quick-band__link:focus-visible .quick-ic__sign {
-    animation: quick-sway 0.9s ease-in-out;
+  .home-hero__canvas {
+    padding: 0;
   }
-  .quick-band__link:hover .quick-ic__dash,
-  .quick-band__link:focus-visible .quick-ic__dash {
-    animation: quick-draw 0.9s ease-out both;
+  .home-hero__box {
+    width: auto;
+    margin: 0 1rem 28px;
+    padding: 36px 16px 34px;
+    border-radius: 24px;
   }
-  .quick-band__link:hover .quick-ic__pin,
-  .quick-band__link:focus-visible .quick-ic__pin {
-    animation: quick-hop 0.7s ease-out;
+  .home-hero__title {
+    font-size: 30px;
+    line-height: 46px;
   }
-  .quick-band__link:hover .quick-ic__light,
-  .quick-band__link:focus-visible .quick-ic__light {
-    animation: quick-blink 1.2s ease-in-out;
+  .home-hero__desc {
+    margin-top: 22px;
+    font-size: 1rem;
   }
-  .quick-band__link:hover .quick-ic__whole,
-  .quick-band__link:focus-visible .quick-ic__whole {
-    animation: quick-scribble 0.8s ease-in-out;
+  .home-hero__cards {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 46%;
+    gap: 14px;
+    padding: 24px 1rem 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 1rem;
+    scrollbar-width: none;
   }
-}
-@keyframes quick-sway {
-  0%,
-  100% {
-    transform: rotate(0);
+  .home-hero__cards::-webkit-scrollbar {
+    display: none;
   }
-  25% {
-    transform: rotate(-6deg);
+  .home-hero__card {
+    scroll-snap-align: start;
   }
-  55% {
-    transform: rotate(5deg);
+  .home-hero__card:nth-child(2n) {
+    top: -16px !important;
   }
-  80% {
-    transform: rotate(-2deg);
+  .home-hero__photo {
+    border-radius: 16px;
   }
-}
-@keyframes quick-draw {
-  from {
-    clip-path: inset(0 100% 0 0);
+  .home-quick {
+    padding-bottom: 40px;
   }
-  to {
-    clip-path: inset(0 0 0 0);
+  .home-quick__list {
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 28px;
+    padding: 28px 8px;
+    border-radius: 20px;
   }
-}
-@keyframes quick-hop {
-  0%,
-  100% {
-    transform: translateY(0);
+  .home-quick__list > li {
+    grid-column: span 2;
   }
-  35% {
-    transform: translateY(-14%);
+  .home-quick__list > li:nth-child(4) {
+    grid-column: 2 / span 2;
   }
-  60% {
-    transform: translateY(0);
+  .home-quick__icon {
+    height: 48px;
   }
-  78% {
-    transform: translateY(-5%);
+  .home-quick__icon img {
+    max-height: 48px;
   }
-}
-@keyframes quick-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  20%,
-  60% {
-    opacity: 0.2;
-  }
-  40%,
-  80% {
-    opacity: 1;
-  }
-}
-@keyframes quick-scribble {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px) rotate(-3deg);
-  }
-  40% {
-    transform: translate(2px, -1px) rotate(2deg);
-  }
-  60% {
-    transform: translate(-1px, 1px) rotate(-2deg);
-  }
-  80% {
-    transform: translate(1px, 0) rotate(1deg);
+  .home-quick__label {
+    margin-top: 12px;
+    font-size: 1rem;
   }
 }
 
@@ -972,10 +1109,8 @@ label:has(input[type="checkbox"]) {
   background: var(--color-ink);
   box-shadow: 0 1.5rem 3rem rgb(25 31 40 / 0.16);
 }
-/* 휴대폰 위쪽 상태 줄(가운데 카메라 자리) — 세 화면 모두 실제 휴대폰처럼 보이게(11/24). README 휴대폰 틀(capture.ts frames)과 같은 모양 */
-/* 11/24 고침: 예전엔 원형 그라데이션이라 카메라 자리가 납작한 타원으로 보였다 → 양 끝이 둥근 알약(README 틀 96×26, 상태 줄 36 : 화면 390과 같은 비율).
-   상태 줄(시계·신호·배터리)은 11/25부터 미리보기 그림 안에 있다 */
-/* 11/25: 상태 줄(시계·신호·배터리)은 미리보기 그림 안으로 옮겼다(capture.ts withStatusBar) — CSS 띠는 가만히 있고 그림만 바뀌어 분리돼 보였다 */
+/* 휴대폰 위쪽 카메라 자리: 양 끝이 둥근 알약(README 휴대폰 틀 capture.ts frames와 같은 비율 — 틀 96×26 : 화면 390).
+   상태 줄(시계·신호·배터리)은 CSS가 아니라 미리보기 그림 안에 있다(capture.ts withStatusBar) — 그림과 함께 바뀌어야 따로 놀지 않는다 */
 .intro-phone::after {
   content: "";
   position: absolute;
@@ -1049,29 +1184,6 @@ label:has(input[type="checkbox"]) {
   }
 }
 
-/* 세로가 짧은 PC(1024px 이상 · 높이 820px 이하, 예: 1536×730 노트북): 히어로 위아래 여백과 바로가기 띠 여백을 줄여
- * 아이콘 5개가 첫 화면에 다 보이게(11/25, 사용자) */
-@media (min-width: 64rem) and (max-height: 51.25rem) {
-  .hero-scene__copy {
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
-  }
-  .quick-band__list > li {
-    padding: 0.25rem 1rem;
-  }
-  .quick-band__link {
-    margin: 0.25rem 0;
-    padding: 0.5rem 1rem;
-  }
-  .quick-band__icon {
-    height: 4rem;
-  }
-  /* 히어로가 낮아 배가 '여행 루트 만들기' 버튼 뒤로 들어가므로 숨긴다(아래쪽 히어로 규칙보다 앞에 있어 선택자를 한 겹 더) */
-  .hero-scene .hero-sp--boat {
-    display: none;
-  }
-}
-
 /* 머리줄 오늘 날씨(11/25, components/WeatherTicker.tsx): 다음 도시가 아래에서 올라온다(함안군청 인기검색어처럼). 동작 줄이기면 굴리지 않는다 */
 .weather-roll {
   display: inline-flex;
@@ -1088,7 +1200,7 @@ label:has(input[type="checkbox"]) {
   }
 }
 
-/* 좁은 화면 소개 자동 넘김 진행 막대(고칠 목록 2, 11/24) — 단계마다 한 칸, 지금 칸이 3초(IntroSteps AUTO_MS) 동안 차오른다.
+/* 좁은 화면 소개 자동 넘김 진행 막대(11/24) — 단계마다 한 칸, 지금 칸이 3초(IntroSteps AUTO_MS) 동안 차오른다.
    멈추면 지금 칸은 꽉 찬 채로. 동작 줄이기면 자동 넘김이 멈춘 채로 시작하고, 사용자가 켜도 차오르는 움직임 없이 꽉 찬 칸만 보인다 */
 .intro-progress {
   display: flex;
@@ -1235,252 +1347,7 @@ label:has(input[type="checkbox"]) {
   }
 }
 
-/* 히어로 장면(11/25, components/home/HeroScene.tsx) — 팀이 만든 시안 미리보기(reference/hero-preview)의 배치·움직임을 그대로 옮겼다.
- * 배경과 점선 SVG는 같은 크기 규칙(좌우를 자르지 않음): 휴대폰은 장면 높이를 채우는 폭 · 왼쪽 아래 기준(표지판·바위·정자가 보이게), PC는 폭 100% · 높이 자동 · 아래 기준.
- * 조각 위치·크기는 장면 폭 기준(cqw, container-type). 움직임은 transform·opacity만. 동작 줄이기면 점선은 다 보이고 조각은 멈춘다 */
-.hero-scene__scene {
-  position: relative;
-  /* 휴대폰·태블릿: 그림 비율 + 하늘 50px, 최소 300px — 그림(높이 250px 기준)은 아래에 붙고 위 50px은 하늘색(구름이 산에 닿지 않게, 11/25) */
-  min-height: max(18.75rem, calc(100vw * 716 / 2168 + 3.125rem));
-  margin-top: 1.5rem;
-  overflow: hidden;
-  container-type: inline-size;
-  pointer-events: none;
-}
-/* 휴대폰·태블릿: 높이 250px가 되는 폭(250 × 2168/716 ≈ 757px)과 화면 폭 중 큰 쪽(오른쪽에 빈 하늘이 생기지 않게).
- * 그림과 점선 SVG가 같은 규칙이라 점선이 흰 길 위에서 어긋나지 않는다 */
-.hero-scene__bg {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  display: block;
-  width: max(100%, calc(15.625rem * 2168 / 716));
-  max-width: none;
-  height: auto;
-}
-.hero-scene__fx {
-  position: absolute;
-  inset: 0;
-  animation: hero-fadein 1.6s ease 1.8s both;
-}
-/* 점선: 앞쪽부터 하나씩 찍힌다(각 .35s, 0.6s 뒤 시작, 0.1s 간격, 처음 한 번) */
-.hero-scene__route line {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: hero-dash 0.35s ease-out both;
-  animation-delay: calc(0.6s + var(--i) * 0.1s);
-}
-@keyframes hero-dash {
-  from {
-    opacity: 0;
-    transform: scale(0.2);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes hero-fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-.hero-sp {
-  position: absolute;
-  left: 0;
-  will-change: transform;
-}
-.hero-sp img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-/* 구름: 왼쪽 → 오른쪽으로 흘러감(80~140초, 음수 delay로 처음부터 흩어져 있게) */
-.hero-sp--cloud {
-  z-index: 1;
-  animation: hero-drift linear infinite;
-}
-@keyframes hero-drift {
-  from {
-    transform: translateX(-110%);
-  }
-  to {
-    transform: translateX(105cqw);
-  }
-}
-.hero-sp--c1 {
-  top: 4%;
-  width: 44cqw;
-  animation-duration: 110s;
-  animation-delay: -30s;
-}
-.hero-sp--c2 {
-  top: 17%;
-  width: 22cqw;
-  opacity: 0.95;
-  animation-duration: 80s;
-  animation-delay: -62s;
-}
-.hero-sp--c3 {
-  top: 20%;
-  width: 44cqw;
-  opacity: 0.9;
-  animation-duration: 140s;
-  animation-delay: -20s;
-}
-.hero-sp--c4 {
-  top: 12%;
-  width: 22cqw;
-  animation-duration: 95s;
-  animation-delay: -8s;
-}
-/* 갈매기: 옆으로 활공 + 살짝 오르내리며 기울기 */
-.hero-sp--gull {
-  z-index: 3;
-  animation: hero-glide linear infinite;
-}
-.hero-sp--gull img {
-  animation: hero-bob 5s ease-in-out infinite alternate;
-}
-/* 오른쪽 끝 밖(105cqw)까지 날아간 뒤 다시 왼쪽에서(11/25 — 70cqw에서 멈춰 화면 안에서 사라져 보였다). 시간은 시안 속도에 맞춰 늘림 */
-@keyframes hero-glide {
-  from {
-    transform: translateX(-12cqw);
-  }
-  to {
-    transform: translateX(105cqw);
-  }
-}
-@keyframes hero-bob {
-  from {
-    transform: translateY(-10px) rotate(-3deg);
-  }
-  to {
-    transform: translateY(12px) rotate(4deg);
-  }
-}
-.hero-sp--g1 {
-  top: 8%;
-  width: 12cqw;
-  animation-duration: 54s;
-  animation-delay: -17s;
-}
-.hero-sp--g2 {
-  top: 18%;
-  width: 9cqw;
-  animation-duration: 66s;
-  animation-delay: -43s;
-}
-.hero-sp--g2 img {
-  animation-duration: 6.5s;
-  animation-delay: -2s;
-}
-/* 배: 위아래 흔들림 + 좌우로 조금 떠다님. 휴대폰·태블릿은 장면이 좁아 숨긴다 */
-.hero-sp--boat {
-  display: none;
-  left: auto;
-  right: 27%;
-  bottom: 6.3cqw; /* 그림 기준 자리(배경 높이의 19% — 시안 1440×700의 bottom 13%와 같은 지점). 히어로 높이가 달라도 늘 같은 바다 위 */
-  z-index: 2;
-  width: 9cqw;
-  animation: hero-sway 22s ease-in-out infinite alternate;
-}
-.hero-sp--boat img {
-  transform-origin: 50% 90%;
-  animation: hero-rock 3.6s ease-in-out infinite alternate;
-}
-@keyframes hero-sway {
-  from {
-    transform: translateX(-3cqw);
-  }
-  to {
-    transform: translateX(3cqw);
-  }
-}
-@keyframes hero-rock {
-  from {
-    transform: translateY(-3px) rotate(-2deg);
-  }
-  to {
-    transform: translateY(4px) rotate(2deg);
-  }
-}
-/* 768px부터는 장면에 그림 전체가 보여서 조각 크기·자리를 PC와 같게, 배도 보인다 */
-@media (min-width: 768px) {
-  /* 구름은 시안보다 위쪽(산과 닿지 않게 — 히어로 높이가 첫 화면 아이콘 띠 때문에 시안보다 낮다, 11/25) */
-  .hero-sp--c1 {
-    top: 3%;
-    width: 22cqw;
-  }
-  .hero-sp--c2 {
-    top: 9%;
-    width: 11cqw;
-  }
-  .hero-sp--c3 {
-    top: 13%;
-    width: 19cqw;
-  }
-  .hero-sp--c4 {
-    top: 5%;
-    width: 9cqw;
-  }
-  .hero-sp--g1 {
-    top: 24%;
-    width: 6.5cqw;
-  }
-  .hero-sp--g2 {
-    top: 33%;
-    width: 3.4cqw;
-  }
-  .hero-sp--boat {
-    display: block;
-  }
-}
-@media (min-width: 1024px) {
-  /* PC: 장면이 히어로 전체에 깔리고 글자가 그 위(z-10) */
-  .hero-scene__scene {
-    position: absolute;
-    inset: 0;
-    min-height: 0;
-    margin-top: 0;
-  }
-  .hero-scene__bg {
-    width: 100%;
-  }
-}
-/* 동작 줄이기: 점선은 처음부터 다 보이고, 조각은 움직이지 않고 미리보기 장면과 비슷한 자리에 그대로 둔다
- * (사이트 전체 규칙이 움직임 시간을 0으로 줄이므로 '멈춤'만 걸면 끝 상태·처음 자리로 튀어 버린다 → 움직임을 끄고 자리를 직접 준다) */
-@media (prefers-reduced-motion: reduce) {
-  .hero-scene__route line,
-  .hero-scene__fx,
-  .hero-sp,
-  .hero-sp img {
-    animation: none !important;
-  }
-  .hero-sp--c1 {
-    transform: translateX(20cqw);
-  }
-  .hero-sp--c2 {
-    transform: translateX(62cqw);
-  }
-  .hero-sp--c3 {
-    transform: translateX(3cqw);
-  }
-  .hero-sp--c4 {
-    transform: translateX(9cqw);
-  }
-  .hero-sp--g1 {
-    transform: translateX(29cqw);
-  }
-  .hero-sp--g2 {
-    transform: translateX(54cqw);
-  }
-}
-
-/* 소개 글 등장(11/24, 고칠 목록 9번): 스크롤해서 화면에 들어오면 아래에서 살짝 올라오며 나타난다(Motion.tsx가 data-reveal을 wait → in으로 바꾼다).
+/* 소개 글 등장(11/24): 스크롤해서 화면에 들어오면 아래에서 살짝 올라오며 나타난다(Motion.tsx가 data-reveal을 wait → in으로 바꾼다).
  * 처음부터 보이는 곳과 자바스크립트 없는 화면은 그대로 보인다. 한 묶음 안에서는 --reveal-i만큼 80ms씩 늦게.
  * 막대(.reveal-bar)는 부모가 들어올 때 왼쪽부터 줄마다(--bar-i) 60ms씩 늦게 차오른다. 동작 줄이기·인쇄에서는 움직이지 않는다. */
 [data-reveal] {
@@ -1574,7 +1441,7 @@ label:has(input[type="checkbox"]) {
 }
 
 /*
- * 만드는 중 장면(11/25, 단계 4 · MakingScene): 진행값만큼 호 위에 점이 하나씩 찍힌다(시작 화면 .hero-dash와 같은 방식, transform·opacity만).
+ * 만드는 중 장면(11/25, 단계 4 · MakingScene): 진행값만큼 호 위에 점이 하나씩 찍힌다(transform·opacity만).
  * 자체 타이머 없이 진행값을 따라간다. 동작 줄이기면 처음부터 12개 점과 도착 고리가 모두 켜진 정지 그림.
  */
 .making-dot {

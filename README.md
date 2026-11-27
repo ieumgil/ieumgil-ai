@@ -185,7 +185,7 @@
 ### 누구나 쓰기 쉽게
 
 - 본문 글자는 16px 이상, 버튼과 선택 칸은 44px 이상입니다. 글자 크기는 휴대폰·브라우저의 글자 크기 설정을 그대로 따릅니다.
-- 글꼴은 두 가지만 씁니다: 본문·숫자 전부 Pretendard, 시작 화면 문구 한 줄만 카페24 숑숑. 구분은 크기와 굵기로 합니다.
+- 글꼴은 두 가지만 씁니다: 본문·숫자 전부 Pretendard, 시작 화면 히어로 문구와 바로가기 이름만 여기어때 잘난체 고딕. 구분은 크기와 굵기로 합니다.
 - 움직임은 스크롤한 만큼만 따라오거나 짧게(버튼·창 0.1\~0.2초, 소개 글의 구역·숫자·막대 등장 0.5\~1초) 끝나고, 기기의 '동작 줄이기' 설정을 켜면 멈춥니다. 시작 화면 점선은 처음 한 번만 그려지고, 바로가기 아이콘은 마우스를 올리거나 키보드로 골랐을 때만 움직입니다. '동작 줄이기'를 켜면 점선은 처음부터 다 그려진 상태로 보이고 구름·갈매기·배도 멈춥니다.
 - 판단은 색만으로 나타내지 않고 ✓ 적합 · ! 주의 · ✕ 부적합처럼 기호와 글자를 함께 씁니다.
 - 웹 접근성은 [axe-core](https://github.com/dequelabs/axe-core-npm) 자동 검사로 주요 화면을 휴대폰·PC에서 확인합니다([`axe.spec.ts`](tests/e2e/axe.spec.ts)). 색은 파랑 #3580db와 초록 #3daa7e 두 가지로 통일했고(그림에만 남색 #092B47을 포인트로 씀), 이 색의 글자 대비는 기준(4.5:1)보다 낮지만 실제 화면에서 잘 보인다고 판단해 글자 대비 규칙만 검사에서 뺐습니다. 다른 규칙은 그대로 검사합니다.
@@ -427,7 +427,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 | 관광지 둘러보기 | [`/places`](src/app/places/PlacesBrowser.tsx) · AI 한 줄 소개 [`summary.json`](data/ai/summary.json) |
 | **더한 것** 장애인 화장실·기저귀 교환대 공공데이터 보충 | [`lib/public/`](src/lib/public/) · [짝짓기 결과](docs/data/public-restrooms.md) |
 | **더한 것** 날짜별 날씨(기상청)와 비·눈 주의 | [`api/weather`](src/app/api/weather/route.ts) · [`lib/weather/`](src/lib/weather/) · [API 정리](docs/data/kma-forecast.md) |
-| **더한 것** 시작 화면 개편(디자인 시안 · 지자체 관광 사이트 레퍼런스 CSS) | [`page.tsx`](src/app/page.tsx)의 `Hero()` · [`HeroScene.tsx`](src/components/home/HeroScene.tsx) · [`QuickMenu.tsx`](src/components/home/QuickMenu.tsx) · [`globals.css`](src/app/globals.css) · 그림 [`public/hero/`](public/hero/) · [`public/home/`](public/home/) |
+| **더한 것** 시작 화면 개편(디자인 시안 · 지자체 관광 사이트 레퍼런스 CSS) | [`page.tsx`](src/app/page.tsx) · [`HomeHero.tsx`](src/components/home/HomeHero.tsx) · [`QuickMenu.tsx`](src/components/home/QuickMenu.tsx) · [`globals.css`](src/app/globals.css) · 그림 [`public/home/`](public/home/) |
 | **더한 것** 웹 접근성 자동 검사 · 디자인 규칙 감시 | [`axe.spec.ts`](tests/e2e/axe.spec.ts) · [`legacy-classes.test.ts`](tests/design/legacy-classes.test.ts) |
 | 엔진 시나리오 10개 · AI 가드 · 화면 흐름 테스트 · AI 평가 | [검증](#검증) |
 
@@ -529,7 +529,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 | Supabase(Postgres) | 공유 링크 저장 | 고른 일정만 저장, 서버가 스키마로 검사. RLS로 브라우저 키 차단, 기간이 지나면 자동 삭제 |
 | Vercel | 배포(서버 함수에서 AI·카카오·기상청 호출, 진행 단계 스트리밍) | 키는 환경변수에만 |
 | Next.js 16 · React 19 · TypeScript | 화면과 서버 API | TypeScript strict. AI·데이터 규칙은 `src/lib/`에 코드로 |
-| Tailwind CSS v4 · shadcn/ui · Pretendard · 카페24 숑숑(히어로 문구, 둘 다 SIL OFL 1.1, 자체 호스팅) | 모바일 우선 화면 | 디자인 값은 `globals.css` 한 곳에. 본문 16px · 터치 44px 이상 · 상태는 색 + 기호 + 글자 · rem 단위 |
+| Tailwind CSS v4 · shadcn/ui · Pretendard(SIL OFL 1.1) · 여기어때 잘난체 고딕(시작 화면 히어로 문구·바로가기 이름, GC COMPANY 무료 글꼴) · 자체 호스팅 | 모바일 우선 화면 | 디자인 값은 `globals.css` 한 곳에. 본문 16px · 터치 44px 이상 · 상태는 색 + 기호 + 글자 · rem 단위 |
 | Vitest · Playwright · axe-core · GitHub Actions | 단위 · 화면 흐름 · 웹 접근성 테스트, 푸시마다 자동 검사 | 필수 조건 위반 0건, 근거 없는 판단을 버리는지, 접근성 위반 0건을 테스트로 고정 |
 
 </details>
@@ -550,7 +550,7 @@ src/lib/weather/    kma.ts(기상청 호출, 서버 전용) · service.ts(15분 
 src/lib/llm.ts      AI 호출을 한 곳에(Gemini → 늦으면 OpenAI, JSON 검사) · src/lib/kakao.ts(길찾기, 서버 전용)
 src/components/     ui/(shadcn 기반, 44px·16px로 고침) · home/(시작 화면: 바로가기·단계 소개·대표 관광지·날씨) · plan/(입력 단계)
                     · trip/(장소 카드·안 고르기·바꾸기 창·체크리스트·날씨·타임라인 진행·공유·인쇄 일정표) · map/ · photos/ · SiteHeader(모든 화면 머리줄)
-public/hero/        시작 화면 그림(영동 풍경 배경 · 점선 원본 · 구름·갈매기·배) · src/app/fonts/(카페24 숑숑, 문구 글자만)
+public/home/        시작 화면 사진 카드·점선 길(hero/) · 바로가기 그림(quick/) · src/app/fonts/(잘난체 고딕, 쓰는 글자만)
 data/               places.json · evidence.json · photos.json · featured.json · ai/(읽기 결과·한 줄 소개) · docs/places/(근거 원문) · public/(공중화장실 짝) · eval/(평가)
 scripts/            tour/(관광공사 API 수집·사진) · public/(공중화장실) · ai/(읽기·평가·예시) · readme/(캡처·구조도) · dev/(연결 확인·시험) — 순서는 scripts/README.md
 tests/              단위 테스트(엔진·AI 가드는 가짜 LLM) · design/(디자인 규칙 감시) · e2e/(화면 흐름·접근성, Playwright)

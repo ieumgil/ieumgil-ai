@@ -64,10 +64,17 @@ describe("토큰 값", () => {
     expect(token(staticTheme, "--text-heading--line-height")).toBe("1.35");
   });
 
-  it("글꼴 2개만(11/23): 제목·본문은 Pretendard, 히어로 문구만 카페24 숑숑", () => {
+  it("글꼴 2개만(11/27): 제목·본문은 Pretendard, 시작 화면 히어로 문구·바로가기 이름만 잘난체 고딕", () => {
     expect(token(staticTheme, "--font-display")).toBe("var(--font-sans)");
     expect(token(inlineTheme, "--font-sans")).toMatch(/^var\(--font-pretendard\),/);
-    expect(token(staticTheme, "--font-hero")).toMatch(/^var\(--font-syongsyong\),/);
+    expect(token(staticTheme, "--font-point")).toMatch(/^var\(--font-jalnan\),/);
+  });
+
+  it("시작 화면 새 시안 색(11/27) · 히어로 글 상자는 반투명 0.5", () => {
+    expect(color("home-blue")).toBe("#1553a3");
+    expect(color("home-green")).toBe("#2f993b");
+    expect(color("home-orange")).toBe("#ed7049");
+    expect(color("home-mint")).toBe("rgb(224 236 230 / 0.5)");
   });
 
   it("본문 16px · 줄 간격 1.6", () => {
