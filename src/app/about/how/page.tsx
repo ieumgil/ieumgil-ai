@@ -17,7 +17,7 @@ const NUMBERS: { label: string; value: string; note: string }[] = [
   { label: "관광지", value: "152곳", note: "강릉 101 · 속초 30 · 동해 21" },
   { label: "꼭 필요한 조건을 어긴 일정", value: "0건", note: "엔진 시나리오 10개와 유형 조합 14가지" },
   { label: "근거 없이 채운 접근성 값", value: "0건", note: "AI가 읽은 1,520항목" },
-  { label: "같은 152곳을 두 번 읽었을 때 일치", value: "96.4%", note: "항목 값이 같은 비율" },
+  { label: "지시문을 보강해 152곳을 다시 읽었을 때 일치", value: "96.4%", note: "처음 결과와 항목 값이 같은 비율(경사 '모름' 17곳은 '가능'으로 바뀜)" },
   { label: "같은 후보를 세 번 판단했을 때 셋 다 같음", value: "85.7%", note: "Gemini 기준(OpenAI 78.3%), 두 모델이 정반대로 판단한 경우 0건" },
   { label: "일정 한 번 만드는 비용", value: "약 50원", note: "AI 5회, 유료 단가로 계산(조건 5가지 실측)" },
 ];
