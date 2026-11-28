@@ -25,7 +25,7 @@ export function Phones({ shots, label }: { shots: Shot[]; label: string }) {
   );
 }
 
-/** README 구조도. 휴대폰에서는 글자가 작아 원본 크기로 열 수 있게 링크를 둔다 */
+/** 구조도(README와 같은 그림, 팀이 만든 그림 파일). 휴대폰에서는 글자가 작아 원본 크기로 열 수 있게 링크를 둔다 */
 export function Architecture() {
   return (
     <figure className="flex flex-col gap-2" data-reveal="">
@@ -33,14 +33,14 @@ export function Architecture() {
         <Image
           src="/about/architecture.webp"
           width={1800}
-          height={1299}
+          height={1344}
           sizes="(min-width: 1024px) 62rem, (min-width: 768px) 40rem, 100vw"
-          alt="구조도: 사용자 화면에서 조건을 보내면 서버가 코드로 후보 20곳을 거르고, AI가 장소를 세 번 판단하고, 코드가 근거와 안전 기준을 검사하고, AI가 일정 2~3개를 짜고, 코드가 시각을 계산·검사한 뒤 AI 평가자를 거쳐 화면으로 돌려준다. AI가 실패하면 규칙 일정. 옆에는 Gemini·OpenAI, 미리 만든 장소 데이터, Supabase 공유 링크, 카카오 지도·이동시간"
+          alt="구조도: 사용자가 웹 서비스(Next.js · Vercel)에서 조건을 고르면 서버 API가 AI 일정 파이프라인을 부른다. 파이프라인은 코드로 후보 20곳을 거르고, AI가 장소를 세 번 판단하고, 코드가 근거·안전 기준을 검사하고, AI가 일정 2~3안을 짜고, 코드가 시각·운영시간을 검사한 뒤 AI 평가자를 거친다. AI가 실패하면 규칙 일정 1안. 옆에는 Gemini → OpenAI, 미리 만든 장소 데이터, Supabase 공유 링크, 카카오 지도·길찾기, 기상청 예보"
           className="h-auto w-full"
         />
         <span className="sr-only"> (원본 크기로 새 탭에서 열기)</span>
       </a>
-      <figcaption className="text-sm text-ink-sub text-pretty">파란 칸은 AI가, 회색 칸은 코드가 하는 일이에요. 그림을 누르면 크게 볼 수 있어요.</figcaption>
+      <figcaption className="text-sm text-ink-sub text-pretty">노란 이름표가 붙은 칸은 AI가, 회색 줄은 코드가 하는 일이에요. 그림을 누르면 크게 볼 수 있어요.</figcaption>
     </figure>
   );
 }

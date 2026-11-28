@@ -55,7 +55,7 @@ src/lib/weather/    kma.ts(기상청 호출, 서버 전용) · service.ts(캐시
 src/lib/            llm.ts(AI 호출은 이 파일 하나로: 제공자 순서 AI_ORDER, 모델 GEMINI_MODEL_FAST/READ · OPENAI_MODEL) · kakao.ts(서버 전용) · types.ts · utils.ts · use-media.ts · intro.ts
 data/               places.json · places.schema.json · evidence.json · photos.json · featured.json(대표 관광지) · ai/summary.json(한 줄 소개) · docs/places/{id}.md(근거 문장) · ai/read/(① 읽기 결과) · public/restrooms.json(짝지은 공중화장실 요약)
                     · eval/(read-v1 · 선택 human.json) · raw/·build/(API 원본·중간 산출물, 커밋 안 함)
-scripts/            tour/(관광공사 API 수집·보고서·사진) · public/(공중화장실 공공데이터) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처·구조도) · dev/(연결 확인·시험, weather-probe 기상청 키·게이트웨이 확인) — scripts/README.md
+scripts/            tour/(관광공사 API 수집·보고서·사진) · public/(공중화장실 공공데이터) · ai/(① 읽기·합치기·예시·고정 결과) · readme/(캡처) · dev/(연결 확인·시험, weather-probe 기상청 키·게이트웨이 확인) — scripts/README.md
 tests/engine/       시나리오 10개(기획 문서 표) — 목표: 필수 조건 위반 0건
 tests/ai/           가짜 LLM으로 가드 검사(근거 없는 판단 버림, 모름≠적합, 시각은 코드 값, 실패 시 규칙 일정)
 tests/…             src와 같은 폴더(lib·places·plan·text·trip·api) · tests/e2e/ Playwright 화면 흐름

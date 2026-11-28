@@ -36,7 +36,6 @@
 | 명령 | 하는 일 | 결과 |
 |---|---|---|
 | `npm run readme:capture` | 화면 캡처 23장(휴대폰 18 · PC 5, 결과 화면은 예시 일정) + 휴대폰·PC 틀을 입힌 그림 + 표지 1장(개발 서버 `npm run dev`가 켜져 있어야 함). 시작 화면 단계 소개의 휴대폰 화면(`step-*.png`)도 함께 갱신. 뒤에 `screens`(공유 링크 없이 화면·표지만) · `share`(공유·인쇄만) · `frames`(틀만) · `cover`(표지만) · `design`(디자인 이야기 그림 `design-icons.png`, 서버 불필요) · 장면 이름(예: `01-home`)을 붙이면 그것만 | `docs/readme/*.png`, `docs/readme/mock/`, `public/preview/` |
-| `npm run readme:architecture` | 구조도(글을 고치고 다시 실행) | `docs/readme/architecture.png` |
 
 ## 4. 확인·시험용 (`scripts/dev/`)
 

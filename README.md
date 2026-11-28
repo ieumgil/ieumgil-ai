@@ -18,7 +18,7 @@
 | :---: | :---: | :---: | :---: | :---: |
 | **152곳**<br /><sub>강릉·속초·동해 · [원문](data/docs/places/) · [AI 읽기](data/ai/read/)</sub> | **0건**<br /><sub>AI 읽기 1,520항목</sub> | **0건**<br /><sub>규칙 엔진 24가지 조건(시험용 가짜 장소) · AI 가드 테스트 78개</sub> | **85.7%**<br /><sub>Gemini · 6개 장면 119곳 · [평가](data/eval/judge-v1.md)</sub> | **위반 0건**<br /><sub>axe WCAG 2.2 A·AA(글자 대비 제외)</sub> |
 
-[![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 테스트 673개 · 화면 흐름 테스트 500개 · 2026 My AI 랩(강릉과학산업진흥원)
+[![CI](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml) 단위 테스트 673개 · 화면 흐름 테스트 502개 · 2026 My AI 랩(강릉과학산업진흥원)
 
 [![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/) [![OpenAI](https://img.shields.io/badge/OpenAI_GPT--6_Luna-412991?style=for-the-badge)](https://platform.openai.com/) [![한국관광공사 무장애 여행정보 API](https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EA%B4%80%EA%B4%91%EA%B3%B5%EC%82%AC_%EB%AC%B4%EC%9E%A5%EC%95%A0_%EC%97%AC%ED%96%89%EC%A0%95%EB%B3%B4_API-0B5FA5?style=for-the-badge)](https://www.data.go.kr/data/15101897/openapi.do) [![행정안전부 공중화장실 표준데이터](https://img.shields.io/badge/%ED%96%89%EC%A0%95%EC%95%88%EC%A0%84%EB%B6%80_%EA%B3%B5%EC%A4%91%ED%99%94%EC%9E%A5%EC%8B%A4_%ED%91%9C%EC%A4%80%EB%8D%B0%EC%9D%B4%ED%84%B0-2E7D32?style=for-the-badge)](https://www.data.go.kr/data/15012892/standard.do) [![기상청 단기·중기예보](https://img.shields.io/badge/%EA%B8%B0%EC%83%81%EC%B2%AD_%EB%8B%A8%EA%B8%B0%C2%B7%EC%A4%91%EA%B8%B0%EC%98%88%EB%B3%B4-3A7BD5?style=for-the-badge)](https://www.data.go.kr/data/15084084/openapi.do) [![Kakao Map](https://img.shields.io/badge/Kakao_Map_%C2%B7_Mobility-FFCD00?style=for-the-badge&logo=kakao&logoColor=000)](https://apis.map.kakao.com/)
 
@@ -107,7 +107,7 @@
 
 **AI(LLM)는 읽고 판단하고 계획하고 평가합니다. 계산과 검사는 코드가 맡습니다.** 공공데이터가 문장으로만 있어 코드로는 갈 수 있는지 가를 수 없기 때문에, 판단은 AI에게 맡겼습니다. 대신 AI의 답은 모두 **정해진 JSON 형식**으로 받고, 코드가 근거·안전 기준·시간을 검사한 뒤에만 화면에 내보냅니다.
 
-<img src="docs/readme/architecture.png" width="100%" alt="구조도: 사용자 → 웹 서비스(화면, 서버 API) ↔ AI 일정 파이프라인(코드로 후보 20곳 → AI 장소 판단 ×3 → 코드 근거·안전 검사 → AI 일정 2~3안 → 코드 시각 계산·검사 → AI 평가자, 실패 시 규칙 일정) ↔ Gemini → OpenAI · 미리 만든 데이터 · Supabase(공유 링크) · 카카오(지도·이동시간·경로선, 저장 안 함)" />
+<img src="docs/readme/architecture.png" width="100%" alt="구조도: 사용자가 웹 서비스(Next.js · Vercel)에서 조건을 고르면 서버 API가 AI 일정 파이프라인을 부른다. 파이프라인은 코드로 후보 20곳을 거르고, AI가 장소를 세 번 판단하고, 코드가 근거·안전 기준을 검사하고, AI가 일정 2~3안을 짜고, 코드가 시각·운영시간을 검사한 뒤 AI 평가자를 거친다. AI가 실패하면 규칙 일정 1안. 옆에는 Gemini → OpenAI, 미리 만든 장소 데이터, Supabase 공유 링크, 카카오 지도·길찾기, 기상청 예보" />
 
 <table>
 <tr><th width="18%">단계</th><th width="41%">하는 일</th><th>코드가 지키는 것</th></tr>
@@ -268,7 +268,7 @@ AI 지표는 정확도가 아니라 **일관성과 안전 규칙 준수**입니�
 
 <table>
 <tr><th width="17%">항목</th><th width="48%">무엇으로 쟀나</th><th>결과</th></tr>
-<tr><td valign="top">자동 테스트</td><td valign="top">단위 테스트(가짜 AI, 키 없이 실행) · 화면 흐름 테스트(Playwright, 휴대폰 390px · PC 1440px)</td><td valign="top"><a href="https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml"><img src="https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg" alt="CI" /></a> 단위 673개 · 화면 흐름 500개</td></tr>
+<tr><td valign="top">자동 테스트</td><td valign="top">단위 테스트(가짜 AI, 키 없이 실행) · 화면 흐름 테스트(Playwright, 휴대폰 390px · PC 1440px)</td><td valign="top"><a href="https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml"><img src="https://github.com/ieumgil/ieumgil-ai/actions/workflows/ci.yml/badge.svg" alt="CI" /></a> 단위 673개 · 화면 흐름 502개</td></tr>
 <tr><td valign="top">AI 읽기</td><td valign="top">원문에 없는 근거로 채운 값</td><td valign="top"><b>0건</b>(1,520항목)</td></tr>
 <tr><td valign="top">AI 다시 읽기</td><td valign="top">지시문에 예시를 더해 152곳을 다시 읽고, 처음 결과와 항목 값 비교(<a href="data/eval/"><code>data/eval/</code></a>)</td><td valign="top">일치율 <b>96.4%</b> · 경사 '모름' 17곳이 '가능'으로 바뀜</td></tr>
 <tr><td valign="top">고치기</td><td valign="top">장소 바꾸기·순서 고치기·빼기에서 부적합·중복으로 바꾸기 · 검사에 걸린 변경 · 시각을 코드 값으로 쓰는지</td><td valign="top"><b>모두 통과</b></td></tr>
@@ -542,7 +542,7 @@ src/components/     ui/(shadcn 기반, 44px·16px로 고침) · home/(시작 화
                     · trip/(장소 카드·안 고르기·바꾸기 창·체크리스트·날씨·타임라인 진행·공유·인쇄 일정표) · map/ · photos/ · SiteHeader(모든 화면 머리줄)
 public/home/        시작 화면 사진 카드·점선 길(hero/) · 바로가기 그림(quick/) · src/app/fonts/(잘난체 고딕, 쓰는 글자만)
 data/               places.json · evidence.json · photos.json · featured.json · ai/(읽기 결과·한 줄 소개) · docs/places/(근거 원문) · public/(공중화장실 짝) · eval/(평가)
-scripts/            tour/(관광공사 API 수집·사진) · public/(공중화장실) · ai/(읽기·평가·예시) · readme/(캡처·구조도) · dev/(연결 확인·시험) — 순서는 scripts/README.md
+scripts/            tour/(관광공사 API 수집·사진) · public/(공중화장실) · ai/(읽기·평가·예시) · readme/(캡처) · dev/(연결 확인·시험) — 순서는 scripts/README.md
 tests/              단위 테스트(엔진·AI 가드는 가짜 LLM) · design/(디자인 규칙 감시) · e2e/(화면 흐름·접근성, Playwright)
 docs/               기획 문서, AI 설계, 구현 계획, 디자인 시안, 공공데이터 조사
 ```
